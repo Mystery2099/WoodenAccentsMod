@@ -1,0 +1,54 @@
+{
+	"schemaVersion": 1,
+	"id": "myst2099_wooden_accents_mod",
+	"version": "${version}",
+	"name": "Wooden Accents Mod",
+	"description": "This mod adds all sorts of wooden decorations to Minecraft which can be used to accent your world and build!",
+	"authors": [
+		"Mystery2099"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/myst2099_wooden_accents_mod/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			{
+				"value": "com.mystery2099.WoodenAccentsMod",
+				"adapter": "kotlin"
+			}
+		],
+		"client": [
+			{
+				"value": "com.mystery2099.WoodenAccentsModClient",
+				"adapter": "kotlin"
+			}
+		],
+		"fabric-datagen": [
+			{
+				"value": "com.mystery2099.WoodenAccentsModDataGenerator",
+				"adapter": "kotlin"
+			}
+		]
+	},
+	"mixins": [
+		"myst2099_wooden_accents_mod.mixins.json",
+		{
+			"config": "myst2099_wooden_accents_mod.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.14.21",
+		"minecraft": "~1.19.4",
+		"java": ">=17",
+		"fabric-api": "*",
+		"fabric-language-kotlin": ">=1.8.22"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
