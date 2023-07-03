@@ -13,6 +13,5 @@ class BiomeTagDataGen(
 ) : FabricTagProvider<Biome>(output, RegistryKeys.BIOME, registriesFuture) {
 
     override fun configure(arg: RegistryWrapper.WrapperLookup) {
-        TODO("Not yet implemented")
     }
 }

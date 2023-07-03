@@ -7,6 +7,6 @@ import java.util.function.Consumer
 
 class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
     override fun generate(exporter: Consumer<RecipeJsonProvider>) {
-        TODO("Not yet implemented")
+
     }
 }

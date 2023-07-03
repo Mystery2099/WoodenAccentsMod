@@ -7,10 +7,8 @@ import net.minecraft.data.client.ItemModelGenerator
 
 class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator) {
-        TODO("Not yet implemented")
     }
 
     override fun generateItemModels(itemModelGenerator: ItemModelGenerator) {
-        TODO("Not yet implemented")
     }
 }
