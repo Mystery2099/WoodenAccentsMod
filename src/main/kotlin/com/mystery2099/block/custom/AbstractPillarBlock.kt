@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
+import net.minecraft.block.ShapeContext
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.state.StateManager
@@ -13,6 +14,8 @@ import net.minecraft.state.property.Properties
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
+import net.minecraft.util.shape.VoxelShapes
+import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 
@@ -46,8 +49,6 @@ abstract class AbstractPillarBlock(baseBlock: Block, size: Size) : AbstractWater
         return Blocks.AIR.defaultState
     }
 
-
-
     override fun onPlaced(
         world: World,
         pos: BlockPos,
@@ -57,6 +58,20 @@ abstract class AbstractPillarBlock(baseBlock: Block, size: Size) : AbstractWater
     ) {
         super.onPlaced(world, pos, state.with(up, world.checkUp(pos)).with(down, world.checkDown(pos)), placer, itemStack)
     }
+
+    @Deprecated("Deprecated in Java")
+    override fun getOutlineShape(
+        state: BlockState,
+        world: BlockView?,
+        pos: BlockPos?,
+        context: ShapeContext?
+    ): VoxelShape {
+        var shape: VoxelShape = size.centerShape
+        if (java.lang.Boolean.FALSE == state.get(up)) shape = VoxelShapes.union(shape, size.topShape)
+        if (java.lang.Boolean.FALSE == state.get(down)) shape = VoxelShapes.union(shape, size.baseShape)
+        return shape
+    }
+
 
     //Up & Down
 
