@@ -86,8 +86,17 @@ abstract class AbstractPillarBlock(baseBlock: Block, size: Size) : AbstractWater
         return this.getStateAtPos(pos.down())
     }
 
-    abstract fun WorldAccess.checkUp(pos: BlockPos): Boolean
-    abstract fun WorldAccess.checkDown(pos: BlockPos): Boolean
+    open fun WorldAccess.checkUp(pos: BlockPos): Boolean {
+        val here = this.getBlockState(pos)
+        val up = this.getUpState(pos)
+        return up.block is ThinPillarBlock && !here.get(connectionLocked) && !up.get(connectionLocked)
+    }
+
+    open fun WorldAccess.checkDown(pos: BlockPos): Boolean {
+        val here = this.getBlockState(pos)
+        val down = this.getDownState(pos)
+        return down.block is ThinPillarBlock && !here.get(connectionLocked) && !down.get(connectionLocked)
+    }
 
 
 
