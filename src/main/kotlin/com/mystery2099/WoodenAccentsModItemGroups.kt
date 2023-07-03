@@ -6,12 +6,14 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.minecraft.block.Blocks
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemGroup
+import net.minecraft.item.ItemGroups
 import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
 
 
 object WoodenAccentsModItemGroups {
     //Lists
+    val itemGroups: MutableList<ItemGroup> = ArrayList()
     @JvmStatic
     val outsideItems: MutableList<ItemConvertible> = ArrayList()
     @JvmStatic
@@ -28,27 +30,27 @@ object WoodenAccentsModItemGroups {
     val outsideBlockItemGroup: ItemGroup = FabricItemGroup.builder("outside".toId())
         .icon { ItemStack(Blocks.AIR) }
         .displayName("outside".toItemGroupKey())
-        .build()
+        .build().woodenAccentsMod()
     @JvmStatic
     val kitchenItemGroup: ItemGroup = FabricItemGroup.builder("kitchen".toId())
         .icon { ItemStack(Blocks.AIR) }
         .displayName("kitchen".toItemGroupKey())
-        .build()
+        .build().woodenAccentsMod()
     @JvmStatic
     val livingRoomItemGroup: ItemGroup = FabricItemGroup.builder("living_room".toId())
         .icon { ItemStack(Blocks.AIR) }
         .displayName("living_room".toItemGroupKey())
-        .build()
+        .build().woodenAccentsMod()
     @JvmStatic
     val bedroomItemGroup: ItemGroup = FabricItemGroup.builder("bedroom".toId())
         .icon { ItemStack(Blocks.AIR) }
         .displayName("bedroom".toItemGroupKey())
-        .build()
+        .build().woodenAccentsMod()
     @JvmStatic
-    val storageBlocksItemGroup: ItemGroup = FabricItemGroup.builder("storage_blocks".toId())
+    val storageBlocksItemGroup: ItemGroup = FabricItemGroup.builder("storage".toId())
         .icon { ItemStack(Blocks.AIR) }
-        .displayName("storage_blocks".toItemGroupKey())
-        .build()
+        .displayName("storage".toItemGroupKey())
+        .build().woodenAccentsMod()
 
     fun register() {
         outsideItems.add(Blocks.DIRT)
@@ -69,5 +71,10 @@ object WoodenAccentsModItemGroups {
 
     private fun String.toItemGroupKey(): Text {
         return Text.translatable("itemGroup.${WoodenAccentsMod.modid}.$this")
+    }
+
+    private fun ItemGroup.woodenAccentsMod(): ItemGroup {
+        itemGroups.add(this)
+        return this
     }
 }
