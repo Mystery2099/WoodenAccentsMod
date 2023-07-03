@@ -15,7 +15,7 @@ class EnglishLangDataGen(dataOutput: FabricDataOutput) : FabricLanguageProvider(
     }
 
     private fun genLangName(itemGroup: ItemGroup) {
-        builder?.add(itemGroup, "Wooden Accents Mod: ${itemGroup.id.path.toName()}")
+        builder!!.add(itemGroup, "Wooden Accents Mod: ${itemGroup.id.path.toName()}")
     }
 
     private fun String.toName(): String {
