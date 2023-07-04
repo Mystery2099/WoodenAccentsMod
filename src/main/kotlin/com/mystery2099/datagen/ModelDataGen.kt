@@ -17,16 +17,12 @@ import java.util.function.Supplier
 
 class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
-    private fun createVariant(): BlockStateVariant = BlockStateVariant.create()
-
-    private fun variantUnion(first: BlockStateVariant, second: BlockStateVariant): BlockStateVariant {
-        return BlockStateVariant.union(first, second)
-    }
+    //Variant Extension Models
     private fun BlockStateVariant.union(other: BlockStateVariant): BlockStateVariant {
         return BlockStateVariant.union(this, other)
     }
     private fun BlockStateVariant.union(vararg others: BlockStateVariant) {
-        var newVariant = this;
+        var newVariant = this
         return others.forEach { other -> newVariant = newVariant.union(other) }
     }
     private fun BlockStateVariant.putModel(model: Identifier): BlockStateVariant {
@@ -36,25 +32,25 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
 
 
-    val BLOCK = "block/"
+    val block = "block/"
 
-    //Block State Variants
+    //Block State Rotation Variants
     private val y0: BlockStateVariant =
-        BlockStateVariant.create().put(VariantSettings.Y, Rotation.R0)
+        BlockStateVariant().put(VariantSettings.Y, Rotation.R0)
     private val y90: BlockStateVariant =
-        BlockStateVariant.create().put(VariantSettings.Y, Rotation.R90)
+        BlockStateVariant().put(VariantSettings.Y, Rotation.R90)
     private val y180: BlockStateVariant =
-        BlockStateVariant.create().put(VariantSettings.Y, Rotation.R180)
+        BlockStateVariant().put(VariantSettings.Y, Rotation.R180)
     private val y270: BlockStateVariant =
-        BlockStateVariant.create().put(VariantSettings.Y, Rotation.R270)
+        BlockStateVariant().put(VariantSettings.Y, Rotation.R270)
     private val x0: BlockStateVariant =
-        BlockStateVariant.create().put(VariantSettings.X, Rotation.R0)
+        BlockStateVariant().put(VariantSettings.X, Rotation.R0)
     private val x90: BlockStateVariant =
-        BlockStateVariant.create().put(VariantSettings.X, Rotation.R90)
+        BlockStateVariant().put(VariantSettings.X, Rotation.R90)
     private val x180: BlockStateVariant =
-        BlockStateVariant.create().put(VariantSettings.X, Rotation.R90)
+        BlockStateVariant().put(VariantSettings.X, Rotation.R90)
     private val x270: BlockStateVariant =
-        BlockStateVariant.create().put(VariantSettings.X, Rotation.R270)
+        BlockStateVariant().put(VariantSettings.X, Rotation.R270)
 
     //Whens
     private val whenUp: When = When.create().set(Properties.UP, true)
