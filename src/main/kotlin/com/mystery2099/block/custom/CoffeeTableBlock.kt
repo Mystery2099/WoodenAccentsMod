@@ -4,6 +4,7 @@ import com.mystery2099.block.custom.enums.CoffeeTableType
 import com.mystery2099.state.property.ModProperties
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
+import net.minecraft.block.BlockState
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.Properties
 import net.minecraft.util.math.BlockPos
@@ -18,6 +19,20 @@ class CoffeeTableBlock(val legBlock: Block, val topBlock: Block) : AbstractWater
         instances.add(this)
     }
 
+    override fun getStateForNeighborUpdate(
+        state: BlockState,
+        direction: Direction?,
+        neighborState: BlockState?,
+        world: WorldAccess,
+        pos: BlockPos?,
+        neighborPos: BlockPos?
+    ): BlockState? {
+        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
+            ?.withIfExists(north, world.checkNorth(pos!!))
+            ?.withIfExists(east, world.checkEast(pos))
+            ?.withIfExists(south, world.checkSouth(pos))
+            ?.withIfExists(west, world.checkWest(pos))
+    }
 
 
     private fun WorldAccess.checkDirection(pos: BlockPos, direction: Direction): Boolean {
