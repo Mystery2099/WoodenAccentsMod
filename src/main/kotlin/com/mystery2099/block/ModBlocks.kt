@@ -32,7 +32,7 @@ object ModBlocks {
     @JvmStatic
     val thinMangrovePillar = ThinPillarBlock(Blocks.MANGROVE_PLANKS).register("thin_mangrove_pillar")
     @JvmStatic
-    val thinBambooPillar = ThinPillarBlock(Blocks.BAMBOO_BLOCK).register("thin_bamboo_pillar")
+    val thinBambooPillar = ThinPillarBlock(Blocks.BAMBOO_PLANKS).register("thin_bamboo_pillar")
     @JvmStatic
     val thinBambooMosaicPillar = ThinPillarBlock(Blocks.BAMBOO_MOSAIC).register("thin_bamboo_mosaic_pillar")
     @JvmStatic
