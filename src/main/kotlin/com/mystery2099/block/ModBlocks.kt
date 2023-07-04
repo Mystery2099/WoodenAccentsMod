@@ -15,6 +15,9 @@ import net.minecraft.util.Identifier
 
 object ModBlocks {
 
+    /*---------------Outside Stuff----------------*/
+
+    //Thin plank pillars
     @JvmStatic
     val thinOakPillar = ThinPillarBlock(Blocks.OAK_PLANKS).register("thin_oak_pillar")
     @JvmStatic
@@ -39,6 +42,23 @@ object ModBlocks {
     val thinCrimsonPillar = ThinPillarBlock(Blocks.CRIMSON_PLANKS).register("thin_crimson_pillar")
     @JvmStatic
     val thinWarpedPillar = ThinPillarBlock(Blocks.WARPED_PLANKS).register("thin_warped_pillar")
+
+
+    /*---------------Living Room Stuff----------------*/
+
+    /*---------------Storage Stuff----------------*/
+
+    /*---------------Kitchen Stuff----------------*/
+
+    /*---------------Bedroom Stuff----------------*/
+
+
+
+
+
+
+
+
 
     private fun Block.register(id: String): Block {
         return this.register(id.toId())
