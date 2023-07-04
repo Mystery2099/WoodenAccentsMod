@@ -29,27 +29,27 @@ object WoodenAccentsModItemGroups {
 
     @JvmStatic
     val outsideBlockItemGroup: ItemGroup = FabricItemGroup.builder("outside".toId())
-        .icon { ItemStack(ModBlocks.thinOakPillar) }
+        .icon { ItemStack(outsideItems[0]) }
         .displayName("outside".toItemGroupKey())
         .build().woodenAccentsMod()
     @JvmStatic
     val kitchenItemGroup: ItemGroup = FabricItemGroup.builder("kitchen".toId())
-        .icon { ItemStack(Blocks.AIR) }
+        .icon { ItemStack(kitchenItems[0]) }
         .displayName("kitchen".toItemGroupKey())
         .build().woodenAccentsMod()
     @JvmStatic
     val livingRoomItemGroup: ItemGroup = FabricItemGroup.builder("living_room".toId())
-        .icon { ItemStack(ModBlocks.oakCoffeeTable) }
+        .icon { ItemStack(livingRoomItems[0]) }
         .displayName("living_room".toItemGroupKey())
         .build().woodenAccentsMod()
     @JvmStatic
     val bedroomItemGroup: ItemGroup = FabricItemGroup.builder("bedroom".toId())
-        .icon { ItemStack(Blocks.AIR) }
+        .icon { ItemStack(bedroomItems[0]) }
         .displayName("bedroom".toItemGroupKey())
         .build().woodenAccentsMod()
     @JvmStatic
     val storageBlocksItemGroup: ItemGroup = FabricItemGroup.builder("storage".toId())
-        .icon { ItemStack(Blocks.AIR) }
+        .icon { ItemStack(storageBlocks[0]) }
         .displayName("storage".toItemGroupKey())
         .build().woodenAccentsMod()
 
