@@ -16,14 +16,9 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 
-abstract class AbstractPillarBlock(private val _baseBlock: Block, size: Size) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(_baseBlock)) {
+abstract class AbstractPillarBlock(val baseBlock: Block, private val size: Size) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)) {
 
-    val baseBlock: Block
-        get() = _baseBlock
-
-    private val size: Size
     init {
-        this.size = size
         defaultState = defaultState.with(up, false).with(down, false).with(connectionLocked, false)
     }
 
