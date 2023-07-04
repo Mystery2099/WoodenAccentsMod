@@ -3,6 +3,9 @@ package com.mystery2099.datagen
 import com.mystery2099.WoodenAccentsModItemGroups
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
+import net.minecraft.block.Block
+import net.minecraft.item.Item
+import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemGroup
 
 class EnglishLangDataGen(dataOutput: FabricDataOutput) : FabricLanguageProvider(dataOutput) {
@@ -10,12 +13,17 @@ class EnglishLangDataGen(dataOutput: FabricDataOutput) : FabricLanguageProvider(
     override fun generateTranslations(translationBuilder: TranslationBuilder) {
         builder = translationBuilder
 
+        basicNamedBlocks.forEach(this::genLangName)
+
         WoodenAccentsModItemGroups.itemGroups.forEach(this::genLangName)
 
     }
 
     private fun genLangName(itemGroup: ItemGroup) {
         builder!!.add(itemGroup, "Wooden Accents Mod: ${itemGroup.id.path.toName()}")
+    }
+    private fun genLangName(block: Block) {
+        builder!!.add(block, block.lootTableId.path.replace("blocks/", "").toName())
     }
 
     private fun String.toName(): String {
@@ -25,5 +33,9 @@ class EnglishLangDataGen(dataOutput: FabricDataOutput) : FabricLanguageProvider(
             output += str.replaceFirstChar { it.uppercase() }.replace("_", " ") + " "
         }
         return output.removeSuffix(" ")
+    }
+    companion object {
+        @JvmStatic
+        val basicNamedBlocks = HashSet<Block>()
     }
 }
