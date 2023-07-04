@@ -1,0 +1,6 @@
+{
+  "parent": "myst2099_wooden_accents_mod:block/coffee_table_top_tall",
+  "textures": {
+    "top": "minecraft:block/crimson_planks"
+  }
+}

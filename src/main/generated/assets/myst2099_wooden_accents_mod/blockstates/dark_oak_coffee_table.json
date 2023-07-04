@@ -1,0 +1,130 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/dark_oak_coffee_table_top_short"
+      },
+      "when": {
+        "type": "short"
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/dark_oak_coffee_table_north_east_leg_short"
+      },
+      "when": {
+        "east": "false",
+        "north": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/dark_oak_coffee_table_north_east_leg_short",
+        "y": 270
+      },
+      "when": {
+        "north": "false",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/dark_oak_coffee_table_north_east_leg_short",
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+        "south": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/dark_oak_coffee_table_north_east_leg_short",
+        "y": 180
+      },
+      "when": {
+        "south": "false",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/dark_oak_coffee_table_top_tall"
+      },
+      "when": {
+        "type": "tall"
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/dark_oak_coffee_table_north_east_leg_short",
+        "x": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "east": "false",
+            "north": "false"
+          },
+          {
+            "type": "tall"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/dark_oak_coffee_table_north_east_leg_short",
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "AND": [
+          {
+            "north": "false",
+            "west": "false"
+          },
+          {
+            "type": "tall"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/dark_oak_coffee_table_north_east_leg_short",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "east": "false",
+            "south": "false"
+          },
+          {
+            "type": "tall"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/dark_oak_coffee_table_north_east_leg_short",
+        "x": 90,
+        "y": 180
+      },
+      "when": {
+        "AND": [
+          {
+            "south": "false",
+            "west": "false"
+          },
+          {
+            "type": "tall"
+          }
+        ]
+      }
+    }
+  ]
+}
