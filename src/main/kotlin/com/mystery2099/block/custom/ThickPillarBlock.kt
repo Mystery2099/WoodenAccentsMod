@@ -10,7 +10,7 @@ class ThickPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, size) 
     override fun WorldAccess.checkUp(pos: BlockPos): Boolean {
         val here = this.getBlockState(pos)
         val up = this.getUpState(pos)
-        return up.block is ThinPillarBlock && !here.get(connectionLocked) && !up.get(connectionLocked)
+        return up.block is ThickPillarBlock && !here.get(connectionLocked) && !up.get(connectionLocked)
     }
 
     override fun WorldAccess.checkDown(pos: BlockPos): Boolean {
