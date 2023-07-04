@@ -4,8 +4,6 @@ import com.mystery2099.WoodenAccentsModItemGroups
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
 import net.minecraft.block.Block
-import net.minecraft.item.Item
-import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemGroup
 
 class EnglishLangDataGen(dataOutput: FabricDataOutput) : FabricLanguageProvider(dataOutput) {
