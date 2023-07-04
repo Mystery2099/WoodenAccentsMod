@@ -4,6 +4,7 @@ import com.mystery2099.WoodenAccentsMod
 import com.mystery2099.WoodenAccentsMod.toId
 import com.mystery2099.block.custom.ThinPillarBlock
 import com.mystery2099.datagen.BlockTagDataGen
+import com.mystery2099.datagen.EnglishLangDataGen
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
@@ -23,6 +24,7 @@ object ModBlocks {
     }
     private fun Block.register(identifier: Identifier): Block {
         BlockTagDataGen.axeMineable.add(this)
+        EnglishLangDataGen.basicNamedBlocks.add(this)
         Registry.register(Registries.ITEM, identifier, BlockItem(this, FabricItemSettings()))
         return Registry.register(Registries.BLOCK, identifier, this)
     }
