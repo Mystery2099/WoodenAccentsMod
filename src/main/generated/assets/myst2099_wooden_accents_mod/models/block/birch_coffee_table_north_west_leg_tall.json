@@ -1,6 +1,0 @@
-{
-  "parent": "myst2099_wooden_accents_mod:block/coffee_table_north_west_leg_tall",
-  "textures": {
-    "legs": "minecraft:block/birch_log"
-  }
-}
