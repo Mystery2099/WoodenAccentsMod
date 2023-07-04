@@ -1,0 +1,6 @@
+{
+  "parent": "myst2099_wooden_accents_mod:block/coffee_table_leg_tall",
+  "textures": {
+    "legs": "minecraft:block/cherry_log"
+  }
+}
