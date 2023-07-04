@@ -41,7 +41,7 @@ object ModModels {
         "_top_tall", TextureKey.TOP)
     @JvmStatic
     val coffeeTableLegTall: Model = block(
-        "coffee_table_north_east_leg_tall",
+        "coffee_table_leg_tall",
         "_leg_tall",
         legs
     )
@@ -50,7 +50,7 @@ object ModModels {
         block("coffee_table_top_short", "_top_short", TextureKey.TOP)
     @JvmStatic
     val coffeeTableLegShort: Model = block(
-        "coffee_table_north_east_leg_short",
+        "coffee_table_leg_short",
         "_leg_short",
         legs
     )
