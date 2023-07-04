@@ -15,12 +15,11 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.WorldAccess
 
 abstract class AbstractWaterloggableBlock(settings: Settings) : Block(settings), Waterloggable {
-    private val waterlogged: BooleanProperty = Properties.WATERLOGGED
     init {
         defaultState = defaultState.with(waterlogged, false)
     }
 
-    override fun appendProperties(builder: StateManager.Builder<Block?, BlockState?>) {
+    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
         builder.add(waterlogged)
     }
@@ -49,11 +48,15 @@ abstract class AbstractWaterloggableBlock(settings: Settings) : Block(settings),
     }
 
     @Deprecated("Deprecated in Java")
-    override fun getFluidState(state: BlockState): FluidState? {
+    override fun getFluidState(state: BlockState): FluidState {
         return if (state.get(waterlogged)) {
             Fluids.WATER.getStill(false)
         } else {
             super.getFluidState(state)
         }
+    }
+
+    companion object {
+        val waterlogged: BooleanProperty = Properties.WATERLOGGED
     }
 }
