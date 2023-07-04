@@ -11,9 +11,9 @@
   "block.myst2099_wooden_accents_mod.thin_oak_pillar": "Thin Oak Pillar",
   "block.myst2099_wooden_accents_mod.thin_spruce_pillar": "Thin Spruce Pillar",
   "block.myst2099_wooden_accents_mod.thin_warped_pillar": "Thin Warped Pillar",
-  "itemGroup.myst2099_wooden_accents_mod.bedroom": "Wooden Accents Mod: Bedroom",
-  "itemGroup.myst2099_wooden_accents_mod.kitchen": "Wooden Accents Mod: Kitchen",
-  "itemGroup.myst2099_wooden_accents_mod.living_room": "Wooden Accents Mod: Living Room",
-  "itemGroup.myst2099_wooden_accents_mod.outside": "Wooden Accents Mod: Outside",
-  "itemGroup.myst2099_wooden_accents_mod.storage": "Wooden Accents Mod: Storage"
+  "itemGroup.myst2099_wooden_accents_mod.bedroom": "Wooden Accents: Bedroom",
+  "itemGroup.myst2099_wooden_accents_mod.kitchen": "Wooden Accents: Kitchen",
+  "itemGroup.myst2099_wooden_accents_mod.living_room": "Wooden Accents: Living Room",
+  "itemGroup.myst2099_wooden_accents_mod.outside": "Wooden Accents: Outside",
+  "itemGroup.myst2099_wooden_accents_mod.storage": "Wooden Accents: Storage"
 }
