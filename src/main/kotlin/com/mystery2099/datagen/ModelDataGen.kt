@@ -1,6 +1,7 @@
 package com.mystery2099.datagen
 
 import com.google.gson.JsonElement
+import com.mystery2099.block.custom.ThickPillarBlock
 import com.mystery2099.block.custom.ThinPillarBlock
 import com.mystery2099.data.ModModels
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
@@ -92,6 +93,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         stateCollector = blockStateModelGenerator.blockStateCollector
 
         ThinPillarBlock.instances.forEach(this::thinPillar)
+        ThickPillarBlock.instances.forEach(this::thickPillar)
     }
 
     override fun generateItemModels(itemModelGenerator: ItemModelGenerator) {
@@ -119,6 +121,14 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         val top = ModModels.thinPillarTop.upload(pillarBlock, textureMap, modelCollector)
         val center = ModModels.thinPillarCenter.upload(pillarBlock, textureMap, modelCollector)
         val bottom = ModModels.thinPillarBottom.upload(pillarBlock, textureMap, modelCollector)
+        pillar(pillarBlock, inventory, top, center, bottom)
+    }
+    private fun thickPillar(pillarBlock: ThickPillarBlock) {
+        val textureMap = TextureMap.all(pillarBlock.baseBlock)
+        val inventory = ModModels.thickPillarInventory.upload(pillarBlock, textureMap, modelCollector)
+        val top = ModModels.thickPillarTop.upload(pillarBlock, textureMap, modelCollector)
+        val center = ModModels.thickPillarCenter.upload(pillarBlock, textureMap, modelCollector)
+        val bottom = ModModels.thickPillarBottom.upload(pillarBlock, textureMap, modelCollector)
         pillar(pillarBlock, inventory, top, center, bottom)
     }
 }
