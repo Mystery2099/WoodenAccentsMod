@@ -26,9 +26,10 @@ abstract class AbstractPillarBlock(baseBlock: Block, size: Size) : AbstractWater
     init {
         this.baseBlock = baseBlock
         this.size = size
+        defaultState = defaultState.with(up, false).with(down, false).with(connectionLocked, false)
     }
 
-    override fun appendProperties(builder: StateManager.Builder<Block?, BlockState?>) {
+    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
         builder.add(up, down, connectionLocked)
     }
@@ -47,16 +48,6 @@ abstract class AbstractPillarBlock(baseBlock: Block, size: Size) : AbstractWater
             return newState.with(up, world.checkUp(pos!!)).with(down, world.checkDown(pos))
         }
         return Blocks.AIR.defaultState
-    }
-
-    override fun onPlaced(
-        world: World,
-        pos: BlockPos,
-        state: BlockState,
-        placer: LivingEntity?,
-        itemStack: ItemStack
-    ) {
-        super.onPlaced(world, pos, state.with(up, world.checkUp(pos)).with(down, world.checkDown(pos)), placer, itemStack)
     }
 
     @Deprecated("Deprecated in Java")
