@@ -2,6 +2,7 @@ package com.mystery2099.block
 
 import com.mystery2099.WoodenAccentsMod
 import com.mystery2099.WoodenAccentsMod.toId
+import com.mystery2099.block.custom.CoffeeTableBlock
 import com.mystery2099.block.custom.ThickPillarBlock
 import com.mystery2099.block.custom.ThinPillarBlock
 import com.mystery2099.datagen.BlockTagDataGen
@@ -71,6 +72,30 @@ object ModBlocks {
     val thickWarpedPillar = ThickPillarBlock(Blocks.WARPED_PLANKS).register("thick_warped_pillar")
 
     /*---------------Living Room Stuff----------------*/
+    @JvmStatic
+    val oakCoffeeTable = CoffeeTableBlock(Blocks.OAK_PLANKS, Blocks.OAK_LOG).register("oak_coffee_table")
+    @JvmStatic
+    val spruceCoffeeTable = CoffeeTableBlock(Blocks.SPRUCE_PLANKS, Blocks.SPRUCE_LOG).register("spruce_coffee_table")
+    @JvmStatic
+    val birchCoffeeTable = CoffeeTableBlock(Blocks.BIRCH_PLANKS, Blocks.BIRCH_LOG).register("birch_coffee_table")
+    @JvmStatic
+    val jungleCoffeeTable = CoffeeTableBlock(Blocks.JUNGLE_PLANKS, Blocks.JUNGLE_LOG).register("jungle_coffee_table")
+    @JvmStatic
+    val acaciaCoffeeTable = CoffeeTableBlock(Blocks.ACACIA_PLANKS, Blocks.ACACIA_LOG).register("acacia_coffee_table")
+    @JvmStatic
+    val darkOakCoffeeTable = CoffeeTableBlock(Blocks.DARK_OAK_PLANKS, Blocks.DARK_OAK_LOG).register("dark_oak_coffee_table")
+    @JvmStatic
+    val mangroveCoffeeTable = CoffeeTableBlock(Blocks.MANGROVE_PLANKS, Blocks.MANGROVE_LOG).register("mangrove_coffee_table")
+    @JvmStatic
+    val cherryCoffeeTable = CoffeeTableBlock(Blocks.CHERRY_PLANKS, Blocks.CHERRY_LOG).register("cherry_coffee_table")
+    @JvmStatic
+    val bambooCoffeeTable = CoffeeTableBlock(Blocks.BAMBOO_PLANKS, Blocks.BAMBOO_BLOCK).register("bamboo_coffee_table")
+    @JvmStatic
+    val bambooMosaicCoffeeTable = CoffeeTableBlock(Blocks.BAMBOO_MOSAIC, Blocks.BAMBOO_BLOCK).register("bamboo_mosaic_coffee_table")
+    @JvmStatic
+    val crimsonCoffeeTable = CoffeeTableBlock(Blocks.CRIMSON_PLANKS, Blocks.CRIMSON_STEM).register("crimson_coffee_table")
+    @JvmStatic
+    val warpedCoffeeTable = CoffeeTableBlock(Blocks.WARPED_PLANKS, Blocks.CRIMSON_STEM).register("warped_coffee_table")
 
     /*---------------Storage Stuff----------------*/
 
