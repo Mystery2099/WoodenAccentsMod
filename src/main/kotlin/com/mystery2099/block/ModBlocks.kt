@@ -2,6 +2,7 @@ package com.mystery2099.block
 
 import com.mystery2099.WoodenAccentsMod
 import com.mystery2099.WoodenAccentsMod.toId
+import com.mystery2099.block.custom.ThickPillarBlock
 import com.mystery2099.block.custom.ThinPillarBlock
 import com.mystery2099.datagen.BlockTagDataGen
 import com.mystery2099.datagen.EnglishLangDataGen
@@ -43,6 +44,31 @@ object ModBlocks {
     @JvmStatic
     val thinWarpedPillar = ThinPillarBlock(Blocks.WARPED_PLANKS).register("thin_warped_pillar")
 
+    //Thick plank pillars
+    @JvmStatic
+    val thickOakPillar = ThickPillarBlock(Blocks.OAK_PLANKS).register("thick_oak_pillar")
+    @JvmStatic
+    val thickSprucePillar = ThickPillarBlock(Blocks.SPRUCE_PLANKS).register("thick_spruce_pillar")
+    @JvmStatic
+    val thickBirchPillar = ThickPillarBlock(Blocks.BIRCH_PLANKS).register("thick_birch_pillar")
+    @JvmStatic
+    val thickJunglePillar = ThickPillarBlock(Blocks.JUNGLE_PLANKS).register("thick_jungle_pillar")
+    @JvmStatic
+    val thickAcaciaPillar = ThickPillarBlock(Blocks.ACACIA_PLANKS).register("thick_acacia_pillar")
+    @JvmStatic
+    val thickDarkOakPillar = ThickPillarBlock(Blocks.DARK_OAK_PLANKS).register("thick_dark_oak_pillar")
+    @JvmStatic
+    val thickMangrovePillar = ThickPillarBlock(Blocks.MANGROVE_PLANKS).register("thick_mangrove_pillar")
+    @JvmStatic
+    val thickCherryPillar = ThickPillarBlock(Blocks.CHERRY_PLANKS).register("thick_cherry_pillar")
+    @JvmStatic
+    val thickBambooPillar = ThickPillarBlock(Blocks.BAMBOO_PLANKS).register("thick_bamboo_pillar")
+    @JvmStatic
+    val thickBambooMosaicPillar = ThickPillarBlock(Blocks.BAMBOO_MOSAIC).register("thick_bamboo_mosaic_pillar")
+    @JvmStatic
+    val thickCrimsonPillar = ThickPillarBlock(Blocks.CRIMSON_PLANKS).register("thick_crimson_pillar")
+    @JvmStatic
+    val thickWarpedPillar = ThickPillarBlock(Blocks.WARPED_PLANKS).register("thick_warped_pillar")
 
     /*---------------Living Room Stuff----------------*/
 
