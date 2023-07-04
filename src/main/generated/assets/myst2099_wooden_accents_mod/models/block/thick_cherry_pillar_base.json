@@ -1,5 +1,5 @@
 {
-  "parent": "myst2099_wooden_accents_mod:block/thick_pillar_bottom",
+  "parent": "myst2099_wooden_accents_mod:block/thick_pillar_base",
   "textures": {
     "all": "minecraft:block/cherry_planks"
   }

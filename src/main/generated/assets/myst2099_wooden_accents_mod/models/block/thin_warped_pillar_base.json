@@ -1,5 +1,5 @@
 {
-  "parent": "myst2099_wooden_accents_mod:block/thin_pillar_bottom",
+  "parent": "myst2099_wooden_accents_mod:block/thin_pillar_base",
   "textures": {
     "all": "minecraft:block/warped_planks"
   }
