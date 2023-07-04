@@ -1,5 +1,6 @@
 package com.mystery2099.block.custom
 
+import com.mystery2099.datagen.BlockLootTableDataGen.Companion.dropsSelf
 import com.mystery2099.state.property.ModProperties
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
@@ -21,6 +22,7 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val size: Size)
 
     init {
         defaultState = defaultState.with(up, false).with(down, false).with(connectionLocked, false)
+        this.dropsSelf()
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
