@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
+import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.Properties
@@ -16,6 +17,7 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
+import java.util.*
 
 class CoffeeTableBlock(val topBlock: Block, val legBlock: Block) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(topBlock)) {
     init {
@@ -104,6 +106,20 @@ class CoffeeTableBlock(val topBlock: Block, val legBlock: Block) : AbstractWater
         return shape
     }
 
+    override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
+        val state = ctx.world.getBlockState(ctx.blockPos)
+        return if (state.isOf(this)) state.with(
+            type,
+            CoffeeTableType.TALL
+        ) else super.getPlacementState(ctx)?.withIfExists(type, CoffeeTableType.SHORT)
+    }
+
+
+    @Deprecated("Deprecated in Java")
+    override fun canReplace(state: BlockState, context: ItemPlacementContext): Boolean {
+        return state.get(type) === CoffeeTableType.SHORT && context.stack.item === asItem()
+    }
+
 
     private fun WorldAccess.checkDirection(pos: BlockPos, direction: Direction): Boolean {
         val here = this.getBlockState(pos)
@@ -148,24 +164,33 @@ class CoffeeTableBlock(val topBlock: Block, val legBlock: Block) : AbstractWater
         private const val shapeVerticalOffset = 7.0 / 16
 
         //Top shapes
+        @JvmStatic
         private val shortTopShape = createCuboidShape(0.0, 7.0, 0.0, 16.0, 9.0, 16.0)
+        @JvmStatic
         private val tallTopShape = shortTopShape.offset(0.0, shapeVerticalOffset, 0.0)
 
         //Short North Shapes
+        @JvmStatic
         private val shortNorthEastLegShape = createCuboidShape(13.75, 0.0, 0.25, 15.75, 7.0, 2.25)
-        private val shortNorthWestLegShape =
-            shortNorthEastLegShape.offset(-shapeHorizontalOffset, 0.0, 0.0)
+        @JvmStatic
+        private val shortNorthWestLegShape = shortNorthEastLegShape.offset(-shapeHorizontalOffset, 0.0, 0.0)
 
         //Short South Shapes
-        private val shortSouthEastLegShape = shortNorthEastLegShape.offset(-shapeHorizontalOffset, 0.0, 0.0)
-        private val shortSouthWestLegShape = shortNorthWestLegShape.offset(-shapeHorizontalOffset, 0.0, 0.0)
+        @JvmStatic
+        private val shortSouthEastLegShape = shortNorthEastLegShape.offset(0.0, 0.0, shapeHorizontalOffset)
+        @JvmStatic
+        private val shortSouthWestLegShape = shortNorthWestLegShape.offset(0.0, 0.0, shapeHorizontalOffset)
 
         //Tall North Shapes
+        @JvmStatic
         private val tallNorthEastLegShape = shortNorthEastLegShape.offset(0.0, shapeVerticalOffset, 0.0)
+        @JvmStatic
         private val tallNorthWestLegShape = shortNorthWestLegShape.offset(0.0, shapeVerticalOffset, 0.0)
 
         //Tall South Shapes
-        private val tallSouthEastLegShape = shortNorthEastLegShape.offset(0.0, shapeVerticalOffset, 0.0)
-        private val tallSouthWestLegShape = shortNorthWestLegShape.offset(0.0, shapeVerticalOffset, 0.0)
+        @JvmStatic
+        private val tallSouthEastLegShape = shortSouthEastLegShape.offset(0.0, shapeVerticalOffset, 0.0)
+        @JvmStatic
+        private val tallSouthWestLegShape = shortSouthWestLegShape.offset(0.0, shapeVerticalOffset, 0.0)
     }
 }
