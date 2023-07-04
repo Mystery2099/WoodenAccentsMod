@@ -1,18 +1,19 @@
 package com.mystery2099
 
 import com.mystery2099.WoodenAccentsMod.toId
+import com.mystery2099.block.ModBlocks
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.minecraft.block.Blocks
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemGroup
-import net.minecraft.item.ItemGroups
 import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
 
 
 object WoodenAccentsModItemGroups {
     //Lists
+    @JvmStatic
     val itemGroups: MutableList<ItemGroup> = ArrayList()
     @JvmStatic
     val outsideItems: MutableList<ItemConvertible> = ArrayList()
@@ -28,7 +29,7 @@ object WoodenAccentsModItemGroups {
 
     @JvmStatic
     val outsideBlockItemGroup: ItemGroup = FabricItemGroup.builder("outside".toId())
-        .icon { ItemStack(Blocks.AIR) }
+        .icon { ItemStack(ModBlocks.thinOakPillar) }
         .displayName("outside".toItemGroupKey())
         .build().woodenAccentsMod()
     @JvmStatic
@@ -53,7 +54,6 @@ object WoodenAccentsModItemGroups {
         .build().woodenAccentsMod()
 
     fun register() {
-        outsideItems.add(Blocks.DIRT)
         kitchenItems.add(Blocks.DIRT)
         livingRoomItems.add(Blocks.DIRT)
         bedroomItems.add(Blocks.DIRT)
