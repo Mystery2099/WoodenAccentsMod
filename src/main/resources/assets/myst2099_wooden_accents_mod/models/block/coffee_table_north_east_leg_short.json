@@ -1,0 +1,69 @@
+{
+  "credit": "Made with Blockbench",
+  "textures": {
+    "particle": "#legs"
+  },
+  "elements": [
+    {
+      "name": "leg_north_east",
+      "from": [
+        13.75,
+        0,
+        0.25
+      ],
+      "to": [
+        15.75,
+        7,
+        2.25
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            9,
+            2.25,
+            16
+          ],
+          "texture": "#legs"
+        },
+        "east": {
+          "uv": [
+            13.75,
+            9,
+            15.75,
+            16
+          ],
+          "texture": "#legs"
+        },
+        "south": {
+          "uv": [
+            13.75,
+            9,
+            15.75,
+            16
+          ],
+          "texture": "#legs"
+        },
+        "west": {
+          "uv": [
+            0.25,
+            9,
+            2.25,
+            16
+          ],
+          "texture": "#legs"
+        },
+        "down": {
+          "uv": [
+            13.75,
+            13.75,
+            15.75,
+            15.75
+          ],
+          "texture": "#legs",
+          "cullface": "down"
+        }
+      }
+    }
+  ]
+}

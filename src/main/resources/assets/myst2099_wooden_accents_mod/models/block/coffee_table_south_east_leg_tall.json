@@ -1,0 +1,59 @@
+{
+  "credit": "Made with Blockbench",
+  "textures": {
+    "particle": "#legs"
+  },
+  "elements": [
+    {
+      "name": "leg_south_east_tall",
+      "from": [
+        13.75,
+        7,
+        13.75
+      ],
+      "to": [
+        15.75,
+        14,
+        15.75
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            2,
+            2.25,
+            9
+          ],
+          "texture": "#legs"
+        },
+        "east": {
+          "uv": [
+            0.25,
+            2,
+            2.25,
+            9
+          ],
+          "texture": "#legs"
+        },
+        "south": {
+          "uv": [
+            13.75,
+            2,
+            15.75,
+            9
+          ],
+          "texture": "#legs"
+        },
+        "west": {
+          "uv": [
+            13.75,
+            2,
+            15.75,
+            9
+          ],
+          "texture": "#legs"
+        }
+      }
+    }
+  ]
+}
