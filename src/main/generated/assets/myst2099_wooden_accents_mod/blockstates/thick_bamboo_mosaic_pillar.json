@@ -1,0 +1,25 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/thick_bamboo_mosaic_pillar_center"
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/thick_bamboo_mosaic_pillar_top"
+      },
+      "when": {
+        "up": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/thick_bamboo_mosaic_pillar_base"
+      },
+      "when": {
+        "down": "false"
+      }
+    }
+  ]
+}
