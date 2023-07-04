@@ -1,1 +1,7 @@
-// 1.19.4	2023-07-03T20:16:00.3154829	Wooden Accents Mod/Model Definitions
+// 1.19.4	2023-07-03T21:04:40.8397629	Wooden Accents Mod/Model Definitions
+29999500ab79b585a4d70afb83b972c7099ce286 assets\myst2099_wooden_accents_mod\models\block\thin_oak_pillar_top.json
+3731b6772e1dc01c28f17c198904dfa70ac35377 assets\myst2099_wooden_accents_mod\models\block\thin_oak_pillar_base.json
+f21f503ddc8fb0be7a6e0ac8af78d5ce19caef6f assets\myst2099_wooden_accents_mod\blockstates\thin_oak_pillar.json
+143db01a9187493453732ea94c21fddd025ba574 assets\myst2099_wooden_accents_mod\models\block\thin_oak_pillar_inventory.json
+aee55741acbbc34b2ec49381fbb403a87ff0f01a assets\myst2099_wooden_accents_mod\models\item\thin_oak_pillar.json
+d3bacd66477aaf92b15070f696e35ae310cd4024 assets\myst2099_wooden_accents_mod\models\block\thin_oak_pillar_center.json
