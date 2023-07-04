@@ -1,5 +1,6 @@
 package com.mystery2099.block.custom
 
+import com.mystery2099.WoodenAccentsModItemGroups
 import net.minecraft.block.Block
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.WorldAccess
@@ -29,5 +30,7 @@ class ThinPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, size) {
     }
     init {
         instances.add(this)
+        WoodenAccentsModItemGroups.outsideItems.add(this)
+
     }
 }
