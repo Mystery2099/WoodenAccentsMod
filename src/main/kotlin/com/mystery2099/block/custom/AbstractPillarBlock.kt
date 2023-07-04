@@ -6,6 +6,7 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.ShapeContext
+import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.Properties
@@ -54,6 +55,13 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val size: Size)
         if (java.lang.Boolean.FALSE == state.get(up)) shape = VoxelShapes.union(shape, size.topShape)
         if (java.lang.Boolean.FALSE == state.get(down)) shape = VoxelShapes.union(shape, size.baseShape)
         return shape
+    }
+
+    override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
+        val isSneaking = ctx.player?.isSneaking
+        var isLocked = false
+        if (isSneaking != null) isLocked = isSneaking
+        return super.getPlacementState(ctx)?.with(connectionLocked, isLocked)
     }
 
 
