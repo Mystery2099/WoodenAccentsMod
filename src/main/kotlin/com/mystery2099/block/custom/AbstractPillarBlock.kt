@@ -6,8 +6,6 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.ShapeContext
-import net.minecraft.entity.LivingEntity
-import net.minecraft.item.ItemStack
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.Properties
@@ -16,15 +14,15 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
-import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 
-abstract class AbstractPillarBlock(baseBlock: Block, size: Size) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)) {
+abstract class AbstractPillarBlock(private val _baseBlock: Block, size: Size) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(_baseBlock)) {
 
-    private val baseBlock: Block
+    val baseBlock: Block
+        get() = _baseBlock
+
     private val size: Size
     init {
-        this.baseBlock = baseBlock
         this.size = size
         defaultState = defaultState.with(up, false).with(down, false).with(connectionLocked, false)
     }
@@ -79,10 +77,6 @@ abstract class AbstractPillarBlock(baseBlock: Block, size: Size) : AbstractWater
 
     abstract fun WorldAccess.checkUp(pos: BlockPos): Boolean
     abstract fun WorldAccess.checkDown(pos: BlockPos): Boolean
-
-
-
-
 
 
     @JvmRecord
