@@ -55,7 +55,6 @@ object WoodenAccentsModItemGroups {
 
     fun register() {
         kitchenItems.add(Blocks.DIRT)
-        livingRoomItems.add(Blocks.DIRT)
         bedroomItems.add(Blocks.DIRT)
         storageBlocks.add(Blocks.DIRT)
 
