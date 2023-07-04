@@ -39,7 +39,7 @@ object WoodenAccentsModItemGroups {
         .build().woodenAccentsMod()
     @JvmStatic
     val livingRoomItemGroup: ItemGroup = FabricItemGroup.builder("living_room".toId())
-        .icon { ItemStack(Blocks.AIR) }
+        .icon { ItemStack(ModBlocks.oakCoffeeTable) }
         .displayName("living_room".toItemGroupKey())
         .build().woodenAccentsMod()
     @JvmStatic
