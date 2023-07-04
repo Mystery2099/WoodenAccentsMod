@@ -146,30 +146,18 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         val itemModel: Identifier = ModModels.coffeeTableInventory.upload(block, map, modelCollector)
         //Short Models
         val shortTop: Identifier = ModModels.coffeeTableTopShort.upload(block, map, modelCollector)
-        val shortNorthEastLeg: Identifier = ModModels.coffeeTableNorthEastLegShort.upload(block, map, modelCollector)
-        val shortNorthWestLeg: Identifier = ModModels.coffeeTableNorthWestLegShort.upload(block, map, modelCollector)
-        val shortSouthEastLeg: Identifier = ModModels.coffeeTableSouthEastLegShort.upload(block, map, modelCollector)
-        val shortSouthWestLeg: Identifier = ModModels.coffeeTableSouthWestLegShort.upload(block, map, modelCollector)
+        val shortLeg: Identifier = ModModels.coffeeTableLegShort.upload(block, map, modelCollector)
 
         //Tall Models
         val tallTop: Identifier = ModModels.coffeeTableTopTall.upload(block, map, modelCollector)
-        val tallNorthEastLeg: Identifier = ModModels.coffeeTableNorthEastLegTall.upload(block, map, modelCollector)
-        val tallNorthWestLeg: Identifier = ModModels.coffeeTableNorthWestLegTall.upload(block, map, modelCollector)
-        val tallSouthEastLeg: Identifier = ModModels.coffeeTableSouthEastLegTall.upload(block, map, modelCollector)
-        val tallSouthWestLeg: Identifier = ModModels.coffeeTableSouthWestLegTall.upload(block, map, modelCollector)
+        val tallLeg: Identifier = ModModels.coffeeTableLegTall.upload(block, map, modelCollector)
         stateCollector!!.accept(
             coffeeTableSupplier(
                 block,
                 shortTop,
-                shortNorthEastLeg,
-                shortNorthWestLeg,
-                shortSouthEastLeg,
-                shortSouthWestLeg,
+                shortLeg,
                 tallTop,
-                tallNorthEastLeg,
-                tallNorthWestLeg,
-                tallSouthEastLeg,
-                tallSouthWestLeg
+                tallLeg
             )
         )
         generator?.registerParentedItemModel(block, itemModel)
@@ -177,29 +165,23 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     private fun coffeeTableSupplier(
         block: CoffeeTableBlock,
         shortTopModel: Identifier,
-        shortNorthEastLegModel: Identifier,
-        shortNorthWestLegModel: Identifier,
-        shortSouthEastLegModel: Identifier,
-        shortSouthWestLegModel: Identifier,
+        shortLegModel: Identifier,
         tallTopModel: Identifier,
-        tallNorthEastLegModel: Identifier,
-        tallNorthWestLegModel: Identifier,
-        tallSouthEastLegModel: Identifier,
-        tallSouthWestLegModel: Identifier
+        tallLegModel: Identifier
     ): MultipartBlockStateSupplier {
         // Short Variants
         val shortTopVariant = BlockStateVariant().putModel(shortTopModel)
-        val shortNorthEastVariant = BlockStateVariant().putModel(shortNorthEastLegModel)
-        val shortNorthWestVariant = BlockStateVariant().putModel(shortNorthWestLegModel)
-        val shortSouthEastVariant = BlockStateVariant().putModel(shortSouthEastLegModel)
-        val shortSouthWestVariant = BlockStateVariant().putModel(shortSouthWestLegModel)
+        val shortNorthEastVariant = BlockStateVariant().putModel(shortLegModel)
+        val shortNorthWestVariant = shortNorthEastVariant.union(y270)
+        val shortSouthEastVariant = shortNorthEastVariant.union(y90)
+        val shortSouthWestVariant = shortNorthEastVariant.union(y180)
 
         // Tall Variants
         val tallTopVariant = BlockStateVariant().putModel(tallTopModel)
-        val tallNorthEastVariant = BlockStateVariant().putModel(tallNorthEastLegModel)
-        val tallNorthWestVariant = BlockStateVariant().putModel(tallNorthWestLegModel)
-        val tallSouthEastVariant = BlockStateVariant().putModel(tallSouthEastLegModel)
-        val tallSouthWestVariant = BlockStateVariant().putModel(tallSouthWestLegModel)
+        val tallNorthEastVariant = BlockStateVariant().putModel(tallLegModel)
+        val tallNorthWestVariant = tallNorthEastVariant.union(y270)
+        val tallSouthEastVariant = tallNorthEastVariant.union(y90)
+        val tallSouthWestVariant = tallNorthEastVariant.union(y180)
 
         // Property Conditions
         val isTall = When.create().set(ModProperties.coffeeTableType, CoffeeTableType.TALL)

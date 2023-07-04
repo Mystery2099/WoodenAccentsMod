@@ -40,54 +40,18 @@ object ModModels {
     val coffeeTableTopTall: Model = block("coffee_table_top_tall",
         "_top_tall", TextureKey.TOP)
     @JvmStatic
-    val coffeeTableNorthEastLegTall: Model = block(
+    val coffeeTableLegTall: Model = block(
         "coffee_table_north_east_leg_tall",
-        "_north_east_leg_tall",
-        legs
-    )
-    @JvmStatic
-    val coffeeTableNorthWestLegTall: Model = block(
-        "coffee_table_north_west_leg_tall",
-        "_north_west_leg_tall",
-        legs
-    )
-    @JvmStatic
-    val coffeeTableSouthEastLegTall: Model = block(
-        "coffee_table_south_east_leg_tall",
-        "_south_east_leg_tall",
-        legs
-    )
-    @JvmStatic
-    val coffeeTableSouthWestLegTall: Model = block(
-        "coffee_table_south_west_leg_tall",
-        "_south_west_leg_tall",
+        "_leg_tall",
         legs
     )
     @JvmStatic
     val coffeeTableTopShort: Model =
         block("coffee_table_top_short", "_top_short", TextureKey.TOP)
     @JvmStatic
-    val coffeeTableNorthEastLegShort: Model = block(
+    val coffeeTableLegShort: Model = block(
         "coffee_table_north_east_leg_short",
-        "_north_east_leg_short",
-        legs
-    )
-    @JvmStatic
-    val coffeeTableNorthWestLegShort: Model = block(
-        "coffee_table_north_west_leg_short",
-        "_north_west_leg_short",
-        legs
-    )
-    @JvmStatic
-    val coffeeTableSouthEastLegShort: Model = block(
-        "coffee_table_south_east_leg_short",
-        "_south_east_leg_short",
-        legs
-    )
-    @JvmStatic
-    val coffeeTableSouthWestLegShort: Model = block(
-        "coffee_table_south_west_leg_short",
-        "_south_west_leg_short",
+        "_leg_short",
         legs
     )
     /*---------------Storage Stuff----------------*/
