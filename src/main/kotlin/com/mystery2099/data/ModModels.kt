@@ -58,6 +58,24 @@ object ModModels {
 
     /*---------------Kitchen Stuff----------------*/
 
+    //Kitchen Counters
+    @JvmStatic
+    val kitchenCounter: Model = block("kitchen_counter", TextureKey.SIDE, TextureKey.TOP)
+    @JvmStatic
+    val kitchenCounterInnerLeftCorner: Model = block(
+        "kitchen_counter_inner_left_corner",
+        "_inner_left_corner",
+        TextureKey.SIDE,
+        TextureKey.TOP
+    )
+    @JvmStatic
+    val kitchenCounterOuterLeftCorner: Model = block(
+        "kitchen_counter_outer_left_corner",
+        "_outer_left_corner",
+        TextureKey.SIDE,
+        TextureKey.TOP
+    )
+
     /*---------------Bedroom Stuff----------------*/
 
 
