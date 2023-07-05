@@ -1,7 +1,6 @@
 package com.mystery2099.datagen
 
 import com.google.gson.JsonElement
-import com.mystery2099.WoodenAccentsMod
 import com.mystery2099.block.custom.CoffeeTableBlock
 import com.mystery2099.block.custom.KitchenCounterBlock
 import com.mystery2099.block.custom.ThickPillarBlock
@@ -74,6 +73,11 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     private val whenNotSouth: When = When.create().set(Properties.SOUTH, false)
     private val whenNotWest: When = When.create().set(Properties.WEST, false)
 
+    private val whenNotNorthEast: When = When.allOf(whenNotNorth, whenNotEast)
+    private val whenNotSouthEast: When = When.allOf(whenNotSouth, whenNotEast)
+    private val whenNotNorthWest: When = When.allOf(whenNotNorth, whenNotWest)
+    private val whenNotSouthWest: When = When.allOf(whenNotSouth, whenNotWest)
+
     private val whenFacingNorth: When = When.create().set(Properties.FACING, Direction.NORTH)
     private val whenFacingEast: When = When.create().set(Properties.FACING, Direction.EAST)
     private val whenFacingSouth: When = When.create().set(Properties.FACING, Direction.SOUTH)
@@ -145,27 +149,21 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
     /*------------ Coffee Tables -----------*/
     private fun genCoffeeTableBlockStateModels(block: CoffeeTableBlock) {
-        val map = TextureMap().put(TextureKey.TOP, TextureMap.getId(block.topBlock))
-            .put(ModModels.legs, TextureMap.getId(block.legBlock))
-        val itemModel: Identifier = ModModels.coffeeTableInventory.upload(block, map, modelCollector)
-        //Short Models
-        val shortTop: Identifier = ModModels.coffeeTableTopShort.upload(block, map, modelCollector)
-        val shortLeg: Identifier = ModModels.coffeeTableLegShort.upload(block, map, modelCollector)
+        val map = TextureMap().apply {
+            put(TextureKey.TOP, TextureMap.getId(block.topBlock))
+            put(ModModels.legs, TextureMap.getId(block.legBlock))
+        }
 
-        //Tall Models
-        val tallTop: Identifier = ModModels.coffeeTableTopTall.upload(block, map, modelCollector)
-        val tallLeg: Identifier = ModModels.coffeeTableLegTall.upload(block, map, modelCollector)
-        stateCollector!!.accept(
-            coffeeTableSupplier(
-                block,
-                shortTop,
-                shortLeg,
-                tallTop,
-                tallLeg
-            )
-        )
+        val itemModel = ModModels.coffeeTableInventory.upload(block, map, modelCollector)
+        val shortTop = ModModels.coffeeTableTopShort.upload(block, map, modelCollector)
+        val shortLeg = ModModels.coffeeTableLegShort.upload(block, map, modelCollector)
+        val tallTop = ModModels.coffeeTableTopTall.upload(block, map, modelCollector)
+        val tallLeg = ModModels.coffeeTableLegTall.upload(block, map, modelCollector)
+
+        stateCollector?.accept(coffeeTableSupplier(block, shortTop, shortLeg, tallTop, tallLeg))
         generator?.registerParentedItemModel(block, itemModel)
     }
+
     private fun coffeeTableSupplier(
         block: CoffeeTableBlock,
         shortTopModel: Identifier,
@@ -173,62 +171,54 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         tallTopModel: Identifier,
         tallLegModel: Identifier
     ): MultipartBlockStateSupplier {
-        // Short Variants
-        val shortTopVariant = BlockStateVariant().putModel(shortTopModel)
         val shortNorthEastVariant = BlockStateVariant().putModel(shortLegModel)
         val shortNorthWestVariant = shortNorthEastVariant.union(y270)
         val shortSouthEastVariant = shortNorthEastVariant.union(y90)
         val shortSouthWestVariant = shortNorthEastVariant.union(y180)
-
-        // Tall Variants
-        val tallTopVariant = BlockStateVariant().putModel(tallTopModel)
         val tallNorthEastVariant = BlockStateVariant().putModel(tallLegModel)
         val tallNorthWestVariant = tallNorthEastVariant.union(y270)
         val tallSouthEastVariant = tallNorthEastVariant.union(y90)
         val tallSouthWestVariant = tallNorthEastVariant.union(y180)
 
-        // Property Conditions
         val isTall = When.create().set(ModProperties.coffeeTableType, CoffeeTableType.TALL)
-        val isNotTall = When.create().set(ModProperties.coffeeTableType, CoffeeTableType.SHORT)
-        val northEast = When.create().set(Properties.NORTH, false).set(Properties.EAST, false) // south-west
-        val northWest = When.create().set(Properties.NORTH, false).set(Properties.WEST, false) // south-east
-        val southEast = When.create().set(Properties.SOUTH, false).set(Properties.EAST, false) // north-west
-        val southWest = When.create().set(Properties.SOUTH, false).set(Properties.WEST, false) // north-east
 
-        // Whens
-        val northEastTall = When.allOf(northEast, isTall)
-        val northWestTall = When.allOf(northWest, isTall)
-        val southEastTall = When.allOf(southEast, isTall)
-        val southWestTall = When.allOf(southWest, isTall)
 
-        return MultipartBlockStateSupplier.create(block)
-            .with(isNotTall, shortTopVariant)
-            .with(northEast, shortNorthEastVariant)
-            .with(northWest, shortNorthWestVariant)
-            .with(southEast, shortSouthEastVariant)
-            .with(southWest, shortSouthWestVariant)
-            .with(isTall, tallTopVariant)
-            .with(northEastTall, tallNorthEastVariant)
-            .with(northWestTall, tallNorthWestVariant)
-            .with(southEastTall, tallSouthEastVariant)
-            .with(southWestTall, tallSouthWestVariant)
+        val northEastTall = When.allOf(whenNotNorthEast, isTall)
+        val northWestTall = When.allOf(whenNotNorthWest, isTall)
+        val southEastTall = When.allOf(whenNotSouthEast, isTall)
+        val southWestTall = When.allOf(whenNotSouthWest, isTall)
+
+        return MultipartBlockStateSupplier.create(block).apply {
+            with( When.create().set(ModProperties.coffeeTableType, CoffeeTableType.SHORT),
+                BlockStateVariant().putModel(shortTopModel))
+            with(whenNotNorthEast, shortNorthEastVariant)
+            with(whenNotNorthWest, shortNorthWestVariant)
+            with(whenNotSouthEast, shortSouthEastVariant)
+            with(whenNotSouthWest, shortSouthWestVariant)
+            with(isTall, BlockStateVariant().putModel(tallTopModel))
+            with(northEastTall, tallNorthEastVariant)
+            with(northWestTall, tallNorthWestVariant)
+            with(southEastTall, tallSouthEastVariant)
+            with(southWestTall, tallSouthWestVariant)
+        }
     }
+
+
 
     /*------------ End Coffee Tables -----------*/
 
 
     /*------------ Kitchen Counters -----------*/
     private fun genKitchenCounterBlockStateModels(block: KitchenCounterBlock) {
-        val map = TextureMap().put(TextureKey.TOP, TextureMap.getId(block.topBlock))
+        val map = TextureMap()
+            .put(TextureKey.TOP, TextureMap.getId(block.topBlock))
             .put(TextureKey.SIDE, TextureMap.getId(block.baseBlock))
+
         val normalModel = ModModels.kitchenCounter.upload(block, map, modelCollector)
         val innerLeftModel = ModModels.kitchenCounterInnerLeftCorner.upload(block, map, modelCollector)
         val outerLeftModel = ModModels.kitchenCounterOuterLeftCorner.upload(block, map, modelCollector)
-        stateCollector!!.accept(
-            createKitchenCounterVariantSupplier(
-                block, normalModel, innerLeftModel, outerLeftModel
-            )
-        )
+
+        stateCollector?.accept(createKitchenCounterVariantSupplier(block, normalModel, innerLeftModel, outerLeftModel))
         generator?.registerParentedItemModel(block, normalModel)
     }
 
@@ -238,85 +228,65 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         innerLeftModel: Identifier,
         outerLeftModel: Identifier
     ): VariantsBlockStateSupplier {
-        //South Variants
-        val southBlockVariant: BlockStateVariant = BlockStateVariant().putModel(blockModel) //Works
+        val southBlockVariant: BlockStateVariant = BlockStateVariant().putModel(blockModel)
         val southInnerLeftVariant: BlockStateVariant = BlockStateVariant().putModel(innerLeftModel)
         val southInnerRightVariant: BlockStateVariant = southInnerLeftVariant.union(y90)
         val southOuterLeftVariant: BlockStateVariant = BlockStateVariant().putModel(outerLeftModel)
         val southOuterRightVariant: BlockStateVariant = southOuterLeftVariant.union(y90)
 
-        //West Variants
-        val westBlockVariant: BlockStateVariant = southBlockVariant.union(y90) //Works
+        val westBlockVariant: BlockStateVariant = southBlockVariant.union(y90)
         val westInnerLeftVariant: BlockStateVariant = southInnerLeftVariant.union(y90)
         val westInnerRightVariant: BlockStateVariant = southInnerLeftVariant.union(y180)
         val westOuterLeftVariant: BlockStateVariant = southOuterLeftVariant.union(y90)
         val westOuterRightVariant: BlockStateVariant = southOuterLeftVariant.union(y180)
 
-        //North Variants
-        val northVariant = southBlockVariant.union(y180) //Works
+        val northVariant = southBlockVariant.union(y180)
         val northInnerLeftVariant = southInnerLeftVariant.union(y180)
         val northInnerRightVariant = southInnerRightVariant.union(y270)
         val northOuterLeftVariant = southOuterLeftVariant.union(y180)
         val northOuterRightVariant = southOuterLeftVariant.union(y270)
 
-        //East Variants
-        val eastVariant = southBlockVariant.union(y270) //Works
+        val eastVariant = southBlockVariant.union(y270)
         val eastInnerLeftVariant = southInnerLeftVariant.union(y270)
         val eastInnerRightVariant = southInnerRightVariant.union(y0)
         val eastOuterLeftVariant = southOuterLeftVariant.union(y270)
         val eastOuterRightVariant = southOuterRightVariant.union(y0)
+
         val map: BlockStateVariantMap = createKitchenCounterVariantMap(
-            northVariant,
-            northInnerLeftVariant,
-            northInnerRightVariant,
-            northOuterLeftVariant,
-            northOuterRightVariant,
-            eastVariant,
-            eastInnerLeftVariant,
-            eastInnerRightVariant,
-            eastOuterLeftVariant,
-            eastOuterRightVariant,
-            southBlockVariant,
-            southInnerLeftVariant,
-            southInnerRightVariant,
-            southOuterLeftVariant,
-            southOuterRightVariant,
-            westBlockVariant,
-            westInnerLeftVariant,
-            westInnerRightVariant,
-            westOuterLeftVariant,
-            westOuterRightVariant
+            northVariant, northInnerLeftVariant, northInnerRightVariant, northOuterLeftVariant, northOuterRightVariant,
+            eastVariant, eastInnerLeftVariant, eastInnerRightVariant, eastOuterLeftVariant, eastOuterRightVariant,
+            southBlockVariant, southInnerLeftVariant, southInnerRightVariant, southOuterLeftVariant, southOuterRightVariant,
+            westBlockVariant, westInnerLeftVariant, westInnerRightVariant, westOuterLeftVariant, westOuterRightVariant
         )
+
         return VariantsBlockStateSupplier.create(block).coordinate(map)
     }
 
-    //Must Be 20 variants going in order from north, east, south, west
-    // which are all order from straight, inner left, inner right, outer left, and outer right
     private fun createKitchenCounterVariantMap(vararg states: BlockStateVariant): BlockStateVariantMap {
-        if (states.size < 20) WoodenAccentsMod.logger.error("must be at least 20 variants(0-19)")
-        return BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, Properties.STAIR_SHAPE) //North
+        require(states.size >= 20) { "There must be at least 20 variants (0-19)" }
+
+        return BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, Properties.STAIR_SHAPE)
             .register(Direction.NORTH, StairShape.STRAIGHT, states[0])
             .register(Direction.NORTH, StairShape.INNER_LEFT, states[1])
             .register(Direction.NORTH, StairShape.INNER_RIGHT, states[2])
             .register(Direction.NORTH, StairShape.OUTER_LEFT, states[3])
-            .register(Direction.NORTH, StairShape.OUTER_RIGHT, states[4]) //East
+            .register(Direction.NORTH, StairShape.OUTER_RIGHT, states[4])
             .register(Direction.EAST, StairShape.STRAIGHT, states[5])
             .register(Direction.EAST, StairShape.INNER_LEFT, states[6])
             .register(Direction.EAST, StairShape.INNER_RIGHT, states[7])
             .register(Direction.EAST, StairShape.OUTER_LEFT, states[8])
-            .register(Direction.EAST, StairShape.OUTER_RIGHT, states[9]) //South
+            .register(Direction.EAST, StairShape.OUTER_RIGHT, states[9])
             .register(Direction.SOUTH, StairShape.STRAIGHT, states[10])
             .register(Direction.SOUTH, StairShape.INNER_LEFT, states[11])
             .register(Direction.SOUTH, StairShape.INNER_RIGHT, states[12])
             .register(Direction.SOUTH, StairShape.OUTER_LEFT, states[13])
-            .register(Direction.SOUTH, StairShape.OUTER_RIGHT, states[14]) //West
+            .register(Direction.SOUTH, StairShape.OUTER_RIGHT, states[14])
             .register(Direction.WEST, StairShape.STRAIGHT, states[15])
             .register(Direction.WEST, StairShape.INNER_LEFT, states[16])
             .register(Direction.WEST, StairShape.INNER_RIGHT, states[17])
             .register(Direction.WEST, StairShape.OUTER_LEFT, states[18])
             .register(Direction.WEST, StairShape.OUTER_RIGHT, states[19])
     }
-
     /*------------ End Kitchen Counters -----------*/
 
 }
