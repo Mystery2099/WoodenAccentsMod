@@ -2,6 +2,7 @@ package com.mystery2099.block.custom
 
 import com.mystery2099.WoodenAccentsModItemGroups
 import com.mystery2099.datagen.BlockLootTableDataGen.Companion.dropsSelf
+import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.HorizontalFacingBlock
@@ -22,18 +23,18 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import java.util.*
 
-open class KitchenCounterBlock(val baseBlock: Block, val topBlock: Block, settings: Settings) :
-    AbstractWaterloggableBlock(settings) {
+open class KitchenCounterBlock(val baseBlock: Block, val topBlock: Block) :
+    AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)) {
 
     init {
         defaultState =
             stateManager.defaultState.with(
-                FACING,
+                facing,
                 Direction.NORTH
-            ).with(SHAPE, StairShape.STRAIGHT)
+            ).with(shape, StairShape.STRAIGHT)
         this.dropsSelf()
-        WoodenAccentsModItemGroups.kitchenItems.add(this)
-        INSTANCES.add(this)
+        WoodenAccentsModItemGroups.kitchenItems += this
+        instances += this
     }
 
     @Deprecated("Deprecated in Java")
@@ -45,24 +46,24 @@ open class KitchenCounterBlock(val baseBlock: Block, val topBlock: Block, settin
     ): VoxelShape {
         //southShapes
         val southInnerLeftShape: VoxelShape =
-            VoxelShapes.union(SOUTH_SHAPE, createCuboidShape(2.0, 0.0, 0.0, 16.0, 14.0, 2.0))
+            VoxelShapes.union(southShape, createCuboidShape(2.0, 0.0, 0.0, 16.0, 14.0, 2.0))
         val southInnerRightShape: VoxelShape =
-            VoxelShapes.union(SOUTH_SHAPE, createCuboidShape(0.0, 0.0, 0.0, 14.0, 14.0, 2.0))
+            VoxelShapes.union(southShape, createCuboidShape(0.0, 0.0, 0.0, 14.0, 14.0, 2.0))
         val southOuterLeftShape: VoxelShape = createCuboidShape(2.0, 0.0, 2.0, 16.0, 14.0, 16.0)
         val southOuterRightShape: VoxelShape = createCuboidShape(0.0, 0.0, 2.0, 14.0, 14.0, 16.0)
 
         //northShapes
         val northInnerLeftShape: VoxelShape =
-            VoxelShapes.union(NORTH_SHAPE, createCuboidShape(0.0, 0.0, 14.0, 14.0, 14.0, 16.0))
+            VoxelShapes.union(northShape, createCuboidShape(0.0, 0.0, 14.0, 14.0, 14.0, 16.0))
         val northInnerRightShape: VoxelShape =
-            VoxelShapes.union(NORTH_SHAPE, createCuboidShape(2.0, 0.0, 14.0, 16.0, 14.0, 16.0))
+            VoxelShapes.union(northShape, createCuboidShape(2.0, 0.0, 14.0, 16.0, 14.0, 16.0))
         val northOuterLeftShape: VoxelShape = createCuboidShape(0.0, 0.0, 0.0, 14.0, 14.0, 14.0)
         val northOuterRightShape: VoxelShape = createCuboidShape(2.0, 0.0, 0.0, 16.0, 14.0, 14.0)
-        val stairShape: StairShape = state.get<StairShape>(SHAPE)
+        val stairShape: StairShape = state.get(shape)
         return VoxelShapes.union(
-            TOP_SHAPE, when (state.get<Direction>(FACING)) {
+            topShape, when (state.get(facing)) {
                 Direction.NORTH -> when (stairShape) {
-                    StairShape.STRAIGHT -> NORTH_SHAPE
+                    StairShape.STRAIGHT -> northShape
                     StairShape.INNER_LEFT -> northInnerLeftShape
                     StairShape.INNER_RIGHT -> northInnerRightShape
                     StairShape.OUTER_LEFT -> northOuterLeftShape
@@ -70,7 +71,7 @@ open class KitchenCounterBlock(val baseBlock: Block, val topBlock: Block, settin
                 }
 
                 Direction.SOUTH -> when (stairShape) {
-                    StairShape.STRAIGHT -> SOUTH_SHAPE
+                    StairShape.STRAIGHT -> southShape
                     StairShape.INNER_LEFT -> southInnerLeftShape
                     StairShape.INNER_RIGHT -> southInnerRightShape
                     StairShape.OUTER_LEFT -> southOuterLeftShape
@@ -78,7 +79,7 @@ open class KitchenCounterBlock(val baseBlock: Block, val topBlock: Block, settin
                 }
 
                 Direction.EAST -> when (stairShape) {
-                    StairShape.STRAIGHT -> EAST_SHAPE
+                    StairShape.STRAIGHT -> eastShape
                     StairShape.INNER_LEFT -> northInnerRightShape
                     StairShape.INNER_RIGHT -> southInnerLeftShape
                     StairShape.OUTER_LEFT -> northOuterRightShape
@@ -86,7 +87,7 @@ open class KitchenCounterBlock(val baseBlock: Block, val topBlock: Block, settin
                 }
 
                 Direction.WEST -> when (stairShape) {
-                    StairShape.STRAIGHT -> WEST_SHAPE
+                    StairShape.STRAIGHT -> westShape
                     StairShape.INNER_LEFT -> southInnerRightShape
                     StairShape.INNER_RIGHT -> northInnerLeftShape
                     StairShape.OUTER_LEFT -> southOuterRightShape
@@ -100,15 +101,15 @@ open class KitchenCounterBlock(val baseBlock: Block, val topBlock: Block, settin
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
-        builder.add(FACING, SHAPE)
+        builder.add(facing, shape)
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
         val blockPos: BlockPos = ctx.blockPos
-        val blockState: BlockState = Objects.requireNonNull(super.getPlacementState(ctx))!!.with<Direction, Direction>(
-            FACING, ctx.horizontalPlayerFacing
+        val blockState: BlockState = Objects.requireNonNull(super.getPlacementState(ctx))!!.with(
+            facing, ctx.horizontalPlayerFacing
         )
-        return blockState.with<StairShape, StairShape>(SHAPE, getCounterShape(blockState, ctx.getWorld(), blockPos))
+        return blockState.with(shape, getCounterShape(blockState, ctx.world, blockPos))
     }
 
     @Deprecated("Deprecated in Java")
@@ -124,7 +125,7 @@ open class KitchenCounterBlock(val baseBlock: Block, val topBlock: Block, settin
             super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
         return if (direction!!.axis.isHorizontal) {
             stateForNeighborUpdate?.withIfExists(
-                SHAPE,
+                shape,
                 pos?.let { getCounterShape(state, world, it) }
             )
         } else stateForNeighborUpdate
@@ -140,30 +141,30 @@ open class KitchenCounterBlock(val baseBlock: Block, val topBlock: Block, settin
     )
     )
     override fun rotate(state: BlockState, rotation: BlockRotation): BlockState {
-        return state.with(FACING, rotation.rotate(state.get(FACING)))
+        return state.with(facing, rotation.rotate(state.get(facing)))
     }
 
     @Deprecated("Deprecated in Java")
     override fun mirror(state: BlockState, mirror: BlockMirror?): BlockState {
-        state.get(FACING)
-        val stairShape = state.get(SHAPE)
+        state.get(facing)
+        val stairShape = state.get(shape)
         when (mirror) {
             BlockMirror.LEFT_RIGHT -> {
                 return when (stairShape) {
                     StairShape.INNER_LEFT -> {
-                        state.rotate(BlockRotation.CLOCKWISE_180).with(SHAPE, StairShape.INNER_RIGHT)
+                        state.rotate(BlockRotation.CLOCKWISE_180).with(shape, StairShape.INNER_RIGHT)
                     }
 
                     StairShape.INNER_RIGHT -> {
-                        state.rotate(BlockRotation.CLOCKWISE_180).with(SHAPE, StairShape.INNER_LEFT)
+                        state.rotate(BlockRotation.CLOCKWISE_180).with(shape, StairShape.INNER_LEFT)
                     }
 
                     StairShape.OUTER_LEFT -> {
-                        state.rotate(BlockRotation.CLOCKWISE_180).with(SHAPE, StairShape.OUTER_RIGHT)
+                        state.rotate(BlockRotation.CLOCKWISE_180).with(shape, StairShape.OUTER_RIGHT)
                     }
 
                     StairShape.OUTER_RIGHT -> {
-                        state.rotate(BlockRotation.CLOCKWISE_180).with(SHAPE, StairShape.OUTER_LEFT)
+                        state.rotate(BlockRotation.CLOCKWISE_180).with(shape, StairShape.OUTER_LEFT)
                     }
                     else -> {
                         state.rotate(BlockRotation.CLOCKWISE_180)
@@ -174,19 +175,19 @@ open class KitchenCounterBlock(val baseBlock: Block, val topBlock: Block, settin
             BlockMirror.FRONT_BACK -> {
                 return when (stairShape) {
                     StairShape.INNER_LEFT -> {
-                        state.rotate(BlockRotation.CLOCKWISE_180).with(SHAPE, StairShape.INNER_LEFT)
+                        state.rotate(BlockRotation.CLOCKWISE_180).with(shape, StairShape.INNER_LEFT)
                     }
 
                     StairShape.INNER_RIGHT -> {
-                        state.rotate(BlockRotation.CLOCKWISE_180).with(SHAPE, StairShape.INNER_RIGHT)
+                        state.rotate(BlockRotation.CLOCKWISE_180).with(shape, StairShape.INNER_RIGHT)
                     }
 
                     StairShape.OUTER_LEFT -> {
-                        state.rotate(BlockRotation.CLOCKWISE_180).with(SHAPE, StairShape.OUTER_RIGHT)
+                        state.rotate(BlockRotation.CLOCKWISE_180).with(shape, StairShape.OUTER_RIGHT)
                     }
 
                     StairShape.OUTER_RIGHT -> {
-                        state.rotate(BlockRotation.CLOCKWISE_180).with(SHAPE, StairShape.OUTER_LEFT)
+                        state.rotate(BlockRotation.CLOCKWISE_180).with(shape, StairShape.OUTER_LEFT)
                     }
 
                     StairShape.STRAIGHT -> {
@@ -202,30 +203,30 @@ open class KitchenCounterBlock(val baseBlock: Block, val topBlock: Block, settin
     }
 
     companion object {
-        val INSTANCES: MutableSet<KitchenCounterBlock> = HashSet()
-        val SHAPE: EnumProperty<StairShape> = Properties.STAIR_SHAPE
-        val FACING: DirectionProperty = HorizontalFacingBlock.FACING
-        protected val TOP_SHAPE: VoxelShape = createCuboidShape(0.0, 14.0, 0.0, 16.0, 16.0, 16.0)
-        protected val SOUTH_SHAPE: VoxelShape = createCuboidShape(0.0, 0.0, 2.0, 16.0, 14.0, 16.0)
-        protected val EAST_SHAPE: VoxelShape = createCuboidShape(2.0, 0.0, 0.0, 16.0, 14.0, 16.0)
-        private const val SHAPE_OFFSET = -(2.0 / 16)
-        protected val NORTH_SHAPE: VoxelShape = SOUTH_SHAPE.offset(0.0, 0.0, SHAPE_OFFSET)
-        protected val WEST_SHAPE: VoxelShape = EAST_SHAPE.offset(SHAPE_OFFSET, 0.0, 0.0)
+        val instances: MutableSet<KitchenCounterBlock> = HashSet()
+        val shape: EnumProperty<StairShape> = Properties.STAIR_SHAPE
+        val facing: DirectionProperty = HorizontalFacingBlock.FACING
+        protected val topShape: VoxelShape = createCuboidShape(0.0, 14.0, 0.0, 16.0, 16.0, 16.0)
+        protected val southShape: VoxelShape = createCuboidShape(0.0, 0.0, 2.0, 16.0, 14.0, 16.0)
+        protected val eastShape: VoxelShape = createCuboidShape(2.0, 0.0, 0.0, 16.0, 14.0, 16.0)
+        private const val shapeOffset = -(2.0 / 16)
+        protected val northShape: VoxelShape = southShape.offset(0.0, 0.0, shapeOffset)
+        protected val westShape: VoxelShape = eastShape.offset(shapeOffset, 0.0, 0.0)
 
         private fun getCounterShape(state: BlockState, world: BlockView, pos: BlockPos): StairShape {
             val direction3: Direction
             val direction2: Direction
-            val direction = state.get(FACING)
+            val direction = state.get(facing)
             val blockState = world.getBlockState(pos.offset(direction))
-            direction2 = blockState.get(FACING)
-            if (canConnectTo(blockState) && direction2.axis !== state.get(FACING).axis &&
+            direction2 = blockState.get(facing)
+            if (canConnectTo(blockState) && direction2.axis !== state.get(facing).axis &&
                 isDifferentOrientation(state, world, pos, direction2.opposite)
             ) {
                 return if (direction2 == direction.rotateYCounterclockwise()) StairShape.OUTER_LEFT else StairShape.OUTER_RIGHT
             }
             val blockState2 = world.getBlockState(pos.offset(direction.opposite))
-            direction3 = blockState2.get(FACING)
-            return if (canConnectTo(blockState2) && direction3.axis !== state.get(FACING).axis &&
+            direction3 = blockState2.get(facing)
+            return if (canConnectTo(blockState2) && direction3.axis !== state.get(facing).axis &&
                 isDifferentOrientation(state, world, pos, direction3)
             ) {
                 if (direction3 == direction.rotateYCounterclockwise()) StairShape.INNER_LEFT else StairShape.INNER_RIGHT
@@ -243,7 +244,7 @@ open class KitchenCounterBlock(val baseBlock: Block, val topBlock: Block, settin
             dir: Direction
         ): Boolean {
             val blockState: BlockState = world.getBlockState(pos?.offset(dir))
-            return !canConnectTo(blockState) || blockState.get(FACING) != state.get(FACING)
+            return !canConnectTo(blockState) || blockState.get(facing) != state.get(facing)
         }
     }
 }
