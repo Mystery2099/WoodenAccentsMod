@@ -3,10 +3,7 @@ package com.mystery2099.block.custom
 import com.mystery2099.WoodenAccentsModItemGroups
 import com.mystery2099.datagen.BlockLootTableDataGen.Companion.dropsSelf
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.HorizontalFacingBlock
-import net.minecraft.block.ShapeContext
+import net.minecraft.block.*
 import net.minecraft.block.enums.StairShape
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateManager
@@ -106,11 +103,11 @@ open class KitchenCounterBlock(val baseBlock: Block, val topBlock: Block) :
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
         val blockPos: BlockPos = ctx.blockPos
-        val blockState: BlockState = Objects.requireNonNull(super.getPlacementState(ctx))!!.with(
-            facing, ctx.horizontalPlayerFacing
-        )
-        return blockState.with(shape, getCounterShape(blockState, ctx.world, blockPos))
+        val superState: BlockState? = super.getPlacementState(ctx)
+        return superState?.with(facing, ctx.horizontalPlayerFacing)
+            ?.with(shape, getCounterShape(superState, ctx.world, blockPos))
     }
+
 
     @Deprecated("Deprecated in Java")
     override fun getStateForNeighborUpdate(
@@ -123,21 +120,20 @@ open class KitchenCounterBlock(val baseBlock: Block, val topBlock: Block) :
     ): BlockState? {
         val stateForNeighborUpdate: BlockState? =
             super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
-        return if (direction!!.axis.isHorizontal) {
-            stateForNeighborUpdate?.withIfExists(
-                shape,
-                pos?.let { getCounterShape(state, world, it) }
-            )
+
+        return if (direction?.axis?.isHorizontal == true) {
+            stateForNeighborUpdate?.with(shape, pos?.let { getCounterShape(state, world, it) })
         } else stateForNeighborUpdate
     }
 
+
     @Deprecated("Deprecated in Java", ReplaceWith(
-        "state.with<Direction, Direction>(FACING, rotation.rotate(state.get<Direction>(FACING)))",
+        "state.with<Direction, Direction>(facing, rotation.rotate(state.get<Direction>(facing)))",
         "net.minecraft.util.math.Direction",
         "net.minecraft.util.math.Direction",
-        "com.mystery2099.block.custom.KitchenCounterBlock.Companion.FACING",
+        "com.mystery2099.block.custom.KitchenCounterBlock.Companion.facing",
         "net.minecraft.util.math.Direction",
-        "com.mystery2099.block.custom.KitchenCounterBlock.Companion.FACING"
+        "com.mystery2099.block.custom.KitchenCounterBlock.Companion.facing"
     )
     )
     override fun rotate(state: BlockState, rotation: BlockRotation): BlockState {
@@ -213,21 +209,25 @@ open class KitchenCounterBlock(val baseBlock: Block, val topBlock: Block) :
         protected val northShape: VoxelShape = southShape.offset(0.0, 0.0, shapeOffset)
         protected val westShape: VoxelShape = eastShape.offset(shapeOffset, 0.0, 0.0)
 
-        private fun getCounterShape(state: BlockState, world: BlockView, pos: BlockPos): StairShape {
-            val direction3: Direction
-            val direction2: Direction
+        private fun getCounterShape(state: BlockState, world: BlockView, pos: BlockPos): StairShape? {
+            var direction3: Direction = state.get(facing)
+            var direction2: Direction = state.get(facing)
             val direction = state.get(facing)
             val blockState = world.getBlockState(pos.offset(direction))
-            direction2 = blockState.get(facing)
-            if (canConnectTo(blockState) && direction2.axis !== state.get(facing).axis &&
-                isDifferentOrientation(state, world, pos, direction2.opposite)
+            if (canConnectTo(blockState) && blockState.get(facing).let {
+                direction2 = it
+                    it.axis !== state.get(facing).axis &&
+                                isDifferentOrientation(state, world, pos, direction2.opposite)
+            }
             ) {
-                return if (direction2 == direction.rotateYCounterclockwise()) StairShape.OUTER_LEFT else StairShape.OUTER_RIGHT
+                return if (direction2 == direction.rotateYCounterclockwise()) StairShape.OUTER_LEFT
+                else StairShape.OUTER_RIGHT
             }
             val blockState2 = world.getBlockState(pos.offset(direction.opposite))
-            direction3 = blockState2.get(facing)
-            return if (canConnectTo(blockState2) && direction3.axis !== state.get(facing).axis &&
-                isDifferentOrientation(state, world, pos, direction3)
+            return if (canConnectTo(blockState2) && blockState2.get(facing).let {
+                direction3 = it
+                    it.axis !== state.get(facing).axis &&isDifferentOrientation(state, world, pos, direction3)
+            }
             ) {
                 if (direction3 == direction.rotateYCounterclockwise()) StairShape.INNER_LEFT else StairShape.INNER_RIGHT
             } else StairShape.STRAIGHT
