@@ -3,6 +3,7 @@ package com.mystery2099.block
 import com.mystery2099.WoodenAccentsMod
 import com.mystery2099.WoodenAccentsMod.toId
 import com.mystery2099.block.custom.CoffeeTableBlock
+import com.mystery2099.block.custom.KitchenCounterBlock
 import com.mystery2099.block.custom.ThickPillarBlock
 import com.mystery2099.block.custom.ThinPillarBlock
 import com.mystery2099.datagen.BlockTagDataGen
@@ -100,6 +101,18 @@ object ModBlocks {
     /*---------------Storage Stuff----------------*/
 
     /*---------------Kitchen Stuff----------------*/
+    val oakKitchenCounter = KitchenCounterBlock(Blocks.OAK_PLANKS, Blocks.OAK_LOG).register("oak_kitchen_counter")
+    val spruceKitchenCounter = KitchenCounterBlock(Blocks.SPRUCE_PLANKS, Blocks.SPRUCE_LOG).register("spruce_kitchen_counter")
+    val birchKitchenCounter = KitchenCounterBlock(Blocks.BIRCH_PLANKS, Blocks.BIRCH_LOG).register("birch_kitchen_counter")
+    val jungleKitchenCounter = KitchenCounterBlock(Blocks.JUNGLE_PLANKS, Blocks.JUNGLE_LOG).register("jungle_kitchen_counter")
+    val acaciaKitchenCounter = KitchenCounterBlock(Blocks.ACACIA_PLANKS, Blocks.ACACIA_LOG).register("acacia_kitchen_counter")
+    val darkOakKitchenCounter = KitchenCounterBlock(Blocks.DARK_OAK_PLANKS, Blocks.DARK_OAK_LOG).register("dark_oak_kitchen_counter")
+    val mangroveKitchenCounter = KitchenCounterBlock(Blocks.MANGROVE_PLANKS, Blocks.MANGROVE_LOG).register("mangrove_kitchen_counter")
+    val cherryKitchenCounter = KitchenCounterBlock(Blocks.CHERRY_PLANKS, Blocks.CHERRY_LOG).register("cherry_kitchen_counter")
+    val bambooKitchenCounter = KitchenCounterBlock(Blocks.BAMBOO_PLANKS, Blocks.BAMBOO_BLOCK).register("bamboo_kitchen_counter")
+    val bambooMosaicKitchenCounter = KitchenCounterBlock(Blocks.BAMBOO_MOSAIC, Blocks.BAMBOO_BLOCK).register("bamboo_mosaic_kitchen_counter")
+    val crimsonKitchenCounter = KitchenCounterBlock(Blocks.CRIMSON_PLANKS, Blocks.CRIMSON_STEM).register("crimson_kitchen_counter")
+    val warpedKitchenCounter = KitchenCounterBlock(Blocks.WARPED_PLANKS, Blocks.CRIMSON_STEM).register("warped_kitchen_counter")
 
     /*---------------Bedroom Stuff----------------*/
 
