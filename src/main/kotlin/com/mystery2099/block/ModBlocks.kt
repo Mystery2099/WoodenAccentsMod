@@ -115,10 +115,11 @@ object ModBlocks {
         return this.register(id.toId())
     }
     private fun Block.register(identifier: Identifier): Block {
-        BlockTagDataGen.axeMineable.add(this)
-        EnglishLangDataGen.basicNamedBlocks.add(this)
-        Registry.register(Registries.ITEM, identifier, BlockItem(this, FabricItemSettings()))
-        return Registry.register(Registries.BLOCK, identifier, this)
+        return Registry.register(Registries.BLOCK, identifier, this).also {
+            BlockTagDataGen.axeMineable.add(this)
+            EnglishLangDataGen.basicNamedBlocks.add(this)
+            Registry.register(Registries.ITEM, identifier, BlockItem(this, FabricItemSettings()))
+        }
     }
 
     fun register() {
