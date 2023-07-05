@@ -36,7 +36,7 @@ class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTable
         property: Property<T>,
         value: T
     ) where T : Comparable<T>, T : StringIdentifiable {
-        val builder = LootTable.builder().pool(
+        LootTable.builder().pool(
             LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f)).with(
                 applyExplosionDecay(
                     drop, ItemEntry.builder(drop).apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(2.0f))
@@ -46,7 +46,6 @@ class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTable
                     )
                 )
             )
-        )
-        addDrop(drop, builder)
+        ).also { addDrop(drop, it) }
     }
 }
