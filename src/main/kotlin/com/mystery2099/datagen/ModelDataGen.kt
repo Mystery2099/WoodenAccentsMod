@@ -1,7 +1,9 @@
 package com.mystery2099.datagen
 
 import com.google.gson.JsonElement
+import com.mystery2099.WoodenAccentsMod
 import com.mystery2099.block.custom.CoffeeTableBlock
+import com.mystery2099.block.custom.KitchenCounterBlock
 import com.mystery2099.block.custom.ThickPillarBlock
 import com.mystery2099.block.custom.ThinPillarBlock
 import com.mystery2099.block.custom.enums.CoffeeTableType
@@ -10,6 +12,7 @@ import com.mystery2099.state.property.ModProperties
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
 import net.minecraft.block.Block
+import net.minecraft.block.enums.StairShape
 import net.minecraft.data.client.*
 import net.minecraft.data.client.VariantSettings.Rotation
 import net.minecraft.state.property.Properties
@@ -98,6 +101,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         ThinPillarBlock.instances.forEach(this::genThinPillarBlockStateModels)
         ThickPillarBlock.instances.forEach(this::genThickPillarBlockStateModels)
         CoffeeTableBlock.instances.forEach(this::genCoffeeTableBlockStateModels)
+        KitchenCounterBlock.instances.forEach(this::genKitchenCounterBlockStateModels)
     }
 
     override fun generateItemModels(itemModelGenerator: ItemModelGenerator) {
@@ -212,5 +216,107 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
     /*------------ End Coffee Tables -----------*/
 
+
+    /*------------ Kitchen Counters -----------*/
+    private fun genKitchenCounterBlockStateModels(block: KitchenCounterBlock) {
+        val map = TextureMap().put(TextureKey.TOP, TextureMap.getId(block.topBlock))
+            .put(TextureKey.SIDE, TextureMap.getId(block.baseBlock))
+        val normalModel = ModModels.kitchenCounter.upload(block, map, modelCollector)
+        val innerLeftModel = ModModels.kitchenCounterInnerLeftCorner.upload(block, map, modelCollector)
+        val outerLeftModel = ModModels.kitchenCounterOuterLeftCorner.upload(block, map, modelCollector)
+        stateCollector!!.accept(
+            createKitchenCounterVariantSupplier(
+                block, normalModel, innerLeftModel, outerLeftModel
+            )
+        )
+        generator?.registerParentedItemModel(block, normalModel)
+    }
+
+    private fun createKitchenCounterVariantSupplier(
+        block: KitchenCounterBlock,
+        blockModel: Identifier,
+        innerLeftModel: Identifier,
+        outerLeftModel: Identifier
+    ): VariantsBlockStateSupplier {
+        //South Variants
+        val southBlockVariant: BlockStateVariant = BlockStateVariant().putModel(blockModel) //Works
+        val southInnerLeftVariant: BlockStateVariant = BlockStateVariant().putModel(innerLeftModel)
+        val southInnerRightVariant: BlockStateVariant = southInnerLeftVariant.union(y90)
+        val southOuterLeftVariant: BlockStateVariant = BlockStateVariant().putModel(outerLeftModel)
+        val southOuterRightVariant: BlockStateVariant = southOuterLeftVariant.union(y90)
+
+        //West Variants
+        val westBlockVariant: BlockStateVariant = southBlockVariant.union(y90) //Works
+        val westInnerLeftVariant: BlockStateVariant = southInnerLeftVariant.union(y90)
+        val westInnerRightVariant: BlockStateVariant = southInnerLeftVariant.union(y180)
+        val westOuterLeftVariant: BlockStateVariant = southOuterLeftVariant.union(y90)
+        val westOuterRightVariant: BlockStateVariant = southOuterLeftVariant.union(y180)
+
+        //North Variants
+        val northVariant = southBlockVariant.union(y180) //Works
+        val northInnerLeftVariant = southInnerLeftVariant.union(y180)
+        val northInnerRightVariant = southInnerRightVariant.union(y270)
+        val northOuterLeftVariant = southOuterLeftVariant.union(y180)
+        val northOuterRightVariant = southOuterLeftVariant.union(y270)
+
+        //East Variants
+        val eastVariant = southBlockVariant.union(y270) //Works
+        val eastInnerLeftVariant = southInnerLeftVariant.union(y270)
+        val eastInnerRightVariant = southInnerRightVariant.union(y0)
+        val eastOuterLeftVariant = southOuterLeftVariant.union(y270)
+        val eastOuterRightVariant = southOuterRightVariant.union(y0)
+        val map: BlockStateVariantMap = createKitchenCounterVariantMap(
+            northVariant,
+            northInnerLeftVariant,
+            northInnerRightVariant,
+            northOuterLeftVariant,
+            northOuterRightVariant,
+            eastVariant,
+            eastInnerLeftVariant,
+            eastInnerRightVariant,
+            eastOuterLeftVariant,
+            eastOuterRightVariant,
+            southBlockVariant,
+            southInnerLeftVariant,
+            southInnerRightVariant,
+            southOuterLeftVariant,
+            southOuterRightVariant,
+            westBlockVariant,
+            westInnerLeftVariant,
+            westInnerRightVariant,
+            westOuterLeftVariant,
+            westOuterRightVariant
+        )
+        return VariantsBlockStateSupplier.create(block).coordinate(map)
+    }
+
+    //Must Be 20 variants going in order from north, east, south, west
+    // which are all order from straight, inner left, inner right, outer left, and outer right
+    private fun createKitchenCounterVariantMap(vararg states: BlockStateVariant): BlockStateVariantMap {
+        if (states.size < 20) WoodenAccentsMod.logger.error("must be at least 20 variants(0-19)")
+        return BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, Properties.STAIR_SHAPE) //North
+            .register(Direction.NORTH, StairShape.STRAIGHT, states[0])
+            .register(Direction.NORTH, StairShape.INNER_LEFT, states[1])
+            .register(Direction.NORTH, StairShape.INNER_RIGHT, states[2])
+            .register(Direction.NORTH, StairShape.OUTER_LEFT, states[3])
+            .register(Direction.NORTH, StairShape.OUTER_RIGHT, states[4]) //East
+            .register(Direction.EAST, StairShape.STRAIGHT, states[5])
+            .register(Direction.EAST, StairShape.INNER_LEFT, states[6])
+            .register(Direction.EAST, StairShape.INNER_RIGHT, states[7])
+            .register(Direction.EAST, StairShape.OUTER_LEFT, states[8])
+            .register(Direction.EAST, StairShape.OUTER_RIGHT, states[9]) //South
+            .register(Direction.SOUTH, StairShape.STRAIGHT, states[10])
+            .register(Direction.SOUTH, StairShape.INNER_LEFT, states[11])
+            .register(Direction.SOUTH, StairShape.INNER_RIGHT, states[12])
+            .register(Direction.SOUTH, StairShape.OUTER_LEFT, states[13])
+            .register(Direction.SOUTH, StairShape.OUTER_RIGHT, states[14]) //West
+            .register(Direction.WEST, StairShape.STRAIGHT, states[15])
+            .register(Direction.WEST, StairShape.INNER_LEFT, states[16])
+            .register(Direction.WEST, StairShape.INNER_RIGHT, states[17])
+            .register(Direction.WEST, StairShape.OUTER_LEFT, states[18])
+            .register(Direction.WEST, StairShape.OUTER_RIGHT, states[19])
+    }
+
+    /*------------ End Kitchen Counters -----------*/
 
 }
