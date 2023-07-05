@@ -13,8 +13,14 @@
         "model": "myst2099_wooden_accents_mod:block/cherry_coffee_table_leg_short"
       },
       "when": {
-        "east": "false",
-        "north": "false"
+        "AND": [
+          {
+            "north": "false"
+          },
+          {
+            "east": "false"
+          }
+        ]
       }
     },
     {
@@ -23,8 +29,14 @@
         "y": 270
       },
       "when": {
-        "north": "false",
-        "west": "false"
+        "AND": [
+          {
+            "north": "false"
+          },
+          {
+            "west": "false"
+          }
+        ]
       }
     },
     {
@@ -33,8 +45,14 @@
         "y": 90
       },
       "when": {
-        "east": "false",
-        "south": "false"
+        "AND": [
+          {
+            "south": "false"
+          },
+          {
+            "east": "false"
+          }
+        ]
       }
     },
     {
@@ -43,8 +61,14 @@
         "y": 180
       },
       "when": {
-        "south": "false",
-        "west": "false"
+        "AND": [
+          {
+            "south": "false"
+          },
+          {
+            "west": "false"
+          }
+        ]
       }
     },
     {
@@ -62,8 +86,14 @@
       "when": {
         "AND": [
           {
-            "east": "false",
-            "north": "false"
+            "AND": [
+              {
+                "north": "false"
+              },
+              {
+                "east": "false"
+              }
+            ]
           },
           {
             "type": "tall"
@@ -79,8 +109,14 @@
       "when": {
         "AND": [
           {
-            "north": "false",
-            "west": "false"
+            "AND": [
+              {
+                "north": "false"
+              },
+              {
+                "west": "false"
+              }
+            ]
           },
           {
             "type": "tall"
@@ -96,8 +132,14 @@
       "when": {
         "AND": [
           {
-            "east": "false",
-            "south": "false"
+            "AND": [
+              {
+                "south": "false"
+              },
+              {
+                "east": "false"
+              }
+            ]
           },
           {
             "type": "tall"
@@ -113,8 +155,14 @@
       "when": {
         "AND": [
           {
-            "south": "false",
-            "west": "false"
+            "AND": [
+              {
+                "south": "false"
+              },
+              {
+                "west": "false"
+              }
+            ]
           },
           {
             "type": "tall"
