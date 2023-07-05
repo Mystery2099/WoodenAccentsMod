@@ -31,27 +31,27 @@ object WoodenAccentsModItemGroups {
     val outsideBlockItemGroup: ItemGroup = FabricItemGroup.builder("outside".toId())
         .icon { ItemStack(outsideItems[0]) }
         .displayName("outside".toItemGroupKey())
-        .build().woodenAccentsMod()
+        .build().apply { itemGroups.add(this) }
     @JvmStatic
     val kitchenItemGroup: ItemGroup = FabricItemGroup.builder("kitchen".toId())
         .icon { ItemStack(kitchenItems[0]) }
         .displayName("kitchen".toItemGroupKey())
-        .build().woodenAccentsMod()
+        .build().apply { itemGroups.add(this) }
     @JvmStatic
     val livingRoomItemGroup: ItemGroup = FabricItemGroup.builder("living_room".toId())
         .icon { ItemStack(livingRoomItems[0]) }
         .displayName("living_room".toItemGroupKey())
-        .build().woodenAccentsMod()
+        .build().apply { itemGroups.add(this) }
     @JvmStatic
     val bedroomItemGroup: ItemGroup = FabricItemGroup.builder("bedroom".toId())
         .icon { ItemStack(bedroomItems[0]) }
         .displayName("bedroom".toItemGroupKey())
-        .build().woodenAccentsMod()
+        .build().apply { itemGroups.add(this) }
     @JvmStatic
     val storageBlocksItemGroup: ItemGroup = FabricItemGroup.builder("storage".toId())
         .icon { ItemStack(storageBlocks[0]) }
         .displayName("storage".toItemGroupKey())
-        .build().woodenAccentsMod()
+        .build().apply { itemGroups.add(this) }
 
     fun register() {
         kitchenItems.add(Blocks.DIRT)
@@ -72,8 +72,5 @@ object WoodenAccentsModItemGroups {
         return Text.translatable("itemGroup.${WoodenAccentsMod.modid}.$this")
     }
 
-    private fun ItemGroup.woodenAccentsMod(): ItemGroup {
-        itemGroups.add(this)
-        return this
-    }
+
 }
