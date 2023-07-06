@@ -21,13 +21,13 @@ import net.minecraft.world.WorldAccess
 abstract class AbstractPillarBlock(val baseBlock: Block, private val size: Size) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)) {
 
     init {
-        defaultState = defaultState.with(up, false).with(down, false).with(connectionLocked, false)
+        defaultState = defaultState.with(UP, false).with(DOWN, false).with(CONNECTION_LOCKED, false)
         this.dropsSelf()
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
-        builder.add(up, down, connectionLocked)
+        builder.add(UP, DOWN, CONNECTION_LOCKED)
     }
 
     @Deprecated("Deprecated in Java")
@@ -41,7 +41,7 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val size: Size)
     ): BlockState? {
         val newState = super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
         if (newState != null) {
-            return newState.with(up, world.checkUp(pos!!)).with(down, world.checkDown(pos))
+            return newState.with(UP, world.checkUp(pos!!)).with(DOWN, world.checkDown(pos))
         }
         return Blocks.AIR.defaultState
     }
@@ -54,8 +54,8 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val size: Size)
         context: ShapeContext?
     ): VoxelShape {
         var shape: VoxelShape = size.centerShape
-        if (java.lang.Boolean.FALSE == state.get(up)) shape = VoxelShapes.union(shape, size.topShape)
-        if (java.lang.Boolean.FALSE == state.get(down)) shape = VoxelShapes.union(shape, size.baseShape)
+        if (java.lang.Boolean.FALSE == state.get(UP)) shape = VoxelShapes.union(shape, size.topShape)
+        if (java.lang.Boolean.FALSE == state.get(DOWN)) shape = VoxelShapes.union(shape, size.baseShape)
         return shape
     }
 
@@ -63,7 +63,7 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val size: Size)
         val isSneaking = ctx.player?.isSneaking
         var isLocked = false
         if (isSneaking != null) isLocked = isSneaking
-        return super.getPlacementState(ctx)?.with(connectionLocked, isLocked)
+        return super.getPlacementState(ctx)?.with(CONNECTION_LOCKED, isLocked)
     }
 
 
@@ -88,10 +88,10 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val size: Size)
     data class Size(val topShape: VoxelShape, val centerShape: VoxelShape, val baseShape: VoxelShape)
     companion object {
         @JvmStatic
-        val up: BooleanProperty = Properties.UP!!
+        val UP: BooleanProperty = Properties.UP!!
         @JvmStatic
-        val down: BooleanProperty = Properties.DOWN!!
+        val DOWN: BooleanProperty = Properties.DOWN!!
         @JvmStatic
-        val connectionLocked: BooleanProperty = ModProperties.connectionLocked
+        val CONNECTION_LOCKED: BooleanProperty = ModProperties.connectionLocked
     }
 }

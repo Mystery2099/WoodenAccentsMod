@@ -1,6 +1,5 @@
 package com.mystery2099.block.custom
 
-import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Waterloggable
@@ -16,18 +15,18 @@ import net.minecraft.world.WorldAccess
 
 abstract class AbstractWaterloggableBlock(settings: Settings) : Block(settings), Waterloggable {
     init {
-        defaultState = defaultState.with(waterlogged, false)
+        defaultState = defaultState.with(WATERLOGGED, false)
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
-        builder.add(waterlogged)
+        builder.add(WATERLOGGED)
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
         val blockPos = ctx.blockPos
         val fluidState = ctx.world.getFluidState(blockPos)
-        return super.getPlacementState(ctx)?.with(waterlogged, fluidState.fluid === Fluids.WATER)
+        return super.getPlacementState(ctx)?.with(WATERLOGGED, fluidState.fluid === Fluids.WATER)
     }
 
     @Deprecated("Deprecated in Java")
@@ -39,7 +38,7 @@ abstract class AbstractWaterloggableBlock(settings: Settings) : Block(settings),
         pos: BlockPos?,
         neighborPos: BlockPos?
     ): BlockState? {
-        if (state.get(waterlogged)) world.scheduleFluidTick(
+        if (state.get(WATERLOGGED)) world.scheduleFluidTick(
             pos,
             Fluids.WATER,
             Fluids.WATER.getTickRate(world)
@@ -49,7 +48,7 @@ abstract class AbstractWaterloggableBlock(settings: Settings) : Block(settings),
 
     @Deprecated("Deprecated in Java")
     override fun getFluidState(state: BlockState): FluidState {
-        return if (state.get(waterlogged)) {
+        return if (state.get(WATERLOGGED)) {
             Fluids.WATER.getStill(false)
         } else {
             super.getFluidState(state)
@@ -57,6 +56,6 @@ abstract class AbstractWaterloggableBlock(settings: Settings) : Block(settings),
     }
 
     companion object {
-        val waterlogged: BooleanProperty = Properties.WATERLOGGED
+        val WATERLOGGED: BooleanProperty = Properties.WATERLOGGED
     }
 }

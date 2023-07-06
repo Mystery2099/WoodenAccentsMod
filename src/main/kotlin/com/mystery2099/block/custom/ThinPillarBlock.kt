@@ -10,13 +10,13 @@ class ThinPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, size) {
     override fun WorldAccess.checkUp(pos: BlockPos): Boolean {
         val here = this.getBlockState(pos)
         val up = this.getUpState(pos)
-        return up.block is ThinPillarBlock && !here.get(connectionLocked) && !up.get(connectionLocked)
+        return up.block is ThinPillarBlock && !here.get(CONNECTION_LOCKED) && !up.get(CONNECTION_LOCKED)
     }
 
     override fun WorldAccess.checkDown(pos: BlockPos): Boolean {
         val here = this.getBlockState(pos)
         val down = this.getDownState(pos)
-        return down.block is ThinPillarBlock && !here.get(connectionLocked) && !down.get(connectionLocked)
+        return down.block is ThinPillarBlock && !here.get(CONNECTION_LOCKED) && !down.get(CONNECTION_LOCKED)
     }
     companion object {
         @JvmStatic
