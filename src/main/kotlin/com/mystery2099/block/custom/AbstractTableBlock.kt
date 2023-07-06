@@ -41,7 +41,9 @@ abstract class AbstractTableBlock(baseBlock: Block, topBlock: Block) : AbstractW
         super.appendProperties(builder)
         builder.add(north, east, south, west)
     }
-    abstract fun WorldAccess.checkDirection(pos: BlockPos, direction: Direction): Boolean
+    open fun WorldAccess.checkDirection(pos: BlockPos, direction: Direction): Boolean {
+        return this.getBlockState(pos.offset(direction)).block is AbstractTableBlock
+    }
     private fun WorldAccess.checkNorth(pos: BlockPos): Boolean {
         return this.checkDirection(pos, Direction.NORTH)
     }
