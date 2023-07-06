@@ -1,6 +1,6 @@
 {
   "parent": "myst2099_wooden_accents_mod:block/coffee_table_top_tall",
   "textures": {
-    "top": "minecraft:block/spruce_planks"
+    "top": "minecraft:block/spruce_log"
   }
 }

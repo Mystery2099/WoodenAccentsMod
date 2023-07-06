@@ -1,0 +1,20 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"textures": {
+		"particle": "#legs"
+	},
+	"elements": [
+		{
+			"from": [6, 0, 6],
+			"to": [10, 13, 10],
+			"faces": {
+				"north": {"uv": [6, 3, 10, 16], "texture": "#legs"},
+				"east": {"uv": [6, 3, 10, 16], "texture": "#legs"},
+				"south": {"uv": [6, 3, 10, 16], "texture": "#legs"},
+				"west": {"uv": [6, 3, 10, 16], "texture": "#legs"},
+				"down": {"uv": [6, 6, 10, 10], "texture": "#legs", "cullface": "down"}
+			}
+		}
+	]
+}
