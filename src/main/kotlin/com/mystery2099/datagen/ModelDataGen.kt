@@ -151,7 +151,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     private fun genCoffeeTableBlockStateModels(block: CoffeeTableBlock) {
         val map = TextureMap().apply {
             put(TextureKey.TOP, TextureMap.getId(block.topBlock))
-            put(ModModels.legs, TextureMap.getId(block.legBlock))
+            put(ModModels.legs, TextureMap.getId(block.baseBlock))
         }
 
         val itemModel = ModModels.coffeeTableInventory.upload(block, map, modelCollector)
