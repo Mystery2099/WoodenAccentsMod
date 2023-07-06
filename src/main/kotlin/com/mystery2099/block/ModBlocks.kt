@@ -2,10 +2,7 @@ package com.mystery2099.block
 
 import com.mystery2099.WoodenAccentsMod
 import com.mystery2099.WoodenAccentsMod.toId
-import com.mystery2099.block.custom.CoffeeTableBlock
-import com.mystery2099.block.custom.KitchenCounterBlock
-import com.mystery2099.block.custom.ThickPillarBlock
-import com.mystery2099.block.custom.ThinPillarBlock
+import com.mystery2099.block.custom.*
 import com.mystery2099.datagen.BlockTagDataGen
 import com.mystery2099.datagen.EnglishLangDataGen
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
@@ -73,6 +70,33 @@ object ModBlocks {
     val thickWarpedPillar = ThickPillarBlock(Blocks.WARPED_PLANKS).register("thick_warped_pillar")
 
     /*---------------Living Room Stuff----------------*/
+    //Tables
+    @JvmStatic
+    val oakTable = TableBlock(Blocks.OAK_PLANKS, Blocks.OAK_LOG).register("oak_table")
+    @JvmStatic
+    val spruceTable = TableBlock(Blocks.SPRUCE_PLANKS, Blocks.SPRUCE_LOG).register("spruce_table")
+    @JvmStatic
+    val birchTable = TableBlock(Blocks.BIRCH_PLANKS, Blocks.BIRCH_LOG).register("birch_table")
+    @JvmStatic
+    val jungleTable = TableBlock(Blocks.JUNGLE_PLANKS, Blocks.JUNGLE_LOG).register("jungle_table")
+    @JvmStatic
+    val acaciaTable = TableBlock(Blocks.ACACIA_PLANKS, Blocks.ACACIA_LOG).register("acacia_table")
+    @JvmStatic
+    val darkOakTable = TableBlock(Blocks.DARK_OAK_PLANKS, Blocks.DARK_OAK_LOG).register("dark_oak_table")
+    @JvmStatic
+    val mangroveTable = TableBlock(Blocks.MANGROVE_PLANKS, Blocks.MANGROVE_LOG).register("mangrove_table")
+    @JvmStatic
+    val cherryTable = TableBlock(Blocks.CHERRY_PLANKS, Blocks.CHERRY_LOG).register("cherry_table")
+    @JvmStatic
+    val bambooTable = TableBlock(Blocks.BAMBOO_PLANKS, Blocks.BAMBOO_BLOCK).register("bamboo_table")
+    @JvmStatic
+    val bambooMosaicTable = TableBlock(Blocks.BAMBOO_MOSAIC, Blocks.BAMBOO_BLOCK).register("bamboo_mosaic_table")
+    @JvmStatic
+    val crimsonTable = TableBlock(Blocks.CRIMSON_PLANKS, Blocks.CRIMSON_STEM).register("crimson_table")
+    @JvmStatic
+    val warpedTable = TableBlock(Blocks.WARPED_PLANKS, Blocks.WARPED_STEM).register("warped_table")
+
+    //Coffee tables
     @JvmStatic
     val oakCoffeeTable = CoffeeTableBlock(Blocks.OAK_PLANKS, Blocks.OAK_LOG).register("oak_coffee_table")
     @JvmStatic
