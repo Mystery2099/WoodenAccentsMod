@@ -1,10 +1,7 @@
 package com.mystery2099.datagen
 
 import com.google.gson.JsonElement
-import com.mystery2099.block.custom.CoffeeTableBlock
-import com.mystery2099.block.custom.KitchenCounterBlock
-import com.mystery2099.block.custom.ThickPillarBlock
-import com.mystery2099.block.custom.ThinPillarBlock
+import com.mystery2099.block.custom.*
 import com.mystery2099.block.custom.enums.CoffeeTableType
 import com.mystery2099.data.ModModels
 import com.mystery2099.state.property.ModProperties
@@ -34,6 +31,9 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     private fun BlockStateVariant.putModel(model: Identifier): BlockStateVariant {
         this.put(VariantSettings.MODEL, model)
         return this
+    }
+    private fun BlockStateVariant.yRotated(rotation: Rotation): BlockStateVariant {
+        return this.union(BlockStateVariant().put(VariantSettings.Y, rotation))
     }
 
 
@@ -65,6 +65,11 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     private val whenEast: When = When.create().set(Properties.EAST, true)
     private val whenSouth: When = When.create().set(Properties.SOUTH, true)
     private val whenWest: When = When.create().set(Properties.WEST, true)
+
+    private val whenNorthEast: When = When.allOf(whenNorth, whenEast)
+    private val whenSouthEast: When = When.allOf(whenSouth, whenEast)
+    private val whenNorthWest: When = When.allOf(whenNorth, whenWest)
+    private val whenSouthWest: When = When.allOf(whenSouth, whenWest)
 
     private val whenNotUp: When = When.create().set(Properties.UP, false)
     private val whenNotDown: When = When.create().set(Properties.DOWN, false)
@@ -102,10 +107,11 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         modelCollector = blockStateModelGenerator.modelCollector
         stateCollector = blockStateModelGenerator.blockStateCollector
 
-        ThinPillarBlock.instances.forEach(this::genThinPillarBlockStateModels)
-        ThickPillarBlock.instances.forEach(this::genThickPillarBlockStateModels)
-        CoffeeTableBlock.instances.forEach(this::genCoffeeTableBlockStateModels)
-        KitchenCounterBlock.instances.forEach(this::genKitchenCounterBlockStateModels)
+        ThinPillarBlock.instances.forEach(::genThinPillarBlockStateModels)
+        ThickPillarBlock.instances.forEach(::genThickPillarBlockStateModels)
+        TableBlock.instances.forEach(::genTableBlockStateModels)
+        CoffeeTableBlock.instances.forEach(::genCoffeeTableBlockStateModels)
+        KitchenCounterBlock.instances.forEach(::genKitchenCounterBlockStateModels)
     }
 
     override fun generateItemModels(itemModelGenerator: ItemModelGenerator) {
@@ -146,6 +152,56 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     }
 
     /*------------ End Pillars -----------*/
+
+    /*------------ Tables -----------*/
+
+    private fun genTableBlockStateModels(block: TableBlock) {
+        val map = TextureMap().apply {
+            put(TextureKey.TOP, TextureMap.getId(block.topBlock))
+            put(ModModels.legs, TextureMap.getId(block.baseBlock))
+        }
+
+        val itemModel = ModModels.TABLE_INVENTORY.upload(block, map, modelCollector)
+        val topModel = ModModels.TABLE_TOP.upload(block, map, modelCollector)
+        val singleLegModel = ModModels.TABLE_SINGLE_LEG.upload(block, map, modelCollector)
+        val endLegModel = ModModels.TABLE_END_LEG.upload(block, map, modelCollector)
+        val cornerLegModel = ModModels.TABLE_CORNER_LEG.upload(block, map, modelCollector)
+        stateCollector?.accept(tableSupplier(block, topModel, singleLegModel, endLegModel, cornerLegModel))
+        generator?.registerParentedItemModel(block, itemModel)
+    }
+    private fun tableSupplier(
+        block: TableBlock,
+        topModel: Identifier,
+        singleLegModel: Identifier,
+        endLegModel: Identifier,
+        cornerLegModel: Identifier,
+    ): MultipartBlockStateSupplier {
+        val northEndLegVariant = BlockStateVariant().putModel(endLegModel)
+        val eastEndLegVariant = northEndLegVariant.yRotated(Rotation.R90)
+        val southEndLegVariant = northEndLegVariant.yRotated(Rotation.R180)
+        val westEndLegVariant = northEndLegVariant.yRotated(Rotation.R270)
+
+        val northEastCornerVariant = BlockStateVariant().putModel(cornerLegModel)
+        val northWestCornerVariant = northEastCornerVariant.yRotated(Rotation.R270)
+        val southEastCornerVariant = northEastCornerVariant.yRotated(Rotation.R90)
+        val southWestCornerVariant = northEastCornerVariant.yRotated(Rotation.R180)
+
+        return MultipartBlockStateSupplier.create(block).apply {
+            with(BlockStateVariant().putModel(topModel))
+            with(When.allOf(whenNotNorth, whenNotEast, whenNotSouth, whenNotWest), BlockStateVariant().putModel(singleLegModel))
+            //Ends
+            with(When.allOf(whenNotNorth, whenNotEast, whenSouth, whenNotWest), northEndLegVariant)
+            with(When.allOf(whenNotNorth, whenNotEast, whenNotSouth, whenWest), eastEndLegVariant)
+            with(When.allOf(whenNorth, whenNotEast, whenNotSouth, whenNotWest), southEndLegVariant)
+            with(When.allOf(whenNotNorth, whenEast, whenNotSouth, whenNotWest), westEndLegVariant)
+            //Corners
+            with(When.allOf(whenNotNorth, whenNotEast, whenSouth, whenWest), northEastCornerVariant)
+            with(When.allOf(whenNotNorth, whenEast, whenSouth, whenNotWest), northWestCornerVariant)
+            with(When.allOf(whenNorth, whenNotEast, whenNotSouth, whenWest), southEastCornerVariant)
+            with(When.allOf(whenNorth, whenEast, whenNotSouth, whenNotWest), southWestCornerVariant)
+        }
+    }
+    /*------------ End Tables -----------*/
 
     /*------------ Coffee Tables -----------*/
     private fun genCoffeeTableBlockStateModels(block: CoffeeTableBlock) {
