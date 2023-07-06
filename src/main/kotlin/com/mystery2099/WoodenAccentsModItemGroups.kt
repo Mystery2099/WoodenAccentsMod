@@ -1,7 +1,6 @@
 package com.mystery2099
 
 import com.mystery2099.WoodenAccentsMod.toId
-import com.mystery2099.block.ModBlocks
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.minecraft.block.Blocks
@@ -54,7 +53,6 @@ object WoodenAccentsModItemGroups {
         .build().apply { itemGroups.add(this) }
 
     fun register() {
-        kitchenItems.add(Blocks.DIRT)
         bedroomItems.add(Blocks.DIRT)
         storageBlocks.add(Blocks.DIRT)
 
