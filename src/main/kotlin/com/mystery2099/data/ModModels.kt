@@ -39,7 +39,9 @@ object ModModels {
     @JvmStatic
     val TABLE_TOP = block("table_top", "_top", TextureKey.TOP)
     @JvmStatic
-    val TABLE_LEG = block("table_leg", "_leg", legs)
+    val TABLE_SINGLE_LEG = block("table_single_leg", "_single_leg", legs)
+    @JvmStatic
+    val TABLE_END_LEG = block("table_end_leg", "_end_leg", legs)
     @JvmStatic
     val TABLE_CORNER_LEG = block("table_corner_leg", "_corner_leg", legs)
 
