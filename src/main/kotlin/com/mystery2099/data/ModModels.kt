@@ -33,6 +33,16 @@ object ModModels {
     val thickPillarCenter = block("thick_pillar_center", "_center", TextureKey.ALL)
 
     /*---------------Living Room Stuff----------------*/
+    //Table Models
+    @JvmStatic
+    val TABLE_INVENTORY = block("table", "_inventory", TextureKey.TOP, legs)
+    @JvmStatic
+    val TABLE_TOP = block("table_top", "_top", TextureKey.TOP)
+    @JvmStatic
+    val TABLE_LEG = block("table_leg", "_leg", legs)
+    @JvmStatic
+    val TABLE_CORNER_LEG = block("table_corner_leg", "_corner_leg", legs)
+
     //Coffee Table Models
     @JvmStatic
     val coffeeTableInventory: Model = block("coffee_table", "_inventory", TextureKey.TOP, legs)
