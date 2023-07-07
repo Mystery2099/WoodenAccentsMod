@@ -16,7 +16,6 @@ import java.util.concurrent.CompletableFuture
 class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : CompletableFuture<RegistryWrapper.WrapperLookup>) : FabricTagProvider.BlockTagProvider(output, registriesFuture) {
 
     override fun configure(arg: RegistryWrapper.WrapperLookup) {
-        getOrCreateTagBuilder(ModBlockTags.TEST_TAG).add(Blocks.ACACIA_BUTTON)
         BlockTags.AXE_MINEABLE.addCollection(axeMineable)
         //Pillars
         ModBlockTags.thinPillars.addCollection(ThinPillarBlock.instances)

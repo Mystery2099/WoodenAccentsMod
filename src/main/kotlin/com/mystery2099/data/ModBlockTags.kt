@@ -10,7 +10,6 @@ import net.minecraft.util.Identifier
 object ModBlockTags {
     internal var blockTagWithMatchingItemTag: MutableMap<TagKey<Block>, TagKey<Item>> = HashMap()
 
-    val TEST_TAG: TagKey<Block> = "test_tag".toBlockTag().withMatchingItemTag()
 
     /*---------------Outside Tags----------------*/
     val pillars = "pillars".toBlockTag().withMatchingItemTag()
