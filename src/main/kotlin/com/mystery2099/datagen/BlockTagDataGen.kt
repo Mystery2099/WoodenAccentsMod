@@ -21,6 +21,7 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
         //Pillars
         ModBlockTags.thinPillars.addCollection(ThinPillarBlock.instances)
         ModBlockTags.thickPillars.addCollection(ThickPillarBlock.instances)
+        ModBlockTags.pillars.addTags(ModBlockTags.thinPillars, ModBlockTags.thickPillars)
     }
 
     companion object {
