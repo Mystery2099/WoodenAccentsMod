@@ -26,6 +26,10 @@ object ModBlockTags {
 
     /*---------------End Living Room Tags----------------*/
 
+    /*---------------Kitchen Tags----------------*/
+    val kitchenCounters = "kitchen_counters".toBlockTag().withMatchingItemTag()
+
+    /*---------------End Kitchen Tags----------------*/
 
 
     private fun String.toBlockTag(namespace: String): TagKey<Block> {
