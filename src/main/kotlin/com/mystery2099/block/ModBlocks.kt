@@ -148,6 +148,30 @@ object ModBlocks {
     @JvmStatic
     val warpedCoffeeTable = CoffeeTableBlock(Blocks.WARPED_PLANKS, Blocks.WARPED_STEM).register("warped_coffee_table")
 
+    //Stripped Coffee tables
+    @JvmStatic
+    val strippedOakCoffeeTable = CoffeeTableBlock(Blocks.OAK_PLANKS, Blocks.STRIPPED_OAK_LOG).register("stripped_oak_coffee_table")
+    @JvmStatic
+    val strippedSpruceCoffeeTable = CoffeeTableBlock(Blocks.SPRUCE_PLANKS, Blocks.STRIPPED_SPRUCE_LOG).register("stripped_spruce_coffee_table")
+    @JvmStatic
+    val strippedBirchCoffeeTable = CoffeeTableBlock(Blocks.BIRCH_PLANKS, Blocks.STRIPPED_BIRCH_LOG).register("stripped_birch_coffee_table")
+    @JvmStatic
+    val strippedJungleCoffeeTable = CoffeeTableBlock(Blocks.JUNGLE_PLANKS, Blocks.STRIPPED_JUNGLE_LOG).register("stripped_jungle_coffee_table")
+    @JvmStatic
+    val strippedAcaciaCoffeeTable = CoffeeTableBlock(Blocks.ACACIA_PLANKS, Blocks.STRIPPED_ACACIA_LOG).register("stripped_acacia_coffee_table")
+    @JvmStatic
+    val strippedDarkOakCoffeeTable = CoffeeTableBlock(Blocks.DARK_OAK_PLANKS, Blocks.STRIPPED_DARK_OAK_LOG).register("stripped_dark_oak_coffee_table")
+    @JvmStatic
+    val strippedMangroveCoffeeTable = CoffeeTableBlock(Blocks.MANGROVE_PLANKS, Blocks.STRIPPED_MANGROVE_LOG).register("stripped_mangrove_coffee_table")
+    @JvmStatic
+    val strippedCherryCoffeeTable = CoffeeTableBlock(Blocks.CHERRY_PLANKS, Blocks.STRIPPED_CHERRY_LOG).register("stripped_cherry_coffee_table")
+    @JvmStatic
+    val strippedBambooCoffeeTable = CoffeeTableBlock(Blocks.BAMBOO_PLANKS, Blocks.STRIPPED_BAMBOO_BLOCK).register("stripped_bamboo_coffee_table")
+    @JvmStatic
+    val strippedCrimsonCoffeeTable = CoffeeTableBlock(Blocks.CRIMSON_PLANKS, Blocks.STRIPPED_CRIMSON_STEM).register("stripped_crimson_coffee_table")
+    @JvmStatic
+    val strippedWarpedCoffeeTable = CoffeeTableBlock(Blocks.WARPED_PLANKS, Blocks.STRIPPED_WARPED_STEM).register("stripped_warped_coffee_table")
+
     /*---------------Storage Stuff----------------*/
 
     /*---------------Kitchen Stuff----------------*/
