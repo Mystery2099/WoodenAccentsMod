@@ -1,18 +1,13 @@
 package com.mystery2099.datagen
 
-import com.mystery2099.block.custom.CoffeeTableBlock
-import com.mystery2099.block.custom.TableBlock
-import com.mystery2099.block.custom.ThickPillarBlock
-import com.mystery2099.block.custom.ThinPillarBlock
+import com.mystery2099.block.custom.*
 import com.mystery2099.data.ModBlockTags
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
 import net.minecraft.block.Block
-import net.minecraft.block.Blocks
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.TagKey
-import java.util.HashSet
 import java.util.concurrent.CompletableFuture
 
 class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : CompletableFuture<RegistryWrapper.WrapperLookup>) : FabricTagProvider.BlockTagProvider(output, registriesFuture) {
@@ -29,6 +24,9 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
 
         //Coffee Tables
         ModBlockTags.coffeeTables.addCollection(CoffeeTableBlock.instances)
+
+        //Kitchen Counters
+        ModBlockTags.kitchenCounters.addCollection(KitchenCounterBlock.instances)
     }
 
     companion object {
