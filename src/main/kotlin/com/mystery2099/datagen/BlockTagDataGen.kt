@@ -34,6 +34,10 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
         return tag
     }
 
-
+    private fun TagKey<Block>.addTags(vararg tags: TagKey<Block>): FabricTagBuilder {
+        val tag = getOrCreateTagBuilder(this)
+        tags.forEach(tag::addTag)
+        return tag
+    }
 
 }
