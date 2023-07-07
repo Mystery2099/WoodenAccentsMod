@@ -18,6 +18,9 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
     override fun configure(arg: RegistryWrapper.WrapperLookup) {
         getOrCreateTagBuilder(ModBlockTags.TEST_TAG).add(Blocks.ACACIA_BUTTON)
         BlockTags.AXE_MINEABLE.addCollection(axeMineable)
+        //Pillars
+        ModBlockTags.thinPillars.addCollection(ThinPillarBlock.instances)
+        ModBlockTags.thickPillars.addCollection(ThickPillarBlock.instances)
     }
 
     companion object {
