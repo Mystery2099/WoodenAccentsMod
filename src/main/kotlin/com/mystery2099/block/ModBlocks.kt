@@ -69,6 +69,8 @@ object ModBlocks {
     @JvmStatic
     val thickWarpedPillar = ThickPillarBlock(Blocks.WARPED_PLANKS).register("thick_warped_pillar")
 
+    /*---------------End Outside Stuff----------------*/
+
     /*---------------Living Room Stuff----------------*/
     //Tables
     @JvmStatic
@@ -90,7 +92,7 @@ object ModBlocks {
     @JvmStatic
     val bambooTable = TableBlock(Blocks.BAMBOO_PLANKS, Blocks.BAMBOO_BLOCK).register("bamboo_table")
     @JvmStatic
-    val bambooMosaicTable = TableBlock(Blocks.BAMBOO_MOSAIC, Blocks.BAMBOO_BLOCK).register("bamboo_mosaic_table")
+    val bambooMosaicTable = TableBlock(Blocks.BAMBOO_PLANKS, Blocks.BAMBOO_MOSAIC).register("bamboo_mosaic_table")
     @JvmStatic
     val crimsonTable = TableBlock(Blocks.CRIMSON_PLANKS, Blocks.CRIMSON_STEM).register("crimson_table")
     @JvmStatic
@@ -116,11 +118,11 @@ object ModBlocks {
     @JvmStatic
     val bambooCoffeeTable = CoffeeTableBlock(Blocks.BAMBOO_PLANKS, Blocks.BAMBOO_BLOCK).register("bamboo_coffee_table")
     @JvmStatic
-    val bambooMosaicCoffeeTable = CoffeeTableBlock(Blocks.BAMBOO_MOSAIC, Blocks.BAMBOO_BLOCK).register("bamboo_mosaic_coffee_table")
+    val bambooMosaicCoffeeTable = CoffeeTableBlock(Blocks.BAMBOO_PLANKS, Blocks.BAMBOO_MOSAIC).register("bamboo_mosaic_coffee_table")
     @JvmStatic
     val crimsonCoffeeTable = CoffeeTableBlock(Blocks.CRIMSON_PLANKS, Blocks.CRIMSON_STEM).register("crimson_coffee_table")
     @JvmStatic
-    val warpedCoffeeTable = CoffeeTableBlock(Blocks.WARPED_PLANKS, Blocks.CRIMSON_STEM).register("warped_coffee_table")
+    val warpedCoffeeTable = CoffeeTableBlock(Blocks.WARPED_PLANKS, Blocks.WARPED_STEM).register("warped_coffee_table")
 
     /*---------------Storage Stuff----------------*/
 
@@ -150,15 +152,18 @@ object ModBlocks {
     @JvmStatic
     val warpedKitchenCounter = KitchenCounterBlock(Blocks.WARPED_PLANKS, Blocks.CRIMSON_STEM).register("warped_kitchen_counter")
 
+    /*---------------End Kitchen Stuff----------------*/
+
     /*---------------Bedroom Stuff----------------*/
 
 
 
+    /*---------------End Bedroom Stuff----------------*/
+
+    /*---------------Misc Stuff----------------*/
 
 
-
-
-
+    /*---------------End Misc Stuff----------------*/
 
     private fun Block.register(id: String): Block {
         return this.register(id.toId())
@@ -176,3 +181,4 @@ object ModBlocks {
     }
 
 }
+
