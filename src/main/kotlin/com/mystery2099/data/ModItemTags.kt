@@ -7,13 +7,12 @@ import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
 
 object ModItemTags {
-    val TEST_TAG = "test_tag".toItemTag()
 
 
     private fun String.toItemTag(namespace: String): TagKey<Item> {
         return TagKey.of(RegistryKeys.ITEM, this.toId(namespace))
     }
-    private fun String.toItemTag(): TagKey<Item> {
+    internal fun String.toItemTag(): TagKey<Item> {
         return this.toItemTag(WoodenAccentsMod.modid)
     }
 }
