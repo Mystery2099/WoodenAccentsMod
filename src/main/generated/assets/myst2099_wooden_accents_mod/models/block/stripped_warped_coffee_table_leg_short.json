@@ -1,0 +1,6 @@
+{
+  "parent": "myst2099_wooden_accents_mod:block/coffee_table_leg_short",
+  "textures": {
+    "legs": "minecraft:block/warped_planks"
+  }
+}
