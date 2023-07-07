@@ -1,5 +1,6 @@
 package com.mystery2099.datagen
 
+import com.mystery2099.block.custom.ThickPillarBlock
 import com.mystery2099.block.custom.ThinPillarBlock
 import com.mystery2099.data.ModBlockTags
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
@@ -24,8 +25,12 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
         val axeMineable = HashSet<Block>()
     }
 
-    private fun <T : Block> TagKey<Block>.addCollection(collection: Collection<T>) {
-        collection.forEach(getOrCreateTagBuilder(this)::add)
+    private fun <T : Block> TagKey<Block>.addCollection(collection: Collection<T>): FabricTagBuilder {
+        val tag = getOrCreateTagBuilder(this)
+        collection.forEach(tag::add)
+        return tag
     }
+
+
 
 }
