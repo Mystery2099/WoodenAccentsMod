@@ -12,10 +12,20 @@ object ModBlockTags {
 
 
     /*---------------Outside Tags----------------*/
+    //Pillars
     val pillars = "pillars".toBlockTag().withMatchingItemTag()
     val thinPillars = "thin_pillars".toBlockTag().withMatchingItemTag()
     val thickPillars = "thick_pillars".toBlockTag().withMatchingItemTag()
+
+
     /*---------------End Outside Tags----------------*/
+
+    /*---------------Living Room Tags----------------*/
+    val tables = "tables".toBlockTag().withMatchingItemTag()
+    val coffeeTables = "coffee_tables".toBlockTag().withMatchingItemTag()
+
+    /*---------------End Living Room Tags----------------*/
+
 
 
     private fun String.toBlockTag(namespace: String): TagKey<Block> {
