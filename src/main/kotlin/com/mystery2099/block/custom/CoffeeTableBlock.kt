@@ -70,7 +70,8 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTabl
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
         val state = ctx.world.getBlockState(ctx.blockPos)
-        return if (state.isOf(this)) state.with(type, CoffeeTableType.TALL) else super.getPlacementState(ctx)?.withIfExists(type, CoffeeTableType.SHORT)
+        val isSneaking = ctx.player?.isSneaking
+        return if (state.isOf(this) && (isSneaking == null || !isSneaking) ) state.with(type, CoffeeTableType.TALL) else super.getPlacementState(ctx)?.withIfExists(type, CoffeeTableType.SHORT)
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith(
