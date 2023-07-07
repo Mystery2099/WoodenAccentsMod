@@ -72,7 +72,7 @@ object ModBlocks {
     /*---------------End Outside Stuff----------------*/
 
     /*---------------Living Room Stuff----------------*/
-    //Tables
+    //Plank Tables
     @JvmStatic
     val oakTable = TableBlock(Blocks.OAK_PLANKS, Blocks.OAK_LOG).register("oak_table")
     @JvmStatic
@@ -97,6 +97,30 @@ object ModBlocks {
     val crimsonTable = TableBlock(Blocks.CRIMSON_PLANKS, Blocks.CRIMSON_STEM).register("crimson_table")
     @JvmStatic
     val warpedTable = TableBlock(Blocks.WARPED_PLANKS, Blocks.WARPED_STEM).register("warped_table")
+
+    //Stripped Tables
+    @JvmStatic
+    val strippedOakTable = TableBlock(Blocks.OAK_PLANKS, Blocks.STRIPPED_OAK_LOG).register("stripped_oak_table")
+    @JvmStatic
+    val strippedSpruceTable = TableBlock(Blocks.SPRUCE_PLANKS, Blocks.STRIPPED_SPRUCE_LOG).register("stripped_spruce_table")
+    @JvmStatic
+    val strippedBirchTable = TableBlock(Blocks.BIRCH_PLANKS, Blocks.STRIPPED_BIRCH_LOG).register("stripped_birch_table")
+    @JvmStatic
+    val strippedJungleTable = TableBlock(Blocks.JUNGLE_PLANKS, Blocks.STRIPPED_JUNGLE_LOG).register("stripped_jungle_table")
+    @JvmStatic
+    val strippedAcaciaTable = TableBlock(Blocks.ACACIA_PLANKS, Blocks.STRIPPED_ACACIA_LOG).register("stripped_acacia_table")
+    @JvmStatic
+    val strippedDarkOakTable = TableBlock(Blocks.DARK_OAK_PLANKS, Blocks.STRIPPED_DARK_OAK_LOG).register("stripped_dark_oak_table")
+    @JvmStatic
+    val strippedMangroveTable = TableBlock(Blocks.MANGROVE_PLANKS, Blocks.STRIPPED_MANGROVE_LOG).register("stripped_mangrove_table")
+    @JvmStatic
+    val strippedCherryTable = TableBlock(Blocks.CHERRY_PLANKS, Blocks.STRIPPED_CHERRY_LOG).register("stripped_cherry_table")
+    @JvmStatic
+    val strippedBambooTable = TableBlock(Blocks.BAMBOO_PLANKS, Blocks.STRIPPED_BAMBOO_BLOCK).register("stripped_bamboo_table")
+    @JvmStatic
+    val strippedCrimsonTable = TableBlock(Blocks.CRIMSON_PLANKS, Blocks.STRIPPED_CRIMSON_STEM).register("stripped_crimson_table")
+    @JvmStatic
+    val strippedWarpedTable = TableBlock(Blocks.WARPED_PLANKS, Blocks.STRIPPED_WARPED_STEM).register("stripped_warped_table")
 
     //Coffee tables
     @JvmStatic
