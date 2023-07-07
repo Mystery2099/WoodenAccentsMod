@@ -1,5 +1,7 @@
 package com.mystery2099.datagen
 
+import com.mystery2099.block.custom.CoffeeTableBlock
+import com.mystery2099.block.custom.TableBlock
 import com.mystery2099.block.custom.ThickPillarBlock
 import com.mystery2099.block.custom.ThinPillarBlock
 import com.mystery2099.data.ModBlockTags
@@ -21,6 +23,12 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
         ModBlockTags.thinPillars.addCollection(ThinPillarBlock.instances)
         ModBlockTags.thickPillars.addCollection(ThickPillarBlock.instances)
         ModBlockTags.pillars.addTags(ModBlockTags.thinPillars, ModBlockTags.thickPillars)
+
+        //Tables
+        ModBlockTags.tables.addCollection(TableBlock.instances)
+
+        //Coffee Tables
+        ModBlockTags.coffeeTables.addCollection(CoffeeTableBlock.instances)
     }
 
     companion object {
