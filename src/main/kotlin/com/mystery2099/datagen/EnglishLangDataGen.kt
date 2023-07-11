@@ -1,6 +1,10 @@
 package com.mystery2099.datagen
 
 import com.mystery2099.WoodenAccentsModItemGroups
+import com.mystery2099.block.ModBlocks
+import com.mystery2099.block.custom.CoffeeTableBlock
+import com.mystery2099.block.custom.enums.CoffeeTableType
+import com.mystery2099.state.property.ModProperties
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
 import net.minecraft.block.Block
@@ -11,9 +15,9 @@ class EnglishLangDataGen(dataOutput: FabricDataOutput) : FabricLanguageProvider(
     override fun generateTranslations(translationBuilder: TranslationBuilder) {
         builder = translationBuilder
 
-        basicNamedBlocks.forEach(this::genLangName)
+        ModBlocks.blocks.forEach(::genLangName)
 
-        WoodenAccentsModItemGroups.itemGroups.forEach(this::genLangName)
+        WoodenAccentsModItemGroups.itemGroups.forEach(::genLangName)
 
     }
 
@@ -31,9 +35,5 @@ class EnglishLangDataGen(dataOutput: FabricDataOutput) : FabricLanguageProvider(
             output += str.replaceFirstChar { it.uppercase() }.replace("_", " ") + " "
         }
         return output.removeSuffix(" ")
-    }
-    companion object {
-        @JvmStatic
-        val basicNamedBlocks = HashSet<Block>()
     }
 }
