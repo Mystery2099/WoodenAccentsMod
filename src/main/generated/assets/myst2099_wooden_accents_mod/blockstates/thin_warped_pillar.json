@@ -2,7 +2,7 @@
   "multipart": [
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/thin_warped_pillar_center"
+        "model": "minecraft:block/warped_fence_post"
       }
     },
     {

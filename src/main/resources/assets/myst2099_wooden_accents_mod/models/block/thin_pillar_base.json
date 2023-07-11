@@ -1,138 +1,64 @@
 {
-  "credit": "Made with Blockbench",
-  "textures": {
-    "particle": "#all"
-  },
-  "elements": [
-    {
-      "name": "outer",
-      "from": [
-        4,
-        0,
-        4
-      ],
-      "to": [
-        12,
-        2,
-        12
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            4,
-            14,
-            12,
-            16
-          ],
-          "texture": "#all"
-        },
-        "east": {
-          "uv": [
-            4,
-            14,
-            12,
-            16
-          ],
-          "texture": "#all"
-        },
-        "south": {
-          "uv": [
-            4,
-            14,
-            12,
-            16
-          ],
-          "texture": "#all"
-        },
-        "west": {
-          "uv": [
-            4,
-            14,
-            12,
-            16
-          ],
-          "texture": "#all"
-        },
-        "up": {
-          "uv": [
-            4,
-            4,
-            12,
-            12
-          ],
-          "texture": "#all"
-        },
-        "down": {
-          "uv": [
-            4,
-            4,
-            12,
-            12
-          ],
-          "texture": "#all",
-          "cullface": "down"
-        }
-      }
-    },
-    {
-      "name": "inner",
-      "from": [
-        5,
-        2,
-        5
-      ],
-      "to": [
-        11,
-        3,
-        11
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            5,
-            13,
-            11,
-            14
-          ],
-          "texture": "#all"
-        },
-        "east": {
-          "uv": [
-            5,
-            13,
-            11,
-            14
-          ],
-          "texture": "#all"
-        },
-        "south": {
-          "uv": [
-            5,
-            13,
-            11,
-            14
-          ],
-          "texture": "#all"
-        },
-        "west": {
-          "uv": [
-            5,
-            13,
-            11,
-            14
-          ],
-          "texture": "#all"
-        },
-        "up": {
-          "uv": [
-            5,
-            5,
-            11,
-            11
-          ],
-          "texture": "#all"
-        }
-      }
-    }
-  ]
+	"credit": "Made with Blockbench",
+	"textures": {
+		"particle": "#all"
+	},
+	"elements": [
+		{
+			"name": "outer",
+			"from": [4, 0, 4],
+			"to": [12, 2, 6],
+			"faces": {
+				"north": {"uv": [4, 14, 12, 16], "texture": "#all"},
+				"east": {"uv": [10, 14, 12, 16], "texture": "#all"},
+				"west": {"uv": [4, 14, 6, 16], "texture": "#all"},
+				"up": {"uv": [4, 4, 12, 6], "texture": "#all"},
+				"down": {"uv": [4, 10, 12, 12], "texture": "#all", "cullface": "down"}
+			}
+		},
+		{
+			"name": "outer",
+			"from": [4, 0, 10],
+			"to": [12, 2, 12],
+			"faces": {
+				"east": {"uv": [4, 14, 6, 16], "texture": "#all"},
+				"south": {"uv": [4, 14, 12, 16], "texture": "#all"},
+				"west": {"uv": [10, 14, 12, 16], "texture": "#all"},
+				"up": {"uv": [4, 10, 12, 12], "texture": "#all"},
+				"down": {"uv": [4, 4, 12, 6], "texture": "#all", "cullface": "down"}
+			}
+		},
+		{
+			"name": "outer",
+			"from": [4, 0, 6],
+			"to": [6, 2, 10],
+			"faces": {
+				"west": {"uv": [6, 14, 10, 16], "texture": "#all"},
+				"up": {"uv": [4, 6, 6, 10], "texture": "#all"},
+				"down": {"uv": [4, 6, 6, 10], "texture": "#all", "cullface": "down"}
+			}
+		},
+		{
+			"name": "outer",
+			"from": [10, 0, 6],
+			"to": [12, 2, 10],
+			"faces": {
+				"east": {"uv": [6, 14, 10, 16], "texture": "#all"},
+				"up": {"uv": [10, 6, 12, 10], "texture": "#all"},
+				"down": {"uv": [10, 6, 12, 10], "texture": "#all", "cullface": "down"}
+			}
+		},
+		{
+			"name": "inner",
+			"from": [5, 2, 5],
+			"to": [11, 3, 11],
+			"faces": {
+				"north": {"uv": [5, 13, 11, 14], "texture": "#all"},
+				"east": {"uv": [5, 13, 11, 14], "texture": "#all"},
+				"south": {"uv": [5, 13, 11, 14], "texture": "#all"},
+				"west": {"uv": [5, 13, 11, 14], "texture": "#all"},
+				"up": {"uv": [5, 5, 11, 11], "texture": "#all"}
+			}
+		}
+	]
 }

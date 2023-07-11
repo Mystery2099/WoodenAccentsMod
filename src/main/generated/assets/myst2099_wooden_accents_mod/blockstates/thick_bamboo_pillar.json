@@ -2,7 +2,7 @@
   "multipart": [
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/thick_bamboo_pillar_center"
+        "model": "myst2099_wooden_accents_mod:block/bamboo_wall_post"
       }
     },
     {

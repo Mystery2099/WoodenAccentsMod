@@ -2,7 +2,7 @@
   "multipart": [
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/thin_bamboo_pillar_center"
+        "model": "minecraft:block/bamboo_fence_post"
       }
     },
     {

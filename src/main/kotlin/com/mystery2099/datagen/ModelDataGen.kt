@@ -1,6 +1,9 @@
 package com.mystery2099.datagen
 
 import com.google.gson.JsonElement
+import com.mystery2099.WoodenAccentsMod
+import com.mystery2099.WoodenAccentsMod.toId
+import com.mystery2099.WoodenAccentsMod.toVanillaId
 import com.mystery2099.block.ModBlocks
 import com.mystery2099.block.custom.*
 import com.mystery2099.block.custom.enums.CoffeeTableType
@@ -9,12 +12,14 @@ import com.mystery2099.state.property.ModProperties
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
 import net.minecraft.block.Block
+import net.minecraft.block.WoodType
 import net.minecraft.block.enums.StairShape
 import net.minecraft.data.client.*
 import net.minecraft.data.client.VariantSettings.Rotation
 import net.minecraft.state.property.Properties
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Direction
+import java.util.*
 import java.util.function.BiConsumer
 import java.util.function.Consumer
 import java.util.function.Supplier
@@ -130,13 +135,21 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         val textureMap = TextureMap.all(pillarBlock.baseBlock)
         val inventory = ModModels.thinPillarInventory.upload(pillarBlock, textureMap, modelCollector)
         val top = ModModels.thinPillarTop.upload(pillarBlock, textureMap, modelCollector)
-        val center = ModModels.thinPillarCenter.upload(pillarBlock, textureMap, modelCollector)
         val bottom = ModModels.thinPillarBottom.upload(pillarBlock, textureMap, modelCollector)
+        lateinit var type: WoodType
+        WoodType.stream().forEach {
+            if (pillarBlock.baseBlock.translationKey.contains(it.name.lowercase())) {
+                type = it
+                if (!it.name.lowercase().contains("dark") && !pillarBlock.baseBlock.translationKey.contains("dark")) {
+                    return@forEach
+                }
+            }
+        }
         pillar(
             pillarBlock,
             inventory,
             top,
-            center,
+            "block/${type.name.lowercase()}_fence_post".toVanillaId(),
             bottom
         )
     }
@@ -145,9 +158,17 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         val textureMap = TextureMap.all(pillarBlock.baseBlock)
         val inventory = ModModels.thickPillarInventory.upload(pillarBlock, textureMap, modelCollector)
         val top = ModModels.thickPillarTop.upload(pillarBlock, textureMap, modelCollector)
-        val center = ModModels.thickPillarCenter.upload(pillarBlock, textureMap, modelCollector)
         val bottom = ModModels.thickPillarBottom.upload(pillarBlock, textureMap, modelCollector)
-        pillar(pillarBlock, inventory, top, center, bottom)
+        lateinit var type: WoodType
+        WoodType.stream().forEach {
+            if (pillarBlock.baseBlock.translationKey.contains(it.name.lowercase())) {
+                type = it
+                if (!it.name.lowercase().contains("dark") && !pillarBlock.baseBlock.translationKey.contains("dark")) {
+                    return@forEach
+                }
+            }
+        }
+        pillar(pillarBlock, inventory, top, "block/${type.name.lowercase()}_wall_post".toId(), bottom)
     }
 
     /*------------ End Pillars -----------*/
@@ -167,6 +188,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
             registerParentedItemModel(block, Models.WALL_INVENTORY.upload(block, map, modelCollector))
         }
     }
+    /*------------ End Walls -----------*/
 
     /*------------ Tables -----------*/
 

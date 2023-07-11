@@ -2,7 +2,7 @@
   "multipart": [
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/thin_acacia_pillar_center"
+        "model": "minecraft:block/acacia_fence_post"
       }
     },
     {

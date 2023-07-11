@@ -2,7 +2,7 @@
   "multipart": [
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/thick_warped_pillar_center"
+        "model": "myst2099_wooden_accents_mod:block/warped_wall_post"
       }
     },
     {
