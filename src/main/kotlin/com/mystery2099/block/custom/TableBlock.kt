@@ -1,7 +1,6 @@
 package com.mystery2099.block.custom
 
 import com.mystery2099.WoodenAccentsModItemGroups
-import com.mystery2099.datagen.BlockLootTableDataGen.Companion.dropsSelf
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
@@ -16,7 +15,6 @@ class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock
     init {
         instances += this
         WoodenAccentsModItemGroups.livingRoomItems += this
-        this.dropsSelf()
     }
 
     @Deprecated("Deprecated in Java")
