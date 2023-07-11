@@ -29,8 +29,8 @@ class ThinPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, size) {
         val instances = HashSet<ThinPillarBlock>()
     }
     init {
-        instances.add(this)
-        WoodenAccentsModItemGroups.outsideItems.add(this)
+        instances += this
+        WoodenAccentsModItemGroups.outsideItems += this
 
     }
 }
