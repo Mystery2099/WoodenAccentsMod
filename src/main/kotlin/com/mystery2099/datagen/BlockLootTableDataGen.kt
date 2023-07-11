@@ -1,5 +1,6 @@
 package com.mystery2099.datagen
 
+import com.mystery2099.block.ModBlocks
 import com.mystery2099.block.custom.CoffeeTableBlock
 import com.mystery2099.block.custom.enums.CoffeeTableType
 import com.mystery2099.state.property.ModProperties
@@ -18,16 +19,11 @@ import net.minecraft.util.StringIdentifiable
 
 class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTableProvider(dataOutput) {
     override fun generate() {
-        dropsSelf.forEach(::addDrop)
-        CoffeeTableBlock.instances.forEach{
-            addDropsDoubleWithProperty(it, ModProperties.coffeeTableType, CoffeeTableType.TALL)
-        }
-    }
-
-    companion object {
-        val dropsSelf = HashSet<Block>()
-        fun Block.dropsSelf() {
-            dropsSelf.add(this)
+        ModBlocks.blocks.forEach { block ->
+            when (block) {
+                is CoffeeTableBlock -> addDropsDoubleWithProperty(block, ModProperties.coffeeTableType, CoffeeTableType.TALL)
+                else -> addDrop(block)
+            }
         }
     }
 
