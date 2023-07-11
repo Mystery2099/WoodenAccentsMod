@@ -3,7 +3,6 @@ package com.mystery2099.block
 import com.mystery2099.WoodenAccentsMod
 import com.mystery2099.WoodenAccentsMod.toId
 import com.mystery2099.block.custom.*
-import com.mystery2099.datagen.BlockTagDataGen
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks

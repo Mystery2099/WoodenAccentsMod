@@ -1,5 +1,7 @@
 package com.mystery2099.block.custom;
 
+import com.mystery2099.WoodenAccentsModItemGroups;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
@@ -22,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableBlock{
+public class KitchenCounterBlock extends AbstractWaterloggableBlock{
     public static final EnumProperty<StairShape> SHAPE = Properties.STAIR_SHAPE;
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
     protected static final VoxelShape TOP_SHAPE = Block.createCuboidShape(0, 14, 0, 16, 16, 16);
@@ -31,10 +33,13 @@ public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableB
     private static final double SHAPE_OFFSET = -((double) 2 / 16);
     protected static final VoxelShape NORTH_SHAPE = SOUTH_SHAPE.offset(0, 0, SHAPE_OFFSET);
     protected static final VoxelShape WEST_SHAPE = EAST_SHAPE.offset(SHAPE_OFFSET, 0, 0);
+    private final Block topBlock, baseBlock;
 
-    public AbstractKitchenCounterBlock(Settings settings) {
-        super(settings);
-
+    public KitchenCounterBlock(Block baseBlock, Block topBlock) {
+        super(FabricBlockSettings.copyOf(baseBlock));
+        this.baseBlock = baseBlock;
+        this.topBlock = topBlock;
+        WoodenAccentsModItemGroups.getKitchenItems().add(this);
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(SHAPE, StairShape.STRAIGHT));
     }
 
@@ -60,7 +65,7 @@ public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableB
     }
 
     private static boolean canConnectTo(BlockState blockState) {
-        return blockState.getBlock() instanceof AbstractKitchenCounterBlock; //|| blockState.getBlock() instanceof KitchenCabinetBlock;
+        return blockState.getBlock() instanceof KitchenCounterBlock; //|| blockState.getBlock() instanceof KitchenCabinetBlock;
     }
 
     private static boolean isDifferentOrientation(BlockState state, BlockView world, BlockPos pos, Direction dir) {
@@ -192,5 +197,13 @@ public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableB
             }
         }
         return super.mirror(state, mirror);
+    }
+
+    public Block getTopBlock() {
+        return topBlock;
+    }
+
+    public Block getBaseBlock() {
+        return baseBlock;
     }
 }
