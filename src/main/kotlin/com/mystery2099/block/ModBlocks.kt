@@ -221,7 +221,6 @@ object ModBlocks {
     private fun Block.register(identifier: Identifier): Block {
         return Registry.register(Registries.BLOCK, identifier, this).also {
             registries += it
-            BlockTagDataGen.axeMineable += it
             Registry.register(Registries.ITEM, identifier, BlockItem(it, FabricItemSettings()))
         }
     }
