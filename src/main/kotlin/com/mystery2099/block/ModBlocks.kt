@@ -14,6 +14,9 @@ import net.minecraft.registry.Registry
 import net.minecraft.util.Identifier
 
 object ModBlocks {
+    private val registries = mutableSetOf<Block>()
+    val blocks : Set<Block>
+        get() = registries
 
     /*---------------Outside Stuff----------------*/
 
@@ -218,9 +221,10 @@ object ModBlocks {
     }
     private fun Block.register(identifier: Identifier): Block {
         return Registry.register(Registries.BLOCK, identifier, this).also {
-            BlockTagDataGen.axeMineable.add(this)
-            EnglishLangDataGen.basicNamedBlocks.add(this)
-            Registry.register(Registries.ITEM, identifier, BlockItem(this, FabricItemSettings()))
+            registries += it
+            BlockTagDataGen.axeMineable += it
+            EnglishLangDataGen.basicNamedBlocks += it
+            Registry.register(Registries.ITEM, identifier, BlockItem(it, FabricItemSettings()))
         }
     }
 
