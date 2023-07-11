@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "tables",
+  "key": {
+    "#": {
+      "item": "minecraft:spruce_log"
+    },
+    "|": {
+      "item": "minecraft:spruce_planks"
+    }
+  },
+  "pattern": [
+    "###",
+    " | ",
+    " | "
+  ],
+  "result": {
+    "count": 4,
+    "item": "myst2099_wooden_accents_mod:spruce_table"
+  },
+  "show_notification": true
+}

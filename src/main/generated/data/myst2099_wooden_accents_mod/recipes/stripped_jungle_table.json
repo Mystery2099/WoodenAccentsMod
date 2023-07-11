@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "tables",
+  "key": {
+    "#": {
+      "item": "minecraft:stripped_jungle_log"
+    },
+    "|": {
+      "item": "minecraft:jungle_planks"
+    }
+  },
+  "pattern": [
+    "###",
+    " | ",
+    " | "
+  ],
+  "result": {
+    "count": 4,
+    "item": "myst2099_wooden_accents_mod:stripped_jungle_table"
+  },
+  "show_notification": true
+}

@@ -2,6 +2,7 @@ package com.mystery2099.datagen
 
 import com.mystery2099.block.ModBlocks
 import com.mystery2099.block.custom.AbstractPillarBlock
+import com.mystery2099.block.custom.TableBlock
 import com.mystery2099.block.custom.ThickPillarBlock
 import com.mystery2099.block.custom.ThinPillarBlock
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
@@ -22,6 +23,7 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
             when(it){
                 is ThinPillarBlock -> genThinPillarRecipe(it)
                 is ThickPillarBlock -> genThickPillarRecipe(it)
+                is TableBlock -> genTableRecipe(it)
             }
         }
     }
@@ -45,4 +47,18 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
         genPillarRecipe(block, 6, block.baseBlock, block.baseBlock)
     }
     /*---------------End Pillars----------------*/
+
+    /*---------------Tables----------------*/
+    private fun genTableRecipe(block: TableBlock) {
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 4)
+            .input('#', block.topBlock)
+            .input('|', block.baseBlock)
+            .pattern("###")
+            .pattern(" | ")
+            .pattern(" | ")
+            .group("tables")
+            .criterion(hasItem(block.baseBlock), conditionsFromItem(block.baseBlock))
+            .offerTo(exporter)
+    }
+    /*---------------End Tables----------------*/
 }
