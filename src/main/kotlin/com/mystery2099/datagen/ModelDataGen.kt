@@ -106,7 +106,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
             is TableBlock -> genTableBlockStateModels(block)
             is CoffeeTableBlock -> genCoffeeTableBlockStateModels(block)
             is KitchenCounterBlock -> genKitchenCounterBlockStateModels(block)
-
+            is CustomWallBlock -> genWallBlockStateModels(block)
         }
     }
 
@@ -151,6 +151,22 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     }
 
     /*------------ End Pillars -----------*/
+
+    /*------------ Walls -----------*/
+    private fun genWallBlockStateModels(block: CustomWallBlock) {
+        val map = TextureMap().put(TextureKey.WALL, TextureMap.getId(block.baseBlock))
+        with(generator) {
+            blockStateCollector.accept(
+                BlockStateModelGenerator.createWallBlockState(
+                    block,
+                    Models.TEMPLATE_WALL_POST.upload(block, map, modelCollector),
+                    Models.TEMPLATE_WALL_SIDE.upload(block, map, modelCollector),
+                    Models.TEMPLATE_WALL_SIDE_TALL.upload(block, map, modelCollector)
+                )
+            )
+            registerParentedItemModel(block, Models.WALL_INVENTORY.upload(block, map, modelCollector))
+        }
+    }
 
     /*------------ Tables -----------*/
 

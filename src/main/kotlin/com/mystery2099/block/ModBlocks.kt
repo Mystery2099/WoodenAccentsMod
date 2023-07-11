@@ -70,6 +70,32 @@ object ModBlocks {
     @JvmStatic
     val thickWarpedPillar = ThickPillarBlock(Blocks.WARPED_PLANKS).register("thick_warped_pillar")
 
+    //Walls
+    @JvmStatic
+    val oakWall = CustomWallBlock(Blocks.OAK_PLANKS).register("oak_wall")
+    @JvmStatic
+    val spruceWall = CustomWallBlock(Blocks.SPRUCE_PLANKS).register("spruce_wall")
+    @JvmStatic
+    val birchWall = CustomWallBlock(Blocks.BIRCH_PLANKS).register("birch_wall")
+    @JvmStatic
+    val jungleWall = CustomWallBlock(Blocks.JUNGLE_PLANKS).register("jungle_wall")
+    @JvmStatic
+    val acaciaWall = CustomWallBlock(Blocks.ACACIA_PLANKS).register("acacia_wall")
+    @JvmStatic
+    val darkOakWall = CustomWallBlock(Blocks.DARK_OAK_PLANKS).register("dark_oak_wall")
+    @JvmStatic
+    val mangroveWall = CustomWallBlock(Blocks.MANGROVE_PLANKS).register("mangrove_wall")
+    @JvmStatic
+    val cherryWall = CustomWallBlock(Blocks.CHERRY_PLANKS).register("cherry_wall")
+    @JvmStatic
+    val bambooWall = CustomWallBlock(Blocks.BAMBOO_PLANKS).register("bamboo_wall")
+    @JvmStatic
+    val bambooMosaicWall = CustomWallBlock(Blocks.BAMBOO_MOSAIC).register("bamboo_mosaic_wall")
+    @JvmStatic
+    val crimsonWall = CustomWallBlock(Blocks.CRIMSON_PLANKS).register("crimson_wall")
+    @JvmStatic
+    val warpedWall = CustomWallBlock(Blocks.WARPED_PLANKS).register("warped_wall")
+
     /*---------------End Outside Stuff----------------*/
 
     /*---------------Living Room Stuff----------------*/
@@ -173,7 +199,6 @@ object ModBlocks {
     @JvmStatic
     val strippedWarpedCoffeeTable = CoffeeTableBlock(Blocks.WARPED_PLANKS, Blocks.STRIPPED_WARPED_STEM).register("stripped_warped_coffee_table")
 
-    /*---------------Storage Stuff----------------*/
 
     /*---------------Kitchen Stuff----------------*/
     @JvmStatic
