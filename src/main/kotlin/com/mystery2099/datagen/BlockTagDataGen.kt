@@ -14,20 +14,17 @@ import java.util.concurrent.CompletableFuture
 class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : CompletableFuture<RegistryWrapper.WrapperLookup>) : FabricTagProvider.BlockTagProvider(output, registriesFuture) {
 
     override fun configure(arg: RegistryWrapper.WrapperLookup) {
-        BlockTags.AXE_MINEABLE.addCollection(ModBlocks.blocks)
-        //Pillars
-        ModBlockTags.thinPillars.addCollection(ThinPillarBlock.instances)
-        ModBlockTags.thickPillars.addCollection(ThickPillarBlock.instances)
+        ModBlocks.blocks.forEach{
+            BlockTags.AXE_MINEABLE.addBlock(it)
+            when (it) {
+                is ThinPillarBlock -> ModBlockTags.thinPillars.addBlock(it)
+                is ThickPillarBlock -> ModBlockTags.thickPillars.addBlock(it)
+                is TableBlock -> ModBlockTags.tables.addBlock(it)
+                is CoffeeTableBlock -> ModBlockTags.coffeeTables.addBlock(it)
+                is KitchenCounterBlock -> ModBlockTags.kitchenCounters.addBlock(it)
+            }
+        }
         ModBlockTags.pillars.addTags(ModBlockTags.thinPillars, ModBlockTags.thickPillars)
-
-        //Tables
-        ModBlockTags.tables.addCollection(TableBlock.instances)
-
-        //Coffee Tables
-        ModBlockTags.coffeeTables.addCollection(CoffeeTableBlock.instances)
-
-        //Kitchen Counters
-        ModBlockTags.kitchenCounters.addCollection(KitchenCounterBlock.instances)
     }
 
     private fun <T : Block> TagKey<Block>.addCollection(collection: Collection<T>): FabricTagBuilder {
@@ -36,6 +33,13 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
 
     private fun TagKey<Block>.addTags(vararg tags: TagKey<Block>): FabricTagBuilder {
         return getOrCreateTagBuilder(this).also { tags.forEach(it::addTag) }
+    }
+
+    private fun TagKey<Block>.addBlock(block: Block): FabricTagBuilder {
+        return getOrCreateTagBuilder(this).add(block)
+    }
+    private fun TagKey<Block>.addBlocks(vararg blocks: Block): FabricTagBuilder {
+        return getOrCreateTagBuilder(this).also { blocks.forEach(it::add) }
     }
 
 }
