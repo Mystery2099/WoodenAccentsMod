@@ -62,7 +62,6 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
     /*---------------End Tables----------------*/
 
     /*---------------Coffee Tables----------------*/
-
     private fun genCoffeeTableRecipe(block: CoffeeTableBlock) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 6)
             .input('_', block.topBlock)
@@ -73,8 +72,21 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
             .criterion(hasItem(block.topBlock), conditionsFromItem(block.topBlock))
             .offerTo(exporter)
     }
-
     /*---------------End Coffee Tables----------------*/
+
+    /*---------------Kitchen Counters----------------*/
+    private fun genKitchenCounterRecipe(block: KitchenCounterBlock) {
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 4)
+            .input('#', block.baseBlock)
+            .input('_', block.topBlock)
+            .pattern("___")
+            .pattern("###")
+            .pattern("###")
+            .group(if (block.isStripped()) "stripped_kitchen_counters" else "kitchen_counters")
+            .criterion(hasItem(block.baseBlock), conditionsFromItem(block.baseBlock))
+            .offerTo(exporter)
+    }
+    /*---------------End Kitchen Counters----------------*/
 
 
     private fun Block.isStripped(): Boolean {
