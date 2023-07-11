@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "stripped_coffee_tables",
+  "key": {
+    "_": {
+      "item": "minecraft:stripped_cherry_log"
+    },
+    "|": {
+      "item": "minecraft:cherry_planks"
+    }
+  },
+  "pattern": [
+    "___",
+    "| |"
+  ],
+  "result": {
+    "count": 6,
+    "item": "myst2099_wooden_accents_mod:stripped_cherry_coffee_table"
+  },
+  "show_notification": true
+}

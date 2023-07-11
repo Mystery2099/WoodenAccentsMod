@@ -1,10 +1,7 @@
 package com.mystery2099.datagen
 
 import com.mystery2099.block.ModBlocks
-import com.mystery2099.block.custom.AbstractPillarBlock
-import com.mystery2099.block.custom.TableBlock
-import com.mystery2099.block.custom.ThickPillarBlock
-import com.mystery2099.block.custom.ThinPillarBlock
+import com.mystery2099.block.custom.*
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.minecraft.block.Block
@@ -25,6 +22,7 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
                 is ThinPillarBlock -> genThinPillarRecipe(it)
                 is ThickPillarBlock -> genThickPillarRecipe(it)
                 is TableBlock -> genTableRecipe(it)
+                is CoffeeTableBlock -> genCoffeeTableRecipe(it)
             }
         }
     }
@@ -62,6 +60,21 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
             .offerTo(exporter)
     }
     /*---------------End Tables----------------*/
+
+    /*---------------Coffee Tables----------------*/
+
+    private fun genCoffeeTableRecipe(block: CoffeeTableBlock) {
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 6)
+            .input('_', block.topBlock)
+            .input('|', block.baseBlock)
+            .pattern("___")
+            .pattern("| |")
+            .group(if (block.isStripped()) "stripped_coffee_tables" else "coffee_tables")
+            .criterion(hasItem(block.topBlock), conditionsFromItem(block.topBlock))
+            .offerTo(exporter)
+    }
+
+    /*---------------End Coffee Tables----------------*/
 
 
     private fun Block.isStripped(): Boolean {

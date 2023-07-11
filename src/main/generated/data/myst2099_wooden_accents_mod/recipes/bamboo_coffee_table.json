@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "coffee_tables",
+  "key": {
+    "_": {
+      "item": "minecraft:bamboo_block"
+    },
+    "|": {
+      "item": "minecraft:bamboo_planks"
+    }
+  },
+  "pattern": [
+    "___",
+    "| |"
+  ],
+  "result": {
+    "count": 6,
+    "item": "myst2099_wooden_accents_mod:bamboo_coffee_table"
+  },
+  "show_notification": true
+}
