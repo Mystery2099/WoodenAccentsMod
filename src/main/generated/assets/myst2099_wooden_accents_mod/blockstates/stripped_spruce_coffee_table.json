@@ -2,6 +2,14 @@
   "multipart": [
     {
       "apply": {
+        "model": "myst2099_wooden_accents_mod:block/stripped_spruce_coffee_table_top_short"
+      },
+      "when": {
+        "type": "short"
+      }
+    },
+    {
+      "apply": {
         "model": "myst2099_wooden_accents_mod:block/stripped_spruce_coffee_table_leg_short"
       },
       "when": {
@@ -33,54 +41,32 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/stripped_spruce_coffee_table_leg_tall",
-        "y": 270
+        "model": "myst2099_wooden_accents_mod:block/stripped_spruce_coffee_table_leg_short",
+        "y": 90
       },
       "when": {
         "AND": [
           {
-            "AND": [
-              {
-                "north": "false"
-              },
-              {
-                "west": "false"
-              }
-            ]
+            "south": "false"
           },
           {
-            "type": "tall"
+            "east": "false"
           }
         ]
       }
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/stripped_spruce_coffee_table_top_short"
-      },
-      "when": {
-        "type": "short"
-      }
-    },
-    {
-      "apply": {
-        "model": "myst2099_wooden_accents_mod:block/stripped_spruce_coffee_table_leg_tall",
-        "y": 90
+        "model": "myst2099_wooden_accents_mod:block/stripped_spruce_coffee_table_leg_short",
+        "y": 180
       },
       "when": {
         "AND": [
           {
-            "AND": [
-              {
-                "south": "false"
-              },
-              {
-                "east": "false"
-              }
-            ]
+            "south": "false"
           },
           {
-            "type": "tall"
+            "west": "false"
           }
         ]
       }
@@ -117,16 +103,46 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/stripped_spruce_coffee_table_leg_short",
-        "y": 180
+        "model": "myst2099_wooden_accents_mod:block/stripped_spruce_coffee_table_leg_tall",
+        "y": 270
       },
       "when": {
         "AND": [
           {
-            "south": "false"
+            "AND": [
+              {
+                "north": "false"
+              },
+              {
+                "west": "false"
+              }
+            ]
           },
           {
-            "west": "false"
+            "type": "tall"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/stripped_spruce_coffee_table_leg_tall",
+        "y": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "AND": [
+              {
+                "south": "false"
+              },
+              {
+                "east": "false"
+              }
+            ]
+          },
+          {
+            "type": "tall"
           }
         ]
       }
@@ -150,22 +166,6 @@
           },
           {
             "type": "tall"
-          }
-        ]
-      }
-    },
-    {
-      "apply": {
-        "model": "myst2099_wooden_accents_mod:block/stripped_spruce_coffee_table_leg_short",
-        "y": 90
-      },
-      "when": {
-        "AND": [
-          {
-            "south": "false"
-          },
-          {
-            "east": "false"
           }
         ]
       }

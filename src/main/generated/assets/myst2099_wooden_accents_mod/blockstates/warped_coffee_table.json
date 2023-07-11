@@ -2,6 +2,14 @@
   "multipart": [
     {
       "apply": {
+        "model": "myst2099_wooden_accents_mod:block/warped_coffee_table_top_short"
+      },
+      "when": {
+        "type": "short"
+      }
+    },
+    {
+      "apply": {
         "model": "myst2099_wooden_accents_mod:block/warped_coffee_table_leg_short"
       },
       "when": {
@@ -24,6 +32,38 @@
         "AND": [
           {
             "north": "false"
+          },
+          {
+            "west": "false"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/warped_coffee_table_leg_short",
+        "y": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "south": "false"
+          },
+          {
+            "east": "false"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/warped_coffee_table_leg_short",
+        "y": 180
+      },
+      "when": {
+        "AND": [
+          {
+            "south": "false"
           },
           {
             "west": "false"
@@ -64,14 +104,14 @@
     {
       "apply": {
         "model": "myst2099_wooden_accents_mod:block/warped_coffee_table_leg_tall",
-        "y": 180
+        "y": 270
       },
       "when": {
         "AND": [
           {
             "AND": [
               {
-                "south": "false"
+                "north": "false"
               },
               {
                 "west": "false"
@@ -80,30 +120,6 @@
           },
           {
             "type": "tall"
-          }
-        ]
-      }
-    },
-    {
-      "apply": {
-        "model": "myst2099_wooden_accents_mod:block/warped_coffee_table_top_short"
-      },
-      "when": {
-        "type": "short"
-      }
-    },
-    {
-      "apply": {
-        "model": "myst2099_wooden_accents_mod:block/warped_coffee_table_leg_short",
-        "y": 180
-      },
-      "when": {
-        "AND": [
-          {
-            "south": "false"
-          },
-          {
-            "west": "false"
           }
         ]
       }
@@ -134,14 +150,14 @@
     {
       "apply": {
         "model": "myst2099_wooden_accents_mod:block/warped_coffee_table_leg_tall",
-        "y": 270
+        "y": 180
       },
       "when": {
         "AND": [
           {
             "AND": [
               {
-                "north": "false"
+                "south": "false"
               },
               {
                 "west": "false"
@@ -150,22 +166,6 @@
           },
           {
             "type": "tall"
-          }
-        ]
-      }
-    },
-    {
-      "apply": {
-        "model": "myst2099_wooden_accents_mod:block/warped_coffee_table_leg_short",
-        "y": 90
-      },
-      "when": {
-        "AND": [
-          {
-            "south": "false"
-          },
-          {
-            "east": "false"
           }
         ]
       }
