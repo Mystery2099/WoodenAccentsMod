@@ -2,14 +2,6 @@
   "multipart": [
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/stripped_birch_coffee_table_top_short"
-      },
-      "when": {
-        "type": "short"
-      }
-    },
-    {
-      "apply": {
         "model": "myst2099_wooden_accents_mod:block/stripped_birch_coffee_table_leg_short"
       },
       "when": {
@@ -41,16 +33,39 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/stripped_birch_coffee_table_leg_short",
+        "model": "myst2099_wooden_accents_mod:block/stripped_birch_coffee_table_top_tall"
+      },
+      "when": {
+        "type": "tall"
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/stripped_birch_coffee_table_top_short"
+      },
+      "when": {
+        "type": "short"
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/stripped_birch_coffee_table_leg_tall",
         "y": 90
       },
       "when": {
         "AND": [
           {
-            "south": "false"
+            "AND": [
+              {
+                "south": "false"
+              },
+              {
+                "east": "false"
+              }
+            ]
           },
           {
-            "east": "false"
+            "type": "tall"
           }
         ]
       }
@@ -67,36 +82,6 @@
           },
           {
             "west": "false"
-          }
-        ]
-      }
-    },
-    {
-      "apply": {
-        "model": "myst2099_wooden_accents_mod:block/stripped_birch_coffee_table_top_tall"
-      },
-      "when": {
-        "type": "tall"
-      }
-    },
-    {
-      "apply": {
-        "model": "myst2099_wooden_accents_mod:block/stripped_birch_coffee_table_leg_tall"
-      },
-      "when": {
-        "AND": [
-          {
-            "AND": [
-              {
-                "north": "false"
-              },
-              {
-                "east": "false"
-              }
-            ]
-          },
-          {
-            "type": "tall"
           }
         ]
       }
@@ -126,15 +111,30 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/stripped_birch_coffee_table_leg_tall",
+        "model": "myst2099_wooden_accents_mod:block/stripped_birch_coffee_table_leg_short",
         "y": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "south": "false"
+          },
+          {
+            "east": "false"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/stripped_birch_coffee_table_leg_tall"
       },
       "when": {
         "AND": [
           {
             "AND": [
               {
-                "south": "false"
+                "north": "false"
               },
               {
                 "east": "false"

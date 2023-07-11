@@ -2,14 +2,6 @@
   "multipart": [
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/stripped_mangrove_coffee_table_top_short"
-      },
-      "when": {
-        "type": "short"
-      }
-    },
-    {
-      "apply": {
         "model": "myst2099_wooden_accents_mod:block/stripped_mangrove_coffee_table_leg_short"
       },
       "when": {
@@ -41,16 +33,53 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/stripped_mangrove_coffee_table_leg_short",
-        "y": 90
+        "model": "myst2099_wooden_accents_mod:block/stripped_mangrove_coffee_table_top_short"
+      },
+      "when": {
+        "type": "short"
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/stripped_mangrove_coffee_table_leg_tall",
+        "y": 180
       },
       "when": {
         "AND": [
           {
-            "south": "false"
+            "AND": [
+              {
+                "south": "false"
+              },
+              {
+                "west": "false"
+              }
+            ]
           },
           {
-            "east": "false"
+            "type": "tall"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/stripped_mangrove_coffee_table_leg_tall"
+      },
+      "when": {
+        "AND": [
+          {
+            "AND": [
+              {
+                "north": "false"
+              },
+              {
+                "east": "false"
+              }
+            ]
+          },
+          {
+            "type": "tall"
           }
         ]
       }
@@ -77,28 +106,6 @@
       },
       "when": {
         "type": "tall"
-      }
-    },
-    {
-      "apply": {
-        "model": "myst2099_wooden_accents_mod:block/stripped_mangrove_coffee_table_leg_tall"
-      },
-      "when": {
-        "AND": [
-          {
-            "AND": [
-              {
-                "north": "false"
-              },
-              {
-                "east": "false"
-              }
-            ]
-          },
-          {
-            "type": "tall"
-          }
-        ]
       }
     },
     {
@@ -149,23 +156,16 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/stripped_mangrove_coffee_table_leg_tall",
-        "y": 180
+        "model": "myst2099_wooden_accents_mod:block/stripped_mangrove_coffee_table_leg_short",
+        "y": 90
       },
       "when": {
         "AND": [
           {
-            "AND": [
-              {
-                "south": "false"
-              },
-              {
-                "west": "false"
-              }
-            ]
+            "south": "false"
           },
           {
-            "type": "tall"
+            "east": "false"
           }
         ]
       }
