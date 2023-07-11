@@ -26,7 +26,7 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
             }
         }
         ModBlockTags.pillars.addTags(ModBlockTags.thinPillars, ModBlockTags.thickPillars)
-        BlockTags.WALLS.addTags(ModBlockTags.woodenWalls)
+        BlockTags.WALLS.addTag(ModBlockTags.woodenWalls)
     }
 
     private fun <T : Block> TagKey<Block>.addCollection(collection: Collection<T>): FabricTagBuilder {
@@ -35,6 +35,9 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
 
     private fun TagKey<Block>.addTags(vararg tags: TagKey<Block>): FabricTagBuilder {
         return getOrCreateTagBuilder(this).also { tags.forEach(it::addTag) }
+    }
+    private fun TagKey<Block>.addTag(tag: TagKey<Block>): FabricTagBuilder {
+        return getOrCreateTagBuilder(this).addTag(tag)
     }
 
     private fun TagKey<Block>.addBlock(block: Block): FabricTagBuilder {
