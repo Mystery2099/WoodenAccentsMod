@@ -22,9 +22,11 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
                 is TableBlock -> ModBlockTags.tables.addBlock(it)
                 is CoffeeTableBlock -> ModBlockTags.coffeeTables.addBlock(it)
                 is KitchenCounterBlock -> ModBlockTags.kitchenCounters.addBlock(it)
+                is CustomWallBlock -> ModBlockTags.woodenWalls.addBlock(it)
             }
         }
         ModBlockTags.pillars.addTags(ModBlockTags.thinPillars, ModBlockTags.thickPillars)
+        BlockTags.WALLS.addTags(ModBlockTags.woodenWalls)
     }
 
     private fun <T : Block> TagKey<Block>.addCollection(collection: Collection<T>): FabricTagBuilder {

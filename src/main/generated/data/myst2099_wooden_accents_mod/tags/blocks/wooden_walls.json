@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "myst2099_wooden_accents_mod:oak_wall",
+    "myst2099_wooden_accents_mod:spruce_wall",
+    "myst2099_wooden_accents_mod:birch_wall",
+    "myst2099_wooden_accents_mod:jungle_wall",
+    "myst2099_wooden_accents_mod:acacia_wall",
+    "myst2099_wooden_accents_mod:dark_oak_wall",
+    "myst2099_wooden_accents_mod:mangrove_wall",
+    "myst2099_wooden_accents_mod:cherry_wall",
+    "myst2099_wooden_accents_mod:bamboo_wall",
+    "myst2099_wooden_accents_mod:bamboo_mosaic_wall",
+    "myst2099_wooden_accents_mod:crimson_wall",
+    "myst2099_wooden_accents_mod:warped_wall"
+  ]
+}

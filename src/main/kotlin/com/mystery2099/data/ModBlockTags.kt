@@ -17,6 +17,8 @@ object ModBlockTags {
     val thinPillars = "thin_pillars".toBlockTag().withMatchingItemTag()
     val thickPillars = "thick_pillars".toBlockTag().withMatchingItemTag()
 
+    val woodenWalls = "wooden_walls".toBlockTag().withMatchingItemTag()
+
 
     /*---------------End Outside Tags----------------*/
 
