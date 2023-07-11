@@ -13,7 +13,6 @@ import net.minecraft.world.WorldAccess
 
 class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock(baseBlock, topBlock) {
     init {
-        instances += this
         WoodenAccentsModItemGroups.livingRoomItems += this
     }
 
@@ -51,9 +50,6 @@ class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock
     }
 
     companion object {
-        @JvmStatic
-        val instances = HashSet<TableBlock>()
-
         @JvmStatic
         val TOP_SHAPE: VoxelShape = createCuboidShape(0.0, 13.0, 0.0, 16.0, 16.0, 16.0)
         @JvmStatic

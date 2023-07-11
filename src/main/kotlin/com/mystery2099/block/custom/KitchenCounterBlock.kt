@@ -8,11 +8,5 @@ class KitchenCounterBlock(val baseBlock: Block, val topBlock: Block) : AbstractK
 
     init {
         WoodenAccentsModItemGroups.kitchenItems += this
-        instances += this
-    }
-
-    companion object {
-        val instances: MutableSet<KitchenCounterBlock> = HashSet()
-
     }
 }

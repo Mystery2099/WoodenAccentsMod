@@ -14,12 +14,10 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
-import kotlin.collections.HashSet
 
 class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock(baseBlock, topBlock) {
     init {
         defaultState = defaultState.with(type, CoffeeTableType.SHORT)
-        instances += this
         WoodenAccentsModItemGroups.livingRoomItems += this
     }
 
@@ -91,8 +89,6 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTabl
     }
 
     companion object {
-        @JvmStatic
-        val instances = HashSet<CoffeeTableBlock>()
         @JvmStatic
         val type = ModProperties.coffeeTableType
 

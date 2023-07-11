@@ -25,12 +25,8 @@ class ThickPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, size) 
             createCuboidShape(3.0, 0.0, 3.0, 13.0, 16.0, 13.0),
             createCuboidShape(0.0, 0.0, 0.0, 16.0, 6.0, 16.0)
         )
-        @JvmStatic
-        val instances = HashSet<ThickPillarBlock>()
     }
     init {
-        instances.add(this)
-        WoodenAccentsModItemGroups.outsideItems.add(this)
-
+        WoodenAccentsModItemGroups.outsideItems += this
     }
 }
