@@ -24,6 +24,7 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
                 is TableBlock -> genTableRecipe(it)
                 is CoffeeTableBlock -> genCoffeeTableRecipe(it)
                 is KitchenCounterBlock -> genKitchenCounterRecipe(it)
+                is CustomWallBlock -> offerWallRecipe(exporter, RecipeCategory.DECORATIONS, it, it.baseBlock)
             }
         }
     }
