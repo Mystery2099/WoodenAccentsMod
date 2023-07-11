@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "thick_pillars",
+  "key": {
+    "#": {
+      "item": "minecraft:bamboo_mosaic"
+    },
+    "|": {
+      "item": "minecraft:bamboo_mosaic"
+    }
+  },
+  "pattern": [
+    "###",
+    " | ",
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "item": "myst2099_wooden_accents_mod:thick_bamboo_mosaic_pillar"
+  },
+  "show_notification": true
+}
