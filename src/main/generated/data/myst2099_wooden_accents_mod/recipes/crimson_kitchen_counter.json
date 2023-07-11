@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "kitchen_counters",
+  "key": {
+    "#": {
+      "item": "minecraft:crimson_planks"
+    },
+    "_": {
+      "item": "minecraft:crimson_stem"
+    }
+  },
+  "pattern": [
+    "___",
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 4,
+    "item": "myst2099_wooden_accents_mod:crimson_kitchen_counter"
+  },
+  "show_notification": true
+}

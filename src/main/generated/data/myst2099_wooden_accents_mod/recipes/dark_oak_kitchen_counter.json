@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "kitchen_counters",
+  "key": {
+    "#": {
+      "item": "minecraft:dark_oak_planks"
+    },
+    "_": {
+      "item": "minecraft:dark_oak_log"
+    }
+  },
+  "pattern": [
+    "___",
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 4,
+    "item": "myst2099_wooden_accents_mod:dark_oak_kitchen_counter"
+  },
+  "show_notification": true
+}

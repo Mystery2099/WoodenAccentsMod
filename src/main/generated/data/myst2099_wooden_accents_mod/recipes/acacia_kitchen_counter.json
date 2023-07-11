@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "kitchen_counters",
+  "key": {
+    "#": {
+      "item": "minecraft:acacia_planks"
+    },
+    "_": {
+      "item": "minecraft:acacia_log"
+    }
+  },
+  "pattern": [
+    "___",
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 4,
+    "item": "myst2099_wooden_accents_mod:acacia_kitchen_counter"
+  },
+  "show_notification": true
+}

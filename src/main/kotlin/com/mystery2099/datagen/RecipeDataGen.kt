@@ -23,6 +23,7 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
                 is ThickPillarBlock -> genThickPillarRecipe(it)
                 is TableBlock -> genTableRecipe(it)
                 is CoffeeTableBlock -> genCoffeeTableRecipe(it)
+                is KitchenCounterBlock -> genKitchenCounterRecipe(it)
             }
         }
     }
