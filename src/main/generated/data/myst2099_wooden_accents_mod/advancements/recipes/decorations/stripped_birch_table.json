@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_birch_planks": {
+    "has_stripped_birch_log": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:birch_planks"
+              "minecraft:stripped_birch_log"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_birch_planks",
+      "has_stripped_birch_log",
       "has_the_recipe"
     ]
   ],

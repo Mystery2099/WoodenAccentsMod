@@ -7,6 +7,7 @@ import com.mystery2099.block.custom.ThickPillarBlock
 import com.mystery2099.block.custom.ThinPillarBlock
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
+import net.minecraft.block.Block
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.item.ItemConvertible
@@ -56,9 +57,14 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
             .pattern("###")
             .pattern(" | ")
             .pattern(" | ")
-            .group("tables")
-            .criterion(hasItem(block.baseBlock), conditionsFromItem(block.baseBlock))
+            .group(if (block.isStripped()) "stripped_tables" else "tables")
+            .criterion(hasItem(block.topBlock), conditionsFromItem(block.topBlock))
             .offerTo(exporter)
     }
     /*---------------End Tables----------------*/
+
+
+    private fun Block.isStripped(): Boolean {
+        return this.translationKey.contains("stripped")
+    }
 }
