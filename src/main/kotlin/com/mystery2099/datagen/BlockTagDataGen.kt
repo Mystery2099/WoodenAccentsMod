@@ -6,6 +6,7 @@ import com.mystery2099.data.ModBlockTags
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
 import net.minecraft.block.Block
+import net.minecraft.block.LadderBlock
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.TagKey
@@ -19,6 +20,7 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
             when (it) {
                 is ThinPillarBlock -> ModBlockTags.thinPillars.addBlock(it)
                 is ThickPillarBlock -> ModBlockTags.thickPillars.addBlock(it)
+                is PlankLadderBlock -> ModBlockTags.plankLadders.addBlock(it)
                 is TableBlock -> ModBlockTags.tables.addBlock(it)
                 is CoffeeTableBlock -> ModBlockTags.coffeeTables.addBlock(it)
                 is KitchenCounterBlock -> ModBlockTags.kitchenCounters.addBlock(it)
@@ -27,6 +29,7 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
         }
         ModBlockTags.pillars.addTags(ModBlockTags.thinPillars, ModBlockTags.thickPillars)
         BlockTags.WALLS.addTag(ModBlockTags.woodenWalls)
+        BlockTags.CLIMBABLE.addTag(ModBlockTags.plankLadders)
     }
 
     private fun <T : Block> TagKey<Block>.addCollection(collection: Collection<T>): FabricTagBuilder {

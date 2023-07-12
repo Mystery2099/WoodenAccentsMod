@@ -1,8 +1,9 @@
-// 1.19.4	2023-07-12T19:26:39.8799042	Wooden Accents Mod/Tags for minecraft:item
+// 1.19.4	2023-07-12T19:34:56.8075608	Wooden Accents Mod/Tags for minecraft:item
 cc6746a8c246c543cc79c7ea4e5c094a2be0dde7 data\myst2099_wooden_accents_mod\tags\items\wooden_walls.json
 1954fd5fe8f502d15517526a4d88126758ac34d0 data\myst2099_wooden_accents_mod\tags\items\tables.json
 35482c9349ba23881e3a2e90afcd17ac2d6713af data\myst2099_wooden_accents_mod\tags\items\thick_pillars.json
 d267e0201ada7af51492edae004a7cece7395b95 data\myst2099_wooden_accents_mod\tags\items\thin_pillars.json
+b801fa50f64d770542419ee4e7dd67d1a87a9d6f data\myst2099_wooden_accents_mod\tags\items\plank_ladders.json
 dd36062b6b75846a12f94d6677bc11fd20ac339d data\myst2099_wooden_accents_mod\tags\items\pillars.json
 5f8c294fe01d0bed6f6bd1f9c6f99e01a56e6c5d data\myst2099_wooden_accents_mod\tags\items\coffee_tables.json
 086990eb3bcca074b5b87a4ef29db6cfda031cb6 data\myst2099_wooden_accents_mod\tags\items\kitchen_counters.json
