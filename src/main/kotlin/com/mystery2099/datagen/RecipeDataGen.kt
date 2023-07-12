@@ -5,7 +5,9 @@ import com.mystery2099.block.custom.*
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.minecraft.block.Block
+import net.minecraft.block.LadderBlock
 import net.minecraft.data.server.recipe.RecipeJsonProvider
+import net.minecraft.data.server.recipe.RecipeProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.Items
@@ -21,6 +23,7 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
             when(it){
                 is ThinPillarBlock -> genThinPillarRecipe(it)
                 is ThickPillarBlock -> genThickPillarRecipe(it)
+                is PlankLadderBlock -> genPlankLadderRecipe(it)
                 is TableBlock -> genTableRecipe(it)
                 is CoffeeTableBlock -> genCoffeeTableRecipe(it)
                 is KitchenCounterBlock -> genKitchenCounterRecipe(it)
@@ -48,6 +51,23 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
         genPillarRecipe(block, 6, block.baseBlock, block.baseBlock)
     }
     /*---------------End Pillars----------------*/
+
+    /*---------------Ladders----------------*/
+    private fun genLadderRecipe(output: LadderBlock, input: ItemConvertible, outputNum: Int, group: String) {
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, output, outputNum)
+            .input('#', input)
+            .pattern("# #")
+            .pattern("###")
+            .pattern("# #")
+            .group(group)
+            .criterion(hasItem(input), conditionsFromItem(input))
+            .offerTo(exporter)
+    }
+    private fun genPlankLadderRecipe(output: PlankLadderBlock) {
+        genLadderRecipe(output, output.baseBlock, 8, "plank_ladders")
+    }
+
+    /*---------------End Ladders----------------*/
 
     /*---------------Tables----------------*/
     private fun genTableRecipe(block: TableBlock) {

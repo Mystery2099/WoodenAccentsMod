@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "plank_ladders",
+  "key": {
+    "#": {
+      "item": "minecraft:dark_oak_planks"
+    }
+  },
+  "pattern": [
+    "# #",
+    "###",
+    "# #"
+  ],
+  "result": {
+    "count": 8,
+    "item": "myst2099_wooden_accents_mod:dark_oak_plank_ladder"
+  },
+  "show_notification": true
+}
