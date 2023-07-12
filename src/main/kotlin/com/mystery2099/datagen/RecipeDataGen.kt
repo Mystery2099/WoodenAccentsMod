@@ -42,7 +42,7 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
             .offerTo(exporter)
     }
     private fun genThinPillarRecipe(block: ThinPillarBlock) {
-        genPillarRecipe(block, 8, block.baseBlock, Items.STICK)
+        genPillarRecipe(block, 5, block.baseBlock, Items.STICK)
     }
     private fun genThickPillarRecipe(block: ThickPillarBlock) {
         genPillarRecipe(block, 6, block.baseBlock, block.baseBlock)
