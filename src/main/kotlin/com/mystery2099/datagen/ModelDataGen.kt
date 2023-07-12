@@ -1,7 +1,6 @@
 package com.mystery2099.datagen
 
 import com.google.gson.JsonElement
-import com.mystery2099.WoodenAccentsMod
 import com.mystery2099.WoodenAccentsMod.toId
 import com.mystery2099.WoodenAccentsMod.toVanillaId
 import com.mystery2099.block.ModBlocks
@@ -19,7 +18,6 @@ import net.minecraft.data.client.VariantSettings.Rotation
 import net.minecraft.state.property.Properties
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Direction
-import java.util.*
 import java.util.function.BiConsumer
 import java.util.function.Consumer
 import java.util.function.Supplier
@@ -108,10 +106,11 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         when (block) {
             is ThinPillarBlock -> genThinPillarBlockStateModels(block)
             is ThickPillarBlock -> genThickPillarBlockStateModels(block)
+            is CustomWallBlock -> genWallBlockStateModels(block)
+            is PlankLadderBlock -> genPlankLadderBlockStateModels(block)
             is TableBlock -> genTableBlockStateModels(block)
             is CoffeeTableBlock -> genCoffeeTableBlockStateModels(block)
             is KitchenCounterBlock -> genKitchenCounterBlockStateModels(block)
-            is CustomWallBlock -> genWallBlockStateModels(block)
         }
     }
 
@@ -189,6 +188,14 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         }
     }
     /*------------ End Walls -----------*/
+
+    /*------------ Ladders -----------*/
+    private fun genPlankLadderBlockStateModels(block: PlankLadderBlock) {
+        val map: TextureMap = TextureMap.all(block.baseBlock)
+        ModModels.plankLadder.upload(block, map, modelCollector)
+        generator.registerNorthDefaultHorizontalRotation(block)
+    }
+    /*------------ End Ladders -----------*/
 
     /*------------ Tables -----------*/
 
