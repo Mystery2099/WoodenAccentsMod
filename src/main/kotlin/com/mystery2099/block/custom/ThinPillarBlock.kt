@@ -22,7 +22,7 @@ class ThinPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, size) {
         @JvmStatic
         val size = Size(
             createCuboidShape(4.0, 13.0, 4.0, 12.0, 16.0, 12.0),
-            createCuboidShape(6.0, 1.0, 6.0, 10.0, 16.0, 10.0),
+            createCuboidShape(6.0, 0.0, 6.0, 10.0, 16.0, 10.0),
             createCuboidShape(4.0, 0.0, 4.0, 12.0, 3.0, 12.0)
         )
     }
