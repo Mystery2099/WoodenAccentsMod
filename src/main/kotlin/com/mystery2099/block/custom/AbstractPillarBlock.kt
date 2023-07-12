@@ -6,7 +6,9 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.ShapeContext
+import net.minecraft.entity.LivingEntity
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.item.ItemStack
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.Properties
@@ -15,17 +17,18 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
+import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 
 abstract class AbstractPillarBlock(val baseBlock: Block, private val size: Size) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)) {
 
     init {
-        defaultState = defaultState.with(UP, false).with(DOWN, false).with(CONNECTION_LOCKED, false)
+        defaultState = defaultState.with(UP, false).with(DOWN, false)
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
-        builder.add(UP, DOWN, CONNECTION_LOCKED)
+        builder.add(UP, DOWN)
     }
 
     @Deprecated("Deprecated in Java")
@@ -57,16 +60,13 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val size: Size)
         return shape
     }
 
+
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
-        val isSneaking = ctx.player?.isSneaking
-        var isLocked = false
-        if (isSneaking != null) isLocked = isSneaking
-        return super.getPlacementState(ctx)?.with(CONNECTION_LOCKED, isLocked)
+        val world = ctx.world
+        val pos = ctx.blockPos
+        return super.getPlacementState(ctx)?.with(UP, world.checkUp(pos))?.with(DOWN, world.checkDown(pos))
     }
-
-
     //Up & Down
-
     open fun WorldAccess.getStateAtPos(blockPos: BlockPos): BlockState {
         return this.getBlockState(blockPos)
     }
@@ -89,7 +89,5 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val size: Size)
         val UP: BooleanProperty = Properties.UP!!
         @JvmStatic
         val DOWN: BooleanProperty = Properties.DOWN!!
-        @JvmStatic
-        val CONNECTION_LOCKED: BooleanProperty = ModProperties.connectionLocked
     }
 }

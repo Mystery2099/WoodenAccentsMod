@@ -1,22 +1,22 @@
 package com.mystery2099.block.custom
 
 import com.mystery2099.WoodenAccentsModItemGroups
+import com.mystery2099.data.ModBlockTags
 import net.minecraft.block.Block
+import net.minecraft.registry.tag.BlockTags
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.WorldAccess
 
 class ThickPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, size) {
 
     override fun WorldAccess.checkUp(pos: BlockPos): Boolean {
-        val here = this.getBlockState(pos)
-        val up = this.getUpState(pos)
-        return up.block is ThickPillarBlock && !here.get(CONNECTION_LOCKED) && !up.get(CONNECTION_LOCKED)
+        val otherState = this.getUpState(pos)
+        return otherState.isIn(ModBlockTags.pillars) || otherState.isIn(BlockTags.WALLS)
     }
 
     override fun WorldAccess.checkDown(pos: BlockPos): Boolean {
-        val here = this.getBlockState(pos)
-        val down = this.getDownState(pos)
-        return down.block is ThickPillarBlock && !here.get(CONNECTION_LOCKED) && !down.get(CONNECTION_LOCKED)
+        val otherState = this.getDownState(pos)
+        return otherState.isIn(ModBlockTags.pillars) || otherState.isIn(BlockTags.WALLS)
     }
     companion object {
         @JvmStatic
