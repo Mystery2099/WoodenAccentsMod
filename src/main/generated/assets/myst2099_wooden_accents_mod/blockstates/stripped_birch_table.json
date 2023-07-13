@@ -7,7 +7,7 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/stripped_birch_table_single_leg"
+        "model": "myst2099_wooden_accents_mod:block/birch_table_single_leg"
       },
       "when": {
         "AND": [
@@ -28,7 +28,7 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/stripped_birch_table_end_leg"
+        "model": "myst2099_wooden_accents_mod:block/birch_table_end_leg"
       },
       "when": {
         "AND": [
@@ -49,7 +49,7 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/stripped_birch_table_end_leg",
+        "model": "myst2099_wooden_accents_mod:block/birch_table_end_leg",
         "y": 90
       },
       "when": {
@@ -71,7 +71,7 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/stripped_birch_table_end_leg",
+        "model": "myst2099_wooden_accents_mod:block/birch_table_end_leg",
         "y": 180
       },
       "when": {
@@ -93,7 +93,7 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/stripped_birch_table_end_leg",
+        "model": "myst2099_wooden_accents_mod:block/birch_table_end_leg",
         "y": 270
       },
       "when": {
@@ -115,7 +115,7 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/stripped_birch_table_corner_leg"
+        "model": "myst2099_wooden_accents_mod:block/birch_table_corner_leg"
       },
       "when": {
         "AND": [
@@ -136,7 +136,7 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/stripped_birch_table_corner_leg",
+        "model": "myst2099_wooden_accents_mod:block/birch_table_corner_leg",
         "y": 270
       },
       "when": {
@@ -158,7 +158,7 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/stripped_birch_table_corner_leg",
+        "model": "myst2099_wooden_accents_mod:block/birch_table_corner_leg",
         "y": 90
       },
       "when": {
@@ -180,7 +180,7 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/stripped_birch_table_corner_leg",
+        "model": "myst2099_wooden_accents_mod:block/birch_table_corner_leg",
         "y": 180
       },
       "when": {

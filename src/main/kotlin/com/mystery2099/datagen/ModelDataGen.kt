@@ -15,12 +15,10 @@ import com.mystery2099.state.property.ModProperties
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
 import net.minecraft.block.Block
-import net.minecraft.block.Blocks
 import net.minecraft.block.WoodType
 import net.minecraft.block.enums.StairShape
 import net.minecraft.data.client.*
 import net.minecraft.data.client.VariantSettings.Rotation
-import net.minecraft.registry.Registries
 import net.minecraft.state.property.Properties
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Direction
@@ -105,6 +103,10 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         WoodType.stream().forEach{
             ModModels.coffeeTableLegShort.upload("${it.name.lowercase()}_coffee_table_leg_short".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
             ModModels.coffeeTableLegTall.upload("${it.name.lowercase()}_coffee_table_leg_tall".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
+
+            ModModels.TABLE_SINGLE_LEG.upload("${it.name.lowercase()}_table_single_leg".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
+            ModModels.TABLE_CORNER_LEG.upload("${it.name.lowercase()}_table_corner_leg".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
+            ModModels.TABLE_END_LEG.upload("${it.name.lowercase()}_table_end_leg".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
         }
 
 
@@ -193,19 +195,20 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
     /*------------ Tables -----------*/
 
-    private fun genTableBlockStateModels(tableBlock: TableBlock) {
+    private fun genTableBlockStateModels(block: TableBlock) {
         val map = TextureMap().apply {
-            put(TextureKey.TOP, TextureMap.getId(tableBlock.topBlock))
-            put(ModModels.legs, TextureMap.getId(tableBlock.baseBlock))
+            put(TextureKey.TOP, TextureMap.getId(block.topBlock))
+            put(ModModels.legs, TextureMap.getId(block.baseBlock))
         }
 
-        stateCollector.accept(tableSupplier(tableBlock,
-            ModModels.TABLE_TOP.upload(tableBlock, map, modelCollector),
-            ModModels.TABLE_SINGLE_LEG.upload(tableBlock, map, modelCollector),
-            ModModels.TABLE_END_LEG.upload(tableBlock, map, modelCollector),
-            ModModels.TABLE_CORNER_LEG.upload(tableBlock, map, modelCollector))
+        stateCollector.accept(tableSupplier(block,
+            ModModels.TABLE_TOP.upload(block, map, modelCollector),
+            "${block.woodType().name.lowercase()}_table_single_leg".toBlockId(),
+            "${block.woodType().name.lowercase()}_table_end_leg".toBlockId(),
+            "${block.woodType().name.lowercase()}_table_corner_leg".toBlockId(),
+            )
         )
-        ModModels.TABLE_INVENTORY.upload(tableBlock.getItemModelId(), map, modelCollector)
+        ModModels.TABLE_INVENTORY.upload(block.getItemModelId(), map, modelCollector)
     }
 
     private fun tableSupplier(

@@ -1,6 +1,0 @@
-{
-  "parent": "myst2099_wooden_accents_mod:block/table_end_leg",
-  "textures": {
-    "legs": "minecraft:block/acacia_planks"
-  }
-}
