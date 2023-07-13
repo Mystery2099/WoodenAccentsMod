@@ -1,0 +1,81 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"1": "block/green_wool",
+		"6": "block/gold_block",
+		"particle": "block/green_wool"
+	},
+	"elements": [
+		{
+			"from": [6, 12, 11],
+			"to": [10, 15, 15],
+			"faces": {
+				"north": {"uv": [6, 1, 10, 4], "texture": "#1"},
+				"east": {"uv": [1, 1, 5, 4], "texture": "#1"},
+				"west": {"uv": [11, 1, 15, 4], "texture": "#1"}
+			}
+		},
+		{
+			"from": [6, 9, 11],
+			"to": [10, 11, 15],
+			"faces": {
+				"north": {"uv": [6, 5, 10, 7], "texture": "#1"},
+				"east": {"uv": [1, 5, 5, 7], "texture": "#1"},
+				"west": {"uv": [11, 5, 15, 7], "texture": "#1"}
+			}
+		},
+		{
+			"from": [6, 11, 11],
+			"to": [10, 12, 15],
+			"faces": {
+				"north": {"uv": [6, 4, 10, 5], "texture": "#6"},
+				"east": {"uv": [1, 4, 5, 5], "texture": "#6"},
+				"west": {"uv": [11, 4, 15, 5], "texture": "#6"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "slot_5",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"nbt": "{}",
+			"children": []
+		},
+		{
+			"name": "slot_4",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"nbt": "{}",
+			"children": []
+		},
+		{
+			"name": "slot_3",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"nbt": "{}",
+			"children": []
+		},
+		{
+			"name": "slot_2",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"nbt": "{}",
+			"children": []
+		},
+		{
+			"name": "slot_1",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"nbt": "{}",
+			"children": [0, 1, 2]
+		},
+		{
+			"name": "slot_0",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"nbt": "{}",
+			"children": []
+		}
+	]
+}

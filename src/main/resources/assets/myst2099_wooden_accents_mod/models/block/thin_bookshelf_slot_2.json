@@ -1,0 +1,61 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"2": "block/purple_wool",
+		"particle": "block/purple_wool"
+	},
+	"elements": [
+		{
+			"from": [1, 9, 11],
+			"to": [5, 15, 15],
+			"faces": {
+				"north": {"uv": [11, 1, 15, 7], "texture": "#2"},
+				"east": {"uv": [1, 1, 5, 7], "texture": "#2"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "slot_5",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"nbt": "{}",
+			"children": []
+		},
+		{
+			"name": "slot_4",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"nbt": "{}",
+			"children": []
+		},
+		{
+			"name": "slot_3",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"nbt": "{}",
+			"children": []
+		},
+		{
+			"name": "slot_2",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"nbt": "{}",
+			"children": [0]
+		},
+		{
+			"name": "slot_1",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"nbt": "{}",
+			"children": []
+		},
+		{
+			"name": "slot_0",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"nbt": "{}",
+			"children": []
+		}
+	]
+}
