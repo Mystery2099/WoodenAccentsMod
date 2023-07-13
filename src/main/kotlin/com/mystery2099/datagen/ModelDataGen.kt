@@ -1,6 +1,7 @@
 package com.mystery2099.datagen
 
 import com.google.gson.JsonElement
+import com.mystery2099.WoodenAccentsMod.getItemModelId
 import com.mystery2099.WoodenAccentsMod.toId
 import com.mystery2099.WoodenAccentsMod.toVanillaId
 import com.mystery2099.block.ModBlocks
@@ -519,7 +520,3 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     }
 }
 
-fun Block.getItemModelId(): Identifier? {
-    val identifier = Registries.BLOCK.getId(this)
-    return identifier.withPrefixedPath("item/")
-}
