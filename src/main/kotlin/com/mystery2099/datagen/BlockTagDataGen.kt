@@ -20,16 +20,18 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
             when (it) {
                 is ThinPillarBlock -> ModBlockTags.thinPillars.addBlock(it)
                 is ThickPillarBlock -> ModBlockTags.thickPillars.addBlock(it)
+                is CustomWallBlock -> ModBlockTags.woodenWalls.addBlock(it)
                 is PlankLadderBlock -> ModBlockTags.plankLadders.addBlock(it)
                 is TableBlock -> ModBlockTags.tables.addBlock(it)
                 is CoffeeTableBlock -> ModBlockTags.coffeeTables.addBlock(it)
                 is KitchenCounterBlock -> ModBlockTags.kitchenCounters.addBlock(it)
-                is CustomWallBlock -> ModBlockTags.woodenWalls.addBlock(it)
+                is KitchenCabinetBlock -> ModBlockTags.kitchenCabinets.addBlock(it)
             }
         }
         ModBlockTags.pillars.addTags(ModBlockTags.thinPillars, ModBlockTags.thickPillars)
         BlockTags.WALLS.addTag(ModBlockTags.woodenWalls)
         BlockTags.CLIMBABLE.addTag(ModBlockTags.plankLadders)
+        ModBlockTags.kitchenCounters.addTag(ModBlockTags.kitchenCabinets)
     }
 
     private fun <T : Block> TagKey<Block>.addCollection(collection: Collection<T>): FabricTagBuilder {
