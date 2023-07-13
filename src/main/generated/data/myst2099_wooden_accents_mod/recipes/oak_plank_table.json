@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "group": "tables",
+  "group": "plank_tables",
   "key": {
     "#": {
       "item": "minecraft:oak_planks"

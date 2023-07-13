@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "group": "coffee_tables",
+  "group": "plank_coffee_tables",
   "key": {
     "_": {
       "item": "minecraft:birch_planks"
