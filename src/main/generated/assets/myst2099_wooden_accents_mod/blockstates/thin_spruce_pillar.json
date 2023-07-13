@@ -7,7 +7,9 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/thin_spruce_pillar_top"
+        "model": "myst2099_wooden_accents_mod:block/thin_spruce_pillar_base",
+        "uvlock": true,
+        "x": 180
       },
       "when": {
         "up": "false"

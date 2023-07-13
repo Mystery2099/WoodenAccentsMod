@@ -21,9 +21,9 @@ class ThickPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, size) 
     companion object {
         @JvmStatic
         val size = Size(
-            createCuboidShape(0.0, 10.0, 0.0, 16.0, 16.0, 16.0),
+            createCuboidShape(1.0, 10.0, 1.0, 15.0, 16.0, 15.0),
             createCuboidShape(4.0, 0.0, 4.0, 12.0, 16.0, 12.0),
-            createCuboidShape(0.0, 0.0, 0.0, 16.0, 6.0, 16.0)
+            createCuboidShape(1.0, 0.0, 1.0, 15.0, 6.0, 15.0)
         )
     }
     init {

@@ -122,10 +122,12 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         centerModel: Identifier,
         bottomModel: Identifier
     ) {
+        val bottomVariant = BlockStateVariant().putModel(bottomModel)
+        val topVariant = bottomVariant.withXRotationOf(Rotation.R180).put(VariantSettings.UVLOCK, true)
         val supplier = MultipartBlockStateSupplier.create(block)
             .with(BlockStateVariant().putModel(centerModel))
-            .with(whenNotUp, BlockStateVariant().putModel(topModel))
-            .with(whenNotDown, BlockStateVariant().putModel(bottomModel))
+            .with(whenNotUp, topVariant)
+            .with(whenNotDown, bottomVariant)
         stateCollector.accept(supplier)
         generator.registerParentedItemModel(block, inventoryModel)
     }
@@ -403,5 +405,8 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
     private fun BlockStateVariant.withYRotationOf(rotation: Rotation): BlockStateVariant {
         return this.union(BlockStateVariant().put(VariantSettings.Y, rotation))
+    }
+    private fun BlockStateVariant.withXRotationOf(rotation: Rotation): BlockStateVariant {
+        return this.union(BlockStateVariant().put(VariantSettings.X, rotation))
     }
 }
