@@ -130,6 +130,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
             is ThinBookshelfBlock -> genThinBookshelfBlockStateModels(block)
             //Kitchen
             is KitchenCounterBlock -> genKitchenCounterBlockStateModels(block)
+            is KitchenCabinetBlock -> genKitchenCabinetBlockStateModels(block)
         }
     }
 
@@ -201,12 +202,13 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
             put(ModModels.legs, TextureMap.getId(block.baseBlock))
         }
 
-        stateCollector.accept(tableSupplier(block,
+        stateCollector.accept(tableSupplier(
+            block,
             ModModels.tableTop.upload(block, map, modelCollector),
             "${block.woodType().name.lowercase()}_table_single_leg".toBlockId(),
             "${block.woodType().name.lowercase()}_table_end_leg".toBlockId(),
             "${block.woodType().name.lowercase()}_table_corner_leg".toBlockId(),
-            )
+        )
         )
         ModModels.tableItem.upload(block.getItemModelId(), map, modelCollector)
     }
@@ -258,10 +260,11 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         with(generator) {
             blockStateCollector.run {
                 accept(MultipartBlockStateSupplier.create(block).coffeeTableSupplier(
-                        shortTopModel = ModModels.coffeeTableTopShort.upload(block, map, modelCollector),
-                        shortLegModel = "${block.woodType().name.lowercase()}_coffee_table_leg_short".toBlockId(),
-                        tallTopModel = ModModels.coffeeTableTopTall.upload(block, map, modelCollector),
-                        tallLegModel = "${block.woodType().name.lowercase()}_coffee_table_leg_tall".toBlockId(),)
+                    shortTopModel = ModModels.coffeeTableTopShort.upload(block, map, modelCollector),
+                    shortLegModel = "${block.woodType().name.lowercase()}_coffee_table_leg_short".toBlockId(),
+                    tallTopModel = ModModels.coffeeTableTopTall.upload(block, map, modelCollector),
+                    tallLegModel = "${block.woodType().name.lowercase()}_coffee_table_leg_tall".toBlockId(),
+                )
                     )
             }
             ModModels.coffeeTableInventory.upload(block.getItemModelId(), map, modelCollector)
@@ -481,9 +484,25 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     }
 
 
+
     /*------------ End Kitchen Counters -----------*/
-    
-    
+
+    /*------------ Kitchen Cabinets -----------*/
+    private fun genKitchenCabinetBlockStateModels(block: KitchenCabinetBlock) {
+        val map = TextureMap().apply {
+            put(TextureKey.TOP, TextureMap.getId(block.topBlock))
+            put(TextureKey.SIDE, TextureMap.getId(block.baseBlock))
+        }
+        val model = ModModels.kitchenCabinet.upload(block, map, modelCollector)
+        stateCollector.accept(
+            VariantsBlockStateSupplier.create(block, BlockStateVariant().putModel(model))
+                .coordinate(BlockStateModelGenerator.createSouthDefaultHorizontalRotationStates())
+        )
+        generator.registerParentedItemModel(block, model)
+    }
+
+    /*------------ End Kitchen Cabinets -----------*/
+
     
     /*------------ Extension Methods -----------*/
     //Variant Extension Models
