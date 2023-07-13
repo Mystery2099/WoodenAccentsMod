@@ -144,10 +144,10 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
         context: ShapeContext?
     ): VoxelShape {
         return when (state.get(facing)) {
-            Direction.NORTH -> KitchenCounterBlock.NORTH_SHAPE
-            Direction.EAST -> KitchenCounterBlock.EAST_SHAPE
-            Direction.SOUTH -> KitchenCounterBlock.SOUTH_SHAPE
-            Direction.WEST -> KitchenCounterBlock.WEST_SHAPE
+            Direction.NORTH -> KitchenCounterBlock.SOUTH_SHAPE
+            Direction.EAST -> KitchenCounterBlock.WEST_SHAPE
+            Direction.SOUTH -> KitchenCounterBlock.NORTH_SHAPE
+            Direction.WEST -> KitchenCounterBlock.EAST_SHAPE
             else -> super.getOutlineShape(state, world, pos, context)
         }
     }
