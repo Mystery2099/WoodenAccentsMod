@@ -7,11 +7,12 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.minecraft.block.Block
 import net.minecraft.block.LadderBlock
 import net.minecraft.data.server.recipe.RecipeJsonProvider
-import net.minecraft.data.server.recipe.RecipeProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.Items
+import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.book.RecipeCategory
+import net.minecraft.registry.tag.ItemTags
 import java.util.function.Consumer
 
 class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
@@ -26,6 +27,7 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
                 is PlankLadderBlock -> genPlankLadderRecipe(it)
                 is TableBlock -> genTableRecipe(it)
                 is CoffeeTableBlock -> genCoffeeTableRecipe(it)
+                is ThinBookshelfBlock -> genThinBookshelfRecipe(it)
                 is KitchenCounterBlock -> genKitchenCounterRecipe(it)
                 is CustomWallBlock -> offerWallRecipe(exporter, RecipeCategory.DECORATIONS, it, it.baseBlock)
             }
@@ -95,6 +97,20 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
             .offerTo(exporter)
     }
     /*---------------End Coffee Tables----------------*/
+
+    /*---------------Thin Bookshelves----------------*/
+    private fun genThinBookshelfRecipe(block: ThinBookshelfBlock) {
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 2)
+            .input('#', block.baseBlock)
+            .input('_', Ingredient.fromTag(ItemTags.WOODEN_SLABS))
+            .pattern("##")
+            .pattern("__")
+            .pattern("##")
+            .group("thin_bookshelves")
+            .criterion(hasItem(block.baseBlock), conditionsFromItem(block.baseBlock))
+            .offerTo(exporter)
+    }
+    /*---------------End Thin Bookshelves----------------*/
 
     /*---------------Kitchen Counters----------------*/
     private fun genKitchenCounterRecipe(block: KitchenCounterBlock) {
