@@ -2,6 +2,7 @@ package com.mystery2099.datagen
 
 import com.mystery2099.block.ModBlocks
 import com.mystery2099.block.custom.*
+import com.mystery2099.data.ModItemTags
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.minecraft.block.Block
@@ -25,11 +26,12 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
                 is ThinPillarBlock -> genThinPillarRecipe(it)
                 is ThickPillarBlock -> genThickPillarRecipe(it)
                 is PlankLadderBlock -> genPlankLadderRecipe(it)
+                is CustomWallBlock -> offerWallRecipe(exporter, RecipeCategory.DECORATIONS, it, it.baseBlock)
                 is TableBlock -> genTableRecipe(it)
                 is CoffeeTableBlock -> genCoffeeTableRecipe(it)
                 is ThinBookshelfBlock -> genThinBookshelfRecipe(it)
                 is KitchenCounterBlock -> genKitchenCounterRecipe(it)
-                is CustomWallBlock -> offerWallRecipe(exporter, RecipeCategory.DECORATIONS, it, it.baseBlock)
+                is KitchenCabinetBlock -> genKitchenCabinetRecipe(it)
             }
         }
     }
@@ -121,6 +123,18 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
             .pattern("###")
             .pattern("###")
             .group(if (block.isStripped()) "stripped_kitchen_counters" else "kitchen_counters")
+            .criterion(hasItem(block.baseBlock), conditionsFromItem(block.baseBlock))
+            .offerTo(exporter)
+    }
+    private fun genKitchenCabinetRecipe(block: KitchenCabinetBlock) {
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 4)
+            .input('#', block.baseBlock)
+            .input('_', block.topBlock)
+            .input('O', ModItemTags.chests)
+            .pattern("___")
+            .pattern("#O#")
+            .pattern("###")
+            .group(if (block.isStripped()) "stripped_kitchen_cabinets" else "kitchen_cabinets")
             .criterion(hasItem(block.baseBlock), conditionsFromItem(block.baseBlock))
             .offerTo(exporter)
     }
