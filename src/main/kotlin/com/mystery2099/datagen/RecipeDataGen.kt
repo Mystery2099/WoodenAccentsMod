@@ -45,7 +45,7 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
             .pattern(" | ")
             .pattern("###")
             .group(if (block is ThickPillarBlock) "thick_pillars" else if (block is ThinPillarBlock) "thin_pillars" else "pillars")
-            .criterion(hasItem(primaryInput), conditionsFromItem(primaryInput))
+            .criterion(primaryInput)
             .offerTo(exporter)
     }
     private fun genThinPillarRecipe(block: ThinPillarBlock) {
@@ -64,7 +64,7 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
             .pattern("###")
             .pattern("# #")
             .group(group)
-            .criterion(hasItem(input), conditionsFromItem(input))
+            .criterion(input)
             .offerTo(exporter)
     }
     private fun genPlankLadderRecipe(output: PlankLadderBlock) {
@@ -81,8 +81,8 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
             .pattern("###")
             .pattern(" | ")
             .pattern(" | ")
-            .group(if (block.isStripped()) "stripped_tables" else "tables")
-            .criterion(hasItem(block.topBlock), conditionsFromItem(block.topBlock))
+            .group(block, "tables")
+            .criterion(block.topBlock)
             .offerTo(exporter)
     }
     /*---------------End Tables----------------*/
@@ -94,8 +94,8 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
             .input('|', block.baseBlock)
             .pattern("___")
             .pattern("| |")
-            .group(if (block.isStripped()) "stripped_coffee_tables" else "coffee_tables")
-            .criterion(hasItem(block.topBlock), conditionsFromItem(block.topBlock))
+            .group(block, "coffee_tables")
+            .criterion(block.topBlock)
             .offerTo(exporter)
     }
     /*---------------End Coffee Tables----------------*/
@@ -109,7 +109,7 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
             .pattern("__")
             .pattern("##")
             .group("thin_bookshelves")
-            .criterion(hasItem(block.baseBlock), conditionsFromItem(block.baseBlock))
+            .criterion(block.baseBlock)
             .offerTo(exporter)
     }
     /*---------------End Thin Bookshelves----------------*/
@@ -122,8 +122,8 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
             .pattern("___")
             .pattern("###")
             .pattern("###")
-            .group(if (block.isStripped()) "stripped_kitchen_counters" else "kitchen_counters")
-            .criterion(hasItem(block.baseBlock), conditionsFromItem(block.baseBlock))
+            .group(block, "kitchen_counters")
+            .criterion(block.baseBlock)
             .offerTo(exporter)
     }
     private fun genKitchenCabinetRecipe(block: KitchenCabinetBlock) {
@@ -134,8 +134,8 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
             .pattern("___")
             .pattern("#O#")
             .pattern("###")
-            .group(if (block.isStripped()) "stripped_kitchen_cabinets" else "kitchen_cabinets")
-            .criterion(hasItem(block.baseBlock), conditionsFromItem(block.baseBlock))
+            .group(block, "kitchen_cabinets")
+            .criterion(block.baseBlock)
             .offerTo(exporter)
     }
     /*---------------End Kitchen Counters----------------*/
@@ -144,4 +144,15 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
     private fun Block.isStripped(): Boolean {
         return this.translationKey.contains("stripped")
     }
+    private fun Block.isPlank(): Boolean {
+        return this.translationKey.contains("plank")
+    }
+    private fun ShapedRecipeJsonBuilder.group(block: Block, name : String): ShapedRecipeJsonBuilder {
+        return this.group(if (block.isStripped()) "stripped_$name" else if (block.isPlank()) "plank_$name" else name)
+    }
+
+    private fun ShapedRecipeJsonBuilder.criterion(requiredItem: ItemConvertible): ShapedRecipeJsonBuilder {
+        return this.criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
+    }
+
 }
