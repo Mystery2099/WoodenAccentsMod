@@ -1,5 +1,6 @@
 package com.mystery2099.block.custom
 
+import com.mystery2099.WoodenAccentsMod
 import com.mystery2099.WoodenAccentsModItemGroups
 import com.mystery2099.block_entity.custom.KitchenCabinetBlockEntity
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
@@ -39,6 +40,7 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
     init {
         defaultState = stateManager.defaultState.with(facing, Direction.NORTH).with(open, false)
         WoodenAccentsModItemGroups.kitchenItems += this
+        WoodenAccentsModItemGroups.storageBlocks += this
         kitchenCabinetBlockEntityTypeBuilder.addBlock(this)
     }
 
