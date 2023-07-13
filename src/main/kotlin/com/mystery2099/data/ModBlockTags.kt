@@ -30,8 +30,9 @@ object ModBlockTags {
     /*---------------End Living Room Tags----------------*/
 
     /*---------------Kitchen Tags----------------*/
+    @JvmStatic
     val kitchenCounters = "kitchen_counters".toBlockTag().withMatchingItemTag()
-
+    val kitchenCabinets = "kitchen_cabinets".toBlockTag().withMatchingItemTag()
     /*---------------End Kitchen Tags----------------*/
 
 
