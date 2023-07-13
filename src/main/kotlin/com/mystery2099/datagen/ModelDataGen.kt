@@ -2,8 +2,11 @@ package com.mystery2099.datagen
 
 import com.google.gson.JsonElement
 import com.mystery2099.WoodenAccentsMod.getItemModelId
+import com.mystery2099.WoodenAccentsMod.planks
+import com.mystery2099.WoodenAccentsMod.toBlockId
 import com.mystery2099.WoodenAccentsMod.toId
 import com.mystery2099.WoodenAccentsMod.toVanillaId
+import com.mystery2099.WoodenAccentsMod.woodType
 import com.mystery2099.block.ModBlocks
 import com.mystery2099.block.custom.*
 import com.mystery2099.block.custom.enums.CoffeeTableType
@@ -12,6 +15,7 @@ import com.mystery2099.state.property.ModProperties
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
 import net.minecraft.block.Block
+import net.minecraft.block.Blocks
 import net.minecraft.block.WoodType
 import net.minecraft.block.enums.StairShape
 import net.minecraft.data.client.*
@@ -98,6 +102,12 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         modelCollector = blockStateModelGenerator.modelCollector
         stateCollector = blockStateModelGenerator.blockStateCollector
 
+        WoodType.stream().forEach{
+            ModModels.coffeeTableLegShort.upload("${it.name.lowercase()}_coffee_table_leg_short".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
+            ModModels.coffeeTableLegTall.upload("${it.name.lowercase()}_coffee_table_leg_tall".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
+        }
+
+
         ModBlocks.blocks.forEach(::genBlockStateModel)
     }
 
@@ -135,26 +145,12 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
             .with(whenNotDown, bottomVariant)
         stateCollector.accept(supplier)
     }
-
-    private fun getPillarWoodType(block: AbstractPillarBlock): WoodType {
-        lateinit var type: WoodType
-        WoodType.stream().forEach {
-            if (block.baseBlock.translationKey.contains(it.name.lowercase())) {
-                type = it
-                if (!it.name.lowercase().contains("dark") && !block.baseBlock.translationKey.contains("dark")) {
-                    return@forEach
-                }
-            }
-        }
-        return type
-    }
     private fun genThinPillarBlockStateModels(pillarBlock: ThinPillarBlock) {
         val textureMap = TextureMap.all(pillarBlock.baseBlock)
         ModModels.thinPillarInventory.upload(pillarBlock.getItemModelId(), textureMap, modelCollector)
-        val type = getPillarWoodType(pillarBlock)
         genPillarBlockStateModels(
             pillarBlock,
-            "block/${type.name.lowercase()}_fence_post".toVanillaId(),
+            "block/${pillarBlock.woodType().name.lowercase()}_fence_post".toVanillaId(),
             ModModels.thinPillarBottom.upload(pillarBlock, textureMap, modelCollector)
         )
     }
@@ -162,9 +158,8 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     private fun genThickPillarBlockStateModels(pillarBlock: ThickPillarBlock) {
         val textureMap = TextureMap.all(pillarBlock.baseBlock)
         ModModels.thickPillarInventory.upload(pillarBlock.getItemModelId(), textureMap, modelCollector)
-        val type = getPillarWoodType(pillarBlock)
         genPillarBlockStateModels(pillarBlock,
-            centerModel = "block/${type.name.lowercase()}_wall_post".toId(),
+            centerModel = "block/${pillarBlock.woodType().name.lowercase()}_wall_post".toId(),
             bottomModel = ModModels.thickPillarBottom.upload(pillarBlock, textureMap, modelCollector)
         )
     }
@@ -261,9 +256,9 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
             blockStateCollector.run {
                 accept(MultipartBlockStateSupplier.create(block).coffeeTableSupplier(
                         shortTopModel = ModModels.coffeeTableTopShort.upload(block, map, modelCollector),
-                        shortLegModel = ModModels.coffeeTableLegShort.upload(block, map, modelCollector),
+                        shortLegModel = "${block.woodType().name.lowercase()}_coffee_table_leg_short".toBlockId(),
                         tallTopModel = ModModels.coffeeTableTopTall.upload(block, map, modelCollector),
-                        tallLegModel = ModModels.coffeeTableLegTall.upload(block, map, modelCollector))
+                        tallLegModel = "${block.woodType().name.lowercase()}_coffee_table_leg_tall".toBlockId(),)
                     )
             }
             ModModels.coffeeTableInventory.upload(block.getItemModelId(), map, modelCollector)

@@ -10,7 +10,7 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/jungle_plank_coffee_table_leg_short"
+        "model": "myst2099_wooden_accents_mod:block/jungle_coffee_table_leg_short"
       },
       "when": {
         "AND": [
@@ -25,7 +25,7 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/jungle_plank_coffee_table_leg_short",
+        "model": "myst2099_wooden_accents_mod:block/jungle_coffee_table_leg_short",
         "y": 270
       },
       "when": {
@@ -41,7 +41,7 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/jungle_plank_coffee_table_leg_short",
+        "model": "myst2099_wooden_accents_mod:block/jungle_coffee_table_leg_short",
         "y": 90
       },
       "when": {
@@ -57,7 +57,7 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/jungle_plank_coffee_table_leg_short",
+        "model": "myst2099_wooden_accents_mod:block/jungle_coffee_table_leg_short",
         "y": 180
       },
       "when": {
@@ -81,7 +81,7 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/jungle_plank_coffee_table_leg_tall"
+        "model": "myst2099_wooden_accents_mod:block/jungle_coffee_table_leg_tall"
       },
       "when": {
         "AND": [
@@ -103,7 +103,7 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/jungle_plank_coffee_table_leg_tall",
+        "model": "myst2099_wooden_accents_mod:block/jungle_coffee_table_leg_tall",
         "y": 270
       },
       "when": {
@@ -126,7 +126,7 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/jungle_plank_coffee_table_leg_tall",
+        "model": "myst2099_wooden_accents_mod:block/jungle_coffee_table_leg_tall",
         "y": 90
       },
       "when": {
@@ -149,7 +149,7 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/jungle_plank_coffee_table_leg_tall",
+        "model": "myst2099_wooden_accents_mod:block/jungle_coffee_table_leg_tall",
         "y": 180
       },
       "when": {
