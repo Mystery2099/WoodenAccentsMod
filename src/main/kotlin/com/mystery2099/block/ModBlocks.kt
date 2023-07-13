@@ -129,8 +129,8 @@ object ModBlocks {
     val cherryPlankCoffeeTable = CoffeeTableBlock(Blocks.CHERRY_PLANKS, Blocks.CHERRY_PLANKS).register("cherry_plank_coffee_table")
     val bambooPlankCoffeeTable = CoffeeTableBlock(Blocks.BAMBOO_PLANKS, Blocks.BAMBOO_PLANKS).register("bamboo_plank_coffee_table")
     val bambooMosaicCoffeeTable = CoffeeTableBlock(Blocks.BAMBOO_PLANKS, Blocks.BAMBOO_MOSAIC).register("bamboo_mosaic_coffee_table")
-    val crimsonPlankCoffeeTable = CoffeeTableBlock(Blocks.CRIMSON_PLANKS, Blocks.CRIMSON_STEM).register("crimson_plank_coffee_table")
-    val warpedPlankCoffeeTable = CoffeeTableBlock(Blocks.WARPED_PLANKS, Blocks.WARPED_STEM).register("warped_plank_coffee_table")
+    val crimsonPlankCoffeeTable = CoffeeTableBlock(Blocks.CRIMSON_PLANKS, Blocks.CRIMSON_PLANKS).register("crimson_plank_coffee_table")
+    val warpedPlankCoffeeTable = CoffeeTableBlock(Blocks.WARPED_PLANKS, Blocks.WARPED_PLANKS).register("warped_plank_coffee_table")
 
     //Coffee tables
     val oakCoffeeTable = CoffeeTableBlock(Blocks.OAK_PLANKS, Blocks.OAK_LOG).register("oak_coffee_table")
