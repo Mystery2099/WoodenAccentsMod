@@ -46,8 +46,4 @@ object WoodenAccentsMod : ModInitializer {
 		val identifier = Registries.BLOCK.getId(this)
 		return identifier.withPrefixedPath("item/")
 	}
-	fun Block.getSlab(): Block? {
-		val id = Registries.BLOCK.getId(this)
-		return Registries.BLOCK.get(id.withPath(id.path.removeSuffix("planks").removeSuffix("block").replace("bricks", "brick")+"_slab"))
-	}
 }
