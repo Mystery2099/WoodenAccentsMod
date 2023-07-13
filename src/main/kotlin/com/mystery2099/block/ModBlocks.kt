@@ -11,6 +11,7 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.util.Identifier
 
+@SuppressWarnings("unused")
 object ModBlocks {
     private val registries = mutableSetOf<Block>()
     val blocks : Set<Block>
@@ -78,6 +79,20 @@ object ModBlocks {
 
     /*---------------Living Room Stuff----------------*/
     //Plank Tables
+    val oakPlankTable = TableBlock(Blocks.OAK_PLANKS, Blocks.OAK_PLANKS).register("oak_plank_table")
+    val sprucePlankTable = TableBlock(Blocks.SPRUCE_PLANKS, Blocks.SPRUCE_PLANKS).register("spruce_plank_table")
+    val birchPlankTable = TableBlock(Blocks.BIRCH_PLANKS, Blocks.BIRCH_PLANKS).register("birch_plank_table")
+    val junglePlankTable = TableBlock(Blocks.JUNGLE_PLANKS, Blocks.JUNGLE_PLANKS).register("jungle_plank_table")
+    val acaciaPlankTable = TableBlock(Blocks.ACACIA_PLANKS, Blocks.ACACIA_PLANKS).register("acacia_plank_table")
+    val darkOakPlankTable = TableBlock(Blocks.DARK_OAK_PLANKS, Blocks.DARK_OAK_PLANKS).register("dark_oak_plank_table")
+    val mangrovePlankTable = TableBlock(Blocks.MANGROVE_PLANKS, Blocks.MANGROVE_PLANKS).register("mangrove_plank_table")
+    val cherryPlankTable = TableBlock(Blocks.CHERRY_PLANKS, Blocks.CHERRY_PLANKS).register("cherry_plank_table")
+    val bambooPlankTable = TableBlock(Blocks.BAMBOO_PLANKS, Blocks.BAMBOO_PLANKS).register("bamboo_plank_table")
+    val bambooMosaicTable = TableBlock(Blocks.BAMBOO_PLANKS, Blocks.BAMBOO_MOSAIC).register("bamboo_mosaic_table")
+    val crimsonPlankTable = TableBlock(Blocks.CRIMSON_PLANKS, Blocks.CRIMSON_PLANKS).register("crimson_plank_table")
+    val warpedPlankTable = TableBlock(Blocks.WARPED_PLANKS, Blocks.WARPED_PLANKS).register("warped_plank_table")
+
+    //Wood Tables
     val oakTable = TableBlock(Blocks.OAK_PLANKS, Blocks.OAK_LOG).register("oak_table")
     val spruceTable = TableBlock(Blocks.SPRUCE_PLANKS, Blocks.SPRUCE_LOG).register("spruce_table")
     val birchTable = TableBlock(Blocks.BIRCH_PLANKS, Blocks.BIRCH_LOG).register("birch_table")
@@ -87,7 +102,6 @@ object ModBlocks {
     val mangroveTable = TableBlock(Blocks.MANGROVE_PLANKS, Blocks.MANGROVE_LOG).register("mangrove_table")
     val cherryTable = TableBlock(Blocks.CHERRY_PLANKS, Blocks.CHERRY_LOG).register("cherry_table")
     val bambooTable = TableBlock(Blocks.BAMBOO_PLANKS, Blocks.BAMBOO_BLOCK).register("bamboo_table")
-    val bambooMosaicTable = TableBlock(Blocks.BAMBOO_PLANKS, Blocks.BAMBOO_MOSAIC).register("bamboo_mosaic_table")
     val crimsonTable = TableBlock(Blocks.CRIMSON_PLANKS, Blocks.CRIMSON_STEM).register("crimson_table")
     val warpedTable = TableBlock(Blocks.WARPED_PLANKS, Blocks.WARPED_STEM).register("warped_table")
 
