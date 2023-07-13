@@ -1,3 +1,7 @@
 {
-  "parent": "myst2099_wooden_accents_mod:block/dark_oak_plank_coffee_table_inventory"
+  "parent": "myst2099_wooden_accents_mod:item/coffee_table",
+  "textures": {
+    "legs": "minecraft:block/dark_oak_planks",
+    "top": "minecraft:block/dark_oak_planks"
+  }
 }

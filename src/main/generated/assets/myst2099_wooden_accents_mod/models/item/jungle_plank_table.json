@@ -1,3 +1,7 @@
 {
-  "parent": "myst2099_wooden_accents_mod:block/jungle_plank_table_inventory"
+  "parent": "myst2099_wooden_accents_mod:item/table",
+  "textures": {
+    "legs": "minecraft:block/jungle_planks",
+    "top": "minecraft:block/jungle_planks"
+  }
 }

@@ -1,3 +1,6 @@
 {
-  "parent": "myst2099_wooden_accents_mod:block/thick_bamboo_mosaic_pillar_inventory"
+  "parent": "myst2099_wooden_accents_mod:item/thick_pillar",
+  "textures": {
+    "all": "minecraft:block/bamboo_mosaic"
+  }
 }

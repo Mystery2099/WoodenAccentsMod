@@ -1,3 +1,7 @@
 {
-  "parent": "myst2099_wooden_accents_mod:block/acacia_plank_table_inventory"
+  "parent": "myst2099_wooden_accents_mod:item/table",
+  "textures": {
+    "legs": "minecraft:block/acacia_planks",
+    "top": "minecraft:block/acacia_planks"
+  }
 }

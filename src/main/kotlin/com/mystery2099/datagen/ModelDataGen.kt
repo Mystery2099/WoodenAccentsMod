@@ -124,7 +124,6 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     /*------------ Pillars -----------*/
     private fun genPillarBlockStateModels(
         block: Block,
-        inventoryModel: Identifier,
         centerModel: Identifier,
         bottomModel: Identifier
     ) {
@@ -135,7 +134,6 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
             .with(whenNotUp, topVariant)
             .with(whenNotDown, bottomVariant)
         stateCollector.accept(supplier)
-        generator.registerParentedItemModel(block, inventoryModel)
     }
 
     private fun getPillarWoodType(block: AbstractPillarBlock): WoodType {
@@ -152,10 +150,10 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     }
     private fun genThinPillarBlockStateModels(pillarBlock: ThinPillarBlock) {
         val textureMap = TextureMap.all(pillarBlock.baseBlock)
+        ModModels.thinPillarInventory.upload(pillarBlock.getItemModelId(), textureMap, modelCollector)
         val type = getPillarWoodType(pillarBlock)
         genPillarBlockStateModels(
             pillarBlock,
-            ModModels.thinPillarInventory.upload(pillarBlock, textureMap, modelCollector),
             "block/${type.name.lowercase()}_fence_post".toVanillaId(),
             ModModels.thinPillarBottom.upload(pillarBlock, textureMap, modelCollector)
         )
@@ -163,9 +161,9 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
     private fun genThickPillarBlockStateModels(pillarBlock: ThickPillarBlock) {
         val textureMap = TextureMap.all(pillarBlock.baseBlock)
+        ModModels.thickPillarInventory.upload(pillarBlock.getItemModelId(), textureMap, modelCollector)
         val type = getPillarWoodType(pillarBlock)
         genPillarBlockStateModels(pillarBlock,
-            inventoryModel = ModModels.thickPillarInventory.upload(pillarBlock, textureMap, modelCollector),
             centerModel = "block/${type.name.lowercase()}_wall_post".toId(),
             bottomModel = ModModels.thickPillarBottom.upload(pillarBlock, textureMap, modelCollector)
         )
@@ -212,7 +210,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
             ModModels.TABLE_END_LEG.upload(tableBlock, map, modelCollector),
             ModModels.TABLE_CORNER_LEG.upload(tableBlock, map, modelCollector))
         )
-        generator.registerParentedItemModel(tableBlock, ModModels.TABLE_INVENTORY.upload(tableBlock, map, modelCollector))
+        ModModels.TABLE_INVENTORY.upload(tableBlock.getItemModelId(), map, modelCollector)
     }
 
     private fun tableSupplier(
@@ -268,7 +266,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
                         tallLegModel = ModModels.coffeeTableLegTall.upload(block, map, modelCollector))
                     )
             }
-            registerParentedItemModel(block, ModModels.coffeeTableInventory.upload(block, map, modelCollector))
+            ModModels.coffeeTableInventory.upload(block.getItemModelId(), map, modelCollector)
         }
     }
 

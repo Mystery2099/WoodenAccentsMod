@@ -1,3 +1,7 @@
 {
-  "parent": "myst2099_wooden_accents_mod:block/bamboo_mosaic_table_inventory"
+  "parent": "myst2099_wooden_accents_mod:item/table",
+  "textures": {
+    "legs": "minecraft:block/bamboo_planks",
+    "top": "minecraft:block/bamboo_mosaic"
+  }
 }

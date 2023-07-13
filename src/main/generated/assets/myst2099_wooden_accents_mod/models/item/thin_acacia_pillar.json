@@ -1,3 +1,6 @@
 {
-  "parent": "myst2099_wooden_accents_mod:block/thin_acacia_pillar_inventory"
+  "parent": "myst2099_wooden_accents_mod:item/thin_pillar",
+  "textures": {
+    "all": "minecraft:block/acacia_planks"
+  }
 }

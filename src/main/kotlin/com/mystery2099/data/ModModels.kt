@@ -14,24 +14,24 @@ object ModModels {
     /*---------------Outside Stuff----------------*/
 
     //Thin Pillar
-    val thinPillarInventory = block("thin_pillar", "_inventory", TextureKey.ALL)
+    val thinPillarInventory = item("thin_pillar", TextureKey.ALL)
     val thinPillarBottom = block("thin_pillar_base", "_base", TextureKey.ALL)
     //Thick Pillar
-    val thickPillarInventory = block("thick_pillar", "_inventory", TextureKey.ALL)
+    val thickPillarInventory = item("thick_pillar", TextureKey.ALL)
     val thickPillarBottom = block("thick_pillar_base", "_base", TextureKey.ALL)
 
     //Plank Ladder
     val plankLadder = block("plank_ladder", TextureKey.ALL)
     /*---------------Living Room Stuff----------------*/
     //Table Models
-    val TABLE_INVENTORY = block("table", "_inventory", TextureKey.TOP, legs)
+    val TABLE_INVENTORY = item("table", TextureKey.TOP, legs)
     val TABLE_TOP = block("table_top", "_top", TextureKey.TOP)
     val TABLE_SINGLE_LEG = block("table_single_leg", "_single_leg", legs)
     val TABLE_END_LEG = block("table_end_leg", "_end_leg", legs)
     val TABLE_CORNER_LEG = block("table_corner_leg", "_corner_leg", legs)
 
     //Coffee Table Models
-    val coffeeTableInventory: Model = block("coffee_table", "_inventory", TextureKey.TOP, legs)
+    val coffeeTableInventory: Model = item("coffee_table", TextureKey.TOP, legs)
     val coffeeTableTopTall: Model = block("coffee_table_top_tall",
         "_top_tall", TextureKey.TOP)
     val coffeeTableLegTall: Model = block(

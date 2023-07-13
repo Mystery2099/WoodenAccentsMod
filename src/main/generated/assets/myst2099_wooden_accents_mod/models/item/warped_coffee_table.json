@@ -1,3 +1,7 @@
 {
-  "parent": "myst2099_wooden_accents_mod:block/warped_coffee_table_inventory"
+  "parent": "myst2099_wooden_accents_mod:item/coffee_table",
+  "textures": {
+    "legs": "minecraft:block/warped_planks",
+    "top": "minecraft:block/warped_stem"
+  }
 }
