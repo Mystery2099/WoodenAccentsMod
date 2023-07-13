@@ -35,6 +35,9 @@ object ModBlockTags {
     val kitchenCabinets = "kitchen_cabinets".toBlockTag().withMatchingItemTag()
     /*---------------End Kitchen Tags----------------*/
 
+    /*---------------Storage Tags----------------*/
+    val chests = "chests".toBlockTag("c").withMatchingItemTag()
+    /*---------------End Storage Tags----------------*/
 
     private fun String.toBlockTag(namespace: String): TagKey<Block> {
         return TagKey.of(RegistryKeys.BLOCK, Identifier(namespace, this))

@@ -8,6 +8,7 @@ import net.minecraft.registry.tag.TagKey
 
 object ModItemTags {
 
+    val chests = "chests".toItemTag("c")
 
     private fun String.toItemTag(namespace: String): TagKey<Item> {
         return TagKey.of(RegistryKeys.ITEM, this.toId(namespace))
