@@ -14,14 +14,10 @@ object ModModels {
 
     //Thin Pillar
     val thinPillarInventory = block("thin_pillar", "_inventory", TextureKey.ALL)
-    val thinPillarTop = block("thin_pillar_top", "_top", TextureKey.ALL)
     val thinPillarBottom = block("thin_pillar_base", "_base", TextureKey.ALL)
-    val thinPillarCenter = block("thin_pillar_center", "_center", TextureKey.ALL)
     //Thick Pillar
     val thickPillarInventory = block("thick_pillar", "_inventory", TextureKey.ALL)
-    val thickPillarTop = block("thick_pillar_top", "_top", TextureKey.ALL)
     val thickPillarBottom = block("thick_pillar_base", "_base", TextureKey.ALL)
-    val thickPillarCenter = block("thick_pillar_center", "_center", TextureKey.ALL)
 
     //Plank Ladder
     val plankLadder = block("plank_ladder", TextureKey.ALL)

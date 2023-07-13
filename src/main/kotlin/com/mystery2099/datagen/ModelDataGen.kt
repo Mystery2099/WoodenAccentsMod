@@ -118,7 +118,6 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     private fun pillar(
         block: Block,
         inventoryModel: Identifier,
-        topModel: Identifier,
         centerModel: Identifier,
         bottomModel: Identifier
     ) {
@@ -134,9 +133,6 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
     private fun genThinPillarBlockStateModels(pillarBlock: ThinPillarBlock) {
         val textureMap = TextureMap.all(pillarBlock.baseBlock)
-        val inventory = ModModels.thinPillarInventory.upload(pillarBlock, textureMap, modelCollector)
-        val top = ModModels.thinPillarTop.upload(pillarBlock, textureMap, modelCollector)
-        val bottom = ModModels.thinPillarBottom.upload(pillarBlock, textureMap, modelCollector)
         lateinit var type: WoodType
         WoodType.stream().forEach {
             if (pillarBlock.baseBlock.translationKey.contains(it.name.lowercase())) {
@@ -148,18 +144,16 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         }
         pillar(
             pillarBlock,
-            inventory,
-            top,
+            ModModels.thinPillarInventory.upload(pillarBlock, textureMap, modelCollector),
             "block/${type.name.lowercase()}_fence_post".toVanillaId(),
-            bottom
+            ModModels.thinPillarBottom.upload(pillarBlock, textureMap, modelCollector)
         )
     }
 
     private fun genThickPillarBlockStateModels(pillarBlock: ThickPillarBlock) {
         val textureMap = TextureMap.all(pillarBlock.baseBlock)
-        val inventory = ModModels.thickPillarInventory.upload(pillarBlock, textureMap, modelCollector)
-        val top = ModModels.thickPillarTop.upload(pillarBlock, textureMap, modelCollector)
-        val bottom = ModModels.thickPillarBottom.upload(pillarBlock, textureMap, modelCollector)
+        ModModels.thickPillarInventory.upload(pillarBlock, textureMap, modelCollector)
+        ModModels.thickPillarBottom.upload(pillarBlock, textureMap, modelCollector)
         lateinit var type: WoodType
         WoodType.stream().forEach {
             if (pillarBlock.baseBlock.translationKey.contains(it.name.lowercase())) {
@@ -169,7 +163,11 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
                 }
             }
         }
-        pillar(pillarBlock, inventory, top, "block/${type.name.lowercase()}_wall_post".toId(), bottom)
+        pillar(pillarBlock,
+            inventoryModel = ModModels.thickPillarInventory.upload(pillarBlock, textureMap, modelCollector),
+            centerModel = "block/${type.name.lowercase()}_wall_post".toId(),
+            bottomModel = ModModels.thickPillarBottom.upload(pillarBlock, textureMap, modelCollector)
+        )
     }
 
     /*------------ End Pillars -----------*/
