@@ -496,7 +496,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         val model = ModModels.kitchenCabinet.upload(block, map, modelCollector)
         stateCollector.accept(
             VariantsBlockStateSupplier.create(block, BlockStateVariant().putModel(model))
-                .coordinate(BlockStateModelGenerator.createSouthDefaultHorizontalRotationStates())
+                .coordinate(BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates())
         )
         generator.registerParentedItemModel(block, model)
     }
