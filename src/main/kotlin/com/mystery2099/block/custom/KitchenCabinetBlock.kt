@@ -31,7 +31,7 @@ import net.minecraft.world.World
 
 class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)) {
     companion object {
-        val facing: DirectionProperty = Properties.FACING
+        val facing: DirectionProperty = Properties.HORIZONTAL_FACING
         val open: BooleanProperty = Properties.OPEN
         val kitchenCabinetBlockEntityTypeBuilder: FabricBlockEntityTypeBuilder<KitchenCabinetBlockEntity> =
             FabricBlockEntityTypeBuilder.create(::KitchenCabinetBlockEntity)
