@@ -29,6 +29,9 @@ object WoodenAccentsMod : ModInitializer {
 	fun String.toId(): Identifier {
 		return this.toId(modid)
 	}
+	fun String.toBlockId(): Identifier {
+		return this.toId(modid).withPrefixedPath("block/")
+	}
 
 	fun String.toVanillaId(): Identifier {
 		return this.toId("minecraft")
