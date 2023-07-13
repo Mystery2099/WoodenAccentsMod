@@ -1,0 +1,7 @@
+{
+  "parent": "myst2099_wooden_accents_mod:block/table",
+  "textures": {
+    "legs": "minecraft:block/dark_oak_planks",
+    "top": "minecraft:block/dark_oak_planks"
+  }
+}

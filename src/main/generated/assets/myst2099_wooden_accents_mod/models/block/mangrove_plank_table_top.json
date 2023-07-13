@@ -1,0 +1,6 @@
+{
+  "parent": "myst2099_wooden_accents_mod:block/table_top",
+  "textures": {
+    "top": "minecraft:block/mangrove_planks"
+  }
+}

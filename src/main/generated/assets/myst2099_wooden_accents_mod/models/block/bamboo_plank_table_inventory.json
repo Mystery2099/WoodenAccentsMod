@@ -1,0 +1,7 @@
+{
+  "parent": "myst2099_wooden_accents_mod:block/table",
+  "textures": {
+    "legs": "minecraft:block/bamboo_planks",
+    "top": "minecraft:block/bamboo_planks"
+  }
+}
