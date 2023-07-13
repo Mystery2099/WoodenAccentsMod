@@ -1,5 +1,6 @@
 package com.mystery2099.block.custom
 
+import com.mystery2099.WoodenAccentsModItemGroups
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -13,6 +14,9 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 
 class ThinBookshelfBlock(val baseBlock : Block) : ChiseledBookshelfBlock(FabricBlockSettings.copyOf(baseBlock).requires(FeatureFlags.UPDATE_1_20)) {
+    init {
+        WoodenAccentsModItemGroups.livingRoomItems += this
+    }
     companion object {
         private val NORTH_SHAPE = Block.createCuboidShape(0.0, 0.0, 11.0, 16.0, 16.0, 16.0)!!
         private val EAST_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 5.0, 16.0, 16.0)!!
