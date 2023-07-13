@@ -1,6 +1,8 @@
 package com.mystery2099.block.custom;
 
 import com.mystery2099.WoodenAccentsModItemGroups;
+import com.mystery2099.block.ModBlocks;
+import com.mystery2099.data.ModBlockTags;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -65,7 +67,7 @@ public class KitchenCounterBlock extends AbstractWaterloggableBlock{
     }
 
     private static boolean canConnectTo(BlockState blockState) {
-        return blockState.getBlock() instanceof KitchenCounterBlock; //|| blockState.getBlock() instanceof KitchenCabinetBlock;
+        return blockState.isIn(ModBlockTags.getKitchenCounters());
     }
 
     private static boolean isDifferentOrientation(BlockState state, BlockView world, BlockPos pos, Direction dir) {
