@@ -1,0 +1,7 @@
+{
+  "parent": "myst2099_wooden_accents_mod:block/kitchen_cabinet",
+  "textures": {
+    "side": "minecraft:block/jungle_planks",
+    "top": "minecraft:block/jungle_log"
+  }
+}

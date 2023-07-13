@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "myst2099_wooden_accents_mod:block/oak_kitchen_cabinet",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "myst2099_wooden_accents_mod:block/oak_kitchen_cabinet",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "myst2099_wooden_accents_mod:block/oak_kitchen_cabinet"
+    },
+    "facing=west": {
+      "model": "myst2099_wooden_accents_mod:block/oak_kitchen_cabinet",
+      "y": 90
+    }
+  }
+}
