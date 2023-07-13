@@ -2,7 +2,7 @@
   "multipart": [
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/acacia_bookshelf"
+        "model": "myst2099_wooden_accents_mod:block/acacia_bookshelf_empty"
       },
       "when": {
         "facing": "north"
@@ -10,7 +10,7 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/acacia_bookshelf",
+        "model": "myst2099_wooden_accents_mod:block/acacia_bookshelf_empty",
         "y": 90
       },
       "when": {
@@ -19,7 +19,7 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/acacia_bookshelf",
+        "model": "myst2099_wooden_accents_mod:block/acacia_bookshelf_empty",
         "y": 180
       },
       "when": {
@@ -28,7 +28,7 @@
     },
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/acacia_bookshelf",
+        "model": "myst2099_wooden_accents_mod:block/acacia_bookshelf_empty",
         "y": 270
       },
       "when": {

@@ -49,7 +49,7 @@ object ModModels {
 
     //Bookshelves
     val thinBookshelfItem = item("thin_bookshelf", TextureKey.ALL)
-    val thinBookshelfBlock = block("thin_bookshelf", TextureKey.ALL)
+    val thinBookshelfBlock = block("thin_bookshelf", "_empty", TextureKey.ALL)
     val thinBookshelfSlot0 = "thin_bookshelf_slot_0".toBlockId()
     val thinBookshelfSlot1 = "thin_bookshelf_slot_1".toBlockId()
     val thinBookshelfSlot2 = "thin_bookshelf_slot_2".toBlockId()
