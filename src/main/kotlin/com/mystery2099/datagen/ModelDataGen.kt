@@ -104,9 +104,9 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
             ModModels.coffeeTableLegShort.upload("${it.name.lowercase()}_coffee_table_leg_short".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
             ModModels.coffeeTableLegTall.upload("${it.name.lowercase()}_coffee_table_leg_tall".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
 
-            ModModels.TABLE_SINGLE_LEG.upload("${it.name.lowercase()}_table_single_leg".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
-            ModModels.TABLE_CORNER_LEG.upload("${it.name.lowercase()}_table_corner_leg".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
-            ModModels.TABLE_END_LEG.upload("${it.name.lowercase()}_table_end_leg".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
+            ModModels.tableCenterLeg.upload("${it.name.lowercase()}_table_single_leg".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
+            ModModels.tableCornerLeg.upload("${it.name.lowercase()}_table_corner_leg".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
+            ModModels.tableEndLeg.upload("${it.name.lowercase()}_table_end_leg".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
         }
 
 
@@ -202,13 +202,13 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         }
 
         stateCollector.accept(tableSupplier(block,
-            ModModels.TABLE_TOP.upload(block, map, modelCollector),
+            ModModels.tableTop.upload(block, map, modelCollector),
             "${block.woodType().name.lowercase()}_table_single_leg".toBlockId(),
             "${block.woodType().name.lowercase()}_table_end_leg".toBlockId(),
             "${block.woodType().name.lowercase()}_table_corner_leg".toBlockId(),
             )
         )
-        ModModels.TABLE_INVENTORY.upload(block.getItemModelId(), map, modelCollector)
+        ModModels.tableItem.upload(block.getItemModelId(), map, modelCollector)
     }
 
     private fun tableSupplier(

@@ -24,11 +24,11 @@ object ModModels {
     val plankLadder = block("plank_ladder", TextureKey.ALL)
     /*---------------Living Room Stuff----------------*/
     //Table Models
-    val TABLE_INVENTORY = item("table", TextureKey.TOP, legs)
-    val TABLE_TOP = block("table_top", "_top", TextureKey.TOP)
-    val TABLE_SINGLE_LEG = block("table_single_leg", "_single_leg", legs)
-    val TABLE_END_LEG = block("table_end_leg", "_end_leg", legs)
-    val TABLE_CORNER_LEG = block("table_corner_leg", "_corner_leg", legs)
+    val tableItem = item("table", TextureKey.TOP, legs)
+    val tableTop = block("table_top", "_top", TextureKey.TOP)
+    val tableCenterLeg = block("table_single_leg", "_single_leg", legs)
+    val tableEndLeg = block("table_end_leg", "_end_leg", legs)
+    val tableCornerLeg = block("table_corner_leg", "_corner_leg", legs)
 
     //Coffee Table Models
     val coffeeTableInventory: Model = item("coffee_table", TextureKey.TOP, legs)
