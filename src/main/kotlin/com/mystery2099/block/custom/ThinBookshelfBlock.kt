@@ -14,10 +14,10 @@ import net.minecraft.world.BlockView
 
 class ThinBookshelfBlock(val baseBlock : Block) : ChiseledBookshelfBlock(FabricBlockSettings.copyOf(baseBlock).requires(FeatureFlags.UPDATE_1_20)) {
     companion object {
-        val NORTH_SHAPE = Block.createCuboidShape(0.0, 0.0, 11.0, 16.0, 16.0, 16.0)
-        val EAST_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 5.0, 16.0, 16.0)
-        val SOUTH_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 5.0)
-        val WEST_SHAPE = Block.createCuboidShape(11.0, 0.0, 0.0, 16.0, 16.0, 16.0)
+        private val NORTH_SHAPE = Block.createCuboidShape(0.0, 0.0, 11.0, 16.0, 16.0, 16.0)!!
+        private val EAST_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 5.0, 16.0, 16.0)!!
+        private val SOUTH_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 5.0)!!
+        private val WEST_SHAPE = Block.createCuboidShape(11.0, 0.0, 0.0, 16.0, 16.0, 16.0)!!
     }
 
     @Deprecated("Deprecated in Java")

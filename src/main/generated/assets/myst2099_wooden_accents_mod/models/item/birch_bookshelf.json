@@ -1,0 +1,6 @@
+{
+  "parent": "myst2099_wooden_accents_mod:item/thin_bookshelf",
+  "textures": {
+    "all": "minecraft:block/birch_planks"
+  }
+}

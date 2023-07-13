@@ -1,5 +1,6 @@
 package com.mystery2099.data
 
+import com.mystery2099.WoodenAccentsMod.toBlockId
 import com.mystery2099.WoodenAccentsMod.toId
 import net.minecraft.data.client.Model
 import net.minecraft.data.client.TextureKey
@@ -45,7 +46,17 @@ object ModModels {
         "_leg_short",
         legs
     )
-    /*---------------Storage Stuff----------------*/
+
+    //Bookshelves
+    val thinBookshelfItem = item("thin_bookshelf", TextureKey.ALL)
+    val thinBookshelfBlock = block("thin_bookshelf", TextureKey.ALL)
+    val thinBookshelfSlot0 = "thin_bookshelf_slot_0".toBlockId()
+    val thinBookshelfSlot1 = "thin_bookshelf_slot_1".toBlockId()
+    val thinBookshelfSlot2 = "thin_bookshelf_slot_2".toBlockId()
+    val thinBookshelfSlot3 = "thin_bookshelf_slot_3".toBlockId()
+    val thinBookshelfSlot4 = "thin_bookshelf_slot_4".toBlockId()
+    val thinBookshelfSlot5 = "thin_bookshelf_slot_5".toBlockId()
+
 
     /*---------------Kitchen Stuff----------------*/
 

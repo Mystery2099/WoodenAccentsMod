@@ -1,6 +1,0 @@
-{
-  "parent": "myst2099_wooden_accents_mod:block/thick_pillar_top",
-  "textures": {
-    "all": "minecraft:block/acacia_planks"
-  }
-}

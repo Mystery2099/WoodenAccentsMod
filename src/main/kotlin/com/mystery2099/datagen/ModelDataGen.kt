@@ -15,6 +15,7 @@ import net.minecraft.block.WoodType
 import net.minecraft.block.enums.StairShape
 import net.minecraft.data.client.*
 import net.minecraft.data.client.VariantSettings.Rotation
+import net.minecraft.registry.Registries
 import net.minecraft.state.property.Properties
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Direction
@@ -23,6 +24,7 @@ import java.util.function.Consumer
 import java.util.function.Supplier
 
 class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
+
     val block = "block/"
 
     //Collections
@@ -104,12 +106,16 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
     private fun genBlockStateModel(block: Block) {
         when (block) {
+            //Outside
             is ThinPillarBlock -> genThinPillarBlockStateModels(block)
             is ThickPillarBlock -> genThickPillarBlockStateModels(block)
             is CustomWallBlock -> genWallBlockStateModels(block)
             is PlankLadderBlock -> genPlankLadderBlockStateModels(block)
+            //Living Room
             is TableBlock -> genTableBlockStateModels(block)
             is CoffeeTableBlock -> genCoffeeTableBlockStateModels(block)
+            is ThinBookshelfBlock -> genThinBookshelfBlockStateModels(block)
+            //Kitchen
             is KitchenCounterBlock -> genKitchenCounterBlockStateModels(block)
         }
     }
@@ -156,8 +162,6 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
     private fun genThickPillarBlockStateModels(pillarBlock: ThickPillarBlock) {
         val textureMap = TextureMap.all(pillarBlock.baseBlock)
-        ModModels.thickPillarInventory.upload(pillarBlock, textureMap, modelCollector)
-        ModModels.thickPillarBottom.upload(pillarBlock, textureMap, modelCollector)
         val type = getPillarWoodType(pillarBlock)
         genPillarBlockStateModels(pillarBlock,
             inventoryModel = ModModels.thickPillarInventory.upload(pillarBlock, textureMap, modelCollector),
@@ -297,6 +301,109 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
     /*------------ End Coffee Tables -----------*/
 
+    /*------------ Bookshelves -----------*/
+    private fun genThinBookshelfBlockStateModels(block: ThinBookshelfBlock) {
+        val map = TextureMap.all(block.baseBlock)
+        ModModels.thinBookshelfItem.upload(block.getItemModelId(), map, modelCollector)
+        with(generator) {
+            blockStateCollector.accept(
+                MultipartBlockStateSupplier.create(block).thinBookshelfSupplier(
+                    bookshelfModel = ModModels.thinBookshelfBlock.upload(block, map, modelCollector)
+                )
+            )
+        }
+    }
+    private fun MultipartBlockStateSupplier.thinBookshelfSupplier(
+        bookshelfModel: Identifier
+    ): MultipartBlockStateSupplier {
+        val northVariant = BlockStateVariant().putModel(bookshelfModel)
+        val eastVariant = northVariant.withYRotationOf(Rotation.R90)
+        val southVariant = northVariant.withYRotationOf(Rotation.R180)
+        val westVariant = northVariant.withYRotationOf(Rotation.R270)
+
+        //slot 0
+        val northSlot0Variant = BlockStateVariant().putModel(ModModels.thinBookshelfSlot0)
+        val eastSlot0Variant = northSlot0Variant.withYRotationOf(Rotation.R90)
+        val southSlot0Variant = northSlot0Variant.withYRotationOf(Rotation.R180)
+        val westSlot0Variant = northSlot0Variant.withYRotationOf(Rotation.R270)
+
+        //slot 1
+        val northSlot1Variant = BlockStateVariant().putModel(ModModels.thinBookshelfSlot1)
+        val eastSlot1Variant = northSlot1Variant.withYRotationOf(Rotation.R90)
+        val southSlot1Variant = northSlot1Variant.withYRotationOf(Rotation.R180)
+        val westSlot1Variant = northSlot1Variant.withYRotationOf(Rotation.R270)
+
+        //slot 2
+        val northSlot2Variant = BlockStateVariant().putModel(ModModels.thinBookshelfSlot2)
+        val eastSlot2Variant = northSlot2Variant.withYRotationOf(Rotation.R90)
+        val southSlot2Variant = northSlot2Variant.withYRotationOf(Rotation.R180)
+        val westSlot2Variant = northSlot2Variant.withYRotationOf(Rotation.R270)
+
+        //slot 3
+        val northSlot3Variant = BlockStateVariant().putModel(ModModels.thinBookshelfSlot3)
+        val eastSlot3Variant = northSlot3Variant.withYRotationOf(Rotation.R90)
+        val southSlot3Variant = northSlot3Variant.withYRotationOf(Rotation.R180)
+        val westSlot3Variant = northSlot3Variant.withYRotationOf(Rotation.R270)
+
+        //slot 4
+        val northSlot4Variant = BlockStateVariant().putModel(ModModels.thinBookshelfSlot4)
+        val eastSlot4Variant = northSlot4Variant.withYRotationOf(Rotation.R90)
+        val southSlot4Variant = northSlot4Variant.withYRotationOf(Rotation.R180)
+        val westSlot4Variant = northSlot4Variant.withYRotationOf(Rotation.R270)
+
+        //slot 5
+        val northSlot5Variant = BlockStateVariant().putModel(ModModels.thinBookshelfSlot5)
+        val eastSlot5Variant = northSlot5Variant.withYRotationOf(Rotation.R90)
+        val southSlot5Variant = northSlot5Variant.withYRotationOf(Rotation.R180)
+        val westSlot5Variant = northSlot5Variant.withYRotationOf(Rotation.R270)
+
+
+        return this.apply {
+            //shelf
+            with(whenFacingNorthHorizontal, northVariant)
+            with(whenFacingEastHorizontal, eastVariant)
+            with(whenFacingSouthHorizontal, southVariant)
+            with(whenFacingWestHorizontal, westVariant)
+
+            //slot 0
+            with(whenFacingNorthHorizontal.and(When.create().set(Properties.SLOT_0_OCCUPIED, true)), northSlot0Variant)
+            with(whenFacingEastHorizontal.and(When.create().set(Properties.SLOT_0_OCCUPIED, true)), eastSlot0Variant)
+            with(whenFacingSouthHorizontal.and(When.create().set(Properties.SLOT_0_OCCUPIED, true)), southSlot0Variant)
+            with(whenFacingWestHorizontal.and(When.create().set(Properties.SLOT_0_OCCUPIED, true)), westSlot0Variant)
+
+            //slot 1
+            with(whenFacingNorthHorizontal.and(When.create().set(Properties.SLOT_1_OCCUPIED, true)), northSlot1Variant)
+            with(whenFacingEastHorizontal.and(When.create().set(Properties.SLOT_1_OCCUPIED, true)), eastSlot1Variant)
+            with(whenFacingSouthHorizontal.and(When.create().set(Properties.SLOT_1_OCCUPIED, true)), southSlot1Variant)
+            with(whenFacingWestHorizontal.and(When.create().set(Properties.SLOT_1_OCCUPIED, true)), westSlot1Variant)
+
+            //slot 2
+            with(whenFacingNorthHorizontal.and(When.create().set(Properties.SLOT_2_OCCUPIED, true)), northSlot2Variant)
+            with(whenFacingEastHorizontal.and(When.create().set(Properties.SLOT_2_OCCUPIED, true)), eastSlot2Variant)
+            with(whenFacingSouthHorizontal.and(When.create().set(Properties.SLOT_2_OCCUPIED, true)), southSlot2Variant)
+            with(whenFacingWestHorizontal.and(When.create().set(Properties.SLOT_2_OCCUPIED, true)), westSlot2Variant)
+
+            //slot 3
+            with(whenFacingNorthHorizontal.and(When.create().set(Properties.SLOT_3_OCCUPIED, true)), northSlot3Variant)
+            with(whenFacingEastHorizontal.and(When.create().set(Properties.SLOT_3_OCCUPIED, true)), eastSlot3Variant)
+            with(whenFacingSouthHorizontal.and(When.create().set(Properties.SLOT_3_OCCUPIED, true)), southSlot3Variant)
+            with(whenFacingWestHorizontal.and(When.create().set(Properties.SLOT_3_OCCUPIED, true)), westSlot3Variant)
+
+            //slot 4
+            with(whenFacingNorthHorizontal.and(When.create().set(Properties.SLOT_4_OCCUPIED, true)), northSlot4Variant)
+            with(whenFacingEastHorizontal.and(When.create().set(Properties.SLOT_4_OCCUPIED, true)), eastSlot4Variant)
+            with(whenFacingSouthHorizontal.and(When.create().set(Properties.SLOT_4_OCCUPIED, true)), southSlot4Variant)
+            with(whenFacingWestHorizontal.and(When.create().set(Properties.SLOT_4_OCCUPIED, true)), westSlot4Variant)
+
+            //slot 5
+            with(whenFacingNorthHorizontal.and(When.create().set(Properties.SLOT_5_OCCUPIED, true)), northSlot5Variant)
+            with(whenFacingEastHorizontal.and(When.create().set(Properties.SLOT_5_OCCUPIED, true)), eastSlot5Variant)
+            with(whenFacingSouthHorizontal.and(When.create().set(Properties.SLOT_5_OCCUPIED, true)), southSlot5Variant)
+            with(whenFacingWestHorizontal.and(When.create().set(Properties.SLOT_5_OCCUPIED, true)), westSlot5Variant)
+
+        }
+    }
+    /*------------ End Bookshelves -----------*/
 
     /*------------ Kitchen Counters -----------*/
     private fun genKitchenCounterBlockStateModels(block: KitchenCounterBlock) {
@@ -403,4 +510,16 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     private fun BlockStateVariant.withXRotationOf(rotation: Rotation): BlockStateVariant {
         return this.union(BlockStateVariant().put(VariantSettings.X, rotation))
     }
+
+    private fun When.PropertyCondition.and(other: When.PropertyCondition): When {
+        return When.allOf(this, other)
+    }
+    private fun When.and(other: When): When {
+        return When.allOf(this, other)
+    }
+}
+
+fun Block.getItemModelId(): Identifier? {
+    val identifier = Registries.BLOCK.getId(this)
+    return identifier.withPrefixedPath("item/")
 }

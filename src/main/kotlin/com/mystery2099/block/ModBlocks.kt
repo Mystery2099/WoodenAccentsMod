@@ -131,6 +131,19 @@ object ModBlocks {
     val strippedCrimsonCoffeeTable = CoffeeTableBlock(Blocks.CRIMSON_PLANKS, Blocks.STRIPPED_CRIMSON_STEM).register("stripped_crimson_coffee_table")
     val strippedWarpedCoffeeTable = CoffeeTableBlock(Blocks.WARPED_PLANKS, Blocks.STRIPPED_WARPED_STEM).register("stripped_warped_coffee_table")
 
+    //Thin Bookshelves
+    val oakBookshelf = ThinBookshelfBlock(Blocks.OAK_PLANKS).register("oak_bookshelf")
+    val spruceBookshelf = ThinBookshelfBlock(Blocks.SPRUCE_PLANKS).register("spruce_bookshelf")
+    val birchBookshelf = ThinBookshelfBlock(Blocks.BIRCH_PLANKS).register("birch_bookshelf")
+    val jungleBookshelf = ThinBookshelfBlock(Blocks.JUNGLE_PLANKS).register("jungle_bookshelf")
+    val acaciaBookshelf = ThinBookshelfBlock(Blocks.ACACIA_PLANKS).register("acacia_bookshelf")
+    val darkOakBookshelf = ThinBookshelfBlock(Blocks.DARK_OAK_PLANKS).register("dark_oak_bookshelf")
+    val mangroveBookshelf = ThinBookshelfBlock(Blocks.MANGROVE_PLANKS).register("mangrove_bookshelf")
+    val cherryBookshelf = ThinBookshelfBlock(Blocks.CHERRY_PLANKS).register("cherry_bookshelf")
+    val bambooBookshelf = ThinBookshelfBlock(Blocks.BAMBOO_PLANKS).register("bamboo_bookshelf")
+    val bambooMosaicBookshelf = ThinBookshelfBlock(Blocks.BAMBOO_MOSAIC).register("bamboo_mosaic_bookshelf")
+    val crimsonBookshelf = ThinBookshelfBlock(Blocks.CRIMSON_PLANKS).register("crimson_bookshelf")
+    val warpedBookshelf = ThinBookshelfBlock(Blocks.WARPED_PLANKS).register("warped_bookshelf")
 
     /*---------------Kitchen Stuff----------------*/
     val oakKitchenCounter = KitchenCounterBlock(Blocks.OAK_PLANKS, Blocks.OAK_LOG).register("oak_kitchen_counter")
