@@ -75,6 +75,9 @@ object ModModels {
         TextureKey.TOP
     )
 
+    //Kitchen Cabinet
+    val kitchenCabinet: Model = block("kitchen_cabinet", TextureKey.SIDE, TextureKey.TOP)
+
     /*---------------Bedroom Stuff----------------*/
 
 
