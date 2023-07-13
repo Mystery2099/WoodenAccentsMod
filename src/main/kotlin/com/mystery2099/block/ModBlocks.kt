@@ -186,6 +186,20 @@ object ModBlocks {
     val crimsonKitchenCounter = KitchenCounterBlock(Blocks.CRIMSON_PLANKS, Blocks.CRIMSON_STEM).register("crimson_kitchen_counter")
     val warpedKitchenCounter = KitchenCounterBlock(Blocks.WARPED_PLANKS, Blocks.CRIMSON_STEM).register("warped_kitchen_counter")
 
+    //Kitchen Cabinets
+    val oakKitchenCabinet = KitchenCabinetBlock(Blocks.OAK_PLANKS, Blocks.OAK_LOG).register("oak_kitchen_cabinet")
+    val spruceKitchenCabinet = KitchenCabinetBlock(Blocks.SPRUCE_PLANKS, Blocks.SPRUCE_LOG).register("spruce_kitchen_cabinet")
+    val birchKitchenCabinet = KitchenCabinetBlock(Blocks.BIRCH_PLANKS, Blocks.BIRCH_LOG).register("birch_kitchen_cabinet")
+    val jungleKitchenCabinet = KitchenCabinetBlock(Blocks.JUNGLE_PLANKS, Blocks.JUNGLE_LOG).register("jungle_kitchen_cabinet")
+    val acaciaKitchenCabinet = KitchenCabinetBlock(Blocks.ACACIA_PLANKS, Blocks.ACACIA_LOG).register("acacia_kitchen_cabinet")
+    val darkOakKitchenCabinet = KitchenCabinetBlock(Blocks.DARK_OAK_PLANKS, Blocks.DARK_OAK_LOG).register("dark_oak_kitchen_cabinet")
+    val mangroveKitchenCabinet = KitchenCabinetBlock(Blocks.MANGROVE_PLANKS, Blocks.MANGROVE_LOG).register("mangrove_kitchen_cabinet")
+    val cherryKitchenCabinet = KitchenCabinetBlock(Blocks.CHERRY_PLANKS, Blocks.CHERRY_LOG).register("cherry_kitchen_cabinet")
+    val bambooKitchenCabinet = KitchenCabinetBlock(Blocks.BAMBOO_PLANKS, Blocks.BAMBOO_BLOCK).register("bamboo_kitchen_cabinet")
+    val bambooMosaicKitchenCabinet = KitchenCabinetBlock(Blocks.BAMBOO_MOSAIC, Blocks.BAMBOO_BLOCK).register("bamboo_mosaic_kitchen_cabinet")
+    val crimsonKitchenCabinet = KitchenCabinetBlock(Blocks.CRIMSON_PLANKS, Blocks.CRIMSON_STEM).register("crimson_kitchen_cabinet")
+    val warpedKitchenCabinet = KitchenCabinetBlock(Blocks.WARPED_PLANKS, Blocks.CRIMSON_STEM).register("warped_kitchen_cabinet")
+
     /*---------------End Kitchen Stuff----------------*/
 
     /*---------------Bedroom Stuff----------------*/
