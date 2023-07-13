@@ -1,6 +1,6 @@
 {
   "parent": "myst2099_wooden_accents_mod:block/coffee_table_top_short",
   "textures": {
-    "top": "minecraft:block/warped_stem"
+    "top": "minecraft:block/warped_planks"
   }
 }
