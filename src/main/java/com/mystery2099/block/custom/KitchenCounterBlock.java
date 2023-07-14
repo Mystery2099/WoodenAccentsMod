@@ -27,11 +27,24 @@ public class KitchenCounterBlock extends AbstractWaterloggableBlock{
     public static final EnumProperty<StairShape> SHAPE = Properties.STAIR_SHAPE;
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
     public static final VoxelShape TOP_SHAPE = Block.createCuboidShape(0, 14, 0, 16, 16, 16);
+
+    //Straight
     public static final VoxelShape NORTH_SHAPE = Block.createCuboidShape(0, 0, 2, 16, 14, 16);
     public static final VoxelShape EAST_SHAPE = Block.createCuboidShape(0, 0, 0, 14, 14, 16);
     public static final VoxelShape SOUTH_SHAPE = NORTH_SHAPE.offset(0, 0, -((double) 2 / 16));
     public static final VoxelShape WEST_SHAPE = EAST_SHAPE.offset((double) 2 / 16, 0, 0);
 
+    //Inner Corners
+    private static final VoxelShape NORTH_WEST_INNER = VoxelShapes.union(NORTH_SHAPE, WEST_SHAPE);
+    private static final VoxelShape SOUTH_WEST_INNER = VoxelShapes.union(SOUTH_SHAPE, WEST_SHAPE);
+    private static final VoxelShape SOUTH_EAST_INNER = VoxelShapes.union(SOUTH_SHAPE, EAST_SHAPE);
+    private static final VoxelShape NORTH_EAST_INNER = VoxelShapes.union(NORTH_SHAPE, EAST_SHAPE);
+
+    //Outer Corners
+    private static final VoxelShape NORTH_EAST_OUTER = Block.createCuboidShape(0, 0, 2, 14, 14, 16);
+    private static final VoxelShape NORTH_WEST_OUTER = NORTH_EAST_OUTER.offset((double) 2/16, 0, 0);
+    private static final VoxelShape SOUTH_EAST_OUTER = NORTH_EAST_OUTER.offset(0, 0, -((double) 2 / 16));
+    private static final VoxelShape SOUTH_WEST_OUTER = NORTH_WEST_OUTER.offset(0, 0, -((double) 2 / 16));
     private final Block topBlock, baseBlock;
 
     public KitchenCounterBlock(Block baseBlock, Block topBlock) {
@@ -45,15 +58,15 @@ public class KitchenCounterBlock extends AbstractWaterloggableBlock{
     private static StairShape getCounterShape(BlockState state, BlockView world, BlockPos pos) {
         Direction direction3;
         Direction direction2;
-        Direction direction = state.get(FACING);
-        BlockState blockState = world.getBlockState(pos.offset(direction.getOpposite()));
+        var direction = state.get(FACING);
+        var blockState = world.getBlockState(pos.offset(direction.getOpposite()));
         if (KitchenCounterBlock.isCounter(blockState) && (direction2 = blockState.get(FACING)).getAxis() != state.get(FACING).getAxis() && KitchenCounterBlock.isDifferentOrientation(state, world, pos, direction2)) {
             if (direction2 == direction.rotateYCounterclockwise()) {
                 return StairShape.OUTER_LEFT;
             }
             return StairShape.OUTER_RIGHT;
         }
-        BlockState blockState2 = world.getBlockState(pos.offset(direction));
+        var blockState2 = world.getBlockState(pos.offset(direction));
         if (KitchenCounterBlock.isCounter(blockState2) && (direction3 = blockState2.get(FACING)).getAxis() != state.get(FACING).getAxis() && KitchenCounterBlock.isDifferentOrientation(state, world, pos, direction3.getOpposite())) {
             if (direction3 == direction.rotateYCounterclockwise()) {
                 return StairShape.INNER_LEFT;
@@ -78,53 +91,35 @@ public class KitchenCounterBlock extends AbstractWaterloggableBlock{
     @Override
     @SuppressWarnings("deprecation")
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        var northWest = VoxelShapes.union(NORTH_SHAPE, WEST_SHAPE);
-        var southWest = VoxelShapes.union(SOUTH_SHAPE, WEST_SHAPE);
-        var southEast = VoxelShapes.union(SOUTH_SHAPE, EAST_SHAPE);
-        var northEast = VoxelShapes.union(NORTH_SHAPE, EAST_SHAPE);
-
-        var northOuterLeft = Block.createCuboidShape(0, 0, 2, 14, 14, 16);
-        var northOuterRight = northOuterLeft.offset((double) 2/16, 0, 0);
-
-        var eastOuterLeft = Block.createCuboidShape(0, 0, 0, 14, 14, 14);
-        var eastOuterRight = eastOuterLeft.offset(0, 0, (double) 2/16);
-
-        var southOuterLeft = northOuterRight.offset(0, 0, -((double) 2 / 16));
-        var southOuterRight = northOuterLeft.offset(0, 0, -((double) 2 / 16));
-
-        var westOuterLeft = eastOuterRight.offset((double) 2 / 16, 0, 0);
-        var westOuterRight = eastOuterLeft.offset((double) 2 / 16, 0, 0);
-
-
         var stairShape = state.get(SHAPE);
         return VoxelShapes.union(TOP_SHAPE, switch (state.get(FACING)) {
             case NORTH -> switch (stairShape) {
                 case STRAIGHT -> NORTH_SHAPE;
-                case INNER_LEFT -> northWest;
-                case INNER_RIGHT -> northEast;
-                case OUTER_LEFT -> northOuterRight;
-                case OUTER_RIGHT -> northOuterLeft;
+                case INNER_LEFT -> NORTH_WEST_INNER;
+                case INNER_RIGHT -> NORTH_EAST_INNER;
+                case OUTER_LEFT -> NORTH_WEST_OUTER;
+                case OUTER_RIGHT -> NORTH_EAST_OUTER;
             };
             case SOUTH -> switch (stairShape) {
                 case STRAIGHT -> SOUTH_SHAPE;
-                case INNER_LEFT -> southEast;
-                case INNER_RIGHT -> southWest;
-                case OUTER_LEFT -> eastOuterLeft;
-                case OUTER_RIGHT -> southOuterLeft;
+                case INNER_LEFT -> SOUTH_EAST_INNER;
+                case INNER_RIGHT -> SOUTH_WEST_INNER;
+                case OUTER_LEFT -> SOUTH_EAST_OUTER;
+                case OUTER_RIGHT -> SOUTH_WEST_OUTER;
             };
             case EAST -> switch (stairShape) {
                 case STRAIGHT -> EAST_SHAPE;
-                case INNER_LEFT -> northEast;
-                case INNER_RIGHT -> southEast;
-                case OUTER_LEFT -> northOuterLeft;
-                case OUTER_RIGHT -> eastOuterLeft;
+                case INNER_LEFT -> NORTH_EAST_INNER;
+                case INNER_RIGHT -> SOUTH_EAST_INNER;
+                case OUTER_LEFT -> NORTH_EAST_OUTER;
+                case OUTER_RIGHT -> SOUTH_EAST_OUTER;
             };
             case WEST -> switch (stairShape) {
                 case STRAIGHT -> WEST_SHAPE;
-                case INNER_LEFT -> southWest;
-                case INNER_RIGHT -> northWest;
-                case OUTER_LEFT -> southOuterLeft;
-                case OUTER_RIGHT -> northOuterRight;
+                case INNER_LEFT -> SOUTH_WEST_INNER;
+                case INNER_RIGHT -> NORTH_WEST_INNER;
+                case OUTER_LEFT -> SOUTH_WEST_OUTER;
+                case OUTER_RIGHT -> NORTH_WEST_OUTER;
             };
             default -> VoxelShapes.fullCube();
         });
