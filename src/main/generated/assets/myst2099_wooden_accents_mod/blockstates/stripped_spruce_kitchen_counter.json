@@ -1,0 +1,81 @@
+{
+  "variants": {
+    "facing=east,shape=inner_left": {
+      "model": "myst2099_wooden_accents_mod:block/stripped_spruce_kitchen_counter_inner_left_corner",
+      "y": 90
+    },
+    "facing=east,shape=inner_right": {
+      "model": "myst2099_wooden_accents_mod:block/stripped_spruce_kitchen_counter_inner_left_corner",
+      "y": 180
+    },
+    "facing=east,shape=outer_left": {
+      "model": "myst2099_wooden_accents_mod:block/stripped_spruce_kitchen_counter_outer_left_corner",
+      "y": 90
+    },
+    "facing=east,shape=outer_right": {
+      "model": "myst2099_wooden_accents_mod:block/stripped_spruce_kitchen_counter_outer_left_corner",
+      "y": 180
+    },
+    "facing=east,shape=straight": {
+      "model": "myst2099_wooden_accents_mod:block/stripped_spruce_kitchen_counter",
+      "y": 90
+    },
+    "facing=north,shape=inner_left": {
+      "model": "myst2099_wooden_accents_mod:block/stripped_spruce_kitchen_counter_inner_left_corner"
+    },
+    "facing=north,shape=inner_right": {
+      "model": "myst2099_wooden_accents_mod:block/stripped_spruce_kitchen_counter_inner_left_corner",
+      "y": 90
+    },
+    "facing=north,shape=outer_left": {
+      "model": "myst2099_wooden_accents_mod:block/stripped_spruce_kitchen_counter_outer_left_corner"
+    },
+    "facing=north,shape=outer_right": {
+      "model": "myst2099_wooden_accents_mod:block/stripped_spruce_kitchen_counter_outer_left_corner",
+      "y": 90
+    },
+    "facing=north,shape=straight": {
+      "model": "myst2099_wooden_accents_mod:block/stripped_spruce_kitchen_counter"
+    },
+    "facing=south,shape=inner_left": {
+      "model": "myst2099_wooden_accents_mod:block/stripped_spruce_kitchen_counter_inner_left_corner",
+      "y": 180
+    },
+    "facing=south,shape=inner_right": {
+      "model": "myst2099_wooden_accents_mod:block/stripped_spruce_kitchen_counter_inner_left_corner",
+      "y": 270
+    },
+    "facing=south,shape=outer_left": {
+      "model": "myst2099_wooden_accents_mod:block/stripped_spruce_kitchen_counter_outer_left_corner",
+      "y": 180
+    },
+    "facing=south,shape=outer_right": {
+      "model": "myst2099_wooden_accents_mod:block/stripped_spruce_kitchen_counter_outer_left_corner",
+      "y": 270
+    },
+    "facing=south,shape=straight": {
+      "model": "myst2099_wooden_accents_mod:block/stripped_spruce_kitchen_counter",
+      "y": 180
+    },
+    "facing=west,shape=inner_left": {
+      "model": "myst2099_wooden_accents_mod:block/stripped_spruce_kitchen_counter_inner_left_corner",
+      "y": 270
+    },
+    "facing=west,shape=inner_right": {
+      "model": "myst2099_wooden_accents_mod:block/stripped_spruce_kitchen_counter_inner_left_corner",
+      "y": 0
+    },
+    "facing=west,shape=outer_left": {
+      "model": "myst2099_wooden_accents_mod:block/stripped_spruce_kitchen_counter_outer_left_corner",
+      "y": 270
+    },
+    "facing=west,shape=outer_right": {
+      "model": "myst2099_wooden_accents_mod:block/stripped_spruce_kitchen_counter_outer_left_corner",
+      "y": 0
+    },
+    "facing=west,shape=straight": {
+      "model": "myst2099_wooden_accents_mod:block/stripped_spruce_kitchen_counter",
+      "y": 270
+    }
+  }
+}

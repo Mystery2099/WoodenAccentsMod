@@ -1,0 +1,7 @@
+{
+  "parent": "myst2099_wooden_accents_mod:block/kitchen_counter_inner_left_corner",
+  "textures": {
+    "side": "minecraft:block/crimson_planks",
+    "top": "minecraft:block/stripped_crimson_stem"
+  }
+}

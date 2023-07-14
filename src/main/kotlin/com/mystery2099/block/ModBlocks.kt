@@ -173,6 +173,7 @@ object ModBlocks {
     val warpedBookshelf = ThinBookshelfBlock(Blocks.WARPED_PLANKS).register("warped_bookshelf")
 
     /*---------------Kitchen Stuff----------------*/
+    //Kitchen counters
     val oakKitchenCounter = KitchenCounterBlock(Blocks.OAK_PLANKS, Blocks.OAK_LOG).register("oak_kitchen_counter")
     val spruceKitchenCounter = KitchenCounterBlock(Blocks.SPRUCE_PLANKS, Blocks.SPRUCE_LOG).register("spruce_kitchen_counter")
     val birchKitchenCounter = KitchenCounterBlock(Blocks.BIRCH_PLANKS, Blocks.BIRCH_LOG).register("birch_kitchen_counter")
@@ -185,6 +186,19 @@ object ModBlocks {
     val bambooMosaicKitchenCounter = KitchenCounterBlock(Blocks.BAMBOO_MOSAIC, Blocks.BAMBOO_BLOCK).register("bamboo_mosaic_kitchen_counter")
     val crimsonKitchenCounter = KitchenCounterBlock(Blocks.CRIMSON_PLANKS, Blocks.CRIMSON_STEM).register("crimson_kitchen_counter")
     val warpedKitchenCounter = KitchenCounterBlock(Blocks.WARPED_PLANKS, Blocks.CRIMSON_STEM).register("warped_kitchen_counter")
+
+    //Stripped Kitchen counters
+    val strippedOakKitchenCounter = KitchenCounterBlock(Blocks.OAK_PLANKS, Blocks.STRIPPED_OAK_LOG).register("stripped_oak_kitchen_counter")
+    val strippedSpruceKitchenCounter = KitchenCounterBlock(Blocks.SPRUCE_PLANKS, Blocks.STRIPPED_SPRUCE_LOG).register("stripped_spruce_kitchen_counter")
+    val strippedBirchKitchenCounter = KitchenCounterBlock(Blocks.BIRCH_PLANKS, Blocks.STRIPPED_BIRCH_LOG).register("stripped_birch_kitchen_counter")
+    val strippedJungleKitchenCounter = KitchenCounterBlock(Blocks.JUNGLE_PLANKS, Blocks.STRIPPED_JUNGLE_LOG).register("stripped_jungle_kitchen_counter")
+    val strippedAcaciaKitchenCounter = KitchenCounterBlock(Blocks.ACACIA_PLANKS, Blocks.STRIPPED_ACACIA_LOG).register("stripped_acacia_kitchen_counter")
+    val strippedDarkOakKitchenCounter = KitchenCounterBlock(Blocks.DARK_OAK_PLANKS, Blocks.STRIPPED_DARK_OAK_LOG).register("stripped_dark_oak_kitchen_counter")
+    val strippedMangroveKitchenCounter = KitchenCounterBlock(Blocks.MANGROVE_PLANKS, Blocks.STRIPPED_MANGROVE_LOG).register("stripped_mangrove_kitchen_counter")
+    val strippedCherryKitchenCounter = KitchenCounterBlock(Blocks.CHERRY_PLANKS, Blocks.STRIPPED_CHERRY_LOG).register("stripped_cherry_kitchen_counter")
+    val strippedBambooKitchenCounter = KitchenCounterBlock(Blocks.BAMBOO_PLANKS, Blocks.STRIPPED_BAMBOO_BLOCK).register("stripped_bamboo_kitchen_counter")
+    val strippedCrimsonKitchenCounter = KitchenCounterBlock(Blocks.CRIMSON_PLANKS, Blocks.STRIPPED_CRIMSON_STEM).register("stripped_crimson_kitchen_counter")
+    val strippedWarpedKitchenCounter = KitchenCounterBlock(Blocks.WARPED_PLANKS, Blocks.STRIPPED_WARPED_STEM).register("stripped_warped_kitchen_counter")
 
     //Kitchen Cabinets
     val oakKitchenCabinet = KitchenCabinetBlock(Blocks.OAK_PLANKS, Blocks.OAK_LOG).register("oak_kitchen_cabinet")
