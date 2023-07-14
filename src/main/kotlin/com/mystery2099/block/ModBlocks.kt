@@ -197,6 +197,7 @@ object ModBlocks {
     val strippedMangroveKitchenCounter = KitchenCounterBlock(Blocks.MANGROVE_PLANKS, Blocks.STRIPPED_MANGROVE_LOG).register("stripped_mangrove_kitchen_counter")
     val strippedCherryKitchenCounter = KitchenCounterBlock(Blocks.CHERRY_PLANKS, Blocks.STRIPPED_CHERRY_LOG).register("stripped_cherry_kitchen_counter")
     val strippedBambooKitchenCounter = KitchenCounterBlock(Blocks.BAMBOO_PLANKS, Blocks.STRIPPED_BAMBOO_BLOCK).register("stripped_bamboo_kitchen_counter")
+    val strippedBambooMosaicKitchenCounter = KitchenCounterBlock(Blocks.BAMBOO_MOSAIC, Blocks.STRIPPED_BAMBOO_BLOCK).register("stripped_bamboo_mosaic_kitchen_counter")
     val strippedCrimsonKitchenCounter = KitchenCounterBlock(Blocks.CRIMSON_PLANKS, Blocks.STRIPPED_CRIMSON_STEM).register("stripped_crimson_kitchen_counter")
     val strippedWarpedKitchenCounter = KitchenCounterBlock(Blocks.WARPED_PLANKS, Blocks.STRIPPED_WARPED_STEM).register("stripped_warped_kitchen_counter")
 
