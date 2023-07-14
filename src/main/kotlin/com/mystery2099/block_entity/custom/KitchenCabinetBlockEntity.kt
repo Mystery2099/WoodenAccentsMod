@@ -25,7 +25,7 @@ import net.minecraft.world.World
 
 class KitchenCabinetBlockEntity(pos: BlockPos, state: BlockState) : LootableContainerBlockEntity(ModBlockEntities.kitchenCabinet, pos, state) {
     private var inventory: DefaultedList<ItemStack> = DefaultedList.ofSize(27, ItemStack.EMPTY)
-    val stateManager: ViewerCountManager = object : ViewerCountManager() {
+    private val stateManager: ViewerCountManager = object : ViewerCountManager() {
         override fun onContainerOpen(world: World, pos: BlockPos, state: BlockState) {
             playSound(state, SoundEvents.BLOCK_BARREL_OPEN)
             setOpen(state, true)
@@ -46,9 +46,9 @@ class KitchenCabinetBlockEntity(pos: BlockPos, state: BlockState) : LootableCont
         }
 
         override fun isPlayerViewing(player: PlayerEntity): Boolean {
-            if (player.currentScreenHandler is GenericContainerScreenHandler) {
-                val inventory = (player.currentScreenHandler as GenericContainerScreenHandler).inventory
-                return inventory === this@KitchenCabinetBlockEntity
+            val screenHandler = player.currentScreenHandler
+            if (screenHandler is GenericContainerScreenHandler) {
+                return screenHandler.inventory === this@KitchenCabinetBlockEntity
             }
             return false
         }
@@ -73,17 +73,13 @@ class KitchenCabinetBlockEntity(pos: BlockPos, state: BlockState) : LootableCont
         return 27
     }
 
-    override fun getInvStackList(): DefaultedList<ItemStack> {
-        return inventory
-    }
+    override fun getInvStackList(): DefaultedList<ItemStack> = inventory
 
     override fun setInvStackList(list: DefaultedList<ItemStack>) {
         inventory = list
     }
 
-    override fun getContainerName(): Text {
-        return Text.translatable(cachedState.block.translationKey)
-    }
+    override fun getContainerName(): Text = Text.translatable(cachedState.block.translationKey)
 
     override fun createScreenHandler(syncId: Int, playerInventory: PlayerInventory?): ScreenHandler? {
         return GenericContainerScreenHandler.createGeneric9x3(syncId, playerInventory, this)
@@ -113,19 +109,16 @@ class KitchenCabinetBlockEntity(pos: BlockPos, state: BlockState) : LootableCont
 
     fun playSound(state: BlockState, soundEvent: SoundEvent?) {
         val vec3i = state.get(BarrelBlock.FACING).vector
-        val d: Double = this.pos.x.toDouble() + 0.5 + vec3i.x.toDouble() / 2.0
-        val e: Double = this.pos.y.toDouble() + 0.5 + vec3i.y.toDouble() / 2.0
-        val f: Double = this.pos.z.toDouble() + 0.5 + vec3i.z.toDouble() / 2.0
-        this.world?.playSound(
-            null,
-            d,
-            e,
-            f,
-            soundEvent,
-            SoundCategory.BLOCKS,
-            0.5f,
-            this.world!!.random.nextFloat() * 0.1f + 0.9f
-        )
+        val d = this.pos.x.toDouble() + 0.5 + vec3i.x.toDouble() / 2.0
+        val e = this.pos.y.toDouble() + 0.5 + vec3i.y.toDouble() / 2.0
+        val f = this.pos.z.toDouble() + 0.5 + vec3i.z.toDouble() / 2.0
+        with(this.world!!) {
+            playSound(
+                null, d, e, f, soundEvent,
+                SoundCategory.BLOCKS, 0.5f,
+                this.random.nextFloat() * 0.1f + 0.9f
+            )
+        }
     }
 }
 

@@ -57,7 +57,7 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
         val blockEntity = world.getBlockEntity(pos)
         if (blockEntity is KitchenCabinetBlockEntity) {
             player.openHandledScreen(blockEntity)
-            player.incrementStat(Stats.OPEN_BARREL)
+            //player.incrementStat(Stats.OPEN_BARREL)
             PiglinBrain.onGuardedBlockInteracted(player, true)
         }
         return ActionResult.CONSUME
@@ -74,7 +74,7 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
         if (state.isOf(newState.block)) return
         val blockEntity = world.getBlockEntity(pos)
         if (blockEntity is Inventory) {
-            ItemScatterer.spawn(world, pos, blockEntity)
+            ItemScatterer.spawn(world, pos, blockEntity as Inventory)
             world.updateComparators(pos, this)
         }
         super.onStateReplaced(state, world, pos, newState, moved)
@@ -103,7 +103,7 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
         itemStack: ItemStack
     ) {
         lateinit var blockEntity: BlockEntity
-        if (itemStack.hasCustomName() && (world.getBlockEntity(pos).also { blockEntity = it!! }) is KitchenCabinetBlockEntity) {
+        if (itemStack.hasCustomName() && (world.getBlockEntity(pos).apply { blockEntity = this!! }) is KitchenCabinetBlockEntity) {
             (blockEntity as KitchenCabinetBlockEntity).customName = itemStack.name
         }
     }
