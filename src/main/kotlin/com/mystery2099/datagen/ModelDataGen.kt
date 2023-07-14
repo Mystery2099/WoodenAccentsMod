@@ -432,46 +432,44 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         innerLeftModel: Identifier,
         outerLeftModel: Identifier
     ): BlockStateVariantMap {
-        val southBlockVariant = BlockStateVariant().putModel(blockModel)
-        val southInnerLeftVariant = BlockStateVariant().putModel(innerLeftModel)
-        val southInnerRightVariant = southInnerLeftVariant.withYRotationOf(Rotation.R90)
-        val southOuterLeftVariant = BlockStateVariant().putModel(outerLeftModel)
-        val southOuterRightVariant = southOuterLeftVariant.withYRotationOf(Rotation.R90)
+        val northBlock = BlockStateVariant().putModel(blockModel)
+        val northInnerLeft = BlockStateVariant().putModel(innerLeftModel)
+        val northOuterLeft = BlockStateVariant().putModel(outerLeftModel)
 
         return BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, Properties.STAIR_SHAPE).apply {
             for (direction in horizontalDirections) {
                 for (shape in StairShape.values()) {
                     val variant = when (direction) {
                         Direction.NORTH -> when (shape) {
-                            StairShape.STRAIGHT -> southBlockVariant.withYRotationOf(Rotation.R180)
-                            StairShape.INNER_LEFT -> southInnerLeftVariant.withYRotationOf(Rotation.R180)
-                            StairShape.INNER_RIGHT -> southInnerRightVariant.withYRotationOf(Rotation.R270)
-                            StairShape.OUTER_LEFT -> southOuterLeftVariant.withYRotationOf(Rotation.R180)
-                            StairShape.OUTER_RIGHT -> southOuterLeftVariant.withYRotationOf(Rotation.R270)
+                            StairShape.STRAIGHT -> northBlock
+                            StairShape.INNER_LEFT -> northInnerLeft
+                            StairShape.INNER_RIGHT -> northInnerLeft.withYRotationOf(Rotation.R90)
+                            StairShape.OUTER_LEFT -> northOuterLeft
+                            StairShape.OUTER_RIGHT -> northOuterLeft.withYRotationOf(Rotation.R90)
                             else -> throw IllegalStateException("Invalid shape: $shape")
                         }
                         Direction.EAST -> when (shape) {
-                            StairShape.STRAIGHT -> southBlockVariant.withYRotationOf(Rotation.R270)
-                            StairShape.INNER_LEFT -> southInnerLeftVariant.withYRotationOf(Rotation.R270)
-                            StairShape.INNER_RIGHT -> southInnerRightVariant.withYRotationOf(Rotation.R0)
-                            StairShape.OUTER_LEFT -> southOuterLeftVariant.withYRotationOf(Rotation.R270)
-                            StairShape.OUTER_RIGHT -> southOuterRightVariant.withYRotationOf(Rotation.R0)
+                            StairShape.STRAIGHT -> northBlock.withYRotationOf(Rotation.R90)
+                            StairShape.INNER_LEFT -> northInnerLeft.withYRotationOf(Rotation.R90)
+                            StairShape.INNER_RIGHT -> northInnerLeft.withYRotationOf(Rotation.R180)
+                            StairShape.OUTER_LEFT -> northOuterLeft.withYRotationOf(Rotation.R90)
+                            StairShape.OUTER_RIGHT -> northOuterLeft.withYRotationOf(Rotation.R180)
                             else -> throw IllegalStateException("Invalid shape: $shape")
                         }
                         Direction.SOUTH -> when (shape) {
-                            StairShape.STRAIGHT -> southBlockVariant
-                            StairShape.INNER_LEFT -> southInnerLeftVariant
-                            StairShape.INNER_RIGHT -> southInnerRightVariant
-                            StairShape.OUTER_LEFT -> southOuterLeftVariant
-                            StairShape.OUTER_RIGHT -> southOuterRightVariant
+                            StairShape.STRAIGHT -> northBlock.withYRotationOf(Rotation.R180)
+                            StairShape.INNER_LEFT -> northInnerLeft.withYRotationOf(Rotation.R180)
+                            StairShape.INNER_RIGHT -> northInnerLeft.withYRotationOf(Rotation.R270)
+                            StairShape.OUTER_LEFT -> northOuterLeft.withYRotationOf(Rotation.R180)
+                            StairShape.OUTER_RIGHT -> northOuterLeft.withYRotationOf(Rotation.R270)
                             else -> throw IllegalStateException("Invalid shape: $shape")
                         }
                         Direction.WEST -> when (shape) {
-                            StairShape.STRAIGHT -> southBlockVariant.withYRotationOf(Rotation.R90)
-                            StairShape.INNER_LEFT -> southInnerLeftVariant.withYRotationOf(Rotation.R90)
-                            StairShape.INNER_RIGHT -> southInnerLeftVariant.withYRotationOf(Rotation.R180)
-                            StairShape.OUTER_LEFT -> southOuterLeftVariant.withYRotationOf(Rotation.R90)
-                            StairShape.OUTER_RIGHT -> southOuterLeftVariant.withYRotationOf(Rotation.R180)
+                            StairShape.STRAIGHT -> northBlock.withYRotationOf(Rotation.R270)
+                            StairShape.INNER_LEFT -> northInnerLeft.withYRotationOf(Rotation.R270)
+                            StairShape.INNER_RIGHT -> northInnerLeft.withYRotationOf(Rotation.R0)
+                            StairShape.OUTER_LEFT -> northOuterLeft.withYRotationOf(Rotation.R270)
+                            StairShape.OUTER_RIGHT -> northOuterLeft.withYRotationOf(Rotation.R0)
                             else -> throw IllegalStateException("Invalid shape: $shape")
                         }
 
