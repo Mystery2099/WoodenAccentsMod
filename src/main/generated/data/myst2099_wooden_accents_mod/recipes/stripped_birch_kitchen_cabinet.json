@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "stripped_kitchen_cabinets",
+  "key": {
+    "#": {
+      "item": "minecraft:birch_planks"
+    },
+    "O": {
+      "tag": "c:chests"
+    },
+    "_": {
+      "item": "minecraft:stripped_birch_log"
+    }
+  },
+  "pattern": [
+    "___",
+    "#O#",
+    "###"
+  ],
+  "result": {
+    "count": 4,
+    "item": "myst2099_wooden_accents_mod:stripped_birch_kitchen_cabinet"
+  },
+  "show_notification": true
+}

@@ -215,6 +215,20 @@ object ModBlocks {
     val crimsonKitchenCabinet = KitchenCabinetBlock(Blocks.CRIMSON_PLANKS, Blocks.CRIMSON_STEM).register("crimson_kitchen_cabinet")
     val warpedKitchenCabinet = KitchenCabinetBlock(Blocks.WARPED_PLANKS, Blocks.CRIMSON_STEM).register("warped_kitchen_cabinet")
 
+    //Stripped Cabinets
+    val strippedOakKitchenCabinet = KitchenCabinetBlock(Blocks.OAK_PLANKS, Blocks.STRIPPED_OAK_LOG).register("stripped_oak_kitchen_cabinet")
+    val strippedSpruceKitchenCabinet = KitchenCabinetBlock(Blocks.SPRUCE_PLANKS, Blocks.STRIPPED_SPRUCE_LOG).register("stripped_spruce_kitchen_cabinet")
+    val strippedBirchKitchenCabinet = KitchenCabinetBlock(Blocks.BIRCH_PLANKS, Blocks.STRIPPED_BIRCH_LOG).register("stripped_birch_kitchen_cabinet")
+    val strippedJungleKitchenCabinet = KitchenCabinetBlock(Blocks.JUNGLE_PLANKS, Blocks.STRIPPED_JUNGLE_LOG).register("stripped_jungle_kitchen_cabinet")
+    val strippedAcaciaKitchenCabinet = KitchenCabinetBlock(Blocks.ACACIA_PLANKS, Blocks.STRIPPED_ACACIA_LOG).register("stripped_acacia_kitchen_cabinet")
+    val strippedDarkOakKitchenCabinet = KitchenCabinetBlock(Blocks.DARK_OAK_PLANKS, Blocks.STRIPPED_DARK_OAK_LOG).register("stripped_dark_oak_kitchen_cabinet")
+    val strippedMangroveKitchenCabinet = KitchenCabinetBlock(Blocks.MANGROVE_PLANKS, Blocks.STRIPPED_MANGROVE_LOG).register("stripped_mangrove_kitchen_cabinet")
+    val strippedCherryKitchenCabinet = KitchenCabinetBlock(Blocks.CHERRY_PLANKS, Blocks.STRIPPED_CHERRY_LOG).register("stripped_cherry_kitchen_cabinet")
+    val strippedBambooKitchenCabinet = KitchenCabinetBlock(Blocks.BAMBOO_PLANKS, Blocks.STRIPPED_BAMBOO_BLOCK).register("stripped_bamboo_kitchen_cabinet")
+    val strippedBambooMosaicKitchenCabinet = KitchenCabinetBlock(Blocks.BAMBOO_MOSAIC, Blocks.STRIPPED_BAMBOO_BLOCK).register("stripped_bamboo_mosaic_kitchen_cabinet")
+    val strippedCrimsonKitchenCabinet = KitchenCabinetBlock(Blocks.CRIMSON_PLANKS, Blocks.STRIPPED_CRIMSON_STEM).register("stripped_crimson_kitchen_cabinet")
+    val strippedWarpedKitchenCabinet = KitchenCabinetBlock(Blocks.WARPED_PLANKS, Blocks.STRIPPED_WARPED_STEM).register("stripped_warped_kitchen_cabinet")
+
     /*---------------End Kitchen Stuff----------------*/
 
     /*---------------Bedroom Stuff----------------*/
