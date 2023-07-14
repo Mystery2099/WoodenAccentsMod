@@ -2,6 +2,6 @@
   "parent": "myst2099_wooden_accents_mod:block/kitchen_counter_outer_left_corner",
   "textures": {
     "side": "minecraft:block/warped_planks",
-    "top": "minecraft:block/crimson_stem"
+    "top": "minecraft:block/warped_stem"
   }
 }

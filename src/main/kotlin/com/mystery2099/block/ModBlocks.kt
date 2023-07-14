@@ -185,7 +185,7 @@ object ModBlocks {
     val bambooKitchenCounter = KitchenCounterBlock(Blocks.BAMBOO_PLANKS, Blocks.BAMBOO_BLOCK).register("bamboo_kitchen_counter")
     val bambooMosaicKitchenCounter = KitchenCounterBlock(Blocks.BAMBOO_MOSAIC, Blocks.BAMBOO_BLOCK).register("bamboo_mosaic_kitchen_counter")
     val crimsonKitchenCounter = KitchenCounterBlock(Blocks.CRIMSON_PLANKS, Blocks.CRIMSON_STEM).register("crimson_kitchen_counter")
-    val warpedKitchenCounter = KitchenCounterBlock(Blocks.WARPED_PLANKS, Blocks.CRIMSON_STEM).register("warped_kitchen_counter")
+    val warpedKitchenCounter = KitchenCounterBlock(Blocks.WARPED_PLANKS, Blocks.WARPED_STEM).register("warped_kitchen_counter")
 
     //Stripped Kitchen counters
     val strippedOakKitchenCounter = KitchenCounterBlock(Blocks.OAK_PLANKS, Blocks.STRIPPED_OAK_LOG).register("stripped_oak_kitchen_counter")
@@ -213,7 +213,7 @@ object ModBlocks {
     val bambooKitchenCabinet = KitchenCabinetBlock(Blocks.BAMBOO_PLANKS, Blocks.BAMBOO_BLOCK).register("bamboo_kitchen_cabinet")
     val bambooMosaicKitchenCabinet = KitchenCabinetBlock(Blocks.BAMBOO_MOSAIC, Blocks.BAMBOO_BLOCK).register("bamboo_mosaic_kitchen_cabinet")
     val crimsonKitchenCabinet = KitchenCabinetBlock(Blocks.CRIMSON_PLANKS, Blocks.CRIMSON_STEM).register("crimson_kitchen_cabinet")
-    val warpedKitchenCabinet = KitchenCabinetBlock(Blocks.WARPED_PLANKS, Blocks.CRIMSON_STEM).register("warped_kitchen_cabinet")
+    val warpedKitchenCabinet = KitchenCabinetBlock(Blocks.WARPED_PLANKS, Blocks.WARPED_STEM).register("warped_kitchen_cabinet")
 
     //Stripped Cabinets
     val strippedOakKitchenCabinet = KitchenCabinetBlock(Blocks.OAK_PLANKS, Blocks.STRIPPED_OAK_LOG).register("stripped_oak_kitchen_cabinet")
