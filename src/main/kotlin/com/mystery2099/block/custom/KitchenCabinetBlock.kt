@@ -150,7 +150,7 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
             Direction.EAST -> KitchenCounterBlock.EAST_SHAPE
             Direction.SOUTH -> KitchenCounterBlock.SOUTH_SHAPE
             Direction.WEST -> KitchenCounterBlock.WEST_SHAPE
-            else -> super.getOutlineShape(state, world, pos, context)
+            else -> VoxelShapes.fullCube()
         }.unionWith(KitchenCounterBlock.TOP_SHAPE)
     }
 }
