@@ -30,6 +30,7 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
                 is TableBlock -> genTableRecipe(it)
                 is CoffeeTableBlock -> genCoffeeTableRecipe(it)
                 is ThinBookshelfBlock -> genThinBookshelfRecipe(it)
+                is FloorCoveringBlock -> genFloorCoveringRecipe(it)
                 is KitchenCounterBlock -> genKitchenCounterRecipe(it)
                 is KitchenCabinetBlock -> genKitchenCabinetRecipe(it)
             }
@@ -113,6 +114,20 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
             .offerTo(exporter)
     }
     /*---------------End Thin Bookshelves----------------*/
+
+    /*---------------Floor Covering Blocks----------------*/
+    private fun genFloorCoveringRecipe(block: FloorCoveringBlock) {
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 3).run {
+            input('#', block.baseBlock)
+            input('_', Items.PAPER)
+            pattern("##")
+            pattern("_ ")
+            group(block, "carpets")
+            criterion(block.baseBlock)
+            offerTo(exporter)
+        }
+    }
+    /*---------------End Floor Covering Blocks----------------*/
 
     /*---------------Kitchen Counters----------------*/
     private fun genKitchenCounterRecipe(block: KitchenCounterBlock) {
