@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 
 object WoodenAccentsModDataGenerator : DataGeneratorEntrypoint {
+	lateinit var blockTagGen: BlockTagDataGen
 	override fun onInitializeDataGenerator(fabricDataGenerator: FabricDataGenerator) {
 		with(fabricDataGenerator.createPack()) {
 			//Assets
@@ -14,7 +15,7 @@ object WoodenAccentsModDataGenerator : DataGeneratorEntrypoint {
 			//Data
 			addProvider(::BlockLootTableDataGen)
 			addProvider(::RecipeDataGen)
-			WoodenAccentsUtil.setBlockTagGen(addProvider(::BlockTagDataGen))
+			blockTagGen = addProvider(::BlockTagDataGen)
 			addProvider(::ItemTagDataGen)
 			addProvider(::BiomeTagDataGen)
 		}
