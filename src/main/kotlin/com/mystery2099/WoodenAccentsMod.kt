@@ -21,7 +21,7 @@ object WoodenAccentsMod : ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 		logger.info("Hello Fabric world!")
-		ModBlocks.register()
+		ModBlocks.registerAs()
 		ModBlockEntities.register()
 		WoodenAccentsModItemGroups.register()
 	}
