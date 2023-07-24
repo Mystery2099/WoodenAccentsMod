@@ -172,6 +172,20 @@ object ModBlocks {
     val crimsonBookshelf = ThinBookshelfBlock(Blocks.CRIMSON_PLANKS).register("crimson_bookshelf")
     val warpedBookshelf = ThinBookshelfBlock(Blocks.WARPED_PLANKS).register("warped_bookshelf")
 
+    //Wood Floor Coverings
+    val oakFloorCovering = FloorCoveringBlock(Blocks.OAK_PLANKS).register("oak_floor_covering")
+    val spruceFloorCovering = FloorCoveringBlock(Blocks.SPRUCE_PLANKS).register("spruce_floor_covering")
+    val birchFloorCovering = FloorCoveringBlock(Blocks.BIRCH_PLANKS).register("birch_floor_covering")
+    val jungleFloorCovering = FloorCoveringBlock(Blocks.JUNGLE_PLANKS).register("jungle_floor_covering")
+    val acaciaFloorCovering = FloorCoveringBlock(Blocks.ACACIA_PLANKS).register("acacia_floor_covering")
+    val darkOakFloorCovering = FloorCoveringBlock(Blocks.DARK_OAK_PLANKS).register("dark_oak_floor_covering")
+    val mangroveFloorCovering = FloorCoveringBlock(Blocks.MANGROVE_PLANKS).register("mangrove_floor_covering")
+    val cherryFloorCovering = FloorCoveringBlock(Blocks.CHERRY_PLANKS).register("cherry_floor_covering")
+    val bambooFloorCovering = FloorCoveringBlock(Blocks.BAMBOO_PLANKS).register("bamboo_floor_covering")
+    val bambooMosaicFloorCovering = FloorCoveringBlock(Blocks.BAMBOO_MOSAIC).register("bamboo_mosaic_floor_covering")
+    val crimsonFloorCovering = FloorCoveringBlock(Blocks.CRIMSON_PLANKS).register("crimson_floor_covering")
+    val warpedFloorCovering = FloorCoveringBlock(Blocks.WARPED_PLANKS).register("warped_floor_covering")
+
     /*---------------Kitchen Stuff----------------*/
     //Kitchen counters
     val oakKitchenCounter = KitchenCounterBlock(Blocks.OAK_PLANKS, Blocks.OAK_LOG).register("oak_kitchen_counter")
