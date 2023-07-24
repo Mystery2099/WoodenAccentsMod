@@ -128,6 +128,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
             is TableBlock -> genTableBlockStateModels(block)
             is CoffeeTableBlock -> genCoffeeTableBlockStateModels(block)
             is ThinBookshelfBlock -> genThinBookshelfBlockStateModels(block)
+            is FloorCoveringBlock -> genFloorCoveringBlockStateModels(block)
             //Kitchen
             is KitchenCounterBlock -> genKitchenCounterBlockStateModels(block)
             is KitchenCabinetBlock -> genKitchenCabinetBlockStateModels(block)
@@ -404,6 +405,15 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         }
     }
     /*------------ End Bookshelves -----------*/
+
+    /*------------ Floor Coverings -----------*/
+    private fun genFloorCoveringBlockStateModels(block: FloorCoveringBlock) {
+        with(generator) {
+            registerSingleton(block, TextureMap().put(TextureKey.WOOL, TextureMap.getId(block.baseBlock)), Models.CARPET)
+            registerParentedItemModel(block, ModelIds.getBlockModelId(block))
+        }
+    }
+    /*------------ End Floor Coverings -----------*/
 
     /*------------ Kitchen Counters -----------*/
     private fun genKitchenCounterBlockStateModels(block: KitchenCounterBlock) {
