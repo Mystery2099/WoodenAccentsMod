@@ -8,6 +8,8 @@ import net.minecraft.block.Blocks
 import net.minecraft.block.WoodType
 import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
+import net.minecraft.util.shape.VoxelShape
+import net.minecraft.util.shape.VoxelShapes
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -75,5 +77,8 @@ object WoodenAccentsMod : ModInitializer {
 			}
 		}
 		return type
+	}
+	fun VoxelShape.unionWith(other: VoxelShape): VoxelShape {
+		return VoxelShapes.union(this, other)
 	}
 }

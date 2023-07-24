@@ -1,6 +1,7 @@
 package com.mystery2099.block.custom
 
 import com.mystery2099.WoodenAccentsMod
+import com.mystery2099.WoodenAccentsMod.unionWith
 import com.mystery2099.WoodenAccentsModItemGroups
 import com.mystery2099.block_entity.custom.KitchenCabinetBlockEntity
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
@@ -150,6 +151,6 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
             Direction.SOUTH -> KitchenCounterBlock.SOUTH_SHAPE
             Direction.WEST -> KitchenCounterBlock.WEST_SHAPE
             else -> super.getOutlineShape(state, world, pos, context)
-        }.apply { VoxelShapes.union(this, KitchenCounterBlock.TOP_SHAPE) }
+        }.unionWith(KitchenCounterBlock.TOP_SHAPE)
     }
 }
