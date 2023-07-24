@@ -23,6 +23,8 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
                 is CustomWallBlock -> ModBlockTags.woodenWalls.addBlock(it)
                 is PlankLadderBlock -> ModBlockTags.plankLadders.addBlock(it)
                 is TableBlock -> ModBlockTags.tables.addBlock(it)
+                is ThinBookshelfBlock -> ModBlockTags.thinBookshelves.addBlock(it)
+                is FloorCoveringBlock -> ModBlockTags.plankCarpets.addBlock(it)
                 is CoffeeTableBlock -> ModBlockTags.coffeeTables.addBlock(it)
                 is KitchenCounterBlock -> ModBlockTags.kitchenCounters.addBlock(it)
                 is KitchenCabinetBlock -> ModBlockTags.kitchenCabinets.addBlock(it)
@@ -31,6 +33,7 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
         ModBlockTags.pillars.addTags(ModBlockTags.thinPillars, ModBlockTags.thickPillars)
         BlockTags.WALLS.addTag(ModBlockTags.woodenWalls)
         BlockTags.CLIMBABLE.addTag(ModBlockTags.plankLadders)
+        BlockTags.INSIDE_STEP_SOUND_BLOCKS.addTag(ModBlockTags.plankCarpets)
         ModBlockTags.kitchenCounters.addTag(ModBlockTags.kitchenCabinets)
     }
 

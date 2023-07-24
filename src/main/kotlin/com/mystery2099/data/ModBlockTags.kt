@@ -26,6 +26,8 @@ object ModBlockTags {
     /*---------------Living Room Tags----------------*/
     val tables = "tables".toBlockTag().withMatchingItemTag()
     val coffeeTables = "coffee_tables".toBlockTag().withMatchingItemTag()
+    val thinBookshelves = "thin_bookshelves".toBlockTag().withMatchingItemTag()
+    val plankCarpets = "plank_carpets".toBlockTag().withMatchingItemTag()
 
     /*---------------End Living Room Tags----------------*/
 
