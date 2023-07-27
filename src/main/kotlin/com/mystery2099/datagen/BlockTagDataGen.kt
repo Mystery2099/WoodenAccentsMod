@@ -21,6 +21,7 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
                 is ThinPillarBlock -> ModBlockTags.thinPillars.addBlock(it)
                 is ThickPillarBlock -> ModBlockTags.thickPillars.addBlock(it)
                 is CustomWallBlock -> ModBlockTags.woodenWalls.addBlock(it)
+                is WoodenFenceBlock -> BlockTags.WOODEN_FENCES.addBlock(it)
                 is PlankLadderBlock -> ModBlockTags.plankLadders.addBlock(it)
                 is TableBlock -> ModBlockTags.tables.addBlock(it)
                 is ThinBookshelfBlock -> ModBlockTags.thinBookshelves.addBlock(it)
