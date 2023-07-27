@@ -1,0 +1,7 @@
+{
+  "parent": "myst2099_wooden_accents_mod:block/wooden_fence_post",
+  "textures": {
+    "end": "minecraft:block/bamboo_block",
+    "up": "minecraft:block/bamboo_block_top"
+  }
+}

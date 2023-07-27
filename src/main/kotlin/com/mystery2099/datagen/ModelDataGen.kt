@@ -123,6 +123,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
             is ThinPillarBlock -> genThinPillarBlockStateModels(block)
             is ThickPillarBlock -> genThickPillarBlockStateModels(block)
             is CustomWallBlock -> genWallBlockStateModels(block)
+            is WoodenFenceBlock -> genCustomFenceBlockStateModels(block)
             is PlankLadderBlock -> genPlankLadderBlockStateModels(block)
             //Living Room
             is TableBlock -> genTableBlockStateModels(block)
@@ -186,6 +187,26 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         }
     }
     /*------------ End Walls -----------*/
+    /*------------ Custom Fences -----------*/
+    private fun genCustomFenceBlockStateModels(block: WoodenFenceBlock) {
+        val map = TextureMap().apply {
+            put(TextureKey.SIDE, TextureMap.getId(block.strippedLog))
+            put(TextureKey.END, TextureMap.getId(block.log))
+            put(TextureKey.UP, TextureMap.getSubId(block.log, "_top"))
+        }
+        with(generator) {
+            ModModels.woodenFenceInventory.upload(block, map, modelCollector)
+            blockStateCollector.run{
+                accept(BlockStateModelGenerator.createFenceBlockState(
+                    block,
+                    ModModels.woodenFencePost.upload(block, map, modelCollector),
+                    ModModels.woodenFenceSide.upload(block, map, modelCollector)
+                ))
+            }
+        }
+
+    }
+    /*------------ End Custom Fences -----------*/
 
     /*------------ Ladders -----------*/
     private fun genPlankLadderBlockStateModels(block: PlankLadderBlock) {

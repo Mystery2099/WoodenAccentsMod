@@ -1,0 +1,7 @@
+{
+  "parent": "myst2099_wooden_accents_mod:block/wooden_fence_post",
+  "textures": {
+    "end": "minecraft:block/mangrove_log",
+    "up": "minecraft:block/mangrove_log_top"
+  }
+}
