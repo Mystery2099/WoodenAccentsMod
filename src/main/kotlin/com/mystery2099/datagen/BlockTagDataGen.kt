@@ -6,7 +6,6 @@ import com.mystery2099.data.ModBlockTags
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
 import net.minecraft.block.Block
-import net.minecraft.block.LadderBlock
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.TagKey
@@ -21,7 +20,7 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
                 is ThinPillarBlock -> ModBlockTags.thinPillars.addBlock(it)
                 is ThickPillarBlock -> ModBlockTags.thickPillars.addBlock(it)
                 is CustomWallBlock -> ModBlockTags.woodenWalls.addBlock(it)
-                is WoodenFenceBlock -> BlockTags.WOODEN_FENCES.addBlock(it)
+                is ModernFenceBlock -> ModBlockTags.modernFences.addBlock(it)
                 is PlankLadderBlock -> ModBlockTags.plankLadders.addBlock(it)
                 is TableBlock -> ModBlockTags.tables.addBlock(it)
                 is ThinBookshelfBlock -> ModBlockTags.thinBookshelves.addBlock(it)

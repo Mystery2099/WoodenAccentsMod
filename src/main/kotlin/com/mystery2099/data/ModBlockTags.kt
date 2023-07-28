@@ -21,6 +21,8 @@ object ModBlockTags {
     //Ladders
     val plankLadders = "plank_ladders".toBlockTag().withMatchingItemTag()
 
+    //Fences
+    val modernFences = "modern_fences".toBlockTag().withMatchingItemTag()
     /*---------------End Outside Tags----------------*/
 
     /*---------------Living Room Tags----------------*/

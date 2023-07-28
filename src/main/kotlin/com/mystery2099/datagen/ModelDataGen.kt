@@ -123,7 +123,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
             is ThinPillarBlock -> genThinPillarBlockStateModels(block)
             is ThickPillarBlock -> genThickPillarBlockStateModels(block)
             is CustomWallBlock -> genWallBlockStateModels(block)
-            is WoodenFenceBlock -> genCustomFenceBlockStateModels(block)
+            is ModernFenceBlock -> genCustomFenceBlockStateModels(block)
             is PlankLadderBlock -> genPlankLadderBlockStateModels(block)
             //Living Room
             is TableBlock -> genTableBlockStateModels(block)
@@ -188,19 +188,19 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     }
     /*------------ End Walls -----------*/
     /*------------ Custom Fences -----------*/
-    private fun genCustomFenceBlockStateModels(block: WoodenFenceBlock) {
+    private fun genCustomFenceBlockStateModels(block: ModernFenceBlock) {
         val map = TextureMap().apply {
-            put(TextureKey.SIDE, TextureMap.getId(block.strippedLog))
-            put(TextureKey.END, TextureMap.getId(block.log))
-            put(TextureKey.UP, TextureMap.getSubId(block.log, "_top"))
+            put(TextureKey.SIDE, TextureMap.getId(block.sideBlock))
+            put(TextureKey.END, TextureMap.getId(block.postBlock))
+            put(TextureKey.UP, TextureMap.getSubId(block.postBlock, "_top"))
         }
         with(generator) {
-            ModModels.woodenFenceInventory.upload(block, map, modelCollector)
+            ModModels.modernFenceInventory.upload(block, map, modelCollector)
             blockStateCollector.run{
                 accept(BlockStateModelGenerator.createFenceBlockState(
                     block,
-                    ModModels.woodenFencePost.upload(block, map, modelCollector),
-                    ModModels.woodenFenceSide.upload(block, map, modelCollector)
+                    ModModels.modernFencePost.upload(block, map, modelCollector),
+                    ModModels.modernFenceSide.upload(block, map, modelCollector)
                 ))
             }
         }
@@ -469,7 +469,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
         return BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, Properties.STAIR_SHAPE).apply {
             for (direction in horizontalDirections) {
-                for (shape in StairShape.values()) {
+                for (shape in StairShape.entries) {
                     val variant = when (direction) {
                         Direction.NORTH -> when (shape) {
                             StairShape.STRAIGHT -> northBlock

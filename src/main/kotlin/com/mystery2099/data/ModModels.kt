@@ -21,9 +21,9 @@ object ModModels {
     val thickPillarBottom = block("thick_pillar_base", "_base", TextureKey.ALL)
 
     //Wooden Fences
-    val woodenFenceInventory = item("wooden_fence", TextureKey.SIDE, TextureKey.END, TextureKey.UP)
-    val woodenFencePost = block("wooden_fence_post", "_post", TextureKey.END, TextureKey.UP)
-    val woodenFenceSide = block("wooden_fence_side", "_side", TextureKey.SIDE)
+    val modernFenceInventory = item("wooden_fence", TextureKey.SIDE, TextureKey.END, TextureKey.UP)
+    val modernFencePost = block("wooden_fence_post", "_post", TextureKey.END, TextureKey.UP)
+    val modernFenceSide = block("wooden_fence_side", "_side", TextureKey.SIDE)
 
     //Plank Ladder
     val plankLadder = block("plank_ladder", TextureKey.ALL)

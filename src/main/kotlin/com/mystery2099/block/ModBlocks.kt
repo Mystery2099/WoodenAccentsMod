@@ -4,7 +4,6 @@ import com.mystery2099.WoodenAccentsMod
 import com.mystery2099.WoodenAccentsMod.toId
 import com.mystery2099.block.custom.*
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
-import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
 import net.minecraft.item.BlockItem
@@ -62,18 +61,18 @@ object ModBlocks {
     val crimsonWall = CustomWallBlock(Blocks.CRIMSON_PLANKS).registerAs("crimson_wall")
     val warpedWall = CustomWallBlock(Blocks.WARPED_PLANKS).registerAs("warped_wall")
 
-    //Wooden Fences
-    val oakWoodFence = WoodenFenceBlock(Blocks.OAK_FENCE, Blocks.STRIPPED_OAK_LOG, Blocks.OAK_LOG).registerAs("oak_fence")
-    val spruceWoodFence = WoodenFenceBlock(Blocks.SPRUCE_FENCE, Blocks.STRIPPED_SPRUCE_LOG, Blocks.SPRUCE_LOG).registerAs("spruce_fence")
-    val birchWoodFence = WoodenFenceBlock(Blocks.BIRCH_FENCE, Blocks.STRIPPED_BIRCH_LOG, Blocks.BIRCH_LOG).registerAs("birch_fence")
-    val jungleWoodFence = WoodenFenceBlock(Blocks.JUNGLE_FENCE, Blocks.STRIPPED_JUNGLE_LOG, Blocks.JUNGLE_LOG).registerAs("jungle_fence")
-    val acaciaWoodFence = WoodenFenceBlock(Blocks.ACACIA_FENCE, Blocks.STRIPPED_ACACIA_LOG, Blocks.ACACIA_LOG).registerAs("acacia_fence")
-    val darkOakWoodFence = WoodenFenceBlock(Blocks.DARK_OAK_FENCE, Blocks.STRIPPED_DARK_OAK_LOG, Blocks.DARK_OAK_LOG).registerAs("dark_oak_fence")
-    val mangroveWoodFence = WoodenFenceBlock(Blocks.MANGROVE_FENCE, Blocks.STRIPPED_MANGROVE_LOG, Blocks.MANGROVE_LOG).registerAs("mangrove_fence")
-    val cherryWoodFence = WoodenFenceBlock(Blocks.CHERRY_FENCE, Blocks.STRIPPED_CHERRY_LOG, Blocks.CHERRY_LOG).registerAs("cherry_fence")
-    val bambooWoodFence = WoodenFenceBlock(Blocks.BAMBOO_FENCE, Blocks.STRIPPED_BAMBOO_BLOCK, Blocks.BAMBOO_BLOCK).registerAs("bamboo_fence")
-    val crimsonWoodFence = WoodenFenceBlock(Blocks.CRIMSON_FENCE, Blocks.STRIPPED_CRIMSON_STEM, Blocks.CRIMSON_STEM).registerAs("crimson_fence")
-    val warpedWoodFence = WoodenFenceBlock(Blocks.WARPED_FENCE, Blocks.STRIPPED_WARPED_STEM, Blocks.WARPED_STEM).registerAs("warped_fence")
+    //Modern Fences
+    val modernOakFence = ModernFenceBlock(Blocks.OAK_FENCE, Blocks.STRIPPED_OAK_LOG, Blocks.OAK_LOG).registerAs("modern_oak_fence")
+    val modernSpruceFence = ModernFenceBlock(Blocks.SPRUCE_FENCE, Blocks.STRIPPED_SPRUCE_LOG, Blocks.SPRUCE_LOG).registerAs("modern_spruce_fence")
+    val modernBirchFence = ModernFenceBlock(Blocks.BIRCH_FENCE, Blocks.STRIPPED_BIRCH_LOG, Blocks.BIRCH_LOG).registerAs("modern_birch_fence")
+    val modernJungleFence = ModernFenceBlock(Blocks.JUNGLE_FENCE, Blocks.STRIPPED_JUNGLE_LOG, Blocks.JUNGLE_LOG).registerAs("modern_jungle_fence")
+    val modernAcaciaFence = ModernFenceBlock(Blocks.ACACIA_FENCE, Blocks.STRIPPED_ACACIA_LOG, Blocks.ACACIA_LOG).registerAs("modern_acacia_fence")
+    val modernDarkOakFence = ModernFenceBlock(Blocks.DARK_OAK_FENCE, Blocks.STRIPPED_DARK_OAK_LOG, Blocks.DARK_OAK_LOG).registerAs("modern_dark_oak_fence")
+    val modernMangroveFence = ModernFenceBlock(Blocks.MANGROVE_FENCE, Blocks.STRIPPED_MANGROVE_LOG, Blocks.MANGROVE_LOG).registerAs("modern_mangrove_fence")
+    val modernCherryFence = ModernFenceBlock(Blocks.CHERRY_FENCE, Blocks.STRIPPED_CHERRY_LOG, Blocks.CHERRY_LOG).registerAs("modern_cherry_fence")
+    val modernBambooFence = ModernFenceBlock(Blocks.BAMBOO_FENCE, Blocks.STRIPPED_BAMBOO_BLOCK, Blocks.BAMBOO_BLOCK).registerAs("modern_bamboo_fence")
+    val modernCrimsonFence = ModernFenceBlock(Blocks.CRIMSON_FENCE, Blocks.STRIPPED_CRIMSON_STEM, Blocks.CRIMSON_STEM).registerAs("modern_crimson_fence")
+    val modernWarpedFence = ModernFenceBlock(Blocks.WARPED_FENCE, Blocks.STRIPPED_WARPED_STEM, Blocks.WARPED_STEM).registerAs("modern_warped_fence")
 
     //Plank Ladders
     val oakPlankLadder = PlankLadderBlock(Blocks.OAK_PLANKS).registerAs("oak_plank_ladder")
