@@ -32,6 +32,7 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
         }
         ModBlockTags.pillars.addTags(ModBlockTags.thinPillars, ModBlockTags.thickPillars)
         BlockTags.WALLS.addTag(ModBlockTags.woodenWalls)
+        BlockTags.FENCES.addTag(ModBlockTags.modernFences)
         BlockTags.CLIMBABLE.addTag(ModBlockTags.plankLadders)
         BlockTags.INSIDE_STEP_SOUND_BLOCKS.addTag(ModBlockTags.plankCarpets)
         ModBlockTags.kitchenCounters.addTag(ModBlockTags.kitchenCabinets)
