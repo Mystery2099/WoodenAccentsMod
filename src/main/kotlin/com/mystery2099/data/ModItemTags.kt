@@ -14,6 +14,6 @@ object ModItemTags {
         return TagKey.of(RegistryKeys.ITEM, this.toId(namespace))
     }
     internal fun String.toItemTag(): TagKey<Item> {
-        return this.toItemTag(WoodenAccentsMod.modid)
+        return this.toItemTag(WoodenAccentsMod.MOD_ID)
     }
 }

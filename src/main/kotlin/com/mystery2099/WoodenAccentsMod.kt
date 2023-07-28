@@ -14,7 +14,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 object WoodenAccentsMod : ModInitializer {
-	const val modid = "myst2099_wooden_accents_mod"
+	const val MOD_ID = "myst2099_wooden_accents_mod"
 	val logger: Logger
 		get() = LoggerFactory.getLogger("myst2099_wooden_accents_mod")
 
@@ -33,10 +33,10 @@ object WoodenAccentsMod : ModInitializer {
 	}
 
 	fun String.toId(): Identifier {
-		return this.toId(modid)
+		return this.toId(MOD_ID)
 	}
 	fun String.toBlockId(): Identifier {
-		return this.toId(modid).withPrefixedPath("block/")
+		return this.toId(MOD_ID).withPrefixedPath("block/")
 	}
 
 	fun String.toVanillaId(): Identifier {

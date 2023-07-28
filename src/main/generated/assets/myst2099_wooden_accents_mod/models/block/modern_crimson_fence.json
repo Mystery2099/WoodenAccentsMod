@@ -1,8 +1,0 @@
-{
-  "parent": "myst2099_wooden_accents_mod:item/wooden_fence",
-  "textures": {
-    "end": "minecraft:block/crimson_stem",
-    "side": "minecraft:block/stripped_crimson_stem",
-    "up": "minecraft:block/crimson_stem_top"
-  }
-}

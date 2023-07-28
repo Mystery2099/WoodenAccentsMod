@@ -19,6 +19,6 @@ object ModBlockEntities {
             KitchenCabinetBlock.kitchenCabinetBlockEntityTypeBuilder.build(null)
         )
 
-        WoodenAccentsMod.logger.info("Registering ModBlockEntities for mod: ${WoodenAccentsMod.modid}")
+        WoodenAccentsMod.logger.info("Registering ModBlockEntities for mod: ${WoodenAccentsMod.MOD_ID}")
     }
 }

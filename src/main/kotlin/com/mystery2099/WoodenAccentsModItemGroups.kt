@@ -42,7 +42,7 @@ object WoodenAccentsModItemGroups {
             ItemGroupEvents.modifyEntriesEvent(group).register { content -> list.forEach(content::add) }
         }
 
-        WoodenAccentsMod.logger.info("Registering ItemGroups for mod: ${WoodenAccentsMod.modid}")
+        WoodenAccentsMod.logger.info("Registering ItemGroups for mod: ${WoodenAccentsMod.MOD_ID}")
     }
 
     private fun createItemGroup(name: String, itemList: MutableList<ItemConvertible>): ItemGroup {
@@ -53,7 +53,7 @@ object WoodenAccentsModItemGroups {
     }
 
     private fun String.toItemGroupKey(): Text {
-        return Text.translatable("itemGroup.${WoodenAccentsMod.modid}.$this")
+        return Text.translatable("itemGroup.${WoodenAccentsMod.MOD_ID}.$this")
     }
 
     private fun ItemGroup.mapTo(list: MutableList<ItemConvertible>): ItemGroup {

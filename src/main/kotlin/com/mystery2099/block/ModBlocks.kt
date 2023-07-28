@@ -280,7 +280,7 @@ object ModBlocks {
     }
 
     fun register() {
-        WoodenAccentsMod.logger.info("Registering ModBlocks for mod: ${WoodenAccentsMod.modid}")
+        WoodenAccentsMod.logger.info("Registering ModBlocks for mod: ${WoodenAccentsMod.MOD_ID}")
     }
 
 }
