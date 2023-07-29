@@ -306,7 +306,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
             val isTall = When.create().set(ModProperties.coffeeTableType, CoffeeTableType.TALL)
             val isShort = When.create().set(ModProperties.coffeeTableType, CoffeeTableType.SHORT)
 
-            val map = mapOf(
+            mapOf(
                 isShort to BlockStateVariant().putModel(shortTopModel),
                 whenNotNorthEast to shortNorthEastVariant,
                 whenNotNorthWest to shortNorthEastVariant.withYRotationOf(Rotation.R270),
@@ -317,9 +317,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
                 When.allOf(whenNotNorthWest, isTall) to tallNorthEastVariant.withYRotationOf(Rotation.R270),
                 When.allOf(whenNotSouthEast, isTall) to tallNorthEastVariant.withYRotationOf(Rotation.R90),
                 When.allOf(whenNotSouthWest, isTall) to tallNorthEastVariant.withYRotationOf(Rotation.R180)
-            )
-
-            map.forEach(::with)
+            ).forEach(::with)
         }
     }
 
