@@ -6,6 +6,7 @@ import com.mystery2099.block.custom.*
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
+import net.minecraft.block.FenceGateBlock
 import net.minecraft.item.BlockItem
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
@@ -73,6 +74,19 @@ object ModBlocks {
     val modernBambooFence = ModernFenceBlock(Blocks.BAMBOO_FENCE, Blocks.STRIPPED_BAMBOO_BLOCK, Blocks.BAMBOO_BLOCK).registerAs("modern_bamboo_fence")
     val modernCrimsonFence = ModernFenceBlock(Blocks.CRIMSON_FENCE, Blocks.STRIPPED_CRIMSON_STEM, Blocks.CRIMSON_STEM).registerAs("modern_crimson_fence")
     val modernWarpedFence = ModernFenceBlock(Blocks.WARPED_FENCE, Blocks.STRIPPED_WARPED_STEM, Blocks.WARPED_STEM).registerAs("modern_warped_fence")
+
+    //Modern Fence Gates
+    val modernOakFenceGate = ModernFenceGateBlock(Blocks.OAK_FENCE_GATE as FenceGateBlock, Blocks.STRIPPED_OAK_LOG).registerAs("modern_oak_fence_gate")
+    val modernSpruceFenceGate = ModernFenceGateBlock(Blocks.SPRUCE_FENCE_GATE as FenceGateBlock, Blocks.STRIPPED_SPRUCE_LOG).registerAs("modern_spruce_fence_gate")
+    val modernBirchFenceGate = ModernFenceGateBlock(Blocks.BIRCH_FENCE_GATE as FenceGateBlock, Blocks.STRIPPED_BIRCH_LOG).registerAs("modern_birch_fence_gate")
+    val modernJungleFenceGate = ModernFenceGateBlock(Blocks.JUNGLE_FENCE_GATE as FenceGateBlock, Blocks.STRIPPED_JUNGLE_LOG).registerAs("modern_jungle_fence_gate")
+    val modernAcaciaFenceGate = ModernFenceGateBlock(Blocks.ACACIA_FENCE_GATE as FenceGateBlock, Blocks.STRIPPED_ACACIA_LOG).registerAs("modern_acacia_fence_gate")
+    val modernDarkOakFenceGate = ModernFenceGateBlock(Blocks.DARK_OAK_FENCE_GATE as FenceGateBlock, Blocks.STRIPPED_DARK_OAK_LOG).registerAs("modern_dark_oak_fence_gate")
+    val modernMangroveFenceGate = ModernFenceGateBlock(Blocks.MANGROVE_FENCE_GATE as FenceGateBlock, Blocks.STRIPPED_MANGROVE_LOG).registerAs("modern_mangrove_fence_gate")
+    val modernCherryFenceGate = ModernFenceGateBlock(Blocks.CHERRY_FENCE_GATE as FenceGateBlock, Blocks.STRIPPED_CHERRY_LOG).registerAs("modern_cherry_fence_gate")
+    val modernBambooFenceGate = ModernFenceGateBlock(Blocks.BAMBOO_FENCE_GATE as FenceGateBlock, Blocks.STRIPPED_BAMBOO_BLOCK).registerAs("modern_bamboo_fence_gate")
+    val modernCrimsonFenceGate = ModernFenceGateBlock(Blocks.CRIMSON_FENCE_GATE as FenceGateBlock, Blocks.STRIPPED_CRIMSON_STEM).registerAs("modern_crimson_fence_gate")
+    val modernWarpedFenceGate = ModernFenceGateBlock(Blocks.WARPED_FENCE_GATE as FenceGateBlock, Blocks.STRIPPED_WARPED_STEM).registerAs("modern_warped_fence_gate")
 
     //Plank Ladders
     val oakPlankLadder = PlankLadderBlock(Blocks.OAK_PLANKS).registerAs("oak_plank_ladder")

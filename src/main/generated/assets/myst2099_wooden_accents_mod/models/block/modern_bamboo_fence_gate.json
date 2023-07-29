@@ -1,0 +1,6 @@
+{
+  "parent": "myst2099_wooden_accents_mod:block/modern_fence_gate",
+  "textures": {
+    "all": "minecraft:block/stripped_bamboo_block"
+  }
+}

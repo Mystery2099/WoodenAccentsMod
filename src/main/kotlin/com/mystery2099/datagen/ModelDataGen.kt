@@ -120,6 +120,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
             is ThickPillarBlock -> genThickPillarBlockStateModels(block)
             is CustomWallBlock -> genWallBlockStateModels(block)
             is ModernFenceBlock -> genModernFenceBlockStateModels(block)
+            is ModernFenceGateBlock -> genModernFenceGateBlockStateModels(block)
             is PlankLadderBlock -> genPlankLadderBlockStateModels(block)
             //Living Room
             is TableBlock -> genTableBlockStateModels(block)
