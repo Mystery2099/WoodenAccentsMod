@@ -1,5 +1,5 @@
 {
-  "parent": "myst2099_wooden_accents_mod:block/wooden_fence_side",
+  "parent": "myst2099_wooden_accents_mod:block/modern_fence_side",
   "textures": {
     "side": "minecraft:block/stripped_warped_stem"
   }

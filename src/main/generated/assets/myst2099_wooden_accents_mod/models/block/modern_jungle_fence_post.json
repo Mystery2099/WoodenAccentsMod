@@ -1,5 +1,5 @@
 {
-  "parent": "myst2099_wooden_accents_mod:block/wooden_fence_post",
+  "parent": "myst2099_wooden_accents_mod:block/modern_fence_post",
   "textures": {
     "end": "minecraft:block/jungle_log",
     "up": "minecraft:block/jungle_log_top"

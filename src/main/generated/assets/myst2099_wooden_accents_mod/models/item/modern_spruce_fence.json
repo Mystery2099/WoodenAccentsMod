@@ -1,5 +1,5 @@
 {
-  "parent": "myst2099_wooden_accents_mod:item/wooden_fence",
+  "parent": "myst2099_wooden_accents_mod:item/modern_fence",
   "textures": {
     "end": "minecraft:block/spruce_log",
     "side": "minecraft:block/stripped_spruce_log",
