@@ -93,25 +93,20 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
     private lateinit var generator: BlockStateModelGenerator
 
-    private lateinit var modelCollector: BiConsumer<Identifier, Supplier<JsonElement>>
-
-    private lateinit var stateCollector: Consumer<BlockStateSupplier>
     override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator) {
-        generator = blockStateModelGenerator
-        modelCollector = blockStateModelGenerator.modelCollector
-        stateCollector = blockStateModelGenerator.blockStateCollector
+        blockStateModelGenerator.run {
+            generator = this
+            WoodType.stream().forEach{
+                ModModels.coffeeTableLegShort.upload("${it.name.lowercase()}_coffee_table_leg_short".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
+                ModModels.coffeeTableLegTall.upload("${it.name.lowercase()}_coffee_table_leg_tall".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
 
-        WoodType.stream().forEach{
-            ModModels.coffeeTableLegShort.upload("${it.name.lowercase()}_coffee_table_leg_short".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
-            ModModels.coffeeTableLegTall.upload("${it.name.lowercase()}_coffee_table_leg_tall".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
-
-            ModModels.tableCenterLeg.upload("${it.name.lowercase()}_table_single_leg".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
-            ModModels.tableCornerLeg.upload("${it.name.lowercase()}_table_corner_leg".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
-            ModModels.tableEndLeg.upload("${it.name.lowercase()}_table_end_leg".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
+                ModModels.tableCenterLeg.upload("${it.name.lowercase()}_table_single_leg".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
+                ModModels.tableCornerLeg.upload("${it.name.lowercase()}_table_corner_leg".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
+                ModModels.tableEndLeg.upload("${it.name.lowercase()}_table_end_leg".toBlockId(), TextureMap().put(ModModels.legs, TextureMap.getId(it.planks())), modelCollector)
+            }
+            ModBlocks.blocks.forEach(::genBlockStateModel)
         }
 
-
-        ModBlocks.blocks.forEach(::genBlockStateModel)
     }
 
     override fun generateItemModels(itemModelGenerator: ItemModelGenerator) {
@@ -143,97 +138,134 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         centerModel: Identifier,
         bottomModel: Identifier
     ) {
-        val bottomVariant = BlockStateVariant().putModel(bottomModel)
-        val topVariant = bottomVariant.withXRotationOf(Rotation.R180).put(VariantSettings.UVLOCK, true)
-        val supplier = MultipartBlockStateSupplier.create(block)
-            .with(BlockStateVariant().putModel(centerModel))
-            .with(whenNotUp, topVariant)
-            .with(whenNotDown, bottomVariant)
-        stateCollector.accept(supplier)
+        generator.run {
+            MultipartBlockStateSupplier.create(block).apply {
+                with(centerModel.blockStateVariant())
+                with(whenNotUp, bottomModel.blockStateVariant().withXRotationOf(Rotation.R180).put(VariantSettings.UVLOCK, true))
+                with(whenNotDown, bottomModel.blockStateVariant())
+                blockStateCollector.accept(this)
+            }
+        }
+
     }
     private fun genThinPillarBlockStateModels(pillarBlock: ThinPillarBlock) {
-        val textureMap = TextureMap.all(pillarBlock.baseBlock)
-        ModModels.thinPillarInventory.upload(pillarBlock.getItemModelId(), textureMap, modelCollector)
-        genPillarBlockStateModels(
-            pillarBlock,
-            "block/${pillarBlock.woodType().name.lowercase()}_fence_post".toVanillaId(),
-            ModModels.thinPillarBottom.upload(pillarBlock, textureMap, modelCollector)
-        )
+        with(generator) {
+            TextureMap.all(pillarBlock.baseBlock).run {
+                ModModels.thinPillarInventory.upload(pillarBlock.getItemModelId(), this, modelCollector)
+                genPillarBlockStateModels(
+                    pillarBlock,
+                    "block/${pillarBlock.woodType().name.lowercase()}_fence_post".toVanillaId(),
+                    ModModels.thinPillarBottom.upload(pillarBlock, this, modelCollector)
+                )
+            }
+        }
     }
 
     private fun genThickPillarBlockStateModels(pillarBlock: ThickPillarBlock) {
-        val textureMap = TextureMap.all(pillarBlock.baseBlock)
-        ModModels.thickPillarInventory.upload(pillarBlock.getItemModelId(), textureMap, modelCollector)
-        genPillarBlockStateModels(pillarBlock,
-            centerModel = "block/${pillarBlock.woodType().name.lowercase()}_wall_post".toId(),
-            bottomModel = ModModels.thickPillarBottom.upload(pillarBlock, textureMap, modelCollector)
-        )
+        with(generator) {
+            TextureMap.all(pillarBlock.baseBlock).run {
+                ModModels.thickPillarInventory.upload(pillarBlock.getItemModelId(), this, modelCollector)
+                genPillarBlockStateModels(pillarBlock,
+                    centerModel = "block/${pillarBlock.woodType().name.lowercase()}_wall_post".toId(),
+                    bottomModel = ModModels.thickPillarBottom.upload(pillarBlock, this, modelCollector)
+                )
+            }
+        }
+
     }
 
     /*------------ End Pillars -----------*/
 
     /*------------ Walls -----------*/
     private fun genWallBlockStateModels(block: CustomWallBlock) {
-        val map = TextureMap().put(TextureKey.WALL, TextureMap.getId(block.baseBlock))
         with(generator) {
-            blockStateCollector.accept(
-                BlockStateModelGenerator.createWallBlockState(
-                    block,
-                    Models.TEMPLATE_WALL_POST.upload(block, map, modelCollector),
-                    Models.TEMPLATE_WALL_SIDE.upload(block, map, modelCollector),
-                    Models.TEMPLATE_WALL_SIDE_TALL.upload(block, map, modelCollector)
+            TextureMap().put(TextureKey.WALL, TextureMap.getId(block.baseBlock)).run {
+                blockStateCollector.accept(
+                    BlockStateModelGenerator.createWallBlockState(
+                        block,
+                        Models.TEMPLATE_WALL_POST.upload(block, this, modelCollector),
+                        Models.TEMPLATE_WALL_SIDE.upload(block, this, modelCollector),
+                        Models.TEMPLATE_WALL_SIDE_TALL.upload(block, this, modelCollector)
+                    )
                 )
-            )
-            registerParentedItemModel(block, Models.WALL_INVENTORY.upload(block, map, modelCollector))
+                registerParentedItemModel(block, Models.WALL_INVENTORY.upload(block, this, modelCollector))
+            }
         }
     }
     /*------------ End Walls -----------*/
     /*------------ Custom Fences -----------*/
     private fun genModernFenceBlockStateModels(block: ModernFenceBlock) {
-        val map = TextureMap().apply {
-            put(TextureKey.SIDE, TextureMap.getId(block.sideBlock))
-            put(TextureKey.END, TextureMap.getId(block.postBlock))
-            put(TextureKey.UP, TextureMap.getSubId(block.postBlock, "_top"))
-        }
         with(generator) {
-            ModModels.modernFenceInventory.upload(block.getItemModelId(), map, modelCollector)
-            blockStateCollector.run{
-                accept(BlockStateModelGenerator.createFenceBlockState(
-                    block,
-                    ModModels.modernFencePost.upload(block, map, modelCollector),
-                    ModModels.modernFenceSide.upload(block, map, modelCollector)
-                ))
+            TextureMap().apply {
+                put(TextureKey.SIDE, TextureMap.getId(block.sideBlock))
+                put(TextureKey.END, TextureMap.getId(block.postBlock))
+                put(TextureKey.UP, TextureMap.getSubId(block.postBlock, "_top"))
+            }.run {
+                ModModels.modernFenceInventory.upload(block.getItemModelId(), this, modelCollector)
+                blockStateCollector.accept(
+                    BlockStateModelGenerator.createFenceBlockState(
+                        block,
+                        ModModels.modernFencePost.upload(block, this, modelCollector),
+                        ModModels.modernFenceSide.upload(block, this, modelCollector)
+                    )
+                )
             }
         }
 
+    }
+
+    private fun genModernFenceGateBlockStateModels(block: ModernFenceGateBlock) {
+        with(generator) {
+            TextureMap.all(block.baseBlock).run {
+                val model = ModModels.modernFenceGate.upload(block, this, modelCollector)
+                val modelOpen = ModModels.modernFenceGateOpen.upload(block, this, modelCollector)
+
+                blockStateCollector.accept(
+                    BlockStateModelGenerator.createFenceGateBlockState(
+                        block,
+                        model,
+                        modelOpen,
+                        model,
+                        modelOpen,
+                        false
+                    )
+                )
+            }
+        }
     }
     /*------------ End Custom Fences -----------*/
 
     /*------------ Ladders -----------*/
     private fun genPlankLadderBlockStateModels(block: PlankLadderBlock) {
-        val map: TextureMap = TextureMap.all(block.baseBlock)
-        ModModels.plankLadder.upload(block, map, modelCollector)
-        generator.registerNorthDefaultHorizontalRotation(block)
+        with(generator) {
+            TextureMap.all(block.baseBlock).run {
+                ModModels.plankLadder.upload(block, this, modelCollector)
+                this@with.registerNorthDefaultHorizontalRotation(block)
+            }
+        }
     }
     /*------------ End Ladders -----------*/
 
     /*------------ Tables -----------*/
 
     private fun genTableBlockStateModels(block: TableBlock) {
-        val map = TextureMap().apply {
-            put(TextureKey.TOP, TextureMap.getId(block.topBlock))
-            put(ModModels.legs, TextureMap.getId(block.baseBlock))
+        with(generator) {
+            TextureMap().apply {
+                put(TextureKey.TOP, TextureMap.getId(block.topBlock))
+                put(ModModels.legs, TextureMap.getId(block.baseBlock))
+            }.run {
+                blockStateCollector.accept(
+                    tableSupplier(
+                        block,
+                        ModModels.tableTop.upload(block, this, modelCollector),
+                        "${block.woodType().name.lowercase()}_table_single_leg".toBlockId(),
+                        "${block.woodType().name.lowercase()}_table_end_leg".toBlockId(),
+                        "${block.woodType().name.lowercase()}_table_corner_leg".toBlockId(),
+                    )
+                )
+                ModModels.tableItem.upload(block.getItemModelId(), this, modelCollector)
+            }
         }
-
-        stateCollector.accept(tableSupplier(
-            block,
-            ModModels.tableTop.upload(block, map, modelCollector),
-            "${block.woodType().name.lowercase()}_table_single_leg".toBlockId(),
-            "${block.woodType().name.lowercase()}_table_end_leg".toBlockId(),
-            "${block.woodType().name.lowercase()}_table_corner_leg".toBlockId(),
-        )
-        )
-        ModModels.tableItem.upload(block.getItemModelId(), map, modelCollector)
     }
 
     private fun tableSupplier(
@@ -244,52 +276,70 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         cornerLegModel: Identifier,
     ): MultipartBlockStateSupplier {
         return MultipartBlockStateSupplier.create(block).apply {
-            val northEndLegVariant = BlockStateVariant().putModel(endLegModel)
-            val eastEndLegVariant = northEndLegVariant.withYRotationOf(Rotation.R90)
-            val southEndLegVariant = northEndLegVariant.withYRotationOf(Rotation.R180)
-            val westEndLegVariant = northEndLegVariant.withYRotationOf(Rotation.R270)
+            val northEndLegVariant = endLegModel.blockStateVariant()
+            val northEastCornerVariant = cornerLegModel.blockStateVariant()
 
-            val northEastCornerVariant = BlockStateVariant().putModel(cornerLegModel)
-            val northWestCornerVariant = northEastCornerVariant.withYRotationOf(Rotation.R270)
-            val southEastCornerVariant = northEastCornerVariant.withYRotationOf(Rotation.R90)
-            val southWestCornerVariant = northEastCornerVariant.withYRotationOf(Rotation.R180)
-
-            with(BlockStateVariant().putModel(topModel))
+            with(topModel.blockStateVariant())
             with(
                 When.allOf(whenNotNorth, whenNotEast, whenNotSouth, whenNotWest),
-                BlockStateVariant().putModel(singleLegModel)
+                singleLegModel.blockStateVariant()
             )
             //Ends
-            with(When.allOf(whenNotNorth, whenNotEast, whenSouth, whenNotWest), northEndLegVariant)
-            with(When.allOf(whenNotNorth, whenNotEast, whenNotSouth, whenWest), eastEndLegVariant)
-            with(When.allOf(whenNorth, whenNotEast, whenNotSouth, whenNotWest), southEndLegVariant)
-            with(When.allOf(whenNotNorth, whenEast, whenNotSouth, whenNotWest), westEndLegVariant)
+            with(
+                When.allOf(whenNotNorth, whenNotEast, whenSouth, whenNotWest),
+                northEndLegVariant
+            )
+            with(
+                When.allOf(whenNotNorth, whenNotEast, whenNotSouth, whenWest),
+                northEndLegVariant.withYRotationOf(Rotation.R90)
+            )
+            with(
+                When.allOf(whenNorth, whenNotEast, whenNotSouth, whenNotWest),
+                northEndLegVariant.withYRotationOf(Rotation.R180)
+            )
+            with(
+                When.allOf(whenNotNorth, whenEast, whenNotSouth, whenNotWest),
+                northEndLegVariant.withYRotationOf(Rotation.R270)
+            )
             //Corners
-            with(When.allOf(whenNotNorth, whenNotEast, whenSouth, whenWest), northEastCornerVariant)
-            with(When.allOf(whenNotNorth, whenEast, whenSouth, whenNotWest), northWestCornerVariant)
-            with(When.allOf(whenNorth, whenNotEast, whenNotSouth, whenWest), southEastCornerVariant)
-            with(When.allOf(whenNorth, whenEast, whenNotSouth, whenNotWest), southWestCornerVariant)
+            with(
+                When.allOf(whenNotNorth, whenNotEast, whenSouth, whenWest),
+                northEastCornerVariant
+            )
+            with(
+                When.allOf(whenNotNorth, whenEast, whenSouth, whenNotWest),
+                northEastCornerVariant.withYRotationOf(Rotation.R270)
+            )
+            with(
+                When.allOf(whenNorth, whenNotEast, whenNotSouth, whenWest),
+                northEastCornerVariant.withYRotationOf(Rotation.R90)
+            )
+            with(
+                When.allOf(whenNorth, whenEast, whenNotSouth, whenNotWest),
+                northEastCornerVariant.withYRotationOf(Rotation.R180)
+            )
         }
     }
     /*------------ End Tables -----------*/
 
     /*------------ Coffee Tables -----------*/
     private fun genCoffeeTableBlockStateModels(block: CoffeeTableBlock) {
-        val map = TextureMap().apply {
-            put(TextureKey.TOP, TextureMap.getId(block.topBlock))
-            put(ModModels.legs, TextureMap.getId(block.baseBlock))
-        }
+
         with(generator) {
-            blockStateCollector.run {
-                accept(MultipartBlockStateSupplier.create(block).coffeeTableSupplier(
-                    shortTopModel = ModModels.coffeeTableTopShort.upload(block, map, modelCollector),
-                    shortLegModel = "${block.woodType().name.lowercase()}_coffee_table_leg_short".toBlockId(),
-                    tallTopModel = ModModels.coffeeTableTopTall.upload(block, map, modelCollector),
-                    tallLegModel = "${block.woodType().name.lowercase()}_coffee_table_leg_tall".toBlockId(),
-                )
+            TextureMap().apply {
+                put(TextureKey.TOP, TextureMap.getId(block.topBlock))
+                put(ModModels.legs, TextureMap.getId(block.baseBlock))
+            }.run {
+                blockStateCollector.accept(
+                    MultipartBlockStateSupplier.create(block).coffeeTableSupplier(
+                        shortTopModel = ModModels.coffeeTableTopShort.upload(block, this, modelCollector),
+                        shortLegModel = "${block.woodType().name.lowercase()}_coffee_table_leg_short".toBlockId(),
+                        tallTopModel = ModModels.coffeeTableTopTall.upload(block, this, modelCollector),
+                        tallLegModel = "${block.woodType().name.lowercase()}_coffee_table_leg_tall".toBlockId(),
                     )
+                )
+                ModModels.coffeeTableInventory.upload(block.getItemModelId(), this, modelCollector)
             }
-            ModModels.coffeeTableInventory.upload(block.getItemModelId(), map, modelCollector)
         }
     }
 
@@ -300,8 +350,8 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         tallLegModel: Identifier
     ): MultipartBlockStateSupplier {
         return this.apply {
-            val shortNorthEastVariant = BlockStateVariant().putModel(shortLegModel)
-            val tallNorthEastVariant = BlockStateVariant().putModel(tallLegModel)
+            val shortNorthEastVariant = shortLegModel.blockStateVariant()
+            val tallNorthEastVariant = tallLegModel.blockStateVariant()
 
             val isTall = When.create().set(ModProperties.coffeeTableType, CoffeeTableType.TALL)
             val isShort = When.create().set(ModProperties.coffeeTableType, CoffeeTableType.SHORT)
@@ -312,7 +362,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
                 whenNotNorthWest to shortNorthEastVariant.withYRotationOf(Rotation.R270),
                 whenNotSouthEast to shortNorthEastVariant.withYRotationOf(Rotation.R90),
                 whenNotSouthWest to shortNorthEastVariant.withYRotationOf(Rotation.R180),
-                isTall to BlockStateVariant().putModel(tallTopModel),
+                isTall to tallTopModel.blockStateVariant(),
                 When.allOf(whenNotNorthEast, isTall) to tallNorthEastVariant,
                 When.allOf(whenNotNorthWest, isTall) to tallNorthEastVariant.withYRotationOf(Rotation.R270),
                 When.allOf(whenNotSouthEast, isTall) to tallNorthEastVariant.withYRotationOf(Rotation.R90),
@@ -326,39 +376,41 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
     /*------------ Bookshelves -----------*/
     private fun genThinBookshelfBlockStateModels(block: ThinBookshelfBlock) {
-        val map = TextureMap.all(block.baseBlock)
-        ModModels.thinBookshelfItem.upload(block.getItemModelId(), map, modelCollector)
-
         with(generator) {
             blockStateCollector.accept(
                 MultipartBlockStateSupplier.create(block).apply {
-                    val bookshelfModel = ModModels.thinBookshelfBlock.upload(block, map, modelCollector)
-                    val slotModels = arrayOf(
-                        ModModels.thinBookshelfSlot0,
-                        ModModels.thinBookshelfSlot1,
-                        ModModels.thinBookshelfSlot2,
-                        ModModels.thinBookshelfSlot3,
-                        ModModels.thinBookshelfSlot4,
-                        ModModels.thinBookshelfSlot5
-                    )
-                    val directions = arrayOf(
-                        whenFacingNorthHorizontal,
-                        whenFacingEastHorizontal,
-                        whenFacingSouthHorizontal,
-                        whenFacingWestHorizontal
-                    )
-                    val variants = Array(4) { BlockStateVariant().putModel(bookshelfModel) }
-                    val slotVariants = Array(6) { i ->
-                        Array(4) { BlockStateVariant().putModel(slotModels[i]).withYRotationOf(Rotation.entries[it]) }
-                    }
+                    TextureMap.all(block.baseBlock).run {
+                        ModModels.thinBookshelfItem.upload(block.getItemModelId(), this, modelCollector)
 
-                    for (i in directions.indices) {
-                        with(directions[i], variants[i].withYRotationOf(Rotation.entries[i]))
-                        for (j in slotVariants.indices) {
-                            with(
-                                directions[i].and(When.create().set(ChiseledBookshelfBlock.SLOT_OCCUPIED_PROPERTIES[j], true)),
-                                slotVariants[j][i]
-                            )
+                        val bookshelfModel = ModModels.thinBookshelfBlock.upload(block, this, modelCollector)
+
+                        val slotModels = arrayOf(
+                            ModModels.thinBookshelfSlot0,
+                            ModModels.thinBookshelfSlot1,
+                            ModModels.thinBookshelfSlot2,
+                            ModModels.thinBookshelfSlot3,
+                            ModModels.thinBookshelfSlot4,
+                            ModModels.thinBookshelfSlot5
+                        )
+                        val directions = arrayOf(
+                            whenFacingNorthHorizontal,
+                            whenFacingEastHorizontal,
+                            whenFacingSouthHorizontal,
+                            whenFacingWestHorizontal
+                        )
+                        val variants = Array(4) { bookshelfModel.blockStateVariant() }
+                        val slotVariants = Array(6) { i ->
+                            Array(4) { slotModels[i].blockStateVariant().withYRotationOf(Rotation.entries[it]) }
+                        }
+
+                        for (i in directions.indices) {
+                            with(directions[i], variants[i].withYRotationOf(Rotation.entries[i]))
+                            for (j in slotVariants.indices) {
+                                with(
+                                    directions[i].and(When.create().set(ChiseledBookshelfBlock.SLOT_OCCUPIED_PROPERTIES[j], true)),
+                                    slotVariants[j][i]
+                                )
+                            }
                         }
                     }
                 }
@@ -379,23 +431,24 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
     /*------------ Kitchen Counters -----------*/
     private fun genKitchenCounterBlockStateModels(block: KitchenCounterBlock) {
-        val map = TextureMap()
-            .put(TextureKey.TOP, TextureMap.getId(block.topBlock))
-            .put(TextureKey.SIDE, TextureMap.getId(block.baseBlock))
-
-        val normalModel = ModModels.kitchenCounter.upload(block, map, modelCollector)
-
         with(generator) {
-            blockStateCollector.run {
-                accept(VariantsBlockStateSupplier.create(block).coordinate(
+            TextureMap().apply {
+                put(TextureKey.TOP, TextureMap.getId(block.topBlock))
+                put(TextureKey.SIDE, TextureMap.getId(block.baseBlock))
+            }.run {
+                val normalModel = ModModels.kitchenCounter.upload(block, this, modelCollector)
+
+                blockStateCollector.accept(VariantsBlockStateSupplier.create(block)
+                    .coordinate(
                         createKitchenCounterVariantMap(
                             blockModel = normalModel,
-                            innerLeftModel = ModModels.kitchenCounterInnerLeftCorner.upload(block, map, modelCollector),
-                            outerLeftModel = ModModels.kitchenCounterOuterLeftCorner.upload(block, map, modelCollector)
+                            innerLeftModel = ModModels.kitchenCounterInnerLeftCorner.upload(block, this, modelCollector),
+                            outerLeftModel = ModModels.kitchenCounterOuterLeftCorner.upload(block, this, modelCollector)
                         )
-                    ))
+                    )
+                )
+                registerParentedItemModel(block, normalModel)
             }
-            registerParentedItemModel(block, normalModel)
         }
     }
 
@@ -405,41 +458,40 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         outerLeftModel: Identifier
     ): BlockStateVariantMap {
         return BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, Properties.STAIR_SHAPE).apply {
-            val northBlock = BlockStateVariant().putModel(blockModel)
-            val northInnerLeft = BlockStateVariant().putModel(innerLeftModel)
-            val northOuterLeft = BlockStateVariant().putModel(outerLeftModel)
+            val northBlock = blockModel.blockStateVariant()
+            val northInnerLeft = innerLeftModel.blockStateVariant()
+            val northOuterLeft = outerLeftModel.blockStateVariant()
 
-            val map = mapOf(
-                //north
-                Pair(Direction.NORTH, StairShape.STRAIGHT) to northBlock,
-                Pair(Direction.NORTH, StairShape.INNER_LEFT) to northInnerLeft,
-                Pair(Direction.NORTH, StairShape.OUTER_LEFT) to northOuterLeft,
-                Pair(Direction.NORTH, StairShape.INNER_RIGHT) to  northInnerLeft.withYRotationOf(Rotation.R90),
-                Pair(Direction.NORTH, StairShape.OUTER_RIGHT) to northOuterLeft.withYRotationOf(Rotation.R90),
-
-                //East
-                Pair(Direction.EAST, StairShape.STRAIGHT) to northBlock.withYRotationOf(Rotation.R90),
-                Pair(Direction.EAST, StairShape.INNER_LEFT) to northInnerLeft.withYRotationOf(Rotation.R90),
-                Pair(Direction.EAST, StairShape.OUTER_LEFT) to northOuterLeft.withYRotationOf(Rotation.R90),
-                Pair(Direction.EAST, StairShape.INNER_RIGHT) to  northInnerLeft.withYRotationOf(Rotation.R180),
-                Pair(Direction.EAST, StairShape.OUTER_RIGHT) to northOuterLeft.withYRotationOf(Rotation.R180),
-
-                //south
-                Pair(Direction.SOUTH, StairShape.STRAIGHT) to northBlock.withYRotationOf(Rotation.R180),
-                Pair(Direction.SOUTH, StairShape.INNER_LEFT) to northInnerLeft.withYRotationOf(Rotation.R180),
-                Pair(Direction.SOUTH, StairShape.OUTER_LEFT) to northOuterLeft.withYRotationOf(Rotation.R180),
-                Pair(Direction.SOUTH, StairShape.INNER_RIGHT) to northInnerLeft.withYRotationOf(Rotation.R270),
-                Pair(Direction.SOUTH, StairShape.OUTER_RIGHT) to northOuterLeft.withYRotationOf(Rotation.R270),
-                //west
-                Pair(Direction.WEST, StairShape.STRAIGHT) to northBlock.withYRotationOf(Rotation.R270),
-                Pair(Direction.WEST, StairShape.INNER_LEFT) to northInnerLeft.withYRotationOf(Rotation.R270),
-                Pair(Direction.WEST, StairShape.OUTER_LEFT) to northOuterLeft.withYRotationOf(Rotation.R270),
-                Pair(Direction.WEST, StairShape.INNER_RIGHT) to northInnerLeft.withYRotationOf(Rotation.R0),
-                Pair(Direction.WEST, StairShape.OUTER_RIGHT) to northOuterLeft.withYRotationOf(Rotation.R0),
-
-
-            )
-            map.forEach { register(it.key.first, it.key.second, it.value) }
+            mapOf(
+                Direction.NORTH to mapOf(
+                    StairShape.STRAIGHT to northBlock,
+                    StairShape.INNER_LEFT to northInnerLeft,
+                    StairShape.OUTER_LEFT to northOuterLeft,
+                    StairShape.INNER_RIGHT to  northInnerLeft.withYRotationOf(Rotation.R90),
+                    StairShape.OUTER_RIGHT to northOuterLeft.withYRotationOf(Rotation.R90),
+                ),
+                Direction.EAST to mapOf(
+                    StairShape.STRAIGHT to northBlock.withYRotationOf(Rotation.R90),
+                    StairShape.INNER_LEFT to northInnerLeft.withYRotationOf(Rotation.R90),
+                    StairShape.OUTER_LEFT to northOuterLeft.withYRotationOf(Rotation.R90),
+                    StairShape.INNER_RIGHT to  northInnerLeft.withYRotationOf(Rotation.R180),
+                    StairShape.OUTER_RIGHT to northOuterLeft.withYRotationOf(Rotation.R180),
+                ),
+                Direction.SOUTH to mapOf(
+                    StairShape.STRAIGHT to northBlock.withYRotationOf(Rotation.R180),
+                    StairShape.INNER_LEFT to northInnerLeft.withYRotationOf(Rotation.R180),
+                    StairShape.OUTER_LEFT to northOuterLeft.withYRotationOf(Rotation.R180),
+                    StairShape.INNER_RIGHT to  northInnerLeft.withYRotationOf(Rotation.R270),
+                    StairShape.OUTER_RIGHT to northOuterLeft.withYRotationOf(Rotation.R270),
+                ),
+                Direction.WEST to mapOf(
+                    StairShape.STRAIGHT to northBlock.withYRotationOf(Rotation.R270),
+                    StairShape.INNER_LEFT to northInnerLeft.withYRotationOf(Rotation.R270),
+                    StairShape.OUTER_LEFT to northOuterLeft.withYRotationOf(Rotation.R270),
+                    StairShape.INNER_RIGHT to  northInnerLeft,
+                    StairShape.OUTER_RIGHT to northOuterLeft,
+                )
+            ).forEach { i -> i.value.forEach { j -> register(i.key, j.key, j.value) } }
         }
     }
 
@@ -448,16 +500,19 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
     /*------------ Kitchen Cabinets -----------*/
     private fun genKitchenCabinetBlockStateModels(block: KitchenCabinetBlock) {
-        val map = TextureMap().apply {
-            put(TextureKey.TOP, TextureMap.getId(block.topBlock))
-            put(TextureKey.SIDE, TextureMap.getId(block.baseBlock))
+        with (generator) {
+            TextureMap().apply {
+                put(TextureKey.TOP, TextureMap.getId(block.topBlock))
+                put(TextureKey.SIDE, TextureMap.getId(block.baseBlock))
+            }.run {
+                val model = ModModels.kitchenCabinet.upload(block, this, modelCollector)
+                blockStateCollector.accept(
+                    VariantsBlockStateSupplier.create(block, model.blockStateVariant())
+                        .coordinate(BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates())
+                )
+                this@with.registerParentedItemModel(block, model)
+            }
         }
-        val model = ModModels.kitchenCabinet.upload(block, map, modelCollector)
-        stateCollector.accept(
-            VariantsBlockStateSupplier.create(block, BlockStateVariant().putModel(model))
-                .coordinate(BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates())
-        )
-        generator.registerParentedItemModel(block, model)
     }
 
     /*------------ End Kitchen Cabinets -----------*/
@@ -465,9 +520,8 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     
     /*------------ Extension Methods -----------*/
     //Variant Extension Models
-    private fun BlockStateVariant.union(other: BlockStateVariant): BlockStateVariant {
-        return BlockStateVariant.union(this, other)
-    }
+    private fun BlockStateVariant.union(other: BlockStateVariant): BlockStateVariant =
+        BlockStateVariant.union(this, other)
 
     private fun BlockStateVariant.union(vararg others: BlockStateVariant) {
         var newVariant = this
@@ -478,6 +532,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         this.put(VariantSettings.MODEL, model)
         return this
     }
+    private fun Identifier.blockStateVariant(): BlockStateVariant = BlockStateVariant().putModel(this)
 
     private fun BlockStateVariant.withYRotationOf(rotation: Rotation): BlockStateVariant {
         return this.union(BlockStateVariant().put(VariantSettings.Y, rotation))
@@ -486,12 +541,8 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         return this.union(BlockStateVariant().put(VariantSettings.X, rotation))
     }
 
-    private fun When.PropertyCondition.and(other: When.PropertyCondition): When {
-        return When.allOf(this, other)
-    }
-    private fun When.and(other: When): When {
-        return When.allOf(this, other)
-    }
+    private fun When.PropertyCondition.and(other: When.PropertyCondition): When = When.allOf(this, other)
+    private fun When.and(other: When): When = When.allOf(this, other)
 
 }
 
