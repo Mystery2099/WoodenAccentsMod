@@ -224,10 +224,10 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
                 blockStateCollector.accept(
                     BlockStateModelGenerator.createFenceGateBlockState(
                         block,
-                        model,
                         modelOpen,
                         model,
                         modelOpen,
+                        model,
                         false
                     )
                 )
