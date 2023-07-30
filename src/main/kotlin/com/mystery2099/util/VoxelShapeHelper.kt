@@ -9,7 +9,9 @@ import kotlin.math.max
 import kotlin.math.min
 
 object VoxelShapeHelper {
-    fun combineAll(shapes: Collection<VoxelShape>): VoxelShape = shapes.fold(VoxelShapes.empty(), VoxelShapes::union)
+    val Collection<VoxelShape>.combined: VoxelShape
+        get() = this.union()
+    fun Collection<VoxelShape>.union(): VoxelShape = this.fold(VoxelShapes.empty(), VoxelShapes::union)
 
     fun setMaxHeight(source: VoxelShape, height: Double): VoxelShape {
         val result = AtomicReference(VoxelShapes.empty())
@@ -23,26 +25,26 @@ object VoxelShapeHelper {
     fun limitHorizontal(source: VoxelShape): VoxelShape {
         val result = AtomicReference(VoxelShapes.empty())
         source.forEachBox { minX: Double, minY: Double, minZ: Double, maxX: Double, maxY: Double, maxZ: Double ->
-            val shape = VoxelShapes.cuboid(limit(minX), minY, limit(minZ), limit(maxX), maxY, limit(maxZ))
+            val shape = VoxelShapes.cuboid(minX.limited, minY, minZ.limited, maxX.limited, maxY, maxZ.limited)
             result.set(VoxelShapes.combine(result.get(), shape, BooleanBiFunction.OR))
         }
         return result.get().simplify()
     }
 
-    fun rotate(source: VoxelShape, direction: Direction): VoxelShape {
+    fun VoxelShape.rotate(direction: Direction): VoxelShape {
         val adjustedValues = adjustValues(
-            direction, source.getMin(Direction.Axis.X), source.getMin(Direction.Axis.Z), source.getMax(
+            direction, this.getMin(Direction.Axis.X), this.getMin(Direction.Axis.Z), this.getMax(
                 Direction.Axis.X
-            ), source.getMax(Direction.Axis.Z)
+            ), this.getMax(Direction.Axis.Z)
         )
         return VoxelShapes.cuboid(
-            adjustedValues[0], source.getMin(Direction.Axis.Y),
-            adjustedValues[1], adjustedValues[2], source.getMax(Direction.Axis.Y), adjustedValues[3]
+            adjustedValues[0], this.getMin(Direction.Axis.Y),
+            adjustedValues[1], adjustedValues[2], this.getMax(Direction.Axis.Y), adjustedValues[3]
         )
     }
 
-    fun rotate(sources: Collection<VoxelShape>, direction: Direction): VoxelShape {
-        return sources.fold(VoxelShapes.empty()) {  acc, shape -> VoxelShapes.union(acc, rotate(shape, direction)) }
+    fun Collection<VoxelShape>.rotate(direction: Direction): VoxelShape {
+        return this.fold(VoxelShapes.empty()) {  acc, shape -> VoxelShapes.union(acc, shape.rotate(direction)) }
     }
 
     private fun adjustValues(
@@ -60,5 +62,7 @@ object VoxelShapeHelper {
         }
     }
 
-    private fun limit(value: Double): Double = max(0.0, min(1.0, value))
+    private val Double.limited: Double
+        get() = this.limit()
+    private fun Double.limit(): Double = max(0.0, min(1.0, this))
 }

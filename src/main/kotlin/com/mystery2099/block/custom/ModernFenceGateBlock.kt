@@ -2,6 +2,9 @@ package com.mystery2099.block.custom
 
 import com.mystery2099.WoodenAccentsMod.woodType
 import com.mystery2099.util.VoxelShapeHelper
+import com.mystery2099.util.VoxelShapeHelper.combined
+import com.mystery2099.util.VoxelShapeHelper.rotate
+import com.mystery2099.util.VoxelShapeHelper.union
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -31,8 +34,8 @@ class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : Fen
             Block.createCuboidShape(0.0, 2.0, 7.5, 16.0, 14.0, 8.5)
         )
         return when (state.get(FACING)) {
-            Direction.NORTH, Direction.SOUTH -> VoxelShapeHelper.combineAll(shapes)
-            Direction.EAST, Direction.WEST -> VoxelShapeHelper.rotate(shapes, Direction.SOUTH)
+            Direction.NORTH, Direction.SOUTH -> shapes.combined
+            Direction.EAST, Direction.WEST -> shapes.rotate(Direction.SOUTH)
             else -> super.getOutlineShape(state, world, pos, context)
         }
     }
