@@ -1,5 +1,6 @@
 package com.mystery2099.block.custom
 
+import com.mystery2099.util.VoxelShapeHelper.union
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -37,9 +38,7 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val size: Size)
         neighborPos: BlockPos?
     ): BlockState? {
         val newState = super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
-        if (newState != null) {
-            return newState.with(up, world.checkUp(pos!!)).with(down, world.checkDown(pos))
-        }
+        if (newState != null) return newState.with(up, world.checkUp(pos!!)).with(down, world.checkDown(pos))
         return Blocks.AIR.defaultState
     }
 
@@ -49,30 +48,27 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val size: Size)
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
-    ): VoxelShape {
-        var shape: VoxelShape = size.centerShape
-        if (java.lang.Boolean.FALSE == state.get(up)) shape = VoxelShapes.union(shape, size.topShape)
-        if (java.lang.Boolean.FALSE == state.get(down)) shape = VoxelShapes.union(shape, size.baseShape)
-        return shape
+    ): VoxelShape = size.run {
+        this.centerShape.union(
+            if (!state.get(up)) this.topShape else VoxelShapes.empty()
+        ).union(
+            if (!state.get(down)) this.baseShape else VoxelShapes.empty()
+        )
     }
 
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
-        val world = ctx.world
-        val pos = ctx.blockPos
-        return super.getPlacementState(ctx)?.with(up, world.checkUp(pos))?.with(down, world.checkDown(pos))
+        return super.getPlacementState(ctx)?.apply {
+            val world = ctx.world
+            val pos = ctx.blockPos
+            with(up, world.checkUp(pos))?.with(down, world.checkDown(pos))
+        }
     }
     //Up & Down
-    open fun WorldAccess.getStateAtPos(blockPos: BlockPos): BlockState {
-        return this.getBlockState(blockPos)
-    }
-    open fun WorldAccess.getUpState(pos: BlockPos): BlockState {
-        return this.getStateAtPos(pos.up())
-    }
+    open fun WorldAccess.getStateAtPos(blockPos: BlockPos): BlockState = getBlockState(blockPos)
+    open fun WorldAccess.getUpState(pos: BlockPos): BlockState = getStateAtPos(pos.up())
 
-    open fun WorldAccess.getDownState(pos: BlockPos): BlockState {
-        return this.getStateAtPos(pos.down())
-    }
+    open fun WorldAccess.getDownState(pos: BlockPos): BlockState = getStateAtPos(pos.down())
 
     abstract fun WorldAccess.checkUp(pos: BlockPos): Boolean
     abstract fun WorldAccess.checkDown(pos: BlockPos): Boolean
