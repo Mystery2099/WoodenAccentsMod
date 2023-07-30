@@ -2,6 +2,7 @@ package com.mystery2099.block.custom
 
 import com.mystery2099.WoodenAccentsModItemGroups
 import com.mystery2099.block_entity.custom.KitchenCabinetBlockEntity
+import com.mystery2099.util.VoxelShapeHelper.rotate
 import com.mystery2099.util.VoxelShapeHelper.union
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
@@ -77,22 +78,21 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
         moved: Boolean
     ) {
         if (state.isOf(newState.block)) return
-        val blockEntity = world.getBlockEntity(pos)
-        if (blockEntity is Inventory) {
-            ItemScatterer.spawn(world, pos, blockEntity as Inventory)
-            world.updateComparators(pos, this)
+        with(world.getBlockEntity(pos)) {
+            if (this is Inventory) {
+                ItemScatterer.spawn(world, pos, this)
+                world.updateComparators(pos, this@KitchenCabinetBlock)
+            }
         }
         super.onStateReplaced(state, world, pos, newState, moved)
     }
 
     @Deprecated("Deprecated in Java")
     override fun scheduledTick(state: BlockState?, world: ServerWorld, pos: BlockPos?, random: Random?) {
-        val blockEntity = world.getBlockEntity(pos)!!
-        if (blockEntity is KitchenCabinetBlockEntity) blockEntity.tick()
+        world.getBlockEntity(pos)!!.let { if (it is KitchenCabinetBlockEntity) it.tick() }
     }
 
-    override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity =
-        KitchenCabinetBlockEntity(pos, state)
+    override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity = KitchenCabinetBlockEntity(pos, state)
 
     @Deprecated("Deprecated in Java")
     override fun getRenderType(state: BlockState?): BlockRenderType = BlockRenderType.MODEL
@@ -104,9 +104,10 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
         placer: LivingEntity?,
         itemStack: ItemStack
     ) {
-        lateinit var blockEntity: BlockEntity
-        if (itemStack.hasCustomName() && (world.getBlockEntity(pos).apply { blockEntity = this!! }) is KitchenCabinetBlockEntity) {
-            (blockEntity as KitchenCabinetBlockEntity).customName = itemStack.name
+        with(world.getBlockEntity(pos)) {
+            if (itemStack.hasCustomName() && this is KitchenCabinetBlockEntity) {
+                this.customName = itemStack.name
+            }
         }
     }
 
@@ -119,13 +120,13 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
     }
 
     @Deprecated("Deprecated in Java")
-    override fun rotate(state: BlockState, rotation: BlockRotation): BlockState {
-        return state.with(facing, rotation.rotate(state.get(facing)))
+    override fun rotate(state: BlockState, rotation: BlockRotation): BlockState = state.apply {
+        with(facing, rotation.rotate(get(facing)))
     }
 
     @Deprecated("Deprecated in Java")
-    override fun mirror(state: BlockState, mirror: BlockMirror): BlockState? {
-        return state.rotate(mirror.getRotation(state.get(facing)))
+    override fun mirror(state: BlockState, mirror: BlockMirror): BlockState = state.apply {
+        rotate(mirror.getRotation(get(facing)))
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block?, BlockState?>) {
@@ -143,9 +144,9 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
         context: ShapeContext?
     ): VoxelShape = when (state.get(facing)) {
         Direction.NORTH -> KitchenCounterBlock.NORTH_SHAPE
-        Direction.EAST -> KitchenCounterBlock.EAST_SHAPE
-        Direction.SOUTH -> KitchenCounterBlock.SOUTH_SHAPE
-        Direction.WEST -> KitchenCounterBlock.WEST_SHAPE
+        Direction.EAST -> KitchenCounterBlock.NORTH_SHAPE.rotate(Direction.SOUTH)
+        Direction.SOUTH -> KitchenCounterBlock.NORTH_SHAPE.rotate(Direction.WEST)
+        Direction.WEST -> KitchenCounterBlock.NORTH_SHAPE.rotate(Direction.NORTH)
         else -> VoxelShapes.fullCube()
     }.union(KitchenCounterBlock.TOP_SHAPE)
 }
