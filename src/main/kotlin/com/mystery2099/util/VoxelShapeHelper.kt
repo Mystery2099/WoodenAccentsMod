@@ -5,12 +5,11 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import java.util.concurrent.atomic.AtomicReference
-import java.util.function.Consumer
 import kotlin.math.max
 import kotlin.math.min
 
 object VoxelShapeHelper {
-    fun combineAll(shapes: Collection<VoxelShape>): VoxelShape = shapes.reduce(VoxelShapes::union)
+    fun combineAll(shapes: Collection<VoxelShape>): VoxelShape = shapes.fold(VoxelShapes.empty(), VoxelShapes::union)
 
     fun setMaxHeight(source: VoxelShape, height: Double): VoxelShape {
         val result = AtomicReference(VoxelShapes.empty())
@@ -43,16 +42,7 @@ object VoxelShapeHelper {
     }
 
     fun rotate(sources: Collection<VoxelShape>, direction: Direction): VoxelShape {
-        val output = AtomicReference(VoxelShapes.empty())
-        sources.forEach(Consumer { shape: VoxelShape ->
-            output.set(
-                VoxelShapes.union(
-                    output.get(),
-                    rotate(shape, direction)
-                )
-            )
-        })
-        return output.get()
+        return sources.fold(VoxelShapes.empty()) {  acc, shape -> VoxelShapes.union(acc, rotate(shape, direction)) }
     }
 
     private fun adjustValues(
@@ -70,7 +60,5 @@ object VoxelShapeHelper {
         }
     }
 
-    private fun limit(value: Double): Double {
-        return max(0.0, min(1.0, value))
-    }
+    private fun limit(value: Double): Double = max(0.0, min(1.0, value))
 }
