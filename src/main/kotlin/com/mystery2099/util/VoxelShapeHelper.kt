@@ -13,6 +13,8 @@ object VoxelShapeHelper {
         get() = this.union()
     fun Collection<VoxelShape>.union(): VoxelShape = this.fold(VoxelShapes.empty(), VoxelShapes::union)
 
+    fun VoxelShape.union(vararg otherShapes: VoxelShape): VoxelShape = otherShapes.fold(this, VoxelShapes::union)
+    fun VoxelShape.union(otherShapes: Collection<VoxelShape>): VoxelShape = otherShapes.fold(this, VoxelShapes::union);
     fun setMaxHeight(source: VoxelShape, height: Double): VoxelShape {
         val result = AtomicReference(VoxelShapes.empty())
         source.forEachBox { minX: Double, minY: Double, minZ: Double, maxX: Double, maxY: Double, maxZ: Double ->
