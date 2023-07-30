@@ -33,9 +33,9 @@ class ThinBookshelfBlock(val baseBlock : Block) : ChiseledBookshelfBlock(FabricB
     ): VoxelShape {
         return when (state.get(HorizontalFacingBlock.FACING)) {
                 Direction.NORTH -> NORTH_SHAPE
-                Direction.EAST -> EAST_SHAPE
-                Direction.SOUTH -> SOUTH_SHAPE
-                Direction.WEST -> WEST_SHAPE
+                Direction.EAST -> VoxelShapeHelperK.rotate(NORTH_SHAPE, Direction.SOUTH)
+                Direction.SOUTH -> VoxelShapeHelperK.rotate(NORTH_SHAPE, Direction.WEST)
+                Direction.WEST -> VoxelShapeHelperK.rotate(NORTH_SHAPE, Direction.NORTH)
                 else -> super.getOutlineShape(state, world, pos, context)
             }
     }

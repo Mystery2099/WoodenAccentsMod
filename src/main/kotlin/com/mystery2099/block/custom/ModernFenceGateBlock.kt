@@ -9,7 +9,6 @@ import net.minecraft.block.ShapeContext
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 
 class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : FenceGateBlock(FabricBlockSettings.copyOf(baseGate), baseGate.woodType()) {
@@ -20,7 +19,7 @@ class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : Fen
         pos: BlockPos?,
         context: ShapeContext?
     ): VoxelShape {
-        val northSouthShape = VoxelShapes.union(
+        val shapes = setOf(
             Block.createCuboidShape(0.0, 0.0, 7.5, 1.0, 15.0, 8.5),
             Block.createCuboidShape(15.0, 0.0, 7.5, 16.0, 15.0, 8.5),
             Block.createCuboidShape(11.0, 1.0, 7.5, 13.0, 16.0, 8.5),
@@ -30,8 +29,15 @@ class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : Fen
             Block.createCuboidShape(0.0, 2.0, 7.0, 16.0, 5.0, 9.0),
             Block.createCuboidShape(0.0, 2.0, 7.5, 16.0, 14.0, 8.5)
         )
+        val northSouthShape = VoxelShapeHelperK.combineAll(shapes)
+        val eastWestShape = run {
+            val newShapes = mutableSetOf<VoxelShape>()
+            shapes.forEach{ newShapes += VoxelShapeHelperK.rotate(it, Direction.SOUTH) }
+            VoxelShapeHelperK.combineAll(newShapes)
+        }
         return when (state.get(FACING)) {
             Direction.NORTH, Direction.SOUTH -> northSouthShape
+            Direction.EAST, Direction.WEST -> eastWestShape
             else -> super.getOutlineShape(state, world, pos, context)
         }
     }
