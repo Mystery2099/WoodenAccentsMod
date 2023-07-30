@@ -11,9 +11,7 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 
 class ThinBookshelfBlock(val baseBlock : Block) : ChiseledBookshelfBlock(FabricBlockSettings.copyOf(baseBlock).requires(FeatureFlags.UPDATE_1_20)) {
-    init {
-        WoodenAccentsModItemGroups.livingRoomItems += this
-    }
+    init { WoodenAccentsModItemGroups.livingRoomItems += this }
     companion object {
         private val NORTH_SHAPE = Block.createCuboidShape(0.0, 0.0, 11.0, 16.0, 16.0, 16.0)!!
         private val EAST_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 5.0, 16.0, 16.0)!!
@@ -27,13 +25,11 @@ class ThinBookshelfBlock(val baseBlock : Block) : ChiseledBookshelfBlock(FabricB
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
-    ): VoxelShape {
-        return when (state.get(HorizontalFacingBlock.FACING)) {
-                Direction.NORTH -> NORTH_SHAPE
-                Direction.EAST -> NORTH_SHAPE.rotate(Direction.SOUTH)
-                Direction.SOUTH -> NORTH_SHAPE.rotate(Direction.WEST)
-                Direction.WEST -> NORTH_SHAPE.rotate(Direction.NORTH)
-                else -> super.getOutlineShape(state, world, pos, context)
-            }
-    }
+    ): VoxelShape = when (state.get(HorizontalFacingBlock.FACING)) {
+            Direction.NORTH -> NORTH_SHAPE
+            Direction.EAST -> NORTH_SHAPE.rotate(Direction.SOUTH)
+            Direction.SOUTH -> NORTH_SHAPE.rotate(Direction.WEST)
+            Direction.WEST -> NORTH_SHAPE.rotate(Direction.NORTH)
+            else -> super.getOutlineShape(state, world, pos, context)
+        }
 }

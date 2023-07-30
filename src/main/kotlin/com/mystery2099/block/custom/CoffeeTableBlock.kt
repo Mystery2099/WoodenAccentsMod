@@ -36,10 +36,10 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTabl
         context: ShapeContext?
     ): VoxelShape {
         val isTall: Boolean = state.get(type) == CoffeeTableType.TALL
-        val hasNorthConnection = state.get(NORTH)
-        val hasSouthConnection = state.get(SOUTH)
-        val hasEastConnection = state.get(EAST)
-        val hasWestConnection = state.get(WEST)
+        val hasNorthConnection = state.get(north)
+        val hasSouthConnection = state.get(south)
+        val hasEastConnection = state.get(east)
+        val hasWestConnection = state.get(west)
 
         return mutableListOf<VoxelShape>().apply {
             add(if (isTall) TALL_TOP_SHAPE else SHORT_TOP_SHAPE)

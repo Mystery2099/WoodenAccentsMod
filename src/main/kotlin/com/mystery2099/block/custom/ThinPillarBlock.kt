@@ -9,14 +9,12 @@ import net.minecraft.world.WorldAccess
 
 class ThinPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, size) {
 
-    override fun WorldAccess.checkUp(pos: BlockPos): Boolean {
-        val up = this.getUpState(pos)
-        return up.isIn(ModBlockTags.thinPillars) || up.isIn(BlockTags.FENCES)
+    override fun WorldAccess.checkUp(pos: BlockPos): Boolean = this.getUpState(pos).run {
+        isIn(ModBlockTags.thinPillars) || isIn(BlockTags.FENCES)
     }
 
-    override fun WorldAccess.checkDown(pos: BlockPos): Boolean {
-        val down = this.getDownState(pos)
-        return down.isIn(ModBlockTags.thinPillars) || down.isIn(BlockTags.FENCES)
+    override fun WorldAccess.checkDown(pos: BlockPos): Boolean = this.getDownState(pos).run {
+        isIn(ModBlockTags.thinPillars) || isIn(BlockTags.FENCES)
     }
     companion object {
         @JvmStatic
@@ -26,8 +24,5 @@ class ThinPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, size) {
             createCuboidShape(4.0, 0.0, 4.0, 12.0, 3.0, 12.0)
         )
     }
-    init {
-        WoodenAccentsModItemGroups.outsideItems += this
-
-    }
+    init { WoodenAccentsModItemGroups.outsideItems += this }
 }

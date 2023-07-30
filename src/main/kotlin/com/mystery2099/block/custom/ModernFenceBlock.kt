@@ -12,10 +12,10 @@ import net.minecraft.world.BlockView
 class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Block) : FenceBlock(FabricBlockSettings.copyOf(settings)) {
 
     override fun canConnect(state: BlockState, neighborIsFullSquare: Boolean, dir: Direction): Boolean {
-        val block = state.block
-        val bl = state.isIn(BlockTags.FENCES) && state.isIn(ModBlockTags.modernFences) == this.defaultState.isIn(ModBlockTags.modernFences)
-        val bl2 = block is FenceGateBlock && FenceGateBlock.canWallConnect(state, dir)
-        return !cannotConnect(state) && neighborIsFullSquare || bl || bl2
+        return !cannotConnect(state) && neighborIsFullSquare || state.run {
+            (isIn(BlockTags.FENCES) && isIn(ModBlockTags.modernFences) == this@ModernFenceBlock.defaultState.isIn(ModBlockTags.modernFences)
+            ) || block is FenceGateBlock && FenceGateBlock.canWallConnect(this, dir)
+        }
     }
 
     @Deprecated("Deprecated in Java")
@@ -24,8 +24,5 @@ class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Blo
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
-    ): VoxelShape {
-
-        return super.getOutlineShape(state, world, pos, context)
-    }
+    ): VoxelShape = super.getOutlineShape(state, world, pos, context)
 }

@@ -78,7 +78,4 @@ object WoodenAccentsMod : ModInitializer {
 		}
 		return type
 	}
-	fun VoxelShape.unionWith(other: VoxelShape): VoxelShape {
-		return VoxelShapes.union(this, other)
-	}
 }

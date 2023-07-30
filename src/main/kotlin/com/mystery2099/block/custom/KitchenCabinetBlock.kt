@@ -1,9 +1,8 @@
 package com.mystery2099.block.custom
 
-import com.mystery2099.WoodenAccentsMod
-import com.mystery2099.WoodenAccentsMod.unionWith
 import com.mystery2099.WoodenAccentsModItemGroups
 import com.mystery2099.block_entity.custom.KitchenCabinetBlockEntity
+import com.mystery2099.util.VoxelShapeHelper.union
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.minecraft.block.*
@@ -16,7 +15,6 @@ import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.stat.Stats
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.DirectionProperty
@@ -40,9 +38,14 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
 
     }
     init {
-        defaultState = stateManager.defaultState.with(facing, Direction.NORTH).with(open, false)
-        WoodenAccentsModItemGroups.kitchenItems += this
-        WoodenAccentsModItemGroups.storageBlocks += this
+        defaultState = stateManager.defaultState.apply {
+            with(facing, Direction.NORTH)
+            with(open, false)
+        }
+        WoodenAccentsModItemGroups.run {
+            kitchenItems += this@KitchenCabinetBlock
+            storageBlocks += this@KitchenCabinetBlock
+        }
         kitchenCabinetBlockEntityTypeBuilder.addBlock(this)
     }
 
@@ -88,14 +91,11 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
         if (blockEntity is KitchenCabinetBlockEntity) blockEntity.tick()
     }
 
-    override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
-        return KitchenCabinetBlockEntity(pos, state)
-    }
+    override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity =
+        KitchenCabinetBlockEntity(pos, state)
 
     @Deprecated("Deprecated in Java")
-    override fun getRenderType(state: BlockState?): BlockRenderType {
-        return BlockRenderType.MODEL
-    }
+    override fun getRenderType(state: BlockState?): BlockRenderType = BlockRenderType.MODEL
 
     override fun onPlaced(
         world: World,
@@ -111,9 +111,7 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
     }
 
     @Deprecated("Deprecated in Java")
-    override fun hasComparatorOutput(state: BlockState?): Boolean {
-        return true
-    }
+    override fun hasComparatorOutput(state: BlockState?): Boolean = true
 
     @Deprecated("Deprecated in Java")
     override fun getComparatorOutput(state: BlockState?, world: World, pos: BlockPos?): Int {
@@ -134,9 +132,8 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
         builder.add(facing, open)
     }
 
-    override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
-        return defaultState.with(facing, ctx.horizontalPlayerFacing.opposite)
-    }
+    override fun getPlacementState(ctx: ItemPlacementContext): BlockState =
+        defaultState.with(facing, ctx.horizontalPlayerFacing.opposite)
 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
@@ -144,13 +141,11 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
-    ): VoxelShape {
-        return when (state.get(facing)) {
-            Direction.NORTH -> KitchenCounterBlock.NORTH_SHAPE
-            Direction.EAST -> KitchenCounterBlock.EAST_SHAPE
-            Direction.SOUTH -> KitchenCounterBlock.SOUTH_SHAPE
-            Direction.WEST -> KitchenCounterBlock.WEST_SHAPE
-            else -> VoxelShapes.fullCube()
-        }.unionWith(KitchenCounterBlock.TOP_SHAPE)
-    }
+    ): VoxelShape = when (state.get(facing)) {
+        Direction.NORTH -> KitchenCounterBlock.NORTH_SHAPE
+        Direction.EAST -> KitchenCounterBlock.EAST_SHAPE
+        Direction.SOUTH -> KitchenCounterBlock.SOUTH_SHAPE
+        Direction.WEST -> KitchenCounterBlock.WEST_SHAPE
+        else -> VoxelShapes.fullCube()
+    }.union(KitchenCounterBlock.TOP_SHAPE)
 }

@@ -1,20 +1,18 @@
 package com.mystery2099.block.custom
 
 import com.mystery2099.WoodenAccentsModItemGroups
+import com.mystery2099.util.VoxelShapeHelper.combined
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 
 class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock(baseBlock, topBlock) {
-    init {
-        WoodenAccentsModItemGroups.livingRoomItems += this
-    }
+    init { WoodenAccentsModItemGroups.livingRoomItems += this }
 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
@@ -22,13 +20,13 @@ class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
-    ): VoxelShape {
-        val north = state?.get(NORTH) ?: false
-        val east = state?.get(EAST) ?: false
-        val south = state?.get(SOUTH) ?: false
-        val west = state?.get(WEST) ?: false
+    ): VoxelShape = state.run {
+        mutableListOf<VoxelShape>().apply {
+            val north = this@run?.get(north) ?: false
+            val east = this@run?.get(east) ?: false
+            val south = this@run?.get(south) ?: false
+            val west = this@run?.get(west) ?: false
 
-        return mutableListOf<VoxelShape>().apply {
             add(TOP_SHAPE)
             if (!north && !east && !south && !west) add(LEG_SHAPE)
             //Ends
@@ -42,11 +40,11 @@ class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock
             if (north && !east && !south && west) add(SOUTH_EAST_LEG_SHAPE)
             if (north && east && !south && !west) add(SOUTH_WEST_LEG_SHAPE)
 
-        }.reduce(VoxelShapes::union)
+        }.combined
     }
 
     override fun WorldAccess.checkDirection(pos: BlockPos, direction: Direction): Boolean {
-        return this.getBlockState(pos.offset(direction)).block is TableBlock
+        return getBlockState(pos.offset(direction)).block is TableBlock
     }
 
     companion object {

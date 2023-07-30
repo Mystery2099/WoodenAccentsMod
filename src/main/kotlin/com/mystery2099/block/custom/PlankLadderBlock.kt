@@ -10,9 +10,7 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 
 class PlankLadderBlock(val baseBlock: Block) : LadderBlock(FabricBlockSettings.copyOf(Blocks.LADDER)) {
-    init {
-        WoodenAccentsModItemGroups.outsideItems += this
-    }
+    init { WoodenAccentsModItemGroups.outsideItems += this }
 
     companion object {
         private val NORTH_SHAPE = VoxelShapes.union(
@@ -43,14 +41,12 @@ class PlankLadderBlock(val baseBlock: Block) : LadderBlock(FabricBlockSettings.c
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
-    ): VoxelShape? {
-        return when (state[FACING]) {
-            Direction.NORTH -> NORTH_SHAPE
-            Direction.EAST -> EAST_SHAPE
-            Direction.SOUTH -> SOUTH_SHAPE
-            Direction.WEST -> WEST_SHAPE
-            else -> super.getOutlineShape(state, world, pos, context)
-        }
+    ): VoxelShape = when (state[FACING]) {
+        Direction.NORTH -> NORTH_SHAPE
+        Direction.EAST -> EAST_SHAPE
+        Direction.SOUTH -> SOUTH_SHAPE
+        Direction.WEST -> WEST_SHAPE
+        else -> super.getOutlineShape(state, world, pos, context)
     }
 
 }

@@ -12,10 +12,12 @@ import net.minecraft.world.WorldAccess
 
 abstract class AbstractTableBlock(baseBlock: Block, topBlock: Block) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)) {
     init {
-        defaultState = defaultState.with(NORTH, false)
-            .with(EAST, false)
-            .with(SOUTH, false)
-            .with(WEST, false)
+        defaultState = defaultState.apply {
+            with(north, false)
+            with(east, false)
+            with(south, false)
+            with(west, false)
+        }
     }
 
     @Deprecated("Deprecated in Java")
@@ -28,43 +30,35 @@ abstract class AbstractTableBlock(baseBlock: Block, topBlock: Block) : AbstractW
         neighborPos: BlockPos?
     ): BlockState? {
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos!!, neighborPos)
-            ?.withIfExists(NORTH, world.checkNorth(pos))
-            ?.withIfExists(EAST, world.checkEast(pos))
-            ?.withIfExists(SOUTH, world.checkSouth(pos))
-            ?.withIfExists(WEST, world.checkWest(pos))
+            ?.withIfExists(north, world.checkNorth(pos))
+            ?.withIfExists(east, world.checkEast(pos))
+            ?.withIfExists(south, world.checkSouth(pos))
+            ?.withIfExists(west, world.checkWest(pos))
 
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
-        builder.add(NORTH, EAST, SOUTH, WEST)
+        builder.add(north, east, south, west)
     }
     open fun WorldAccess.checkDirection(pos: BlockPos, direction: Direction): Boolean {
         return getBlockState(pos.offset(direction)).block is AbstractTableBlock
     }
-    open fun WorldAccess.checkNorth(pos: BlockPos): Boolean {
-        return checkDirection(pos, Direction.NORTH)
-    }
+    open fun WorldAccess.checkNorth(pos: BlockPos): Boolean = checkDirection(pos, Direction.NORTH)
 
-    open fun WorldAccess.checkEast(pos: BlockPos): Boolean {
-        return checkDirection(pos, Direction.EAST)
-    }
+    open fun WorldAccess.checkEast(pos: BlockPos): Boolean = checkDirection(pos, Direction.EAST)
 
-    open fun WorldAccess.checkSouth(pos: BlockPos): Boolean {
-        return checkDirection(pos, Direction.SOUTH)
-    }
+    open fun WorldAccess.checkSouth(pos: BlockPos): Boolean = checkDirection(pos, Direction.SOUTH)
 
-    open fun WorldAccess.checkWest(pos: BlockPos): Boolean {
-        return checkDirection(pos, Direction.WEST)
-    }
+    open fun WorldAccess.checkWest(pos: BlockPos): Boolean = checkDirection(pos, Direction.WEST)
     companion object {
         @JvmStatic
-        val NORTH: BooleanProperty = Properties.NORTH
+        val north: BooleanProperty = Properties.NORTH
         @JvmStatic
-        val EAST: BooleanProperty = Properties.EAST
+        val east: BooleanProperty = Properties.EAST
         @JvmStatic
-        val SOUTH: BooleanProperty = Properties.SOUTH
+        val south: BooleanProperty = Properties.SOUTH
         @JvmStatic
-        val WEST: BooleanProperty = Properties.WEST
+        val west: BooleanProperty = Properties.WEST
     }
 }

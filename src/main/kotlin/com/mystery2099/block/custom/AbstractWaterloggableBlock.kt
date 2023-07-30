@@ -14,9 +14,7 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.WorldAccess
 
 abstract class AbstractWaterloggableBlock(settings: Settings) : Block(settings), Waterloggable {
-    init {
-        defaultState = defaultState.with(WATERLOGGED, false)
-    }
+    init { defaultState = defaultState.with(WATERLOGGED, false) }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
@@ -24,9 +22,10 @@ abstract class AbstractWaterloggableBlock(settings: Settings) : Block(settings),
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
-        val blockPos = ctx.blockPos
-        val fluidState = ctx.world.getFluidState(blockPos)
-        return super.getPlacementState(ctx)?.with(WATERLOGGED, fluidState.fluid === Fluids.WATER)
+
+        return super.getPlacementState(ctx)?.apply {
+            with(WATERLOGGED, ctx.world.getFluidState(ctx.blockPos).fluid === Fluids.WATER)
+        }
     }
 
     @Deprecated("Deprecated in Java")
@@ -48,11 +47,8 @@ abstract class AbstractWaterloggableBlock(settings: Settings) : Block(settings),
 
     @Deprecated("Deprecated in Java")
     override fun getFluidState(state: BlockState): FluidState {
-        return if (state.get(WATERLOGGED)) {
-            Fluids.WATER.getStill(false)
-        } else {
-            super.getFluidState(state)
-        }
+        return if (state.get(WATERLOGGED)) Fluids.WATER.getStill(false)
+        else super.getFluidState(state)
     }
 
     companion object {

@@ -16,7 +16,5 @@ class FloorCoveringBlock(val baseBlock: Block) : CarpetBlock(
         }
     }
 ) {
-    init {
-        WoodenAccentsModItemGroups.livingRoomItems += this
-    }
+    init { WoodenAccentsModItemGroups.livingRoomItems += this }
 }
