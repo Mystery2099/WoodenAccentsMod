@@ -1,6 +1,7 @@
 package com.mystery2099.block.custom
 
 import com.mystery2099.WoodenAccentsModItemGroups
+import com.mystery2099.util.VoxelShapeHelper
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -33,9 +34,9 @@ class ThinBookshelfBlock(val baseBlock : Block) : ChiseledBookshelfBlock(FabricB
     ): VoxelShape {
         return when (state.get(HorizontalFacingBlock.FACING)) {
                 Direction.NORTH -> NORTH_SHAPE
-                Direction.EAST -> VoxelShapeHelperK.rotate(NORTH_SHAPE, Direction.SOUTH)
-                Direction.SOUTH -> VoxelShapeHelperK.rotate(NORTH_SHAPE, Direction.WEST)
-                Direction.WEST -> VoxelShapeHelperK.rotate(NORTH_SHAPE, Direction.NORTH)
+                Direction.EAST -> VoxelShapeHelper.rotate(NORTH_SHAPE, Direction.SOUTH)
+                Direction.SOUTH -> VoxelShapeHelper.rotate(NORTH_SHAPE, Direction.WEST)
+                Direction.WEST -> VoxelShapeHelper.rotate(NORTH_SHAPE, Direction.NORTH)
                 else -> super.getOutlineShape(state, world, pos, context)
             }
     }
