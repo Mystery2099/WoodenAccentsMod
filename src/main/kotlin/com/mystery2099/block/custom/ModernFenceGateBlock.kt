@@ -30,15 +30,9 @@ class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : Fen
             Block.createCuboidShape(0.0, 2.0, 7.0, 16.0, 5.0, 9.0),
             Block.createCuboidShape(0.0, 2.0, 7.5, 16.0, 14.0, 8.5)
         )
-        val northSouthShape = VoxelShapeHelper.combineAll(shapes)
-        val eastWestShape = run {
-            val newShapes = mutableSetOf<VoxelShape>()
-            shapes.forEach{ newShapes += VoxelShapeHelper.rotate(it, Direction.SOUTH) }
-            VoxelShapeHelper.combineAll(newShapes)
-        }
         return when (state.get(FACING)) {
-            Direction.NORTH, Direction.SOUTH -> northSouthShape
-            Direction.EAST, Direction.WEST -> eastWestShape
+            Direction.NORTH, Direction.SOUTH -> VoxelShapeHelper.combineAll(shapes)
+            Direction.EAST, Direction.WEST -> VoxelShapeHelper.rotate(shapes, Direction.SOUTH)
             else -> super.getOutlineShape(state, world, pos, context)
         }
     }
