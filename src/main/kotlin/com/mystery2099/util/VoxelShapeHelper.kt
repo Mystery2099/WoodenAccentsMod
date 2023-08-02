@@ -8,25 +8,25 @@ import kotlin.math.max
 import kotlin.math.min
 
 object VoxelShapeHelper {
-    private val Double.limited: Double
+    private val Double.limited
         get() = this.limit()
-    val Collection<VoxelShape>.combined: VoxelShape
-        get() = this.union()
-    val Array<VoxelShape>.combined: VoxelShape
-        get() = this.union()
+    val Collection<VoxelShape>.combined
+        get() = this.unifyElements()
+    val Array<VoxelShape>.combined
+        get() = this.unifyElements()
 
-    fun Collection<VoxelShape>.union(): VoxelShape = this.fold(VoxelShapes.empty(), VoxelShapes::union)
-    fun Array<VoxelShape>.union(): VoxelShape = this.fold(VoxelShapes.empty(), VoxelShapes::union)
+    fun Collection<VoxelShape>.unifyElements(): VoxelShape = this.fold(VoxelShapes.empty(), VoxelShapes::union)
+    fun Array<VoxelShape>.unifyElements(): VoxelShape = this.fold(VoxelShapes.empty(), VoxelShapes::union)
 
-    fun VoxelShape.unionWith(otherShape: VoxelShape): VoxelShape = VoxelShapes.union(this, otherShape)
-    fun VoxelShape.unionWith(vararg otherShapes: VoxelShape): VoxelShape = otherShapes.fold(this, VoxelShapes::union)
-    fun VoxelShape.unionWith(otherShapes: Collection<VoxelShape>): VoxelShape = this.unionWith(otherShapes.combined)
+    fun VoxelShape.unifyWith(otherShape: VoxelShape): VoxelShape = VoxelShapes.union(this, otherShape)
+    fun VoxelShape.unifyWith(vararg otherShapes: VoxelShape): VoxelShape = otherShapes.fold(this, VoxelShapes::union)
+    fun VoxelShape.unifyWith(otherShapes: Collection<VoxelShape>): VoxelShape = this.unifyWith(otherShapes.combined)
 
     fun setMaxHeight(source: VoxelShape, height: Double): VoxelShape {
         val result = AtomicReference(VoxelShapes.empty())
         source.forEachBox { minX: Double, minY: Double, minZ: Double, maxX: Double, maxY: Double, maxZ: Double ->
             val shape = VoxelShapes.cuboid(minX, minY, minZ, maxX, height, maxZ)
-            result.set(result.get().unionWith(shape))
+            result.set(result.get().unifyWith(shape))
         }
         return result.get()
     }
@@ -35,7 +35,7 @@ object VoxelShapeHelper {
         val result = AtomicReference(VoxelShapes.empty())
         source.forEachBox { minX: Double, minY: Double, minZ: Double, maxX: Double, maxY: Double, maxZ: Double ->
             val shape = VoxelShapes.cuboid(minX.limited, minY, minZ.limited, maxX.limited, maxY, maxZ.limited)
-            result.set(result.get().unionWith(shape))
+            result.set(result.get().unifyWith(shape))
         }
         return result.get()
     }
@@ -53,14 +53,26 @@ object VoxelShapeHelper {
         )
     }
 
-    //Do not use on complex VoxelShapes
-    fun VoxelShape.rotateLeft(): VoxelShape = rotate(VoxelShapeRotations.LEFT)
+    fun Collection<VoxelShape>.rotate(direction: VoxelShapeRotations) = rotateElements(direction).combined
+    fun Array<VoxelShape>.rotate(direction: VoxelShapeRotations) = rotateElements(direction).combined
 
-    //Do not use on complex VoxelShapes
-    fun VoxelShape.rotateRight(): VoxelShape = rotate(VoxelShapeRotations.RIGHT)
 
-    //Do not use on complex VoxelShapes
-    fun VoxelShape.flip(): VoxelShape = rotate(VoxelShapeRotations.FLIP)
+    fun VoxelShape.rotateLeft() = rotate(VoxelShapeRotations.LEFT)//Do not use on complex VoxelShapes
+
+    fun Collection<VoxelShape>.rotateLeft() = rotate(VoxelShapeRotations.LEFT)
+    fun Array<VoxelShape>.rotateLeft() = rotate(VoxelShapeRotations.LEFT)
+
+
+    fun VoxelShape.rotateRight() = rotate(VoxelShapeRotations.RIGHT)//Do not use on complex VoxelShapes
+
+    fun Collection<VoxelShape>.rotateRight() = rotate(VoxelShapeRotations.RIGHT)
+    fun Array<VoxelShape>.rotateRight() = rotate(VoxelShapeRotations.RIGHT)
+
+
+    fun VoxelShape.flip() = rotate(VoxelShapeRotations.FLIP) //Do not use on complex VoxelShapes
+
+    fun Collection<VoxelShape>.flip() = rotate(VoxelShapeRotations.FLIP)
+    fun Array<VoxelShape>.flip() = rotate(VoxelShapeRotations.FLIP)
 
     fun Collection<VoxelShape>.rotateElements(direction: VoxelShapeRotations): Collection<VoxelShape> {
         if (isEmpty()) {
@@ -83,12 +95,6 @@ object VoxelShapeHelper {
         return map { it.rotate(direction) }.toTypedArray()
     }
 
-    fun Collection<VoxelShape>.rotateAndCombine(direction: VoxelShapeRotations): VoxelShape {
-        return rotateElements(direction).combined
-    }
-    fun Array<VoxelShape>.rotateAndCombine(direction: VoxelShapeRotations): VoxelShape {
-        return rotateElements(direction).combined
-    }
 
     private fun adjustValues(
         direction: VoxelShapeRotations,
@@ -96,14 +102,14 @@ object VoxelShapeHelper {
         var2: Double,
         var3: Double,
         var4: Double
-    ): DoubleArray = when (direction) {
+    ) = when (direction) {
         VoxelShapeRotations.FLIP -> doubleArrayOf(1.0f - var3, 1.0f - var4, 1.0f - var1, 1.0f - var2)
         VoxelShapeRotations.RIGHT -> doubleArrayOf(var2, 1.0f - var3, var4, 1.0f - var1)
         VoxelShapeRotations.LEFT -> doubleArrayOf(1.0f - var4, var1, 1.0f - var2, var3)
         else -> doubleArrayOf(var1, var2, var3, var4)
     }
 
-    private fun Double.limit(): Double = max(0.0, min(1.0, this))
+    private fun Double.limit() = max(0.0, min(1.0, this))
 
 }
 enum class VoxelShapeRotations {

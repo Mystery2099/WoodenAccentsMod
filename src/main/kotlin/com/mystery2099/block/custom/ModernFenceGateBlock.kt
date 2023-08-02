@@ -2,7 +2,8 @@ package com.mystery2099.block.custom
 
 import com.mystery2099.WoodenAccentsMod.woodType
 import com.mystery2099.util.VoxelShapeHelper.combined
-import com.mystery2099.util.VoxelShapeHelper.rotateAndCombine
+import com.mystery2099.util.VoxelShapeHelper.rotate
+import com.mystery2099.util.VoxelShapeHelper.rotateLeft
 import com.mystery2099.util.VoxelShapeRotations
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
@@ -26,7 +27,7 @@ class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : Fen
         Block.createCuboidShape(0.0, 2.0, 7.5, 16.0, 14.0, 8.5)
     )
     private val shape1 = shapes.combined
-    private val shape2 = shapes.rotateAndCombine(VoxelShapeRotations.LEFT)
+    private val shape2 = shapes.rotateLeft()
 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(

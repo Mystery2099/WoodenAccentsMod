@@ -2,8 +2,11 @@ package com.mystery2099.block.custom
 
 import com.mystery2099.data.ModBlockTags
 import com.mystery2099.util.VoxelShapeHelper.combined
-import com.mystery2099.util.VoxelShapeHelper.rotateAndCombine
-import com.mystery2099.util.VoxelShapeHelper.unionWith
+import com.mystery2099.util.VoxelShapeHelper.flip
+import com.mystery2099.util.VoxelShapeHelper.rotate
+import com.mystery2099.util.VoxelShapeHelper.rotateLeft
+import com.mystery2099.util.VoxelShapeHelper.rotateRight
+import com.mystery2099.util.VoxelShapeHelper.unifyWith
 import com.mystery2099.util.VoxelShapeRotations
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.*
@@ -30,16 +33,16 @@ class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Blo
         pos: BlockPos?,
         context: ShapeContext?
     ): VoxelShape = Block.createCuboidShape(6.0, 0.0, 6.0, 10.0, 16.0, 10.0)
-        .unionWith(
+        .unifyWith(
             arrayOf(
                 Block.createCuboidShape(7.5, 0.0, 0.0, 8.5, 15.0, 6.0),
                 Block.createCuboidShape(7.0, 11.0, 0.0, 9.0, 14.0, 6.0),
                 Block.createCuboidShape(7.0, 2.0, 0.0, 9.0, 5.0, 6.0)
             ).let {
                 listOf(if (state.get(NORTH)) it.combined else VoxelShapes.empty(),
-                    if (state.get(EAST)) it.rotateAndCombine(VoxelShapeRotations.LEFT) else VoxelShapes.empty(),
-                    if (state.get(SOUTH)) it.rotateAndCombine(VoxelShapeRotations.FLIP) else VoxelShapes.empty(),
-                    if (state.get(WEST)) it.rotateAndCombine(VoxelShapeRotations.RIGHT) else VoxelShapes.empty()
+                    if (state.get(EAST)) it.rotateLeft() else VoxelShapes.empty(),
+                    if (state.get(SOUTH)) it.flip() else VoxelShapes.empty(),
+                    if (state.get(WEST)) it.rotateRight() else VoxelShapes.empty()
                 )
             }
         )

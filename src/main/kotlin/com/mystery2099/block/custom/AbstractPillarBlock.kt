@@ -1,6 +1,6 @@
 package com.mystery2099.block.custom
 
-import com.mystery2099.util.VoxelShapeHelper.unionWith
+import com.mystery2099.util.VoxelShapeHelper.unifyWith
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -19,9 +19,10 @@ import net.minecraft.world.WorldAccess
 
 abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shape) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)) {
 
-    init {
-        defaultState = defaultState.with(up, false).with(down, false)
-    }
+    init { defaultState = defaultState.apply {
+        with(up, false)
+        with(down, false)
+    } }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
@@ -51,8 +52,8 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         context: ShapeContext?
     ): VoxelShape = shape.run{
         centerShape.apply {
-            unionWith(if (!state.get(up)) shape.topShape else VoxelShapes.empty())
-            unionWith(if (!state.get(down)) baseShape else VoxelShapes.empty())
+            unifyWith(if (!state.get(up)) shape.topShape else VoxelShapes.empty())
+            unifyWith(if (!state.get(down)) baseShape else VoxelShapes.empty())
         }
     }
 

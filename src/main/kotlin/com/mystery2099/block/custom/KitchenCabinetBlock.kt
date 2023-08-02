@@ -5,7 +5,7 @@ import com.mystery2099.block_entity.custom.KitchenCabinetBlockEntity
 import com.mystery2099.util.VoxelShapeHelper.flip
 import com.mystery2099.util.VoxelShapeHelper.rotateLeft
 import com.mystery2099.util.VoxelShapeHelper.rotateRight
-import com.mystery2099.util.VoxelShapeHelper.unionWith
+import com.mystery2099.util.VoxelShapeHelper.unifyWith
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.minecraft.block.*
@@ -149,5 +149,5 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
         Direction.SOUTH -> KitchenCounterBlock.NORTH_SHAPE.flip()
         Direction.WEST -> KitchenCounterBlock.NORTH_SHAPE.rotateRight()
         else -> VoxelShapes.fullCube()
-    }.unionWith(KitchenCounterBlock.TOP_SHAPE)
+    }.unifyWith(KitchenCounterBlock.TOP_SHAPE)
 }
