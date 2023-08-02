@@ -7,7 +7,7 @@ import net.minecraft.registry.tag.BlockTags
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.WorldAccess
 
-class ThickPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, size) {
+class ThickPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape) {
 
     override fun WorldAccess.checkUp(pos: BlockPos): Boolean = getUpState(pos).run {
         isIn(ModBlockTags.pillars) || isIn(BlockTags.WALLS)
@@ -18,7 +18,7 @@ class ThickPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, size) 
     }
     companion object {
         @JvmStatic
-        val size = Size(
+        val shape = Shape(
             createCuboidShape(1.0, 10.0, 1.0, 15.0, 16.0, 15.0),
             createCuboidShape(4.0, 0.0, 4.0, 12.0, 16.0, 12.0),
             createCuboidShape(1.0, 0.0, 1.0, 15.0, 6.0, 15.0)
