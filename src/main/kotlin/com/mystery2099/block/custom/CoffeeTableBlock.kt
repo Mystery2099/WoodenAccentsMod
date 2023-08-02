@@ -3,6 +3,9 @@ package com.mystery2099.block.custom
 import com.mystery2099.WoodenAccentsModItemGroups
 import com.mystery2099.block.custom.enums.CoffeeTableType
 import com.mystery2099.state.property.ModProperties
+import com.mystery2099.util.VoxelShapeHelper.combined
+import com.mystery2099.util.VoxelShapeHelper.flip
+import com.mystery2099.util.VoxelShapeHelper.rotateRight
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
@@ -11,7 +14,6 @@ import net.minecraft.state.StateManager
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 
@@ -20,8 +22,6 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTabl
         defaultState = defaultState.with(type, CoffeeTableType.SHORT)
         WoodenAccentsModItemGroups.livingRoomItems += this
     }
-
-
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
@@ -42,28 +42,28 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTabl
         val hasWestConnection = state.get(west)
 
         return mutableListOf<VoxelShape>().apply {
-            add(if (isTall) TALL_TOP_SHAPE else SHORT_TOP_SHAPE)
+            add(if (isTall) tallTopShape else shortTopShape)
             if (!hasNorthConnection) {
                 if (!hasEastConnection) {
-                    add(SHORT_NORTH_EAST_LEG_SHAPE)
-                    if (isTall) add(TALL_NORTH_EAST_LEG_SHAPE)
+                    add(shortNorthEastLeg)
+                    if (isTall) add(tallNorthEastLeg)
                 }
                 if (!hasWestConnection) {
-                    add(SHORT_NORTH_WEST_LEG_SHAPE)
-                    if (isTall) add(TALL_NORTH_WEST_LEG_SHAPE)
+                    add(shortNorthWestLeg)
+                    if (isTall) add(tallNorthWestLeg)
                 }
             }
             if (!hasSouthConnection) {
                 if (!hasEastConnection) {
-                    add(SHORT_SOUTH_EAST_LEG_SHAPE)
-                    if (isTall) add(TALL_SOUTH_EAST_LEG_SHAPE)
+                    add(shortSouthEastLeg)
+                    if (isTall) add(tallSouthEastLeg)
                 }
                 if (!hasWestConnection) {
-                    add(SHORT_SOUTH_WEST_LEG_SHAPE)
-                    if (isTall) add(TALL_SOUTH_WEST_LEG_SHAPE)
+                    add(shortSouthWestLeg)
+                    if (isTall) add(tallSouthWestLeg)
                 }
             }
-        }.reduce(VoxelShapes::union)
+        }.combined
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
@@ -92,38 +92,36 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTabl
         @JvmStatic
         val type = ModProperties.coffeeTableType
 
-        // Shape offsets
-        private const val SHAPE_HORIZONTAL_OFFSET = 13.5 / 16.0
         private const val SHAPE_VERTICAL_OFFSET = 7.0 / 16
 
         // Top shapes
         @JvmStatic
-        private val SHORT_TOP_SHAPE = createCuboidShape(0.0, 7.0, 0.0, 16.0, 9.0, 16.0)
+        private val shortTopShape = createCuboidShape(0.0, 7.0, 0.0, 16.0, 9.0, 16.0)
         @JvmStatic
-        private val TALL_TOP_SHAPE = SHORT_TOP_SHAPE.offset(0.0, SHAPE_VERTICAL_OFFSET, 0.0)
+        private val tallTopShape = shortTopShape.offset(0.0, SHAPE_VERTICAL_OFFSET, 0.0)
 
         // Short North Shapes
         @JvmStatic
-        private val SHORT_NORTH_EAST_LEG_SHAPE = createCuboidShape(13.75, 0.0, 0.25, 15.75, 7.0, 2.25)
+        private val shortNorthEastLeg = createCuboidShape(13.75, 0.0, 0.25, 15.75, 7.0, 2.25)
         @JvmStatic
-        private val SHORT_NORTH_WEST_LEG_SHAPE = SHORT_NORTH_EAST_LEG_SHAPE.offset(-SHAPE_HORIZONTAL_OFFSET, 0.0, 0.0)
+        private val shortNorthWestLeg = shortNorthEastLeg.rotateRight()
 
         // Short South Shapes
         @JvmStatic
-        private val SHORT_SOUTH_EAST_LEG_SHAPE = SHORT_NORTH_EAST_LEG_SHAPE.offset(0.0, 0.0, SHAPE_HORIZONTAL_OFFSET)
+        private val shortSouthEastLeg = shortNorthWestLeg.flip()
         @JvmStatic
-        private val SHORT_SOUTH_WEST_LEG_SHAPE = SHORT_NORTH_WEST_LEG_SHAPE.offset(0.0, 0.0, SHAPE_HORIZONTAL_OFFSET)
+        private val shortSouthWestLeg = shortNorthEastLeg.flip()
 
         // Tall North Shapes
         @JvmStatic
-        private val TALL_NORTH_EAST_LEG_SHAPE = SHORT_NORTH_EAST_LEG_SHAPE.offset(0.0, SHAPE_VERTICAL_OFFSET, 0.0)
+        private val tallNorthEastLeg = shortNorthEastLeg.offset(0.0, SHAPE_VERTICAL_OFFSET, 0.0)
         @JvmStatic
-        private val TALL_NORTH_WEST_LEG_SHAPE = SHORT_NORTH_WEST_LEG_SHAPE.offset(0.0, SHAPE_VERTICAL_OFFSET, 0.0)
+        private val tallNorthWestLeg = tallNorthEastLeg.rotateRight()
 
         // Tall South Shapes
         @JvmStatic
-        private val TALL_SOUTH_EAST_LEG_SHAPE = SHORT_SOUTH_EAST_LEG_SHAPE.offset(0.0, SHAPE_VERTICAL_OFFSET, 0.0)
+        private val tallSouthEastLeg = tallNorthWestLeg.flip()
         @JvmStatic
-        private val TALL_SOUTH_WEST_LEG_SHAPE = SHORT_SOUTH_WEST_LEG_SHAPE.offset(0.0, SHAPE_VERTICAL_OFFSET, 0.0)
+        private val tallSouthWestLeg = tallNorthEastLeg.flip()
     }
 }

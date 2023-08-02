@@ -2,8 +2,10 @@ package com.mystery2099.block.custom
 
 import com.mystery2099.WoodenAccentsModItemGroups
 import com.mystery2099.block_entity.custom.KitchenCabinetBlockEntity
-import com.mystery2099.util.VoxelShapeHelper.rotate
-import com.mystery2099.util.VoxelShapeHelper.union
+import com.mystery2099.util.VoxelShapeHelper.flip
+import com.mystery2099.util.VoxelShapeHelper.rotateLeft
+import com.mystery2099.util.VoxelShapeHelper.rotateRight
+import com.mystery2099.util.VoxelShapeHelper.unionWith
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.minecraft.block.*
@@ -63,7 +65,6 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
         val blockEntity = world.getBlockEntity(pos)
         if (blockEntity is KitchenCabinetBlockEntity) {
             player.openHandledScreen(blockEntity)
-            //player.incrementStat(Stats.OPEN_BARREL)
             PiglinBrain.onGuardedBlockInteracted(player, true)
         }
         return ActionResult.CONSUME
@@ -144,9 +145,9 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
         context: ShapeContext?
     ): VoxelShape = when (state.get(facing)) {
         Direction.NORTH -> KitchenCounterBlock.NORTH_SHAPE
-        Direction.EAST -> KitchenCounterBlock.NORTH_SHAPE.rotate(Direction.SOUTH)
-        Direction.SOUTH -> KitchenCounterBlock.NORTH_SHAPE.rotate(Direction.WEST)
-        Direction.WEST -> KitchenCounterBlock.NORTH_SHAPE.rotate(Direction.NORTH)
+        Direction.EAST -> KitchenCounterBlock.NORTH_SHAPE.rotateLeft()
+        Direction.SOUTH -> KitchenCounterBlock.NORTH_SHAPE.flip()
+        Direction.WEST -> KitchenCounterBlock.NORTH_SHAPE.rotateRight()
         else -> VoxelShapes.fullCube()
-    }.union(KitchenCounterBlock.TOP_SHAPE)
+    }.unionWith(KitchenCounterBlock.TOP_SHAPE)
 }

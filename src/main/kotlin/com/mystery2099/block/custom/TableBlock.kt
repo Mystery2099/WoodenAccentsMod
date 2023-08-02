@@ -2,6 +2,9 @@ package com.mystery2099.block.custom
 
 import com.mystery2099.WoodenAccentsModItemGroups
 import com.mystery2099.util.VoxelShapeHelper.combined
+import com.mystery2099.util.VoxelShapeHelper.flip
+import com.mystery2099.util.VoxelShapeHelper.rotateLeft
+import com.mystery2099.util.VoxelShapeHelper.rotateRight
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
@@ -27,18 +30,18 @@ class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock
             val south = this@run?.get(south) ?: false
             val west = this@run?.get(west) ?: false
 
-            add(TOP_SHAPE)
-            if (!north && !east && !south && !west) add(LEG_SHAPE)
+            add(topShape)
+            if (!north && !east && !south && !west) add(legShape)
             //Ends
-            if (!north && !east && south && !west) add(NORTH_END_LEG_SHAPE)
-            if (!north && !east && !south && west) add(EAST_END_LEG_SHAPE)
-            if (north && !east && !south && !west) add(SOUTH_END_LEG_SHAPE)
-            if (!north && east && !south && !west) add(WEST_END_LEG_SHAPE)
+            if (!north && !east && south && !west) add(northEndLegShape)
+            if (!north && !east && !south && west) add(eastEndLegShape)
+            if (north && !east && !south && !west) add(southEndLegShape)
+            if (!north && east && !south && !west) add(westEndLegShape)
             //Corners
-            if (!north && !east && south && west) add(NORTH_EAST_LEG_SHAPE)
-            if (!north && east && south && !west) add(NORTH_WEST_LEG_SHAPE)
-            if (north && !east && !south && west) add(SOUTH_EAST_LEG_SHAPE)
-            if (north && east && !south && !west) add(SOUTH_WEST_LEG_SHAPE)
+            if (!north && !east && south && west) add(northEastLegShape)
+            if (!north && east && south && !west) add(northWestLegShape)
+            if (north && !east && !south && west) add(southEastLegShape)
+            if (north && east && !south && !west) add(southWestLegShape)
 
         }.combined
     }
@@ -49,24 +52,24 @@ class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock
 
     companion object {
         @JvmStatic
-        val TOP_SHAPE: VoxelShape = createCuboidShape(0.0, 13.0, 0.0, 16.0, 16.0, 16.0)
+        val topShape: VoxelShape = createCuboidShape(0.0, 13.0, 0.0, 16.0, 16.0, 16.0)
         @JvmStatic
-        val LEG_SHAPE: VoxelShape = createCuboidShape(6.0, 0.0, 6.0, 10.0, 13.0, 10.0)
+        val legShape: VoxelShape = createCuboidShape(6.0, 0.0, 6.0, 10.0, 13.0, 10.0)
         @JvmStatic
-        val NORTH_END_LEG_SHAPE: VoxelShape = createCuboidShape(6.0, 0.0, 1.0, 10.0, 13.0, 5.0)
+        val northEndLegShape: VoxelShape = createCuboidShape(6.0, 0.0, 1.0, 10.0, 13.0, 5.0)
         @JvmStatic
-        val EAST_END_LEG_SHAPE: VoxelShape = createCuboidShape(11.0, 0.0, 6.0, 15.0, 13.0, 10.0)
+        val eastEndLegShape: VoxelShape = northEndLegShape.rotateLeft()
         @JvmStatic
-        val SOUTH_END_LEG_SHAPE : VoxelShape = createCuboidShape(6.0, 0.0, 11.0, 10.0, 13.0, 15.0)
+        val southEndLegShape : VoxelShape = northEndLegShape.flip()
         @JvmStatic
-        val WEST_END_LEG_SHAPE: VoxelShape = createCuboidShape(1.0, 0.0, 6.0, 5.0, 13.0, 10.0)
+        val westEndLegShape: VoxelShape = northEndLegShape.rotateRight()
         @JvmStatic
-        val NORTH_EAST_LEG_SHAPE: VoxelShape = createCuboidShape(11.0, 0.0, 1.0, 15.0, 13.0, 5.0)
+        val northEastLegShape: VoxelShape = createCuboidShape(11.0, 0.0, 1.0, 15.0, 13.0, 5.0)
         @JvmStatic
-        val NORTH_WEST_LEG_SHAPE: VoxelShape = createCuboidShape(1.0, 0.0, 1.0, 5.0, 13.0, 5.0)
+        val northWestLegShape: VoxelShape = northEastLegShape.rotateRight()
         @JvmStatic
-        val SOUTH_EAST_LEG_SHAPE: VoxelShape = createCuboidShape(11.0, 0.0, 11.0, 15.0, 13.0, 15.0)
+        val southEastLegShape: VoxelShape = northWestLegShape.flip()
         @JvmStatic
-        val SOUTH_WEST_LEG_SHAPE: VoxelShape = createCuboidShape(1.0, 0.0, 11.0, 5.0, 13.0, 15.0)
+        val southWestLegShape: VoxelShape = northEastLegShape.flip()
     }
 }
