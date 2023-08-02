@@ -1,6 +1,6 @@
 package com.mystery2099.block.custom
 
-import com.mystery2099.util.VoxelShapeHelper.union
+import com.mystery2099.util.VoxelShapeHelper.unionWith
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -17,7 +17,7 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 
-abstract class AbstractPillarBlock(val baseBlock: Block, private val size: Size) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)) {
+abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shape) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)) {
 
     init {
         defaultState = defaultState.with(up, false).with(down, false)
@@ -36,10 +36,11 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val size: Size)
         world: WorldAccess,
         pos: BlockPos?,
         neighborPos: BlockPos?
-    ): BlockState? {
-        val newState = super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
-        if (newState != null) return newState.with(up, world.checkUp(pos!!)).with(down, world.checkDown(pos))
-        return Blocks.AIR.defaultState
+    ): BlockState {
+        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos!!, neighborPos)?.apply {
+            with(up, world.checkUp(pos))
+            with(down, world.checkDown(pos))
+        } ?: Blocks.AIR.defaultState
     }
 
     @Deprecated("Deprecated in Java")
@@ -48,12 +49,11 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val size: Size)
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
-    ): VoxelShape = size.run {
-        this.centerShape.union(
-            if (!state.get(up)) this.topShape else VoxelShapes.empty()
-        ).union(
-            if (!state.get(down)) this.baseShape else VoxelShapes.empty()
-        )
+    ): VoxelShape = shape.run{
+        centerShape.apply {
+            unionWith(if (!state.get(up)) shape.topShape else VoxelShapes.empty())
+            unionWith(if (!state.get(down)) baseShape else VoxelShapes.empty())
+        }
     }
 
 
@@ -75,7 +75,7 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val size: Size)
 
 
     @JvmRecord
-    data class Size(val topShape: VoxelShape, val centerShape: VoxelShape, val baseShape: VoxelShape)
+    data class Shape(val topShape: VoxelShape, val centerShape: VoxelShape, val baseShape: VoxelShape)
     companion object {
         @JvmStatic
         val up: BooleanProperty = Properties.UP!!
