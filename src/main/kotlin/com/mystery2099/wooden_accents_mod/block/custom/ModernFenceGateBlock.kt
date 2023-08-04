@@ -1,7 +1,7 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.mystery2099.WoodenAccentsMod.woodType
 import com.mystery2099.wooden_accents_mod.ModItemGroups
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
@@ -13,9 +13,9 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.BlockView
 
-class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : FenceGateBlock(FabricBlockSettings.copyOf(baseGate), baseGate.woodType()),
+class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : FenceGateBlock(FabricBlockSettings.copyOf(baseGate), baseGate.woodType),
     GroupedBlock {
-    private val shapes
+    private inline val shapes
         get() = arrayOf(
             Block.createCuboidShape(0.0, 0.0, 7.5, 1.0, 15.0, 8.5),
             Block.createCuboidShape(15.0, 0.0, 7.5, 16.0, 15.0, 8.5),

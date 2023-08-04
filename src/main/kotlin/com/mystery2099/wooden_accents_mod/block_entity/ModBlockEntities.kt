@@ -1,7 +1,7 @@
 package com.mystery2099.wooden_accents_mod.block_entity
 
-import com.mystery2099.WoodenAccentsMod
-import com.mystery2099.WoodenAccentsMod.toId
+import com.mystery2099.wooden_accents_mod.WoodenAccentsMod
+import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asId
 import com.mystery2099.wooden_accents_mod.block.custom.KitchenCabinetBlock
 import com.mystery2099.wooden_accents_mod.block_entity.custom.KitchenCabinetBlockEntity
 import net.minecraft.block.entity.BlockEntityType
@@ -15,7 +15,7 @@ object ModBlockEntities {
     fun register() {
         kitchenCabinet = Registry.register(
             Registries.BLOCK_ENTITY_TYPE,
-            "kitchen_cabinet".toId(),
+            "kitchen_cabinet".asId(),
             KitchenCabinetBlock.kitchenCabinetBlockEntityTypeBuilder.build(null)
         )
 
