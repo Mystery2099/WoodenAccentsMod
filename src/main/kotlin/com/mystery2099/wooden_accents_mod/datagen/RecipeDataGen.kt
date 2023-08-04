@@ -1,11 +1,8 @@
 package com.mystery2099.wooden_accents_mod.datagen
 
 import com.mystery2099.block.custom.KitchenCounterBlock
-import com.mystery2099.wooden_accents_mod.block.custom.TableBlock
-import com.mystery2099.wooden_accents_mod.block.custom.ThickPillarBlock
-import com.mystery2099.wooden_accents_mod.block.custom.ThinBookshelfBlock
-import com.mystery2099.wooden_accents_mod.block.custom.ThinPillarBlock
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.id
 import com.mystery2099.wooden_accents_mod.block.custom.*
 import com.mystery2099.wooden_accents_mod.data.ModItemTags
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
@@ -44,15 +41,21 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
 
     /*---------------Pillars----------------*/
     private fun genPillarRecipe(block: AbstractPillarBlock, outputNum: Int, primaryInput: ItemConvertible, secondaryInput: ItemConvertible) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, outputNum)
-            .input('|', secondaryInput)
-            .input('#', primaryInput)
-            .pattern("###")
-            .pattern(" | ")
-            .pattern("###")
-            .group(if (block is ThickPillarBlock) "thick_pillars" else if (block is ThinPillarBlock) "thin_pillars" else "pillars")
-            .criterion(primaryInput)
-            .offerTo(exporter)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, outputNum).apply {
+            input('|', secondaryInput)
+            input('#', primaryInput)
+            pattern("###")
+            pattern(" | ")
+            pattern("###")
+            group(when (block) {
+                is ThickPillarBlock -> "thick_pillars"
+                is ThinPillarBlock -> "thin_pillars"
+                else -> "pillars"
+            })
+            criterion(primaryInput)
+            offerTo(exporter)
+        }
+
     }
     private fun genThinPillarRecipe(block: ThinPillarBlock) {
         genPillarRecipe(block, 5, block.baseBlock, Items.STICK)
@@ -64,14 +67,16 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
 
     /*---------------Ladders----------------*/
     private fun genLadderRecipe(output: LadderBlock, input: ItemConvertible, outputNum: Int, group: String) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, output, outputNum)
-            .input('#', input)
-            .pattern("# #")
-            .pattern("###")
-            .pattern("# #")
-            .group(group)
-            .criterion(input)
-            .offerTo(exporter)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, output, outputNum).apply {
+            input('#', input)
+            pattern("# #")
+            pattern("###")
+            pattern("# #")
+            group(group)
+            criterion(input)
+            offerTo(exporter)
+        }
+
     }
     private fun genPlankLadderRecipe(output: PlankLadderBlock) {
         genLadderRecipe(output, output.baseBlock, 8, "plank_ladders")
@@ -81,48 +86,53 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
 
     /*---------------Tables----------------*/
     private fun genTableRecipe(block: TableBlock) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 4)
-            .input('#', block.topBlock)
-            .input('|', block.baseBlock)
-            .pattern("###")
-            .pattern(" | ")
-            .pattern(" | ")
-            .group(block, "tables")
-            .criterion(block.topBlock)
-            .offerTo(exporter)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 4).apply {
+            input('#', block.topBlock)
+            input('|', block.baseBlock)
+            pattern("###")
+            pattern(" | ")
+            pattern(" | ")
+            group(block, "tables")
+            criterion(block.topBlock)
+            offerTo(exporter)
+        }
+
     }
     /*---------------End Tables----------------*/
 
     /*---------------Coffee Tables----------------*/
     private fun genCoffeeTableRecipe(block: CoffeeTableBlock) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 6)
-            .input('_', block.topBlock)
-            .input('|', block.baseBlock)
-            .pattern("___")
-            .pattern("| |")
-            .group(block, "coffee_tables")
-            .criterion(block.topBlock)
-            .offerTo(exporter)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 6).apply {
+            input('_', block.topBlock)
+            input('|', block.baseBlock)
+            pattern("___")
+            pattern("| |")
+            group(block, "coffee_tables")
+            criterion(block.topBlock)
+            offerTo(exporter)
+        }
+
     }
     /*---------------End Coffee Tables----------------*/
 
     /*---------------Thin Bookshelves----------------*/
     private fun genThinBookshelfRecipe(block: ThinBookshelfBlock) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 2)
-            .input('#', block.baseBlock)
-            .input('_', Ingredient.fromTag(ItemTags.WOODEN_SLABS))
-            .pattern("##")
-            .pattern("__")
-            .pattern("##")
-            .group("thin_bookshelves")
-            .criterion(block.baseBlock)
-            .offerTo(exporter)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 2).apply {
+            input('#', block.baseBlock)
+            input('_', Ingredient.fromTag(ItemTags.WOODEN_SLABS))
+            pattern("##")
+            pattern("__")
+            pattern("##")
+            group("thin_bookshelves")
+            criterion(block.baseBlock)
+            offerTo(exporter)
+        }
     }
     /*---------------End Thin Bookshelves----------------*/
 
     /*---------------Floor Covering Blocks----------------*/
     private fun genFloorCoveringRecipe(block: FloorCoveringBlock) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 3).run {
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 3).apply {
             input('#', block.baseBlock)
             input('_', Items.PAPER)
             pattern("##")
@@ -136,43 +146,45 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
 
     /*---------------Kitchen Counters----------------*/
     private fun genKitchenCounterRecipe(block: KitchenCounterBlock) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 4)
-            .input('#', block.baseBlock)
-            .input('_', block.topBlock)
-            .pattern("___")
-            .pattern("###")
-            .pattern("###")
-            .group(block, "kitchen_counters")
-            .criterion(block.baseBlock)
-            .offerTo(exporter)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 4).apply {
+            input('#', block.baseBlock)
+            input('_', block.topBlock)
+            pattern("___")
+            pattern("###")
+            pattern("###")
+            group(block, "kitchen_counters")
+            criterion(block.baseBlock)
+            offerTo(exporter)
+        }
     }
     private fun genKitchenCabinetRecipe(block: KitchenCabinetBlock) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 4)
-            .input('#', block.baseBlock)
-            .input('_', block.topBlock)
-            .input('O', ModItemTags.chests)
-            .pattern("___")
-            .pattern("#O#")
-            .pattern("###")
-            .group(block, "kitchen_cabinets")
-            .criterion(block.baseBlock)
-            .offerTo(exporter)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 4).apply {
+            input('#', block.baseBlock)
+            input('_', block.topBlock)
+            input('O', ModItemTags.chests)
+            pattern("___")
+            pattern("#O#")
+            pattern("###")
+            group(block, "kitchen_cabinets")
+            criterion(block.baseBlock)
+            offerTo(exporter)
+        }
     }
     /*---------------End Kitchen Counters----------------*/
 
 
-    private fun Block.isStripped(): Boolean {
-        return this.translationKey.contains("stripped")
-    }
-    private fun Block.isPlank(): Boolean {
-        return this.translationKey.contains("plank")
-    }
+    private fun Block.isStripped() = id.path.contains("stripped")
+    private fun Block.isPlank() = id.path.contains("plank")
     private fun ShapedRecipeJsonBuilder.group(block: Block, name : String): ShapedRecipeJsonBuilder {
-        return this.group(if (block.isStripped()) "stripped_$name" else if (block.isPlank()) "plank_$name" else name)
+        return group(when {
+            block.isStripped() -> "stripped_$name"
+            block.isPlank() ->"plank_$name"
+            else -> name
+        })
     }
 
     private fun ShapedRecipeJsonBuilder.criterion(requiredItem: ItemConvertible): ShapedRecipeJsonBuilder {
-        return this.criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
+        return criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
     }
 
 }
