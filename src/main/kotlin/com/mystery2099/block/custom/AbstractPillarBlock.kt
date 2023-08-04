@@ -1,5 +1,7 @@
 package com.mystery2099.block.custom
 
+import com.mystery2099.WoodenAccentsModItemGroups
+import com.mystery2099.block.custom.interfaces.GroupedBlock
 import com.mystery2099.util.VoxelShapeHelper.unifyWith
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
@@ -17,7 +19,7 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 
-abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shape) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)) {
+abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shape) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)), GroupedBlock {
 
     init { defaultState = defaultState.apply {
         with(up, false)
@@ -74,6 +76,7 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
     abstract fun WorldAccess.checkUp(pos: BlockPos): Boolean
     abstract fun WorldAccess.checkDown(pos: BlockPos): Boolean
 
+    override val itemGroup get() = WoodenAccentsModItemGroups.outsideBlockItemGroup
 
     @JvmRecord
     data class Shape(val topShape: VoxelShape, val centerShape: VoxelShape, val baseShape: VoxelShape)

@@ -1,5 +1,7 @@
 package com.mystery2099.block.custom
 
+import com.mystery2099.WoodenAccentsModItemGroups
+import com.mystery2099.block.custom.interfaces.GroupedBlock
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -10,7 +12,8 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.WorldAccess
 
-abstract class AbstractTableBlock(baseBlock: Block, topBlock: Block) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)) {
+abstract class AbstractTableBlock(baseBlock: Block, topBlock: Block) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
+    GroupedBlock {
     init {
         defaultState = defaultState.apply {
             with(north, false)
@@ -51,6 +54,8 @@ abstract class AbstractTableBlock(baseBlock: Block, topBlock: Block) : AbstractW
     open fun WorldAccess.checkSouth(pos: BlockPos): Boolean = checkDirection(pos, Direction.SOUTH)
 
     open fun WorldAccess.checkWest(pos: BlockPos): Boolean = checkDirection(pos, Direction.WEST)
+    override val itemGroup get() = WoodenAccentsModItemGroups.kitchenItemGroup
+
     companion object {
         @JvmStatic
         val north: BooleanProperty = Properties.NORTH
