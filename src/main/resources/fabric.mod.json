@@ -17,19 +17,19 @@
 	"entrypoints": {
 		"main": [
 			{
-				"value": "com.mystery2099.WoodenAccentsMod",
+				"value": "com.mystery2099.wooden_accents_mod.WoodenAccentsMod",
 				"adapter": "kotlin"
 			}
 		],
 		"client": [
 			{
-				"value": "com.mystery2099.WoodenAccentsModClient",
+				"value": "com.mystery2099.wooden_accents_mod.WoodenAccentsModClient",
 				"adapter": "kotlin"
 			}
 		],
 		"fabric-datagen": [
 			{
-				"value": "com.mystery2099.WoodenAccentsModDataGenerator",
+				"value": "com.mystery2099.wooden_accents_mod.ModDataGenerator",
 				"adapter": "kotlin"
 			}
 		]
