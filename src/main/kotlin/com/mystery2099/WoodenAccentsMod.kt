@@ -8,8 +8,6 @@ import net.minecraft.block.Blocks
 import net.minecraft.block.WoodType
 import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -28,43 +26,31 @@ object WoodenAccentsMod : ModInitializer {
 		WoodenAccentsModItemGroups.register()
 	}
 
-	fun String.toId(namespace: String): Identifier {
-		return Identifier(namespace, this)
-	}
+	fun String.toId(namespace: String): Identifier = Identifier(namespace, this)
 
-	fun String.toId(): Identifier {
-		return this.toId(MOD_ID)
-	}
-	fun String.toBlockId(): Identifier {
-		return this.toId(MOD_ID).withPrefixedPath("block/")
-	}
+	fun String.toId(): Identifier = this.toId(MOD_ID)
+	fun String.toBlockId(): Identifier = this.toId(MOD_ID).withPrefixedPath("block/")
 
-	fun String.toVanillaId(): Identifier {
-		return this.toId("minecraft")
-	}
+	fun String.toVanillaId(): Identifier = this.toId("minecraft")
 
-	fun String.toCommonId(): Identifier {
-		return this.toId("c")
-	}
+	fun String.toCommonId(): Identifier = this.toId("c")
 	fun Block.getItemModelId(): Identifier? {
 		val identifier = Registries.BLOCK.getId(this)
 		return identifier.withPrefixedPath("item/")
 	}
-	fun WoodType.planks(): Block {
-		return when (this) {
-			WoodType.OAK -> Blocks.OAK_PLANKS
-			WoodType.SPRUCE -> Blocks.SPRUCE_PLANKS
-			WoodType.BIRCH -> Blocks.BIRCH_PLANKS
-			WoodType.ACACIA -> Blocks.ACACIA_PLANKS
-			WoodType.CHERRY -> Blocks.CHERRY_PLANKS
-			WoodType.JUNGLE -> Blocks.JUNGLE_PLANKS
-			WoodType.DARK_OAK -> Blocks.DARK_OAK_PLANKS
-			WoodType.CRIMSON -> Blocks.CRIMSON_PLANKS
-			WoodType.WARPED -> Blocks.WARPED_PLANKS
-			WoodType.MANGROVE -> Blocks.MANGROVE_PLANKS
-			WoodType.BAMBOO -> Blocks.BAMBOO_PLANKS
-			else -> Blocks.OAK_PLANKS
-		}
+	fun WoodType.planks(): Block = when (this) {
+		WoodType.OAK -> Blocks.OAK_PLANKS
+		WoodType.SPRUCE -> Blocks.SPRUCE_PLANKS
+		WoodType.BIRCH -> Blocks.BIRCH_PLANKS
+		WoodType.ACACIA -> Blocks.ACACIA_PLANKS
+		WoodType.CHERRY -> Blocks.CHERRY_PLANKS
+		WoodType.JUNGLE -> Blocks.JUNGLE_PLANKS
+		WoodType.DARK_OAK -> Blocks.DARK_OAK_PLANKS
+		WoodType.CRIMSON -> Blocks.CRIMSON_PLANKS
+		WoodType.WARPED -> Blocks.WARPED_PLANKS
+		WoodType.MANGROVE -> Blocks.MANGROVE_PLANKS
+		WoodType.BAMBOO -> Blocks.BAMBOO_PLANKS
+		else -> Blocks.OAK_PLANKS
 	}
 	fun Block.woodType(): WoodType {
 		lateinit var type: WoodType
