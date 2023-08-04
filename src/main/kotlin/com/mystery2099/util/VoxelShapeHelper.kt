@@ -1,5 +1,6 @@
 package com.mystery2099.util
 
+import com.mystery2099.WoodenAccentsMod
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
@@ -8,15 +9,15 @@ import kotlin.math.max
 import kotlin.math.min
 
 object VoxelShapeHelper {
-    private val Double.limited
+    private inline val Double.limited
         get() = this.limit()
-    val Collection<VoxelShape>.combined
+    inline val Collection<VoxelShape>.combined
         get() = this.unifyElements()
-    val Array<VoxelShape>.combined
+    inline val Array<VoxelShape>.combined
         get() = this.unifyElements()
 
-    fun Collection<VoxelShape>.unifyElements(): VoxelShape = this.fold(VoxelShapes.empty(), VoxelShapes::union)
-    fun Array<VoxelShape>.unifyElements(): VoxelShape = this.fold(VoxelShapes.empty(), VoxelShapes::union)
+    fun Collection<VoxelShape>.unifyElements(): VoxelShape = fold(VoxelShapes.empty(), VoxelShapes::union)
+    fun Array<VoxelShape>.unifyElements(): VoxelShape = fold(VoxelShapes.empty(), VoxelShapes::union)
 
     fun VoxelShape.unifyWith(otherShape: VoxelShape): VoxelShape = VoxelShapes.union(this, otherShape)
     fun VoxelShape.unifyWith(vararg otherShapes: VoxelShape): VoxelShape = otherShapes.fold(this, VoxelShapes::union)
@@ -24,7 +25,7 @@ object VoxelShapeHelper {
 
     fun setMaxHeight(source: VoxelShape, height: Double): VoxelShape {
         val result = AtomicReference(VoxelShapes.empty())
-        source.forEachBox { minX: Double, minY: Double, minZ: Double, maxX: Double, maxY: Double, maxZ: Double ->
+        source.forEachBox { minX: Double, minY: Double, minZ: Double, maxX: Double, _: Double, maxZ: Double ->
             val shape = VoxelShapes.cuboid(minX, minY, minZ, maxX, height, maxZ)
             result.set(result.get().unifyWith(shape))
         }
@@ -79,7 +80,7 @@ object VoxelShapeHelper {
             val callerStackTrace = Thread.currentThread().stackTrace[2]
             val callerClassName = callerStackTrace.className
             val callerLineNumber = callerStackTrace.lineNumber
-            println("Warning: Collection of VoxelShapes is empty in class: $callerClassName, line: $callerLineNumber. Returning a list containing an empty VoxelShape.")
+            WoodenAccentsMod.logger.info("Warning: Collection of VoxelShapes is empty in class: $callerClassName, line: $callerLineNumber. Returning a list containing an empty VoxelShape.")
             return listOf(VoxelShapes.empty())
         }
         return map { it.rotate(direction) }
@@ -89,7 +90,7 @@ object VoxelShapeHelper {
             val callerStackTrace = Thread.currentThread().stackTrace[2]
             val callerClassName = callerStackTrace.className
             val callerLineNumber = callerStackTrace.lineNumber
-            println("Warning: Array of VoxelShapes is empty in class: $callerClassName, line: $callerLineNumber. Returning an Array containing an empty VoxelShape.")
+            WoodenAccentsMod.logger.info("Warning: Array of VoxelShapes is empty in class: $callerClassName, line: $callerLineNumber. Returning an Array containing an empty VoxelShape.")
             return arrayOf(VoxelShapes.empty())
         }
         return map { it.rotate(direction) }.toTypedArray()
