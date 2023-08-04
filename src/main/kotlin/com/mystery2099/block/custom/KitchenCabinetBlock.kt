@@ -1,6 +1,7 @@
 package com.mystery2099.block.custom
 
 import com.mystery2099.WoodenAccentsModItemGroups
+import com.mystery2099.block.custom.interfaces.GroupedBlock
 import com.mystery2099.block_entity.custom.KitchenCabinetBlockEntity
 import com.mystery2099.util.VoxelShapeHelper.flip
 import com.mystery2099.util.VoxelShapeHelper.rotateLeft
@@ -32,7 +33,8 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
-class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)) {
+class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)),
+    GroupedBlock {
     companion object {
         val facing: DirectionProperty = Properties.HORIZONTAL_FACING
         val open: BooleanProperty = Properties.OPEN
@@ -45,10 +47,10 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
             with(facing, Direction.NORTH)
             with(open, false)
         }
-        WoodenAccentsModItemGroups.run {
+        /*WoodenAccentsModItemGroups.run {
             kitchenItems += this@KitchenCabinetBlock
             storageBlocks += this@KitchenCabinetBlock
-        }
+        }*/
         kitchenCabinetBlockEntityTypeBuilder.addBlock(this)
     }
 
@@ -150,4 +152,6 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
         Direction.WEST -> KitchenCounterBlock.NORTH_SHAPE.rotateRight()
         else -> VoxelShapes.fullCube()
     }.unifyWith(KitchenCounterBlock.TOP_SHAPE)
+
+    override val itemGroup get() = WoodenAccentsModItemGroups.storageBlocksItemGroup
 }

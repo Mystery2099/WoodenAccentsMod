@@ -1,6 +1,5 @@
 package com.mystery2099.block.custom
 
-import com.mystery2099.WoodenAccentsModItemGroups
 import com.mystery2099.data.ModBlockTags
 import net.minecraft.block.Block
 import net.minecraft.registry.tag.BlockTags
@@ -24,5 +23,4 @@ class ThickPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape)
             createCuboidShape(1.0, 0.0, 1.0, 15.0, 6.0, 15.0)
         )
     }
-    init { WoodenAccentsModItemGroups.outsideItems += this }
 }

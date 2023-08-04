@@ -1,13 +1,13 @@
 package com.mystery2099.block.custom
 
+import com.mystery2099.WoodenAccentsModItemGroups
+import com.mystery2099.block.custom.interfaces.GroupedBlock
 import com.mystery2099.data.ModBlockTags
 import com.mystery2099.util.VoxelShapeHelper.combined
 import com.mystery2099.util.VoxelShapeHelper.flip
-import com.mystery2099.util.VoxelShapeHelper.rotate
 import com.mystery2099.util.VoxelShapeHelper.rotateLeft
 import com.mystery2099.util.VoxelShapeHelper.rotateRight
 import com.mystery2099.util.VoxelShapeHelper.unifyWith
-import com.mystery2099.util.VoxelShapeRotations
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.*
 import net.minecraft.registry.tag.BlockTags
@@ -17,7 +17,7 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 
-class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Block) : FenceBlock(FabricBlockSettings.copyOf(settings)) {
+class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Block) : FenceBlock(FabricBlockSettings.copyOf(settings)), GroupedBlock {
 
     override fun canConnect(state: BlockState, neighborIsFullSquare: Boolean, dir: Direction): Boolean {
         return !cannotConnect(state) && neighborIsFullSquare || state.run {
@@ -46,6 +46,9 @@ class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Blo
                 )
             }
         )
+
+    override val itemGroup
+        get() = WoodenAccentsModItemGroups.outsideBlockItemGroup
 }
 
 

@@ -1,6 +1,7 @@
 package com.mystery2099.block.custom
 
 import com.mystery2099.WoodenAccentsModItemGroups
+import com.mystery2099.block.custom.interfaces.GroupedBlock
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.CarpetBlock
@@ -15,6 +16,8 @@ class FloorCoveringBlock(val baseBlock: Block) : CarpetBlock(
             requires(FeatureFlags.UPDATE_1_20)
         }
     }
-) {
-    init { WoodenAccentsModItemGroups.livingRoomItems += this }
+), GroupedBlock {
+    //init { WoodenAccentsModItemGroups.livingRoomItems += this }
+
+    override val itemGroup get() = WoodenAccentsModItemGroups.livingRoomItemGroup
 }

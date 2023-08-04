@@ -2,6 +2,7 @@ package com.mystery2099.block.custom
 
 import com.mystery2099.WoodenAccentsModItemGroups
 import com.mystery2099.block.custom.enums.CoffeeTableType
+import com.mystery2099.block.custom.interfaces.GroupedBlock
 import com.mystery2099.state.property.ModProperties
 import com.mystery2099.util.VoxelShapeHelper.combined
 import com.mystery2099.util.VoxelShapeHelper.flip
@@ -17,10 +18,10 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 
-class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock(baseBlock, topBlock) {
+class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock(baseBlock, topBlock), GroupedBlock {
     init {
         defaultState = defaultState.with(type, CoffeeTableType.SHORT)
-        WoodenAccentsModItemGroups.livingRoomItems += this
+        //WoodenAccentsModItemGroups.livingRoomItems += this
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
@@ -124,4 +125,6 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTabl
         @JvmStatic
         private val tallSouthWestLeg = tallNorthEastLeg.flip()
     }
+
+    override val itemGroup get() = WoodenAccentsModItemGroups.livingRoomItemGroup
 }

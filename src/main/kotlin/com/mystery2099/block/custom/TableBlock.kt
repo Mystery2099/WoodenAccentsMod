@@ -8,6 +8,7 @@ import com.mystery2099.util.VoxelShapeHelper.rotateRight
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
+import net.minecraft.item.ItemGroup
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
@@ -15,7 +16,7 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 
 class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock(baseBlock, topBlock) {
-    init { WoodenAccentsModItemGroups.livingRoomItems += this }
+    //init { WoodenAccentsModItemGroups.livingRoomItems += this }
 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
@@ -45,6 +46,9 @@ class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock
 
         }.combined
     }
+
+    override val itemGroup: ItemGroup
+        get() = WoodenAccentsModItemGroups.kitchenItemGroup
 
     override fun WorldAccess.checkDirection(pos: BlockPos, direction: Direction): Boolean {
         return getBlockState(pos.offset(direction)).block is TableBlock

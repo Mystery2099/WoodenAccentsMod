@@ -1,21 +1,21 @@
 package com.mystery2099.block.custom
 
 import com.mystery2099.WoodenAccentsModItemGroups
+import com.mystery2099.block.custom.interfaces.GroupedBlock
 import com.mystery2099.util.VoxelShapeHelper.combined
 import com.mystery2099.util.VoxelShapeHelper.flip
-import com.mystery2099.util.VoxelShapeHelper.rotate
 import com.mystery2099.util.VoxelShapeHelper.rotateLeft
 import com.mystery2099.util.VoxelShapeHelper.rotateRight
-import com.mystery2099.util.VoxelShapeRotations
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.*
+import net.minecraft.item.ItemGroup
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 
-class PlankLadderBlock(val baseBlock: Block) : LadderBlock(FabricBlockSettings.copyOf(Blocks.LADDER)) {
-    init { WoodenAccentsModItemGroups.outsideItems += this }
+class PlankLadderBlock(val baseBlock: Block) : LadderBlock(FabricBlockSettings.copyOf(Blocks.LADDER)), GroupedBlock {
+    //init { WoodenAccentsModItemGroups.outsideItems += this }
 
     companion object {
         private val northShapes = arrayOf(
@@ -42,5 +42,7 @@ class PlankLadderBlock(val baseBlock: Block) : LadderBlock(FabricBlockSettings.c
         Direction.WEST -> westShape
         else -> super.getOutlineShape(state, world, pos, context)
     }
+    override val itemGroup: ItemGroup
+        get() = WoodenAccentsModItemGroups.outsideBlockItemGroup
 
 }

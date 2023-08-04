@@ -1,10 +1,12 @@
 package com.mystery2099.block.custom;
 
 import com.mystery2099.WoodenAccentsModItemGroups;
+import com.mystery2099.block.custom.interfaces.GroupedBlock;
 import com.mystery2099.data.ModBlockTags;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.StairShape;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
@@ -23,7 +25,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class KitchenCounterBlock extends AbstractWaterloggableBlock{
+public class KitchenCounterBlock extends AbstractWaterloggableBlock implements GroupedBlock {
     public static final EnumProperty<StairShape> SHAPE = Properties.STAIR_SHAPE;
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
     public static final VoxelShape TOP_SHAPE = Block.createCuboidShape(0, 14, 0, 16, 16, 16);
@@ -51,7 +53,6 @@ public class KitchenCounterBlock extends AbstractWaterloggableBlock{
         super(FabricBlockSettings.copyOf(baseBlock));
         this.baseBlock = baseBlock;
         this.topBlock = topBlock;
-        WoodenAccentsModItemGroups.getKitchenItems().add(this);
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(SHAPE, StairShape.STRAIGHT));
     }
 
@@ -221,5 +222,11 @@ public class KitchenCounterBlock extends AbstractWaterloggableBlock{
 
     public Block getBaseBlock() {
         return baseBlock;
+    }
+
+    @NotNull
+    @Override
+    public ItemGroup getItemGroup() {
+        return WoodenAccentsModItemGroups.INSTANCE.getKitchenItemGroup();
     }
 }

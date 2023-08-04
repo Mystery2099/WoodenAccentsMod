@@ -1,64 +1,50 @@
 package com.mystery2099
 
 import com.mystery2099.WoodenAccentsMod.toId
+import com.mystery2099.block.ModBlocks
+import com.mystery2099.block.custom.interfaces.GroupedBlock
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
-import net.minecraft.block.Blocks
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
-import net.minecraft.text.Text
+import net.minecraft.item.Items
 
 
 object WoodenAccentsModItemGroups {
-    //Lists
-    @JvmStatic
-    val itemGroups: MutableList<ItemGroup> = ArrayList()
-    @JvmStatic
-    val ItemGroupToList: MutableMap<ItemGroup, MutableList<ItemConvertible>> = HashMap()
-    @JvmStatic
-    val outsideItems: MutableList<ItemConvertible> = ArrayList()
-    @JvmStatic
-    val kitchenItems: MutableList<ItemConvertible> = ArrayList()
-    @JvmStatic
-    val livingRoomItems: MutableList<ItemConvertible> = ArrayList()
-    @JvmStatic
-    val bedroomItems: MutableList<ItemConvertible> = ArrayList()
-    @JvmStatic
-    val storageBlocks: MutableList<ItemConvertible> = ArrayList()
 
+    val outsideBlockItemGroup: ItemGroup = createItemGroup("outside")
+    val kitchenItemGroup: ItemGroup = createItemGroup("kitchen")
+    val livingRoomItemGroup: ItemGroup = createItemGroup("living_room")
+    val bedroomItemGroup: ItemGroup = createItemGroup("bedroom")
+    val storageBlocksItemGroup: ItemGroup  = createItemGroup("storage")
 
-    val outsideBlockItemGroup: ItemGroup = createItemGroup("outside", outsideItems)
-    val kitchenItemGroup: ItemGroup = createItemGroup("kitchen", kitchenItems)
-    val livingRoomItemGroup: ItemGroup = createItemGroup("living_room", livingRoomItems)
-    val bedroomItemGroup: ItemGroup = createItemGroup("bedroom", bedroomItems)
-    val storageBlocksItemGroup: ItemGroup  = createItemGroup("storage", storageBlocks)
-
+    private val itemGroupToEntriesMap = mapOf<ItemGroup, MutableList<ItemConvertible>>(
+        outsideBlockItemGroup to mutableListOf(),
+        kitchenItemGroup to mutableListOf(),
+        livingRoomItemGroup to mutableListOf(),
+        bedroomItemGroup to mutableListOf(),
+        storageBlocksItemGroup to mutableListOf()
+    ).also {
+        ModBlocks.blocks.forEach { block ->
+            if (block is GroupedBlock) it[block.itemGroup]?.add(block)
+        }
+        it.forEach { (_, entries) ->
+            if (entries.isEmpty()) entries += (Items.DIRT)
+        }
+    }
+    private fun Map<ItemGroup, MutableList<ItemConvertible>>.byId() = mapKeys { (key, _) -> key.id }
+    val itemGroups get() = itemGroupToEntriesMap.keys
+    val ItemGroup.entries get() = itemGroupToEntriesMap[this] ?: emptyList()
     fun register() {
-        bedroomItems.add(Blocks.DIRT)
-        storageBlocks.add(Blocks.DIRT)
-
-        ItemGroupToList.forEach { (group, list) ->
-            ItemGroupEvents.modifyEntriesEvent(group).register { content -> list.forEach(content::add) }
+        itemGroupToEntriesMap.forEach { (itemGroup, entries) ->
+            ItemGroupEvents.modifyEntriesEvent(itemGroup).register { entries.forEach(it::add)}
         }
 
         WoodenAccentsMod.logger.info("Registering ItemGroups for mod: ${WoodenAccentsMod.MOD_ID}")
     }
 
-    private fun createItemGroup(name: String, itemList: MutableList<ItemConvertible>): ItemGroup {
-        return FabricItemGroup.builder(name.toId())
-            .icon { ItemStack(itemList[0]) }
-            .displayName(name.toItemGroupKey())
-            .build().mapTo(itemList).apply { itemGroups.add(this) }
-    }
-
-    private fun String.toItemGroupKey(): Text {
-        return Text.translatable("itemGroup.${WoodenAccentsMod.MOD_ID}.$this")
-    }
-
-    private fun ItemGroup.mapTo(list: MutableList<ItemConvertible>): ItemGroup {
-        ItemGroupToList[this] = list
-        return this
-    }
-
+    private fun createItemGroup(name: String) = FabricItemGroup.builder(name.toId()).apply {
+        icon { ItemStack(itemGroupToEntriesMap.byId()[name.toId()]?.get(0) ?: Items.DIRT) }
+    }.build()
 }
