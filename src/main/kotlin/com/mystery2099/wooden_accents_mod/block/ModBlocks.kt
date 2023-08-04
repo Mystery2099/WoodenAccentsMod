@@ -291,13 +291,20 @@ object ModBlocks {
         get() = Registries.BLOCK.getId(this)
     inline val Block.modelId: Identifier
         get() = ModelIds.getBlockModelId(this)
+
     inline val Block.woodType: WoodType
-        get() = WoodType.stream()
-            .filter { this.id.path.contains(it.name.lowercase()) && (!it.name.lowercase().contains("dark") || this.id.path.contains("dark")) }
-            .findFirst()
-            .orElseThrow { IllegalStateException("No matching wood type found") }
-
-
+        get() {
+            lateinit var type: WoodType
+            WoodType.stream().forEach {
+                if (this.id.path.contains(it.name)) {
+                    type = it
+                    if (!it.name.contains("dark") && !this.id.path.contains("dark")) {
+                        return@forEach
+                    }
+                }
+            }
+            return type
+        }
 
     private fun Block.registerAs(id: String): Block = registerAs(id.asId())
     private fun Block.registerAs(identifier: Identifier) =

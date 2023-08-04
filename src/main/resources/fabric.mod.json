@@ -29,7 +29,7 @@
 		],
 		"fabric-datagen": [
 			{
-				"value": "com.mystery2099.wooden_accents_mod.ModDataGenerator",
+				"value": "com.mystery2099.wooden_accents_mod.datagen.ModDataGenerator",
 				"adapter": "kotlin"
 			}
 		]
