@@ -283,9 +283,7 @@ object ModBlocks {
 
     /*---------------End Misc Stuff----------------*/
 
-    private fun Block.registerAs(id: String): Block {
-        return this.registerAs(id.toId())
-    }
+    private fun Block.registerAs(id: String) = registerAs(id.toId())
     private fun Block.registerAs(identifier: Identifier): Block {
         return Registry.register(Registries.BLOCK, identifier, this).also {
             registries += it
