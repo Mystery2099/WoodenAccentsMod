@@ -8,11 +8,7 @@ enum class CoffeeTableType(string: String) : StringIdentifiable {
     TALL("tall");
 
     private val string: String
-    init {
-        this.string = string
-    }
-    override fun asString(): String {
-        return string
-    }
+    init { this.string = string }
+    override fun asString() = string
 }
 

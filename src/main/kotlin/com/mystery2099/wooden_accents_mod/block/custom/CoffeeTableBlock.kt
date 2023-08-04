@@ -5,6 +5,7 @@ import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
 import com.mystery2099.wooden_accents_mod.block.custom.enums.CoffeeTableType
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState

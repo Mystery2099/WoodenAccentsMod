@@ -2,6 +2,7 @@ package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.ModItemGroups
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings

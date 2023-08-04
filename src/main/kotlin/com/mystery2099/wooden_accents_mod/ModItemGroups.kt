@@ -2,7 +2,7 @@ package com.mystery2099.wooden_accents_mod
 
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
-import com.mystery2099.wooden_accents_mod.block.custom.GroupedBlock
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.minecraft.item.ItemConvertible
