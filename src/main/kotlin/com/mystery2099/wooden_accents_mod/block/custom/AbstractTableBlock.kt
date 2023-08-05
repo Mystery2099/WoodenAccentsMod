@@ -12,7 +12,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.WorldAccess
 
-abstract class AbstractTableBlock(baseBlock: Block, topBlock: Block) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
+abstract class AbstractTableBlock(baseBlock: Block) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
     GroupedBlock {
     init {
         defaultState = defaultState.apply {
@@ -47,13 +47,13 @@ abstract class AbstractTableBlock(baseBlock: Block, topBlock: Block) : AbstractW
     open fun WorldAccess.checkDirection(pos: BlockPos, direction: Direction): Boolean {
         return getBlockState(pos.offset(direction)).block is AbstractTableBlock
     }
-    open fun WorldAccess.checkNorth(pos: BlockPos): Boolean = checkDirection(pos, Direction.NORTH)
+    open infix fun WorldAccess.checkNorth(pos: BlockPos): Boolean = checkDirection(pos, Direction.NORTH)
 
-    open fun WorldAccess.checkEast(pos: BlockPos): Boolean = checkDirection(pos, Direction.EAST)
+    open infix fun WorldAccess.checkEast(pos: BlockPos): Boolean = checkDirection(pos, Direction.EAST)
 
-    open fun WorldAccess.checkSouth(pos: BlockPos): Boolean = checkDirection(pos, Direction.SOUTH)
+    open infix fun WorldAccess.checkSouth(pos: BlockPos): Boolean = checkDirection(pos, Direction.SOUTH)
 
-    open fun WorldAccess.checkWest(pos: BlockPos): Boolean = checkDirection(pos, Direction.WEST)
+    open infix fun WorldAccess.checkWest(pos: BlockPos): Boolean = checkDirection(pos, Direction.WEST)
     override val itemGroup get() = ModItemGroups.kitchenItemGroup
 
     companion object {

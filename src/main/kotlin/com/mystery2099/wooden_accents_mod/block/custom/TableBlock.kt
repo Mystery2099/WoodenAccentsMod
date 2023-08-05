@@ -15,7 +15,7 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 
-class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock(baseBlock, topBlock) {
+class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock(baseBlock) {
     //init { WoodenAccentsModItemGroups.livingRoomItems += this }
 
     @Deprecated("Deprecated in Java")

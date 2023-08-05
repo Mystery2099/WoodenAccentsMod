@@ -8,11 +8,11 @@ import net.minecraft.world.WorldAccess
 
 class ThinPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape) {
 
-    override fun WorldAccess.checkUp(pos: BlockPos): Boolean = this.getUpState(pos).run {
+    override infix fun WorldAccess.checkUp(pos: BlockPos): Boolean = this.getUpState(pos).run {
         isIn(ModBlockTags.thinPillars) || isIn(BlockTags.FENCES)
     }
 
-    override fun WorldAccess.checkDown(pos: BlockPos): Boolean = this.getDownState(pos).run {
+    override infix fun WorldAccess.checkDown(pos: BlockPos): Boolean = this.getDownState(pos).run {
         isIn(ModBlockTags.thinPillars) || isIn(BlockTags.FENCES)
     }
     companion object {

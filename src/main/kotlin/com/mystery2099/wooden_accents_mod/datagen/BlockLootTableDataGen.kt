@@ -23,7 +23,7 @@ class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTable
         ModBlocks.blocks.forEach { block ->
             when (block) {
                 is CoffeeTableBlock -> addDropsDoubleWithProperty(block, ModProperties.coffeeTableType, CoffeeTableType.TALL)
-                else -> this += block
+                else -> addDrop(block)
             }
         }
     }
@@ -45,5 +45,6 @@ class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTable
             )
         ).also { addDrop(drop, it) }
     }
-    operator fun BlockLootTableGenerator.plusAssign(block: Block) { addDrop(block) }
+    infix operator fun BlockLootTableGenerator.plusAssign(block: Block) { addDrop(block) }
+    override infix fun addDrop(block: Block) = super.addDrop(block)
 }

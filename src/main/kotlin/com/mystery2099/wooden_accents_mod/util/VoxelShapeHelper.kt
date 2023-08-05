@@ -32,11 +32,11 @@ object VoxelShapeHelper {
     fun Collection<VoxelShape>.unifyElements(): VoxelShape = fold(VoxelShapes.empty(), VoxelShapes::union)
     fun Array<VoxelShape>.unifyElements(): VoxelShape = fold(VoxelShapes.empty(), VoxelShapes::union)
 
-    fun VoxelShape.unifyWith(otherShape: VoxelShape): VoxelShape = VoxelShapes.union(this, otherShape)
+    infix fun VoxelShape.unifyWith(otherShape: VoxelShape): VoxelShape = VoxelShapes.union(this, otherShape)
     fun VoxelShape.unifyWith(vararg otherShapes: VoxelShape): VoxelShape = otherShapes.fold(this, VoxelShapes::union)
-    fun VoxelShape.unifyWith(otherShapes: Collection<VoxelShape>): VoxelShape = unifyWith(otherShapes.combined)
-    operator fun VoxelShape.plus(otherShape: VoxelShape): VoxelShape = unifyWith(otherShape)
-    operator fun VoxelShape.plus(otherShapes: Collection<VoxelShape>): VoxelShape = unifyWith(otherShapes)
+    infix fun VoxelShape.unifyWith(otherShapes: Collection<VoxelShape>): VoxelShape = unifyWith(otherShapes.combined)
+    infix operator fun VoxelShape.plus(otherShape: VoxelShape): VoxelShape = unifyWith(otherShape)
+    infix operator fun VoxelShape.plus(otherShapes: Collection<VoxelShape>): VoxelShape = unifyWith(otherShapes)
 
 
     fun setMaxHeight(source: VoxelShape, height: Double): VoxelShape {
@@ -48,7 +48,7 @@ object VoxelShapeHelper {
         return result.get()
     }
 
-    fun limitHorizontal(source: VoxelShape): VoxelShape {
+    infix fun limitHorizontal(source: VoxelShape): VoxelShape {
         val result = AtomicReference(VoxelShapes.empty())
         source.forEachBox { minX: Double, minY: Double, minZ: Double, maxX: Double, maxY: Double, maxZ: Double ->
             val shape = VoxelShapes.cuboid(minX.limited, minY, minZ.limited, maxX.limited, maxY, maxZ.limited)
@@ -58,7 +58,7 @@ object VoxelShapeHelper {
     }
 
     //Do not use on complex VoxelShapes
-    fun VoxelShape.rotate(direction: VoxelShapeTransformation): VoxelShape = adjustValues(
+    infix fun VoxelShape.rotate(direction: VoxelShapeTransformation): VoxelShape = adjustValues(
         direction, this.minX, this.minZ, this.maxX, this.maxZ
     ).let { adjustedValues ->
         VoxelShapes.cuboid(
@@ -78,8 +78,8 @@ object VoxelShapeHelper {
         )
     }*/
 
-    fun Collection<VoxelShape>.rotate(direction: VoxelShapeTransformation) = rotateElements(direction).combined
-    fun Array<VoxelShape>.rotate(direction: VoxelShapeTransformation) = rotateElements(direction).combined
+    infix fun Collection<VoxelShape>.rotate(direction: VoxelShapeTransformation) = rotateElements(direction).combined
+    infix fun Array<VoxelShape>.rotate(direction: VoxelShapeTransformation) = rotateElements(direction).combined
 
 
     fun VoxelShape.rotateLeft() = rotate(VoxelShapeTransformation.ROTATE_LEFT)//Do not use on complex VoxelShapes
@@ -99,7 +99,7 @@ object VoxelShapeHelper {
     fun Collection<VoxelShape>.flip() = rotate(VoxelShapeTransformation.FLIP)
     fun Array<VoxelShape>.flip() = rotate(VoxelShapeTransformation.FLIP)
 
-    fun Collection<VoxelShape>.rotateElements(direction: VoxelShapeTransformation): Collection<VoxelShape> {
+    infix fun Collection<VoxelShape>.rotateElements(direction: VoxelShapeTransformation): Collection<VoxelShape> {
         if (isEmpty()) {
             val callerStackTrace = Thread.currentThread().stackTrace[2]
             val callerClassName = callerStackTrace.className
@@ -109,7 +109,7 @@ object VoxelShapeHelper {
         }
         return map { it.rotate(direction) }
     }
-    fun Array<VoxelShape>.rotateElements(direction: VoxelShapeTransformation): Array<VoxelShape> {
+    infix fun Array<VoxelShape>.rotateElements(direction: VoxelShapeTransformation): Array<VoxelShape> {
         if (isEmpty()) {
             val callerStackTrace = Thread.currentThread().stackTrace[2]
             val callerClassName = callerStackTrace.className

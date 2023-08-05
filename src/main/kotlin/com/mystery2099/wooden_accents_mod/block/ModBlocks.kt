@@ -306,8 +306,8 @@ object ModBlocks {
             return type
         }
 
-    private fun Block.registerAs(id: String): Block = registerAs(id.asId())
-    private fun Block.registerAs(identifier: Identifier) =
+    private infix fun Block.registerAs(id: String): Block = registerAs(id.asId())
+    private infix fun Block.registerAs(identifier: Identifier) =
         Registry.register(Registries.BLOCK, identifier, this).also {
             registries += it
             Registry.register(Registries.ITEM, identifier, BlockItem(it, FabricItemSettings()))

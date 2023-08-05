@@ -65,7 +65,7 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         val world = ctx.world
         val pos = ctx.blockPos
 
-        with(up, world.checkUp(pos))?.with(down, world.checkDown(pos))
+        with(up, world checkUp pos)?.with(down, world checkDown pos)
     }
     //Up & Down
     open fun WorldAccess.getStateAtPos(blockPos: BlockPos): BlockState = getBlockState(blockPos)
@@ -73,8 +73,8 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
 
     open fun WorldAccess.getDownState(pos: BlockPos): BlockState = getStateAtPos(pos.down())
 
-    abstract fun WorldAccess.checkUp(pos: BlockPos): Boolean
-    abstract fun WorldAccess.checkDown(pos: BlockPos): Boolean
+    abstract infix fun WorldAccess.checkUp(pos: BlockPos): Boolean
+    abstract infix fun WorldAccess.checkDown(pos: BlockPos): Boolean
 
     override val itemGroup get() = ModItemGroups.outsideBlockItemGroup
 
