@@ -25,14 +25,14 @@ object WoodenAccentsMod : ModInitializer {
 		ModItemGroups.register()
 	}
 
-	fun String.asId(namespace: String): Identifier = Identifier(namespace, this)
+	infix fun String.asPathIn(namespace: String): Identifier = Identifier(namespace, this)
 
-	fun String.asId() = asId(MOD_ID)
-	fun String.asBlockId(): Identifier = asId(MOD_ID).withPrefixedPath("block/")
+	fun String.asId() = Identifier(MOD_ID, this)
+	fun String.asBlockId(): Identifier = asId().withPrefixedPath("block/")
 
-	fun String.asVanillaId() = asId("minecraft")
+	fun String.asVanillaId() = Identifier(this)
 
-	fun String.asCommonId() = asId("c")
+	fun String.asCommonId() = Identifier("c, this")
 
 	fun WoodType.asPlanks(): Block = when (this) {
 		WoodType.OAK -> Blocks.OAK_PLANKS

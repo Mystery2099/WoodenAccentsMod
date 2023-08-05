@@ -41,8 +41,7 @@ object ModModels {
 
     //Coffee Table Models
     val coffeeTableInventory = item("coffee_table", TextureKey.TOP, legs)
-    val coffeeTableTopTall = block("coffee_table_top_tall",
-        "_top_tall", TextureKey.TOP)
+    val coffeeTableTopTall = block("coffee_table_top_tall", "_top_tall", TextureKey.TOP)
     val coffeeTableLegTall = block(
         "coffee_table_leg_tall",
         "_leg_tall",
