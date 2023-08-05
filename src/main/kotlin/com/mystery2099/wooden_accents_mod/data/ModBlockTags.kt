@@ -2,6 +2,7 @@ package com.mystery2099.wooden_accents_mod.data
 
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod
 import net.minecraft.block.Block
+import net.minecraft.block.BlockState
 import net.minecraft.item.Item
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
@@ -43,13 +44,13 @@ object ModBlockTags {
     val chests = "chests".toBlockTag("c").withMatchingItemTag()
     /*---------------End Storage Tags----------------*/
 
-    private fun String.toBlockTag(namespace: String): TagKey<Block> {
+    private infix fun String.toBlockTag(namespace: String): TagKey<Block> {
         return TagKey.of(RegistryKeys.BLOCK, Identifier(namespace, this))
     }
     private fun String.toBlockTag(): TagKey<Block> = toBlockTag(WoodenAccentsMod.MOD_ID)
-    private fun TagKey<Block>.withMatchingItemTag(): TagKey<Block> {
+    private fun TagKey<Block>.withMatchingItemTag() = this.also {
         blockTagWithMatchingItemTag[this] = TagKey.of(RegistryKeys.ITEM, this.id)
-        return this
     }
+    infix fun BlockState.isIn(tag: TagKey<Block>) = isIn(tag)
 
 }
