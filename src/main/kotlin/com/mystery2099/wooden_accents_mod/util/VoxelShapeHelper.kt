@@ -16,6 +16,19 @@ object VoxelShapeHelper {
     inline val Array<VoxelShape>.combined
         get() = this.unifyElements()
 
+    private inline val VoxelShape.minX
+        get() = this.getMin(Direction.Axis.X)
+    private inline val VoxelShape.minY
+        get() = getMin(Direction.Axis.Y)
+    private inline val VoxelShape.minZ
+        get() = getMin(Direction.Axis.Z)
+    private inline val VoxelShape.maxX
+        get() = getMax(Direction.Axis.X)
+    private inline val VoxelShape.maxY
+        get() = getMax(Direction.Axis.Y)
+    private inline val VoxelShape.maxZ
+        get() = getMax(Direction.Axis.Z)
+
     fun Collection<VoxelShape>.unifyElements(): VoxelShape = fold(VoxelShapes.empty(), VoxelShapes::union)
     fun Array<VoxelShape>.unifyElements(): VoxelShape = fold(VoxelShapes.empty(), VoxelShapes::union)
 
@@ -42,7 +55,15 @@ object VoxelShapeHelper {
     }
 
     //Do not use on complex VoxelShapes
-    fun VoxelShape.rotate(direction: VoxelShapeRotations): VoxelShape {
+    fun VoxelShape.rotate(direction: VoxelShapeTransformation): VoxelShape = adjustValues(
+        direction, this.minX, this.minZ, this.maxX, this.maxZ
+    ).let { adjustedValues ->
+        VoxelShapes.cuboid(
+            adjustedValues[0], this.minY,
+            adjustedValues[1], adjustedValues[2], this.maxY, adjustedValues[3]
+        )
+    }
+    /*fun VoxelShape.rotate(direction: VoxelShapeRotations): VoxelShape {
         val adjustedValues = adjustValues(
             direction, this.getMin(Direction.Axis.X), this.getMin(Direction.Axis.Z), this.getMax(
                 Direction.Axis.X
@@ -52,30 +73,30 @@ object VoxelShapeHelper {
             adjustedValues[0], this.getMin(Direction.Axis.Y),
             adjustedValues[1], adjustedValues[2], this.getMax(Direction.Axis.Y), adjustedValues[3]
         )
-    }
+    }*/
 
-    fun Collection<VoxelShape>.rotate(direction: VoxelShapeRotations) = rotateElements(direction).combined
-    fun Array<VoxelShape>.rotate(direction: VoxelShapeRotations) = rotateElements(direction).combined
-
-
-    fun VoxelShape.rotateLeft() = rotate(VoxelShapeRotations.LEFT)//Do not use on complex VoxelShapes
-
-    fun Collection<VoxelShape>.rotateLeft() = rotate(VoxelShapeRotations.LEFT)
-    fun Array<VoxelShape>.rotateLeft() = rotate(VoxelShapeRotations.LEFT)
+    fun Collection<VoxelShape>.rotate(direction: VoxelShapeTransformation) = rotateElements(direction).combined
+    fun Array<VoxelShape>.rotate(direction: VoxelShapeTransformation) = rotateElements(direction).combined
 
 
-    fun VoxelShape.rotateRight() = rotate(VoxelShapeRotations.RIGHT)//Do not use on complex VoxelShapes
+    fun VoxelShape.rotateLeft() = rotate(VoxelShapeTransformation.ROTATE_LEFT)//Do not use on complex VoxelShapes
 
-    fun Collection<VoxelShape>.rotateRight() = rotate(VoxelShapeRotations.RIGHT)
-    fun Array<VoxelShape>.rotateRight() = rotate(VoxelShapeRotations.RIGHT)
+    fun Collection<VoxelShape>.rotateLeft() = rotate(VoxelShapeTransformation.ROTATE_LEFT)
+    fun Array<VoxelShape>.rotateLeft() = rotate(VoxelShapeTransformation.ROTATE_LEFT)
 
 
-    fun VoxelShape.flip() = rotate(VoxelShapeRotations.FLIP) //Do not use on complex VoxelShapes
+    fun VoxelShape.rotateRight() = rotate(VoxelShapeTransformation.ROTATE_RIGHT)//Do not use on complex VoxelShapes
 
-    fun Collection<VoxelShape>.flip() = rotate(VoxelShapeRotations.FLIP)
-    fun Array<VoxelShape>.flip() = rotate(VoxelShapeRotations.FLIP)
+    fun Collection<VoxelShape>.rotateRight() = rotate(VoxelShapeTransformation.ROTATE_RIGHT)
+    fun Array<VoxelShape>.rotateRight() = rotate(VoxelShapeTransformation.ROTATE_RIGHT)
 
-    fun Collection<VoxelShape>.rotateElements(direction: VoxelShapeRotations): Collection<VoxelShape> {
+
+    fun VoxelShape.flip() = rotate(VoxelShapeTransformation.FLIP) //Do not use on complex VoxelShapes
+
+    fun Collection<VoxelShape>.flip() = rotate(VoxelShapeTransformation.FLIP)
+    fun Array<VoxelShape>.flip() = rotate(VoxelShapeTransformation.FLIP)
+
+    fun Collection<VoxelShape>.rotateElements(direction: VoxelShapeTransformation): Collection<VoxelShape> {
         if (isEmpty()) {
             val callerStackTrace = Thread.currentThread().stackTrace[2]
             val callerClassName = callerStackTrace.className
@@ -85,7 +106,7 @@ object VoxelShapeHelper {
         }
         return map { it.rotate(direction) }
     }
-    fun Array<VoxelShape>.rotateElements(direction: VoxelShapeRotations): Array<VoxelShape> {
+    fun Array<VoxelShape>.rotateElements(direction: VoxelShapeTransformation): Array<VoxelShape> {
         if (isEmpty()) {
             val callerStackTrace = Thread.currentThread().stackTrace[2]
             val callerClassName = callerStackTrace.className
@@ -98,21 +119,21 @@ object VoxelShapeHelper {
 
 
     private fun adjustValues(
-        direction: VoxelShapeRotations,
+        direction: VoxelShapeTransformation,
         var1: Double,
         var2: Double,
         var3: Double,
         var4: Double
     ) = when (direction) {
-        VoxelShapeRotations.FLIP -> doubleArrayOf(1.0f - var3, 1.0f - var4, 1.0f - var1, 1.0f - var2)
-        VoxelShapeRotations.RIGHT -> doubleArrayOf(var2, 1.0f - var3, var4, 1.0f - var1)
-        VoxelShapeRotations.LEFT -> doubleArrayOf(1.0f - var4, var1, 1.0f - var2, var3)
+        VoxelShapeTransformation.FLIP -> doubleArrayOf(1.0f - var3, 1.0f - var4, 1.0f - var1, 1.0f - var2)
+        VoxelShapeTransformation.ROTATE_RIGHT -> doubleArrayOf(var2, 1.0f - var3, var4, 1.0f - var1)
+        VoxelShapeTransformation.ROTATE_LEFT -> doubleArrayOf(1.0f - var4, var1, 1.0f - var2, var3)
         else -> doubleArrayOf(var1, var2, var3, var4)
     }
 
     private fun Double.limit() = max(0.0, min(1.0, this))
 
 }
-enum class VoxelShapeRotations {
-    LEFT, RIGHT, FLIP, UP, DOWN
+enum class VoxelShapeTransformation {
+    ROTATE_LEFT, ROTATE_RIGHT, FLIP, ROTATE_UP, ROTATE_DOWN
 }
