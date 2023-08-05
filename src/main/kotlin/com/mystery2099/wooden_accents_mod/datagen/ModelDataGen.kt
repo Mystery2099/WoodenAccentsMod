@@ -1,9 +1,9 @@
 package com.mystery2099.wooden_accents_mod.datagen
 
 import com.mystery2099.block.custom.KitchenCounterBlock
-import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asPlanks
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asBlockId
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asId
+import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asPlanks
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asVanillaId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.getItemModelId
@@ -12,6 +12,28 @@ import com.mystery2099.wooden_accents_mod.block.custom.*
 import com.mystery2099.wooden_accents_mod.block.custom.enums.CoffeeTableType
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties
+import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
+import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.putModel
+import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withXRotationOf
+import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
+import com.mystery2099.wooden_accents_mod.util.WhenUtil
+import com.mystery2099.wooden_accents_mod.util.WhenUtil.and
+import com.mystery2099.wooden_accents_mod.util.WhenUtil.newWhen
+import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenAllOf
+import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenEast
+import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenNorth
+import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenNotDown
+import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenNotEast
+import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenNotNorth
+import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenNotNorthEast
+import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenNotNorthWest
+import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenNotSouth
+import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenNotSouthEast
+import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenNotSouthWest
+import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenNotUp
+import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenNotWest
+import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenSouth
+import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenWest
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
 import net.minecraft.block.Block
@@ -29,64 +51,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     val block = "block/"
 
     //Collections
-    private val horizontalDirections = listOf(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)
-
-    //Block State Rotation Variants
-    private val y0: BlockStateVariant =
-        BlockStateVariant().put(VariantSettings.Y, Rotation.R0)
-    private val y90: BlockStateVariant =
-        BlockStateVariant().put(VariantSettings.Y, Rotation.R90)
-    private val y180: BlockStateVariant =
-        BlockStateVariant().put(VariantSettings.Y, Rotation.R180)
-    private val y270: BlockStateVariant =
-        BlockStateVariant().put(VariantSettings.Y, Rotation.R270)
-    private val x0: BlockStateVariant =
-        BlockStateVariant().put(VariantSettings.X, Rotation.R0)
-    private val x90: BlockStateVariant =
-        BlockStateVariant().put(VariantSettings.X, Rotation.R90)
-    private val x180: BlockStateVariant =
-        BlockStateVariant().put(VariantSettings.X, Rotation.R90)
-    private val x270: BlockStateVariant =
-        BlockStateVariant().put(VariantSettings.X, Rotation.R270)
-
-    //Whens
-    private val whenUp = When.create().set(Properties.UP, true)
-    private val whenDown = When.create().set(Properties.DOWN, true)
-    private val whenNorth = When.create().set(Properties.NORTH, true)
-    private val whenEast = When.create().set(Properties.EAST, true)
-    private val whenSouth = When.create().set(Properties.SOUTH, true)
-    private val whenWest = When.create().set(Properties.WEST, true)
-
-    private val whenNorthEast = When.allOf(whenNorth, whenEast)
-    private val whenSouthEast = When.allOf(whenSouth, whenEast)
-    private val whenNorthWest = When.allOf(whenNorth, whenWest)
-    private val whenSouthWest = When.allOf(whenSouth, whenWest)
-
-    private val whenNotUp = When.create().set(Properties.UP, false)
-    private val whenNotDown = When.create().set(Properties.DOWN, false)
-    private val whenNotNorth = When.create().set(Properties.NORTH, false)
-    private val whenNotEast = When.create().set(Properties.EAST, false)
-    private val whenNotSouth = When.create().set(Properties.SOUTH, false)
-    private val whenNotWest = When.create().set(Properties.WEST, false)
-
-    private val whenNotNorthEast = When.allOf(whenNotNorth, whenNotEast)
-    private val whenNotSouthEast = When.allOf(whenNotSouth, whenNotEast)
-    private val whenNotNorthWest = When.allOf(whenNotNorth, whenNotWest)
-    private val whenNotSouthWest = When.allOf(whenNotSouth, whenNotWest)
-
-    private val whenFacingNorth = When.create().set(Properties.FACING, Direction.NORTH)
-    private val whenFacingEast = When.create().set(Properties.FACING, Direction.EAST)
-    private val whenFacingSouth = When.create().set(Properties.FACING, Direction.SOUTH)
-    private val whenFacingWest = When.create().set(Properties.FACING, Direction.WEST)
-    private val whenFacingUp = When.create().set(Properties.FACING, Direction.UP)
-    private val whenFacingDown = When.create().set(Properties.FACING, Direction.DOWN)
-
-    //Horizontal Facing
-    private val whenFacingNorthHorizontal = When.create().set(Properties.HORIZONTAL_FACING, Direction.NORTH)
-    private val whenFacingEastHorizontal = When.create().set(Properties.HORIZONTAL_FACING, Direction.EAST)
-    private val whenFacingSouthHorizontal = When.create().set(Properties.HORIZONTAL_FACING, Direction.SOUTH)
-    private val whenFacingWestHorizontal = When.create().set(Properties.HORIZONTAL_FACING, Direction.WEST)
-
+    private val horizontalDirections = arrayOf(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)
 
     private lateinit var generator: BlockStateModelGenerator
 
@@ -143,9 +108,9 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     ) {
         generator.run {
             MultipartBlockStateSupplier.create(block).apply {
-                with(centerModel.blockStateVariant())
-                with(whenNotUp, bottomModel.blockStateVariant().withXRotationOf(Rotation.R180).put(VariantSettings.UVLOCK, true))
-                with(whenNotDown, bottomModel.blockStateVariant())
+                with(centerModel.asBlockStateVariant())
+                with(whenNotUp, bottomModel.asBlockStateVariant().withXRotationOf(Rotation.R180).put(VariantSettings.UVLOCK, true))
+                with(whenNotDown, bottomModel.asBlockStateVariant())
                 blockStateCollector.accept(this)
             }
         }
@@ -277,57 +242,54 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         singleLegModel: Identifier,
         endLegModel: Identifier,
         cornerLegModel: Identifier,
-    ): MultipartBlockStateSupplier {
-        return MultipartBlockStateSupplier.create(block).apply {
-            val northEndLegVariant = endLegModel.blockStateVariant()
-            val northEastCornerVariant = cornerLegModel.blockStateVariant()
+    ): MultipartBlockStateSupplier = MultipartBlockStateSupplier.create(block).apply {
+        val northEndLegVariant = endLegModel.asBlockStateVariant()
+        val northEastCornerVariant = cornerLegModel.asBlockStateVariant()
 
-            with(topModel.blockStateVariant())
-            with(
-                When.allOf(whenNotNorth, whenNotEast, whenNotSouth, whenNotWest),
-                singleLegModel.blockStateVariant()
-            )
-            //Ends
-            with(
-                When.allOf(whenNotNorth, whenNotEast, whenSouth, whenNotWest),
-                northEndLegVariant
-            )
-            with(
-                When.allOf(whenNotNorth, whenNotEast, whenNotSouth, whenWest),
-                northEndLegVariant.withYRotationOf(Rotation.R90)
-            )
-            with(
-                When.allOf(whenNorth, whenNotEast, whenNotSouth, whenNotWest),
-                northEndLegVariant.withYRotationOf(Rotation.R180)
-            )
-            with(
-                When.allOf(whenNotNorth, whenEast, whenNotSouth, whenNotWest),
-                northEndLegVariant.withYRotationOf(Rotation.R270)
-            )
-            //Corners
-            with(
-                When.allOf(whenNotNorth, whenNotEast, whenSouth, whenWest),
-                northEastCornerVariant
-            )
-            with(
-                When.allOf(whenNotNorth, whenEast, whenSouth, whenNotWest),
-                northEastCornerVariant.withYRotationOf(Rotation.R270)
-            )
-            with(
-                When.allOf(whenNorth, whenNotEast, whenNotSouth, whenWest),
-                northEastCornerVariant.withYRotationOf(Rotation.R90)
-            )
-            with(
-                When.allOf(whenNorth, whenEast, whenNotSouth, whenNotWest),
-                northEastCornerVariant.withYRotationOf(Rotation.R180)
-            )
-        }
+        with(topModel.asBlockStateVariant())
+        with(
+            whenAllOf(whenNotNorth, whenNotEast, whenNotSouth, whenNotWest),
+            singleLegModel.asBlockStateVariant()
+        )
+        //Ends
+        with(
+            whenAllOf(whenNotNorth, whenNotEast, whenSouth, whenNotWest),
+            northEndLegVariant
+        )
+        with(
+            whenAllOf(whenNotNorth, whenNotEast, whenNotSouth, whenWest),
+            northEndLegVariant.withYRotationOf(Rotation.R90)
+        )
+        with(
+            whenAllOf(whenNorth, whenNotEast, whenNotSouth, whenNotWest),
+            northEndLegVariant.withYRotationOf(Rotation.R180)
+        )
+        with(
+            whenAllOf(whenNotNorth, whenEast, whenNotSouth, whenNotWest),
+            northEndLegVariant.withYRotationOf(Rotation.R270)
+        )
+        //Corners
+        with(
+            whenAllOf(whenNotNorth, whenNotEast, whenSouth, whenWest),
+            northEastCornerVariant
+        )
+        with(
+            whenAllOf(whenNotNorth, whenEast, whenSouth, whenNotWest),
+            northEastCornerVariant.withYRotationOf(Rotation.R270)
+        )
+        with(
+            whenAllOf(whenNorth, whenNotEast, whenNotSouth, whenWest),
+            northEastCornerVariant.withYRotationOf(Rotation.R90)
+        )
+        with(
+            whenAllOf(whenNorth, whenEast, whenNotSouth, whenNotWest),
+            northEastCornerVariant.withYRotationOf(Rotation.R180)
+        )
     }
     /*------------ End Tables -----------*/
 
     /*------------ Coffee Tables -----------*/
     private fun genCoffeeTableBlockStateModels(block: CoffeeTableBlock) {
-
         with(generator) {
             TextureMap().apply {
                 put(TextureKey.TOP, TextureMap.getId(block.topBlock))
@@ -351,27 +313,25 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         shortLegModel: Identifier,
         tallTopModel: Identifier,
         tallLegModel: Identifier
-    ): MultipartBlockStateSupplier {
-        return this.apply {
-            val shortNorthEastVariant = shortLegModel.blockStateVariant()
-            val tallNorthEastVariant = tallLegModel.blockStateVariant()
+    ): MultipartBlockStateSupplier = this.apply {
+        val shortNorthEastVariant = shortLegModel.asBlockStateVariant()
+        val tallNorthEastVariant = tallLegModel.asBlockStateVariant()
 
-            val isTall = When.create().set(ModProperties.coffeeTableType, CoffeeTableType.TALL)
-            val isShort = When.create().set(ModProperties.coffeeTableType, CoffeeTableType.SHORT)
+        val isTall = newWhen.set(ModProperties.coffeeTableType, CoffeeTableType.TALL)
+        val isShort = newWhen.set(ModProperties.coffeeTableType, CoffeeTableType.SHORT)
 
-            mapOf(
-                isShort to BlockStateVariant().putModel(shortTopModel),
-                whenNotNorthEast to shortNorthEastVariant,
-                whenNotNorthWest to shortNorthEastVariant.withYRotationOf(Rotation.R270),
-                whenNotSouthEast to shortNorthEastVariant.withYRotationOf(Rotation.R90),
-                whenNotSouthWest to shortNorthEastVariant.withYRotationOf(Rotation.R180),
-                isTall to tallTopModel.blockStateVariant(),
-                When.allOf(whenNotNorthEast, isTall) to tallNorthEastVariant,
-                When.allOf(whenNotNorthWest, isTall) to tallNorthEastVariant.withYRotationOf(Rotation.R270),
-                When.allOf(whenNotSouthEast, isTall) to tallNorthEastVariant.withYRotationOf(Rotation.R90),
-                When.allOf(whenNotSouthWest, isTall) to tallNorthEastVariant.withYRotationOf(Rotation.R180)
-            ).forEach(::with)
-        }
+        mapOf(
+            isShort to BlockStateVariant().putModel(shortTopModel),
+            whenNotNorthEast to shortNorthEastVariant,
+            whenNotNorthWest to shortNorthEastVariant.withYRotationOf(Rotation.R270),
+            whenNotSouthEast to shortNorthEastVariant.withYRotationOf(Rotation.R90),
+            whenNotSouthWest to shortNorthEastVariant.withYRotationOf(Rotation.R180),
+            isTall to tallTopModel.asBlockStateVariant(),
+            whenAllOf(whenNotNorthEast, isTall) to tallNorthEastVariant,
+            whenAllOf(whenNotNorthWest, isTall) to tallNorthEastVariant.withYRotationOf(Rotation.R270),
+            whenAllOf(whenNotSouthEast, isTall) to tallNorthEastVariant.withYRotationOf(Rotation.R90),
+            whenAllOf(whenNotSouthWest, isTall) to tallNorthEastVariant.withYRotationOf(Rotation.R180)
+        ).forEach(::with)
     }
 
 
@@ -396,21 +356,21 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
                             ModModels.thinBookshelfSlot5
                         )
                         val directions = arrayOf(
-                            whenFacingNorthHorizontal,
-                            whenFacingEastHorizontal,
-                            whenFacingSouthHorizontal,
-                            whenFacingWestHorizontal
+                            WhenUtil.whenFacingNorthHorizontal,
+                            WhenUtil.whenFacingEastHorizontal,
+                            WhenUtil.whenFacingSouthHorizontal,
+                            WhenUtil.whenFacingWestHorizontal
                         )
-                        val variants = Array(4) { bookshelfModel.blockStateVariant() }
+                        val variants = Array(4) { bookshelfModel.asBlockStateVariant() }
                         val slotVariants = Array(6) { i ->
-                            Array(4) { slotModels[i].blockStateVariant().withYRotationOf(Rotation.entries[it]) }
+                            Array(4) { slotModels[i].asBlockStateVariant().withYRotationOf(Rotation.entries[it]) }
                         }
 
                         for (i in directions.indices) {
                             with(directions[i], variants[i].withYRotationOf(Rotation.entries[i]))
                             for (j in slotVariants.indices) {
                                 with(
-                                    directions[i].and(When.create().set(ChiseledBookshelfBlock.SLOT_OCCUPIED_PROPERTIES[j], true)),
+                                    directions[i].and(newWhen.set(ChiseledBookshelfBlock.SLOT_OCCUPIED_PROPERTIES[j], true)),
                                     slotVariants[j][i]
                                 )
                             }
@@ -459,43 +419,41 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         blockModel: Identifier,
         innerLeftModel: Identifier,
         outerLeftModel: Identifier
-    ): BlockStateVariantMap {
-        return BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, Properties.STAIR_SHAPE).apply {
-            val northBlock = blockModel.blockStateVariant()
-            val northInnerLeft = innerLeftModel.blockStateVariant()
-            val northOuterLeft = outerLeftModel.blockStateVariant()
+    ) = BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, Properties.STAIR_SHAPE).apply {
+        val northBlock = blockModel.asBlockStateVariant()
+        val northInnerLeft = innerLeftModel.asBlockStateVariant()
+        val northOuterLeft = outerLeftModel.asBlockStateVariant()
 
-            mapOf(
-                Direction.NORTH to mapOf(
-                    StairShape.STRAIGHT to northBlock,
-                    StairShape.INNER_LEFT to northInnerLeft,
-                    StairShape.OUTER_LEFT to northOuterLeft,
-                    StairShape.INNER_RIGHT to  northInnerLeft.withYRotationOf(Rotation.R90),
-                    StairShape.OUTER_RIGHT to northOuterLeft.withYRotationOf(Rotation.R90),
-                ),
-                Direction.EAST to mapOf(
-                    StairShape.STRAIGHT to northBlock.withYRotationOf(Rotation.R90),
-                    StairShape.INNER_LEFT to northInnerLeft.withYRotationOf(Rotation.R90),
-                    StairShape.OUTER_LEFT to northOuterLeft.withYRotationOf(Rotation.R90),
-                    StairShape.INNER_RIGHT to  northInnerLeft.withYRotationOf(Rotation.R180),
-                    StairShape.OUTER_RIGHT to northOuterLeft.withYRotationOf(Rotation.R180),
-                ),
-                Direction.SOUTH to mapOf(
-                    StairShape.STRAIGHT to northBlock.withYRotationOf(Rotation.R180),
-                    StairShape.INNER_LEFT to northInnerLeft.withYRotationOf(Rotation.R180),
-                    StairShape.OUTER_LEFT to northOuterLeft.withYRotationOf(Rotation.R180),
-                    StairShape.INNER_RIGHT to  northInnerLeft.withYRotationOf(Rotation.R270),
-                    StairShape.OUTER_RIGHT to northOuterLeft.withYRotationOf(Rotation.R270),
-                ),
-                Direction.WEST to mapOf(
-                    StairShape.STRAIGHT to northBlock.withYRotationOf(Rotation.R270),
-                    StairShape.INNER_LEFT to northInnerLeft.withYRotationOf(Rotation.R270),
-                    StairShape.OUTER_LEFT to northOuterLeft.withYRotationOf(Rotation.R270),
-                    StairShape.INNER_RIGHT to  northInnerLeft,
-                    StairShape.OUTER_RIGHT to northOuterLeft,
-                )
-            ).forEach { i -> i.value.forEach { j -> register(i.key, j.key, j.value) } }
-        }
+        mapOf(
+            Direction.NORTH to mapOf(
+                StairShape.STRAIGHT to northBlock,
+                StairShape.INNER_LEFT to northInnerLeft,
+                StairShape.OUTER_LEFT to northOuterLeft,
+                StairShape.INNER_RIGHT to  northInnerLeft.withYRotationOf(Rotation.R90),
+                StairShape.OUTER_RIGHT to northOuterLeft.withYRotationOf(Rotation.R90),
+            ),
+            Direction.EAST to mapOf(
+                StairShape.STRAIGHT to northBlock.withYRotationOf(Rotation.R90),
+                StairShape.INNER_LEFT to northInnerLeft.withYRotationOf(Rotation.R90),
+                StairShape.OUTER_LEFT to northOuterLeft.withYRotationOf(Rotation.R90),
+                StairShape.INNER_RIGHT to  northInnerLeft.withYRotationOf(Rotation.R180),
+                StairShape.OUTER_RIGHT to northOuterLeft.withYRotationOf(Rotation.R180),
+            ),
+            Direction.SOUTH to mapOf(
+                StairShape.STRAIGHT to northBlock.withYRotationOf(Rotation.R180),
+                StairShape.INNER_LEFT to northInnerLeft.withYRotationOf(Rotation.R180),
+                StairShape.OUTER_LEFT to northOuterLeft.withYRotationOf(Rotation.R180),
+                StairShape.INNER_RIGHT to  northInnerLeft.withYRotationOf(Rotation.R270),
+                StairShape.OUTER_RIGHT to northOuterLeft.withYRotationOf(Rotation.R270),
+            ),
+            Direction.WEST to mapOf(
+                StairShape.STRAIGHT to northBlock.withYRotationOf(Rotation.R270),
+                StairShape.INNER_LEFT to northInnerLeft.withYRotationOf(Rotation.R270),
+                StairShape.OUTER_LEFT to northOuterLeft.withYRotationOf(Rotation.R270),
+                StairShape.INNER_RIGHT to  northInnerLeft,
+                StairShape.OUTER_RIGHT to northOuterLeft,
+            )
+        ).forEach { i -> i.value.forEach { j -> register(i.key, j.key, j.value) } }
     }
 
 
@@ -510,7 +468,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
             }.run {
                 val model = ModModels.kitchenCabinet.upload(block, this, modelCollector)
                 blockStateCollector.accept(
-                    VariantsBlockStateSupplier.create(block, model.blockStateVariant())
+                    VariantsBlockStateSupplier.create(block, model.asBlockStateVariant())
                         .coordinate(BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates())
                 )
                 this@with.registerParentedItemModel(block, model)
@@ -519,33 +477,5 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     }
 
     /*------------ End Kitchen Cabinets -----------*/
-
-    
-    /*------------ Extension Methods -----------*/
-    //Variant Extension Models
-    private fun BlockStateVariant.union(other: BlockStateVariant): BlockStateVariant =
-        BlockStateVariant.union(this, other)
-
-    private fun BlockStateVariant.union(vararg others: BlockStateVariant) {
-        var newVariant = this
-        return others.forEach { other -> newVariant = newVariant.union(other) }
-    }
-
-    private fun BlockStateVariant.putModel(model: Identifier): BlockStateVariant {
-        this.put(VariantSettings.MODEL, model)
-        return this
-    }
-    private fun Identifier.blockStateVariant(): BlockStateVariant = BlockStateVariant().putModel(this)
-
-    private fun BlockStateVariant.withYRotationOf(rotation: Rotation): BlockStateVariant {
-        return this.union(BlockStateVariant().put(VariantSettings.Y, rotation))
-    }
-    private fun BlockStateVariant.withXRotationOf(rotation: Rotation): BlockStateVariant {
-        return this.union(BlockStateVariant().put(VariantSettings.X, rotation))
-    }
-
-    private fun When.PropertyCondition.and(other: When.PropertyCondition): When = When.allOf(this, other)
-    private fun When.and(other: When): When = When.allOf(this, other)
-
 }
 
