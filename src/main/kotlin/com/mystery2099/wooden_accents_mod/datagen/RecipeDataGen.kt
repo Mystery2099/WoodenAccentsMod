@@ -19,81 +19,78 @@ import net.minecraft.registry.tag.ItemTags
 import java.util.function.Consumer
 
 class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
-    private lateinit var exporter: Consumer<RecipeJsonProvider>
-
     override fun generate(exporter: Consumer<RecipeJsonProvider>) {
-        this.exporter = exporter
         ModBlocks.blocks.forEach{
             when(it){
-                is ThinPillarBlock -> genThinPillarRecipe(it)
-                is ThickPillarBlock -> genThickPillarRecipe(it)
-                is PlankLadderBlock -> genPlankLadderRecipe(it)
+                is ThinPillarBlock -> it.offerRecipeTo(exporter)
+                is ThickPillarBlock -> it.offerRecipeTo(exporter)
+                is PlankLadderBlock -> it.offerRecipeTo(exporter)
                 is CustomWallBlock -> offerWallRecipe(exporter, RecipeCategory.DECORATIONS, it, it.baseBlock)
-                is TableBlock -> genTableRecipe(it)
-                is CoffeeTableBlock -> genCoffeeTableRecipe(it)
-                is ThinBookshelfBlock -> genThinBookshelfRecipe(it)
-                is FloorCoveringBlock -> genFloorCoveringRecipe(it)
-                is KitchenCounterBlock -> genKitchenCounterRecipe(it)
-                is KitchenCabinetBlock -> genKitchenCabinetRecipe(it)
+                is TableBlock -> it.offerRecipeTo(exporter)
+                is CoffeeTableBlock -> it.offerRecipeTo(exporter)
+                is ThinBookshelfBlock -> it.offerRecipeTo(exporter)
+                is FloorCoveringBlock -> it.offerRecipeTo(exporter)
+                is KitchenCounterBlock -> it.offerRecipeTo(exporter)
+                is KitchenCabinetBlock -> it.offerRecipeTo(exporter)
             }
         }
     }
 
     /*---------------Pillars----------------*/
-    private fun genPillarRecipe(block: AbstractPillarBlock, outputNum: Int, primaryInput: ItemConvertible, secondaryInput: ItemConvertible) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, outputNum).apply {
+    private fun AbstractPillarBlock.offerRecipe(exporter: Consumer<RecipeJsonProvider>, outputNum: Int, primaryInput: ItemConvertible, secondaryInput: ItemConvertible) {
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, outputNum).apply {
             input('|', secondaryInput)
             input('#', primaryInput)
             pattern("###")
             pattern(" | ")
             pattern("###")
-            group(when (block) {
+            group(when (this@offerRecipe) {
                 is ThickPillarBlock -> "thick_pillars"
                 is ThinPillarBlock -> "thin_pillars"
                 else -> "pillars"
             })
-            criterion(primaryInput)
+            requires(primaryInput)
             offerTo(exporter)
         }
 
     }
-    private fun genThinPillarRecipe(block: ThinPillarBlock) {
-        genPillarRecipe(block, 5, block.baseBlock, Items.STICK)
+    private infix fun ThinPillarBlock.offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
+        offerRecipe(exporter, 5, this.baseBlock, Items.STICK)
     }
-    private fun genThickPillarRecipe(block: ThickPillarBlock) {
-        genPillarRecipe(block, 6, block.baseBlock, block.baseBlock)
+    private infix fun ThickPillarBlock.offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
+        offerRecipe(exporter, 6, baseBlock, baseBlock)
     }
     /*---------------End Pillars----------------*/
 
     /*---------------Ladders----------------*/
-    private fun genLadderRecipe(output: LadderBlock, input: ItemConvertible, outputNum: Int, group: String) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, output, outputNum).apply {
+    private fun LadderBlock.offerRecipe(exporter: Consumer<RecipeJsonProvider>, input: ItemConvertible, outputNum: Int, group: String) {
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, outputNum).apply {
             input('#', input)
             pattern("# #")
             pattern("###")
             pattern("# #")
             group(group)
-            criterion(input)
+            requires(input)
             offerTo(exporter)
         }
 
     }
-    private fun genPlankLadderRecipe(output: PlankLadderBlock) {
-        genLadderRecipe(output, output.baseBlock, 8, "plank_ladders")
+    private infix fun PlankLadderBlock.offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
+        offerRecipe(exporter, baseBlock, 8, "plank_ladders")
     }
 
     /*---------------End Ladders----------------*/
 
     /*---------------Tables----------------*/
-    private fun genTableRecipe(block: TableBlock) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 4).apply {
-            input('#', block.topBlock)
-            input('|', block.baseBlock)
+    private infix fun TableBlock.offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 4).apply {
+            input('#', topBlock)
+            input('|', baseBlock)
             pattern("###")
             pattern(" | ")
             pattern(" | ")
-            group(block, "tables")
-            criterion(block.topBlock)
+            group(this@offerRecipeTo, "tables")
+            requires(topBlock)
             offerTo(exporter)
         }
 
@@ -101,14 +98,14 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
     /*---------------End Tables----------------*/
 
     /*---------------Coffee Tables----------------*/
-    private fun genCoffeeTableRecipe(block: CoffeeTableBlock) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 6).apply {
-            input('_', block.topBlock)
-            input('|', block.baseBlock)
+    private infix fun CoffeeTableBlock.offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 6).apply {
+            input('_', topBlock)
+            input('|', baseBlock)
             pattern("___")
             pattern("| |")
-            group(block, "coffee_tables")
-            criterion(block.topBlock)
+            group(this@offerRecipeTo, "coffee_tables")
+            requires(topBlock)
             offerTo(exporter)
         }
 
@@ -116,57 +113,57 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
     /*---------------End Coffee Tables----------------*/
 
     /*---------------Thin Bookshelves----------------*/
-    private fun genThinBookshelfRecipe(block: ThinBookshelfBlock) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 2).apply {
-            input('#', block.baseBlock)
+    private infix fun ThinBookshelfBlock.offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 2).apply {
+            input('#', baseBlock)
             input('_', Ingredient.fromTag(ItemTags.WOODEN_SLABS))
             pattern("##")
             pattern("__")
             pattern("##")
             group("thin_bookshelves")
-            criterion(block.baseBlock)
+            requires(baseBlock)
             offerTo(exporter)
         }
     }
     /*---------------End Thin Bookshelves----------------*/
 
     /*---------------Floor Covering Blocks----------------*/
-    private fun genFloorCoveringRecipe(block: FloorCoveringBlock) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 3).apply {
-            input('#', block.baseBlock)
+    private infix fun FloorCoveringBlock.offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 3).apply {
+            input('#', baseBlock)
             input('_', Items.PAPER)
             pattern("##")
             pattern("_ ")
-            group(block, "carpets")
-            criterion(block.baseBlock)
+            group(this@offerRecipeTo, "carpets")
+            requires(baseBlock)
             offerTo(exporter)
         }
     }
     /*---------------End Floor Covering Blocks----------------*/
 
     /*---------------Kitchen Counters----------------*/
-    private fun genKitchenCounterRecipe(block: KitchenCounterBlock) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 4).apply {
-            input('#', block.baseBlock)
-            input('_', block.topBlock)
+    private infix fun KitchenCounterBlock.offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 4).apply {
+            input('#', baseBlock)
+            input('_', topBlock)
             pattern("___")
             pattern("###")
             pattern("###")
-            group(block, "kitchen_counters")
-            criterion(block.baseBlock)
+            group(this@offerRecipeTo, "kitchen_counters")
+            requires(baseBlock)
             offerTo(exporter)
         }
     }
-    private fun genKitchenCabinetRecipe(block: KitchenCabinetBlock) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, block, 4).apply {
-            input('#', block.baseBlock)
-            input('_', block.topBlock)
+    private infix fun KitchenCabinetBlock.offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 4).apply {
+            input('#', baseBlock)
+            input('_', topBlock)
             input('O', ModItemTags.chests)
             pattern("___")
             pattern("#O#")
             pattern("###")
-            group(block, "kitchen_cabinets")
-            criterion(block.baseBlock)
+            group(this@offerRecipeTo, "kitchen_cabinets")
+            requires(baseBlock)
             offerTo(exporter)
         }
     }
@@ -183,7 +180,7 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
         })
     }
 
-    private fun ShapedRecipeJsonBuilder.criterion(requiredItem: ItemConvertible): ShapedRecipeJsonBuilder {
+    private infix fun ShapedRecipeJsonBuilder.requires(requiredItem: ItemConvertible): ShapedRecipeJsonBuilder {
         return criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
     }
 
