@@ -14,26 +14,12 @@ import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.putModel
+import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.uvLock
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withXRotationOf
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
 import com.mystery2099.wooden_accents_mod.util.WhenUtil
+import com.mystery2099.wooden_accents_mod.util.WhenUtil.and
 import com.mystery2099.wooden_accents_mod.util.WhenUtil.newWhen
-import com.mystery2099.wooden_accents_mod.util.WhenUtil.plus
-import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenAllOf
-import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenEast
-import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenNorth
-import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenNotDown
-import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenNotEast
-import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenNotNorth
-import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenNotNorthEast
-import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenNotNorthWest
-import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenNotSouth
-import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenNotSouthEast
-import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenNotSouthWest
-import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenNotUp
-import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenNotWest
-import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenSouth
-import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenWest
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
 import net.minecraft.block.Block
@@ -109,8 +95,8 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         generator.run {
             MultipartBlockStateSupplier.create(block).apply {
                 with(centerModel.asBlockStateVariant())
-                with(whenNotUp, bottomModel.asBlockStateVariant().withXRotationOf(Rotation.R180).put(VariantSettings.UVLOCK, true))
-                with(whenNotDown, bottomModel.asBlockStateVariant())
+                with(WhenUtil.notUp, bottomModel.asBlockStateVariant().withXRotationOf(Rotation.R180).uvLock())
+                with(WhenUtil.notDown, bottomModel.asBlockStateVariant())
                 blockStateCollector.accept(this)
             }
         }
@@ -121,9 +107,9 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
             TextureMap.all(pillarBlock.baseBlock).run {
                 ModModels.thinPillarInventory.upload(pillarBlock.getItemModelId(), this, modelCollector)
                 genPillarBlockStateModels(
-                    pillarBlock,
-                    "block/${pillarBlock.woodType.name.lowercase()}_fence_post".asVanillaId(),
-                    ModModels.thinPillarBottom.upload(pillarBlock, this, modelCollector)
+                    block = pillarBlock,
+                    centerModel = "block/${pillarBlock.woodType.name.lowercase()}_fence_post".asVanillaId(),
+                    bottomModel = ModModels.thinPillarBottom.upload(pillarBlock, this, modelCollector)
                 )
             }
         }
@@ -133,7 +119,8 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         with(generator) {
             TextureMap.all(pillarBlock.baseBlock).run {
                 ModModels.thickPillarInventory.upload(pillarBlock.getItemModelId(), this, modelCollector)
-                genPillarBlockStateModels(pillarBlock,
+                genPillarBlockStateModels(
+                    block = pillarBlock,
                     centerModel = "block/${pillarBlock.woodType.name.lowercase()}_wall_post".asId(),
                     bottomModel = ModModels.thickPillarBottom.upload(pillarBlock, this, modelCollector)
                 )
@@ -248,41 +235,41 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
         with(topModel.asBlockStateVariant())
         with(
-            whenAllOf(whenNotNorth, whenNotEast, whenNotSouth, whenNotWest),
+            When.allOf(WhenUtil.notNorth, WhenUtil.notEast, WhenUtil.notSouth, WhenUtil.notWest),
             singleLegModel.asBlockStateVariant()
         )
         //Ends
         with(
-            whenAllOf(whenNotNorth, whenNotEast, whenSouth, whenNotWest),
+            When.allOf(WhenUtil.notNorth, WhenUtil.notEast, WhenUtil.south, WhenUtil.notWest),
             northEndLegVariant
         )
         with(
-            whenAllOf(whenNotNorth, whenNotEast, whenNotSouth, whenWest),
+            When.allOf(WhenUtil.notNorth, WhenUtil.notEast, WhenUtil.notSouth, WhenUtil.west),
             northEndLegVariant.withYRotationOf(Rotation.R90)
         )
         with(
-            whenAllOf(whenNorth, whenNotEast, whenNotSouth, whenNotWest),
+            When.allOf(WhenUtil.north, WhenUtil.notEast, WhenUtil.notSouth, WhenUtil.notWest),
             northEndLegVariant.withYRotationOf(Rotation.R180)
         )
         with(
-            whenAllOf(whenNotNorth, whenEast, whenNotSouth, whenNotWest),
+            When.allOf(WhenUtil.notNorth, WhenUtil.east, WhenUtil.notSouth, WhenUtil.notWest),
             northEndLegVariant.withYRotationOf(Rotation.R270)
         )
         //Corners
         with(
-            whenAllOf(whenNotNorth, whenNotEast, whenSouth, whenWest),
+            When.allOf(WhenUtil.notNorth, WhenUtil.notEast, WhenUtil.south, WhenUtil.west),
             northEastCornerVariant
         )
         with(
-            whenAllOf(whenNotNorth, whenEast, whenSouth, whenNotWest),
+            When.allOf(WhenUtil.notNorth, WhenUtil.east, WhenUtil.south, WhenUtil.notWest),
             northEastCornerVariant.withYRotationOf(Rotation.R270)
         )
         with(
-            whenAllOf(whenNorth, whenNotEast, whenNotSouth, whenWest),
+            When.allOf(WhenUtil.north, WhenUtil.notEast, WhenUtil.notSouth, WhenUtil.west),
             northEastCornerVariant.withYRotationOf(Rotation.R90)
         )
         with(
-            whenAllOf(whenNorth, whenEast, whenNotSouth, whenNotWest),
+            When.allOf(WhenUtil.north, WhenUtil.east, WhenUtil.notSouth, WhenUtil.notWest),
             northEastCornerVariant.withYRotationOf(Rotation.R180)
         )
     }
@@ -322,15 +309,15 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
         mapOf(
             isShort to BlockStateVariant().putModel(shortTopModel),
-            whenNotNorthEast to shortNorthEastVariant,
-            whenNotNorthWest to shortNorthEastVariant.withYRotationOf(Rotation.R270),
-            whenNotSouthEast to shortNorthEastVariant.withYRotationOf(Rotation.R90),
-            whenNotSouthWest to shortNorthEastVariant.withYRotationOf(Rotation.R180),
+            WhenUtil.notNorthEast to shortNorthEastVariant,
+            WhenUtil.notNorthWest to shortNorthEastVariant.withYRotationOf(Rotation.R270),
+            WhenUtil.notSouthEast to shortNorthEastVariant.withYRotationOf(Rotation.R90),
+            WhenUtil.notSouthWest to shortNorthEastVariant.withYRotationOf(Rotation.R180),
             isTall to tallTopModel.asBlockStateVariant(),
-            whenAllOf(whenNotNorthEast, isTall) to tallNorthEastVariant,
-            whenAllOf(whenNotNorthWest, isTall) to tallNorthEastVariant.withYRotationOf(Rotation.R270),
-            whenAllOf(whenNotSouthEast, isTall) to tallNorthEastVariant.withYRotationOf(Rotation.R90),
-            whenAllOf(whenNotSouthWest, isTall) to tallNorthEastVariant.withYRotationOf(Rotation.R180)
+            WhenUtil.notNorthEast and isTall to tallNorthEastVariant,
+            WhenUtil.notNorthWest and isTall to tallNorthEastVariant.withYRotationOf(Rotation.R270),
+            WhenUtil.notSouthEast and isTall to tallNorthEastVariant.withYRotationOf(Rotation.R90),
+            WhenUtil.notSouthWest and isTall to tallNorthEastVariant.withYRotationOf(Rotation.R180)
         ).forEach(::with)
     }
 
@@ -356,10 +343,10 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
                             ModModels.thinBookshelfSlot5
                         )
                         val directions = arrayOf(
-                            WhenUtil.whenFacingNorthHorizontal,
-                            WhenUtil.whenFacingEastHorizontal,
-                            WhenUtil.whenFacingSouthHorizontal,
-                            WhenUtil.whenFacingWestHorizontal
+                            WhenUtil.facingNorthHorizontal,
+                            WhenUtil.facingEastHorizontal,
+                            WhenUtil.facingSouthHorizontal,
+                            WhenUtil.facingWestHorizontal
                         )
                         val variants = Array(4) { bookshelfModel.asBlockStateVariant() }
                         val slotVariants = Array(6) { i ->
@@ -370,7 +357,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
                             with(directions[i], variants[i].withYRotationOf(Rotation.entries[i]))
                             for (j in slotVariants.indices) {
                                 with(
-                                    directions[i] + newWhen.set(ChiseledBookshelfBlock.SLOT_OCCUPIED_PROPERTIES[j], true),
+                                    directions[i] and newWhen.set(ChiseledBookshelfBlock.SLOT_OCCUPIED_PROPERTIES[j], true),
                                     slotVariants[j][i]
                                 )
                             }

@@ -7,48 +7,49 @@ import net.minecraft.util.math.Direction
 //For "When" related variables and functions.
 // "When" is a class used for creating conditions to be used in block state code generation
 object WhenUtil {
-    val whenUp: When.PropertyCondition = newWhen.set(Properties.UP, true)
-    val whenDown: When.PropertyCondition = newWhen.set(Properties.DOWN, true)
-    val whenNorth: When.PropertyCondition = newWhen.set(Properties.NORTH, true)
-    val whenEast: When.PropertyCondition = newWhen.set(Properties.EAST, true)
-    val whenSouth: When.PropertyCondition = newWhen.set(Properties.SOUTH, true)
-    val whenWest: When.PropertyCondition = newWhen.set(Properties.WEST, true)
+    val up: When.PropertyCondition by lazy { newWhen.set(Properties.UP, true) }
+    val down: When.PropertyCondition by lazy { newWhen.set(Properties.DOWN, true) }
+    val north: When.PropertyCondition by lazy { newWhen.set(Properties.NORTH, true) }
+    val east: When.PropertyCondition by lazy { newWhen.set(Properties.EAST, true) }
+    val south: When.PropertyCondition by lazy { newWhen.set(Properties.SOUTH, true) }
+    val west: When.PropertyCondition by lazy { newWhen.set(Properties.WEST, true) }
 
-    val whenNorthEast: When = whenAllOf(whenNorth, whenEast)
-    val whenSouthEast: When = whenAllOf(whenSouth, whenEast)
-    val whenNorthWest: When = whenAllOf(whenNorth, whenWest)
-    val whenSouthWest: When = whenAllOf(whenSouth, whenWest)
+    val whenNorthEast: When by lazy { north and east }
+    val whenSouthEast: When by lazy { south and east }
+    val whenNorthWest: When by lazy { north and west }
+    val whenSouthWest: When by lazy { south and west }
 
-    val whenNotUp: When.PropertyCondition = newWhen.set(Properties.UP, false)
-    val whenNotDown: When.PropertyCondition = newWhen.set(Properties.DOWN, false)
-    val whenNotNorth: When.PropertyCondition = newWhen.set(Properties.NORTH, false)
-    val whenNotEast: When.PropertyCondition = newWhen.set(Properties.EAST, false)
-    val whenNotSouth: When.PropertyCondition = newWhen.set(Properties.SOUTH, false)
-    val whenNotWest: When.PropertyCondition = newWhen.set(Properties.WEST, false)
+    val notUp: When.PropertyCondition by lazy { newWhen.set(Properties.UP, false) }
+    val notDown: When.PropertyCondition by lazy { newWhen.set(Properties.DOWN, false) }
+    val notNorth: When.PropertyCondition by lazy { newWhen.set(Properties.NORTH, false) }
+    val notEast: When.PropertyCondition by lazy { newWhen.set(Properties.EAST, false) }
+    val notSouth: When.PropertyCondition by lazy { newWhen.set(Properties.SOUTH, false) }
+    val notWest: When.PropertyCondition by lazy { newWhen.set(Properties.WEST, false) }
 
-    val whenNotNorthEast: When = whenAllOf(whenNotNorth, whenNotEast)
-    val whenNotSouthEast: When = whenAllOf(whenNotSouth, whenNotEast)
-    val whenNotNorthWest: When = whenAllOf(whenNotNorth, whenNotWest)
-    val whenNotSouthWest: When = whenAllOf(whenNotSouth, whenNotWest)
+    val notNorthEast: When by lazy { notNorth and notEast }
+    val notSouthEast: When by lazy { notSouth and notEast }
+    val notNorthWest: When by lazy { notNorth and notWest }
+    val notSouthWest: When by lazy { notSouth and notWest }
 
-    val whenFacingNorth: When.PropertyCondition = newWhen.set(Properties.FACING, Direction.NORTH)
-    val whenFacingEast: When.PropertyCondition = newWhen.set(Properties.FACING, Direction.EAST)
-    val whenFacingSouth: When.PropertyCondition = newWhen.set(Properties.FACING, Direction.SOUTH)
-    val whenFacingWest: When.PropertyCondition = newWhen.set(Properties.FACING, Direction.WEST)
-    val whenFacingUp: When.PropertyCondition = newWhen.set(Properties.FACING, Direction.UP)
-    val whenFacingDown: When.PropertyCondition = newWhen.set(Properties.FACING, Direction.DOWN)
+    val facingNorth: When.PropertyCondition by lazy { newWhen.set(Properties.FACING, Direction.NORTH) }
+    val facingEast: When.PropertyCondition by lazy { newWhen.set(Properties.FACING, Direction.EAST) }
+    val facingSouth: When.PropertyCondition by lazy { newWhen.set(Properties.FACING, Direction.SOUTH) }
+    val facingWest: When.PropertyCondition by lazy { newWhen.set(Properties.FACING, Direction.WEST) }
+    val facingUp: When.PropertyCondition by lazy { newWhen.set(Properties.FACING, Direction.UP) }
+    val facingDown: When.PropertyCondition by lazy { newWhen.set(Properties.FACING, Direction.DOWN) }
 
     //Horizontal Facing
-    val whenFacingNorthHorizontal: When.PropertyCondition = newWhen.set(Properties.HORIZONTAL_FACING, Direction.NORTH)
-    val whenFacingEastHorizontal: When.PropertyCondition = newWhen.set(Properties.HORIZONTAL_FACING, Direction.EAST)
-    val whenFacingSouthHorizontal: When.PropertyCondition = newWhen.set(Properties.HORIZONTAL_FACING, Direction.SOUTH)
-    val whenFacingWestHorizontal: When.PropertyCondition = newWhen.set(Properties.HORIZONTAL_FACING, Direction.WEST)
 
+    val facingNorthHorizontal: When.PropertyCondition by lazy { newWhen.set(Properties.HORIZONTAL_FACING, Direction.NORTH) }
+    val facingEastHorizontal: When.PropertyCondition by lazy { newWhen.set(Properties.HORIZONTAL_FACING, Direction.EAST) }
+    val facingSouthHorizontal: When.PropertyCondition by lazy { newWhen.set(Properties.HORIZONTAL_FACING, Direction.SOUTH) }
+    val facingWestHorizontal: When.PropertyCondition by lazy { newWhen.set(Properties.HORIZONTAL_FACING, Direction.WEST) }
 
     inline val newWhen: When.PropertyCondition
         get() = When.create()
-    fun whenAllOf(vararg others: When): When = When.allOf(*others)
-    infix fun When.and(other: When): When = whenAllOf(this, other)
+    infix fun When.and(other: When): When = When.allOf(this, other)
+    infix fun When.and(others: Collection<When>): When = When.allOf(this, *others.toTypedArray())
+    infix fun When.and(others: Array<When>): When = When.allOf(this, *others)
     infix operator fun When.plus(other: When): When = and(other)
-
+    infix fun When.or(other: When): When = When.anyOf(this, other)
 }
