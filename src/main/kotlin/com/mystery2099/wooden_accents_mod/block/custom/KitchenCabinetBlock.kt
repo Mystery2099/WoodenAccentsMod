@@ -7,7 +7,7 @@ import com.mystery2099.wooden_accents_mod.block_entity.custom.KitchenCabinetBloc
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.unifyWith
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.unifiedWith
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.minecraft.block.*
@@ -152,7 +152,7 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
         Direction.SOUTH -> KitchenCounterBlock.NORTH_SHAPE.flip()
         Direction.WEST -> KitchenCounterBlock.NORTH_SHAPE.rotateRight()
         else -> VoxelShapes.fullCube()
-    }.unifyWith(KitchenCounterBlock.TOP_SHAPE)
+    }.unifiedWith(KitchenCounterBlock.TOP_SHAPE)
 
     override val itemGroup get() = ModItemGroups.storageBlocksItemGroup
 }

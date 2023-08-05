@@ -13,11 +13,11 @@ import net.minecraft.item.Items
 
 object ModItemGroups {
 
-    val outsideBlockItemGroup: ItemGroup = createItemGroup("outside")
-    val kitchenItemGroup: ItemGroup = createItemGroup("kitchen")
-    val livingRoomItemGroup: ItemGroup = createItemGroup("living_room")
-    val bedroomItemGroup: ItemGroup = createItemGroup("bedroom")
-    val storageBlocksItemGroup: ItemGroup  = createItemGroup("storage")
+    val outsideBlockItemGroup: ItemGroup = itemGroupCalled("outside")
+    val kitchenItemGroup: ItemGroup = itemGroupCalled("kitchen")
+    val livingRoomItemGroup: ItemGroup = itemGroupCalled("living_room")
+    val bedroomItemGroup: ItemGroup = itemGroupCalled("bedroom")
+    val storageBlocksItemGroup: ItemGroup  = itemGroupCalled("storage")
 
     private val itemGroupToEntriesMap = mapOf<ItemGroup, MutableList<ItemConvertible>>(
         outsideBlockItemGroup to mutableListOf(),
@@ -44,7 +44,7 @@ object ModItemGroups {
         WoodenAccentsMod.logger.info("Registering ItemGroups for mod: ${WoodenAccentsMod.MOD_ID}")
     }
 
-    private fun createItemGroup(name: String) = FabricItemGroup.builder(name.asId()).apply {
+    private infix fun itemGroupCalled(name: String) = FabricItemGroup.builder(name.asId()).apply {
         icon { ItemStack(itemGroupToEntriesMap.byId()[name.asId()]?.get(0) ?: Items.DIRT) }
     }.build()
 }

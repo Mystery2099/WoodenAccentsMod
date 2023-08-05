@@ -3,11 +3,12 @@ package com.mystery2099.wooden_accents_mod.block.custom
 import com.mystery2099.wooden_accents_mod.ModItemGroups
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
+import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.plus
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.unifiedWith
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.*
 import net.minecraft.registry.tag.BlockTags
@@ -22,7 +23,7 @@ class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Blo
 
     override fun canConnect(state: BlockState, neighborIsFullSquare: Boolean, dir: Direction): Boolean {
         return !cannotConnect(state) && neighborIsFullSquare || state.run {
-            (isIn(BlockTags.FENCES) && isIn(ModBlockTags.modernFences) == this@ModernFenceBlock.defaultState.isIn(
+            (this isIn BlockTags.FENCES && this isIn ModBlockTags.modernFences == this@ModernFenceBlock.defaultState.isIn(
                 ModBlockTags.modernFences
             )
             ) || block is FenceGateBlock && FenceGateBlock.canWallConnect(this, dir)
@@ -36,16 +37,16 @@ class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Blo
         pos: BlockPos?,
         context: ShapeContext?
     ): VoxelShape = Block.createCuboidShape(6.0, 0.0, 6.0, 10.0, 16.0, 10.0)
-        .plus(
+        .unifiedWith(
             arrayOf(
                 Block.createCuboidShape(7.5, 0.0, 0.0, 8.5, 15.0, 6.0),
                 Block.createCuboidShape(7.0, 11.0, 0.0, 9.0, 14.0, 6.0),
                 Block.createCuboidShape(7.0, 2.0, 0.0, 9.0, 5.0, 6.0)
             ).let {
-                listOf(if (state.get(NORTH)) it.combined else VoxelShapes.empty(),
-                    if (state.get(EAST)) it.rotateLeft() else VoxelShapes.empty(),
-                    if (state.get(SOUTH)) it.flip() else VoxelShapes.empty(),
-                    if (state.get(WEST)) it.rotateRight() else VoxelShapes.empty()
+                listOf(if (state[NORTH]) it.combined else VoxelShapes.empty(),
+                    if (state[EAST]) it.rotateLeft() else VoxelShapes.empty(),
+                    if (state[SOUTH]) it.flip() else VoxelShapes.empty(),
+                    if (state[WEST]) it.rotateRight() else VoxelShapes.empty()
                 )
             }
         )
