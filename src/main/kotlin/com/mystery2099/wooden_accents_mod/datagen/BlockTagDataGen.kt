@@ -1,6 +1,6 @@
 package com.mystery2099.wooden_accents_mod.datagen
 
-import com.mystery2099.block.custom.*
+import com.mystery2099.block.custom.KitchenCounterBlock
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
 import com.mystery2099.wooden_accents_mod.block.custom.*
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
@@ -16,45 +16,47 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
 
     override fun configure(arg: RegistryWrapper.WrapperLookup) {
         ModBlocks.blocks.forEach{
-            BlockTags.AXE_MINEABLE.addBlock(it)
+            BlockTags.AXE_MINEABLE += it
             when (it) {
-                is ThinPillarBlock -> ModBlockTags.thinPillars.addBlock(it)
-                is ThickPillarBlock -> ModBlockTags.thickPillars.addBlock(it)
-                is CustomWallBlock -> ModBlockTags.woodenWalls.addBlock(it)
-                is ModernFenceBlock -> ModBlockTags.modernFences.addBlock(it)
-                is PlankLadderBlock -> ModBlockTags.plankLadders.addBlock(it)
-                is TableBlock -> ModBlockTags.tables.addBlock(it)
-                is ThinBookshelfBlock -> ModBlockTags.thinBookshelves.addBlock(it)
-                is FloorCoveringBlock -> ModBlockTags.plankCarpets.addBlock(it)
-                is CoffeeTableBlock -> ModBlockTags.coffeeTables.addBlock(it)
-                is KitchenCounterBlock -> ModBlockTags.kitchenCounters.addBlock(it)
-                is KitchenCabinetBlock -> ModBlockTags.kitchenCabinets.addBlock(it)
+                is ThinPillarBlock -> ModBlockTags.thinPillars += it
+                is ThickPillarBlock -> ModBlockTags.thickPillars +=it
+                is CustomWallBlock -> ModBlockTags.woodenWalls += it
+                is ModernFenceBlock -> ModBlockTags.modernFences += it
+                is PlankLadderBlock -> ModBlockTags.plankLadders += it
+                is TableBlock -> ModBlockTags.tables += it
+                is ThinBookshelfBlock -> ModBlockTags.thinBookshelves += it
+                is FloorCoveringBlock -> ModBlockTags.plankCarpets += it
+                is CoffeeTableBlock -> ModBlockTags.coffeeTables += it
+                is KitchenCounterBlock -> ModBlockTags.kitchenCounters += it
+                is KitchenCabinetBlock -> ModBlockTags.kitchenCabinets += it
             }
         }
-        ModBlockTags.pillars.addTags(ModBlockTags.thinPillars, ModBlockTags.thickPillars)
-        BlockTags.WALLS.addTag(ModBlockTags.woodenWalls)
-        BlockTags.FENCES.addTag(ModBlockTags.modernFences)
-        BlockTags.CLIMBABLE.addTag(ModBlockTags.plankLadders)
-        BlockTags.INSIDE_STEP_SOUND_BLOCKS.addTag(ModBlockTags.plankCarpets)
-        ModBlockTags.kitchenCounters.addTag(ModBlockTags.kitchenCabinets)
+        ModBlockTags.pillars.add(ModBlockTags.thinPillars, ModBlockTags.thickPillars)
+        BlockTags.WALLS += ModBlockTags.woodenWalls
+        BlockTags.FENCES += ModBlockTags.modernFences
+        BlockTags.CLIMBABLE += ModBlockTags.plankLadders
+        BlockTags.INSIDE_STEP_SOUND_BLOCKS += ModBlockTags.plankCarpets
+        ModBlockTags.kitchenCounters += ModBlockTags.kitchenCabinets
     }
 
-    private fun <T : Block> TagKey<Block>.addCollection(collection: Collection<T>): FabricTagBuilder {
+    private fun <T : Block> TagKey<Block>.add(collection: Collection<T>): FabricTagBuilder {
         return getOrCreateTagBuilder(this).also { collection.forEach(it::add) }
     }
 
-    private fun TagKey<Block>.addTags(vararg tags: TagKey<Block>): FabricTagBuilder {
+    private fun TagKey<Block>.add(vararg tags: TagKey<Block>): FabricTagBuilder {
         return getOrCreateTagBuilder(this).also { tags.forEach(it::addTag) }
     }
-    private fun TagKey<Block>.addTag(tag: TagKey<Block>): FabricTagBuilder {
-        return getOrCreateTagBuilder(this).addTag(tag)
-    }
+    private fun TagKey<Block>.add(tag: TagKey<Block>): FabricTagBuilder = getOrCreateTagBuilder(this).addTag(tag)
 
-    private fun TagKey<Block>.addBlock(block: Block): FabricTagBuilder {
-        return getOrCreateTagBuilder(this).add(block)
-    }
-    private fun TagKey<Block>.addBlocks(vararg blocks: Block): FabricTagBuilder {
+    private fun TagKey<Block>.add(block: Block): FabricTagBuilder = getOrCreateTagBuilder(this).add(block)
+    private fun TagKey<Block>.add(vararg blocks: Block): FabricTagBuilder {
         return getOrCreateTagBuilder(this).also { blocks.forEach(it::add) }
     }
+    private operator fun TagKey<Block>.plusAssign(tag: TagKey<Block>) { add(tag)}
+    private operator fun TagKey<Block>.plusAssign(block: Block) { add(block) }
+    private operator fun TagKey<Block>.plusAssign(tags: Array<TagKey<Block>>) { tags.map{ add(it) } }
+    private operator fun TagKey<Block>.plus(tag: TagKey<Block>) = add(tag)
+    private operator fun TagKey<Block>.plus(block: Block) = add(block)
+
 
 }

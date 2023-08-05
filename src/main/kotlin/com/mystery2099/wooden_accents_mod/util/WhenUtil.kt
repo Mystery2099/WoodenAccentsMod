@@ -48,7 +48,7 @@ object WhenUtil {
     inline val newWhen: When.PropertyCondition
         get() = When.create()
     fun whenAllOf(vararg others: When): When = When.allOf(*others)
-    fun When.PropertyCondition.and(other: When.PropertyCondition): When = whenAllOf(this, other)
     fun When.and(other: When): When = whenAllOf(this, other)
+    operator fun When.plus(other: When): When = and(other)
 
 }

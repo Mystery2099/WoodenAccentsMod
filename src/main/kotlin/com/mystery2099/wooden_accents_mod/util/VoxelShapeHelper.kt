@@ -34,13 +34,16 @@ object VoxelShapeHelper {
 
     fun VoxelShape.unifyWith(otherShape: VoxelShape): VoxelShape = VoxelShapes.union(this, otherShape)
     fun VoxelShape.unifyWith(vararg otherShapes: VoxelShape): VoxelShape = otherShapes.fold(this, VoxelShapes::union)
-    fun VoxelShape.unifyWith(otherShapes: Collection<VoxelShape>): VoxelShape = this.unifyWith(otherShapes.combined)
+    fun VoxelShape.unifyWith(otherShapes: Collection<VoxelShape>): VoxelShape = unifyWith(otherShapes.combined)
+    operator fun VoxelShape.plus(otherShape: VoxelShape): VoxelShape = unifyWith(otherShape)
+    operator fun VoxelShape.plus(otherShapes: Collection<VoxelShape>): VoxelShape = unifyWith(otherShapes)
+
 
     fun setMaxHeight(source: VoxelShape, height: Double): VoxelShape {
         val result = AtomicReference(VoxelShapes.empty())
         source.forEachBox { minX: Double, minY: Double, minZ: Double, maxX: Double, _: Double, maxZ: Double ->
             val shape = VoxelShapes.cuboid(minX, minY, minZ, maxX, height, maxZ)
-            result.set(result.get().unifyWith(shape))
+            result.set(result.get() + shape)
         }
         return result.get()
     }
@@ -49,7 +52,7 @@ object VoxelShapeHelper {
         val result = AtomicReference(VoxelShapes.empty())
         source.forEachBox { minX: Double, minY: Double, minZ: Double, maxX: Double, maxY: Double, maxZ: Double ->
             val shape = VoxelShapes.cuboid(minX.limited, minY, minZ.limited, maxX.limited, maxY, maxZ.limited)
-            result.set(result.get().unifyWith(shape))
+            result.set(result.get() + shape)
         }
         return result.get()
     }

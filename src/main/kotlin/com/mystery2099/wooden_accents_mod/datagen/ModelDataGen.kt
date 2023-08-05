@@ -17,8 +17,8 @@ import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.putModel
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withXRotationOf
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
 import com.mystery2099.wooden_accents_mod.util.WhenUtil
-import com.mystery2099.wooden_accents_mod.util.WhenUtil.and
 import com.mystery2099.wooden_accents_mod.util.WhenUtil.newWhen
+import com.mystery2099.wooden_accents_mod.util.WhenUtil.plus
 import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenAllOf
 import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenEast
 import com.mystery2099.wooden_accents_mod.util.WhenUtil.whenNorth
@@ -370,7 +370,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
                             with(directions[i], variants[i].withYRotationOf(Rotation.entries[i]))
                             for (j in slotVariants.indices) {
                                 with(
-                                    directions[i].and(newWhen.set(ChiseledBookshelfBlock.SLOT_OCCUPIED_PROPERTIES[j], true)),
+                                    directions[i] + newWhen.set(ChiseledBookshelfBlock.SLOT_OCCUPIED_PROPERTIES[j], true),
                                     slotVariants[j][i]
                                 )
                             }

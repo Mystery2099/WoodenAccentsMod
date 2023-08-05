@@ -1,13 +1,13 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.ModItemGroups
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
+import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.plus
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.unifyWith
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.*
 import net.minecraft.registry.tag.BlockTags
@@ -36,7 +36,7 @@ class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Blo
         pos: BlockPos?,
         context: ShapeContext?
     ): VoxelShape = Block.createCuboidShape(6.0, 0.0, 6.0, 10.0, 16.0, 10.0)
-        .unifyWith(
+        .plus(
             arrayOf(
                 Block.createCuboidShape(7.5, 0.0, 0.0, 8.5, 15.0, 6.0),
                 Block.createCuboidShape(7.0, 11.0, 0.0, 9.0, 14.0, 6.0),

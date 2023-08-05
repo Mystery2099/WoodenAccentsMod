@@ -8,6 +8,7 @@ object BlockStateVariantUtil {
     fun BlockStateVariant.unionWith(other: BlockStateVariant): BlockStateVariant = BlockStateVariant.union(this, other)
 
     fun BlockStateVariant.unionWith(vararg others: BlockStateVariant) = others.fold(this, BlockStateVariant::union)
+    fun BlockStateVariant.plus(other: BlockStateVariant) = unionWith(other)
 
     fun BlockStateVariant.putModel(model: Identifier): BlockStateVariant = put(VariantSettings.MODEL, model)
     fun Identifier.asBlockStateVariant() = BlockStateVariant().putModel(this)

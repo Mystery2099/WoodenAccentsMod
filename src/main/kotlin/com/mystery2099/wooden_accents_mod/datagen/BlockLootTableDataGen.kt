@@ -7,6 +7,7 @@ import com.mystery2099.wooden_accents_mod.state.property.ModProperties
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.minecraft.block.Block
+import net.minecraft.data.server.loottable.BlockLootTableGenerator
 import net.minecraft.loot.LootPool
 import net.minecraft.loot.LootTable
 import net.minecraft.loot.condition.BlockStatePropertyLootCondition
@@ -22,7 +23,7 @@ class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTable
         ModBlocks.blocks.forEach { block ->
             when (block) {
                 is CoffeeTableBlock -> addDropsDoubleWithProperty(block, ModProperties.coffeeTableType, CoffeeTableType.TALL)
-                else -> addDrop(block)
+                else -> this += block
             }
         }
     }
@@ -44,4 +45,5 @@ class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTable
             )
         ).also { addDrop(drop, it) }
     }
+    operator fun BlockLootTableGenerator.plusAssign(block: Block) { addDrop(block) }
 }

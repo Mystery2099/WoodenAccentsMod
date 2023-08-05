@@ -36,7 +36,7 @@ class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : Fen
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
-    ) = when (state.get(FACING)) {
+    ) = when (state[FACING]) {
         Direction.NORTH, Direction.SOUTH -> shape1
         Direction.EAST, Direction.WEST -> shape2
         else -> super.getOutlineShape(state, world, pos, context)

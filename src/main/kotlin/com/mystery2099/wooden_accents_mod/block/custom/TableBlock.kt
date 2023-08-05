@@ -20,17 +20,16 @@ class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock
 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
-        state: BlockState?,
+        state: BlockState,
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
     ): VoxelShape = state.run {
+        val north = this[north]
+        val east = this[east]
+        val south = this[south]
+        val west = this[west]
         mutableListOf<VoxelShape>().apply {
-            val north = this@run?.get(north) ?: false
-            val east = this@run?.get(east) ?: false
-            val south = this@run?.get(south) ?: false
-            val west = this@run?.get(west) ?: false
-
             add(topShape)
             if (!north && !east && !south && !west) add(legShape)
             //Ends

@@ -26,6 +26,9 @@ abstract class AbstractWaterloggableBlock(settings: Settings) : Block(settings),
             with(waterlogged, ctx.world.getFluidState(ctx.blockPos).fluid === Fluids.WATER)
         }
     }
+    fun placementState(ctx: ItemPlacementContext): BlockState = super.getPlacementState(ctx)?.apply {
+        with(waterlogged, ctx.world.getFluidState(ctx.blockPos).fluid === Fluids.WATER)
+    } ?: defaultState
 
     @Deprecated("Deprecated in Java")
     override fun getStateForNeighborUpdate(
@@ -36,7 +39,7 @@ abstract class AbstractWaterloggableBlock(settings: Settings) : Block(settings),
         pos: BlockPos?,
         neighborPos: BlockPos?
     ): BlockState? {
-        if (state.get(waterlogged)) world.scheduleFluidTick(
+        if (state[waterlogged]) world.scheduleFluidTick(
             pos,
             Fluids.WATER,
             Fluids.WATER.getTickRate(world)

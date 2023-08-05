@@ -1,12 +1,12 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.ModItemGroups
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
 import com.mystery2099.wooden_accents_mod.block.custom.enums.CoffeeTableType
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
@@ -37,11 +37,11 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTabl
         pos: BlockPos?,
         context: ShapeContext?
     ): VoxelShape {
-        val isTall: Boolean = state.get(type) == CoffeeTableType.TALL
-        val hasNorthConnection = state.get(north)
-        val hasSouthConnection = state.get(south)
-        val hasEastConnection = state.get(east)
-        val hasWestConnection = state.get(west)
+        val isTall: Boolean = state[type] == CoffeeTableType.TALL
+        val hasNorthConnection = state[north]
+        val hasSouthConnection = state[south]
+        val hasEastConnection = state[east]
+        val hasWestConnection = state[west]
 
         return mutableListOf<VoxelShape>().apply {
             add(if (isTall) tallTopShape else shortTopShape)
@@ -82,13 +82,13 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTabl
     )
     )
     override fun canReplace(state: BlockState, context: ItemPlacementContext): Boolean {
-        return state.get(type) == CoffeeTableType.SHORT && context.stack.item == asItem()
+        return state[type] == CoffeeTableType.SHORT && context.stack.item == asItem()
     }
 
     override fun WorldAccess.checkDirection(pos: BlockPos, direction: Direction): Boolean {
-        val here = this.getBlockState(pos)
-        val there = this.getBlockState(pos.offset(direction))
-        return there.block is CoffeeTableBlock && here.get(type) == there.get(type)
+        val here = getBlockState(pos)
+        val there = getBlockState(pos.offset(direction))
+        return there.block is CoffeeTableBlock && here[type] == there[type]
     }
 
     companion object {

@@ -2,7 +2,7 @@ package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.ModItemGroups
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.unifyWith
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.plus
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -55,18 +55,17 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         context: ShapeContext?
     ): VoxelShape = shape.run{
         centerShape.apply {
-            unifyWith(if (!state.get(up)) shape.topShape else VoxelShapes.empty())
-            unifyWith(if (!state.get(down)) baseShape else VoxelShapes.empty())
+            plus(if (!state.get(up)) shape.topShape else VoxelShapes.empty())
+            plus(if (!state.get(down)) baseShape else VoxelShapes.empty())
         }
     }
 
 
-    override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
-        return super.getPlacementState(ctx)?.apply {
-            val world = ctx.world
-            val pos = ctx.blockPos
-            with(up, world.checkUp(pos))?.with(down, world.checkDown(pos))
-        }
+    override fun getPlacementState(ctx: ItemPlacementContext): BlockState? = super.getPlacementState(ctx)?.apply {
+        val world = ctx.world
+        val pos = ctx.blockPos
+
+        with(up, world.checkUp(pos))?.with(down, world.checkDown(pos))
     }
     //Up & Down
     open fun WorldAccess.getStateAtPos(blockPos: BlockPos): BlockState = getBlockState(blockPos)

@@ -46,9 +46,7 @@ object ModBlockTags {
     private fun String.toBlockTag(namespace: String): TagKey<Block> {
         return TagKey.of(RegistryKeys.BLOCK, Identifier(namespace, this))
     }
-    private fun String.toBlockTag(): TagKey<Block> {
-        return this.toBlockTag(WoodenAccentsMod.MOD_ID)
-    }
+    private fun String.toBlockTag(): TagKey<Block> = toBlockTag(WoodenAccentsMod.MOD_ID)
     private fun TagKey<Block>.withMatchingItemTag(): TagKey<Block> {
         blockTagWithMatchingItemTag[this] = TagKey.of(RegistryKeys.ITEM, this.id)
         return this

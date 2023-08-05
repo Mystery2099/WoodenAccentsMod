@@ -25,4 +25,5 @@ class EnglishLangDataGen(dataOutput: FabricDataOutput) : FabricLanguageProvider(
     }
     private fun String?.toName(): String = if (isNullOrEmpty()) ""
     else split("_").joinToString(" ") { it.replaceFirstChar(Char::uppercase) }
+
 }
