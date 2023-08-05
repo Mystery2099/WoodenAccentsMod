@@ -32,12 +32,14 @@ object VoxelShapeHelper {
     fun Collection<VoxelShape>.unifyElements(): VoxelShape = fold(VoxelShapes.empty(), VoxelShapes::union)
     fun Array<VoxelShape>.unifyElements(): VoxelShape = fold(VoxelShapes.empty(), VoxelShapes::union)
 
-    infix fun VoxelShape.unifyWith(otherShape: VoxelShape): VoxelShape = VoxelShapes.union(this, otherShape)
-    fun VoxelShape.unifyWith(vararg otherShapes: VoxelShape): VoxelShape = otherShapes.fold(this, VoxelShapes::union)
-    infix fun VoxelShape.unifyWith(otherShapes: Collection<VoxelShape>): VoxelShape = unifyWith(otherShapes.combined)
-    infix operator fun VoxelShape.plus(otherShape: VoxelShape): VoxelShape = unifyWith(otherShape)
-    infix operator fun VoxelShape.plus(otherShapes: Collection<VoxelShape>): VoxelShape = unifyWith(otherShapes)
-
+    infix fun VoxelShape.unifiedWith(otherShape: VoxelShape): VoxelShape = VoxelShapes.union(this, otherShape)
+    fun VoxelShape.unifiedWith(vararg otherShapes: VoxelShape): VoxelShape = otherShapes.fold(this, VoxelShapes::union)
+    infix fun VoxelShape.unifiedWith(otherShapes: Collection<VoxelShape>): VoxelShape = this.unifiedWith(otherShapes.combined)
+    infix operator fun VoxelShape.plus(otherShape: VoxelShape): VoxelShape = this.unifiedWith(otherShape)
+    infix operator fun VoxelShape.plus(otherShapes: Collection<VoxelShape>): VoxelShape = this.unifiedWith(otherShapes)
+    infix fun VoxelShape.and(otherShape: VoxelShape): VoxelShape = this.unifiedWith(otherShape)
+    infix fun VoxelShape.and(otherShapes: Array<VoxelShape>): VoxelShape = this.unifiedWith(otherShapes.combined)
+    infix fun VoxelShape.and(otherShapes: Collection<VoxelShape>): VoxelShape = this.unifiedWith(otherShapes.combined)
 
     fun setMaxHeight(source: VoxelShape, height: Double): VoxelShape {
         val result = AtomicReference(VoxelShapes.empty())
