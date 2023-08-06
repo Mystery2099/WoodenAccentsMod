@@ -1,7 +1,9 @@
 package com.mystery2099.wooden_accents_mod
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.register
 import com.mystery2099.wooden_accents_mod.block_entity.ModBlockEntities
+import com.mystery2099.wooden_accents_mod.block_entity.ModBlockEntities.register
 import net.fabricmc.api.ModInitializer
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
@@ -12,7 +14,7 @@ import org.slf4j.LoggerFactory
 
 object WoodenAccentsMod : ModInitializer {
 	const val MOD_ID = "myst2099_wooden_accents_mod"
-	val logger: Logger
+	inline val logger: Logger
 		get() = LoggerFactory.getLogger("myst2099_wooden_accents_mod")
 
 	override fun onInitialize() {
@@ -26,14 +28,9 @@ object WoodenAccentsMod : ModInitializer {
 	}
 
 	infix fun String.asPathIn(namespace: String): Identifier = Identifier(namespace, this)
-
-	fun String.asId() = Identifier(MOD_ID, this)
-	fun String.asBlockId(): Identifier = asId().withPrefixedPath("block/")
-
-	fun String.asVanillaId() = Identifier(this)
-
-	fun String.asCommonId() = Identifier("c, this")
-
+	fun modId(path: String): Identifier = path.asPathIn(MOD_ID)
+	fun String.asWamId(): Identifier = modId(this)
+	fun Identifier.asBlockModelId(): Identifier = this.withPrefixedPath("block/")
 	fun WoodType.asPlanks(): Block = when (this) {
 		WoodType.OAK -> Blocks.OAK_PLANKS
 		WoodType.SPRUCE -> Blocks.SPRUCE_PLANKS

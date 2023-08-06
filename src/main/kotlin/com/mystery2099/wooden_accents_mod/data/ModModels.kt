@@ -1,7 +1,7 @@
 package com.mystery2099.wooden_accents_mod.data
 
-import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asBlockId
-import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asId
+import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asBlockModelId
+import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.modId
 import net.minecraft.data.client.Model
 import net.minecraft.data.client.TextureKey
 import java.util.*
@@ -58,12 +58,12 @@ object ModModels {
     //Bookshelves
     val thinBookshelfItem = item("thin_bookshelf", TextureKey.ALL)
     val thinBookshelfBlock = block("thin_bookshelf", "_empty", TextureKey.ALL)
-    val thinBookshelfSlot0 = "thin_bookshelf_slot_0".asBlockId()
-    val thinBookshelfSlot1 = "thin_bookshelf_slot_1".asBlockId()
-    val thinBookshelfSlot2 = "thin_bookshelf_slot_2".asBlockId()
-    val thinBookshelfSlot3 = "thin_bookshelf_slot_3".asBlockId()
-    val thinBookshelfSlot4 = "thin_bookshelf_slot_4".asBlockId()
-    val thinBookshelfSlot5 = "thin_bookshelf_slot_5".asBlockId()
+    val thinBookshelfSlot0 = modId("thin_bookshelf_slot_0").asBlockModelId()
+    val thinBookshelfSlot1 = modId("thin_bookshelf_slot_1").asBlockModelId()
+    val thinBookshelfSlot2 = modId("thin_bookshelf_slot_2").asBlockModelId()
+    val thinBookshelfSlot3 = modId("thin_bookshelf_slot_3").asBlockModelId()
+    val thinBookshelfSlot4 = modId("thin_bookshelf_slot_4").asBlockModelId()
+    val thinBookshelfSlot5 = modId("thin_bookshelf_slot_5").asBlockModelId()
 
 
     /*---------------Kitchen Stuff----------------*/
@@ -93,20 +93,20 @@ object ModModels {
     private fun make(vararg requiredTextureKeys: TextureKey) = Model(Optional.empty(), Optional.empty(), *requiredTextureKeys)
 
     private fun block(parent: String, vararg requiredTextureKeys: TextureKey) = Model(
-        Optional.of("block/$parent".asId()),
+        Optional.of(modId(parent).asBlockModelId()),
         Optional.empty(),
         *requiredTextureKeys
     )
 
     @Suppress("unused")
     private fun item(parent: String, vararg requiredTextureKeys: TextureKey) = Model(
-        Optional.of("item/$parent".asId()),
+        Optional.of(modId(parent).withPrefixedPath("item/")),
         Optional.empty(),
         *requiredTextureKeys
     )
 
     private fun block(parent: String, variant: String, vararg requiredTextureKeys: TextureKey) = Model(
-        Optional.of("block/$parent".asId()),
+        Optional.of(modId(parent).asBlockModelId()),
         Optional.of(variant),
         *requiredTextureKeys
     )

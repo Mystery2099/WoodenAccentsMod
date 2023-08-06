@@ -1,6 +1,6 @@
 package com.mystery2099.wooden_accents_mod
 
-import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asId
+import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asWamId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
@@ -44,7 +44,7 @@ object ModItemGroups {
         WoodenAccentsMod.logger.info("Registering ItemGroups for mod: ${WoodenAccentsMod.MOD_ID}")
     }
 
-    private infix fun itemGroupCalled(name: String) = FabricItemGroup.builder(name.asId()).apply {
-        icon { ItemStack(itemGroupToEntriesMap.byId()[name.asId()]?.get(0) ?: Items.DIRT) }
+    private infix fun itemGroupCalled(name: String) = FabricItemGroup.builder(name.asWamId()).apply {
+        icon { ItemStack(itemGroupToEntriesMap.byId()[name.asWamId()]?.get(0) ?: Items.DIRT) }
     }.build()
 }
