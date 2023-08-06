@@ -1,12 +1,13 @@
 package com.mystery2099.wooden_accents_mod.datagen
 
 import com.mystery2099.block.custom.KitchenCounterBlock
-import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asBlockId
-import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asId
+import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asBlockModelId
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asPlanks
-import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asVanillaId
+import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asWamId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.getItemModelId
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.modelId
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
 import com.mystery2099.wooden_accents_mod.block.custom.*
 import com.mystery2099.wooden_accents_mod.block.custom.enums.CoffeeTableType
@@ -45,17 +46,20 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         blockStateModelGenerator.run {
             generator = this
             WoodType.stream().forEach{
-                ModModels.coffeeTableLegShort.upload("${it.name.lowercase()}_coffee_table_leg_short".asBlockId(), TextureMap().put(
-                    ModModels.legs, TextureMap.getId(it.asPlanks())), modelCollector)
-                ModModels.coffeeTableLegTall.upload("${it.name.lowercase()}_coffee_table_leg_tall".asBlockId(), TextureMap().put(
-                    ModModels.legs, TextureMap.getId(it.asPlanks())), modelCollector)
+                ModModels.coffeeTableLegShort.upload("${it.name.lowercase()}_coffee_table_leg_short".asWamId().asBlockModelId(), TextureMap().put(
+                    ModModels.legs, it.asPlanks().textureId), modelCollector)
 
-                ModModels.tableCenterLeg.upload("${it.name.lowercase()}_table_single_leg".asBlockId(), TextureMap().put(
-                    ModModels.legs, TextureMap.getId(it.asPlanks())), modelCollector)
-                ModModels.tableCornerLeg.upload("${it.name.lowercase()}_table_corner_leg".asBlockId(), TextureMap().put(
-                    ModModels.legs, TextureMap.getId(it.asPlanks())), modelCollector)
-                ModModels.tableEndLeg.upload("${it.name.lowercase()}_table_end_leg".asBlockId(), TextureMap().put(
-                    ModModels.legs, TextureMap.getId(it.asPlanks())), modelCollector)
+                ModModels.coffeeTableLegTall.upload("${it.name.lowercase()}_coffee_table_leg_tall".asWamId().asBlockModelId(), TextureMap().put(
+                    ModModels.legs, it.asPlanks().textureId), modelCollector)
+
+                ModModels.tableCenterLeg.upload("${it.name.lowercase()}_table_single_leg".asWamId().asBlockModelId(), TextureMap().put(
+                    ModModels.legs, it.asPlanks().textureId), modelCollector)
+
+                ModModels.tableCornerLeg.upload("${it.name.lowercase()}_table_corner_leg".asWamId().asBlockModelId(), TextureMap().put(
+                    ModModels.legs, it.asPlanks().textureId), modelCollector)
+
+                ModModels.tableEndLeg.upload("${it.name.lowercase()}_table_end_leg".asWamId().asBlockModelId(), TextureMap().put(
+                    ModModels.legs, it.asPlanks().textureId), modelCollector)
             }
             ModBlocks.blocks.forEach(::genBlockStateModel)
         }
@@ -69,167 +73,139 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     private fun genBlockStateModel(block: Block) {
         when (block) {
             //Outside
-            is ThinPillarBlock -> genThinPillarBlockStateModels(block)
-            is ThickPillarBlock -> genThickPillarBlockStateModels(block)
-            is CustomWallBlock -> genWallBlockStateModels(block)
-            is ModernFenceBlock -> genModernFenceBlockStateModels(block)
-            is ModernFenceGateBlock -> genModernFenceGateBlockStateModels(block)
-            is PlankLadderBlock -> genPlankLadderBlockStateModels(block)
+            is ThinPillarBlock -> block.genBlockStateModels()
+            is ThickPillarBlock -> block.genBlockStateModels()
+            is CustomWallBlock -> block.genBlockStateModels()
+            is ModernFenceBlock -> block.genBlockStateModels()
+            is ModernFenceGateBlock -> block.genBlockStateModels()
+            is PlankLadderBlock -> block.genBlockStateModels()
             //Living Room
-            is TableBlock -> genTableBlockStateModels(block)
-            is CoffeeTableBlock -> genCoffeeTableBlockStateModels(block)
-            is ThinBookshelfBlock -> genThinBookshelfBlockStateModels(block)
-            is FloorCoveringBlock -> genFloorCoveringBlockStateModels(block)
+            is TableBlock -> block.genBlockStateModels()
+            is CoffeeTableBlock -> block.genBlockStateModels()
+            is ThinBookshelfBlock -> block.genBlockStateModels()
+            is FloorCoveringBlock -> block.genBlockStateModels()
             //Kitchen
-            is KitchenCounterBlock -> genKitchenCounterBlockStateModels(block)
-            is KitchenCabinetBlock -> genKitchenCabinetBlockStateModels(block)
+            is KitchenCounterBlock -> block.genBlockStateModels()
+            is KitchenCabinetBlock -> block.genBlockStateModels()
         }
     }
 
     /*------------ Pillars -----------*/
-    private fun genPillarBlockStateModels(
-        block: Block,
+    private fun AbstractPillarBlock.genBlockStateModels(
         centerModel: Identifier,
         bottomModel: Identifier
     ) {
-        generator.run {
-            MultipartBlockStateSupplier.create(block).apply {
-                with(centerModel.asBlockStateVariant())
-                with(WhenUtil.notUp, bottomModel.asBlockStateVariant().withXRotationOf(Rotation.R180).uvLock())
-                with(WhenUtil.notDown, bottomModel.asBlockStateVariant())
-                blockStateCollector.accept(this)
-            }
-        }
-
-    }
-    private fun genThinPillarBlockStateModels(pillarBlock: ThinPillarBlock) {
-        with(generator) {
-            TextureMap.all(pillarBlock.baseBlock).run {
-                ModModels.thinPillarInventory.upload(pillarBlock.getItemModelId(), this, modelCollector)
-                genPillarBlockStateModels(
-                    block = pillarBlock,
-                    centerModel = "block/${pillarBlock.woodType.name.lowercase()}_fence_post".asVanillaId(),
-                    bottomModel = ModModels.thinPillarBottom.upload(pillarBlock, this, modelCollector)
-                )
-            }
+        MultipartBlockStateSupplier.create(this).apply {
+            with(centerModel.asBlockStateVariant())
+            with(WhenUtil.notUp, bottomModel.asBlockStateVariant().withXRotationOf(Rotation.R180).uvLock())
+            with(WhenUtil.notDown, bottomModel.asBlockStateVariant())
+            generator.blockStateCollector.accept(this)
         }
     }
-
-    private fun genThickPillarBlockStateModels(pillarBlock: ThickPillarBlock) {
-        with(generator) {
-            TextureMap.all(pillarBlock.baseBlock).run {
-                ModModels.thickPillarInventory.upload(pillarBlock.getItemModelId(), this, modelCollector)
-                genPillarBlockStateModels(
-                    block = pillarBlock,
-                    centerModel = "block/${pillarBlock.woodType.name.lowercase()}_wall_post".asId(),
-                    bottomModel = ModModels.thickPillarBottom.upload(pillarBlock, this, modelCollector)
-                )
-            }
-        }
-
+    private fun ThinPillarBlock.genBlockStateModels() {
+        val map = TextureMap.all(this.baseBlock)
+        this.genBlockStateModels(
+            centerModel = Identifier("${this.woodType.name.lowercase()}_fence_post").asBlockModelId(),
+            bottomModel = ModModels.thinPillarBottom.upload(this, map, generator.modelCollector)
+        )
+        ModModels.thinPillarInventory.upload(this.getItemModelId(), map, generator.modelCollector)
+    }
+    private fun ThickPillarBlock.genBlockStateModels() {
+        val map = TextureMap.all(this.baseBlock)
+        this.genBlockStateModels(
+            centerModel = "${this.woodType.name.lowercase()}_wall_post".asWamId().asBlockModelId(),
+            bottomModel = ModModels.thickPillarBottom.upload(this, map, generator.modelCollector)
+        )
+        ModModels.thickPillarInventory.upload(this.getItemModelId(), map, generator.modelCollector)
     }
 
     /*------------ End Pillars -----------*/
 
     /*------------ Walls -----------*/
-    private fun genWallBlockStateModels(block: CustomWallBlock) {
-        with(generator) {
-            TextureMap().put(TextureKey.WALL, TextureMap.getId(block.baseBlock)).run {
-                blockStateCollector.accept(
+    private fun CustomWallBlock.genBlockStateModels() {
+            TextureMap().put(TextureKey.WALL, this.baseBlock.textureId).let { map ->
+                generator.blockStateCollector.accept(
                     BlockStateModelGenerator.createWallBlockState(
-                        block,
-                        Models.TEMPLATE_WALL_POST.upload(block, this, modelCollector),
-                        Models.TEMPLATE_WALL_SIDE.upload(block, this, modelCollector),
-                        Models.TEMPLATE_WALL_SIDE_TALL.upload(block, this, modelCollector)
+                        this,
+                        Models.TEMPLATE_WALL_POST.upload(this, map, generator.modelCollector),
+                        Models.TEMPLATE_WALL_SIDE.upload(this, map, generator.modelCollector),
+                        Models.TEMPLATE_WALL_SIDE_TALL.upload(this, map, generator.modelCollector)
                     )
                 )
-                registerParentedItemModel(block, Models.WALL_INVENTORY.upload(block, this, modelCollector))
+                generator.registerParentedItemModel(this, Models.WALL_INVENTORY.upload(this, map, generator.modelCollector))
             }
-        }
     }
     /*------------ End Walls -----------*/
     /*------------ Custom Fences -----------*/
-    private fun genModernFenceBlockStateModels(block: ModernFenceBlock) {
-        with(generator) {
-            TextureMap().apply {
-                put(TextureKey.SIDE, TextureMap.getId(block.sideBlock))
-                put(TextureKey.END, TextureMap.getId(block.postBlock))
-                put(TextureKey.UP, TextureMap.getSubId(block.postBlock, "_top"))
-            }.run {
-                ModModels.modernFenceInventory.upload(block.getItemModelId(), this, modelCollector)
-                blockStateCollector.accept(
-                    BlockStateModelGenerator.createFenceBlockState(
-                        block,
-                        ModModels.modernFencePost.upload(block, this, modelCollector),
-                        ModModels.modernFenceSide.upload(block, this, modelCollector)
-                    )
+    private fun ModernFenceBlock.genBlockStateModels() {
+        val block = this
+        TextureMap().apply {
+            put(TextureKey.SIDE, block.sideBlock.textureId)
+            put(TextureKey.END, block.postBlock.textureId)
+            put(TextureKey.UP, TextureMap.getSubId(block.postBlock, "_top"))
+        }.let { map ->
+            ModModels.modernFenceInventory.upload(block.getItemModelId(), map, generator.modelCollector)
+            generator.blockStateCollector.accept(
+                BlockStateModelGenerator.createFenceBlockState(
+                    block,
+                    ModModels.modernFencePost.upload(block, map, generator.modelCollector),
+                    ModModels.modernFenceSide.upload(block, map, generator.modelCollector)
                 )
-            }
+            )
         }
-
     }
 
-    private fun genModernFenceGateBlockStateModels(block: ModernFenceGateBlock) {
-        with(generator) {
-            TextureMap.all(block.baseBlock).run {
-                val model = ModModels.modernFenceGate.upload(block, this, modelCollector)
-                val modelOpen = ModModels.modernFenceGateOpen.upload(block, this, modelCollector)
+    private fun ModernFenceGateBlock.genBlockStateModels() {
+        val block = this
+        TextureMap.all(block.baseBlock).let { map ->
+            val model = ModModels.modernFenceGate.upload(block, map, generator.modelCollector)
+            val modelOpen = ModModels.modernFenceGateOpen.upload(block, map, generator.modelCollector)
 
-                blockStateCollector.accept(
-                    BlockStateModelGenerator.createFenceGateBlockState(
-                        block,
-                        modelOpen,
-                        model,
-                        modelOpen,
-                        model,
-                        false
-                    )
-                )
-            }
+            generator.blockStateCollector.accept(BlockStateModelGenerator.createFenceGateBlockState(
+                block,
+                modelOpen,
+                model,
+                modelOpen,
+                model,
+                false
+            ))
         }
     }
     /*------------ End Custom Fences -----------*/
 
     /*------------ Ladders -----------*/
-    private fun genPlankLadderBlockStateModels(block: PlankLadderBlock) {
-        with(generator) {
-            TextureMap.all(block.baseBlock).run {
-                ModModels.plankLadder.upload(block, this, modelCollector)
-                this@with.registerNorthDefaultHorizontalRotation(block)
-            }
-        }
+    private fun PlankLadderBlock.genBlockStateModels() {
+        ModModels.plankLadder.upload(this, TextureMap.all(this.baseBlock), generator.modelCollector)
+        generator.registerNorthDefaultHorizontalRotation(this)
     }
     /*------------ End Ladders -----------*/
 
     /*------------ Tables -----------*/
 
-    private fun genTableBlockStateModels(block: TableBlock) {
-        with(generator) {
+    private fun TableBlock.genBlockStateModels() {
+        val block = this
             TextureMap().apply {
-                put(TextureKey.TOP, TextureMap.getId(block.topBlock))
-                put(ModModels.legs, TextureMap.getId(block.baseBlock))
-            }.run {
-                blockStateCollector.accept(
-                    tableSupplier(
-                        block,
-                        ModModels.tableTop.upload(block, this, modelCollector),
-                        "${block.woodType.name.lowercase()}_table_single_leg".asBlockId(),
-                        "${block.woodType.name.lowercase()}_table_end_leg".asBlockId(),
-                        "${block.woodType.name.lowercase()}_table_corner_leg".asBlockId(),
+                put(TextureKey.TOP, block.topBlock.textureId)
+                put(ModModels.legs, block.baseBlock.textureId)
+            }.also {map ->
+                generator.blockStateCollector.accept(
+                    block.supplier(
+                        ModModels.tableTop.upload(block, map, generator.modelCollector),
+                        "${block.woodType.name.lowercase()}_table_single_leg".asWamId().asBlockModelId(),
+                        "${block.woodType.name.lowercase()}_table_end_leg".asWamId().asBlockModelId(),
+                        "${block.woodType.name.lowercase()}_table_corner_leg".asWamId().asBlockModelId(),
                     )
                 )
-                ModModels.tableItem.upload(block.getItemModelId(), this, modelCollector)
+                ModModels.tableItem.upload(block.getItemModelId(), map, generator.modelCollector)
             }
-        }
     }
 
-    private fun tableSupplier(
-        block: TableBlock,
+    private fun TableBlock.supplier(
         topModel: Identifier,
         singleLegModel: Identifier,
         endLegModel: Identifier,
         cornerLegModel: Identifier,
-    ): MultipartBlockStateSupplier = MultipartBlockStateSupplier.create(block).apply {
+    ): MultipartBlockStateSupplier = MultipartBlockStateSupplier.create(this).apply {
         val northEndLegVariant = endLegModel.asBlockStateVariant()
         val northEastCornerVariant = cornerLegModel.asBlockStateVariant()
 
@@ -276,31 +252,30 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     /*------------ End Tables -----------*/
 
     /*------------ Coffee Tables -----------*/
-    private fun genCoffeeTableBlockStateModels(block: CoffeeTableBlock) {
-        with(generator) {
-            TextureMap().apply {
-                put(TextureKey.TOP, TextureMap.getId(block.topBlock))
-                put(ModModels.legs, TextureMap.getId(block.baseBlock))
-            }.run {
-                blockStateCollector.accept(
-                    MultipartBlockStateSupplier.create(block).coffeeTableSupplier(
-                        shortTopModel = ModModels.coffeeTableTopShort.upload(block, this, modelCollector),
-                        shortLegModel = "${block.woodType.name.lowercase()}_coffee_table_leg_short".asBlockId(),
-                        tallTopModel = ModModels.coffeeTableTopTall.upload(block, this, modelCollector),
-                        tallLegModel = "${block.woodType.name.lowercase()}_coffee_table_leg_tall".asBlockId(),
-                    )
+    private fun CoffeeTableBlock.genBlockStateModels() {
+        val block = this
+        TextureMap().apply {
+            put(TextureKey.TOP, block.topBlock.textureId)
+            put(ModModels.legs, block.baseBlock.textureId)
+        }.also { map ->
+            generator.blockStateCollector.accept(
+                block.supplier(
+                    shortTopModel = ModModels.coffeeTableTopShort.upload(block, map, generator.modelCollector),
+                    shortLegModel = "${block.woodType.name.lowercase()}_coffee_table_leg_short".asWamId().asBlockModelId(),
+                    tallTopModel = ModModels.coffeeTableTopTall.upload(block, map, generator.modelCollector),
+                    tallLegModel = "${block.woodType.name.lowercase()}_coffee_table_leg_tall".asWamId().asBlockModelId(),
                 )
-                ModModels.coffeeTableInventory.upload(block.getItemModelId(), this, modelCollector)
-            }
+            )
+            ModModels.coffeeTableInventory.upload(block.getItemModelId(), map, generator.modelCollector)
         }
     }
 
-    private fun MultipartBlockStateSupplier.coffeeTableSupplier(
+    private fun CoffeeTableBlock.supplier(
         shortTopModel: Identifier,
         shortLegModel: Identifier,
         tallTopModel: Identifier,
         tallLegModel: Identifier
-    ): MultipartBlockStateSupplier = this.apply {
+    ): MultipartBlockStateSupplier = MultipartBlockStateSupplier.create(this).apply {
         val shortNorthEastVariant = shortLegModel.asBlockStateVariant()
         val tallNorthEastVariant = tallLegModel.asBlockStateVariant()
 
@@ -325,84 +300,83 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     /*------------ End Coffee Tables -----------*/
 
     /*------------ Bookshelves -----------*/
-    private fun genThinBookshelfBlockStateModels(block: ThinBookshelfBlock) {
-        with(generator) {
-            blockStateCollector.accept(
-                MultipartBlockStateSupplier.create(block).apply {
-                    TextureMap.all(block.baseBlock).run {
-                        ModModels.thinBookshelfItem.upload(block.getItemModelId(), this, modelCollector)
+    private fun ThinBookshelfBlock.genBlockStateModels() {
+        val block = this
+        generator.blockStateCollector.accept(
+            MultipartBlockStateSupplier.create(block).apply {
+                TextureMap.all(block.baseBlock).let { map ->
+                    ModModels.thinBookshelfItem.upload(block.getItemModelId(), map, generator.modelCollector)
 
-                        val bookshelfModel = ModModels.thinBookshelfBlock.upload(block, this, modelCollector)
+                    val bookshelfModel = ModModels.thinBookshelfBlock.upload(block, map, generator.modelCollector)
 
-                        val slotModels = arrayOf(
-                            ModModels.thinBookshelfSlot0,
-                            ModModels.thinBookshelfSlot1,
-                            ModModels.thinBookshelfSlot2,
-                            ModModels.thinBookshelfSlot3,
-                            ModModels.thinBookshelfSlot4,
-                            ModModels.thinBookshelfSlot5
-                        )
-                        val directions = arrayOf(
-                            WhenUtil.facingNorthHorizontal,
-                            WhenUtil.facingEastHorizontal,
-                            WhenUtil.facingSouthHorizontal,
-                            WhenUtil.facingWestHorizontal
-                        )
-                        val variants = Array(4) { bookshelfModel.asBlockStateVariant() }
-                        val slotVariants = Array(6) { i ->
-                            Array(4) { slotModels[i].asBlockStateVariant().withYRotationOf(Rotation.entries[it]) }
-                        }
+                    val slotModels = arrayOf(
+                        ModModels.thinBookshelfSlot0,
+                        ModModels.thinBookshelfSlot1,
+                        ModModels.thinBookshelfSlot2,
+                        ModModels.thinBookshelfSlot3,
+                        ModModels.thinBookshelfSlot4,
+                        ModModels.thinBookshelfSlot5
+                    )
+                    val directions = arrayOf(
+                        WhenUtil.facingNorthHorizontal,
+                        WhenUtil.facingEastHorizontal,
+                        WhenUtil.facingSouthHorizontal,
+                        WhenUtil.facingWestHorizontal
+                    )
+                    val variants = Array(4) { bookshelfModel.asBlockStateVariant() }
+                    val slotVariants = Array(6) { i ->
+                        Array(4) { slotModels[i].asBlockStateVariant().withYRotationOf(Rotation.entries[it]) }
+                    }
 
-                        for (i in directions.indices) {
-                            with(directions[i], variants[i].withYRotationOf(Rotation.entries[i]))
-                            for (j in slotVariants.indices) {
-                                with(
-                                    directions[i] and newWhen.set(ChiseledBookshelfBlock.SLOT_OCCUPIED_PROPERTIES[j], true),
-                                    slotVariants[j][i]
-                                )
-                            }
+                    for (i in directions.indices) {
+                        with(directions[i], variants[i].withYRotationOf(Rotation.entries[i]))
+                        for (j in slotVariants.indices) {
+                            with(
+                                directions[i] and newWhen.set(ChiseledBookshelfBlock.SLOT_OCCUPIED_PROPERTIES[j], true),
+                                slotVariants[j][i]
+                            )
                         }
                     }
                 }
-            )
-        }
+            }
+        )
     }
 
     /*------------ End Bookshelves -----------*/
 
     /*------------ Floor Coverings -----------*/
-    private fun genFloorCoveringBlockStateModels(block: FloorCoveringBlock) {
+    private fun FloorCoveringBlock.genBlockStateModels() {
+        val block = this
         with(generator) {
-            registerSingleton(block, TextureMap().put(TextureKey.WOOL, TextureMap.getId(block.baseBlock)), Models.CARPET)
-            registerParentedItemModel(block, ModelIds.getBlockModelId(block))
+            registerSingleton(block, TextureMap().put(TextureKey.WOOL, block.baseBlock.textureId), Models.CARPET)
+            registerParentedItemModel(block, block.modelId)
         }
     }
     /*------------ End Floor Coverings -----------*/
 
     /*------------ Kitchen Counters -----------*/
-    private fun genKitchenCounterBlockStateModels(block: KitchenCounterBlock) {
-        with(generator) {
-            TextureMap().apply {
-                put(TextureKey.TOP, TextureMap.getId(block.topBlock))
-                put(TextureKey.SIDE, TextureMap.getId(block.baseBlock))
-            }.run {
-                val normalModel = ModModels.kitchenCounter.upload(block, this, modelCollector)
+    private fun KitchenCounterBlock.genBlockStateModels() {
+        val block = this
+        TextureMap().apply {
+            put(TextureKey.TOP, block.topBlock.textureId)
+            put(TextureKey.SIDE, block.baseBlock.textureId)
+        }.let {map ->
+            val normalModel = ModModels.kitchenCounter.upload(block, map, generator.modelCollector)
 
-                blockStateCollector.accept(VariantsBlockStateSupplier.create(block)
-                    .coordinate(
-                        createKitchenCounterVariantMap(
-                            blockModel = normalModel,
-                            innerLeftModel = ModModels.kitchenCounterInnerLeftCorner.upload(block, this, modelCollector),
-                            outerLeftModel = ModModels.kitchenCounterOuterLeftCorner.upload(block, this, modelCollector)
-                        )
+            generator.blockStateCollector.accept(VariantsBlockStateSupplier.create(block)
+                .coordinate(
+                    block.variantMap(
+                        blockModel = normalModel,
+                        innerLeftModel = ModModels.kitchenCounterInnerLeftCorner.upload(block, map, generator.modelCollector),
+                        outerLeftModel = ModModels.kitchenCounterOuterLeftCorner.upload(block, map, generator.modelCollector)
                     )
                 )
-                registerParentedItemModel(block, normalModel)
-            }
+            )
+            generator.registerParentedItemModel(block, normalModel)
         }
     }
 
-    private fun createKitchenCounterVariantMap(
+    private fun KitchenCounterBlock.variantMap(
         blockModel: Identifier,
         innerLeftModel: Identifier,
         outerLeftModel: Identifier
@@ -447,19 +421,18 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     /*------------ End Kitchen Counters -----------*/
 
     /*------------ Kitchen Cabinets -----------*/
-    private fun genKitchenCabinetBlockStateModels(block: KitchenCabinetBlock) {
-        with (generator) {
-            TextureMap().apply {
-                put(TextureKey.TOP, TextureMap.getId(block.topBlock))
-                put(TextureKey.SIDE, TextureMap.getId(block.baseBlock))
-            }.run {
-                val model = ModModels.kitchenCabinet.upload(block, this, modelCollector)
-                blockStateCollector.accept(
-                    VariantsBlockStateSupplier.create(block, model.asBlockStateVariant())
-                        .coordinate(BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates())
-                )
-                this@with.registerParentedItemModel(block, model)
-            }
+    private fun KitchenCabinetBlock.genBlockStateModels() {
+        val block = this
+        TextureMap().apply {
+            put(TextureKey.TOP, block.topBlock.textureId)
+            put(TextureKey.SIDE, block.baseBlock.textureId)
+        }.let { map ->
+            val model = ModModels.kitchenCabinet.upload(block, map, generator.modelCollector)
+            generator.blockStateCollector.accept(
+                VariantsBlockStateSupplier.create(block, model.asBlockStateVariant())
+                    .coordinate(BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates())
+            )
+            generator.registerParentedItemModel(block, model)
         }
     }
 

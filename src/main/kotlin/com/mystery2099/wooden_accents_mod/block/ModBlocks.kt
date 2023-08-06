@@ -2,7 +2,7 @@ package com.mystery2099.wooden_accents_mod.block
 
 import com.mystery2099.block.custom.KitchenCounterBlock
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod
-import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asId
+import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asWamId
 import com.mystery2099.wooden_accents_mod.block.custom.*
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.Block
@@ -10,6 +10,7 @@ import net.minecraft.block.Blocks
 import net.minecraft.block.FenceGateBlock
 import net.minecraft.block.WoodType
 import net.minecraft.data.client.ModelIds
+import net.minecraft.data.client.TextureMap
 import net.minecraft.item.BlockItem
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
@@ -291,6 +292,8 @@ object ModBlocks {
         get() = Registries.BLOCK.getId(this)
     inline val Block.modelId: Identifier
         get() = ModelIds.getBlockModelId(this)
+    inline val Block.textureId: Identifier
+        get() = TextureMap.getId(this)
 
     inline val Block.woodType: WoodType
         get() {
@@ -306,15 +309,15 @@ object ModBlocks {
             return type
         }
 
-    private infix fun Block.registerAs(id: String): Block = registerAs(id.asId())
+    private infix fun Block.registerAs(id: String): Block = registerAs(id.asWamId())
     private infix fun Block.registerAs(identifier: Identifier) =
         Registry.register(Registries.BLOCK, identifier, this).also {
             registries += it
             Registry.register(Registries.ITEM, identifier, BlockItem(it, FabricItemSettings()))
         }
 
-    fun register() {
-        WoodenAccentsMod.logger.info("Registering ModBlocks for mod: ${WoodenAccentsMod.MOD_ID}")
+    fun ModBlocks.register() {
+        WoodenAccentsMod.logger.info("Registering $this for mod: ${WoodenAccentsMod.MOD_ID}")
     }
 
 }
