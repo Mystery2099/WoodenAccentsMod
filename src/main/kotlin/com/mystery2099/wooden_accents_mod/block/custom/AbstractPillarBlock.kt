@@ -1,7 +1,7 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.mystery2099.wooden_accents_mod.ModItemGroups
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
+import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.plus
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
@@ -40,12 +40,17 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         world: WorldAccess,
         pos: BlockPos?,
         neighborPos: BlockPos?
-    ): BlockState {
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos!!, neighborPos)?.apply {
-            with(up, world.checkUp(pos))
-            with(down, world.checkDown(pos))
-        } ?: Blocks.AIR.defaultState
-    }
+    ): BlockState = super.getStateForNeighborUpdate(
+        state = state,
+        direction = direction,
+        neighborState = neighborState,
+        world = world,
+        pos = pos!!,
+        neighborPos = neighborPos
+    )?.apply {
+        with(up, world.checkUp(pos))
+        with(down, world.checkDown(pos))
+    } ?: Blocks.AIR.defaultState
 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
@@ -53,20 +58,19 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
-    ): VoxelShape = shape.run{
-        centerShape.apply {
-            plus(if (!state.get(up)) shape.topShape else VoxelShapes.empty())
-            plus(if (!state.get(down)) baseShape else VoxelShapes.empty())
-        }
-    }
+    ): VoxelShape = shape.centerShape + listOf(
+        if (!state[up]) shape.topShape else VoxelShapes.empty(),
+        if (!state[down]) shape.baseShape else VoxelShapes.empty(),
+        VoxelShapes.empty()
+    )
 
 
-    override fun getPlacementState(ctx: ItemPlacementContext): BlockState? = super.getPlacementState(ctx)?.apply {
+    override fun getPlacementState(ctx: ItemPlacementContext): BlockState = super.getPlacementState(ctx)?.apply {
         val world = ctx.world
         val pos = ctx.blockPos
 
-        with(up, world checkUp pos)?.with(down, world checkDown pos)
-    }
+        with(up, world.checkUp(pos))?.with(down, world.checkDown(pos))
+    }!!
     //Up & Down
     open fun WorldAccess.getStateAtPos(blockPos: BlockPos): BlockState = getBlockState(blockPos)
     open fun WorldAccess.getUpState(pos: BlockPos): BlockState = getStateAtPos(pos.up())
