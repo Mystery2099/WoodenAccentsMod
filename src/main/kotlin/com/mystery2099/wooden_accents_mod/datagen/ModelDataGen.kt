@@ -40,11 +40,8 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     //Collections
     private val horizontalDirections = arrayOf(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)
 
-    private lateinit var generator: BlockStateModelGenerator
-
     override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator) {
         blockStateModelGenerator.run {
-            generator = this
             WoodType.stream().forEach{
                 ModModels.coffeeTableLegShort.upload("${it.name.lowercase()}_coffee_table_leg_short".asWamId().asBlockModelId(), TextureMap().put(
                     ModModels.legs, it.asPlanks().textureId), modelCollector)
@@ -61,37 +58,37 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
                 ModModels.tableEndLeg.upload("${it.name.lowercase()}_table_end_leg".asWamId().asBlockModelId(), TextureMap().put(
                     ModModels.legs, it.asPlanks().textureId), modelCollector)
             }
-            ModBlocks.blocks.forEach(::genBlockStateModel)
+            ModBlocks.blocks.forEach { this.genBlockStateModel(it) }
         }
-
     }
 
     override fun generateItemModels(itemModelGenerator: ItemModelGenerator) {
 
     }
 
-    private fun genBlockStateModel(block: Block) {
+    private fun BlockStateModelGenerator.genBlockStateModel(block: Block) {
         when (block) {
             //Outside
-            is ThinPillarBlock -> block.genBlockStateModels()
-            is ThickPillarBlock -> block.genBlockStateModels()
-            is CustomWallBlock -> block.genBlockStateModels()
-            is ModernFenceBlock -> block.genBlockStateModels()
-            is ModernFenceGateBlock -> block.genBlockStateModels()
-            is PlankLadderBlock -> block.genBlockStateModels()
+            is ThinPillarBlock -> block.genBlockStateModels(this)
+            is ThickPillarBlock -> block.genBlockStateModels(this)
+            is CustomWallBlock -> block.genBlockStateModels(this)
+            is ModernFenceBlock -> block.genBlockStateModels(this)
+            is ModernFenceGateBlock -> block.genBlockStateModels(this)
+            is PlankLadderBlock -> block.genBlockStateModels(this)
             //Living Room
-            is TableBlock -> block.genBlockStateModels()
-            is CoffeeTableBlock -> block.genBlockStateModels()
-            is ThinBookshelfBlock -> block.genBlockStateModels()
-            is FloorCoveringBlock -> block.genBlockStateModels()
+            is TableBlock -> block.genBlockStateModels(this)
+            is CoffeeTableBlock -> block.genBlockStateModels(this)
+            is ThinBookshelfBlock -> block.genBlockStateModels(this)
+            is FloorCoveringBlock -> block.genBlockStateModels(this)
             //Kitchen
-            is KitchenCounterBlock -> block.genBlockStateModels()
-            is KitchenCabinetBlock -> block.genBlockStateModels()
+            is KitchenCounterBlock -> block.genBlockStateModels(this)
+            is KitchenCabinetBlock -> block.genBlockStateModels(this)
         }
     }
 
     /*------------ Pillars -----------*/
     private fun AbstractPillarBlock.genBlockStateModels(
+        generator: BlockStateModelGenerator,
         centerModel: Identifier,
         bottomModel: Identifier
     ) {
@@ -102,17 +99,19 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
             generator.blockStateCollector.accept(this)
         }
     }
-    private fun ThinPillarBlock.genBlockStateModels() {
+    private fun ThinPillarBlock.genBlockStateModels(generator: BlockStateModelGenerator) {
         val map = TextureMap.all(this.baseBlock)
         this.genBlockStateModels(
+            generator = generator,
             centerModel = Identifier("${this.woodType.name.lowercase()}_fence_post").asBlockModelId(),
             bottomModel = ModModels.thinPillarBottom.upload(this, map, generator.modelCollector)
         )
         ModModels.thinPillarInventory.upload(this.getItemModelId(), map, generator.modelCollector)
     }
-    private fun ThickPillarBlock.genBlockStateModels() {
+    private fun ThickPillarBlock.genBlockStateModels(generator: BlockStateModelGenerator) {
         val map = TextureMap.all(this.baseBlock)
         this.genBlockStateModels(
+            generator = generator,
             centerModel = "${this.woodType.name.lowercase()}_wall_post".asWamId().asBlockModelId(),
             bottomModel = ModModels.thickPillarBottom.upload(this, map, generator.modelCollector)
         )
@@ -122,7 +121,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     /*------------ End Pillars -----------*/
 
     /*------------ Walls -----------*/
-    private fun CustomWallBlock.genBlockStateModels() {
+    private fun CustomWallBlock.genBlockStateModels(generator: BlockStateModelGenerator) {
             TextureMap().put(TextureKey.WALL, this.baseBlock.textureId).let { map ->
                 generator.blockStateCollector.accept(
                     BlockStateModelGenerator.createWallBlockState(
@@ -137,7 +136,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     }
     /*------------ End Walls -----------*/
     /*------------ Custom Fences -----------*/
-    private fun ModernFenceBlock.genBlockStateModels() {
+    private fun ModernFenceBlock.genBlockStateModels(generator: BlockStateModelGenerator) {
         val block = this
         TextureMap().apply {
             put(TextureKey.SIDE, block.sideBlock.textureId)
@@ -155,7 +154,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         }
     }
 
-    private fun ModernFenceGateBlock.genBlockStateModels() {
+    private fun ModernFenceGateBlock.genBlockStateModels(generator: BlockStateModelGenerator) {
         val block = this
         TextureMap.all(block.baseBlock).let { map ->
             val model = ModModels.modernFenceGate.upload(block, map, generator.modelCollector)
@@ -175,7 +174,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     /*------------ End Custom Fences -----------*/
 
     /*------------ Ladders -----------*/
-    private fun PlankLadderBlock.genBlockStateModels() {
+    private fun PlankLadderBlock.genBlockStateModels(generator: BlockStateModelGenerator) {
         ModModels.plankLadder.upload(this, TextureMap.all(this.baseBlock), generator.modelCollector)
         generator.registerNorthDefaultHorizontalRotation(this)
     }
@@ -183,7 +182,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
     /*------------ Tables -----------*/
 
-    private fun TableBlock.genBlockStateModels() {
+    private fun TableBlock.genBlockStateModels(generator: BlockStateModelGenerator) {
         val block = this
             TextureMap().apply {
                 put(TextureKey.TOP, block.topBlock.textureId)
@@ -253,7 +252,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     /*------------ End Tables -----------*/
 
     /*------------ Coffee Tables -----------*/
-    private fun CoffeeTableBlock.genBlockStateModels() {
+    private fun CoffeeTableBlock.genBlockStateModels(generator: BlockStateModelGenerator) {
         val block = this
         TextureMap().apply {
             put(TextureKey.TOP, block.topBlock.textureId)
@@ -301,7 +300,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     /*------------ End Coffee Tables -----------*/
 
     /*------------ Bookshelves -----------*/
-    private fun ThinBookshelfBlock.genBlockStateModels() {
+    private fun ThinBookshelfBlock.genBlockStateModels(generator: BlockStateModelGenerator) {
         val block = this
         generator.blockStateCollector.accept(
             MultipartBlockStateSupplier.create(block).apply {
@@ -346,7 +345,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     /*------------ End Bookshelves -----------*/
 
     /*------------ Floor Coverings -----------*/
-    private fun FloorCoveringBlock.genBlockStateModels() {
+    private fun FloorCoveringBlock.genBlockStateModels(generator: BlockStateModelGenerator) {
         val block = this
         with(generator) {
             registerSingleton(block, TextureMap().put(TextureKey.WOOL, block.baseBlock.textureId), Models.CARPET)
@@ -356,7 +355,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     /*------------ End Floor Coverings -----------*/
 
     /*------------ Kitchen Counters -----------*/
-    private fun KitchenCounterBlock.genBlockStateModels() {
+    private fun KitchenCounterBlock.genBlockStateModels(generator: BlockStateModelGenerator) {
         val block = this
         TextureMap().apply {
             put(TextureKey.TOP, block.topBlock.textureId)
@@ -422,7 +421,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     /*------------ End Kitchen Counters -----------*/
 
     /*------------ Kitchen Cabinets -----------*/
-    private fun KitchenCabinetBlock.genBlockStateModels() {
+    private fun KitchenCabinetBlock.genBlockStateModels(generator: BlockStateModelGenerator) {
         val block = this
         TextureMap().apply {
             put(TextureKey.TOP, block.topBlock.textureId)
