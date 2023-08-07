@@ -1,5 +1,6 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
+import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.addIf
 import com.mystery2099.wooden_accents_mod.block.custom.enums.CoffeeTableType
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.group
@@ -51,24 +52,28 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTabl
 
         return mutableListOf<VoxelShape>().apply {
             add(if (isTall) tallTopShape else shortTopShape)
-            if (!hasNorthConnection) {
-                if (!hasEastConnection) {
-                    add(shortNorthEastLeg)
-                    if (isTall) add(tallNorthEastLeg)
-                }
-                if (!hasWestConnection) {
-                    add(shortNorthWestLeg)
-                    if (isTall) add(tallNorthWestLeg)
+            when {
+                !hasNorthConnection -> {
+                    if (!hasEastConnection) {
+                        add(shortNorthEastLeg)
+                        addIf(isTall, tallNorthEastLeg)
+                    }
+                    if (!hasWestConnection) {
+                        add(shortNorthWestLeg)
+                        addIf(isTall, tallNorthWestLeg)
+                    }
                 }
             }
-            if (!hasSouthConnection) {
-                if (!hasEastConnection) {
-                    add(shortSouthEastLeg)
-                    if (isTall) add(tallSouthEastLeg)
-                }
-                if (!hasWestConnection) {
-                    add(shortSouthWestLeg)
-                    if (isTall) add(tallSouthWestLeg)
+            when {
+                !hasSouthConnection -> {
+                    if (!hasEastConnection) {
+                        add(shortSouthEastLeg)
+                        addIf(isTall, tallSouthEastLeg)
+                    }
+                    if (!hasWestConnection) {
+                        add(shortSouthWestLeg)
+                        addIf(isTall, tallSouthWestLeg)
+                    }
                 }
             }
         }.combined

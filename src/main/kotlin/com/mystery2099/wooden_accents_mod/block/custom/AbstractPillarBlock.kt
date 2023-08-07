@@ -87,14 +87,14 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
     abstract infix fun WorldAccess.checkUp(pos: BlockPos): Boolean
     abstract infix fun WorldAccess.checkDown(pos: BlockPos): Boolean
 
-    fun AbstractPillarBlock.offerRecipe(exporter: Consumer<RecipeJsonProvider>, outputNum: Int, primaryInput: ItemConvertible, secondaryInput: ItemConvertible) {
+    fun offerRecipe(exporter: Consumer<RecipeJsonProvider>, outputNum: Int, primaryInput: ItemConvertible, secondaryInput: ItemConvertible) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, outputNum).apply {
             input('|', secondaryInput)
             input('#', primaryInput)
             pattern("###")
             pattern(" | ")
             pattern("###")
-            group(when (this@offerRecipe) {
+            group(when (this@AbstractPillarBlock) {
                 is ThickPillarBlock -> "thick_pillars"
                 is ThinPillarBlock -> "thin_pillars"
                 else -> "pillars"
@@ -106,9 +106,7 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
     @JvmRecord
     data class Shape(val topShape: VoxelShape, val centerShape: VoxelShape, val baseShape: VoxelShape)
     companion object {
-        @JvmStatic
         val up: BooleanProperty = Properties.UP!!
-        @JvmStatic
         val down: BooleanProperty = Properties.DOWN!!
     }
 }

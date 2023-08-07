@@ -17,7 +17,7 @@ object VoxelShapeHelper {
         get() = this.unifyElements()
 
     private inline val VoxelShape.minX
-        get() = this.getMin(Direction.Axis.X)
+        get() = getMin(Direction.Axis.X)
     private inline val VoxelShape.minY
         get() = getMin(Direction.Axis.Y)
     private inline val VoxelShape.minZ

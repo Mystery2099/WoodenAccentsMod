@@ -73,25 +73,15 @@ class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock
     }
 
     companion object {
-        @JvmStatic
         val topShape: VoxelShape = createCuboidShape(0.0, 13.0, 0.0, 16.0, 16.0, 16.0)
-        @JvmStatic
         val legShape: VoxelShape = createCuboidShape(6.0, 0.0, 6.0, 10.0, 13.0, 10.0)
-        @JvmStatic
         val northEndLegShape: VoxelShape = createCuboidShape(6.0, 0.0, 1.0, 10.0, 13.0, 5.0)
-        @JvmStatic
         val eastEndLegShape: VoxelShape = northEndLegShape.rotateLeft()
-        @JvmStatic
         val southEndLegShape : VoxelShape = northEndLegShape.flip()
-        @JvmStatic
         val westEndLegShape: VoxelShape = northEndLegShape.rotateRight()
-        @JvmStatic
         val northEastLegShape: VoxelShape = createCuboidShape(11.0, 0.0, 1.0, 15.0, 13.0, 5.0)
-        @JvmStatic
         val northWestLegShape: VoxelShape = northEastLegShape.rotateRight()
-        @JvmStatic
         val southEastLegShape: VoxelShape = northWestLegShape.flip()
-        @JvmStatic
         val southWestLegShape: VoxelShape = northEastLegShape.flip()
     }
 }
