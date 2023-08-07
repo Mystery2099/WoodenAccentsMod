@@ -7,7 +7,7 @@ object ModDataGenerator : DataGeneratorEntrypoint {
 	//Must be initiated before ItemTagDataGen!
 	lateinit var blockTagGen: BlockTagDataGen
 	override fun onInitializeDataGenerator(fabricDataGenerator: FabricDataGenerator) {
-		with(fabricDataGenerator.createPack()) {
+		fabricDataGenerator.createPack().apply {
 			//Assets
 			addProvider(::EnglishLangDataGen)
 			addProvider(::ModelDataGen)
