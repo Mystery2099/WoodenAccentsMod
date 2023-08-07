@@ -4,11 +4,14 @@ import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import net.minecraft.block.Block
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.registry.tag.BlockTags
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
 class ThickPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape) {
+    override val tag: TagKey<Block>
+        get() = ModBlockTags.thickPillars
 
     override infix fun WorldAccess.checkUp(pos: BlockPos): Boolean = getUpState(pos).run {
         isIn(ModBlockTags.pillars) || isIn(BlockTags.WALLS)

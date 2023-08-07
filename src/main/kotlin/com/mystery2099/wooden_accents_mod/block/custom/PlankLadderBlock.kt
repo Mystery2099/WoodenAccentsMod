@@ -1,6 +1,7 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
+import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.item_group.CreativeTab
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
@@ -13,6 +14,7 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.ShapeContext
 import net.minecraft.data.server.recipe.RecipeJsonProvider
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
@@ -22,6 +24,10 @@ import java.util.function.Consumer
 class PlankLadderBlock(val baseBlock: Block) : AbstractLadderBlock(FabricBlockSettings.copyOf(Blocks.LADDER)),
     GroupedBlock {
 
+    override val itemGroup: CreativeTab
+        get() = ModItemGroups.outsideBlockItemGroup
+    override val tag: TagKey<Block>
+        get() = ModBlockTags.plankLadders
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
         state: BlockState, world: BlockView?, pos: BlockPos?, context: ShapeContext?
@@ -33,8 +39,7 @@ class PlankLadderBlock(val baseBlock: Block) : AbstractLadderBlock(FabricBlockSe
         else -> super.getOutlineShape(state, world, pos, context)
     }
 
-    override val itemGroup: CreativeTab
-        get() = ModItemGroups.outsideBlockItemGroup
+
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
         offerRecipe(exporter, baseBlock, 8, "plank_ladders")

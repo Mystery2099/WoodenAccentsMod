@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 object ModItemGroups {
 
     val outsideBlockItemGroup = CreativeTab("outside")
+    @JvmStatic
     val kitchenItemGroup = CreativeTab("kitchen")
     val livingRoomItemGroup = CreativeTab("living_room")
     val bedroomItemGroup = CreativeTab("bedroom")

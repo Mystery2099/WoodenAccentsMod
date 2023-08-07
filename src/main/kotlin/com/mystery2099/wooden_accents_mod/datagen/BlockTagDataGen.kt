@@ -1,8 +1,7 @@
 package com.mystery2099.wooden_accents_mod.datagen
 
-import com.mystery2099.block.custom.KitchenCounterBlock
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
-import com.mystery2099.wooden_accents_mod.block.custom.*
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
@@ -17,20 +16,7 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
     override fun configure(arg: RegistryWrapper.WrapperLookup) {
         ModBlocks.blocks.forEach{
             BlockTags.AXE_MINEABLE += it
-            when (it) {
-                is ThinPillarBlock -> ModBlockTags.thinPillars += it
-                is ThickPillarBlock -> ModBlockTags.thickPillars +=it
-                is CustomWallBlock -> ModBlockTags.woodenWalls += it
-                is ModernFenceBlock -> ModBlockTags.modernFences += it
-                is ModernFenceGateBlock -> ModBlockTags.modernFenceGates += it
-                is PlankLadderBlock -> ModBlockTags.plankLadders += it
-                is TableBlock -> ModBlockTags.tables += it
-                is ThinBookshelfBlock -> ModBlockTags.thinBookshelves += it
-                is FloorCoveringBlock -> ModBlockTags.plankCarpets += it
-                is CoffeeTableBlock -> ModBlockTags.coffeeTables += it
-                is KitchenCounterBlock -> ModBlockTags.kitchenCounters += it
-                is KitchenCabinetBlock -> ModBlockTags.kitchenCabinets += it
-            }
+            when {it is TaggedBlock -> it.tag += it }
         }
         ModBlockTags.pillars.add(ModBlockTags.thinPillars, ModBlockTags.thickPillars)
         BlockTags.WALLS += ModBlockTags.woodenWalls

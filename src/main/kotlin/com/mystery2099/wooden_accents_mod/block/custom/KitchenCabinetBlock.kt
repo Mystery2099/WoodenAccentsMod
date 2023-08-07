@@ -3,7 +3,9 @@ package com.mystery2099.wooden_accents_mod.block.custom
 import com.mystery2099.block.custom.KitchenCounterBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
 import com.mystery2099.wooden_accents_mod.block_entity.custom.KitchenCabinetBlockEntity
+import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModItemTags
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.group
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
@@ -25,6 +27,7 @@ import net.minecraft.inventory.Inventory
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.recipe.book.RecipeCategory
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
@@ -43,14 +46,11 @@ import net.minecraft.world.World
 import java.util.function.Consumer
 
 class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)),
-    GroupedBlock, RecipeBlockData {
-    companion object {
-        val facing: DirectionProperty = Properties.HORIZONTAL_FACING
-        val open: BooleanProperty = Properties.OPEN
-        val kitchenCabinetBlockEntityTypeBuilder: FabricBlockEntityTypeBuilder<KitchenCabinetBlockEntity> =
-            FabricBlockEntityTypeBuilder.create(::KitchenCabinetBlockEntity)
+    GroupedBlock, RecipeBlockData, TaggedBlock {
+    override val tag: TagKey<Block>
+        get() = ModBlockTags.kitchenCabinets
+    override val itemGroup get() = ModItemGroups.storageBlocksItemGroup
 
-    }
     init {
         defaultState = stateManager.defaultState.apply {
             with(facing, Direction.NORTH)
@@ -162,7 +162,6 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
         else -> VoxelShapes.fullCube()
     }.unifiedWith(KitchenCounterBlock.TOP_SHAPE)
 
-    override val itemGroup get() = ModItemGroups.storageBlocksItemGroup
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 4).apply {
             input('#', baseBlock)
@@ -175,5 +174,12 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
             requires(baseBlock)
             offerTo(exporter)
         }
+    }
+    companion object {
+        val facing: DirectionProperty = Properties.HORIZONTAL_FACING
+        val open: BooleanProperty = Properties.OPEN
+        val kitchenCabinetBlockEntityTypeBuilder: FabricBlockEntityTypeBuilder<KitchenCabinetBlockEntity> =
+            FabricBlockEntityTypeBuilder.create(::KitchenCabinetBlockEntity)
+
     }
 }

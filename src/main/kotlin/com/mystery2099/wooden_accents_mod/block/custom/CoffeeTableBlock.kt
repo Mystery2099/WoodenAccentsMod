@@ -3,6 +3,7 @@ package com.mystery2099.wooden_accents_mod.block.custom
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.addIf
 import com.mystery2099.wooden_accents_mod.block.custom.enums.CoffeeTableType
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
+import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.group
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
@@ -17,6 +18,7 @@ import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.recipe.book.RecipeCategory
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.state.StateManager
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -27,6 +29,10 @@ import java.util.function.Consumer
 
 class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock(baseBlock),
     GroupedBlock {
+    override val tag: TagKey<Block>
+        get() = ModBlockTags.coffeeTables
+    override val itemGroup get() = ModItemGroups.livingRoomItemGroup
+
     init {
         defaultState = defaultState.with(type, CoffeeTableType.SHORT)
         //WoodenAccentsModItemGroups.livingRoomItems += this
@@ -151,5 +157,4 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTabl
         private val tallSouthWestLeg = tallNorthEastLeg.flip()
     }
 
-    override val itemGroup get() = ModItemGroups.livingRoomItemGroup
 }

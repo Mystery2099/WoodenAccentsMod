@@ -2,6 +2,8 @@ package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
+import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.CreativeTab
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
@@ -15,6 +17,7 @@ import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.tag.ItemTags
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.resource.featuretoggle.FeatureFlags
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -24,7 +27,9 @@ import java.util.function.Consumer
 
 class ThinBookshelfBlock(val baseBlock: Block) :
     ChiseledBookshelfBlock(FabricBlockSettings.copyOf(baseBlock).requires(FeatureFlags.UPDATE_1_20)),
-    GroupedBlock, RecipeBlockData {
+    GroupedBlock, RecipeBlockData, TaggedBlock {
+    override val tag: TagKey<Block>
+        get() = ModBlockTags.thinBookshelves
     override val itemGroup: CreativeTab
         get() = ModItemGroups.livingRoomItemGroup
 

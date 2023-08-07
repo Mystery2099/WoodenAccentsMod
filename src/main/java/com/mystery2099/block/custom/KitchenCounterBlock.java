@@ -1,5 +1,6 @@
 package com.mystery2099.block.custom;
 
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock;
 import com.mystery2099.wooden_accents_mod.item_group.CreativeTab;
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups;
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock;
@@ -9,6 +10,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.StairShape;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.EnumProperty;
@@ -26,7 +28,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class KitchenCounterBlock extends AbstractWaterloggableBlock implements GroupedBlock {
+public class KitchenCounterBlock extends AbstractWaterloggableBlock implements GroupedBlock, TaggedBlock {
     public static final EnumProperty<StairShape> SHAPE = Properties.STAIR_SHAPE;
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
     public static final VoxelShape TOP_SHAPE = Block.createCuboidShape(0, 14, 0, 16, 16, 16);
@@ -228,6 +230,12 @@ public class KitchenCounterBlock extends AbstractWaterloggableBlock implements G
     @NotNull
     @Override
     public CreativeTab getItemGroup() {
-        return ModItemGroups.INSTANCE.getKitchenItemGroup();
+        return ModItemGroups.getKitchenItemGroup();
+    }
+
+    @NotNull
+    @Override
+    public TagKey<Block> getTag() {
+        return ModBlockTags.getKitchenCounters();
     }
 }

@@ -1,8 +1,10 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
+import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags.kitchenCounters
+import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.plus
@@ -12,6 +14,7 @@ import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.*
 import net.minecraft.block.enums.StairShape
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.DirectionProperty
 import net.minecraft.state.property.EnumProperty
@@ -26,7 +29,10 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 
-class NewKitchenCounterBlock(val baseBlock: Block, val topBlock: Block) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)), GroupedBlock {
+class NewKitchenCounterBlock(val baseBlock: Block, val topBlock: Block) :
+    AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)), GroupedBlock, TaggedBlock {
+    override val tag: TagKey<Block>
+        get() = ModBlockTags.kitchenCounters
     override val itemGroup
         get() = ModItemGroups.kitchenItemGroup
 
@@ -37,6 +43,7 @@ class NewKitchenCounterBlock(val baseBlock: Block, val topBlock: Block) : Abstra
             with(shape, StairShape.STRAIGHT)
         }
     }
+
     @Suppress("deprecation")
     override fun getOutlineShape(
         state: BlockState,
@@ -45,41 +52,42 @@ class NewKitchenCounterBlock(val baseBlock: Block, val topBlock: Block) : Abstra
         context: ShapeContext?
     ) = state[shape].let { stairShape ->
         topShape + (
-            when (state[facing]) {
-                Direction.NORTH -> when (stairShape) {
-                    StairShape.INNER_LEFT -> northWestInnerShape
-                    StairShape.INNER_RIGHT -> northEastInnerShape
-                    StairShape.OUTER_LEFT -> northWestOuterShape
-                    StairShape.OUTER_RIGHT -> northEastOuterShape
-                    else -> northShape
-                }
+                when (state[facing]) {
+                    Direction.NORTH -> when (stairShape) {
+                        StairShape.INNER_LEFT -> northWestInnerShape
+                        StairShape.INNER_RIGHT -> northEastInnerShape
+                        StairShape.OUTER_LEFT -> northWestOuterShape
+                        StairShape.OUTER_RIGHT -> northEastOuterShape
+                        else -> northShape
+                    }
 
-                Direction.SOUTH -> when (stairShape) {
-                    StairShape.INNER_LEFT -> southEastInnerShape
-                    StairShape.INNER_RIGHT -> southWestInnerShape
-                    StairShape.OUTER_LEFT -> southEastOuterShape
-                    StairShape.OUTER_RIGHT -> southWestOuterShape
-                    else -> southShape
-                }
+                    Direction.SOUTH -> when (stairShape) {
+                        StairShape.INNER_LEFT -> southEastInnerShape
+                        StairShape.INNER_RIGHT -> southWestInnerShape
+                        StairShape.OUTER_LEFT -> southEastOuterShape
+                        StairShape.OUTER_RIGHT -> southWestOuterShape
+                        else -> southShape
+                    }
 
-                Direction.EAST -> when (stairShape) {
-                    StairShape.INNER_LEFT -> northEastInnerShape
-                    StairShape.INNER_RIGHT -> southEastInnerShape
-                    StairShape.OUTER_LEFT -> northEastOuterShape
-                    StairShape.OUTER_RIGHT -> southEastOuterShape
-                    else -> eastShape
-                }
+                    Direction.EAST -> when (stairShape) {
+                        StairShape.INNER_LEFT -> northEastInnerShape
+                        StairShape.INNER_RIGHT -> southEastInnerShape
+                        StairShape.OUTER_LEFT -> northEastOuterShape
+                        StairShape.OUTER_RIGHT -> southEastOuterShape
+                        else -> eastShape
+                    }
 
-                Direction.WEST -> when (stairShape) {
-                    StairShape.INNER_LEFT -> southWestInnerShape
-                    StairShape.INNER_RIGHT -> northWestInnerShape
-                    StairShape.OUTER_LEFT -> southWestOuterShape
-                    StairShape.OUTER_RIGHT -> northWestOuterShape
-                    else -> westShape
+                    Direction.WEST -> when (stairShape) {
+                        StairShape.INNER_LEFT -> southWestInnerShape
+                        StairShape.INNER_RIGHT -> northWestInnerShape
+                        StairShape.OUTER_LEFT -> southWestOuterShape
+                        StairShape.OUTER_RIGHT -> northWestOuterShape
+                        else -> westShape
+                    }
+
+                    else -> VoxelShapes.empty()
                 }
-                else -> VoxelShapes.empty()
-            }
-        )
+                )
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
@@ -158,6 +166,7 @@ class NewKitchenCounterBlock(val baseBlock: Block, val topBlock: Block) : Abstra
 
                     }
                 }
+
                 else -> super.mirror(state, mirror)
             }
 
@@ -181,7 +190,6 @@ class NewKitchenCounterBlock(val baseBlock: Block, val topBlock: Block) : Abstra
         if (state.isOf(newState.block)) return
         baseBlock.defaultState.onStateReplaced(world, pos, newState, moved)
     }
-
 
 
     companion object {
@@ -248,7 +256,12 @@ class NewKitchenCounterBlock(val baseBlock: Block, val topBlock: Block) : Abstra
         private fun BlockState.isCounter() = canConnectToThis()
         private fun BlockState.canConnectToThis() = isIn(kitchenCounters)
 
-        private fun isDifferentOrientation(state: BlockState, world: BlockView, pos: BlockPos, dir: Direction): Boolean {
+        private fun isDifferentOrientation(
+            state: BlockState,
+            world: BlockView,
+            pos: BlockPos,
+            dir: Direction
+        ): Boolean {
             return world.getBlockState(pos.offset(dir)).run {
                 !canConnectToThis() || get(facing) != state.get(facing)
             }

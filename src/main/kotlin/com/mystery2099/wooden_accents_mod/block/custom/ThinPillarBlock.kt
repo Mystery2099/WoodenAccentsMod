@@ -5,12 +5,14 @@ import net.minecraft.block.Block
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.item.Items
 import net.minecraft.registry.tag.BlockTags
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
 class ThinPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape) {
-
+    override val tag: TagKey<Block>
+        get() = ModBlockTags.thinPillars
     override infix fun WorldAccess.checkUp(pos: BlockPos): Boolean = this.getUpState(pos).run {
         isIn(ModBlockTags.thinPillars) || isIn(BlockTags.FENCES)
     }

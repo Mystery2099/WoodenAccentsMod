@@ -2,10 +2,13 @@ package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
+import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.Properties
@@ -14,7 +17,9 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.WorldAccess
 
 abstract class AbstractTableBlock(baseBlock: Block) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
-    GroupedBlock, RecipeBlockData {
+    GroupedBlock, RecipeBlockData, TaggedBlock {
+    override val tag: TagKey<Block>
+        get() = ModBlockTags.tables
     init {
         defaultState = defaultState.apply {
             with(north, false)
