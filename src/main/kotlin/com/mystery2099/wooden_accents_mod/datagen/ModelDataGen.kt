@@ -159,14 +159,15 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         val block = this
         TextureMap.all(block.baseBlock).let { map ->
             val model = ModModels.modernFenceGate.upload(block, map, generator.modelCollector)
-            val modelOpen = ModModels.modernFenceGateOpen.upload(block, map, generator.modelCollector)
-
+            val openModel = ModModels.modernFenceGateOpen.upload(block, map, generator.modelCollector)
+            val wallModel = ModModels.modernFenceGateWall.upload(block, map, generator.modelCollector)
+            val openWallModel = ModModels.modernFenceGateWallOpen.upload(block, map, generator.modelCollector)
             generator.blockStateCollector.accept(BlockStateModelGenerator.createFenceGateBlockState(
                 block,
-                modelOpen,
+                openModel,
                 model,
-                modelOpen,
-                model,
+                openWallModel,
+                wallModel,
                 false
             ))
         }

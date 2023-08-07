@@ -11,12 +11,12 @@
       "y": 270
     },
     "facing=east,in_wall=true,open=false": {
-      "model": "myst2099_wooden_accents_mod:block/modern_acacia_fence_gate",
+      "model": "myst2099_wooden_accents_mod:block/modern_acacia_fence_gate_wall",
       "uvlock": false,
       "y": 270
     },
     "facing=east,in_wall=true,open=true": {
-      "model": "myst2099_wooden_accents_mod:block/modern_acacia_fence_gate_open",
+      "model": "myst2099_wooden_accents_mod:block/modern_acacia_fence_gate_wall_open",
       "uvlock": false,
       "y": 270
     },
@@ -31,12 +31,12 @@
       "y": 180
     },
     "facing=north,in_wall=true,open=false": {
-      "model": "myst2099_wooden_accents_mod:block/modern_acacia_fence_gate",
+      "model": "myst2099_wooden_accents_mod:block/modern_acacia_fence_gate_wall",
       "uvlock": false,
       "y": 180
     },
     "facing=north,in_wall=true,open=true": {
-      "model": "myst2099_wooden_accents_mod:block/modern_acacia_fence_gate_open",
+      "model": "myst2099_wooden_accents_mod:block/modern_acacia_fence_gate_wall_open",
       "uvlock": false,
       "y": 180
     },
@@ -49,11 +49,11 @@
       "uvlock": false
     },
     "facing=south,in_wall=true,open=false": {
-      "model": "myst2099_wooden_accents_mod:block/modern_acacia_fence_gate",
+      "model": "myst2099_wooden_accents_mod:block/modern_acacia_fence_gate_wall",
       "uvlock": false
     },
     "facing=south,in_wall=true,open=true": {
-      "model": "myst2099_wooden_accents_mod:block/modern_acacia_fence_gate_open",
+      "model": "myst2099_wooden_accents_mod:block/modern_acacia_fence_gate_wall_open",
       "uvlock": false
     },
     "facing=west,in_wall=false,open=false": {
@@ -67,12 +67,12 @@
       "y": 90
     },
     "facing=west,in_wall=true,open=false": {
-      "model": "myst2099_wooden_accents_mod:block/modern_acacia_fence_gate",
+      "model": "myst2099_wooden_accents_mod:block/modern_acacia_fence_gate_wall",
       "uvlock": false,
       "y": 90
     },
     "facing=west,in_wall=true,open=true": {
-      "model": "myst2099_wooden_accents_mod:block/modern_acacia_fence_gate_open",
+      "model": "myst2099_wooden_accents_mod:block/modern_acacia_fence_gate_wall_open",
       "uvlock": false,
       "y": 90
     }

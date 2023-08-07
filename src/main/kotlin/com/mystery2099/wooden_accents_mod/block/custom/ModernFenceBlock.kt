@@ -1,9 +1,9 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
+import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
@@ -26,7 +26,7 @@ class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Blo
             (this isIn BlockTags.FENCES && this isIn ModBlockTags.modernFences == this@ModernFenceBlock.defaultState.isIn(
                 ModBlockTags.modernFences
             )
-            ) || block is FenceGateBlock && FenceGateBlock.canWallConnect(this, dir)
+            ) || this.block is FenceGateBlock && FenceGateBlock.canWallConnect(this, dir)
         }
     }
 

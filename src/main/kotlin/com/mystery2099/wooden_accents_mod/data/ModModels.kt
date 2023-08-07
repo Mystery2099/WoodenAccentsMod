@@ -28,6 +28,8 @@ object ModModels {
     //Fence Gates
     val modernFenceGate = block("modern_fence_gate", TextureKey.ALL)
     val modernFenceGateOpen = block("modern_fence_gate_open", "_open", TextureKey.ALL)
+    val modernFenceGateWall = block("modern_fence_gate_wall", "_wall", TextureKey.ALL)
+    val modernFenceGateWallOpen = block("modern_fence_gate_wall_open", "_wall_open", TextureKey.ALL)
 
     //Plank Ladder
     val plankLadder = block("plank_ladder", TextureKey.ALL)
