@@ -22,6 +22,7 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
                 is ThickPillarBlock -> ModBlockTags.thickPillars +=it
                 is CustomWallBlock -> ModBlockTags.woodenWalls += it
                 is ModernFenceBlock -> ModBlockTags.modernFences += it
+                is ModernFenceGateBlock -> ModBlockTags.modernFenceGates += it
                 is PlankLadderBlock -> ModBlockTags.plankLadders += it
                 is TableBlock -> ModBlockTags.tables += it
                 is ThinBookshelfBlock -> ModBlockTags.thinBookshelves += it
@@ -34,6 +35,7 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
         ModBlockTags.pillars.add(ModBlockTags.thinPillars, ModBlockTags.thickPillars)
         BlockTags.WALLS += ModBlockTags.woodenWalls
         BlockTags.FENCES += ModBlockTags.modernFences
+        BlockTags.FENCE_GATES += ModBlockTags.modernFenceGates
         BlockTags.CLIMBABLE += ModBlockTags.plankLadders
         BlockTags.INSIDE_STEP_SOUND_BLOCKS += ModBlockTags.plankCarpets
         ModBlockTags.kitchenCounters += ModBlockTags.kitchenCabinets
@@ -55,8 +57,5 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
     private operator fun TagKey<Block>.plusAssign(tag: TagKey<Block>) { add(tag)}
     private operator fun TagKey<Block>.plusAssign(block: Block) { add(block) }
     private operator fun TagKey<Block>.plusAssign(tags: Array<TagKey<Block>>) { tags.map{ add(it) } }
-    private operator fun TagKey<Block>.plus(tag: TagKey<Block>) = add(tag)
-    private operator fun TagKey<Block>.plus(block: Block) = add(block)
-
 
 }
