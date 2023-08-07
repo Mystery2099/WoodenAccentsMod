@@ -2,9 +2,12 @@ package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import net.minecraft.block.Block
+import net.minecraft.data.server.recipe.RecipeJsonProvider
+import net.minecraft.item.Items
 import net.minecraft.registry.tag.BlockTags
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.WorldAccess
+import java.util.function.Consumer
 
 class ThinPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape) {
 
@@ -15,6 +18,11 @@ class ThinPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape) 
     override infix fun WorldAccess.checkDown(pos: BlockPos): Boolean = this.getDownState(pos).run {
         isIn(ModBlockTags.thinPillars) || isIn(BlockTags.FENCES)
     }
+
+    override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
+        this.offerRecipe(exporter, 5, this.baseBlock, Items.STICK)
+    }
+
     companion object {
         @JvmStatic
         val shape = Shape(

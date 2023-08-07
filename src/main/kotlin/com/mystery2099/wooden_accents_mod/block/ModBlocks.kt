@@ -308,7 +308,10 @@ object ModBlocks {
             }
             return type
         }
-
+    val Block.isStripped: Boolean
+        get() = id.path.contains("stripped")
+    val Block.isPlank
+        get() = id.path.contains("plank")
     private infix fun Block.registerAs(id: String): Block = registerAs(id.asWamId())
     private infix fun Block.registerAs(identifier: Identifier) =
         Registry.register(Registries.BLOCK, identifier, this).also {

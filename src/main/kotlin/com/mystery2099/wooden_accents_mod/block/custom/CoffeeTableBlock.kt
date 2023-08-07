@@ -1,8 +1,10 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.block.custom.enums.CoffeeTableType
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
+import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.group
+import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
+import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
@@ -10,13 +12,17 @@ import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
+import net.minecraft.data.server.recipe.RecipeJsonProvider
+import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.state.StateManager
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
+import java.util.function.Consumer
 
 class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock(baseBlock),
     GroupedBlock {
@@ -66,6 +72,18 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTabl
                 }
             }
         }.combined
+    }
+
+    override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 6).apply {
+            input('_', topBlock)
+            input('|', baseBlock)
+            pattern("___")
+            pattern("| |")
+            group(this@CoffeeTableBlock, "coffee_tables")
+            requires(topBlock)
+            offerTo(exporter)
+        }
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
