@@ -2,6 +2,8 @@ package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
+import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
@@ -10,12 +12,17 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.FenceGateBlock
 import net.minecraft.block.ShapeContext
+import net.minecraft.data.server.recipe.RecipeJsonProvider
+import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
+import net.minecraft.item.Items
+import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.BlockView
+import java.util.function.Consumer
 
 class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : FenceGateBlock(FabricBlockSettings.copyOf(baseGate), baseGate.woodType),
-    GroupedBlock {
+    GroupedBlock, RecipeBlockData {
     private inline val defaultShapes
         get() = arrayOf(
             Block.createCuboidShape(0.0, 0.0, 7.5, 1.0, 15.0, 8.5),
@@ -56,5 +63,17 @@ class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : Fen
     }
     override val itemGroup
         get() = ModItemGroups.outsideBlockItemGroup
+
+    override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
+        ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, this).apply {
+            input('#', baseBlock)
+            input('|', Items.STICK)
+            pattern("|#|")
+            pattern("|#|")
+            group("modern_fence_gates")
+            requires(baseBlock)
+            offerTo(exporter)
+        }
+    }
 
 }

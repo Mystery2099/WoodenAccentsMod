@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "modern_fence_gates",
+  "key": {
+    "#": {
+      "item": "minecraft:stripped_warped_stem"
+    },
+    "|": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "|#|",
+    "|#|"
+  ],
+  "result": {
+    "item": "myst2099_wooden_accents_mod:modern_warped_fence_gate"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "modern_fences",
+  "key": {
+    "#": {
+      "item": "minecraft:warped_stem"
+    },
+    "|": {
+      "item": "minecraft:stripped_warped_stem"
+    }
+  },
+  "pattern": [
+    "#|#",
+    "#|#"
+  ],
+  "result": {
+    "count": 3,
+    "item": "myst2099_wooden_accents_mod:modern_warped_fence"
+  },
+  "show_notification": true
+}
