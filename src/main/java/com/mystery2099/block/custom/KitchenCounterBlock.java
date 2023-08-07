@@ -1,13 +1,13 @@
 package com.mystery2099.block.custom;
 
-import com.mystery2099.wooden_accents_mod.ModItemGroups;
+import com.mystery2099.wooden_accents_mod.item_group.CreativeTab;
+import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups;
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock;
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags;
 import com.mystery2099.wooden_accents_mod.block.custom.AbstractWaterloggableBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.StairShape;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
@@ -227,7 +227,7 @@ public class KitchenCounterBlock extends AbstractWaterloggableBlock implements G
 
     @NotNull
     @Override
-    public ItemGroup getItemGroup() {
+    public CreativeTab getItemGroup() {
         return ModItemGroups.INSTANCE.getKitchenItemGroup();
     }
 }

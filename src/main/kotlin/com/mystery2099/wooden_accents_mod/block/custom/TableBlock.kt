@@ -1,6 +1,7 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.mystery2099.wooden_accents_mod.ModItemGroups
+import com.mystery2099.wooden_accents_mod.item_group.CreativeTab
+import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
@@ -8,7 +9,6 @@ import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
-import net.minecraft.item.ItemGroup
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
@@ -46,7 +46,7 @@ class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock
         }.combined
     }
 
-    override val itemGroup: ItemGroup
+    override val itemGroup: CreativeTab
         get() = ModItemGroups.kitchenItemGroup
 
     override fun WorldAccess.checkDirection(pos: BlockPos, direction: Direction): Boolean {

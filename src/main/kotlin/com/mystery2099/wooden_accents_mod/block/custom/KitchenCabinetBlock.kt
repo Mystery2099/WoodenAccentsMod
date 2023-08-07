@@ -1,7 +1,7 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.block.custom.KitchenCounterBlock
-import com.mystery2099.wooden_accents_mod.ModItemGroups
+import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.block_entity.custom.KitchenCabinetBlockEntity
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip

@@ -1,13 +1,13 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.mystery2099.wooden_accents_mod.ModItemGroups
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
+import com.mystery2099.wooden_accents_mod.item_group.CreativeTab
+import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.*
-import net.minecraft.item.ItemGroup
 import net.minecraft.resource.featuretoggle.FeatureFlags
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -16,7 +16,7 @@ import net.minecraft.world.BlockView
 
 class ThinBookshelfBlock(val baseBlock : Block) : ChiseledBookshelfBlock(FabricBlockSettings.copyOf(baseBlock).requires(FeatureFlags.UPDATE_1_20)),
     GroupedBlock {
-    override val itemGroup: ItemGroup
+    override val itemGroup: CreativeTab
         get() = ModItemGroups.livingRoomItemGroup
 
     companion object {
