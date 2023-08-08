@@ -28,7 +28,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class KitchenCounterBlock extends AbstractWaterloggableBlock implements GroupedBlock, TaggedBlock {
+public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableBlock {
     public static final EnumProperty<StairShape> SHAPE = Properties.STAIR_SHAPE;
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
     public static final VoxelShape TOP_SHAPE = Block.createCuboidShape(0, 14, 0, 16, 16, 16);
@@ -52,7 +52,7 @@ public class KitchenCounterBlock extends AbstractWaterloggableBlock implements G
     private static final VoxelShape SOUTH_WEST_OUTER = NORTH_WEST_OUTER.offset(0, 0, -((double) 2 / 16));
     private final Block topBlock, baseBlock;
 
-    public KitchenCounterBlock(Block baseBlock, Block topBlock) {
+    public AbstractKitchenCounterBlock(Block baseBlock, Block topBlock) {
         super(FabricBlockSettings.copyOf(baseBlock));
         this.baseBlock = baseBlock;
         this.topBlock = topBlock;
@@ -64,14 +64,14 @@ public class KitchenCounterBlock extends AbstractWaterloggableBlock implements G
         Direction direction2;
         var direction = state.get(FACING);
         var blockState = world.getBlockState(pos.offset(direction.getOpposite()));
-        if (KitchenCounterBlock.isCounter(blockState) && (direction2 = blockState.get(FACING)).getAxis() != state.get(FACING).getAxis() && KitchenCounterBlock.isDifferentOrientation(state, world, pos, direction2)) {
+        if (AbstractKitchenCounterBlock.isCounter(blockState) && (direction2 = blockState.get(FACING)).getAxis() != state.get(FACING).getAxis() && AbstractKitchenCounterBlock.isDifferentOrientation(state, world, pos, direction2)) {
             if (direction2 == direction.rotateYCounterclockwise()) {
                 return StairShape.OUTER_LEFT;
             }
             return StairShape.OUTER_RIGHT;
         }
         var blockState2 = world.getBlockState(pos.offset(direction));
-        if (KitchenCounterBlock.isCounter(blockState2) && (direction3 = blockState2.get(FACING)).getAxis() != state.get(FACING).getAxis() && KitchenCounterBlock.isDifferentOrientation(state, world, pos, direction3.getOpposite())) {
+        if (AbstractKitchenCounterBlock.isCounter(blockState2) && (direction3 = blockState2.get(FACING)).getAxis() != state.get(FACING).getAxis() && AbstractKitchenCounterBlock.isDifferentOrientation(state, world, pos, direction3.getOpposite())) {
             if (direction3 == direction.rotateYCounterclockwise()) {
                 return StairShape.INNER_LEFT;
             }
@@ -225,17 +225,5 @@ public class KitchenCounterBlock extends AbstractWaterloggableBlock implements G
 
     public Block getBaseBlock() {
         return baseBlock;
-    }
-
-    @NotNull
-    @Override
-    public CustomItemGroup getItemGroup() {
-        return ModItemGroups.getKitchenItemGroup();
-    }
-
-    @NotNull
-    @Override
-    public TagKey<Block> getTag() {
-        return ModBlockTags.getKitchenCounters();
     }
 }

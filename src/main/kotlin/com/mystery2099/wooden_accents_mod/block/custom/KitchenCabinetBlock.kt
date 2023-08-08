@@ -1,6 +1,6 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.mystery2099.block.custom.KitchenCounterBlock
+import com.mystery2099.block.custom.AbstractKitchenCounterBlock
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
@@ -163,12 +163,12 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
         pos: BlockPos?,
         context: ShapeContext?
     ): VoxelShape = when (state.get(facing)) {
-        Direction.NORTH -> KitchenCounterBlock.NORTH_SHAPE
-        Direction.EAST -> KitchenCounterBlock.NORTH_SHAPE.rotateLeft()
-        Direction.SOUTH -> KitchenCounterBlock.NORTH_SHAPE.flip()
-        Direction.WEST -> KitchenCounterBlock.NORTH_SHAPE.rotateRight()
+        Direction.NORTH -> AbstractKitchenCounterBlock.NORTH_SHAPE
+        Direction.EAST -> AbstractKitchenCounterBlock.NORTH_SHAPE.rotateLeft()
+        Direction.SOUTH -> AbstractKitchenCounterBlock.NORTH_SHAPE.flip()
+        Direction.WEST -> AbstractKitchenCounterBlock.NORTH_SHAPE.rotateRight()
         else -> VoxelShapes.fullCube()
-    }.unifiedWith(KitchenCounterBlock.TOP_SHAPE)
+    }.unifiedWith(AbstractKitchenCounterBlock.TOP_SHAPE)
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 4).apply {
