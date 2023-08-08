@@ -62,6 +62,9 @@ class CompositeVoxelShape(vararg voxelShapes: VoxelShape) {
     operator fun plusAssign(voxelShapes: Array<VoxelShape>) {
         addAll(*voxelShapes)
     }
+    fun VoxelShape.addIf(boolean: Boolean) {
+        if (boolean) add(this)
+    }
 
     fun remove(voxelShape: VoxelShape) = this.also { _voxelShapes -= voxelShape }
     fun removeAll(voxelShapes: Collection<VoxelShape>) = this.also {
