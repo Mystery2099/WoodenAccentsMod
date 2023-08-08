@@ -1,7 +1,7 @@
 package com.mystery2099.block.custom;
 
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock;
-import com.mystery2099.wooden_accents_mod.item_group.CreativeTab;
+import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup;
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups;
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock;
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags;
@@ -229,7 +229,7 @@ public class KitchenCounterBlock extends AbstractWaterloggableBlock implements G
 
     @NotNull
     @Override
-    public CreativeTab getItemGroup() {
+    public CustomItemGroup getItemGroup() {
         return ModItemGroups.getKitchenItemGroup();
     }
 

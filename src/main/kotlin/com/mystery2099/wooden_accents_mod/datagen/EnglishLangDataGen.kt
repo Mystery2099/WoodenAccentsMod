@@ -2,7 +2,7 @@ package com.mystery2099.wooden_accents_mod.datagen
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.id
-import com.mystery2099.wooden_accents_mod.item_group.CreativeTab
+import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
 import net.minecraft.block.Block
@@ -12,7 +12,7 @@ class EnglishLangDataGen(dataOutput: FabricDataOutput) : FabricLanguageProvider(
     override fun generateTranslations(translationBuilder: TranslationBuilder) {
         with(translationBuilder) {
             ModBlocks.blocks.forEach{it.genLangName(this)}
-            CreativeTab.instances.forEach{it.itemGroup.genLangName(this)}
+            CustomItemGroup.instances.forEach{it.itemGroup.genLangName(this)}
         }
 
     }

@@ -11,7 +11,7 @@ import net.minecraft.item.Items
 import net.minecraft.text.Text
 import java.util.function.Consumer
 
-class CreativeTab(name: String) {
+class CustomItemGroup(name: String) {
     val itemGroup: ItemGroup
     inline val entries: List<ItemConvertible>
         get() = run {
@@ -77,9 +77,9 @@ class CreativeTab(name: String) {
     fun reloadSearchProvider() = itemGroup.reloadSearchProvider()
 
     companion object {
-        val instances: List<CreativeTab>
+        val instances: List<CustomItemGroup>
             get() = mutableInstances
 
-        private val mutableInstances: MutableList<CreativeTab> = mutableListOf()
+        private val mutableInstances: MutableList<CustomItemGroup> = mutableListOf()
     }
 }

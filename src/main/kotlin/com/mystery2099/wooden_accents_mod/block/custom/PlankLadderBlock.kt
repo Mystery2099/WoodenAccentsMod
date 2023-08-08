@@ -2,7 +2,7 @@ package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
-import com.mystery2099.wooden_accents_mod.item_group.CreativeTab
+import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
@@ -24,7 +24,7 @@ import java.util.function.Consumer
 class PlankLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(FabricBlockSettings.copyOf(Blocks.LADDER)),
     GroupedBlock {
 
-    override val itemGroup: CreativeTab
+    override val itemGroup: CustomItemGroup
         get() = ModItemGroups.outsideBlockItemGroup
     override val tag: TagKey<Block>
         get() = ModBlockTags.plankLadders

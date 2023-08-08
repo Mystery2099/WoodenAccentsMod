@@ -5,7 +5,7 @@ import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockDat
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
-import com.mystery2099.wooden_accents_mod.item_group.CreativeTab
+import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
@@ -30,7 +30,7 @@ class ThinBookshelfBlock(val baseBlock: Block) :
     GroupedBlock, RecipeBlockData, TaggedBlock {
     override val tag: TagKey<Block>
         get() = ModBlockTags.thinBookshelves
-    override val itemGroup: CreativeTab
+    override val itemGroup: CustomItemGroup
         get() = ModItemGroups.livingRoomItemGroup
 
     companion object {

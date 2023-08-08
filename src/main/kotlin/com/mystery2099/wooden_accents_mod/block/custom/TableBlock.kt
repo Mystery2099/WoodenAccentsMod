@@ -2,7 +2,7 @@ package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.group
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
-import com.mystery2099.wooden_accents_mod.item_group.CreativeTab
+import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
@@ -65,7 +65,7 @@ class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock
         }
     }
 
-    override val itemGroup: CreativeTab
+    override val itemGroup: CustomItemGroup
         get() = ModItemGroups.kitchenItemGroup
 
     override fun WorldAccess.checkDirection(pos: BlockPos, direction: Direction): Boolean {

@@ -3,13 +3,10 @@ package com.mystery2099.wooden_accents_mod.block.custom
 import com.mystery2099.wooden_accents_mod.block.custom.enums.ConnectingLadderShape
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
-import com.mystery2099.wooden_accents_mod.item_group.CreativeTab
+import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.unifyElements
+import com.mystery2099.wooden_accents_mod.util.CompositeVoxelShape
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -32,7 +29,7 @@ class ConnectingLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(Fa
 }) {
     override val tag: TagKey<Block>
         get() = ModBlockTags.connectingLadders
-    override val itemGroup: CreativeTab
+    override val itemGroup: CustomItemGroup
         get() = ModItemGroups.outsideBlockItemGroup
 
     init {
@@ -48,10 +45,10 @@ class ConnectingLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(Fa
         pos: BlockPos,
         neighborPos: BlockPos?
     ): BlockState {
-        val connectsLeft: Boolean = world.getBlockState(pos.offset(state[FACING].rotateYClockwise())).isConnectingLadder()
-        val connectsRight: Boolean = world.getBlockState(pos.offset(state[FACING].rotateYCounterclockwise())).isConnectingLadder()
+        val shouldConnectLeft: Boolean = world.getBlockState(pos.offset(state[FACING].rotateYClockwise())).isConnectingLadder()
+        val shouldConnectRight: Boolean = world.getBlockState(pos.offset(state[FACING].rotateYCounterclockwise())).isConnectingLadder()
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
-            .withShape(connectsLeft, connectsRight)
+            .withShape(shouldConnectLeft, shouldConnectRight)
     }
     private fun BlockState.isConnectingLadder(): Boolean = this isIn tag
     private fun BlockState.withShape(left: Boolean, right: Boolean): BlockState = this.withIfExists(shape, run {
@@ -73,7 +70,7 @@ class ConnectingLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(Fa
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
-    ): VoxelShape = shapeMap[state[shape]]?.get(state[FACING]) ?: super.getOutlineShape(state, world, pos, context)
+    ): VoxelShape = shapeMap[state[shape]]?.get(state[FACING])?.get() ?: super.getOutlineShape(state, world, pos, context)
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
         super.offerRecipe(exporter, baseBlock, 8, "connecting_ladder")
@@ -81,48 +78,48 @@ class ConnectingLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(Fa
     companion object {
         val shape = ModProperties.connectingLadderShape
 
-        private val singleShapeArray = arrayOf(
+        private val singleshape = CompositeVoxelShape.of(
             Block.createCuboidShape(2.0, 0.0, 15.0, 4.0, 16.0, 16.0),
             Block.createCuboidShape(12.0, 0.0, 15.0, 14.0, 16.0, 16.0),
             Block.createCuboidShape(2.0, 1.0, 14.5, 14.0, 15.0, 15.0)
         )
 
-        private val leftShapeArray = arrayOf(
+        private val leftShape = CompositeVoxelShape.of(
             Block.createCuboidShape(12.0, 0.0, 15.0, 14.0, 16.0, 16.0),
             Block.createCuboidShape(0.0, 1.0, 14.5, 14.0, 15.0, 15.0)
         )
 
-        private val rightShapeArray = arrayOf(
+        private val rightShape = CompositeVoxelShape.of(
             Block.createCuboidShape(2.0, 0.0, 15.0, 4.0, 16.0, 16.0),
             Block.createCuboidShape(2.0, 1.0, 14.5, 16.0, 15.0, 15.0)
         )
 
         private val singleShapeMap = mapOf(
-            Direction.NORTH to singleShapeArray.unifyElements(),
-            Direction.EAST to singleShapeArray.rotateLeft(),
-            Direction.SOUTH to singleShapeArray.flip(),
-            Direction.WEST to singleShapeArray.rotateRight()
+            Direction.NORTH to singleshape,
+            Direction.EAST to singleshape.rotatedLeft(),
+            Direction.SOUTH to singleshape.flipped(),
+            Direction.WEST to singleshape.rotatedRight()
         )
         private val centerShapeMap = mutableMapOf(
-            Direction.NORTH to Block.createCuboidShape(0.0, 1.0, 14.5, 16.0, 15.0, 15.0)
+            Direction.NORTH to CompositeVoxelShape.createCuboidShape(0.0, 1.0, 14.5, 16.0, 15.0, 15.0)
         ).also {
-            it[Direction.EAST] = it[Direction.NORTH]?.rotateLeft()
-            it[Direction.SOUTH] = it[Direction.NORTH]?.flip()
-            it[Direction.WEST] = it[Direction.NORTH]?.rotateRight()
+            it[Direction.EAST] = it[Direction.NORTH]?.rotatedLeft()!!
+            it[Direction.SOUTH] = it[Direction.NORTH]?.flipped()!!
+            it[Direction.WEST] = it[Direction.NORTH]?.rotatedRight()!!
         }.toMap()
 
         private val leftShapeMap = mapOf(
-            Direction.NORTH to leftShapeArray.unifyElements(),
-            Direction.EAST to leftShapeArray.rotateLeft(),
-            Direction.SOUTH to leftShapeArray.flip(),
-            Direction.WEST to leftShapeArray.rotateRight()
+            Direction.NORTH to leftShape,
+            Direction.EAST to leftShape.rotatedLeft(),
+            Direction.SOUTH to leftShape.flipped(),
+            Direction.WEST to leftShape.rotatedRight()
         )
 
         private val rightShapeMap = mapOf(
-            Direction.NORTH to rightShapeArray.unifyElements(),
-            Direction.EAST to rightShapeArray.rotateLeft(),
-            Direction.SOUTH to rightShapeArray.flip(),
-            Direction.WEST to rightShapeArray.rotateRight()
+            Direction.NORTH to rightShape,
+            Direction.EAST to rightShape.rotatedLeft(),
+            Direction.SOUTH to rightShape.flipped(),
+            Direction.WEST to rightShape.rotatedRight()
         )
         private val shapeMap = mapOf(
             ConnectingLadderShape.SINGLE to singleShapeMap,
