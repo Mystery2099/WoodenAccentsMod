@@ -23,6 +23,7 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
         BlockTags.FENCES += ModBlockTags.modernFences
         BlockTags.FENCE_GATES += ModBlockTags.modernFenceGates
         BlockTags.CLIMBABLE += ModBlockTags.plankLadders
+        BlockTags.CLIMBABLE += ModBlockTags.connectingLadders
         BlockTags.INSIDE_STEP_SOUND_BLOCKS += ModBlockTags.plankCarpets
         ModBlockTags.kitchenCounters += ModBlockTags.kitchenCabinets
     }

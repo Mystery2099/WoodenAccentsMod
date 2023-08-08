@@ -31,8 +31,12 @@ object ModModels {
     val modernFenceGateWall = block("modern_fence_gate_wall", "_wall", TextureKey.ALL)
     val modernFenceGateWallOpen = block("modern_fence_gate_wall_open", "_wall_open", TextureKey.ALL)
 
-    //Plank Ladder
+    //Ladders
     val plankLadder = block("plank_ladder", TextureKey.ALL)
+    val connectingLadder = block("connecting_ladder", TextureKey.ALL)
+    val connectingLadderLeft = block("connecting_ladder_left", "_left", TextureKey.ALL)
+    val connectingLadderRight = block("connecting_ladder_right", "_right", TextureKey.ALL)
+    val connectingLadderCenter = block("connecting_ladder_center", "_center", TextureKey.ALL)
     /*---------------Living Room Stuff----------------*/
     //Table Models
     val tableItem = item("table", TextureKey.TOP, legs)

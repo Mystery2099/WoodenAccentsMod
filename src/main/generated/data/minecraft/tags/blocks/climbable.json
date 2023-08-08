@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#myst2099_wooden_accents_mod:plank_ladders"
+    "#myst2099_wooden_accents_mod:plank_ladders",
+    "#myst2099_wooden_accents_mod:connecting_ladders"
   ]
 }

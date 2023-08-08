@@ -14,7 +14,7 @@ import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.TagKey
 import java.util.function.Consumer
 
-abstract class AbstractLadderBlock(settings: Settings) : LadderBlock(settings), GroupedBlock, RecipeBlockData, TaggedBlock {
+abstract class AbstractCustomLadderBlock(settings: Settings) : LadderBlock(settings), GroupedBlock, RecipeBlockData, TaggedBlock {
     override val tag: TagKey<Block>
         get() = BlockTags.CLIMBABLE
     fun offerRecipe(exporter: Consumer<RecipeJsonProvider>, input: ItemConvertible, outputNum: Int, group: String) {

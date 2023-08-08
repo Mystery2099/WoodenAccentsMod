@@ -106,6 +106,18 @@ object ModBlocks {
     val crimsonPlankLadder = PlankLadderBlock(Blocks.CRIMSON_PLANKS).registerAs("crimson_plank_ladder")
     val warpedPlankLadder = PlankLadderBlock(Blocks.WARPED_PLANKS).registerAs("warped_plank_ladder")
 
+    //Stripped Ladders
+    val strippedOakLadder = ConnectingLadderBlock(Blocks.STRIPPED_OAK_LOG).registerAs("stripped_oak_ladder")
+    val strippedSpruceLadder = ConnectingLadderBlock(Blocks.STRIPPED_SPRUCE_LOG).registerAs("stripped_spruce_ladder")
+    val strippedBirchLadder = ConnectingLadderBlock(Blocks.STRIPPED_BIRCH_LOG).registerAs("stripped_birch_ladder")
+    val strippedJungleLadder = ConnectingLadderBlock(Blocks.STRIPPED_JUNGLE_LOG).registerAs("stripped_jungle_ladder")
+    val strippedAcaciaLadder = ConnectingLadderBlock(Blocks.STRIPPED_ACACIA_LOG).registerAs("stripped_acacia_ladder")
+    val strippedDarkOakLadder = ConnectingLadderBlock(Blocks.STRIPPED_DARK_OAK_LOG).registerAs("stripped_dark_oak_ladder")
+    val strippedMangroveLadder = ConnectingLadderBlock(Blocks.STRIPPED_MANGROVE_LOG).registerAs("stripped_mangrove_ladder")
+    val strippedCherryLadder = ConnectingLadderBlock(Blocks.STRIPPED_CHERRY_LOG).registerAs("stripped_cherry_ladder")
+    val strippedBambooLadder = ConnectingLadderBlock(Blocks.STRIPPED_BAMBOO_BLOCK).registerAs("stripped_bamboo_ladder")
+    val strippedCrimsonLadder = ConnectingLadderBlock(Blocks.STRIPPED_CRIMSON_STEM).registerAs("stripped_crimson_ladder")
+    val strippedWarpedLadder = ConnectingLadderBlock(Blocks.STRIPPED_WARPED_STEM).registerAs("stripped_warped_ladder")
     /*---------------End Outside Stuff----------------*/
 
     /*---------------Living Room Stuff----------------*/

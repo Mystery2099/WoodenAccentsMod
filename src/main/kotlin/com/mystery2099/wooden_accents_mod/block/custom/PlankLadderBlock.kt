@@ -21,7 +21,7 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import java.util.function.Consumer
 
-class PlankLadderBlock(val baseBlock: Block) : AbstractLadderBlock(FabricBlockSettings.copyOf(Blocks.LADDER)),
+class PlankLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(FabricBlockSettings.copyOf(Blocks.LADDER)),
     GroupedBlock {
 
     override val itemGroup: CreativeTab

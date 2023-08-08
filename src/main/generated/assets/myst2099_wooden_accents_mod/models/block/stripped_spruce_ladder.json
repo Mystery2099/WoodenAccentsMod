@@ -1,0 +1,6 @@
+{
+  "parent": "myst2099_wooden_accents_mod:block/connecting_ladder",
+  "textures": {
+    "all": "minecraft:block/stripped_spruce_log"
+  }
+}

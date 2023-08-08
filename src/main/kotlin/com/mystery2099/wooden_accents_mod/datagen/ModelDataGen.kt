@@ -11,6 +11,7 @@ import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
 import com.mystery2099.wooden_accents_mod.block.custom.*
 import com.mystery2099.wooden_accents_mod.block.custom.enums.CoffeeTableType
+import com.mystery2099.wooden_accents_mod.block.custom.enums.ConnectingLadderShape
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
@@ -75,6 +76,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
             is ModernFenceBlock -> block.genBlockStateModels(this)
             is ModernFenceGateBlock -> block.genBlockStateModels(this)
             is PlankLadderBlock -> block.genBlockStateModels(this)
+            is ConnectingLadderBlock -> block.genBlockStateModels(this)
             //Living Room
             is TableBlock -> block.genBlockStateModels(this)
             is CoffeeTableBlock -> block.genBlockStateModels(this)
@@ -177,6 +179,44 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     private fun PlankLadderBlock.genBlockStateModels(generator: BlockStateModelGenerator) {
         ModModels.plankLadder.upload(this, TextureMap.all(this.baseBlock), generator.modelCollector)
         generator.registerNorthDefaultHorizontalRotation(this)
+    }
+    private fun ConnectingLadderBlock.genBlockStateModels(generator: BlockStateModelGenerator) {
+        val textureMap = TextureMap.all(this.baseBlock)
+        val singleModel = ModModels.connectingLadder.upload(this, textureMap, generator.modelCollector)
+        val leftModel = ModModels.connectingLadderLeft.upload(this, textureMap, generator.modelCollector)
+        val centerModel = ModModels.connectingLadderCenter.upload(this, textureMap, generator.modelCollector)
+        val rightModel = ModModels.connectingLadderRight.upload(this, textureMap, generator.modelCollector)
+        generator.blockStateCollector.accept(
+            VariantsBlockStateSupplier.create(this).coordinate(
+                BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, ModProperties.connectingLadderShape).apply {
+                    val northSingleVariant = singleModel.asBlockStateVariant()
+                    val northLeftVariant = leftModel.asBlockStateVariant()
+                    val northCenterVariant = centerModel.asBlockStateVariant()
+                    val northRightVariant = rightModel.asBlockStateVariant()
+
+                    register(Direction.NORTH, ConnectingLadderShape.SINGLE, northSingleVariant)
+                    register(Direction.NORTH, ConnectingLadderShape.LEFT, northLeftVariant)
+                    register(Direction.NORTH, ConnectingLadderShape.CENTER, northCenterVariant)
+                    register(Direction.NORTH, ConnectingLadderShape.RIGHT, northRightVariant)
+
+                    register(Direction.EAST, ConnectingLadderShape.SINGLE, northSingleVariant.withYRotationOf(Rotation.R90))
+                    register(Direction.EAST, ConnectingLadderShape.LEFT, northLeftVariant.withYRotationOf(Rotation.R90))
+                    register(Direction.EAST, ConnectingLadderShape.CENTER, northCenterVariant.withYRotationOf(Rotation.R90))
+                    register(Direction.EAST, ConnectingLadderShape.RIGHT, northRightVariant.withYRotationOf(Rotation.R90))
+
+                    register(Direction.SOUTH, ConnectingLadderShape.SINGLE, northSingleVariant.withYRotationOf(Rotation.R180))
+                    register(Direction.SOUTH, ConnectingLadderShape.LEFT, northLeftVariant.withYRotationOf(Rotation.R180))
+                    register(Direction.SOUTH, ConnectingLadderShape.CENTER, northCenterVariant.withYRotationOf(Rotation.R180))
+                    register(Direction.SOUTH, ConnectingLadderShape.RIGHT, northRightVariant.withYRotationOf(Rotation.R180))
+
+                    register(Direction.WEST, ConnectingLadderShape.SINGLE, northSingleVariant.withYRotationOf(Rotation.R270))
+                    register(Direction.WEST, ConnectingLadderShape.LEFT, northLeftVariant.withYRotationOf(Rotation.R270))
+                    register(Direction.WEST, ConnectingLadderShape.CENTER, northCenterVariant.withYRotationOf(Rotation.R270))
+                    register(Direction.WEST, ConnectingLadderShape.RIGHT, northRightVariant.withYRotationOf(Rotation.R270))
+
+                }
+            )
+        )
     }
     /*------------ End Ladders -----------*/
 
@@ -365,7 +405,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
             generator.blockStateCollector.accept(VariantsBlockStateSupplier.create(block)
                 .coordinate(
-                    block.variantMap(
+                    block.connectingLadderVariantMap(
                         blockModel = normalModel,
                         innerLeftModel = ModModels.kitchenCounterInnerLeftCorner.upload(block, map, generator.modelCollector),
                         outerLeftModel = ModModels.kitchenCounterOuterLeftCorner.upload(block, map, generator.modelCollector)
@@ -376,7 +416,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
         }
     }
 
-    private fun KitchenCounterBlock.variantMap(
+    private fun KitchenCounterBlock.connectingLadderVariantMap(
         blockModel: Identifier,
         innerLeftModel: Identifier,
         outerLeftModel: Identifier
