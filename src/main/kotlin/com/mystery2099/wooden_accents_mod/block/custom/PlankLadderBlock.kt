@@ -2,6 +2,7 @@ package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
+import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
@@ -13,6 +14,8 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.ShapeContext
+import net.minecraft.data.client.BlockStateModelGenerator
+import net.minecraft.data.client.TextureMap
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.math.BlockPos
@@ -44,6 +47,12 @@ class PlankLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(FabricB
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
         offerRecipe(exporter, baseBlock, 8, "plank_ladders")
     }
+
+    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
+        ModModels.plankLadder.upload(this, TextureMap.all(baseBlock), generator.modelCollector)
+        generator.registerNorthDefaultHorizontalRotation(this)
+    }
+
     companion object {
         private val northShapes = arrayOf(
             createCuboidShape(2.0, 1.0, 15.0, 14.0, 4.0, 16.0),

@@ -1,5 +1,7 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
@@ -9,17 +11,35 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.WallBlock
+import net.minecraft.data.client.BlockStateModelGenerator
+import net.minecraft.data.client.Models
+import net.minecraft.data.client.TextureKey
+import net.minecraft.data.client.TextureMap
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.tag.TagKey
 import java.util.function.Consumer
 
 class CustomWallBlock(val baseBlock: Block) : WallBlock(FabricBlockSettings.copyOf(baseBlock)), GroupedBlock,
-    RecipeBlockData, TaggedBlock {
+    RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
     override val tag: TagKey<Block>
         get() = ModBlockTags.woodenWalls
     override val itemGroup get() = ModItemGroups.outsideBlockItemGroup
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
         FabricRecipeProvider.offerWallRecipe(exporter, RecipeCategory.DECORATIONS, this, baseBlock)
+    }
+
+    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
+        TextureMap().put(TextureKey.WALL, this.baseBlock.textureId).let { map ->
+            generator.blockStateCollector.accept(
+                BlockStateModelGenerator.createWallBlockState(
+                    this,
+                    Models.TEMPLATE_WALL_POST.upload(this, map, generator.modelCollector),
+                    Models.TEMPLATE_WALL_SIDE.upload(this, map, generator.modelCollector),
+                    Models.TEMPLATE_WALL_SIDE_TALL.upload(this, map, generator.modelCollector)
+                )
+            )
+            generator.registerParentedItemModel(this, Models.WALL_INVENTORY.upload(this, map, generator.modelCollector))
+        }
     }
 }

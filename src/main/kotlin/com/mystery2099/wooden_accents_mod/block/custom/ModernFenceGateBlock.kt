@@ -1,10 +1,12 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
+import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
@@ -14,6 +16,8 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.FenceGateBlock
 import net.minecraft.block.ShapeContext
+import net.minecraft.data.client.BlockStateModelGenerator
+import net.minecraft.data.client.TextureMap
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.item.Items
@@ -25,7 +29,7 @@ import net.minecraft.world.BlockView
 import java.util.function.Consumer
 
 class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : FenceGateBlock(FabricBlockSettings.copyOf(baseGate), baseGate.woodType),
-    GroupedBlock, RecipeBlockData, TaggedBlock {
+    GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
     override val tag: TagKey<Block>
         get() = ModBlockTags.modernFenceGates
     override val itemGroup
@@ -79,6 +83,23 @@ class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : Fen
             group("modern_fence_gates")
             requires(baseBlock)
             offerTo(exporter)
+        }
+    }
+
+    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
+        TextureMap.all(baseBlock).let { map ->
+            val model = ModModels.modernFenceGate.upload(this, map, generator.modelCollector)
+            val openModel = ModModels.modernFenceGateOpen.upload(this, map, generator.modelCollector)
+            val wallModel = ModModels.modernFenceGateWall.upload(this, map, generator.modelCollector)
+            val openWallModel = ModModels.modernFenceGateWallOpen.upload(this, map, generator.modelCollector)
+            generator.blockStateCollector.accept(BlockStateModelGenerator.createFenceGateBlockState(
+                this,
+                openModel,
+                model,
+                openWallModel,
+                wallModel,
+                false
+            ))
         }
     }
 

@@ -1,5 +1,8 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.modelId
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
@@ -11,6 +14,10 @@ import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.CarpetBlock
 import net.minecraft.block.Material
+import net.minecraft.data.client.BlockStateModelGenerator
+import net.minecraft.data.client.Models
+import net.minecraft.data.client.TextureKey
+import net.minecraft.data.client.TextureMap
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.item.Items
@@ -27,7 +34,7 @@ class FloorCoveringBlock(val baseBlock: Block) : CarpetBlock(
             requires(FeatureFlags.UPDATE_1_20)
         }
     }
-), GroupedBlock, RecipeBlockData, TaggedBlock {
+), GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
 
     override val itemGroup get() = ModItemGroups.livingRoomItemGroup
     override val tag: TagKey<Block>
@@ -42,5 +49,10 @@ class FloorCoveringBlock(val baseBlock: Block) : CarpetBlock(
             requires(baseBlock)
             offerTo(exporter)
         }
+    }
+
+    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
+            generator.registerSingleton(this, TextureMap().put(TextureKey.WOOL, this.baseBlock.textureId), Models.CARPET)
+            generator.registerParentedItemModel(this, this.modelId)
     }
 }

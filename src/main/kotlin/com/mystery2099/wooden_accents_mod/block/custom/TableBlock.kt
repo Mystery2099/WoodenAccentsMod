@@ -1,19 +1,30 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
+import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asBlockModelId
+import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asWamId
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.getItemModelId
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
+import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.group
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
+import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
+import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
+import com.mystery2099.wooden_accents_mod.util.WhenUtil
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
+import net.minecraft.data.client.*
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.recipe.book.RecipeCategory
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
@@ -22,8 +33,8 @@ import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
 class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock(baseBlock) {
-    //init { WoodenAccentsModItemGroups.livingRoomItems += this }
-
+    override val itemGroup: CustomItemGroup
+        get() = ModItemGroups.kitchenItemGroup
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
         state: BlockState,
@@ -65,8 +76,74 @@ class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock
         }
     }
 
-    override val itemGroup: CustomItemGroup
-        get() = ModItemGroups.kitchenItemGroup
+    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
+        TextureMap().apply {
+            put(TextureKey.TOP, topBlock.textureId)
+            put(ModModels.legs, baseBlock.textureId)
+        }.also { map ->
+            generator.blockStateCollector.accept(
+                blockStateModelSupplier(
+                    ModModels.tableTop.upload(this, map, generator.modelCollector),
+                    "${woodType.name.lowercase()}_table_single_leg".asWamId().asBlockModelId(),
+                    "${woodType.name.lowercase()}_table_end_leg".asWamId().asBlockModelId(),
+                    "${woodType.name.lowercase()}_table_corner_leg".asWamId().asBlockModelId(),
+                )
+            )
+            ModModels.tableItem.upload(this.getItemModelId(), map, generator.modelCollector)
+        }
+    }
+
+    private fun blockStateModelSupplier(
+        topModel: Identifier,
+        singleLegModel: Identifier,
+        endLegModel: Identifier,
+        cornerLegModel: Identifier,
+    ): MultipartBlockStateSupplier = MultipartBlockStateSupplier.create(this).apply {
+        val northEndLegVariant = endLegModel.asBlockStateVariant()
+        val northEastCornerVariant = cornerLegModel.asBlockStateVariant()
+
+        with(topModel.asBlockStateVariant())
+        with(
+            When.allOf(WhenUtil.notNorth, WhenUtil.notEast, WhenUtil.notSouth, WhenUtil.notWest),
+            singleLegModel.asBlockStateVariant()
+        )
+        //Ends
+        with(
+            When.allOf(WhenUtil.notNorth, WhenUtil.notEast, WhenUtil.south, WhenUtil.notWest),
+            northEndLegVariant
+        )
+        with(
+            When.allOf(WhenUtil.notNorth, WhenUtil.notEast, WhenUtil.notSouth, WhenUtil.west),
+            northEndLegVariant.withYRotationOf(VariantSettings.Rotation.R90)
+        )
+        with(
+            When.allOf(WhenUtil.north, WhenUtil.notEast, WhenUtil.notSouth, WhenUtil.notWest),
+            northEndLegVariant.withYRotationOf(VariantSettings.Rotation.R180)
+        )
+        with(
+            When.allOf(WhenUtil.notNorth, WhenUtil.east, WhenUtil.notSouth, WhenUtil.notWest),
+            northEndLegVariant.withYRotationOf(VariantSettings.Rotation.R270)
+        )
+        //Corners
+        with(
+            When.allOf(WhenUtil.notNorth, WhenUtil.notEast, WhenUtil.south, WhenUtil.west),
+            northEastCornerVariant
+        )
+        with(
+            When.allOf(WhenUtil.notNorth, WhenUtil.east, WhenUtil.south, WhenUtil.notWest),
+            northEastCornerVariant.withYRotationOf(VariantSettings.Rotation.R270)
+        )
+        with(
+            When.allOf(WhenUtil.north, WhenUtil.notEast, WhenUtil.notSouth, WhenUtil.west),
+            northEastCornerVariant.withYRotationOf(VariantSettings.Rotation.R90)
+        )
+        with(
+            When.allOf(WhenUtil.north, WhenUtil.east, WhenUtil.notSouth, WhenUtil.notWest),
+            northEastCornerVariant.withYRotationOf(VariantSettings.Rotation.R180)
+        )
+    }
+
+
 
     override fun WorldAccess.checkDirection(pos: BlockPos, direction: Direction): Boolean {
         return getBlockState(pos.offset(direction)).block is TableBlock
@@ -77,7 +154,7 @@ class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock
         val legShape: VoxelShape = createCuboidShape(6.0, 0.0, 6.0, 10.0, 13.0, 10.0)
         val northEndLegShape: VoxelShape = createCuboidShape(6.0, 0.0, 1.0, 10.0, 13.0, 5.0)
         val eastEndLegShape: VoxelShape = northEndLegShape.rotateLeft()
-        val southEndLegShape : VoxelShape = northEndLegShape.flip()
+        val southEndLegShape: VoxelShape = northEndLegShape.flip()
         val westEndLegShape: VoxelShape = northEndLegShape.rotateRight()
         val northEastLegShape: VoxelShape = createCuboidShape(11.0, 0.0, 1.0, 15.0, 13.0, 5.0)
         val northWestLegShape: VoxelShape = northEastLegShape.rotateRight()

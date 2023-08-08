@@ -1,25 +1,38 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.addIf
+import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asBlockModelId
+import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asWamId
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.getItemModelId
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
 import com.mystery2099.wooden_accents_mod.block.custom.enums.CoffeeTableType
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
+import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.group
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties
+import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
+import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.putModel
+import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
+import com.mystery2099.wooden_accents_mod.util.WhenUtil
+import com.mystery2099.wooden_accents_mod.util.WhenUtil.and
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
+import net.minecraft.data.client.*
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.state.StateManager
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
@@ -95,6 +108,48 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTabl
             requires(topBlock)
             offerTo(exporter)
         }
+    }
+
+    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
+        TextureMap().apply {
+            put(TextureKey.TOP, topBlock.textureId)
+            put(ModModels.legs, baseBlock.textureId)
+        }.also { map ->
+            generator.blockStateCollector.accept(
+                blockStateModelSupplier(
+                    shortTopModel = ModModels.coffeeTableTopShort.upload(this, map, generator.modelCollector),
+                    shortLegModel = "${this.woodType.name.lowercase()}_coffee_table_leg_short".asWamId().asBlockModelId(),
+                    tallTopModel = ModModels.coffeeTableTopTall.upload(this, map, generator.modelCollector),
+                    tallLegModel = "${this.woodType.name.lowercase()}_coffee_table_leg_tall".asWamId().asBlockModelId(),
+                )
+            )
+            ModModels.coffeeTableInventory.upload(this.getItemModelId(), map, generator.modelCollector)
+        }
+    }
+    private fun blockStateModelSupplier(
+        shortTopModel: Identifier,
+        shortLegModel: Identifier,
+        tallTopModel: Identifier,
+        tallLegModel: Identifier
+    ): MultipartBlockStateSupplier = MultipartBlockStateSupplier.create(this).apply {
+        val shortNorthEastVariant = shortLegModel.asBlockStateVariant()
+        val tallNorthEastVariant = tallLegModel.asBlockStateVariant()
+
+        val isTall = WhenUtil.newWhen.set(ModProperties.coffeeTableType, CoffeeTableType.TALL)
+        val isShort = WhenUtil.newWhen.set(ModProperties.coffeeTableType, CoffeeTableType.SHORT)
+
+        mapOf(
+            isShort to BlockStateVariant().putModel(shortTopModel),
+            WhenUtil.notNorthEast to shortNorthEastVariant,
+            WhenUtil.notNorthWest to shortNorthEastVariant.withYRotationOf(VariantSettings.Rotation.R270),
+            WhenUtil.notSouthEast to shortNorthEastVariant.withYRotationOf(VariantSettings.Rotation.R90),
+            WhenUtil.notSouthWest to shortNorthEastVariant.withYRotationOf(VariantSettings.Rotation.R180),
+            isTall to tallTopModel.asBlockStateVariant(),
+            WhenUtil.notNorthEast and isTall to tallNorthEastVariant,
+            WhenUtil.notNorthWest and isTall to tallNorthEastVariant.withYRotationOf(VariantSettings.Rotation.R270),
+            WhenUtil.notSouthEast and isTall to tallNorthEastVariant.withYRotationOf(VariantSettings.Rotation.R90),
+            WhenUtil.notSouthWest and isTall to tallNorthEastVariant.withYRotationOf(VariantSettings.Rotation.R180)
+        ).forEach(::with)
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {

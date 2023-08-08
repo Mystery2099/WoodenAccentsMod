@@ -1,17 +1,24 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
+import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
+import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.uvLock
+import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withXRotationOf
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.plus
+import com.mystery2099.wooden_accents_mod.util.WhenUtil
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.ShapeContext
+import net.minecraft.data.client.MultipartBlockStateSupplier
+import net.minecraft.data.client.VariantSettings
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.item.ItemConvertible
@@ -21,6 +28,7 @@ import net.minecraft.registry.tag.TagKey
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.Properties
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
@@ -30,7 +38,7 @@ import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
 abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shape) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
-    GroupedBlock, RecipeBlockData, TaggedBlock {
+    GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
     override val itemGroup get() = ModItemGroups.outsideBlockItemGroup
     override val tag: TagKey<Block>
         get() = ModBlockTags.pillars
@@ -107,6 +115,14 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
             requires(primaryInput)
             offerTo(exporter)
         }
+    }
+    fun genBlockStateModelSupplier(
+        centerModel: Identifier,
+        bottomModel: Identifier
+    ): MultipartBlockStateSupplier = MultipartBlockStateSupplier.create(this).apply {
+        with(centerModel.asBlockStateVariant())
+        with(WhenUtil.notUp, bottomModel.asBlockStateVariant().withXRotationOf(VariantSettings.Rotation.R180).uvLock())
+        with(WhenUtil.notDown, bottomModel.asBlockStateVariant())
     }
     @JvmRecord
     data class Shape(val topShape: VoxelShape, val centerShape: VoxelShape, val baseShape: VoxelShape)

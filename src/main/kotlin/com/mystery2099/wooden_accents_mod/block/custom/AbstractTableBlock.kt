@@ -1,5 +1,6 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
@@ -17,7 +18,7 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.WorldAccess
 
 abstract class AbstractTableBlock(baseBlock: Block) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
-    GroupedBlock, RecipeBlockData, TaggedBlock {
+    GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
     override val tag: TagKey<Block>
         get() = ModBlockTags.tables
     init {

@@ -1,15 +1,19 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.block.custom.KitchenCounterBlock
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
 import com.mystery2099.wooden_accents_mod.block_entity.custom.KitchenCabinetBlockEntity
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModItemTags
+import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.group
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
+import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
@@ -18,6 +22,10 @@ import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.data.client.BlockStateModelGenerator
+import net.minecraft.data.client.TextureKey
+import net.minecraft.data.client.TextureMap
+import net.minecraft.data.client.VariantsBlockStateSupplier
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.entity.LivingEntity
@@ -46,7 +54,7 @@ import net.minecraft.world.World
 import java.util.function.Consumer
 
 class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)),
-    GroupedBlock, RecipeBlockData, TaggedBlock {
+    GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
     override val tag: TagKey<Block>
         get() = ModBlockTags.kitchenCabinets
     override val itemGroup get() = ModItemGroups.storageBlocksItemGroup
@@ -181,5 +189,19 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
         val kitchenCabinetBlockEntityTypeBuilder: FabricBlockEntityTypeBuilder<KitchenCabinetBlockEntity> =
             FabricBlockEntityTypeBuilder.create(::KitchenCabinetBlockEntity)
 
+    }
+
+    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
+        TextureMap().apply {
+            put(TextureKey.TOP, topBlock.textureId)
+            put(TextureKey.SIDE, baseBlock.textureId)
+        }.let { map ->
+            val model = ModModels.kitchenCabinet.upload(this, map, generator.modelCollector)
+            generator.blockStateCollector.accept(
+                VariantsBlockStateSupplier.create(this, model.asBlockStateVariant())
+                    .coordinate(BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates())
+            )
+            generator.registerParentedItemModel(this, model)
+        }
     }
 }

@@ -1,10 +1,14 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.getItemModelId
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
+import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
@@ -14,6 +18,9 @@ import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.unifiedWith
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.*
+import net.minecraft.data.client.BlockStateModelGenerator
+import net.minecraft.data.client.TextureKey
+import net.minecraft.data.client.TextureMap
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.recipe.book.RecipeCategory
@@ -27,7 +34,7 @@ import net.minecraft.world.BlockView
 import java.util.function.Consumer
 
 class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Block) : FenceBlock(FabricBlockSettings.copyOf(settings)),
-    GroupedBlock, RecipeBlockData, TaggedBlock {
+    GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
     override val tag: TagKey<Block>
         get() = ModBlockTags.modernFences
     override val itemGroup
@@ -74,6 +81,23 @@ class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Blo
             group("modern_fences")
             requires(postBlock)
             offerTo(exporter)
+        }
+    }
+
+    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
+        TextureMap().apply {
+            put(TextureKey.SIDE, sideBlock.textureId)
+            put(TextureKey.END, postBlock.textureId)
+            put(TextureKey.UP, TextureMap.getSubId(postBlock, "_top"))
+        }.let { map ->
+            ModModels.modernFenceInventory.upload(getItemModelId(), map, generator.modelCollector)
+            generator.blockStateCollector.accept(
+                BlockStateModelGenerator.createFenceBlockState(
+                    this,
+                    ModModels.modernFencePost.upload(this, map, generator.modelCollector),
+                    ModModels.modernFenceSide.upload(this, map, generator.modelCollector)
+                )
+            )
         }
     }
 }

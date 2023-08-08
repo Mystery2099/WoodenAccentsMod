@@ -3,18 +3,23 @@ package com.mystery2099.wooden_accents_mod.block.custom
 import com.mystery2099.wooden_accents_mod.block.custom.enums.ConnectingLadderShape
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
+import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties
+import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
+import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
 import com.mystery2099.wooden_accents_mod.util.CompositeVoxelShape
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.ShapeContext
+import net.minecraft.data.client.*
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.state.StateManager
+import net.minecraft.state.property.Properties
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
@@ -75,6 +80,58 @@ class ConnectingLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(Fa
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
         super.offerRecipe(exporter, baseBlock, 8, "connecting_ladder")
     }
+
+    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
+        val textureMap = TextureMap.all(this.baseBlock)
+        val singleModel = ModModels.connectingLadder.upload(this, textureMap, generator.modelCollector)
+        val leftModel = ModModels.connectingLadderLeft.upload(this, textureMap, generator.modelCollector)
+        val centerModel = ModModels.connectingLadderCenter.upload(this, textureMap, generator.modelCollector)
+        val rightModel = ModModels.connectingLadderRight.upload(this, textureMap, generator.modelCollector)
+        generator.blockStateCollector.accept(
+            VariantsBlockStateSupplier.create(this).coordinate(
+                BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, ModProperties.connectingLadderShape).apply {
+                    val northSingleVariant = singleModel.asBlockStateVariant()
+                    val northLeftVariant = leftModel.asBlockStateVariant()
+                    val northCenterVariant = centerModel.asBlockStateVariant()
+                    val northRightVariant = rightModel.asBlockStateVariant()
+
+                    register(Direction.NORTH, ConnectingLadderShape.SINGLE, northSingleVariant)
+                    register(Direction.NORTH, ConnectingLadderShape.LEFT, northLeftVariant)
+                    register(Direction.NORTH, ConnectingLadderShape.CENTER, northCenterVariant)
+                    register(Direction.NORTH, ConnectingLadderShape.RIGHT, northRightVariant)
+
+                    register(Direction.EAST, ConnectingLadderShape.SINGLE, northSingleVariant.withYRotationOf(
+                        VariantSettings.Rotation.R90))
+                    register(Direction.EAST, ConnectingLadderShape.LEFT, northLeftVariant.withYRotationOf(
+                        VariantSettings.Rotation.R90))
+                    register(Direction.EAST, ConnectingLadderShape.CENTER, northCenterVariant.withYRotationOf(
+                        VariantSettings.Rotation.R90))
+                    register(Direction.EAST, ConnectingLadderShape.RIGHT, northRightVariant.withYRotationOf(
+                        VariantSettings.Rotation.R90))
+
+                    register(Direction.SOUTH, ConnectingLadderShape.SINGLE, northSingleVariant.withYRotationOf(
+                        VariantSettings.Rotation.R180))
+                    register(Direction.SOUTH, ConnectingLadderShape.LEFT, northLeftVariant.withYRotationOf(
+                        VariantSettings.Rotation.R180))
+                    register(Direction.SOUTH, ConnectingLadderShape.CENTER, northCenterVariant.withYRotationOf(
+                        VariantSettings.Rotation.R180))
+                    register(Direction.SOUTH, ConnectingLadderShape.RIGHT, northRightVariant.withYRotationOf(
+                        VariantSettings.Rotation.R180))
+
+                    register(Direction.WEST, ConnectingLadderShape.SINGLE, northSingleVariant.withYRotationOf(
+                        VariantSettings.Rotation.R270))
+                    register(Direction.WEST, ConnectingLadderShape.LEFT, northLeftVariant.withYRotationOf(
+                        VariantSettings.Rotation.R270))
+                    register(Direction.WEST, ConnectingLadderShape.CENTER, northCenterVariant.withYRotationOf(
+                        VariantSettings.Rotation.R270))
+                    register(Direction.WEST, ConnectingLadderShape.RIGHT, northRightVariant.withYRotationOf(
+                        VariantSettings.Rotation.R270))
+
+                }
+            )
+        )
+    }
+
     companion object {
         val shape = ModProperties.connectingLadderShape
 
