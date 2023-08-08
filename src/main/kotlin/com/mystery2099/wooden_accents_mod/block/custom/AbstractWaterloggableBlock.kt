@@ -14,7 +14,7 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.WorldAccess
 
 abstract class AbstractWaterloggableBlock(settings: Settings) : Block(settings), Waterloggable {
-    init { defaultState = defaultState.with(waterlogged, false) }
+    init { defaultState = stateManager.defaultState.with(waterlogged, false) }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
@@ -22,13 +22,8 @@ abstract class AbstractWaterloggableBlock(settings: Settings) : Block(settings),
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
-        return super.getPlacementState(ctx)?.apply {
-            with(waterlogged, ctx.world.getFluidState(ctx.blockPos).fluid === Fluids.WATER)
-        }
+        return super.getPlacementState(ctx)?.with(waterlogged, ctx.world.getFluidState(ctx.blockPos).fluid === Fluids.WATER)
     }
-    fun placementState(ctx: ItemPlacementContext): BlockState = super.getPlacementState(ctx)?.apply {
-        with(waterlogged, ctx.world.getFluidState(ctx.blockPos).fluid === Fluids.WATER)
-    } ?: defaultState
 
     @Deprecated("Deprecated in Java")
     override fun getStateForNeighborUpdate(
@@ -49,7 +44,7 @@ abstract class AbstractWaterloggableBlock(settings: Settings) : Block(settings),
 
     @Deprecated("Deprecated in Java")
     override fun getFluidState(state: BlockState): FluidState {
-        return if (state.get(waterlogged)) Fluids.WATER.getStill(false)
+        return if (state[waterlogged]) Fluids.WATER.getStill(false)
         else super.getFluidState(state)
     }
 

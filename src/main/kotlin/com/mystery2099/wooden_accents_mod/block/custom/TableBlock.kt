@@ -5,10 +5,14 @@ import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asWamId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.getItemModelId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
+import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.group
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
-import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
@@ -17,13 +21,18 @@ import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
 import com.mystery2099.wooden_accents_mod.util.WhenUtil
+import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
 import net.minecraft.data.client.*
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
+import net.minecraft.item.ItemPlacementContext
 import net.minecraft.recipe.book.RecipeCategory
+import net.minecraft.registry.tag.TagKey
+import net.minecraft.state.StateManager
+import net.minecraft.state.property.BooleanProperty
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -32,9 +41,65 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
-class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock(baseBlock) {
-    override val itemGroup: CustomItemGroup
+class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
+    GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
+    override val itemGroup
         get() = ModItemGroups.kitchenItemGroup
+
+    override val tag: TagKey<Block>
+        get() = ModBlockTags.tables
+    init {
+        defaultState = stateManager.defaultState.apply {
+            with(north, false)
+            with(east, false)
+            with(south, false)
+            with(west, false)
+            with(waterlogged, false)
+        }
+    }
+    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
+        super.appendProperties(builder)
+        builder.add(
+            north,
+            east,
+            south,
+            west
+        )
+    }
+
+    override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
+        return defaultState.with(north, false)
+            .with(east, false)
+            .with(south, false)
+            .with(west, false)
+            .with(waterlogged, super.getPlacementState(ctx)?.get(waterlogged) ?: false)
+    }
+    private fun WorldAccess.checkDirection(pos: BlockPos, direction: Direction): Boolean {
+        return getBlockState(pos.offset(direction)).block is TableBlock
+    }
+    private infix fun WorldAccess.checkNorthOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.NORTH)
+
+    private infix fun WorldAccess.checkEastOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.EAST)
+
+    private infix fun WorldAccess.checkSouthOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.SOUTH)
+
+    private infix fun WorldAccess.checkWestOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.WEST)
+    @Deprecated("Deprecated in Java")
+    override fun getStateForNeighborUpdate(
+        state: BlockState,
+        direction: Direction?,
+        neighborState: BlockState?,
+        world: WorldAccess,
+        pos: BlockPos?,
+        neighborPos: BlockPos?
+    ): BlockState? {
+        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos!!, neighborPos)
+            ?.withIfExists(north, world.checkNorthOf(pos))
+            ?.withIfExists(east, world.checkEastOf(pos))
+            ?.withIfExists(south, world.checkSouthOf(pos))
+            ?.withIfExists(west, world.checkWestOf(pos))
+    }
+
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
         state: BlockState,
@@ -143,13 +208,12 @@ class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock
         )
     }
 
-
-
-    override fun WorldAccess.checkDirection(pos: BlockPos, direction: Direction): Boolean {
-        return getBlockState(pos.offset(direction)).block is TableBlock
-    }
-
     companion object {
+        val north: BooleanProperty = BooleanProperty.of("north")
+        val east: BooleanProperty = BooleanProperty.of("east")
+        val south: BooleanProperty = BooleanProperty.of("south")
+        val west: BooleanProperty = BooleanProperty.of("west")
+
         val topShape: VoxelShape = createCuboidShape(0.0, 13.0, 0.0, 16.0, 16.0, 16.0)
         val legShape: VoxelShape = createCuboidShape(6.0, 0.0, 6.0, 10.0, 13.0, 10.0)
         val northEndLegShape: VoxelShape = createCuboidShape(6.0, 0.0, 1.0, 10.0, 13.0, 5.0)

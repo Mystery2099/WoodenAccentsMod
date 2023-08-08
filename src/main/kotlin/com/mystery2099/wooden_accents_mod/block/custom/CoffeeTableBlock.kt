@@ -7,8 +7,12 @@ import com.mystery2099.wooden_accents_mod.block.ModBlocks.getItemModelId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
 import com.mystery2099.wooden_accents_mod.block.custom.enums.CoffeeTableType
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
+import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.group
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
@@ -22,6 +26,7 @@ import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
 import com.mystery2099.wooden_accents_mod.util.WhenUtil
 import com.mystery2099.wooden_accents_mod.util.WhenUtil.and
+import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
@@ -32,6 +37,8 @@ import net.minecraft.item.ItemPlacementContext
 import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.state.StateManager
+import net.minecraft.state.property.BooleanProperty
+import net.minecraft.state.property.Properties
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -40,21 +47,76 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
-class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTableBlock(baseBlock),
-    GroupedBlock {
+class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
+    GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
     override val tag: TagKey<Block>
         get() = ModBlockTags.coffeeTables
-    override val itemGroup get() = ModItemGroups.livingRoomItemGroup
+    override val itemGroup
+        get() = ModItemGroups.livingRoomItemGroup
 
     init {
-        defaultState = defaultState.with(type, CoffeeTableType.SHORT)
-        //WoodenAccentsModItemGroups.livingRoomItems += this
+        defaultState = stateManager.defaultState.apply {
+            short().asSingle().with(waterlogged, false)
+        }
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
-        builder.add(type)
+        builder.add(type,
+            north,
+            east,
+            south,
+            west
+        )
     }
+    override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
+        val state = ctx.world.getBlockState(ctx.blockPos)
+        return if (state.isOf(this)) state.tall()
+        else defaultState.asSingle().with(waterlogged, super.getPlacementState(ctx)?.get(waterlogged) ?: false)
+    }
+    private fun BlockState.asSingle(): BlockState {
+        return this.with(north, false)
+            .with(east, false)
+            .with(south, false)
+            .with(west, false)
+    }
+    private fun BlockState.short(): BlockState = this.with(type, CoffeeTableType.SHORT)
+    private fun BlockState.tall(): BlockState = this.with(type, CoffeeTableType.TALL)
+    @Deprecated("Deprecated in Java")
+    override fun canReplace(state: BlockState, context: ItemPlacementContext): Boolean {
+        return state[type] == CoffeeTableType.SHORT && context.stack.item == asItem()
+    }
+
+    private fun WorldAccess.checkDirection(pos: BlockPos, direction: Direction): Boolean {
+        val here = getBlockState(pos)
+        val there = getBlockState(pos.offset(direction))
+        return if (there.block is CoffeeTableBlock) here[type] == there[type]
+        else there isIn tag && here isIn tag
+    }
+    private infix fun WorldAccess.checkNorthOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.NORTH)
+
+    private infix fun WorldAccess.checkEastOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.EAST)
+
+    private infix fun WorldAccess.checkSouthOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.SOUTH)
+
+    private infix fun WorldAccess.checkWestOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.WEST)
+    @Deprecated("Deprecated in Java")
+    override fun getStateForNeighborUpdate(
+        state: BlockState,
+        direction: Direction?,
+        neighborState: BlockState?,
+        world: WorldAccess,
+        pos: BlockPos?,
+        neighborPos: BlockPos?
+    ): BlockState? {
+        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos!!, neighborPos)
+            ?.withIfExists(north, world.checkNorthOf(pos))
+            ?.withIfExists(east, world.checkEastOf(pos))
+            ?.withIfExists(south, world.checkSouthOf(pos))
+            ?.withIfExists(west, world.checkWestOf(pos))
+    }
+
+
 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
@@ -152,32 +214,19 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractTabl
         ).forEach(::with)
     }
 
-    override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
-        val state = ctx.world.getBlockState(ctx.blockPos)
-        val isSneaking = ctx.player?.isSneaking
-        return if (state.isOf(this) && (isSneaking == null || !isSneaking) ) state.with(type, CoffeeTableType.TALL) else super.getPlacementState(ctx)?.withIfExists(
-            type, CoffeeTableType.SHORT)
-    }
 
-    @Deprecated("Deprecated in Java", ReplaceWith(
-        "state.get(type) == CoffeeTableType.SHORT && context.stack.item == asItem()",
-        "com.mystery2099.block.custom.CoffeeTableBlock.Companion.type",
-        "com.mystery2099.block.custom.enums.CoffeeTableType"
-    )
-    )
-    override fun canReplace(state: BlockState, context: ItemPlacementContext): Boolean {
-        return state[type] == CoffeeTableType.SHORT && context.stack.item == asItem()
-    }
-
-    override fun WorldAccess.checkDirection(pos: BlockPos, direction: Direction): Boolean {
-        val here = getBlockState(pos)
-        val there = getBlockState(pos.offset(direction))
-        return there.block is CoffeeTableBlock && here[type] == there[type]
-    }
 
     companion object {
         @JvmStatic
         val type = ModProperties.coffeeTableType
+        @JvmStatic
+        val north: BooleanProperty = Properties.NORTH
+        @JvmStatic
+        val east: BooleanProperty = Properties.EAST
+        @JvmStatic
+        val south: BooleanProperty = Properties.SOUTH
+        @JvmStatic
+        val west: BooleanProperty = Properties.WEST
 
         private const val SHAPE_VERTICAL_OFFSET = 7.0 / 16
 
