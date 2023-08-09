@@ -6,6 +6,7 @@ import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
 import net.minecraft.block.Block
+import net.minecraft.block.Blocks
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.TagKey
@@ -17,20 +18,23 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
     override fun configure(arg: RegistryWrapper.WrapperLookup) {
         ModBlocks.blocks.forEach {
             BlockTags.AXE_MINEABLE += it
-            when {
-                it is TaggedBlock -> it.tag += it
-            }
+            when {it is TaggedBlock -> it.tag += it }
         }
         ModBlockTags.pillars.add(ModBlockTags.thinPillars, ModBlockTags.thickPillars)
-        ModBlockTags.thinPillarsConnectable.add(ModBlockTags.thinPillars, BlockTags.FENCES, ModBlockTags.supportBeams)
+        ModBlockTags.thinPillarsConnectable.add(ModBlockTags.thinPillars, BlockTags.FENCES, ModBlockTags.supportBeams).add(
+            Blocks.END_ROD)
         ModBlockTags.thickPillarsConnectable.add(ModBlockTags.thickPillars, ModBlockTags.thinPillars, BlockTags.WALLS)
 
         BlockTags.WALLS += ModBlockTags.woodenWalls
+
         BlockTags.FENCES += ModBlockTags.modernFences
         BlockTags.FENCE_GATES += ModBlockTags.modernFenceGates
+
         BlockTags.CLIMBABLE += ModBlockTags.plankLadders
         BlockTags.CLIMBABLE += ModBlockTags.connectingLadders
+
         BlockTags.INSIDE_STEP_SOUND_BLOCKS += ModBlockTags.plankCarpets
+
         ModBlockTags.kitchenCounters += ModBlockTags.kitchenCabinets
     }
 

@@ -3,6 +3,7 @@
   "values": [
     "#myst2099_wooden_accents_mod:thin_pillars",
     "#minecraft:fences",
-    "#myst2099_wooden_accents_mod:support_beams"
+    "#myst2099_wooden_accents_mod:support_beams",
+    "minecraft:end_rod"
   ]
 }
