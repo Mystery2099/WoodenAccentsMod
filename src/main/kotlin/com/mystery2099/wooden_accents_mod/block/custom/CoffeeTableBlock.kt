@@ -217,15 +217,10 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWate
 
 
     companion object {
-        @JvmStatic
         val type = ModProperties.coffeeTableType
-        @JvmStatic
         val north: BooleanProperty = Properties.NORTH
-        @JvmStatic
         val east: BooleanProperty = Properties.EAST
-        @JvmStatic
         val south: BooleanProperty = Properties.SOUTH
-        @JvmStatic
         val west: BooleanProperty = Properties.WEST
 
         private const val SHAPE_VERTICAL_OFFSET = 7.0 / 16

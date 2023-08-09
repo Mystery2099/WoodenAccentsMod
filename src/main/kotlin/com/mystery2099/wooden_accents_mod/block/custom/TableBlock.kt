@@ -33,6 +33,7 @@ import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
+import net.minecraft.state.property.Properties
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -209,10 +210,10 @@ class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWaterlogga
     }
 
     companion object {
-        val north: BooleanProperty = BooleanProperty.of("north")
-        val east: BooleanProperty = BooleanProperty.of("east")
-        val south: BooleanProperty = BooleanProperty.of("south")
-        val west: BooleanProperty = BooleanProperty.of("west")
+        val north: BooleanProperty = Properties.NORTH
+        val east: BooleanProperty = Properties.EAST
+        val south: BooleanProperty = Properties.SOUTH
+        val west: BooleanProperty = Properties.WEST
 
         val topShape: VoxelShape = createCuboidShape(0.0, 13.0, 0.0, 16.0, 16.0, 16.0)
         val legShape: VoxelShape = createCuboidShape(6.0, 0.0, 6.0, 10.0, 13.0, 10.0)
