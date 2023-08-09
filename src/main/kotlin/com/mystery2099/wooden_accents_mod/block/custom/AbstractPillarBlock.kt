@@ -10,12 +10,11 @@ import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.uvLock
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withXRotationOf
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.plus
+import com.mystery2099.wooden_accents_mod.util.CompositeVoxelShape
 import com.mystery2099.wooden_accents_mod.util.WhenUtil
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
-import net.minecraft.block.Blocks
 import net.minecraft.block.ShapeContext
 import net.minecraft.data.client.MultipartBlockStateSupplier
 import net.minecraft.data.client.VariantSettings
@@ -32,7 +31,6 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
@@ -40,13 +38,13 @@ import java.util.function.Consumer
 abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shape) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
     GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
     override val itemGroup get() = ModItemGroups.outsideBlockItemGroup
+    abstract val connectablesBlockTag: TagKey<Block>
     override val tag: TagKey<Block>
         get() = ModBlockTags.pillars
 
-    init { defaultState = defaultState.apply {
-        with(up, false)
-        with(down, false)
-    } }
+    init { defaultState = defaultState.with(up, false)
+        .with(down, false)
+     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
@@ -68,10 +66,9 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         world = world,
         pos = pos!!,
         neighborPos = neighborPos
-    )?.apply {
-        with(up, world.checkUp(pos))
-        with(down, world.checkDown(pos))
-    } ?: Blocks.AIR.defaultState
+    )?.run {
+        with(up, canConnect(world, pos.up())).with(down, canConnect(world, pos.down()))
+    } ?: defaultState
 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
@@ -79,26 +76,20 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
-    ): VoxelShape = shape.centerShape + arrayOf(
-        if (!state[up]) shape.topShape else VoxelShapes.empty(),
-        if (!state[down]) shape.baseShape else VoxelShapes.empty(),
-        VoxelShapes.empty()
-    )
+    ): VoxelShape = CompositeVoxelShape(shape.centerShape).apply {
+        shape.topShape shallBeAddedIf !state[up]
+        shape.baseShape shallBeAddedIf !state[down]
+    }.get()
 
 
-    override fun getPlacementState(ctx: ItemPlacementContext): BlockState = super.getPlacementState(ctx)?.apply {
+    override fun getPlacementState(ctx: ItemPlacementContext): BlockState = super.getPlacementState(ctx)?.run {
         val world = ctx.world
         val pos = ctx.blockPos
-        with(up, world.checkUp(pos))?.with(down, world.checkDown(pos))
+        this.with(up, canConnect(world, pos.up())).with(down, canConnect(world, pos.down()))
     }!!
-    //Up & Down
-    open fun WorldAccess.getStateAtPos(blockPos: BlockPos): BlockState = getBlockState(blockPos)
-    open fun WorldAccess.getUpState(pos: BlockPos): BlockState = getStateAtPos(pos.up())
-
-    open fun WorldAccess.getDownState(pos: BlockPos): BlockState = getStateAtPos(pos.down())
-
-    abstract infix fun WorldAccess.checkUp(pos: BlockPos): Boolean
-    abstract infix fun WorldAccess.checkDown(pos: BlockPos): Boolean
+    private fun canConnect(world: WorldAccess, pos: BlockPos): Boolean {
+        return world.getBlockState(pos).isIn(connectablesBlockTag)
+    }
 
     fun offerRecipe(exporter: Consumer<RecipeJsonProvider>, outputNum: Int, primaryInput: ItemConvertible, secondaryInput: ItemConvertible) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, outputNum).apply {

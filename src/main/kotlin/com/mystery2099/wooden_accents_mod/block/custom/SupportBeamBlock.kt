@@ -23,6 +23,7 @@ import net.minecraft.block.PillarBlock
 import net.minecraft.block.SideShapeType
 import net.minecraft.data.client.*
 import net.minecraft.data.server.recipe.RecipeJsonProvider
+import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.resource.featuretoggle.FeatureFlags
 import net.minecraft.util.math.BlockPos
@@ -53,48 +54,38 @@ class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(ru
     override val tag: TagKey<Block> = ModBlockTags.supportBeams
     override val itemGroup: CustomItemGroup = ModItemGroups.outsideBlockItemGroup
 
-    private fun canConnectHorizontal(pos: BlockPos, direction: Direction, world: WorldAccess): Boolean {
+    private fun canConnect(pos: BlockPos, direction: Direction, world: WorldAccess): Boolean {
         val otherState = world.getBlockState(pos.offset(direction))
-        return otherState.isSideSolid(
+        return (otherState.isSideSolid(
             world,
             pos.offset(direction),
             direction.opposite,
             SideShapeType.CENTER
-        ) || otherState.isIn(tag)
-    }
-
-    private fun canConnectVertical(pos: BlockPos, direction: Direction, world: WorldAccess): Boolean {
-        val otherState = world.getBlockState(pos.offset(direction))
-        return otherState.isSideSolid(
-            world,
-            pos.offset(direction),
-            direction.opposite,
-            SideShapeType.CENTER
-        ) || otherState.isIn(tag)
+        ) || otherState.isIn(tag)) && !otherState.isIn(BlockTags.FENCE_GATES)
     }
 
     override fun canConnectNorthOf(pos: BlockPos, world: WorldAccess): Boolean {
-        return canConnectHorizontal(pos, Direction.NORTH, world)
+        return canConnect(pos, Direction.NORTH, world)
     }
 
     override fun canConnectEastOf(pos: BlockPos, world: WorldAccess): Boolean {
-        return canConnectHorizontal(pos, Direction.EAST, world)
+        return canConnect(pos, Direction.EAST, world)
     }
 
     override fun canConnectSouthOf(pos: BlockPos, world: WorldAccess): Boolean {
-        return canConnectHorizontal(pos, Direction.SOUTH, world)
+        return canConnect(pos, Direction.SOUTH, world)
     }
 
     override fun canConnectWestOf(pos: BlockPos, world: WorldAccess): Boolean {
-        return canConnectHorizontal(pos, Direction.WEST, world)
+        return canConnect(pos, Direction.WEST, world)
     }
 
     override fun canConnectAbove(pos: BlockPos, world: WorldAccess): Boolean {
-        return canConnectVertical(pos, Direction.UP, world)
+        return canConnect(pos, Direction.UP, world)
     }
 
     override fun canConnectBelow(pos: BlockPos, world: WorldAccess): Boolean {
-        return canConnectVertical(pos, Direction.DOWN, world)
+        return canConnect(pos, Direction.DOWN, world)
     }
 
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {

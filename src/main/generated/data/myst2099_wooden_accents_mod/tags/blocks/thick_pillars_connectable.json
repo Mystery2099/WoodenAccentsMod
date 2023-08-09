@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#myst2099_wooden_accents_mod:thick_pillars",
+    "#myst2099_wooden_accents_mod:thin_pillars",
+    "#minecraft:walls"
+  ]
+}

@@ -11,14 +11,20 @@ import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.TagKey
 import java.util.concurrent.CompletableFuture
 
-class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : CompletableFuture<RegistryWrapper.WrapperLookup>) : FabricTagProvider.BlockTagProvider(output, registriesFuture) {
+class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>) :
+    FabricTagProvider.BlockTagProvider(output, registriesFuture) {
 
     override fun configure(arg: RegistryWrapper.WrapperLookup) {
-        ModBlocks.blocks.forEach{
+        ModBlocks.blocks.forEach {
             BlockTags.AXE_MINEABLE += it
-            when {it is TaggedBlock -> it.tag += it }
+            when {
+                it is TaggedBlock -> it.tag += it
+            }
         }
         ModBlockTags.pillars.add(ModBlockTags.thinPillars, ModBlockTags.thickPillars)
+        ModBlockTags.thinPillarsConnectable.add(ModBlockTags.thinPillars, BlockTags.FENCES, ModBlockTags.supportBeams)
+        ModBlockTags.thickPillarsConnectable.add(ModBlockTags.thickPillars, ModBlockTags.thinPillars, BlockTags.WALLS)
+
         BlockTags.WALLS += ModBlockTags.woodenWalls
         BlockTags.FENCES += ModBlockTags.modernFences
         BlockTags.FENCE_GATES += ModBlockTags.modernFenceGates
@@ -35,14 +41,24 @@ class BlockTagDataGen( output : FabricDataOutput,  registriesFuture : Completabl
     private fun TagKey<Block>.add(vararg tags: TagKey<Block>): FabricTagBuilder {
         return getOrCreateTagBuilder(this).also { tags.forEach(it::addTag) }
     }
+
     private infix fun TagKey<Block>.add(tag: TagKey<Block>): FabricTagBuilder = getOrCreateTagBuilder(this).addTag(tag)
 
     private infix fun TagKey<Block>.add(block: Block): FabricTagBuilder = getOrCreateTagBuilder(this).add(block)
     private fun TagKey<Block>.add(vararg blocks: Block): FabricTagBuilder {
         return getOrCreateTagBuilder(this).also { blocks.forEach(it::add) }
     }
-    private operator fun TagKey<Block>.plusAssign(tag: TagKey<Block>) { add(tag)}
-    private operator fun TagKey<Block>.plusAssign(block: Block) { add(block) }
-    private operator fun TagKey<Block>.plusAssign(tags: Array<TagKey<Block>>) { tags.map{ add(it) } }
+
+    private operator fun TagKey<Block>.plusAssign(tag: TagKey<Block>) {
+        add(tag)
+    }
+
+    private operator fun TagKey<Block>.plusAssign(block: Block) {
+        add(block)
+    }
+
+    private operator fun TagKey<Block>.plusAssign(tags: Array<TagKey<Block>>) {
+        tags.map { add(it) }
+    }
 
 }
