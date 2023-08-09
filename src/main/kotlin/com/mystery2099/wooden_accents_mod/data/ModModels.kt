@@ -37,6 +37,10 @@ object ModModels {
     val connectingLadderLeft = block("connecting_ladder_left", "_left", TextureKey.ALL)
     val connectingLadderRight = block("connecting_ladder_right", "_right", TextureKey.ALL)
     val connectingLadderCenter = block("connecting_ladder_center", "_center", TextureKey.ALL)
+
+    //Support Beam
+    val supportBeamCenter = block("support_beam_center", "_center", TextureKey.ALL)
+    val supportBeamDown = block("support_beam_down", "_down", TextureKey.ALL)
     /*---------------Living Room Stuff----------------*/
     //Table Models
     val tableItem = item("table", TextureKey.TOP, legs)

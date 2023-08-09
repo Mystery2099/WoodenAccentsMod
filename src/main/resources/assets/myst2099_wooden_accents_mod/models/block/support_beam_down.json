@@ -1,0 +1,20 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"particle": "#all"
+	},
+	"elements": [
+		{
+			"name": "down shape",
+			"from": [6, 0, 6],
+			"to": [10, 6, 10],
+			"faces": {
+				"north": {"uv": [6, 10, 10, 16], "texture": "#all"},
+				"east": {"uv": [6, 10, 10, 16], "texture": "#all"},
+				"south": {"uv": [6, 10, 10, 16], "texture": "#all"},
+				"west": {"uv": [6, 10, 10, 16], "texture": "#all"},
+				"down": {"uv": [6, 6, 10, 10], "texture": "#all", "cullface": "down"}
+			}
+		}
+	]
+}

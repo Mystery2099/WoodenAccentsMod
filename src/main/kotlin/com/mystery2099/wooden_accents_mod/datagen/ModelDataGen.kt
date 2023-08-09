@@ -52,9 +52,5 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     override fun generateItemModels(itemModelGenerator: ItemModelGenerator) {
 
     }
-
-
-
-
 }
 

@@ -62,7 +62,7 @@ class CompositeVoxelShape(vararg voxelShapes: VoxelShape) {
     operator fun plusAssign(voxelShapes: Array<VoxelShape>) {
         addAll(*voxelShapes)
     }
-    fun VoxelShape.addIf(boolean: Boolean) {
+    infix fun VoxelShape.shallBeAddedIf(boolean: Boolean) {
         if (boolean) add(this)
     }
 
@@ -122,7 +122,6 @@ class CompositeVoxelShape(vararg voxelShapes: VoxelShape) {
             maxY: Double,
             maxZ: Double
         ): CompositeVoxelShape = CompositeVoxelShape(Block.createCuboidShape(minX, minY, minZ, maxX, maxY, maxZ))
-
         fun copy(compositeVoxelShape: CompositeVoxelShape) = compositeVoxelShape.copy()
     }
 }

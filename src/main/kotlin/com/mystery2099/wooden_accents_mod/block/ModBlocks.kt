@@ -117,6 +117,20 @@ object ModBlocks {
     val strippedBambooLadder = ConnectingLadderBlock(Blocks.STRIPPED_BAMBOO_BLOCK).registerAs("stripped_bamboo_ladder")
     val strippedCrimsonLadder = ConnectingLadderBlock(Blocks.STRIPPED_CRIMSON_STEM).registerAs("stripped_crimson_ladder")
     val strippedWarpedLadder = ConnectingLadderBlock(Blocks.STRIPPED_WARPED_STEM).registerAs("stripped_warped_ladder")
+
+    //Support Beams
+    val oakPlankSupportBeam = SupportBeamBlock(Blocks.OAK_PLANKS).registerAs("oak_plank_support_beam")
+    val sprucePlankSupportBeam = SupportBeamBlock(Blocks.SPRUCE_PLANKS).registerAs("spruce_plank_support_beam")
+    val birchPlankSupportBeam = SupportBeamBlock(Blocks.BIRCH_PLANKS).registerAs("birch_plank_support_beam")
+    val junglePlankSupportBeam = SupportBeamBlock(Blocks.JUNGLE_PLANKS).registerAs("jungle_plank_support_beam")
+    val acaciaPlankSupportBeam = SupportBeamBlock(Blocks.ACACIA_PLANKS).registerAs("acacia_plank_support_beam")
+    val darkOakPlankSupportBeam = SupportBeamBlock(Blocks.DARK_OAK_PLANKS).registerAs("dark_oak_plank_support_beam")
+    val mangrovePlankSupportBeam = SupportBeamBlock(Blocks.MANGROVE_PLANKS).registerAs("mangrove_plank_support_beam")
+    val cherryPlankSupportBeam = SupportBeamBlock(Blocks.CHERRY_PLANKS).registerAs("cherry_plank_support_beam")
+    val bambooPlankSupportBeam = SupportBeamBlock(Blocks.BAMBOO_PLANKS).registerAs("bamboo_plank_support_beam")
+    val bambooMosaicSupportBeam = SupportBeamBlock(Blocks.BAMBOO_MOSAIC).registerAs("bamboo_mosaic_support_beam")
+    val crimsonPlankSupportBeam = SupportBeamBlock(Blocks.CRIMSON_PLANKS).registerAs("crimson_plank_support_beam")
+    val warpedPlankSupportBeam = SupportBeamBlock(Blocks.WARPED_PLANKS).registerAs("warped_plank_support_beam")
     /*---------------End Outside Stuff----------------*/
 
     /*---------------Living Room Stuff----------------*/

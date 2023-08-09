@@ -1,0 +1,93 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/acacia_plank_support_beam_center"
+      },
+      "when": {
+        "OR": [
+          {
+            "north": "false"
+          },
+          {
+            "east": "false"
+          },
+          {
+            "south": "false"
+          },
+          {
+            "west": "false"
+          },
+          {
+            "up": "false"
+          },
+          {
+            "down": "false"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/acacia_plank_support_beam_down",
+        "uvlock": true,
+        "x": 270
+      },
+      "when": {
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/acacia_plank_support_beam_down",
+        "uvlock": true,
+        "x": 270,
+        "y": 90
+      },
+      "when": {
+        "east": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/acacia_plank_support_beam_down",
+        "uvlock": true,
+        "x": 270,
+        "y": 180
+      },
+      "when": {
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/acacia_plank_support_beam_down",
+        "uvlock": true,
+        "x": 270,
+        "y": 270
+      },
+      "when": {
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/acacia_plank_support_beam_down",
+        "uvlock": true,
+        "x": 180
+      },
+      "when": {
+        "up": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/acacia_plank_support_beam_down",
+        "uvlock": true
+      },
+      "when": {
+        "down": "true"
+      }
+    }
+  ]
+}
