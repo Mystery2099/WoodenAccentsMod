@@ -118,7 +118,7 @@ object ModBlocks {
     val strippedCrimsonLadder = ConnectingLadderBlock(Blocks.STRIPPED_CRIMSON_STEM).registerAs("stripped_crimson_ladder")
     val strippedWarpedLadder = ConnectingLadderBlock(Blocks.STRIPPED_WARPED_STEM).registerAs("stripped_warped_ladder")
 
-    //Support Beams
+    //Plank Support Beams
     val oakPlankSupportBeam = SupportBeamBlock(Blocks.OAK_PLANKS).registerAs("oak_plank_support_beam")
     val sprucePlankSupportBeam = SupportBeamBlock(Blocks.SPRUCE_PLANKS).registerAs("spruce_plank_support_beam")
     val birchPlankSupportBeam = SupportBeamBlock(Blocks.BIRCH_PLANKS).registerAs("birch_plank_support_beam")
@@ -131,6 +131,32 @@ object ModBlocks {
     val bambooMosaicSupportBeam = SupportBeamBlock(Blocks.BAMBOO_MOSAIC).registerAs("bamboo_mosaic_support_beam")
     val crimsonPlankSupportBeam = SupportBeamBlock(Blocks.CRIMSON_PLANKS).registerAs("crimson_plank_support_beam")
     val warpedPlankSupportBeam = SupportBeamBlock(Blocks.WARPED_PLANKS).registerAs("warped_plank_support_beam")
+
+    //Wooden Support Beams
+    val oakSupportBeam = SupportBeamBlock(Blocks.OAK_LOG).registerAs("oak_support_beam")
+    val spruceSupportBeam = SupportBeamBlock(Blocks.SPRUCE_LOG).registerAs("spruce_support_beam")
+    val birchSupportBeam = SupportBeamBlock(Blocks.BIRCH_LOG).registerAs("birch_support_beam")
+    val jungleSupportBeam = SupportBeamBlock(Blocks.JUNGLE_LOG).registerAs("jungle_support_beam")
+    val acaciaSupportBeam = SupportBeamBlock(Blocks.ACACIA_LOG).registerAs("acacia_support_beam")
+    val darkOakSupportBeam = SupportBeamBlock(Blocks.DARK_OAK_LOG).registerAs("dark_oak_support_beam")
+    val mangroveSupportBeam = SupportBeamBlock(Blocks.MANGROVE_LOG).registerAs("mangrove_support_beam")
+    val cherrySupportBeam = SupportBeamBlock(Blocks.CHERRY_LOG).registerAs("cherry_support_beam")
+    val bambooSupportBeam = SupportBeamBlock(Blocks.BAMBOO_BLOCK).registerAs("bamboo_support_beam")
+    val crimsonSupportBeam = SupportBeamBlock(Blocks.CRIMSON_STEM).registerAs("crimson_support_beam")
+    val warpedSupportBeam = SupportBeamBlock(Blocks.WARPED_STEM).registerAs("warped_support_beam")
+
+    //Stripped Support Beams
+    val strippedOakSupportBeam = SupportBeamBlock(Blocks.STRIPPED_OAK_LOG).registerAs("stripped_oak_support_beam")
+    val strippedSpruceSupportBeam = SupportBeamBlock(Blocks.STRIPPED_SPRUCE_LOG).registerAs("stripped_spruce_support_beam")
+    val strippedBirchSupportBeam = SupportBeamBlock(Blocks.STRIPPED_BIRCH_LOG).registerAs("stripped_birch_support_beam")
+    val strippedJungleSupportBeam = SupportBeamBlock(Blocks.STRIPPED_JUNGLE_LOG).registerAs("stripped_jungle_support_beam")
+    val strippedAcaciaSupportBeam = SupportBeamBlock(Blocks.STRIPPED_ACACIA_LOG).registerAs("stripped_acacia_support_beam")
+    val strippedDarkOakSupportBeam = SupportBeamBlock(Blocks.STRIPPED_DARK_OAK_LOG).registerAs("stripped_dark_oak_support_beam")
+    val strippedMangroveSupportBeam = SupportBeamBlock(Blocks.STRIPPED_MANGROVE_LOG).registerAs("stripped_mangrove_support_beam")
+    val strippedCherrySupportBeam = SupportBeamBlock(Blocks.STRIPPED_CHERRY_LOG).registerAs("stripped_cherry_support_beam")
+    val strippedBambooSupportBeam = SupportBeamBlock(Blocks.STRIPPED_BAMBOO_BLOCK).registerAs("stripped_bamboo_support_beam")
+    val strippedCrimsonSupportBeam = SupportBeamBlock(Blocks.STRIPPED_CRIMSON_STEM).registerAs("stripped_crimson_support_beam")
+    val strippedWarpedSupportBeam = SupportBeamBlock(Blocks.STRIPPED_WARPED_STEM).registerAs("stripped_warped_support_beam")
     /*---------------End Outside Stuff----------------*/
 
     /*---------------Living Room Stuff----------------*/

@@ -18,12 +18,10 @@ import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
 import com.mystery2099.wooden_accents_mod.util.WhenUtil
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
-import net.minecraft.block.BlockState
 import net.minecraft.block.PillarBlock
+import net.minecraft.block.SideShapeType
 import net.minecraft.data.client.*
 import net.minecraft.data.server.recipe.RecipeJsonProvider
-import net.minecraft.fluid.Fluids
-import net.minecraft.item.ItemPlacementContext
 import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.resource.featuretoggle.FeatureFlags
@@ -55,53 +53,23 @@ class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(ru
     override val tag: TagKey<Block> = ModBlockTags.supportBeams
     override val itemGroup: CustomItemGroup = ModItemGroups.outsideBlockItemGroup
 
-    init {
-        defaultState = defaultState.with(waterlogged, false)
-            .with(north, false)
-            .with(east, false)
-            .with(south, false)
-            .with(west, false)
-            .with(up, false)
-            .with(down, false)
-    }
-    override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
-        return defaultState.with(
-            waterlogged,
-            ctx.world.getFluidState(ctx.blockPos).fluid === Fluids.WATER
-        )
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun getStateForNeighborUpdate(
-        state: BlockState,
-        direction: Direction?,
-        neighborState: BlockState?,
-        world: WorldAccess,
-        pos: BlockPos,
-        neighborPos: BlockPos?
-    ): BlockState {
-        if (state[waterlogged]) world.scheduleFluidTick(
-            pos,
-            Fluids.WATER,
-            Fluids.WATER.getTickRate(world)
-        )
-        return state.with(north, canConnectNorthOf(pos, world))
-            .with(east, canConnectEastOf(pos, world))
-            .with(south, canConnectSouthOf(pos, world))
-            .with(west, canConnectWestOf(pos, world))
-            .with(up, canConnectAbove(pos, world))
-            .with(down, canConnectBelow(pos, world))
-    }
     private fun canConnectHorizontal(pos: BlockPos, direction: Direction, world: WorldAccess): Boolean {
         val otherState = world.getBlockState(pos.offset(direction))
-        return otherState.isFullCube(world, pos.offset(direction)) || otherState.isIn(tag)
+        return otherState.isSideSolid(
+            world,
+            pos,
+            direction.opposite,
+            SideShapeType.CENTER
+        ) || otherState.isIn(tag)
     }
 
     private fun canConnectVertical(pos: BlockPos, direction: Direction, world: WorldAccess): Boolean {
         val otherState = world.getBlockState(pos.offset(direction))
-        return otherState.isFullCube(
+        return otherState.isSideSolid(
             world,
-            pos.offset(direction)
+            pos,
+            direction.opposite,
+            SideShapeType.CENTER
         ) || otherState.isIn(tag) || otherState.isIn(BlockTags.FENCES)
     }
 
