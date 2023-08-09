@@ -254,19 +254,19 @@ object ModBlocks {
     val crimsonBookshelf = ThinBookshelfBlock(Blocks.CRIMSON_PLANKS).registerAs("crimson_bookshelf")
     val warpedBookshelf = ThinBookshelfBlock(Blocks.WARPED_PLANKS).registerAs("warped_bookshelf")
 
-    //Wood Floor Coverings
-    val oakFloorCovering = FloorCoveringBlock(Blocks.OAK_PLANKS).registerAs("oak_floor_covering")
-    val spruceFloorCovering = FloorCoveringBlock(Blocks.SPRUCE_PLANKS).registerAs("spruce_floor_covering")
-    val birchFloorCovering = FloorCoveringBlock(Blocks.BIRCH_PLANKS).registerAs("birch_floor_covering")
-    val jungleFloorCovering = FloorCoveringBlock(Blocks.JUNGLE_PLANKS).registerAs("jungle_floor_covering")
-    val acaciaFloorCovering = FloorCoveringBlock(Blocks.ACACIA_PLANKS).registerAs("acacia_floor_covering")
-    val darkOakFloorCovering = FloorCoveringBlock(Blocks.DARK_OAK_PLANKS).registerAs("dark_oak_floor_covering")
-    val mangroveFloorCovering = FloorCoveringBlock(Blocks.MANGROVE_PLANKS).registerAs("mangrove_floor_covering")
-    val cherryFloorCovering = FloorCoveringBlock(Blocks.CHERRY_PLANKS).registerAs("cherry_floor_covering")
-    val bambooFloorCovering = FloorCoveringBlock(Blocks.BAMBOO_PLANKS).registerAs("bamboo_floor_covering")
-    val bambooMosaicFloorCovering = FloorCoveringBlock(Blocks.BAMBOO_MOSAIC).registerAs("bamboo_mosaic_floor_covering")
-    val crimsonFloorCovering = FloorCoveringBlock(Blocks.CRIMSON_PLANKS).registerAs("crimson_floor_covering")
-    val warpedFloorCovering = FloorCoveringBlock(Blocks.WARPED_PLANKS).registerAs("warped_floor_covering")
+    //Plank Carpets
+    val oakPlankCarpet = CustomCarpetBlock(Blocks.OAK_PLANKS).registerAs("oak_plank_carpet")
+    val sprucePlankCarpet = CustomCarpetBlock(Blocks.SPRUCE_PLANKS).registerAs("spruce_plank_carpet")
+    val birchPlankCarpet = CustomCarpetBlock(Blocks.BIRCH_PLANKS).registerAs("birch_plank_carpet")
+    val junglePlankCarpet = CustomCarpetBlock(Blocks.JUNGLE_PLANKS).registerAs("jungle_plank_carpet")
+    val acaciaPlankCarpet = CustomCarpetBlock(Blocks.ACACIA_PLANKS).registerAs("acacia_plank_carpet")
+    val darkOakPlankCarpet = CustomCarpetBlock(Blocks.DARK_OAK_PLANKS).registerAs("dark_oak_plank_carpet")
+    val mangrovePlankCarpet = CustomCarpetBlock(Blocks.MANGROVE_PLANKS).registerAs("mangrove_plank_carpet")
+    val cherryPlankCarpet = CustomCarpetBlock(Blocks.CHERRY_PLANKS).registerAs("cherry_plank_carpet")
+    val bambooPlankCarpet = CustomCarpetBlock(Blocks.BAMBOO_PLANKS).registerAs("bamboo_plank_carpet")
+    val bambooMosaicCarpet = CustomCarpetBlock(Blocks.BAMBOO_MOSAIC).registerAs("bamboo_mosaic_carpet")
+    val crimsonPlankCarpet = CustomCarpetBlock(Blocks.CRIMSON_PLANKS).registerAs("crimson_plank_carpet")
+    val warpedPlankCarpet = CustomCarpetBlock(Blocks.WARPED_PLANKS).registerAs("warped_plank_carpet")
 
     /*---------------Kitchen Stuff----------------*/
     //Kitchen counters
