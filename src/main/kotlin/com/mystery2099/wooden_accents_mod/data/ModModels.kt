@@ -39,6 +39,7 @@ object ModModels {
     val connectingLadderCenter = block("connecting_ladder_center", "_center", TextureKey.ALL)
 
     //Support Beam
+    val supportBeamItem = item("support_beam", TextureKey.ALL)
     val supportBeamCenter = block("support_beam_center", "_center", TextureKey.ALL)
     val supportBeamDown = block("support_beam_down", "_down", TextureKey.ALL)
     /*---------------Living Room Stuff----------------*/

@@ -1,5 +1,6 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.getItemModelId
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
@@ -22,7 +23,6 @@ import net.minecraft.block.PillarBlock
 import net.minecraft.block.SideShapeType
 import net.minecraft.data.client.*
 import net.minecraft.data.server.recipe.RecipeJsonProvider
-import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.resource.featuretoggle.FeatureFlags
 import net.minecraft.util.math.BlockPos
@@ -57,7 +57,7 @@ class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(ru
         val otherState = world.getBlockState(pos.offset(direction))
         return otherState.isSideSolid(
             world,
-            pos,
+            pos.offset(direction),
             direction.opposite,
             SideShapeType.CENTER
         ) || otherState.isIn(tag)
@@ -67,10 +67,10 @@ class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(ru
         val otherState = world.getBlockState(pos.offset(direction))
         return otherState.isSideSolid(
             world,
-            pos,
+            pos.offset(direction),
             direction.opposite,
             SideShapeType.CENTER
-        ) || otherState.isIn(tag) || otherState.isIn(BlockTags.FENCES)
+        ) || otherState.isIn(tag)
     }
 
     override fun canConnectNorthOf(pos: BlockPos, world: WorldAccess): Boolean {
@@ -99,6 +99,7 @@ class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(ru
 
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
         val map = TextureMap.all(baseBlock)
+        ModModels.supportBeamItem.upload(this.getItemModelId(), map, generator.modelCollector)
         val centerVariant =
             ModModels.supportBeamCenter.upload(this, map, generator.modelCollector).asBlockStateVariant()
         val downVariant = ModModels.supportBeamDown.upload(this, map, generator.modelCollector).asBlockStateVariant().uvLock()

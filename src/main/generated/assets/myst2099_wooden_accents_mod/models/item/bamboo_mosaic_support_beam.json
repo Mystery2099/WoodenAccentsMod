@@ -1,3 +1,6 @@
 {
-  "parent": "myst2099_wooden_accents_mod:block/bamboo_mosaic_support_beam"
+  "parent": "myst2099_wooden_accents_mod:item/support_beam",
+  "textures": {
+    "all": "minecraft:block/bamboo_mosaic"
+  }
 }

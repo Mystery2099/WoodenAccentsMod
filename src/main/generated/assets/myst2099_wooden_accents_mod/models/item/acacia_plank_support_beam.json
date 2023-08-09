@@ -1,3 +1,6 @@
 {
-  "parent": "myst2099_wooden_accents_mod:block/acacia_plank_support_beam"
+  "parent": "myst2099_wooden_accents_mod:item/support_beam",
+  "textures": {
+    "all": "minecraft:block/acacia_planks"
+  }
 }
