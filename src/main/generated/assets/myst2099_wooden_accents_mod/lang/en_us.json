@@ -254,9 +254,7 @@
   "block.myst2099_wooden_accents_mod.warped_support_beam": "Warped Support Beam",
   "block.myst2099_wooden_accents_mod.warped_table": "Warped Table",
   "block.myst2099_wooden_accents_mod.warped_wall": "Warped Wall",
-  "itemGroup.myst2099_wooden_accents_mod.bedroom": "Wooden Accents: Bedroom",
-  "itemGroup.myst2099_wooden_accents_mod.kitchen": "Wooden Accents: Kitchen",
-  "itemGroup.myst2099_wooden_accents_mod.living_room": "Wooden Accents: Living Room",
-  "itemGroup.myst2099_wooden_accents_mod.outside": "Wooden Accents: Outside",
-  "itemGroup.myst2099_wooden_accents_mod.storage": "Wooden Accents: Storage"
+  "itemGroup.myst2099_wooden_accents_mod.decorations": "WAM: Decorations",
+  "itemGroup.myst2099_wooden_accents_mod.miscellaneous": "WAM: Miscellaneous",
+  "itemGroup.myst2099_wooden_accents_mod.structural_elements": "WAM: Structural Elements"
 }

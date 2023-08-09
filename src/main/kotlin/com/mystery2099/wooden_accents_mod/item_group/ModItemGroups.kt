@@ -6,12 +6,9 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 
 object ModItemGroups {
 
-    val outsideBlockItemGroup = CustomItemGroup("outside")
-    @JvmStatic
-    val kitchenItemGroup = CustomItemGroup("kitchen")
-    val livingRoomItemGroup = CustomItemGroup("living_room")
-    val bedroomItemGroup = CustomItemGroup("bedroom")
-    val storageBlocksItemGroup  = CustomItemGroup("storage")
+    val structuralElements = CustomItemGroup("structural_elements")
+    val decorations = CustomItemGroup("decorations")
+    val miscellaneous  = CustomItemGroup("miscellaneous")
 
     fun register() {
         /*itemGroupToEntriesMap.forEach { (itemGroup, entries) ->

@@ -55,9 +55,8 @@ import java.util.function.Consumer
 
 class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)),
     GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
-    override val tag: TagKey<Block>
-        get() = ModBlockTags.kitchenCabinets
-    override val itemGroup get() = ModItemGroups.storageBlocksItemGroup
+    override val tag: TagKey<Block> = ModBlockTags.kitchenCabinets
+    override val itemGroup = ModItemGroups.decorations
 
     init {
         defaultState = stateManager.defaultState.apply {

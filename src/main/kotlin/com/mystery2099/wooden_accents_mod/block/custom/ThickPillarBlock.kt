@@ -14,7 +14,7 @@ import net.minecraft.registry.tag.TagKey
 import java.util.function.Consumer
 
 class ThickPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape) {
-    override val connectablesBlockTag: TagKey<Block> = ModBlockTags.thickPillarsConnectable
+    override val connectableBlockTag: TagKey<Block> = ModBlockTags.thickPillarsConnectable
     override val tag: TagKey<Block> = ModBlockTags.thickPillars
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {

@@ -28,13 +28,14 @@ open class OmnidirectionalConnectingBlock(settings: Settings) : Block(settings),
     open val downShape: VoxelShape = VoxelShapes.empty()
 
     init {
-        defaultState = defaultState.with(waterlogged, false)
-            .with(north, false)
-            .with(east, false)
-            .with(south, false)
-            .with(west, false)
-            .with(up, false)
-            .with(down, false)
+        defaultState = defaultState.run {
+            this.with(north, false)
+                .with(east, false)
+                .with(south, false)
+                .with(west, false)
+                .with(up, false)
+                .with(down, false)
+        }
     }
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)

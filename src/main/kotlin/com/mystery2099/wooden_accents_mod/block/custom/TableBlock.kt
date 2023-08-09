@@ -45,7 +45,7 @@ import java.util.function.Consumer
 class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
     GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
     override val itemGroup
-        get() = ModItemGroups.kitchenItemGroup
+        get() = ModItemGroups.decorations
 
     override val tag: TagKey<Block>
         get() = ModBlockTags.tables

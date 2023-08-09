@@ -34,7 +34,7 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
         ModBlockTags.kitchenCounters += ModBlockTags.kitchenCabinets
     }
 
-    private infix fun <T : Block> TagKey<Block>.add(collection: Collection<T>): FabricTagBuilder {
+    private fun <T : Block> TagKey<Block>.add(collection: Collection<T>): FabricTagBuilder {
         return getOrCreateTagBuilder(this).also { collection.forEach(it::add) }
     }
 
@@ -42,9 +42,9 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
         return getOrCreateTagBuilder(this).also { tags.forEach(it::addTag) }
     }
 
-    private infix fun TagKey<Block>.add(tag: TagKey<Block>): FabricTagBuilder = getOrCreateTagBuilder(this).addTag(tag)
+    private fun TagKey<Block>.add(tag: TagKey<Block>): FabricTagBuilder = getOrCreateTagBuilder(this).addTag(tag)
 
-    private infix fun TagKey<Block>.add(block: Block): FabricTagBuilder = getOrCreateTagBuilder(this).add(block)
+    private fun TagKey<Block>.add(block: Block): FabricTagBuilder = getOrCreateTagBuilder(this).add(block)
     private fun TagKey<Block>.add(vararg blocks: Block): FabricTagBuilder {
         return getOrCreateTagBuilder(this).also { blocks.forEach(it::add) }
     }

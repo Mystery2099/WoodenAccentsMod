@@ -15,7 +15,7 @@ import net.minecraft.util.Identifier
 import java.util.function.Consumer
 
 class ThinPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape) {
-    override val connectablesBlockTag: TagKey<Block> = ModBlockTags.thinPillarsConnectable
+    override val connectableBlockTag: TagKey<Block> = ModBlockTags.thinPillarsConnectable
     override val tag: TagKey<Block> = ModBlockTags.thinPillars
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {

@@ -37,10 +37,9 @@ import java.util.function.Consumer
 
 abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shape) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
     GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
-    override val itemGroup get() = ModItemGroups.outsideBlockItemGroup
-    abstract val connectablesBlockTag: TagKey<Block>
-    override val tag: TagKey<Block>
-        get() = ModBlockTags.pillars
+    override val itemGroup = ModItemGroups.structuralElements
+    abstract val connectableBlockTag: TagKey<Block>
+    override val tag: TagKey<Block> = ModBlockTags.pillars
 
     init { defaultState = defaultState.with(up, false)
         .with(down, false)
@@ -88,7 +87,7 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         this.with(up, canConnect(world, pos.up())).with(down, canConnect(world, pos.down()))
     }!!
     private fun canConnect(world: WorldAccess, pos: BlockPos): Boolean {
-        return world.getBlockState(pos).isIn(connectablesBlockTag)
+        return world.getBlockState(pos).isIn(connectableBlockTag)
     }
 
     fun offerRecipe(exporter: Consumer<RecipeJsonProvider>, outputNum: Int, primaryInput: ItemConvertible, secondaryInput: ItemConvertible) {

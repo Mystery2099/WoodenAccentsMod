@@ -27,10 +27,8 @@ import net.minecraft.util.math.Direction
 import java.util.function.Consumer
 
 class KitchenCounterBlock(baseBlock: Block, topBlock: Block) : AbstractKitchenCounterBlock(baseBlock, topBlock), GroupedBlock, TaggedBlock, RecipeBlockData, BlockStateGeneratorDataBlock {
-    override val tag: TagKey<Block>
-        get() = ModBlockTags.kitchenCounters
-    override val itemGroup: CustomItemGroup
-        get() = ModItemGroups.kitchenItemGroup
+    override val tag: TagKey<Block> = ModBlockTags.kitchenCounters
+    override val itemGroup: CustomItemGroup = ModItemGroups.decorations
 
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
         val block = this

@@ -30,10 +30,8 @@ import java.util.function.Consumer
 
 class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : FenceGateBlock(FabricBlockSettings.copyOf(baseGate), baseGate.woodType),
     GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
-    override val tag: TagKey<Block>
-        get() = ModBlockTags.modernFenceGates
-    override val itemGroup
-        get() = ModItemGroups.outsideBlockItemGroup
+    override val tag: TagKey<Block> = ModBlockTags.modernFenceGates
+    override val itemGroup = ModItemGroups.structuralElements
     private inline val defaultShapes
         get() = arrayOf(
             Block.createCuboidShape(0.0, 0.0, 7.5, 1.0, 15.0, 8.5),

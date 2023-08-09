@@ -22,9 +22,8 @@ import java.util.function.Consumer
 
 class CustomWallBlock(val baseBlock: Block) : WallBlock(FabricBlockSettings.copyOf(baseBlock)), GroupedBlock,
     RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
-    override val tag: TagKey<Block>
-        get() = ModBlockTags.woodenWalls
-    override val itemGroup get() = ModItemGroups.outsideBlockItemGroup
+    override val tag: TagKey<Block> = ModBlockTags.woodenWalls
+    override val itemGroup = ModItemGroups.structuralElements
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
         FabricRecipeProvider.offerWallRecipe(exporter, RecipeCategory.DECORATIONS, this, baseBlock)
     }

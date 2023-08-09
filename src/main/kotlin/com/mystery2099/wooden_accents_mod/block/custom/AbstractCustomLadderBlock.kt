@@ -5,6 +5,8 @@ import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
+import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
+import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import net.minecraft.block.Block
 import net.minecraft.block.LadderBlock
 import net.minecraft.data.server.recipe.RecipeJsonProvider
@@ -17,8 +19,8 @@ import java.util.function.Consumer
 
 abstract class AbstractCustomLadderBlock(settings: Settings) : LadderBlock(settings), GroupedBlock, RecipeBlockData,
     TaggedBlock, BlockStateGeneratorDataBlock {
-    override val tag: TagKey<Block>
-        get() = BlockTags.CLIMBABLE
+    override val tag: TagKey<Block> = BlockTags.CLIMBABLE
+    override val itemGroup: CustomItemGroup = ModItemGroups.structuralElements
 
     fun offerRecipe(exporter: Consumer<RecipeJsonProvider>, input: ItemConvertible, outputNum: Int, group: String) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, outputNum).apply {

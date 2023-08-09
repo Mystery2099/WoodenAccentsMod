@@ -49,10 +49,8 @@ import java.util.function.Consumer
 
 class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
     GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
-    override val tag: TagKey<Block>
-        get() = ModBlockTags.coffeeTables
-    override val itemGroup
-        get() = ModItemGroups.livingRoomItemGroup
+    override val tag: TagKey<Block> = ModBlockTags.coffeeTables
+    override val itemGroup = ModItemGroups.decorations
 
     init {
         defaultState = stateManager.defaultState.apply {

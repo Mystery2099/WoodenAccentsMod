@@ -52,7 +52,7 @@ class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(ru
     override val downShape: VoxelShape = upShape.offset(0.0, -10 / 16.0, 0.0)
 
     override val tag: TagKey<Block> = ModBlockTags.supportBeams
-    override val itemGroup: CustomItemGroup = ModItemGroups.outsideBlockItemGroup
+    override val itemGroup: CustomItemGroup = ModItemGroups.structuralElements
 
     private fun canConnect(pos: BlockPos, direction: Direction, world: WorldAccess): Boolean {
         val otherState = world.getBlockState(pos.offset(direction))

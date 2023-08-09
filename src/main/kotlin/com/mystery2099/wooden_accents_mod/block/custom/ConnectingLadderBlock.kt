@@ -4,8 +4,6 @@ import com.mystery2099.wooden_accents_mod.block.custom.enums.ConnectingLadderSha
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
 import com.mystery2099.wooden_accents_mod.data.ModModels
-import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
-import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
@@ -32,10 +30,7 @@ class ConnectingLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(Fa
     resistance(Blocks.LADDER.blastResistance)
     sounds(baseBlock.getSoundGroup(baseBlock.defaultState))
 }) {
-    override val tag: TagKey<Block>
-        get() = ModBlockTags.connectingLadders
-    override val itemGroup: CustomItemGroup
-        get() = ModItemGroups.outsideBlockItemGroup
+    override val tag: TagKey<Block> = ModBlockTags.connectingLadders
 
     init {
         defaultState = defaultState.withShape(left = false, right = false)

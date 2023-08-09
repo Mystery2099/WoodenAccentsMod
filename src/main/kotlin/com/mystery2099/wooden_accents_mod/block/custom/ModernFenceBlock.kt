@@ -35,10 +35,8 @@ import java.util.function.Consumer
 
 class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Block) : FenceBlock(FabricBlockSettings.copyOf(settings)),
     GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
-    override val tag: TagKey<Block>
-        get() = ModBlockTags.modernFences
-    override val itemGroup
-        get() = ModItemGroups.outsideBlockItemGroup
+    override val tag: TagKey<Block> = ModBlockTags.modernFences
+    override val itemGroup = ModItemGroups.structuralElements
 
     override fun canConnect(state: BlockState, neighborIsFullSquare: Boolean, dir: Direction): Boolean {
         return !cannotConnect(state) && neighborIsFullSquare || state.run {
