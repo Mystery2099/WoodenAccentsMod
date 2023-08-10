@@ -7,6 +7,7 @@ import net.minecraft.data.client.TextureKey
 import java.util.*
 
 object ModModels {
+
     /*---------------Texture Keys----------------*/
     val legs: TextureKey = TextureKey.of("legs")
 
@@ -42,6 +43,8 @@ object ModModels {
     val supportBeamItem = item("support_beam", TextureKey.ALL)
     val supportBeamCenter = block("support_beam_center", "_center", TextureKey.ALL)
     val supportBeamDown = block("support_beam_down", "_down", TextureKey.ALL)
+
+    val crate = block("wooden_crate", TextureKey.EDGE, TextureKey.INSIDE, TextureKey.CROSS)
     /*---------------Living Room Stuff----------------*/
     //Table Models
     val tableItem = item("table", TextureKey.TOP, legs)

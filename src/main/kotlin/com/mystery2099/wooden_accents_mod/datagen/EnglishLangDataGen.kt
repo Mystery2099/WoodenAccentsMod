@@ -13,6 +13,7 @@ class EnglishLangDataGen(dataOutput: FabricDataOutput) : FabricLanguageProvider(
         with(translationBuilder) {
             ModBlocks.blocks.forEach{it.genLangName(this)}
             CustomItemGroup.instances.forEach{it.itemGroup.genLangName(this)}
+            add("container.crate.more", "and %s more...")
         }
 
     }

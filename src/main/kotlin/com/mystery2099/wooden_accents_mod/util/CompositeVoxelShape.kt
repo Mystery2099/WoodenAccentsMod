@@ -30,6 +30,7 @@ class CompositeVoxelShape(vararg voxelShapes: VoxelShape) {
     fun mergeWith(vararg others: CompositeVoxelShape): CompositeVoxelShape = this.also {
         it._voxelShapes += others.reduce { a, b -> a.mergeWith(b) }.voxelShapes
     }
+
     infix fun add(voxelShape: VoxelShape): CompositeVoxelShape = this.also {
         _voxelShapes += voxelShape
     }
@@ -51,6 +52,7 @@ class CompositeVoxelShape(vararg voxelShapes: VoxelShape) {
     operator fun plusAssign(other: CompositeVoxelShape) {
         this.mergeWith(other)
     }
+
     operator fun plusAssign(voxelShape: VoxelShape) {
         add(voxelShape)
     }
@@ -62,6 +64,7 @@ class CompositeVoxelShape(vararg voxelShapes: VoxelShape) {
     operator fun plusAssign(voxelShapes: Array<VoxelShape>) {
         addAll(*voxelShapes)
     }
+
     infix fun VoxelShape.shallBeAddedIf(boolean: Boolean) {
         if (boolean) add(this)
     }
@@ -121,7 +124,25 @@ class CompositeVoxelShape(vararg voxelShapes: VoxelShape) {
             maxX: Double,
             maxY: Double,
             maxZ: Double
-        ): CompositeVoxelShape = CompositeVoxelShape(Block.createCuboidShape(minX, minY, minZ, maxX, maxY, maxZ))
+        ) = Block.createCuboidShape(minX, minY, minZ, maxX, maxY, maxZ)
+
+        fun createCuboidShape(
+            minX: Int,
+            minY: Int,
+            minZ: Int,
+            maxX: Int,
+            maxY: Int,
+            maxZ: Int
+        ) = Block.createCuboidShape(
+            minX.toDouble(),
+            minY.toDouble(),
+            minZ.toDouble(),
+            maxX.toDouble(),
+            maxY.toDouble(),
+            maxZ.toDouble()
+        )
+
+
         fun copy(compositeVoxelShape: CompositeVoxelShape) = compositeVoxelShape.copy()
     }
 }

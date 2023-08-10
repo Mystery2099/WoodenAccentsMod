@@ -153,7 +153,7 @@ class ConnectingLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(Fa
             Direction.WEST to singleshape.rotatedRight()
         )
         private val centerShapeMap = mutableMapOf(
-            Direction.NORTH to CompositeVoxelShape.createCuboidShape(0.0, 1.0, 14.5, 16.0, 15.0, 15.0)
+            Direction.NORTH to CompositeVoxelShape.of(CompositeVoxelShape.createCuboidShape(0.0, 1.0, 14.5, 16.0, 15.0, 15.0))
         ).also {
             it[Direction.EAST] = it[Direction.NORTH]?.rotatedLeft()!!
             it[Direction.SOUTH] = it[Direction.NORTH]?.flipped()!!

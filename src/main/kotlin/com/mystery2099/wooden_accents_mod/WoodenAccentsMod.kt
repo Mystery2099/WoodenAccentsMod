@@ -3,7 +3,6 @@ package com.mystery2099.wooden_accents_mod
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.register
 import com.mystery2099.wooden_accents_mod.block_entity.ModBlockEntities
-import com.mystery2099.wooden_accents_mod.block_entity.ModBlockEntities.register
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import net.fabricmc.api.ModInitializer
 import net.minecraft.block.Block

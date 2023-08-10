@@ -157,6 +157,34 @@ object ModBlocks {
     val strippedBambooSupportBeam = SupportBeamBlock(Blocks.STRIPPED_BAMBOO_BLOCK).registerAs("stripped_bamboo_support_beam")
     val strippedCrimsonSupportBeam = SupportBeamBlock(Blocks.STRIPPED_CRIMSON_STEM).registerAs("stripped_crimson_support_beam")
     val strippedWarpedSupportBeam = SupportBeamBlock(Blocks.STRIPPED_WARPED_STEM).registerAs("stripped_warped_support_beam")
+
+    //Crates
+    val oakCrate = CrateBlock(Blocks.OAK_PLANKS, Blocks.OAK_LOG).registerAs("oak_crate")
+    val spruceCrate = CrateBlock(Blocks.SPRUCE_PLANKS, Blocks.SPRUCE_LOG).registerAs("spruce_crate")
+    val birchCrate = CrateBlock(Blocks.BIRCH_PLANKS, Blocks.BIRCH_LOG).registerAs("birch_crate")
+    val jungleCrate = CrateBlock(Blocks.JUNGLE_PLANKS, Blocks.JUNGLE_LOG).registerAs("jungle_crate")
+    val acaciaCrate = CrateBlock(Blocks.ACACIA_PLANKS, Blocks.ACACIA_LOG).registerAs("acacia_crate")
+    val darkOakCrate = CrateBlock(Blocks.DARK_OAK_PLANKS, Blocks.DARK_OAK_LOG).registerAs("dark_oak_crate")
+    val mangroveCrate = CrateBlock(Blocks.MANGROVE_PLANKS, Blocks.MANGROVE_LOG).registerAs("mangrove_crate")
+    val cherryCrate = CrateBlock(Blocks.CHERRY_PLANKS, Blocks.CHERRY_LOG).registerAs("cherry_crate")
+    val bambooCrate = CrateBlock(Blocks.BAMBOO_PLANKS, Blocks.BAMBOO_BLOCK).registerAs("bamboo_crate")
+    val bambooMosaicCrate = CrateBlock(Blocks.BAMBOO_MOSAIC, Blocks.BAMBOO_BLOCK).registerAs("bamboo_mosaic_crate")
+    val crimsonCrate = CrateBlock(Blocks.CRIMSON_PLANKS, Blocks.CRIMSON_STEM).registerAs("crimson_crate")
+    val warpedCrate = CrateBlock(Blocks.WARPED_PLANKS, Blocks.WARPED_STEM).registerAs("warped_crate")
+
+    //Stripped Crates
+    val strippedOakCrate = CrateBlock(Blocks.OAK_PLANKS, Blocks.STRIPPED_OAK_LOG).registerAs("stripped_oak_crate")
+    val strippedSpruceCrate = CrateBlock(Blocks.SPRUCE_PLANKS, Blocks.STRIPPED_SPRUCE_LOG).registerAs("stripped_spruce_crate")
+    val strippedBirchCrate = CrateBlock(Blocks.BIRCH_PLANKS, Blocks.STRIPPED_BIRCH_LOG).registerAs("stripped_birch_crate")
+    val strippedJungleCrate = CrateBlock(Blocks.JUNGLE_PLANKS, Blocks.STRIPPED_JUNGLE_LOG).registerAs("stripped_jungle_crate")
+    val strippedAcaciaCrate = CrateBlock(Blocks.ACACIA_PLANKS, Blocks.STRIPPED_ACACIA_LOG).registerAs("stripped_acacia_crate")
+    val strippedDarkOakCrate = CrateBlock(Blocks.DARK_OAK_PLANKS, Blocks.STRIPPED_DARK_OAK_LOG).registerAs("stripped_dark_oak_crate")
+    val strippedMangroveCrate = CrateBlock(Blocks.MANGROVE_PLANKS, Blocks.STRIPPED_MANGROVE_LOG).registerAs("stripped_mangrove_crate")
+    val strippedCherryCrate = CrateBlock(Blocks.CHERRY_PLANKS, Blocks.STRIPPED_CHERRY_LOG).registerAs("stripped_cherry_crate")
+    val strippedBambooCrate = CrateBlock(Blocks.BAMBOO_PLANKS, Blocks.STRIPPED_BAMBOO_BLOCK).registerAs("stripped_bamboo_crate")
+    val strippedBambooMosaicCrate = CrateBlock(Blocks.BAMBOO_MOSAIC, Blocks.STRIPPED_BAMBOO_BLOCK).registerAs("stripped_bamboo_mosaic_crate")
+    val strippedCrimsonCrate = CrateBlock(Blocks.CRIMSON_PLANKS, Blocks.STRIPPED_CRIMSON_STEM).registerAs("stripped_crimson_crate")
+    val strippedWarpedCrate = CrateBlock(Blocks.WARPED_PLANKS, Blocks.STRIPPED_WARPED_STEM).registerAs("stripped_warped_crate")
     /*---------------End Outside Stuff----------------*/
 
     /*---------------Living Room Stuff----------------*/
