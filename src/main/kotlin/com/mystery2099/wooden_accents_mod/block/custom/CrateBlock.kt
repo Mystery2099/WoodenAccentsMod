@@ -3,9 +3,14 @@ package com.mystery2099.wooden_accents_mod.block.custom
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
 import com.mystery2099.wooden_accents_mod.block_entity.ModBlockEntities
 import com.mystery2099.wooden_accents_mod.block_entity.custom.CrateBlockEntity
+import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
+import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.customGroup
+import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.CompositeVoxelShape
@@ -18,6 +23,8 @@ import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.TextureKey
 import net.minecraft.data.client.TextureMap
+import net.minecraft.data.server.recipe.RecipeJsonProvider
+import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.mob.PiglinBrain
@@ -26,9 +33,12 @@ import net.minecraft.inventory.Inventories
 import net.minecraft.inventory.Inventory
 import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 import net.minecraft.loot.context.LootContext
 import net.minecraft.loot.context.LootContextParameters
 import net.minecraft.nbt.NbtElement
+import net.minecraft.recipe.book.RecipeCategory
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
@@ -44,8 +54,9 @@ import net.minecraft.world.World
 import java.util.function.Consumer
 
 class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) : BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)),
-    BlockStateGeneratorDataBlock, GroupedBlock {
+    BlockStateGeneratorDataBlock, GroupedBlock, TaggedBlock, RecipeBlockData {
     override val itemGroup: CustomItemGroup = ModItemGroups.miscellaneous
+    override val tag: TagKey<Block> = ModBlockTags.crates
 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
@@ -70,13 +81,13 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) : BlockWith
         hit: BlockHitResult?
     ): ActionResult {
         if (world.isClient) return ActionResult.SUCCESS
-        if (player.isSpectator) return ActionResult.CONSUME
         val blockEntity = world.getBlockEntity(pos)
         if (blockEntity is CrateBlockEntity) {
             player.openHandledScreen(blockEntity)
+            //player.incrementStat(Stats.OPEN_SHULKER_BOX)
             PiglinBrain.onGuardedBlockInteracted(player, true)
         }
-        return ActionResult.PASS
+        return ActionResult.CONSUME
     }
 
 
@@ -100,10 +111,10 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) : BlockWith
 
     @Deprecated("Deprecated in Java")
     override fun getDroppedStacks(state: BlockState?, builder: LootContext.Builder): List<ItemStack> {
-        var builder: LootContext.Builder = builder
-        val blockEntity = builder.getNullable(LootContextParameters.BLOCK_ENTITY)
+        var newBuilder: LootContext.Builder = builder
+        val blockEntity = newBuilder.getNullable(LootContextParameters.BLOCK_ENTITY)
         if (blockEntity is CrateBlockEntity) {
-            builder = builder.putDrop(
+            newBuilder = newBuilder.putDrop(
                 contents
             ) { _: LootContext?, consumer: Consumer<ItemStack?> ->
                 for (i in 0 until blockEntity.size()) {
@@ -111,7 +122,7 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) : BlockWith
                 }
             }
         }
-        return super.getDroppedStacks(state, builder)
+        return super.getDroppedStacks(state, newBuilder)
     }
 
     override fun onPlaced(
@@ -135,16 +146,15 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) : BlockWith
         moved: Boolean
     ) {
         if (state.isOf(newState.block)) return
-        val blockEntity = world.getBlockEntity(pos)
-        if (blockEntity is CrateBlockEntity) world.updateComparators(pos, state.block)
+        if (world.getBlockEntity(pos) is CrateBlockEntity) world.updateComparators(pos, state.block)
         super.onStateReplaced(state, world, pos, newState, moved)
     }
 
     override fun appendTooltip(
-        stack: ItemStack?,
+        stack: ItemStack,
         world: BlockView?,
-        tooltip: MutableList<Text?>,
-        options: TooltipContext?
+        tooltip: MutableList<Text>,
+        options: TooltipContext
     ) {
         super.appendTooltip(stack, world, tooltip, options)
         val nbtCompound = BlockItem.getBlockEntityNbt(stack)
@@ -162,9 +172,11 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) : BlockWith
                     ++j
                     if (i > 4) continue
                     ++i
-                    val mutableText = itemStack.getName().copy()
-                    mutableText.append(" x").append(itemStack.count.toString())
-                    tooltip.add(mutableText)
+                    itemStack.getName().copy()
+                        .append(" x")
+                        .append(itemStack.count.toString()).also {
+                        tooltip.add(it)
+                    }
                 }
                 if (j - i > 0) {
                     tooltip.add(Text.translatable("container.crate.more", j - i).formatted(Formatting.ITALIC))
@@ -180,8 +192,8 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) : BlockWith
     override fun hasComparatorOutput(state: BlockState?): Boolean = true
 
     @Deprecated("Deprecated in Java")
-    override fun getComparatorOutput(state: BlockState?, world: World, pos: BlockPos?): Int {
-        return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos) as Inventory?)
+    override fun getComparatorOutput(state: BlockState, world: World, pos: BlockPos): Int {
+        return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos) as Inventory)
     }
 
     override fun getPickStack(world: BlockView, pos: BlockPos?, state: BlockState?): ItemStack {
@@ -210,7 +222,7 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) : BlockWith
         ).get()
         val crateBlockEntityBuilder: FabricBlockEntityTypeBuilder<CrateBlockEntity> =
             FabricBlockEntityTypeBuilder.create(::CrateBlockEntity)
-        public val contents = Identifier("contents")
+        val contents = Identifier("contents")
 
     }
 
@@ -224,5 +236,20 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) : BlockWith
         ModModels.crate.upload(this, map, generator.modelCollector)
         generator.registerSimpleState(this)
     }
+
+    override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
+        ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, this).apply {
+            input('n', baseBlock)
+            input('t', edgeBlock)
+            input('u', Items.CHEST)
+            pattern("tnt")
+            pattern("nun")
+            pattern("tnt")
+            customGroup(this@CrateBlock, "crates")
+            requires(Items.CHEST)
+            offerTo(exporter)
+        }
+    }
+
 
 }

@@ -29,7 +29,7 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
             return criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
         }
 
-        fun ShapedRecipeJsonBuilder.group(block: Block, name : String): ShapedRecipeJsonBuilder {
+        fun ShapedRecipeJsonBuilder.customGroup(block: Block, name : String): ShapedRecipeJsonBuilder {
             return group(when {
                 block.isStripped -> "stripped_$name"
                 block.isPlank ->"plank_$name"

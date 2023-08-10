@@ -14,7 +14,7 @@ import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
 import com.mystery2099.wooden_accents_mod.data.ModModels
-import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.group
+import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.customGroup
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties
@@ -164,7 +164,7 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWate
             input('|', baseBlock)
             pattern("___")
             pattern("| |")
-            group(this@CoffeeTableBlock, "coffee_tables")
+            customGroup(this@CoffeeTableBlock, "coffee_tables")
             requires(topBlock)
             offerTo(exporter)
         }

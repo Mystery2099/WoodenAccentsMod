@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "stripped_crates",
+  "key": {
+    "e": {
+      "item": "minecraft:stripped_bamboo_block"
+    },
+    "o": {
+      "item": "minecraft:chest"
+    },
+    "p": {
+      "item": "minecraft:bamboo_mosaic"
+    }
+  },
+  "pattern": [
+    "epe",
+    "pop",
+    "epe"
+  ],
+  "result": {
+    "item": "myst2099_wooden_accents_mod:stripped_bamboo_mosaic_crate"
+  },
+  "show_notification": true
+}

@@ -7,7 +7,7 @@ import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
-import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.group
+import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.customGroup
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
@@ -44,7 +44,7 @@ class CustomCarpetBlock(val baseBlock: Block) : CarpetBlock(
             input('_', Items.PAPER)
             pattern("##")
             pattern("_ ")
-            group(this@CustomCarpetBlock, "carpets")
+            customGroup(this@CustomCarpetBlock, "carpets")
             requires(baseBlock)
             offerTo(exporter)
         }

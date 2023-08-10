@@ -1,9 +1,10 @@
 package com.mystery2099.wooden_accents_mod.block_entity.custom
 
-import com.mystery2099.wooden_accents_mod.block.custom.CrateBlock
 import com.mystery2099.wooden_accents_mod.block_entity.ModBlockEntities
+import com.mystery2099.wooden_accents_mod.screen.CrateScreenHandler
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.block.ShulkerBoxBlock
 import net.minecraft.block.entity.LootableContainerBlockEntity
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
@@ -13,7 +14,6 @@ import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
-import net.minecraft.screen.Generic3x3ContainerScreenHandler
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
@@ -42,7 +42,7 @@ class CrateBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 world!!.playSound(
                     null,
                     pos,
-                    SoundEvents.BLOCK_CHEST_OPEN,
+                    SoundEvents.BLOCK_BARREL_OPEN,
                     SoundCategory.BLOCKS,
                     0.5f,
                     world!!.random.nextFloat() * 0.1f + 0.9f
@@ -60,7 +60,7 @@ class CrateBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 world!!.playSound(
                     null,
                     pos,
-                    SoundEvents.BLOCK_CHEST_CLOSE,
+                    SoundEvents.BLOCK_BARREL_CLOSE,
                     SoundCategory.BLOCKS,
                     0.5f,
                     world!!.random.nextFloat() * 0.1f + 0.9f
@@ -69,7 +69,7 @@ class CrateBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
     }
 
-    override fun getAvailableSlots(side: Direction?): IntArray = availableSlots
+    override fun getAvailableSlots(side: Direction): IntArray = availableSlots
     override fun onSyncedBlockEvent(type: Int, data: Int): Boolean {
         if (type == 1) {
             viewerCount = data
@@ -99,19 +99,19 @@ class CrateBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     override fun getInvStackList(): DefaultedList<ItemStack> = inventory
 
-    override fun setInvStackList(list: DefaultedList<ItemStack?>?) {
+    override fun setInvStackList(list: DefaultedList<ItemStack>) {
         inventory = list
     }
 
 
     override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?): Boolean {
-        return Block.getBlockFromItem(stack.item) !is CrateBlock
+        return Block.getBlockFromItem(stack.item) !is ShulkerBoxBlock
     }
 
     override fun canExtract(slot: Int, stack: ItemStack?, dir: Direction?): Boolean = true
 
     override fun createScreenHandler(syncId: Int, playerInventory: PlayerInventory): ScreenHandler {
-        return Generic3x3ContainerScreenHandler(syncId, playerInventory, this)
+        return CrateScreenHandler(syncId, playerInventory, this)
     }
     companion object {
         const val ITEMS_KEY = "Items"

@@ -30,6 +30,7 @@ object ModBlockTags {
     val modernFenceGates = "modern_fence_gates".toBlockTag().withMatchingItemTag()
 
     val supportBeams = "support_beams".toBlockTag().withMatchingItemTag()
+    val crates = "crates".toBlockTag().withMatchingItemTag()
     /*---------------End Outside Tags----------------*/
 
     /*---------------Living Room Tags----------------*/

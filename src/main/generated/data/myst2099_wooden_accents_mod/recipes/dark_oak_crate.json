@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "crates",
+  "key": {
+    "e": {
+      "item": "minecraft:dark_oak_log"
+    },
+    "o": {
+      "item": "minecraft:chest"
+    },
+    "p": {
+      "item": "minecraft:dark_oak_planks"
+    }
+  },
+  "pattern": [
+    "epe",
+    "pop",
+    "epe"
+  ],
+  "result": {
+    "item": "myst2099_wooden_accents_mod:dark_oak_crate"
+  },
+  "show_notification": true
+}

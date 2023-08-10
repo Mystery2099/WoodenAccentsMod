@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "stripped_crates",
+  "key": {
+    "e": {
+      "item": "minecraft:stripped_acacia_log"
+    },
+    "o": {
+      "item": "minecraft:chest"
+    },
+    "p": {
+      "item": "minecraft:acacia_planks"
+    }
+  },
+  "pattern": [
+    "epe",
+    "pop",
+    "epe"
+  ],
+  "result": {
+    "item": "myst2099_wooden_accents_mod:stripped_acacia_crate"
+  },
+  "show_notification": true
+}

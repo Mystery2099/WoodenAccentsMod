@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "stripped_crates",
+  "key": {
+    "e": {
+      "item": "minecraft:stripped_warped_stem"
+    },
+    "o": {
+      "item": "minecraft:chest"
+    },
+    "p": {
+      "item": "minecraft:warped_planks"
+    }
+  },
+  "pattern": [
+    "epe",
+    "pop",
+    "epe"
+  ],
+  "result": {
+    "item": "myst2099_wooden_accents_mod:stripped_warped_crate"
+  },
+  "show_notification": true
+}

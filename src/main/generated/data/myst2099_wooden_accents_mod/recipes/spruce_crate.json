@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "crates",
+  "key": {
+    "e": {
+      "item": "minecraft:spruce_log"
+    },
+    "o": {
+      "item": "minecraft:chest"
+    },
+    "p": {
+      "item": "minecraft:spruce_planks"
+    }
+  },
+  "pattern": [
+    "epe",
+    "pop",
+    "epe"
+  ],
+  "result": {
+    "item": "myst2099_wooden_accents_mod:spruce_crate"
+  },
+  "show_notification": true
+}

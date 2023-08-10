@@ -11,7 +11,7 @@ import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockDat
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
-import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.group
+import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.customGroup
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
@@ -136,7 +136,7 @@ class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWaterlogga
             pattern("###")
             pattern(" | ")
             pattern(" | ")
-            group(this@TableBlock, "tables")
+            customGroup(this@TableBlock, "tables")
             requires(topBlock)
             offerTo(exporter)
         }

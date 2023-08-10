@@ -10,7 +10,7 @@ import com.mystery2099.wooden_accents_mod.block_entity.custom.KitchenCabinetBloc
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModItemTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
-import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.group
+import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.customGroup
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
@@ -177,7 +177,7 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
             pattern("___")
             pattern("#O#")
             pattern("###")
-            group(this@KitchenCabinetBlock, "kitchen_cabinets")
+            customGroup(this@KitchenCabinetBlock, "kitchen_cabinets")
             requires(baseBlock)
             offerTo(exporter)
         }
