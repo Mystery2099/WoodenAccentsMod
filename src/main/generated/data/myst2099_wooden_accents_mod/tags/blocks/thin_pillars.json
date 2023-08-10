@@ -1,17 +1,17 @@
 {
   "replace": false,
   "values": [
-    "myst2099_wooden_accents_mod:thin_oak_pillar",
-    "myst2099_wooden_accents_mod:thin_spruce_pillar",
-    "myst2099_wooden_accents_mod:thin_birch_pillar",
-    "myst2099_wooden_accents_mod:thin_jungle_pillar",
-    "myst2099_wooden_accents_mod:thin_acacia_pillar",
-    "myst2099_wooden_accents_mod:thin_dark_oak_pillar",
-    "myst2099_wooden_accents_mod:thin_mangrove_pillar",
-    "myst2099_wooden_accents_mod:thin_cherry_pillar",
-    "myst2099_wooden_accents_mod:thin_bamboo_pillar",
+    "myst2099_wooden_accents_mod:thin_oak_plank_pillar",
+    "myst2099_wooden_accents_mod:thin_spruce_plank_pillar",
+    "myst2099_wooden_accents_mod:thin_birch_plank_pillar",
+    "myst2099_wooden_accents_mod:thin_jungle_plank_pillar",
+    "myst2099_wooden_accents_mod:thin_acacia_plank_pillar",
+    "myst2099_wooden_accents_mod:thin_dark_oak_plank_pillar",
+    "myst2099_wooden_accents_mod:thin_mangrove_plank_pillar",
+    "myst2099_wooden_accents_mod:thin_cherry_plank_pillar",
+    "myst2099_wooden_accents_mod:thin_bamboo_plank_pillar",
     "myst2099_wooden_accents_mod:thin_bamboo_mosaic_pillar",
-    "myst2099_wooden_accents_mod:thin_crimson_pillar",
-    "myst2099_wooden_accents_mod:thin_warped_pillar"
+    "myst2099_wooden_accents_mod:thin_crimson_plank_pillar",
+    "myst2099_wooden_accents_mod:thin_warped_plank_pillar"
   ]
 }

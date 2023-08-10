@@ -3,20 +3,20 @@
   "category": "misc",
   "group": "crates",
   "key": {
-    "e": {
+    "n": {
+      "item": "minecraft:dark_oak_planks"
+    },
+    "t": {
       "item": "minecraft:dark_oak_log"
     },
-    "o": {
+    "u": {
       "item": "minecraft:chest"
-    },
-    "p": {
-      "item": "minecraft:dark_oak_planks"
     }
   },
   "pattern": [
-    "epe",
-    "pop",
-    "epe"
+    "tnt",
+    "nun",
+    "tnt"
   ],
   "result": {
     "item": "myst2099_wooden_accents_mod:dark_oak_crate"

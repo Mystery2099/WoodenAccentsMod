@@ -3,20 +3,20 @@
   "category": "misc",
   "group": "crates",
   "key": {
-    "e": {
+    "n": {
+      "item": "minecraft:cherry_planks"
+    },
+    "t": {
       "item": "minecraft:cherry_log"
     },
-    "o": {
+    "u": {
       "item": "minecraft:chest"
-    },
-    "p": {
-      "item": "minecraft:cherry_planks"
     }
   },
   "pattern": [
-    "epe",
-    "pop",
-    "epe"
+    "tnt",
+    "nun",
+    "tnt"
   ],
   "result": {
     "item": "myst2099_wooden_accents_mod:cherry_crate"

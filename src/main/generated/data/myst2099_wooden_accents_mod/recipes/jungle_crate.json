@@ -3,20 +3,20 @@
   "category": "misc",
   "group": "crates",
   "key": {
-    "e": {
+    "n": {
+      "item": "minecraft:jungle_planks"
+    },
+    "t": {
       "item": "minecraft:jungle_log"
     },
-    "o": {
+    "u": {
       "item": "minecraft:chest"
-    },
-    "p": {
-      "item": "minecraft:jungle_planks"
     }
   },
   "pattern": [
-    "epe",
-    "pop",
-    "epe"
+    "tnt",
+    "nun",
+    "tnt"
   ],
   "result": {
     "item": "myst2099_wooden_accents_mod:jungle_crate"

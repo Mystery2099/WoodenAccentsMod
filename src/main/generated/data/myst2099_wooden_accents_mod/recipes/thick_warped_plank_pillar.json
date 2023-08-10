@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "thick_pillars",
+  "key": {
+    "#": {
+      "item": "minecraft:warped_planks"
+    },
+    "|": {
+      "item": "minecraft:warped_planks"
+    }
+  },
+  "pattern": [
+    "###",
+    " | ",
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "item": "myst2099_wooden_accents_mod:thick_warped_plank_pillar"
+  },
+  "show_notification": true
+}

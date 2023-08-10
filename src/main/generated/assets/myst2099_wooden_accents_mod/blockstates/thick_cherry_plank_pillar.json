@@ -1,0 +1,27 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/cherry_wall_post"
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/thick_cherry_plank_pillar_base",
+        "uvlock": true,
+        "x": 180
+      },
+      "when": {
+        "up": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "myst2099_wooden_accents_mod:block/thick_cherry_plank_pillar_base"
+      },
+      "when": {
+        "down": "false"
+      }
+    }
+  ]
+}

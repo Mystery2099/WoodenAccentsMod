@@ -3,20 +3,20 @@
   "category": "misc",
   "group": "stripped_crates",
   "key": {
-    "e": {
+    "n": {
+      "item": "minecraft:bamboo_planks"
+    },
+    "t": {
       "item": "minecraft:stripped_bamboo_block"
     },
-    "o": {
+    "u": {
       "item": "minecraft:chest"
-    },
-    "p": {
-      "item": "minecraft:bamboo_planks"
     }
   },
   "pattern": [
-    "epe",
-    "pop",
-    "epe"
+    "tnt",
+    "nun",
+    "tnt"
   ],
   "result": {
     "item": "myst2099_wooden_accents_mod:stripped_bamboo_crate"

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "thick_pillars",
+  "key": {
+    "#": {
+      "item": "minecraft:dark_oak_planks"
+    },
+    "|": {
+      "item": "minecraft:dark_oak_planks"
+    }
+  },
+  "pattern": [
+    "###",
+    " | ",
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "item": "myst2099_wooden_accents_mod:thick_dark_oak_plank_pillar"
+  },
+  "show_notification": true
+}
