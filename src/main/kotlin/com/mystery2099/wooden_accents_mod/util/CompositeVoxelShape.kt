@@ -68,6 +68,9 @@ class CompositeVoxelShape(vararg voxelShapes: VoxelShape) {
     infix fun VoxelShape.shallBeAddedIf(boolean: Boolean) {
         if (boolean) add(this)
     }
+    infix fun CompositeVoxelShape.shallBeAddedIf(boolean: Boolean) {
+        if (boolean) mergeWith(this)
+    }
 
     fun remove(voxelShape: VoxelShape) = this.also { _voxelShapes -= voxelShape }
     fun removeAll(voxelShapes: Collection<VoxelShape>) = this.also {
@@ -116,24 +119,17 @@ class CompositeVoxelShape(vararg voxelShapes: VoxelShape) {
 
     companion object {
         fun of(vararg voxelShapes: VoxelShape) = CompositeVoxelShape(*voxelShapes)
+        infix fun of(voxelShape: VoxelShape) = CompositeVoxelShape(voxelShape)
         infix fun of(voxelShapes: Collection<VoxelShape>) = CompositeVoxelShape(voxelShapes)
-        fun createCuboidShape(
-            minX: Double,
-            minY: Double,
-            minZ: Double,
-            maxX: Double,
-            maxY: Double,
-            maxZ: Double
-        ) = Block.createCuboidShape(minX, minY, minZ, maxX, maxY, maxZ)
 
         fun createCuboidShape(
-            minX: Int,
-            minY: Int,
-            minZ: Int,
-            maxX: Int,
-            maxY: Int,
-            maxZ: Int
-        ) = Block.createCuboidShape(
+            minX: Number,
+            minY: Number,
+            minZ: Number,
+            maxX: Number,
+            maxY: Number,
+            maxZ: Number
+        ): VoxelShape = Block.createCuboidShape(
             minX.toDouble(),
             minY.toDouble(),
             minZ.toDouble(),

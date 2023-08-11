@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "support_beams",
+  "key": {
+    "#": {
+      "item": "minecraft:cherry_log"
+    },
+    "0": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "000",
+    "0#0",
+    "000"
+  ],
+  "result": {
+    "count": 6,
+    "item": "myst2099_wooden_accents_mod:cherry_support_beam"
+  },
+  "show_notification": true
+}

@@ -11,11 +11,7 @@ import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.unifiedWith
+import com.mystery2099.wooden_accents_mod.util.CompositeVoxelShape
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.*
 import net.minecraft.data.client.BlockStateModelGenerator
@@ -28,8 +24,6 @@ import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import java.util.function.Consumer
 
@@ -53,20 +47,12 @@ class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Blo
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
-    ): VoxelShape = Block.createCuboidShape(6.0, 0.0, 6.0, 10.0, 16.0, 10.0)
-        .unifiedWith(
-            arrayOf(
-                Block.createCuboidShape(7.5, 0.0, 0.0, 8.5, 15.0, 6.0),
-                Block.createCuboidShape(7.0, 11.0, 0.0, 9.0, 14.0, 6.0),
-                Block.createCuboidShape(7.0, 2.0, 0.0, 9.0, 5.0, 6.0)
-            ).let {
-                listOf(if (state[NORTH]) it.combined else VoxelShapes.empty(),
-                    if (state[EAST]) it.rotateLeft() else VoxelShapes.empty(),
-                    if (state[SOUTH]) it.flip() else VoxelShapes.empty(),
-                    if (state[WEST]) it.rotateRight() else VoxelShapes.empty()
-                )
-            }
-        )
+    ) = postShape.apply {
+        northShape shallBeAddedIf state[NORTH]
+        eastShape shallBeAddedIf state[EAST]
+        southShape shallBeAddedIf state[SOUTH]
+        westShape shallBeAddedIf state[WEST]
+    }.get()
 
 
 
@@ -97,6 +83,19 @@ class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Blo
                 )
             )
         }
+    }
+    companion object {
+        val postShape: CompositeVoxelShape = CompositeVoxelShape.of(CompositeVoxelShape.createCuboidShape(6, 0, 6, 10, 16, 10))
+        private val northShape: CompositeVoxelShape = CompositeVoxelShape(
+            CompositeVoxelShape.createCuboidShape(7, 11, 0, 9, 14, 6),
+            CompositeVoxelShape.createCuboidShape(7, 2, 0, 9, 5, 6),
+            CompositeVoxelShape.createCuboidShape(7.5, 5, 1, 8.5, 11, 2),
+            CompositeVoxelShape.createCuboidShape(7.5, 0, 2, 8.5, 15, 5),
+            CompositeVoxelShape.createCuboidShape(7.5, 0, 0, 8.5, 15, 1)
+        )
+        val eastShape = northShape.rotatedLeft()
+        val southShape = northShape.flipped()
+        val westShape = northShape.rotatedRight()
     }
 }
 

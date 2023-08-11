@@ -2,7 +2,7 @@
   "multipart": [
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/birch_wall_post"
+        "model": "myst2099_wooden_accents_mod:block/birch_plank_wall_post"
       }
     },
     {

@@ -6,7 +6,10 @@ import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
+import com.mystery2099.wooden_accents_mod.data.ModBlockTags.contains
 import com.mystery2099.wooden_accents_mod.data.ModModels
+import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.customGroup
+import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
@@ -23,6 +26,9 @@ import net.minecraft.block.PillarBlock
 import net.minecraft.block.SideShapeType
 import net.minecraft.data.client.*
 import net.minecraft.data.server.recipe.RecipeJsonProvider
+import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
+import net.minecraft.item.Items
+import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.resource.featuretoggle.FeatureFlags
@@ -61,39 +67,28 @@ class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(ru
             pos.offset(direction),
             direction.opposite,
             SideShapeType.CENTER
-        ) || otherState.isIn(tag)) && !otherState.isIn(BlockTags.FENCE_GATES)
+        ) || otherState in tag) && otherState !in BlockTags.FENCE_GATES
     }
 
-    override fun canConnectNorthOf(pos: BlockPos, world: WorldAccess): Boolean {
-        return canConnect(pos, Direction.NORTH, world)
-    }
+    override fun canConnectNorthOf(pos: BlockPos, world: WorldAccess) = canConnect(pos, Direction.NORTH, world)
 
-    override fun canConnectEastOf(pos: BlockPos, world: WorldAccess): Boolean {
-        return canConnect(pos, Direction.EAST, world)
-    }
+    override fun canConnectEastOf(pos: BlockPos, world: WorldAccess) = canConnect(pos, Direction.EAST, world)
 
-    override fun canConnectSouthOf(pos: BlockPos, world: WorldAccess): Boolean {
-        return canConnect(pos, Direction.SOUTH, world)
-    }
+    override fun canConnectSouthOf(pos: BlockPos, world: WorldAccess) = canConnect(pos, Direction.SOUTH, world)
 
-    override fun canConnectWestOf(pos: BlockPos, world: WorldAccess): Boolean {
-        return canConnect(pos, Direction.WEST, world)
-    }
+    override fun canConnectWestOf(pos: BlockPos, world: WorldAccess) = canConnect(pos, Direction.WEST, world)
 
-    override fun canConnectAbove(pos: BlockPos, world: WorldAccess): Boolean {
-        return canConnect(pos, Direction.UP, world)
-    }
+    override fun canConnectAbove(pos: BlockPos, world: WorldAccess) = canConnect(pos, Direction.UP, world)
 
-    override fun canConnectBelow(pos: BlockPos, world: WorldAccess): Boolean {
-        return canConnect(pos, Direction.DOWN, world)
-    }
+    override fun canConnectBelow(pos: BlockPos, world: WorldAccess) = canConnect(pos, Direction.DOWN, world)
 
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
         val map = TextureMap.all(baseBlock)
         ModModels.supportBeamItem.upload(this.getItemModelId(), map, generator.modelCollector)
         val centerVariant =
             ModModels.supportBeamCenter.upload(this, map, generator.modelCollector).asBlockStateVariant()
-        val downVariant = ModModels.supportBeamDown.upload(this, map, generator.modelCollector).asBlockStateVariant().uvLock()
+        val downVariant =
+            ModModels.supportBeamDown.upload(this, map, generator.modelCollector).asBlockStateVariant().uvLock()
         generator.blockStateCollector.accept(
             MultipartBlockStateSupplier.create(this).apply {
                 with(
@@ -119,8 +114,15 @@ class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(ru
     }
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
-
+        ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, this, 6).apply {
+            input('0', Items.STICK)
+            input('#', baseBlock)
+            pattern("000")
+            pattern("0#0")
+            pattern("000")
+            customGroup(this@SupportBeamBlock, "support_beams")
+            requires(baseBlock)
+            offerTo(exporter)
+        }
     }
-
-
 }

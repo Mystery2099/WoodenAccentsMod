@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "stripped_support_beams",
+  "key": {
+    "#": {
+      "item": "minecraft:stripped_crimson_stem"
+    },
+    "0": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "000",
+    "0#0",
+    "000"
+  ],
+  "result": {
+    "count": 6,
+    "item": "myst2099_wooden_accents_mod:stripped_crimson_support_beam"
+  },
+  "show_notification": true
+}

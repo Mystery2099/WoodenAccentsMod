@@ -130,30 +130,30 @@ class ConnectingLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(Fa
     companion object {
         val shape = ModProperties.connectingLadderShape
 
-        private val singleshape = CompositeVoxelShape.of(
-            Block.createCuboidShape(2.0, 0.0, 15.0, 4.0, 16.0, 16.0),
-            Block.createCuboidShape(12.0, 0.0, 15.0, 14.0, 16.0, 16.0),
-            Block.createCuboidShape(2.0, 1.0, 14.5, 14.0, 15.0, 15.0)
+        private val singleShape = CompositeVoxelShape.of(
+            CompositeVoxelShape.createCuboidShape(2, 0, 15, 4, 16, 16),
+            CompositeVoxelShape.createCuboidShape(12, 0, 15, 14, 16, 16),
+            CompositeVoxelShape.createCuboidShape(2, 1, 14.5, 14, 15, 15)
         )
 
         private val leftShape = CompositeVoxelShape.of(
-            Block.createCuboidShape(12.0, 0.0, 15.0, 14.0, 16.0, 16.0),
-            Block.createCuboidShape(0.0, 1.0, 14.5, 14.0, 15.0, 15.0)
+            CompositeVoxelShape.createCuboidShape(12, 0, 15, 14, 16, 16),
+            CompositeVoxelShape.createCuboidShape(0, 1, 14.5, 14, 15, 15)
         )
 
         private val rightShape = CompositeVoxelShape.of(
-            Block.createCuboidShape(2.0, 0.0, 15.0, 4.0, 16.0, 16.0),
-            Block.createCuboidShape(2.0, 1.0, 14.5, 16.0, 15.0, 15.0)
+            CompositeVoxelShape.createCuboidShape(2, 0, 15, 4, 16, 16),
+            CompositeVoxelShape.createCuboidShape(2, 1, 14.5, 16, 15, 15)
         )
 
         private val singleShapeMap = mapOf(
-            Direction.NORTH to singleshape,
-            Direction.EAST to singleshape.rotatedLeft(),
-            Direction.SOUTH to singleshape.flipped(),
-            Direction.WEST to singleshape.rotatedRight()
+            Direction.NORTH to singleShape,
+            Direction.EAST to singleShape.rotatedLeft(),
+            Direction.SOUTH to singleShape.flipped(),
+            Direction.WEST to singleShape.rotatedRight()
         )
         private val centerShapeMap = mutableMapOf(
-            Direction.NORTH to CompositeVoxelShape.of(CompositeVoxelShape.createCuboidShape(0.0, 1.0, 14.5, 16.0, 15.0, 15.0))
+            Direction.NORTH to CompositeVoxelShape.of(CompositeVoxelShape.createCuboidShape(0, 1, 14.5, 16, 15, 15))
         ).also {
             it[Direction.EAST] = it[Direction.NORTH]?.rotatedLeft()!!
             it[Direction.SOUTH] = it[Direction.NORTH]?.flipped()!!

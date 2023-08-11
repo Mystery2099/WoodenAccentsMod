@@ -2,7 +2,7 @@
   "multipart": [
     {
       "apply": {
-        "model": "myst2099_wooden_accents_mod:block/mangrove_wall_post"
+        "model": "myst2099_wooden_accents_mod:block/mangrove_plank_wall_post"
       }
     },
     {
