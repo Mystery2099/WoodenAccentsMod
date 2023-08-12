@@ -10,7 +10,7 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 
 class CustomBlockItem(block: Block, settings: Settings) : BlockItem(block, settings) {
-    override fun canBeNested(): Boolean = super.canBeNested() || block !is CrateBlock
+    override fun canBeNested(): Boolean = block !is CrateBlock
 
     override fun onItemEntityDestroyed(entity: ItemEntity) {
         super.onItemEntityDestroyed(entity)
