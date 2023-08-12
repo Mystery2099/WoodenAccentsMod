@@ -1,5 +1,6 @@
 package com.mystery2099.wooden_accents_mod.block
 
+import com.mystery2099.item.CustomBlockItem
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asWamId
 import com.mystery2099.wooden_accents_mod.block.custom.*
@@ -10,7 +11,6 @@ import net.minecraft.block.FenceGateBlock
 import net.minecraft.block.WoodType
 import net.minecraft.data.client.ModelIds
 import net.minecraft.data.client.TextureMap
-import net.minecraft.item.BlockItem
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.util.Identifier
@@ -395,7 +395,7 @@ object ModBlocks {
     private infix fun Block.registerAs(identifier: Identifier) =
         Registry.register(Registries.BLOCK, identifier, this).also {
             registries += it
-            Registry.register(Registries.ITEM, identifier, BlockItem(it, FabricItemSettings()))
+            Registry.register(Registries.ITEM, identifier, CustomBlockItem(it, FabricItemSettings()))
         }
 
     fun ModBlocks.register() {
