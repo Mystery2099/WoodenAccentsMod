@@ -391,11 +391,11 @@ object ModBlocks {
         get() = id.path.contains("stripped")
     val Block.isPlank
         get() = id.path.contains("plank")
-    private infix fun Block.registerAs(id: String): Block = registerAs(id.asWamId())
-    private infix fun Block.registerAs(identifier: Identifier) =
+    private fun Block.registerAs(id: String, maxStackSize: Int = 64): Block = registerAs(id.asWamId())
+    private fun Block.registerAs(identifier: Identifier, maxStackSize: Int = 64) =
         Registry.register(Registries.BLOCK, identifier, this).also {
             registries += it
-            Registry.register(Registries.ITEM, identifier, CustomBlockItem(it, FabricItemSettings().maxCount(1)))
+            Registry.register(Registries.ITEM, identifier, CustomBlockItem(it, FabricItemSettings().maxCount(maxStackSize)))
         }
 
     fun ModBlocks.register() {
