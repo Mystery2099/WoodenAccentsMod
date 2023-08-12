@@ -1,4 +1,4 @@
-package com.mystery2099.mixin;
+package com.mystery2099.wooden_accents_mod.mixin;
 
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;
