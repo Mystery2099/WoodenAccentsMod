@@ -9,7 +9,7 @@ import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
 
 object ModBlockTags {
-    internal var blockTagWithMatchingItemTag: MutableMap<TagKey<Block>, TagKey<Item>> = HashMap()
+    internal val blockTagWithMatchingItemTag: MutableMap<TagKey<Block>, TagKey<Item>> = HashMap()
 
 
     /*---------------Outside Tags----------------*/
