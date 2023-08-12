@@ -1,16 +1,10 @@
-package com.mystery2099.block.custom;
+package com.mystery2099.wooden_accents_mod.block.custom;
 
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock;
-import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup;
-import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups;
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock;
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags;
-import com.mystery2099.wooden_accents_mod.block.custom.AbstractWaterloggableBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.StairShape;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.registry.tag.TagKey;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.EnumProperty;

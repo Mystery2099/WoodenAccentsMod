@@ -1,6 +1,5 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.mystery2099.block.custom.AbstractKitchenCounterBlock
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
