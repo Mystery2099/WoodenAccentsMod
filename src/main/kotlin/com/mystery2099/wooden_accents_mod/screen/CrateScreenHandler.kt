@@ -1,5 +1,6 @@
 package com.mystery2099.wooden_accents_mod.screen
 
+import com.mystery2099.wooden_accents_mod.screen.slot.CrateSlot
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventory
@@ -7,7 +8,6 @@ import net.minecraft.inventory.SimpleInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.screen.ScreenHandlerType
-import net.minecraft.screen.slot.ShulkerBoxSlot
 import net.minecraft.screen.slot.Slot
 
 
@@ -21,7 +21,7 @@ class CrateScreenHandler @JvmOverloads constructor(
         checkSize(inventory, 9)
         inventory.onOpen(playerInventory.player)
         for (i in 0 until 3) for (j in 0 until 3) {
-            addSlot(ShulkerBoxSlot(inventory, j + i * 3, 62 + j * 18, 17 + i * 18))
+            addSlot(CrateSlot(inventory, j + i * 3, 62 + j * 18, 17 + i * 18))
         }
         for (i in 0 until 3) for (j in 0 until 9) {
             addSlot(Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18))
