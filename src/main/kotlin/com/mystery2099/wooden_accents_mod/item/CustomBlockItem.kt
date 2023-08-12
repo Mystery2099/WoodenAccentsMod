@@ -1,32 +1,28 @@
-package com.mystery2099.item;
+package com.mystery2099.wooden_accents_mod.item
 
-import com.mystery2099.wooden_accents_mod.block.custom.CrateBlock;
-import net.minecraft.block.Block;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsage;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
+import com.mystery2099.wooden_accents_mod.block.custom.CrateBlock
+import net.minecraft.block.Block
+import net.minecraft.entity.ItemEntity
+import net.minecraft.item.BlockItem
+import net.minecraft.item.ItemStack
+import net.minecraft.item.ItemUsage
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtElement
 
-public class CustomBlockItem extends BlockItem {
-    public CustomBlockItem(Block block, Settings settings) {
-        super(block, settings);
-    }
+class CustomBlockItem(block: Block, settings: Settings) : BlockItem(block, settings) {
+    override fun canBeNested(): Boolean = super.canBeNested() || block !is CrateBlock
 
-    @Override
-    public boolean canBeNested() {
-        return super.canBeNested() || !(this.getBlock() instanceof CrateBlock);
-    }
-
-    @Override
-    public void onItemEntityDestroyed(ItemEntity entity) {
-        super.onItemEntityDestroyed(entity);
-        NbtCompound nbtCompound;
-        if (this.getBlock() instanceof CrateBlock && (nbtCompound = BlockItem.getBlockEntityNbt(entity.getStack())) != null && nbtCompound.contains("Items", NbtElement.LIST_TYPE)) {
-            NbtList nbtList = nbtCompound.getList("Items", NbtElement.COMPOUND_TYPE);
-            ItemUsage.spawnItemContents(entity, nbtList.stream().map(NbtCompound.class::cast).map(ItemStack::fromNbt));
+    override fun onItemEntityDestroyed(entity: ItemEntity) {
+        super.onItemEntityDestroyed(entity)
+        if (block is CrateBlock) {
+            getBlockEntityNbt(entity.stack)?.let { nbtCompound ->
+                if (nbtCompound.contains("Items", NbtElement.LIST_TYPE.toInt())) {
+                    val nbtList = nbtCompound.getList("Items", NbtElement.COMPOUND_TYPE.toInt())
+                    ItemUsage.spawnItemContents(entity, nbtList.stream()
+                        .map { it as NbtCompound }
+                        .map { ItemStack.fromNbt(it) })
+                }
+            }
         }
     }
 }
