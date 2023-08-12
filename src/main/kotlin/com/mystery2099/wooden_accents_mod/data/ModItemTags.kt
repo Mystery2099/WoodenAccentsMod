@@ -9,6 +9,7 @@ import net.minecraft.registry.tag.TagKey
 object ModItemTags {
 
     val chests = "chests" asItemTagOf "c"
+    val uncrateable = "uncrateable".toItemTag()
 
     private infix fun String.asItemTagOf(namespace: String): TagKey<Item> = TagKey.of(RegistryKeys.ITEM, asPathIn(namespace))
     internal fun String.toItemTag(): TagKey<Item> = asItemTagOf(WoodenAccentsMod.MOD_ID)
