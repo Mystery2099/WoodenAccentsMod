@@ -2,7 +2,7 @@ package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.addIf
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asBlockModelId
-import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asWamId
+import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.toIdentifier
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.getItemModelId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
@@ -178,9 +178,9 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWate
             generator.blockStateCollector.accept(
                 blockStateModelSupplier(
                     shortTopModel = ModModels.coffeeTableTopShort.upload(this, map, generator.modelCollector),
-                    shortLegModel = "${this.woodType.name.lowercase()}_coffee_table_leg_short".asWamId().asBlockModelId(),
+                    shortLegModel = "${this.woodType.name.lowercase()}_coffee_table_leg_short".toIdentifier().asBlockModelId(),
                     tallTopModel = ModModels.coffeeTableTopTall.upload(this, map, generator.modelCollector),
-                    tallLegModel = "${this.woodType.name.lowercase()}_coffee_table_leg_tall".asWamId().asBlockModelId(),
+                    tallLegModel = "${this.woodType.name.lowercase()}_coffee_table_leg_tall".toIdentifier().asBlockModelId(),
                 )
             )
             ModModels.coffeeTableInventory.upload(this.getItemModelId(), map, generator.modelCollector)

@@ -1,7 +1,7 @@
 package com.mystery2099.wooden_accents_mod.block_entity
 
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod
-import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asWamId
+import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.toIdentifier
 import com.mystery2099.wooden_accents_mod.block.custom.CrateBlock
 import com.mystery2099.wooden_accents_mod.block.custom.KitchenCabinetBlock
 import com.mystery2099.wooden_accents_mod.block_entity.custom.CrateBlockEntity
@@ -18,12 +18,12 @@ object ModBlockEntities {
     fun register() {
         kitchenCabinet = Registry.register(
             Registries.BLOCK_ENTITY_TYPE,
-            "kitchen_cabinet".asWamId(),
+            "kitchen_cabinet".toIdentifier(),
             KitchenCabinetBlock.kitchenCabinetBlockEntityTypeBuilder.build(null)
         )
         crate = Registry.register(
             Registries.BLOCK_ENTITY_TYPE,
-            "crate".asWamId(),
+            "crate".toIdentifier(),
             CrateBlock.crateBlockEntityBuilder.build(null)
         )
 

@@ -1,6 +1,6 @@
 package com.mystery2099.wooden_accents_mod.item_group
 
-import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asWamId
+import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.toIdentifier
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
@@ -60,7 +60,7 @@ class CustomItemGroup(name: String) {
         get() = itemGroup.searchTabStacks
 
     init {
-        itemGroup = FabricItemGroup.builder(name.asWamId()).apply {
+        itemGroup = FabricItemGroup.builder(name.toIdentifier()).apply {
             icon { ItemStack(if (entries.isNotEmpty()) entries[0] else Items.DIRT) }
         }.build()
         mutableInstances += this

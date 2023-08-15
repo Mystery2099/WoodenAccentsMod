@@ -27,9 +27,8 @@ object WoodenAccentsMod : ModInitializer {
 		ModItemGroups.register()
 	}
 
-	infix fun String.asPathIn(namespace: String): Identifier = Identifier(namespace, this)
-	fun modId(path: String): Identifier = path.asPathIn(MOD_ID)
-	fun String.asWamId(): Identifier = modId(this)
+	fun modId(path: String): Identifier = path.toIdentifier()
+	fun String.toIdentifier(namespace: String = MOD_ID): Identifier = Identifier(namespace, this)
 	fun Identifier.asBlockModelId(): Identifier = this.withPrefixedPath("block/")
 	fun WoodType.asPlanks(): Block = when (this) {
 		WoodType.OAK -> Blocks.OAK_PLANKS

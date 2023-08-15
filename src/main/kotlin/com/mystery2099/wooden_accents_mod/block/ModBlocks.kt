@@ -1,7 +1,7 @@
 package com.mystery2099.wooden_accents_mod.block
 
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod
-import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asWamId
+import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.toIdentifier
 import com.mystery2099.wooden_accents_mod.block.custom.*
 import com.mystery2099.wooden_accents_mod.item.CustomBlockItem
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
@@ -391,7 +391,7 @@ object ModBlocks {
         get() = id.path.contains("stripped")
     val Block.isPlank
         get() = id.path.contains("plank")
-    private fun Block.registerAs(id: String, maxStackSize: Int = 64): Block = registerAs(id.asWamId(), maxStackSize)
+    private fun Block.registerAs(id: String, maxStackSize: Int = 64): Block = registerAs(id.toIdentifier(), maxStackSize)
     private fun Block.registerAs(identifier: Identifier, maxStackSize: Int = 64) =
         Registry.register(Registries.BLOCK, identifier, this).also {
             registries += it

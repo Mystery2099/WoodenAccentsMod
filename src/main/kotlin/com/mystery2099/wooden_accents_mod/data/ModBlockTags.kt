@@ -48,13 +48,11 @@ object ModBlockTags {
     /*---------------End Kitchen Tags----------------*/
 
     /*---------------Storage Tags----------------*/
-    val chests = "chests".toBlockTag("c").withMatchingItemTag()
     /*---------------End Storage Tags----------------*/
 
-    private infix fun String.toBlockTag(namespace: String): TagKey<Block> {
+    private fun String.toBlockTag(namespace: String = WoodenAccentsMod.MOD_ID): TagKey<Block> {
         return TagKey.of(RegistryKeys.BLOCK, Identifier(namespace, this))
     }
-    private fun String.toBlockTag(): TagKey<Block> = toBlockTag(WoodenAccentsMod.MOD_ID)
     private fun TagKey<Block>.withMatchingItemTag() = this.also {
         blockTagWithMatchingItemTag[this] = TagKey.of(RegistryKeys.ITEM, this.id)
     }

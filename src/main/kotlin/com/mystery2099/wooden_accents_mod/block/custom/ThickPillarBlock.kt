@@ -1,7 +1,7 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asBlockModelId
-import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asWamId
+import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.toIdentifier
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.getItemModelId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
@@ -24,7 +24,7 @@ class ThickPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape)
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
         val map = TextureMap.all(this.baseBlock)
         generator.blockStateCollector.accept(this.genBlockStateModelSupplier(
-            centerModel = "${this.woodType.name.lowercase()}_plank_wall_post".asWamId().asBlockModelId(),
+            centerModel = "${this.woodType.name.lowercase()}_plank_wall_post".toIdentifier().asBlockModelId(),
             bottomModel = ModModels.thickPillarBottom.upload(this, map, generator.modelCollector)
         ))
         ModModels.thickPillarInventory.upload(this.getItemModelId(), map, generator.modelCollector)

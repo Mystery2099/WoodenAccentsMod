@@ -2,7 +2,7 @@ package com.mystery2099.wooden_accents_mod.datagen
 
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asBlockModelId
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asPlanks
-import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asWamId
+import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.toIdentifier
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
@@ -25,19 +25,19 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
     override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator) {
         blockStateModelGenerator.run {
             WoodType.stream().forEach{
-                ModModels.coffeeTableLegShort.upload("${it.name.lowercase()}_coffee_table_leg_short".asWamId().asBlockModelId(), TextureMap().put(
+                ModModels.coffeeTableLegShort.upload("${it.name.lowercase()}_coffee_table_leg_short".toIdentifier().asBlockModelId(), TextureMap().put(
                     ModModels.legs, it.asPlanks().textureId), modelCollector)
 
-                ModModels.coffeeTableLegTall.upload("${it.name.lowercase()}_coffee_table_leg_tall".asWamId().asBlockModelId(), TextureMap().put(
+                ModModels.coffeeTableLegTall.upload("${it.name.lowercase()}_coffee_table_leg_tall".toIdentifier().asBlockModelId(), TextureMap().put(
                     ModModels.legs, it.asPlanks().textureId), modelCollector)
 
-                ModModels.tableCenterLeg.upload("${it.name.lowercase()}_table_single_leg".asWamId().asBlockModelId(), TextureMap().put(
+                ModModels.tableCenterLeg.upload("${it.name.lowercase()}_table_single_leg".toIdentifier().asBlockModelId(), TextureMap().put(
                     ModModels.legs, it.asPlanks().textureId), modelCollector)
 
-                ModModels.tableCornerLeg.upload("${it.name.lowercase()}_table_corner_leg".asWamId().asBlockModelId(), TextureMap().put(
+                ModModels.tableCornerLeg.upload("${it.name.lowercase()}_table_corner_leg".toIdentifier().asBlockModelId(), TextureMap().put(
                     ModModels.legs, it.asPlanks().textureId), modelCollector)
 
-                ModModels.tableEndLeg.upload("${it.name.lowercase()}_table_end_leg".asWamId().asBlockModelId(), TextureMap().put(
+                ModModels.tableEndLeg.upload("${it.name.lowercase()}_table_end_leg".toIdentifier().asBlockModelId(), TextureMap().put(
                     ModModels.legs, it.asPlanks().textureId), modelCollector)
             }
             ModBlocks.blocks.forEach {
