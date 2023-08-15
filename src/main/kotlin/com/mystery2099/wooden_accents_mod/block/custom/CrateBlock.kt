@@ -156,8 +156,7 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) : BlockWith
         options: TooltipContext
     ) {
         super.appendTooltip(stack, world, tooltip, options)
-        val nbtCompound = BlockItem.getBlockEntityNbt(stack)
-        if (nbtCompound != null) {
+        BlockItem.getBlockEntityNbt(stack)?.let {nbtCompound ->
             if (nbtCompound.contains("LootTable", NbtElement.STRING_TYPE.toInt())) {
                 tooltip.add(Text.literal("???????"))
             }
@@ -174,8 +173,8 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) : BlockWith
                     itemStack.getName().copy()
                         .append(" x")
                         .append(itemStack.count.toString()).also {
-                        tooltip.add(it)
-                    }
+                            tooltip.add(it)
+                        }
                 }
                 if (j - i > 0) {
                     tooltip.add(Text.translatable("container.crate.more", j - i).formatted(Formatting.ITALIC))
@@ -203,27 +202,6 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) : BlockWith
         return itemStack
     }
 
-    companion object {
-        val shape = CompositeVoxelShape.of(
-            CompositeVoxelShape.createCuboidShape(0, 0, 2, 2, 2, 14),
-            CompositeVoxelShape.createCuboidShape(14, 0, 2, 16, 2, 14),
-            CompositeVoxelShape.createCuboidShape(2, 0, 0, 14, 2, 2),
-            CompositeVoxelShape.createCuboidShape(2, 0, 14, 14, 2, 16),
-            CompositeVoxelShape.createCuboidShape(0, 14, 2, 2, 16, 14),
-            CompositeVoxelShape.createCuboidShape(14, 14, 2, 16, 16, 14),
-            CompositeVoxelShape.createCuboidShape(2, 14, 0, 14, 16, 2),
-            CompositeVoxelShape.createCuboidShape(2, 14, 14, 14, 16, 16),
-            CompositeVoxelShape.createCuboidShape(0, 0, 0, 2, 16, 2),
-            CompositeVoxelShape.createCuboidShape(14, 0, 14, 16, 16, 16),
-            CompositeVoxelShape.createCuboidShape(14, 0, 0, 16, 16, 2),
-            CompositeVoxelShape.createCuboidShape(0, 0, 14, 2, 16, 16),
-            CompositeVoxelShape.createCuboidShape(1, 1, 1, 15, 15, 15)
-        ).get()
-        val crateBlockEntityBuilder: FabricBlockEntityTypeBuilder<CrateBlockEntity> =
-            FabricBlockEntityTypeBuilder.create(::CrateBlockEntity)
-        val contents = Identifier("contents")
-
-    }
 
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
         val map: TextureMap = TextureMap().put(TextureKey.INSIDE, baseBlock.textureId)
@@ -250,5 +228,26 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) : BlockWith
         }
     }
 
+    companion object {
+        val shape = CompositeVoxelShape.of(
+            CompositeVoxelShape.createCuboidShape(0, 0, 2, 2, 2, 14),
+            CompositeVoxelShape.createCuboidShape(14, 0, 2, 16, 2, 14),
+            CompositeVoxelShape.createCuboidShape(2, 0, 0, 14, 2, 2),
+            CompositeVoxelShape.createCuboidShape(2, 0, 14, 14, 2, 16),
+            CompositeVoxelShape.createCuboidShape(0, 14, 2, 2, 16, 14),
+            CompositeVoxelShape.createCuboidShape(14, 14, 2, 16, 16, 14),
+            CompositeVoxelShape.createCuboidShape(2, 14, 0, 14, 16, 2),
+            CompositeVoxelShape.createCuboidShape(2, 14, 14, 14, 16, 16),
+            CompositeVoxelShape.createCuboidShape(0, 0, 0, 2, 16, 2),
+            CompositeVoxelShape.createCuboidShape(14, 0, 14, 16, 16, 16),
+            CompositeVoxelShape.createCuboidShape(14, 0, 0, 16, 16, 2),
+            CompositeVoxelShape.createCuboidShape(0, 0, 14, 2, 16, 16),
+            CompositeVoxelShape.createCuboidShape(1, 1, 1, 15, 15, 15)
+        ).get()
+        val crateBlockEntityBuilder: FabricBlockEntityTypeBuilder<CrateBlockEntity> =
+            FabricBlockEntityTypeBuilder.create(::CrateBlockEntity)
+        val contents = Identifier("contents")
+
+    }
 
 }

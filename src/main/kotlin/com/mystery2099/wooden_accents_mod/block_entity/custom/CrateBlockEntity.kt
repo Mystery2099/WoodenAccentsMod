@@ -36,17 +36,19 @@ class CrateBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 viewerCount = 0
             }
             ++viewerCount
-            world!!.addSyncedBlockEvent(pos, cachedState.block, 1, viewerCount)
-            if (viewerCount == 1) {
-                world!!.emitGameEvent(player as Entity, GameEvent.CONTAINER_OPEN, pos)
-                world!!.playSound(
-                    null,
-                    pos,
-                    SoundEvents.BLOCK_BARREL_OPEN,
-                    SoundCategory.BLOCKS,
-                    0.5f,
-                    world!!.random.nextFloat() * 0.1f + 0.9f
-                )
+            world?.let {world ->
+                world.addSyncedBlockEvent(pos, cachedState.block, 1, viewerCount)
+                if (viewerCount == 1) {
+                    world.emitGameEvent(player as Entity, GameEvent.CONTAINER_OPEN, pos)
+                    world.playSound(
+                        null,
+                        pos,
+                        SoundEvents.BLOCK_BARREL_OPEN,
+                        SoundCategory.BLOCKS,
+                        0.5f,
+                        world.random.nextFloat() * 0.1f + 0.9f
+                    )
+                }
             }
         }
     }
@@ -54,17 +56,19 @@ class CrateBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     override fun onClose(player: PlayerEntity) {
         if (!removed && !player.isSpectator) {
             --viewerCount
-            world!!.addSyncedBlockEvent(pos, cachedState.block, 1, viewerCount)
-            if (viewerCount <= 0) {
-                world!!.emitGameEvent(player as Entity, GameEvent.CONTAINER_CLOSE, pos)
-                world!!.playSound(
-                    null,
-                    pos,
-                    SoundEvents.BLOCK_BARREL_CLOSE,
-                    SoundCategory.BLOCKS,
-                    0.5f,
-                    world!!.random.nextFloat() * 0.1f + 0.9f
-                )
+            world?.let { world ->
+                world.addSyncedBlockEvent(pos, cachedState.block, 1, viewerCount)
+                if (viewerCount <= 0) {
+                    world.emitGameEvent(player as Entity, GameEvent.CONTAINER_CLOSE, pos)
+                    world.playSound(
+                        null,
+                        pos,
+                        SoundEvents.BLOCK_BARREL_CLOSE,
+                        SoundCategory.BLOCKS,
+                        0.5f,
+                        world.random.nextFloat() * 0.1f + 0.9f
+                    )
+                }
             }
         }
     }
@@ -116,6 +120,5 @@ class CrateBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     companion object {
         const val ITEMS_KEY = "Items"
         private val availableSlots = IntStream.range(0, 9).toArray()
-
     }
 }
