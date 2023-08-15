@@ -58,9 +58,9 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
     override val itemGroup = ModItemGroups.decorations
 
     init {
-        defaultState = stateManager.defaultState.apply {
+        defaultState = stateManager.defaultState.run {
             with(facing, Direction.NORTH)
-            with(open, false)
+                .with(open, false)
         }
         kitchenCabinetBlockEntityTypeBuilder.addBlock(this)
     }
