@@ -84,7 +84,6 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) : BlockWith
         val blockEntity = world.getBlockEntity(pos)
         if (blockEntity is CrateBlockEntity) {
             player.openHandledScreen(blockEntity)
-            //player.incrementStat(Stats.OPEN_SHULKER_BOX)
             PiglinBrain.onGuardedBlockInteracted(player, true)
         }
         return ActionResult.CONSUME
@@ -163,7 +162,7 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) : BlockWith
                 tooltip.add(Text.literal("???????"))
             }
             if (nbtCompound.contains("Items", NbtElement.LIST_TYPE.toInt())) {
-                val defaultedList = DefaultedList.ofSize(27, ItemStack.EMPTY)
+                val defaultedList = DefaultedList.ofSize(9, ItemStack.EMPTY)
                 Inventories.readNbt(nbtCompound, defaultedList)
                 var i = 0
                 var j = 0
