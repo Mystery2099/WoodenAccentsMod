@@ -16,13 +16,22 @@ import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.TextureMap
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.registry.tag.TagKey
+import net.minecraft.resource.featuretoggle.FeatureFlags
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import java.util.function.Consumer
 
-class PlankLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(FabricBlockSettings.copyOf(Blocks.LADDER)),
+class PlankLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(FabricBlockSettings.of(baseBlock.defaultState.material, baseBlock.defaultMapColor).apply {
+    hardness(Blocks.LADDER.hardness)
+    resistance(Blocks.LADDER.blastResistance)
+    sounds(baseBlock.getSoundGroup(baseBlock.defaultState))
+
+    if (baseBlock.requiredFeatures.contains(FeatureFlags.UPDATE_1_20)) {
+        requires(FeatureFlags.UPDATE_1_20)
+    }
+}),
     GroupedBlock {
 
         override val tag: TagKey<Block> = ModBlockTags.plankLadders

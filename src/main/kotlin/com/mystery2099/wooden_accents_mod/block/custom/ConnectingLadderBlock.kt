@@ -16,6 +16,7 @@ import net.minecraft.block.ShapeContext
 import net.minecraft.data.client.*
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.registry.tag.TagKey
+import net.minecraft.resource.featuretoggle.FeatureFlags
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.Properties
 import net.minecraft.util.math.BlockPos
@@ -29,6 +30,10 @@ class ConnectingLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(Fa
     hardness(Blocks.LADDER.hardness)
     resistance(Blocks.LADDER.blastResistance)
     sounds(baseBlock.getSoundGroup(baseBlock.defaultState))
+
+    if (baseBlock.requiredFeatures.contains(FeatureFlags.UPDATE_1_20)) {
+        requires(FeatureFlags.UPDATE_1_20)
+    }
 }) {
     override val tag: TagKey<Block> = ModBlockTags.connectingLadders
 
