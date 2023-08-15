@@ -2,7 +2,6 @@ package com.mystery2099.wooden_accents_mod.block_entity.custom
 
 import com.mystery2099.wooden_accents_mod.block.custom.KitchenCabinetBlock
 import com.mystery2099.wooden_accents_mod.block_entity.ModBlockEntities
-import net.minecraft.block.BarrelBlock
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.LootableContainerBlockEntity
@@ -107,7 +106,7 @@ class KitchenCabinetBlockEntity(pos: BlockPos, state: BlockState) : LootableCont
     }
 
     fun playSound(state: BlockState, soundEvent: SoundEvent?) {
-        val vec3i = state.get(BarrelBlock.FACING).vector
+        val vec3i = state.get(KitchenCabinetBlock.facing).vector
         val d = this.pos.x.toDouble() + 0.5 + vec3i.x.toDouble() / 2.0
         val e = this.pos.y.toDouble() + 0.5 + vec3i.y.toDouble() / 2.0
         val f = this.pos.z.toDouble() + 0.5 + vec3i.z.toDouble() / 2.0
