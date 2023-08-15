@@ -1,55 +1,60 @@
 {
-	"schemaVersion": 1,
-	"id": "myst2099_wooden_accents_mod",
-	"version": "${version}",
-	"name": "Wooden Accents Mod",
-	"description": "Add some charm and warmth to your world or builds with the Wooden Accents Mod! This mod adds beautiful wooden furniture, walls, pillars, crates, and more, for all the different wood types.
-Wooden Accents Mod is the perfect mod for anyone who loves building and decorating with wood!",
-	"authors": [
-		"Mystery2099"
-	],
-	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
-	},
-	"license": "CC0-1.0",
-	"icon": "assets/myst2099_wooden_accents_mod/icon.png",
-	"environment": "*",
-	"entrypoints": {
-		"main": [
-			{
-				"value": "com.mystery2099.wooden_accents_mod.WoodenAccentsMod",
-				"adapter": "kotlin"
-			}
-		],
-		"client": [
-			{
-				"value": "com.mystery2099.wooden_accents_mod.WoodenAccentsModClient",
-				"adapter": "kotlin"
-			}
-		],
-		"fabric-datagen": [
-			{
-				"value": "com.mystery2099.wooden_accents_mod.datagen.ModDataGenerator",
-				"adapter": "kotlin"
-			}
-		]
-	},
-	"mixins": [
-		"myst2099_wooden_accents_mod.mixins.json",
-		{
-			"config": "myst2099_wooden_accents_mod.client.mixins.json",
-			"environment": "client"
-		}
-	],
-	"depends": {
-		"fabricloader": ">=0.14.21",
-		"minecraft": "~1.19.4",
-		"java": ">=17",
-		"fabric-api": "*",
-		"fabric-language-kotlin": ">=1.8.22"
-	},
-	"suggests": {
-		"another-mod": "*"
-	}
+  "authors": [
+    "Mystery2099"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "depends": {
+    "fabricloader": ">=0.14.21",
+    "minecraft": "~1.19.4",
+    "java": ">=17",
+    "fabric-api": "*",
+    "fabric-language-kotlin": ">=1.8.22"
+  },
+  "description": "Add some charm and warmth to your world or builds with the Wooden Accents Mod! This mod adds beautiful wooden furniture, walls, pillars, crates, and more, for all the different wood types. WoodenAccentsModistheperfectmodforanyonewholovesbuildinganddecoratingwithwood!",
+  "entrypoints": {
+    "main": [
+      {
+        "value": "com.mystery2099.wooden_accents_mod.WoodenAccentsMod",
+        "adapter": "kotlin"
+      }
+    ],
+    "client": [
+      {
+        "value": "com.mystery2099.wooden_accents_mod.WoodenAccentsModClient",
+        "adapter": "kotlin"
+      }
+    ],
+    "fabric-datagen": [
+      {
+        "value": "com.mystery2099.wooden_accents_mod.datagen.ModDataGenerator",
+        "adapter": "kotlin"
+      }
+    ],
+    "shulkerboxtooltip": [
+      {
+        "value": "com.mystery2099.wooden_accents_mod.shulker_box_tooltip.ShulkerBoxTooltipPlugin",
+        "adapter": "kotlin"
+      }
+    ]
+  },
+  "environment": "*",
+  "icon": "assets/myst2099_wooden_accents_mod/icon.png",
+  "id": "myst2099_wooden_accents_mod",
+  "license": "CC0-1.0",
+  "mixins": [
+    "myst2099_wooden_accents_mod.mixins.json",
+    {
+      "config": "myst2099_wooden_accents_mod.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "name": "Wooden Accents Mod",
+  "schemaVersion": 1,
+  "suggests": {
+    "another-mod": "*"
+  },
+  "version": "${version}"
 }
