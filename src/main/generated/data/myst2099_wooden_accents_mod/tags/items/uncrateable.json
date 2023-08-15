@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "#myst2099_wooden_accents_mod:crates",
-    "#c:shulker_boxes"
+    "#c:shulker_boxes",
+    "minecraft:bundle"
   ]
 }
