@@ -9,8 +9,6 @@ class CompositeVoxelShape(vararg voxelShapes: VoxelShape) {
     private var _voxelShapes: MutableList<VoxelShape>
     val voxelShapes: List<VoxelShape>
         get() = _voxelShapes
-    inline val voxelShape: VoxelShape
-        get() = voxelShapes.unifyElements()
 
     init {
         _voxelShapes = voxelShapes.toMutableList()
