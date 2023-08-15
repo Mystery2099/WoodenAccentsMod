@@ -62,18 +62,14 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
             with(facing, Direction.NORTH)
             with(open, false)
         }
-        /*WoodenAccentsModItemGroups.run {
-            kitchenItems += this@KitchenCabinetBlock
-            storageBlocks += this@KitchenCabinetBlock
-        }*/
         kitchenCabinetBlockEntityTypeBuilder.addBlock(this)
     }
 
     @Deprecated("Deprecated in Java")
     override fun onUse(
-        state: BlockState?,
+        state: BlockState,
         world: World,
-        pos: BlockPos?,
+        pos: BlockPos,
         player: PlayerEntity,
         hand: Hand?,
         hit: BlockHitResult?
