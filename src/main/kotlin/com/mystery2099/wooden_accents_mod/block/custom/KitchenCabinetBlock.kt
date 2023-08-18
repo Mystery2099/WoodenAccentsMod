@@ -20,7 +20,6 @@ import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.unifiedWith
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.minecraft.block.*
-import net.minecraft.block.entity.BlockEntity
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.TextureKey
 import net.minecraft.data.client.TextureMap
@@ -99,12 +98,13 @@ class KitchenCabinetBlock(val baseBlock: Block, val topBlock: Block) :
     }
 
     @Deprecated("Deprecated in Java")
-    override fun scheduledTick(state: BlockState?, world: ServerWorld, pos: BlockPos?, random: Random?) {
-        world.getBlockEntity(pos)?.let { if (it is KitchenCabinetBlockEntity) it.tick() }
+    override fun scheduledTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
+        (world.getBlockEntity(pos) as? KitchenCabinetBlockEntity)?.also {
+            it.tick()
+        }
     }
 
-    override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity =
-        KitchenCabinetBlockEntity(pos, state)
+    override fun createBlockEntity(pos: BlockPos, state: BlockState) = KitchenCabinetBlockEntity(pos, state)
 
     @Deprecated("Deprecated in Java")
     override fun getRenderType(state: BlockState?): BlockRenderType = BlockRenderType.MODEL
@@ -116,9 +116,9 @@ class KitchenCabinetBlock(val baseBlock: Block, val topBlock: Block) :
         placer: LivingEntity?,
         itemStack: ItemStack
     ) {
-        with(world.getBlockEntity(pos)) {
-            if (itemStack.hasCustomName() && this is KitchenCabinetBlockEntity) {
-                this.customName = itemStack.name
+        world.getBlockEntity(pos)?.let {
+            if (itemStack.hasCustomName() && it is KitchenCabinetBlockEntity) {
+                it.customName = itemStack.name
             }
         }
     }
