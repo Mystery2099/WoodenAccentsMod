@@ -1,6 +1,7 @@
 package com.mystery2099.wooden_accents_mod.util
 
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod
+import net.minecraft.block.Block
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
@@ -138,7 +139,21 @@ object VoxelShapeHelper {
     }
 
     private fun Double.limit() = max(0.0, min(1.0, this))
-
+    fun createCuboidShape(
+        minX: Number,
+        minY: Number,
+        minZ: Number,
+        maxX: Number,
+        maxY: Number,
+        maxZ: Number
+    ): VoxelShape = Block.createCuboidShape(
+        minX.toDouble(),
+        minY.toDouble(),
+        minZ.toDouble(),
+        maxX.toDouble(),
+        maxY.toDouble(),
+        maxZ.toDouble()
+    )
 }
 enum class VoxelShapeTransformation {
     ROTATE_LEFT, ROTATE_RIGHT, FLIP, ROTATE_UP, ROTATE_DOWN

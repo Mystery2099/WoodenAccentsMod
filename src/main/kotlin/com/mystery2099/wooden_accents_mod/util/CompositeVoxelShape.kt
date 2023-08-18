@@ -2,7 +2,6 @@ package com.mystery2099.wooden_accents_mod.util
 
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateElements
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.unifyElements
-import net.minecraft.block.Block
 import net.minecraft.util.shape.VoxelShape
 
 class CompositeVoxelShape(vararg voxelShapes: VoxelShape) {
@@ -66,6 +65,7 @@ class CompositeVoxelShape(vararg voxelShapes: VoxelShape) {
     infix fun VoxelShape.shallBeAddedIf(boolean: Boolean) {
         if (boolean) add(this)
     }
+
     infix fun CompositeVoxelShape.shallBeAddedIf(boolean: Boolean) {
         if (boolean) mergeWith(this)
     }
@@ -116,9 +116,17 @@ class CompositeVoxelShape(vararg voxelShapes: VoxelShape) {
     fun copy() = CompositeVoxelShape(this.voxelShapes)
 
     companion object {
+        @JvmStatic
         fun of(vararg voxelShapes: VoxelShape) = CompositeVoxelShape(*voxelShapes)
+
+        @JvmStatic
         infix fun of(voxelShape: VoxelShape) = CompositeVoxelShape(voxelShape)
+
+        @JvmStatic
         infix fun of(voxelShapes: Collection<VoxelShape>) = CompositeVoxelShape(voxelShapes)
+
+        @JvmStatic
+        fun copy(compositeVoxelShape: CompositeVoxelShape) = compositeVoxelShape.copy()
 
         fun createCuboidShape(
             minX: Number,
@@ -127,16 +135,15 @@ class CompositeVoxelShape(vararg voxelShapes: VoxelShape) {
             maxX: Number,
             maxY: Number,
             maxZ: Number
-        ): VoxelShape = Block.createCuboidShape(
-            minX.toDouble(),
-            minY.toDouble(),
-            minZ.toDouble(),
-            maxX.toDouble(),
-            maxY.toDouble(),
-            maxZ.toDouble()
+        ) = CompositeVoxelShape(
+            VoxelShapeHelper.createCuboidShape(
+                minX,
+                minY,
+                minZ,
+                maxX,
+                maxY,
+                maxZ
+            )
         )
-
-
-        fun copy(compositeVoxelShape: CompositeVoxelShape) = compositeVoxelShape.copy()
     }
 }
