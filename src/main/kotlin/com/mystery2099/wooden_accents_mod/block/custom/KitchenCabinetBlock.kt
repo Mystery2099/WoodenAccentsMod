@@ -47,21 +47,18 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
 import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import java.util.function.Consumer
 
-class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)),
+class KitchenCabinetBlock(val baseBlock: Block, val topBlock: Block) :
+    BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)),
     GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
     override val tag: TagKey<Block> = ModBlockTags.kitchenCabinets
     override val itemGroup = ModItemGroups.decorations
 
     init {
-        defaultState = stateManager.defaultState.run {
-            with(facing, Direction.NORTH)
-                .with(open, false)
-        }
+        defaultState = stateManager.defaultState.with(facing, Direction.NORTH).with(open, false)
         kitchenCabinetBlockEntityTypeBuilder.addBlock(this)
     }
 
@@ -103,10 +100,11 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
 
     @Deprecated("Deprecated in Java")
     override fun scheduledTick(state: BlockState?, world: ServerWorld, pos: BlockPos?, random: Random?) {
-        world.getBlockEntity(pos)!!.let { if (it is KitchenCabinetBlockEntity) it.tick() }
+        world.getBlockEntity(pos)?.let { if (it is KitchenCabinetBlockEntity) it.tick() }
     }
 
-    override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity = KitchenCabinetBlockEntity(pos, state)
+    override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity =
+        KitchenCabinetBlockEntity(pos, state)
 
     @Deprecated("Deprecated in Java")
     override fun getRenderType(state: BlockState?): BlockRenderType = BlockRenderType.MODEL
@@ -153,16 +151,11 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
         state: BlockState,
-        world: BlockView?,
-        pos: BlockPos?,
-        context: ShapeContext?
-    ): VoxelShape = when (state.get(facing)) {
-        Direction.NORTH -> AbstractKitchenCounterBlock.NORTH_SHAPE
-        Direction.EAST -> AbstractKitchenCounterBlock.NORTH_SHAPE.rotateLeft()
-        Direction.SOUTH -> AbstractKitchenCounterBlock.NORTH_SHAPE.flip()
-        Direction.WEST -> AbstractKitchenCounterBlock.NORTH_SHAPE.rotateRight()
-        else -> VoxelShapes.fullCube()
-    }.unifiedWith(AbstractKitchenCounterBlock.TOP_SHAPE)
+        world: BlockView,
+        pos: BlockPos,
+        context: ShapeContext
+    ): VoxelShape = directionVoxelShapeMap[state[facing]]?.unifiedWith(AbstractKitchenCounterBlock.TOP_SHAPE)
+        ?: super.getOutlineShape(state, world, pos, context)
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 4).apply {
@@ -177,25 +170,30 @@ class KitchenCabinetBlock(val baseBlock : Block, val topBlock : Block) : BlockWi
             offerTo(exporter)
         }
     }
+
     companion object {
         val facing: DirectionProperty = Properties.HORIZONTAL_FACING
         val open: BooleanProperty = Properties.OPEN
         val kitchenCabinetBlockEntityTypeBuilder: FabricBlockEntityTypeBuilder<KitchenCabinetBlockEntity> =
             FabricBlockEntityTypeBuilder.create(::KitchenCabinetBlockEntity)
-
+        val directionVoxelShapeMap = mapOf(
+            Direction.NORTH to AbstractKitchenCounterBlock.NORTH_SHAPE,
+            Direction.EAST to AbstractKitchenCounterBlock.NORTH_SHAPE.rotateLeft(),
+            Direction.SOUTH to AbstractKitchenCounterBlock.NORTH_SHAPE.flip(),
+            Direction.WEST to AbstractKitchenCounterBlock.NORTH_SHAPE.rotateRight()
+        )
     }
 
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
-        TextureMap().apply {
+        val map = TextureMap().apply {
             put(TextureKey.TOP, topBlock.textureId)
             put(TextureKey.SIDE, baseBlock.textureId)
-        }.let { map ->
-            val model = ModModels.kitchenCabinet.upload(this, map, generator.modelCollector)
-            generator.blockStateCollector.accept(
-                VariantsBlockStateSupplier.create(this, model.asBlockStateVariant())
-                    .coordinate(BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates())
-            )
-            generator.registerParentedItemModel(this, model)
         }
+        val model = ModModels.kitchenCabinet.upload(this, map, generator.modelCollector)
+        generator.blockStateCollector.accept(
+            VariantsBlockStateSupplier.create(this, model.asBlockStateVariant())
+                .coordinate(BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates())
+        )
+        generator.registerParentedItemModel(this, model)
     }
 }
