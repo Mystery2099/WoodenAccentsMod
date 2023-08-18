@@ -14,5 +14,7 @@ object ModItemTags {
 
     private infix fun String.asItemTagOf(namespace: String): TagKey<Item> = TagKey.of(RegistryKeys.ITEM, this.toIdentifier(namespace))
     private fun String.toItemTag(): TagKey<Item> = asItemTagOf(WoodenAccentsMod.MOD_ID)
-    operator fun TagKey<Item>.contains(stack: ItemStack): Boolean = stack.isIn(this)
+    infix fun ItemStack.isIn(tag: TagKey<Item>) = isIn(tag)
+    infix operator fun TagKey<Item>.contains(stack: ItemStack) = stack.isIn(this)
+
 }
