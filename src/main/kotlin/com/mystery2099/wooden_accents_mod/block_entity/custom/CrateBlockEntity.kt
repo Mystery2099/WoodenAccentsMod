@@ -1,10 +1,10 @@
 package com.mystery2099.wooden_accents_mod.block_entity.custom
 
 import com.mystery2099.wooden_accents_mod.block_entity.ModBlockEntities
+import com.mystery2099.wooden_accents_mod.data.ModItemTags
+import com.mystery2099.wooden_accents_mod.data.ModItemTags.contains
 import com.mystery2099.wooden_accents_mod.screen.CrateScreenHandler
-import net.minecraft.block.Block
 import net.minecraft.block.BlockState
-import net.minecraft.block.ShulkerBoxBlock
 import net.minecraft.block.entity.LootableContainerBlockEntity
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
@@ -108,9 +108,7 @@ class CrateBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
 
-    override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?): Boolean {
-        return Block.getBlockFromItem(stack.item) !is ShulkerBoxBlock
-    }
+    override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?): Boolean = stack !in ModItemTags.uncrateable
 
     override fun canExtract(slot: Int, stack: ItemStack?, dir: Direction?): Boolean = true
 
