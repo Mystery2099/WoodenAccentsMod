@@ -16,6 +16,7 @@ import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStat
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.uvLock
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withXRotationOf
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
@@ -49,12 +50,12 @@ class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(ru
         }
     }
 }), GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
-    override val centerShape: VoxelShape = createCuboidShape(6.0, 6.0, 6.0, 10.0, 10.0, 10.0)
-    override val northShape: VoxelShape = createCuboidShape(6.0, 6.0, 0.0, 10.0, 10.0, 6.0)
+    override val centerShape: VoxelShape = VoxelShapeHelper.createCuboidShape(6, 6, 6, 10, 10, 10)
+    override val northShape: VoxelShape = VoxelShapeHelper.createCuboidShape(6, 6, 0, 10, 10, 6)
     override val eastShape: VoxelShape = northShape.rotateLeft()
     override val southShape: VoxelShape = northShape.flip()
     override val westShape: VoxelShape = northShape.rotateRight()
-    override val upShape: VoxelShape = createCuboidShape(6.0, 10.0, 6.0, 10.0, 16.0, 10.0)
+    override val upShape: VoxelShape = VoxelShapeHelper.createCuboidShape(6, 10, 6, 10, 16, 10)
     override val downShape: VoxelShape = upShape.offset(0.0, -10 / 16.0, 0.0)
 
     override val tag: TagKey<Block> = ModBlockTags.supportBeams

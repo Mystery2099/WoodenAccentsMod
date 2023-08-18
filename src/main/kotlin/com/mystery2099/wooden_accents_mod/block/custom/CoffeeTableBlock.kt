@@ -21,6 +21,7 @@ import com.mystery2099.wooden_accents_mod.state.property.ModProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.putModel
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
@@ -91,13 +92,13 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWate
         return if (there.block is CoffeeTableBlock) here[type] == there[type]
         else there isIn tag && here isIn tag
     }
-    private infix fun WorldAccess.checkNorthOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.NORTH)
+    private fun WorldAccess.checkNorthOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.NORTH)
 
-    private infix fun WorldAccess.checkEastOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.EAST)
+    private fun WorldAccess.checkEastOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.EAST)
 
-    private infix fun WorldAccess.checkSouthOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.SOUTH)
+    private fun WorldAccess.checkSouthOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.SOUTH)
 
-    private infix fun WorldAccess.checkWestOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.WEST)
+    private fun WorldAccess.checkWestOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.WEST)
     @Deprecated("Deprecated in Java")
     override fun getStateForNeighborUpdate(
         state: BlockState,
@@ -225,13 +226,13 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWate
 
         // Top shapes
         @JvmStatic
-        private val shortTopShape = createCuboidShape(0.0, 7.0, 0.0, 16.0, 9.0, 16.0)
+        private val shortTopShape = VoxelShapeHelper.createCuboidShape(0, 7, 0, 16, 9, 16)
         @JvmStatic
         private val tallTopShape = shortTopShape.offset(0.0, SHAPE_VERTICAL_OFFSET, 0.0)
 
         // Short North Shapes
         @JvmStatic
-        private val shortNorthEastLeg = createCuboidShape(13.75, 0.0, 0.25, 15.75, 7.0, 2.25)
+        private val shortNorthEastLeg = VoxelShapeHelper.createCuboidShape(13.75, 0, 0.25, 15.75, 7, 2.25)
         @JvmStatic
         private val shortNorthWestLeg = shortNorthEastLeg.rotateRight()
 

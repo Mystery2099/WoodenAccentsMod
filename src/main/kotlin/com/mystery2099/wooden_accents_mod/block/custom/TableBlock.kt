@@ -16,6 +16,7 @@ import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requir
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
@@ -44,18 +45,17 @@ import java.util.function.Consumer
 
 class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
     GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
-    override val itemGroup
-        get() = ModItemGroups.decorations
+    override val itemGroup = ModItemGroups.decorations
 
-    override val tag: TagKey<Block>
-        get() = ModBlockTags.tables
+    override val tag: TagKey<Block> = ModBlockTags.tables
+
     init {
-        defaultState = stateManager.defaultState.apply {
+        defaultState = stateManager.defaultState.run {
             with(north, false)
-            with(east, false)
-            with(south, false)
-            with(west, false)
-            with(waterlogged, false)
+                .with(east, false)
+                .with(south, false)
+                .with(west, false)
+                .with(waterlogged, false)
         }
     }
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
@@ -114,7 +114,7 @@ class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWaterlogga
         val west = this[west]
         mutableListOf<VoxelShape>().apply {
             add(topShape)
-            if (!north && !east && !south && !west) add(legShape)
+            if (!north && !east && !south && !west) add(singleLegShape)
             //Ends
             if (!north && !east && south && !west) add(northEndLegShape)
             if (!north && !east && !south && west) add(eastEndLegShape)
@@ -215,13 +215,13 @@ class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWaterlogga
         val south: BooleanProperty = Properties.SOUTH
         val west: BooleanProperty = Properties.WEST
 
-        val topShape: VoxelShape = createCuboidShape(0.0, 13.0, 0.0, 16.0, 16.0, 16.0)
-        val legShape: VoxelShape = createCuboidShape(6.0, 0.0, 6.0, 10.0, 13.0, 10.0)
-        val northEndLegShape: VoxelShape = createCuboidShape(6.0, 0.0, 1.0, 10.0, 13.0, 5.0)
+        val topShape: VoxelShape = VoxelShapeHelper.createCuboidShape(0, 13, 0, 16, 16, 16)
+        val singleLegShape: VoxelShape = VoxelShapeHelper.createCuboidShape(6, 0, 6, 10, 13, 10)
+        val northEndLegShape: VoxelShape = VoxelShapeHelper.createCuboidShape(6, 0, 1, 10, 13, 5)
         val eastEndLegShape: VoxelShape = northEndLegShape.rotateLeft()
         val southEndLegShape: VoxelShape = northEndLegShape.flip()
         val westEndLegShape: VoxelShape = northEndLegShape.rotateRight()
-        val northEastLegShape: VoxelShape = createCuboidShape(11.0, 0.0, 1.0, 15.0, 13.0, 5.0)
+        val northEastLegShape: VoxelShape = VoxelShapeHelper.createCuboidShape(11, 0, 1, 15, 13, 5)
         val northWestLegShape: VoxelShape = northEastLegShape.rotateRight()
         val southEastLegShape: VoxelShape = northWestLegShape.flip()
         val southWestLegShape: VoxelShape = northEastLegShape.flip()

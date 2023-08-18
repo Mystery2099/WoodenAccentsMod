@@ -3,6 +3,7 @@ package com.mystery2099.wooden_accents_mod.block.custom
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
@@ -31,10 +32,8 @@ class PlankLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(FabricB
     if (baseBlock.requiredFeatures.contains(FeatureFlags.UPDATE_1_20)) {
         requires(FeatureFlags.UPDATE_1_20)
     }
-}),
-    GroupedBlock {
-
-        override val tag: TagKey<Block> = ModBlockTags.plankLadders
+}), GroupedBlock {
+    override val tag: TagKey<Block> = ModBlockTags.plankLadders
 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
@@ -60,9 +59,9 @@ class PlankLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(FabricB
 
     companion object {
         private val northShapes = arrayOf(
-            createCuboidShape(2.0, 1.0, 15.0, 14.0, 4.0, 16.0),
-            createCuboidShape(2.0, 12.0, 15.0, 14.0, 15.0, 16.0),
-            createCuboidShape(2.0, 6.0, 15.0, 14.0, 10.0, 16.0)
+            VoxelShapeHelper.createCuboidShape(2, 1, 15, 14, 4, 16),
+            VoxelShapeHelper.createCuboidShape(2, 12, 15, 14, 15, 16),
+            VoxelShapeHelper.createCuboidShape(2, 6, 15, 14, 10, 16)
         )
         private val northShape = northShapes.combined
         private val eastShape = northShapes.rotateLeft()

@@ -12,6 +12,7 @@ import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
@@ -43,7 +44,7 @@ class ThinBookshelfBlock(val baseBlock: Block) :
     override val itemGroup: CustomItemGroup = ModItemGroups.decorations
 
     companion object {
-        private val northShape = Block.createCuboidShape(0.0, 0.0, 11.0, 16.0, 16.0, 16.0)!!
+        private val northShape = VoxelShapeHelper.createCuboidShape(0, 0, 11, 16, 16, 16)
     }
 
     @Deprecated("Deprecated in Java")

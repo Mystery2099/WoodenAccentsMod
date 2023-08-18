@@ -9,6 +9,7 @@ import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
@@ -34,27 +35,27 @@ class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : Fen
     override val itemGroup = ModItemGroups.structuralElements
     private inline val defaultShapes
         get() = arrayOf(
-            Block.createCuboidShape(0.0, 0.0, 7.5, 1.0, 15.0, 8.5),
-            Block.createCuboidShape(15.0, 0.0, 7.5, 16.0, 15.0, 8.5),
-            Block.createCuboidShape(11.0, 1.0, 7.5, 13.0, 16.0, 8.5),
-            Block.createCuboidShape(3.0, 1.0, 7.5, 5.0, 16.0, 8.5),
-            Block.createCuboidShape(7.0, 1.0, 7.5, 9.0, 15.0, 8.5),
-            Block.createCuboidShape(0.0, 11.0, 7.0, 16.0, 14.0, 9.0),
-            Block.createCuboidShape(0.0, 2.0, 7.0, 16.0, 5.0, 9.0),
-            Block.createCuboidShape(0.0, 2.0, 7.5, 16.0, 14.0, 8.5)
+            VoxelShapeHelper.createCuboidShape(0, 0, 7.5, 1, 15, 8.5),
+            VoxelShapeHelper.createCuboidShape(15, 0, 7.5, 16, 15, 8.5),
+            VoxelShapeHelper.createCuboidShape(11, 1, 7.5, 13, 16, 8.5),
+            VoxelShapeHelper.createCuboidShape(3, 1, 7.5, 5, 16, 8.5),
+            VoxelShapeHelper.createCuboidShape(7, 1, 7.5, 9, 15, 8.5),
+            VoxelShapeHelper.createCuboidShape(0, 11, 7, 16, 14, 9),
+            VoxelShapeHelper.createCuboidShape(0, 2, 7, 16, 5, 9),
+            VoxelShapeHelper.createCuboidShape(0, 2, 7.5, 16, 14, 8.5)
         )
     private val shape1 = defaultShapes.combined
     private val shape2 = defaultShapes.rotateLeft()
     private inline val wallShapes
         get() = arrayOf(
-            Block.createCuboidShape(0.0, 0.0, 7.0, 1.0, 14.0, 9.0),
-            Block.createCuboidShape(15.0, 0.0, 7.0, 16.0, 14.0, 9.0),
-            Block.createCuboidShape(1.0, 11.0, 7.0, 15.0, 14.0, 9.0),
-            Block.createCuboidShape(1.0, 2.0, 7.0, 15.0, 5.0, 9.0),
-            Block.createCuboidShape(1.0, 5.0, 7.5, 15.0, 11.0, 8.5),
-            Block.createCuboidShape(11.0, 1.0, 7.5, 13.0, 16.0, 8.5),
-            Block.createCuboidShape(3.0, 1.0, 7.5, 5.0, 16.0, 8.5),
-            Block.createCuboidShape(7.0, 1.0, 7.5, 9.0, 15.0, 8.5)
+            VoxelShapeHelper.createCuboidShape(0, 0, 7, 1, 14, 9),
+            VoxelShapeHelper.createCuboidShape(15, 0, 7, 16, 14, 9),
+            VoxelShapeHelper.createCuboidShape(1, 11, 7, 15, 14, 9),
+            VoxelShapeHelper.createCuboidShape(1, 2, 7, 15, 5, 9),
+            VoxelShapeHelper.createCuboidShape(1, 5, 7.5, 15, 11, 8.5),
+            VoxelShapeHelper.createCuboidShape(11, 1, 7.5, 13, 16, 8.5),
+            VoxelShapeHelper.createCuboidShape(3, 1, 7.5, 5, 16, 8.5),
+            VoxelShapeHelper.createCuboidShape(7, 1, 7.5, 9, 15, 8.5)
         )
     private val wallShape1 = wallShapes.combined
     private val wallShape2 = wallShapes.rotateLeft()

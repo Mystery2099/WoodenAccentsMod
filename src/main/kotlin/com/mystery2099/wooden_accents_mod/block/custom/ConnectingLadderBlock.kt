@@ -8,6 +8,7 @@ import com.mystery2099.wooden_accents_mod.state.property.ModProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
 import com.mystery2099.wooden_accents_mod.util.CompositeVoxelShape
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -136,19 +137,19 @@ class ConnectingLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(Fa
         val shape = ModProperties.connectingLadderShape
 
         private val singleShape = CompositeVoxelShape.of(
-            CompositeVoxelShape.createCuboidShape(2, 0, 15, 4, 16, 16),
-            CompositeVoxelShape.createCuboidShape(12, 0, 15, 14, 16, 16),
-            CompositeVoxelShape.createCuboidShape(2, 1, 14.5, 14, 15, 15)
+            VoxelShapeHelper.createCuboidShape(2, 0, 15, 4, 16, 16),
+            VoxelShapeHelper.createCuboidShape(12, 0, 15, 14, 16, 16),
+            VoxelShapeHelper.createCuboidShape(2, 1, 14.5, 14, 15, 15)
         )
 
         private val leftShape = CompositeVoxelShape.of(
-            CompositeVoxelShape.createCuboidShape(12, 0, 15, 14, 16, 16),
-            CompositeVoxelShape.createCuboidShape(0, 1, 14.5, 14, 15, 15)
+            VoxelShapeHelper.createCuboidShape(12, 0, 15, 14, 16, 16),
+            VoxelShapeHelper.createCuboidShape(0, 1, 14.5, 14, 15, 15)
         )
 
         private val rightShape = CompositeVoxelShape.of(
-            CompositeVoxelShape.createCuboidShape(2, 0, 15, 4, 16, 16),
-            CompositeVoxelShape.createCuboidShape(2, 1, 14.5, 16, 15, 15)
+           VoxelShapeHelper.createCuboidShape(2, 0, 15, 4, 16, 16),
+           VoxelShapeHelper.createCuboidShape(2, 1, 14.5, 16, 15, 15)
         )
 
         private val singleShapeMap = mapOf(
@@ -158,7 +159,7 @@ class ConnectingLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(Fa
             Direction.WEST to singleShape.rotatedRight()
         )
         private val centerShapeMap = mutableMapOf(
-            Direction.NORTH to CompositeVoxelShape.of(CompositeVoxelShape.createCuboidShape(0, 1, 14.5, 16, 15, 15))
+            Direction.NORTH to CompositeVoxelShape.createCuboidShape(0, 1, 14.5, 16, 15, 15)
         ).also {
             it[Direction.EAST] = it[Direction.NORTH]?.rotatedLeft()!!
             it[Direction.SOUTH] = it[Direction.NORTH]?.flipped()!!
