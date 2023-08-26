@@ -5,8 +5,8 @@ plugins {
 	id "org.jetbrains.kotlin.jvm" version "$kotlin_version"
 }
 
-version = project.mod_version
-group = project.maven_group
+version = "${project.mod_version}"
+group = "${project.maven_group}"
 
 base {
 	archivesName = project.archives_base_name
@@ -79,7 +79,7 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 17
+	it.options.release.set(17)
 }
 
 
