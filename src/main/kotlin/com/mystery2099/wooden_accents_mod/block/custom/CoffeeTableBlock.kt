@@ -3,7 +3,6 @@ package com.mystery2099.wooden_accents_mod.block.custom
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.addIf
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asBlockModelId
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.toIdentifier
-import com.mystery2099.wooden_accents_mod.block.ModBlocks.getItemModelId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
 import com.mystery2099.wooden_accents_mod.block.custom.enums.CoffeeTableType
@@ -14,6 +13,7 @@ import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
 import com.mystery2099.wooden_accents_mod.data.ModModels
+import com.mystery2099.wooden_accents_mod.datagen.ModelDataGen
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.customGroup
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
@@ -35,9 +35,12 @@ import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.*
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
+import net.minecraft.enchantment.EnchantmentHelper
+import net.minecraft.enchantment.Enchantments
+import net.minecraft.entity.ItemEntity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtCompound
 import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.state.StateManager
@@ -50,13 +53,18 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
+import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
-class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
+
+class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
+    AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
     GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
     override val tag: TagKey<Block> = ModBlockTags.coffeeTables
     override val itemGroup = ModItemGroups.decorations
+    private val BlockState.isTall: Boolean
+        get() = this.get(type) == CoffeeTableType.TALL
 
     init {
         defaultState = defaultState.also {
@@ -66,36 +74,41 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWate
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
-        builder.add(type,
+        builder.add(
+            type,
             north,
             east,
             south,
             west
         )
     }
+
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
         val nbt = ctx.stack.nbt
         val state = ctx.world.getBlockState(ctx.blockPos)
-        return if (state.isOf(this) && nbt?.getBoolean("tall") == false) state.tall()
+        return if (state.isOf(this) && nbt?.getString("coffee_table_type") != CoffeeTableType.TALL.asString()) state.tall()
         else defaultState.asSingle().with(waterlogged, super.getPlacementState(ctx)?.get(waterlogged) == true).run {
             nbt?.let {
-                if (it.getBoolean("tall") ) {
+                if (it.getString("coffee_table_type") == CoffeeTableType.TALL.asString()) {
                     with(type, CoffeeTableType.TALL)
                 } else this
             } ?: this
         }
     }
+
     private fun BlockState.asSingle(): BlockState {
         return this.with(north, false)
             .with(east, false)
             .with(south, false)
             .with(west, false)
     }
+
     private fun BlockState.short(): BlockState = this.with(type, CoffeeTableType.SHORT)
     private fun BlockState.tall(): BlockState = this.with(type, CoffeeTableType.TALL)
+
     @Deprecated("Deprecated in Java")
     override fun canReplace(state: BlockState, context: ItemPlacementContext): Boolean {
-        return state[type] == CoffeeTableType.SHORT && context.stack.item == asItem()
+        return !state.isTall && context.stack.item == asItem()
     }
 
     private fun WorldAccess.checkDirection(pos: BlockPos, direction: Direction): Boolean {
@@ -104,6 +117,7 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWate
         return if (there.block is CoffeeTableBlock) here[type] == there[type]
         else there isIn tag && here isIn tag
     }
+
     private fun WorldAccess.checkNorthOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.NORTH)
 
     private fun WorldAccess.checkEastOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.EAST)
@@ -111,6 +125,7 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWate
     private fun WorldAccess.checkSouthOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.SOUTH)
 
     private fun WorldAccess.checkWestOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.WEST)
+
     @Deprecated("Deprecated in Java")
     override fun getStateForNeighborUpdate(
         state: BlockState,
@@ -126,7 +141,6 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWate
             ?.withIfExists(south, world.checkSouthOf(pos))
             ?.withIfExists(west, world.checkWestOf(pos)) ?: state
     }
-
 
 
     @Deprecated("Deprecated in Java")
@@ -172,12 +186,9 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWate
     }
 
     override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState): ItemStack {
-        val itemStack = super.getPickStack(world, pos, state)
-        NbtCompound().apply {
-            putBoolean("tall", state[CoffeeTableBlock.type] == CoffeeTableType.TALL)
-            itemStack.nbt = this
+        return super.getPickStack(world, pos, state).apply {
+            orCreateNbt.putString("coffee_table_type", state[type].asString())
         }
-        return itemStack
     }
 
     override fun appendTooltip(
@@ -187,9 +198,33 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWate
         options: TooltipContext
     ) {
         super.appendTooltip(stack, world, tooltip, options)
-        if (stack.nbt?.getBoolean("tall") == true) {
-            tooltip.add(Text.literal("tall").formatted(Formatting.ITALIC, Formatting.GRAY))
+        if (stack.hasNbt()) {
+            tooltip.add(Text.literal(stack.nbt?.getString("coffee_table_type"))
+                .formatted(Formatting.GRAY, Formatting.ITALIC))
         }
+    }
+
+    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
+        if (player.isCreative) {
+            super.onBreak(world, pos, state, player)
+            return
+        }
+        val stack = ItemStack(this)
+        if (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, player.mainHandStack) > 0) {
+            stack.orCreateNbt.putString("coffee_table_type", state[type].asString())
+        }
+        else {
+            val itemEntity = ItemEntity(
+                world, pos.x.toDouble(),
+                pos.y.toDouble(), pos.z.toDouble(), stack
+            )
+            world.spawnEntity(itemEntity)
+        }
+        val itemEntity = ItemEntity(
+            world, pos.x.toDouble(),
+            pos.y.toDouble(), pos.z.toDouble(), stack
+        )
+        world.spawnEntity(itemEntity)
     }
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
@@ -212,14 +247,18 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWate
             generator.blockStateCollector.accept(
                 blockStateModelSupplier(
                     shortTopModel = ModModels.coffeeTableTopShort.upload(this, map, generator.modelCollector),
-                    shortLegModel = "${this.woodType.name.lowercase()}_coffee_table_leg_short".toIdentifier().asBlockModelId(),
+                    shortLegModel = "${this.woodType.name.lowercase()}_coffee_table_leg_short".toIdentifier()
+                        .asBlockModelId(),
                     tallTopModel = ModModels.coffeeTableTopTall.upload(this, map, generator.modelCollector),
-                    tallLegModel = "${this.woodType.name.lowercase()}_coffee_table_leg_tall".toIdentifier().asBlockModelId(),
+                    tallLegModel = "${this.woodType.name.lowercase()}_coffee_table_leg_tall".toIdentifier()
+                        .asBlockModelId(),
                 )
             )
-            ModModels.coffeeTableInventory.upload(this.getItemModelId(), map, generator.modelCollector)
+            //ModModels.coffeeTableInventory.upload(this.getItemModelId(), map, generator.modelCollector)
+            ModelDataGen.createCoffeeTableItemModel(this, generator)
         }
     }
+
     private fun blockStateModelSupplier(
         shortTopModel: Identifier,
         shortLegModel: Identifier,
@@ -247,7 +286,6 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWate
     }
 
 
-
     companion object {
         val type = ModProperties.coffeeTableType
         val north: BooleanProperty = Properties.NORTH
@@ -260,32 +298,36 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWate
         // Top shapes
         @JvmStatic
         private val shortTopShape = VoxelShapeHelper.createCuboidShape(0, 7, 0, 16, 9, 16)
+
         @JvmStatic
         private val tallTopShape = shortTopShape.offset(0.0, SHAPE_VERTICAL_OFFSET, 0.0)
 
         // Short North Shapes
         @JvmStatic
         private val shortNorthEastLeg = VoxelShapeHelper.createCuboidShape(13.75, 0, 0.25, 15.75, 7, 2.25)
+
         @JvmStatic
         private val shortNorthWestLeg = shortNorthEastLeg.rotateRight()
 
         // Short South Shapes
         @JvmStatic
         private val shortSouthEastLeg = shortNorthWestLeg.flip()
+
         @JvmStatic
         private val shortSouthWestLeg = shortNorthEastLeg.flip()
 
         // Tall North Shapes
         @JvmStatic
         private val tallNorthEastLeg = shortNorthEastLeg.offset(0.0, SHAPE_VERTICAL_OFFSET, 0.0)
+
         @JvmStatic
         private val tallNorthWestLeg = tallNorthEastLeg.rotateRight()
 
         // Tall South Shapes
         @JvmStatic
         private val tallSouthEastLeg = tallNorthWestLeg.flip()
+
         @JvmStatic
         private val tallSouthWestLeg = tallNorthEastLeg.flip()
     }
-
 }
