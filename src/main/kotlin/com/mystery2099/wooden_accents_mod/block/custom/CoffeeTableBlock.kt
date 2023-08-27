@@ -213,7 +213,7 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
         if (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, player.mainHandStack) > 0) {
             stack.orCreateNbt.putString("coffee_table_type", state[type].asString())
         }
-        else {
+        else if (state[type] != CoffeeTableType.SHORT) {
             val itemEntity = ItemEntity(
                 world, pos.x.toDouble(),
                 pos.y.toDouble(), pos.z.toDouble(), stack
