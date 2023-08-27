@@ -19,7 +19,6 @@ import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
-import net.minecraft.block.piston.PistonBehavior
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.TextureKey
@@ -184,8 +183,6 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) : BlockWith
         }
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun getPistonBehavior(state: BlockState?): PistonBehavior = PistonBehavior.DESTROY
 
     @Deprecated("Deprecated in Java")
     override fun hasComparatorOutput(state: BlockState?): Boolean = true
