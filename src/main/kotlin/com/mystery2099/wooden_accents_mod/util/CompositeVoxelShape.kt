@@ -50,8 +50,8 @@ class CompositeVoxelShape(vararg voxelShapes: VoxelShape) {
         this.mergeWith(other)
     }
 
-    operator fun plusAssign(voxelShape: VoxelShape) {
-        add(voxelShape)
+    operator fun plusAssign(voxelShape: VoxelShape?) {
+        add(voxelShape ?: return)
     }
 
     operator fun plusAssign(voxelShapes: Collection<VoxelShape>) {
@@ -128,22 +128,7 @@ class CompositeVoxelShape(vararg voxelShapes: VoxelShape) {
         @JvmStatic
         fun copy(compositeVoxelShape: CompositeVoxelShape) = compositeVoxelShape.copy()
 
-        fun createCuboidShape(
-            minX: Number,
-            minY: Number,
-            minZ: Number,
-            maxX: Number,
-            maxY: Number,
-            maxZ: Number
-        ) = CompositeVoxelShape(
-            VoxelShapeHelper.createCuboidShape(
-                minX,
-                minY,
-                minZ,
-                maxX,
-                maxY,
-                maxZ
-            )
-        )
+        fun VoxelShape.toCompositeVoxelShape() = CompositeVoxelShape(this)
+
     }
 }
