@@ -29,7 +29,6 @@ object ModBlockTags {
     val modernFences = "modern_fences".toBlockTag().withMatchingItemTag()
     val modernFenceConnectable = "modern_fence_connectable".toBlockTag()
     val modernFenceGates = "modern_fence_gates".toBlockTag().withMatchingItemTag()
-    val modernFenceGateConnectable = "modern_fence_gate_block_connectable".toBlockTag()
 
     val supportBeams = "support_beams".toBlockTag().withMatchingItemTag()
     val crates = "crates".toBlockTag().withMatchingItemTag()
