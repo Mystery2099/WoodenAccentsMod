@@ -3,9 +3,7 @@ package com.mystery2099.wooden_accents_mod.datagen
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
 import com.mystery2099.wooden_accents_mod.block.custom.CoffeeTableBlock
 import com.mystery2099.wooden_accents_mod.block.custom.CrateBlock
-import com.mystery2099.wooden_accents_mod.block.custom.enums.CoffeeTableType
 import com.mystery2099.wooden_accents_mod.block_entity.ModBlockEntities
-import com.mystery2099.wooden_accents_mod.state.property.ModProperties
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.minecraft.block.Block
@@ -31,9 +29,8 @@ class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTable
     override fun generate() {
         ModBlocks.blocks.forEach { block ->
             when (block) {
-                is CoffeeTableBlock -> addDropsDoubleWithProperty(block, ModProperties.coffeeTableType, CoffeeTableType.TALL)
                 is CrateBlock -> addDrop(block, crateDrops(block))
-                else -> addDrop(block)
+                !is CoffeeTableBlock -> addDrop(block)
             }
         }
     }
@@ -74,6 +71,7 @@ class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTable
             )
         ).also { addDrop(drop, it) }
     }
+
     infix operator fun BlockLootTableGenerator.plusAssign(block: Block) { addDrop(block) }
     override infix fun addDrop(block: Block) = super.addDrop(block)
 }
