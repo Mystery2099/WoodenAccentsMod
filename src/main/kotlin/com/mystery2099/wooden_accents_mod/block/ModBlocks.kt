@@ -366,7 +366,8 @@ object ModBlocks {
 
     /*---------------End Misc Stuff----------------*/
 
-    fun Block.getItemModelId(): Identifier = id.withPrefixedPath("item/")
+    inline val Block.itemModelId: Identifier
+        get() = id.withPrefixedPath("item/")
     inline val Block.id: Identifier
         get() = Registries.BLOCK.getId(this)
     inline val Block.modelId: Identifier
