@@ -8,6 +8,7 @@ import com.mystery2099.wooden_accents_mod.state.property.ModProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
 import com.mystery2099.wooden_accents_mod.util.CompositeVoxelShape
+import com.mystery2099.wooden_accents_mod.util.CompositeVoxelShape.Companion.toCompositeVoxelShape
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
@@ -27,15 +28,16 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
-class ConnectingLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(FabricBlockSettings.of(baseBlock.defaultState.material, baseBlock.defaultMapColor).apply {
-    hardness(Blocks.LADDER.hardness)
-    resistance(Blocks.LADDER.blastResistance)
-    sounds(baseBlock.getSoundGroup(baseBlock.defaultState))
+class ConnectingLadderBlock(val baseBlock: Block) :
+    AbstractCustomLadderBlock(FabricBlockSettings.of(baseBlock.defaultState.material, baseBlock.defaultMapColor).apply {
+        hardness(Blocks.LADDER.hardness)
+        resistance(Blocks.LADDER.blastResistance)
+        sounds(baseBlock.getSoundGroup(baseBlock.defaultState))
 
-    if (baseBlock.requiredFeatures.contains(FeatureFlags.UPDATE_1_20)) {
-        requires(FeatureFlags.UPDATE_1_20)
-    }
-}) {
+        if (baseBlock.requiredFeatures.contains(FeatureFlags.UPDATE_1_20)) {
+            requires(FeatureFlags.UPDATE_1_20)
+        }
+    }) {
     override val tag: TagKey<Block> = ModBlockTags.connectingLadders
 
     init {
@@ -51,11 +53,13 @@ class ConnectingLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(Fa
         pos: BlockPos,
         neighborPos: BlockPos?
     ): BlockState {
-        val shouldConnectLeft: Boolean = world.getBlockState(pos.offset(state[FACING].rotateYClockwise())).isConnectingLadder()
-        val shouldConnectRight: Boolean = world.getBlockState(pos.offset(state[FACING].rotateYCounterclockwise())).isConnectingLadder()
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
-            .withShape(shouldConnectLeft, shouldConnectRight)
+       return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
+            .withShape(
+                left = world.getBlockState(pos.offset(state[FACING].rotateYClockwise())).isConnectingLadder(),
+                right = world.getBlockState(pos.offset(state[FACING].rotateYCounterclockwise())).isConnectingLadder()
+            )
     }
+
     private fun BlockState.isConnectingLadder(): Boolean = this isIn tag
     private fun BlockState.withShape(left: Boolean, right: Boolean): BlockState = this.withIfExists(shape, run {
         when {
@@ -70,13 +74,15 @@ class ConnectingLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(Fa
         super.appendProperties(builder)
         builder.add(shape)
     }
+
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
         state: BlockState,
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
-    ): VoxelShape = shapeMap[state[shape]]?.get(state[FACING])?.get() ?: super.getOutlineShape(state, world, pos, context)
+    ): VoxelShape =
+        shapeMap[state[shape]]?.get(state[FACING])?.get() ?: super.getOutlineShape(state, world, pos, context)
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
         super.offerRecipe(exporter, baseBlock, 8, "connecting_ladder")
@@ -101,32 +107,68 @@ class ConnectingLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(Fa
                     register(Direction.NORTH, ConnectingLadderShape.CENTER, northCenterVariant)
                     register(Direction.NORTH, ConnectingLadderShape.RIGHT, northRightVariant)
 
-                    register(Direction.EAST, ConnectingLadderShape.SINGLE, northSingleVariant.withYRotationOf(
-                        VariantSettings.Rotation.R90))
-                    register(Direction.EAST, ConnectingLadderShape.LEFT, northLeftVariant.withYRotationOf(
-                        VariantSettings.Rotation.R90))
-                    register(Direction.EAST, ConnectingLadderShape.CENTER, northCenterVariant.withYRotationOf(
-                        VariantSettings.Rotation.R90))
-                    register(Direction.EAST, ConnectingLadderShape.RIGHT, northRightVariant.withYRotationOf(
-                        VariantSettings.Rotation.R90))
+                    register(
+                        Direction.EAST, ConnectingLadderShape.SINGLE, northSingleVariant.withYRotationOf(
+                            VariantSettings.Rotation.R90
+                        )
+                    )
+                    register(
+                        Direction.EAST, ConnectingLadderShape.LEFT, northLeftVariant.withYRotationOf(
+                            VariantSettings.Rotation.R90
+                        )
+                    )
+                    register(
+                        Direction.EAST, ConnectingLadderShape.CENTER, northCenterVariant.withYRotationOf(
+                            VariantSettings.Rotation.R90
+                        )
+                    )
+                    register(
+                        Direction.EAST, ConnectingLadderShape.RIGHT, northRightVariant.withYRotationOf(
+                            VariantSettings.Rotation.R90
+                        )
+                    )
 
-                    register(Direction.SOUTH, ConnectingLadderShape.SINGLE, northSingleVariant.withYRotationOf(
-                        VariantSettings.Rotation.R180))
-                    register(Direction.SOUTH, ConnectingLadderShape.LEFT, northLeftVariant.withYRotationOf(
-                        VariantSettings.Rotation.R180))
-                    register(Direction.SOUTH, ConnectingLadderShape.CENTER, northCenterVariant.withYRotationOf(
-                        VariantSettings.Rotation.R180))
-                    register(Direction.SOUTH, ConnectingLadderShape.RIGHT, northRightVariant.withYRotationOf(
-                        VariantSettings.Rotation.R180))
+                    register(
+                        Direction.SOUTH, ConnectingLadderShape.SINGLE, northSingleVariant.withYRotationOf(
+                            VariantSettings.Rotation.R180
+                        )
+                    )
+                    register(
+                        Direction.SOUTH, ConnectingLadderShape.LEFT, northLeftVariant.withYRotationOf(
+                            VariantSettings.Rotation.R180
+                        )
+                    )
+                    register(
+                        Direction.SOUTH, ConnectingLadderShape.CENTER, northCenterVariant.withYRotationOf(
+                            VariantSettings.Rotation.R180
+                        )
+                    )
+                    register(
+                        Direction.SOUTH, ConnectingLadderShape.RIGHT, northRightVariant.withYRotationOf(
+                            VariantSettings.Rotation.R180
+                        )
+                    )
 
-                    register(Direction.WEST, ConnectingLadderShape.SINGLE, northSingleVariant.withYRotationOf(
-                        VariantSettings.Rotation.R270))
-                    register(Direction.WEST, ConnectingLadderShape.LEFT, northLeftVariant.withYRotationOf(
-                        VariantSettings.Rotation.R270))
-                    register(Direction.WEST, ConnectingLadderShape.CENTER, northCenterVariant.withYRotationOf(
-                        VariantSettings.Rotation.R270))
-                    register(Direction.WEST, ConnectingLadderShape.RIGHT, northRightVariant.withYRotationOf(
-                        VariantSettings.Rotation.R270))
+                    register(
+                        Direction.WEST, ConnectingLadderShape.SINGLE, northSingleVariant.withYRotationOf(
+                            VariantSettings.Rotation.R270
+                        )
+                    )
+                    register(
+                        Direction.WEST, ConnectingLadderShape.LEFT, northLeftVariant.withYRotationOf(
+                            VariantSettings.Rotation.R270
+                        )
+                    )
+                    register(
+                        Direction.WEST, ConnectingLadderShape.CENTER, northCenterVariant.withYRotationOf(
+                            VariantSettings.Rotation.R270
+                        )
+                    )
+                    register(
+                        Direction.WEST, ConnectingLadderShape.RIGHT, northRightVariant.withYRotationOf(
+                            VariantSettings.Rotation.R270
+                        )
+                    )
 
                 }
             )
@@ -148,8 +190,8 @@ class ConnectingLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(Fa
         )
 
         private val rightShape = CompositeVoxelShape.of(
-           VoxelShapeHelper.createCuboidShape(2, 0, 15, 4, 16, 16),
-           VoxelShapeHelper.createCuboidShape(2, 1, 14.5, 16, 15, 15)
+            VoxelShapeHelper.createCuboidShape(2, 0, 15, 4, 16, 16),
+            VoxelShapeHelper.createCuboidShape(2, 1, 14.5, 16, 15, 15)
         )
 
         private val singleShapeMap = mapOf(
@@ -158,13 +200,15 @@ class ConnectingLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(Fa
             Direction.SOUTH to singleShape.flipped(),
             Direction.WEST to singleShape.rotatedRight()
         )
-        private val centerShapeMap = mutableMapOf(
-            Direction.NORTH to CompositeVoxelShape.createCuboidShape(0, 1, 14.5, 16, 15, 15)
-        ).also {
-            it[Direction.EAST] = it[Direction.NORTH]?.rotatedLeft()!!
-            it[Direction.SOUTH] = it[Direction.NORTH]?.flipped()!!
-            it[Direction.WEST] = it[Direction.NORTH]?.rotatedRight()!!
-        }.toMap()
+        private val centerShapeMap =
+            VoxelShapeHelper.createCuboidShape(0, 1, 14.5, 16, 15, 15).toCompositeVoxelShape().let {
+                mapOf(
+                    Direction.NORTH to it,
+                    Direction.EAST to it.rotatedLeft(),
+                    Direction.SOUTH to it.flipped(),
+                    Direction.WEST to it.rotatedRight()
+                )
+            }
 
         private val leftShapeMap = mapOf(
             Direction.NORTH to leftShape,
