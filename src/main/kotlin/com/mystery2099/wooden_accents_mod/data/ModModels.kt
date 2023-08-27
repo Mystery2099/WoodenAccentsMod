@@ -54,7 +54,8 @@ object ModModels {
     val tableCornerLeg = block("table_corner_leg", "_corner_leg", legs)
 
     //Coffee Table Models
-    val coffeeTableInventory = item("coffee_table", TextureKey.TOP, legs)
+    val coffeeTableInventory = item("coffee_table", "_short", TextureKey.TOP, legs)
+    val coffeeTableTallInventory = item("coffee_table_tall", "_tall", TextureKey.TOP, legs)
     val coffeeTableTopTall = block("coffee_table_top_tall", "_top_tall", TextureKey.TOP)
     val coffeeTableLegTall = block(
         "coffee_table_leg_tall",
@@ -124,4 +125,11 @@ object ModModels {
         Optional.of(variant),
         *requiredTextureKeys
     )
+    @Suppress("unused")
+    private fun item(parent: String, variant: String, vararg requiredTextureKeys: TextureKey) = Model(
+        Optional.of(modId(parent).withPrefixedPath("item/")),
+        Optional.of(variant),
+        *requiredTextureKeys
+    )
+
 }
