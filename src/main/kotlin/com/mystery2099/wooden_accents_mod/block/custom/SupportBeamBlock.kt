@@ -1,6 +1,6 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.mystery2099.wooden_accents_mod.block.ModBlocks.getItemModelId
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.itemModelId
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
@@ -85,7 +85,7 @@ class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(ru
 
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
         val map = TextureMap.all(baseBlock)
-        ModModels.supportBeamItem.upload(this.getItemModelId(), map, generator.modelCollector)
+        ModModels.supportBeamItem.upload(this.itemModelId, map, generator.modelCollector)
         val centerVariant =
             ModModels.supportBeamCenter.upload(this, map, generator.modelCollector).asBlockStateVariant()
         val downVariant =

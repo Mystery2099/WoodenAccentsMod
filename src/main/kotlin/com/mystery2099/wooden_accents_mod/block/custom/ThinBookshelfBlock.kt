@@ -1,6 +1,6 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.mystery2099.wooden_accents_mod.block.ModBlocks.getItemModelId
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.itemModelId
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
@@ -77,7 +77,7 @@ class ThinBookshelfBlock(val baseBlock: Block) :
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
         MultipartBlockStateSupplier.create(this).apply {
             TextureMap.all(baseBlock).let { map ->
-                ModModels.thinBookshelfItem.upload(this@ThinBookshelfBlock.getItemModelId(), map, generator.modelCollector)
+                ModModels.thinBookshelfItem.upload(this@ThinBookshelfBlock.itemModelId, map, generator.modelCollector)
 
                 val bookshelfModel = ModModels.thinBookshelfBlock.upload(this@ThinBookshelfBlock, map, generator.modelCollector)
 

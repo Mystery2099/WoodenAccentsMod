@@ -1,6 +1,6 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.mystery2099.wooden_accents_mod.block.ModBlocks.getItemModelId
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.itemModelId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
@@ -73,7 +73,7 @@ class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Blo
             put(TextureKey.END, postBlock.textureId)
             put(TextureKey.UP, TextureMap.getSubId(postBlock, "_top"))
         }.let { map ->
-            ModModels.modernFenceInventory.upload(getItemModelId(), map, generator.modelCollector)
+            ModModels.modernFenceInventory.upload(itemModelId, map, generator.modelCollector)
             generator.blockStateCollector.accept(
                 BlockStateModelGenerator.createFenceBlockState(
                     this,

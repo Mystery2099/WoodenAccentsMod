@@ -2,7 +2,7 @@ package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asBlockModelId
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.toIdentifier
-import com.mystery2099.wooden_accents_mod.block.ModBlocks.getItemModelId
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.itemModelId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
@@ -28,7 +28,7 @@ class ThickPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape)
             centerModel = "${this.woodType.name.lowercase()}_plank_wall_post".toIdentifier().asBlockModelId(),
             bottomModel = ModModels.thickPillarBottom.upload(this, map, generator.modelCollector)
         ))
-        ModModels.thickPillarInventory.upload(this.getItemModelId(), map, generator.modelCollector)
+        ModModels.thickPillarInventory.upload(this.itemModelId, map, generator.modelCollector)
     }
 
     companion object {

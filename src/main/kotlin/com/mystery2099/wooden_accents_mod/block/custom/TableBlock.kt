@@ -2,7 +2,7 @@ package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asBlockModelId
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.toIdentifier
-import com.mystery2099.wooden_accents_mod.block.ModBlocks.getItemModelId
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.itemModelId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
@@ -155,7 +155,7 @@ class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWaterlogga
                     "${woodType.name.lowercase()}_table_corner_leg".toIdentifier().asBlockModelId(),
                 )
             )
-            ModModels.tableItem.upload(this.getItemModelId(), map, generator.modelCollector)
+            ModModels.tableItem.upload(this.itemModelId, map, generator.modelCollector)
         }
     }
 
