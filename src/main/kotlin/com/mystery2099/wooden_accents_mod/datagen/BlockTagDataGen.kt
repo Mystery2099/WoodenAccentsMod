@@ -30,6 +30,8 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
         BlockTags.FENCES += ModBlockTags.modernFences
         BlockTags.FENCE_GATES += ModBlockTags.modernFenceGates
 
+        ModBlockTags.modernFenceConnectable.add(ModBlockTags.modernFenceGates, ModBlockTags.modernFences)
+
         BlockTags.CLIMBABLE += ModBlockTags.plankLadders
         BlockTags.CLIMBABLE += ModBlockTags.connectingLadders
 
