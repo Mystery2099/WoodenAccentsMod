@@ -13,16 +13,17 @@ import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requir
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.CompositeVoxelShape
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
-import net.minecraft.block.*
+import net.minecraft.block.Block
+import net.minecraft.block.BlockState
+import net.minecraft.block.FenceBlock
+import net.minecraft.block.ShapeContext
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.TextureKey
 import net.minecraft.data.client.TextureMap
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.recipe.book.RecipeCategory
-import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -30,18 +31,14 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import java.util.function.Consumer
 
-class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Block) : FenceBlock(FabricBlockSettings.copyOf(settings)),
+class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Block) :
+    FenceBlock(FabricBlockSettings.copyOf(settings)),
     GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
     override val tag: TagKey<Block> = ModBlockTags.modernFences
     override val itemGroup = ModItemGroups.structuralElements
 
     override fun canConnect(state: BlockState, neighborIsFullSquare: Boolean, dir: Direction): Boolean {
-        return !cannotConnect(state) && neighborIsFullSquare || state.run {
-            (this isIn BlockTags.FENCES && this isIn tag == this@ModernFenceBlock.defaultState.isIn(
-                tag
-            )
-            ) || this.block is FenceGateBlock && FenceGateBlock.canWallConnect(this, dir)
-        }
+        return !cannotConnect(state) && neighborIsFullSquare || state isIn ModBlockTags.modernFenceConnectable
     }
 
     @Deprecated("Deprecated in Java")
@@ -50,10 +47,12 @@ class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Blo
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
-    ) = shape.apply {
-        directionToShapeMap.forEach { if (state.get(it.key)) this + it.value }
-    }.combined
-
+    ) = CompositeVoxelShape(postShape).apply {
+        if (state[NORTH]) this += directionToShapeMap[Direction.NORTH]
+        if (state[EAST]) this += directionToShapeMap[Direction.EAST]
+        if (state[SOUTH]) this += directionToShapeMap[Direction.SOUTH]
+        if (state[WEST]) this += directionToShapeMap[Direction.WEST]
+    }.get()
 
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
@@ -84,6 +83,7 @@ class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Blo
             )
         }
     }
+
     companion object {
         private val postShape: VoxelShape = VoxelShapeHelper.createCuboidShape(6, 0, 6, 10, 16, 10)
         private val northShape: CompositeVoxelShape = CompositeVoxelShape(
@@ -94,12 +94,11 @@ class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Blo
             VoxelShapeHelper.createCuboidShape(7.5, 0, 0, 8.5, 15, 1)
         )
         val directionToShapeMap = mapOf(
-            NORTH to northShape.get(),
-            EAST to northShape.rotatedLeft().get(),
-            SOUTH to northShape.flipped().get(),
-            WEST to northShape.rotatedRight().get()
+            Direction.NORTH to northShape.get(),
+            Direction.EAST to northShape.rotatedLeft().get(),
+            Direction.SOUTH to northShape.flipped().get(),
+            Direction.WEST to northShape.rotatedRight().get()
         )
-        val shape = setOf(postShape)
     }
 }
 
