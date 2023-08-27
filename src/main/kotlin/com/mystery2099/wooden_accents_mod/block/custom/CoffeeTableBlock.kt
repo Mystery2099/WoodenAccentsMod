@@ -31,15 +31,20 @@ import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
+import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.*
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.item.ItemStack
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.Properties
+import net.minecraft.text.Text
+import net.minecraft.util.Formatting
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -54,8 +59,8 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWate
     override val itemGroup = ModItemGroups.decorations
 
     init {
-        defaultState = stateManager.defaultState.apply {
-            short().asSingle().with(waterlogged, false)
+        defaultState = defaultState.also {
+            it.short().asSingle().with(waterlogged, false)
         }
     }
 
@@ -69,9 +74,16 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWate
         )
     }
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
+        val nbt = ctx.stack.nbt
         val state = ctx.world.getBlockState(ctx.blockPos)
-        return if (state.isOf(this)) state.tall()
-        else defaultState.asSingle().with(waterlogged, super.getPlacementState(ctx)?.get(waterlogged) ?: false)
+        return if (state.isOf(this) && nbt?.getBoolean("tall") == false) state.tall()
+        else defaultState.asSingle().with(waterlogged, super.getPlacementState(ctx)?.get(waterlogged) == true).run {
+            nbt?.let {
+                if (it.getBoolean("tall") ) {
+                    with(type, CoffeeTableType.TALL)
+                } else this
+            } ?: this
+        }
     }
     private fun BlockState.asSingle(): BlockState {
         return this.with(north, false)
@@ -107,12 +119,12 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWate
         world: WorldAccess,
         pos: BlockPos?,
         neighborPos: BlockPos?
-    ): BlockState? {
+    ): BlockState {
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos!!, neighborPos)
             ?.withIfExists(north, world.checkNorthOf(pos))
             ?.withIfExists(east, world.checkEastOf(pos))
             ?.withIfExists(south, world.checkSouthOf(pos))
-            ?.withIfExists(west, world.checkWestOf(pos))
+            ?.withIfExists(west, world.checkWestOf(pos)) ?: state
     }
 
 
@@ -157,6 +169,27 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWate
                 }
             }
         }.combined
+    }
+
+    override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState): ItemStack {
+        val itemStack = super.getPickStack(world, pos, state)
+        NbtCompound().apply {
+            putBoolean("tall", state[CoffeeTableBlock.type] == CoffeeTableType.TALL)
+            itemStack.nbt = this
+        }
+        return itemStack
+    }
+
+    override fun appendTooltip(
+        stack: ItemStack,
+        world: BlockView?,
+        tooltip: MutableList<Text>,
+        options: TooltipContext
+    ) {
+        super.appendTooltip(stack, world, tooltip, options)
+        if (stack.nbt?.getBoolean("tall") == true) {
+            tooltip.add(Text.literal("tall").formatted(Formatting.ITALIC, Formatting.GRAY))
+        }
     }
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
