@@ -7,6 +7,7 @@ import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
 import com.mystery2099.wooden_accents_mod.block.custom.enums.CoffeeTableType
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.*
+import com.mystery2099.wooden_accents_mod.block.isOf
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
 import com.mystery2099.wooden_accents_mod.data.ModModels
@@ -29,6 +30,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.block.Blocks
 import net.minecraft.block.ShapeContext
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.*
@@ -59,6 +61,7 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
+import java.util.*
 import java.util.function.Consumer
 
 
@@ -69,13 +72,11 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
     override val tag: TagKey<Block> = ModBlockTags.coffeeTables
     override val itemGroup = ModItemGroups.decorations
     private val BlockState.isTall: Boolean
-        get() = this.get(type) == CoffeeTableType.TALL
+        get() = getOrEmpty(type) == Optional.of(CoffeeTableType.TALL)
 
 
     init {
-        defaultState = defaultState.also {
-            it.setShort().asSingle().with(waterlogged, false)
-        }
+        defaultState = defaultState.setShort().asSingle().with(waterlogged, false)
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
@@ -91,7 +92,7 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
 
     private fun NbtCompound.setTall() = this.setType(CoffeeTableType.TALL)
     private fun NbtCompound.setType(type: CoffeeTableType) =
-        this.apply { putString("coffee_table_type", type.asString()) }
+        apply { putString("coffee_table_type", type.asString()) }
 
     private val NbtCompound.isTall: Boolean
         get() = this.getString("coffee_table_type") == CoffeeTableType.TALL.asString()
@@ -100,7 +101,7 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
         val nbt = ctx.stack.nbt
         val state = ctx.world.getBlockState(ctx.blockPos)
         return if (state.isOf(this) && nbt?.getString("coffee_table_type") != CoffeeTableType.TALL.asString()) state.setTall()
-        else defaultState.asSingle().with(waterlogged, super.getPlacementState(ctx)?.get(waterlogged) == true).run {
+        else defaultState.setDirections(ctx.world, ctx.blockPos).run {
             nbt?.let {
                 if (it.isTall) with(type, CoffeeTableType.TALL) else this
             } ?: this
@@ -116,6 +117,10 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
 
     private fun BlockState.setShort(): BlockState = this.with(type, CoffeeTableType.SHORT)
     private fun BlockState.setTall(): BlockState = this.with(type, CoffeeTableType.TALL)
+    private fun BlockState.setDirections(world: WorldAccess, pos: BlockPos): BlockState {
+        return with(north, world.checkNorthOf(pos)).with(east, world.checkEastOf(pos))
+            .with(south, world.checkSouthOf(pos)).with(west, world.checkWestOf(pos))
+    }
 
     @Deprecated("Deprecated in Java")
     override fun canReplace(state: BlockState, context: ItemPlacementContext): Boolean {
@@ -123,10 +128,13 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
     }
 
     private fun WorldAccess.checkDirection(pos: BlockPos, direction: Direction): Boolean {
-        val here = getBlockState(pos)
-        val there = getBlockState(pos.offset(direction))
-        return if (there.block is CoffeeTableBlock) here[type] == there[type]
-        else there isIn tag && here isIn tag
+        return getBlockState(pos.offset(direction))?.let { there: BlockState ->
+            getBlockState(pos)?.let { here: BlockState ->
+                if (there.block is CoffeeTableBlock && here.block is CoffeeTableBlock) here.get(type) == there.get(type)
+                else if (there isOf Blocks.SCAFFOLDING) here.isTall
+                else there isIn tag && here isIn tag
+            } ?: false
+        } ?: false
     }
 
     private fun WorldAccess.checkNorthOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.NORTH)
@@ -146,12 +154,10 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
         pos: BlockPos?,
         neighborPos: BlockPos?
     ): BlockState {
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos!!, neighborPos)?.let {
-            it.withIfExists(north, world.checkNorthOf(pos))
-            .withIfExists(east, world.checkEastOf(pos))
-            .withIfExists(south, world.checkSouthOf(pos))
-            .withIfExists(west, world.checkWestOf(pos))
-        } ?: state
+        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos!!, neighborPos)
+            ?.withIfExists(north, world.checkNorthOf(pos))?.withIfExists(east, world.checkEastOf(pos))
+            ?.withIfExists(south, world.checkSouthOf(pos))?.withIfExists(west, world.checkWestOf(pos))
+            ?: state
     }
 
 
