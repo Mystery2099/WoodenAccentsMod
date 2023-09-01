@@ -6,6 +6,7 @@
     "#myst2099_wooden_accents_mod:support_beams",
     "#myst2099_wooden_accents_mod:tables",
     "minecraft:end_rod",
-    "minecraft:hopper"
+    "minecraft:hopper",
+    "minecraft:lightning_rod"
   ]
 }

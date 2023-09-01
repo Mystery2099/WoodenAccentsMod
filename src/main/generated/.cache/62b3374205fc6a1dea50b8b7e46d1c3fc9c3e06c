@@ -1,4 +1,4 @@
-// 1.19.4	2023-09-01T16:53:56.3079861	Wooden Accents Mod/Tags for minecraft:block
+// 1.19.4	2023-09-01T17:13:49.5217561	Wooden Accents Mod/Tags for minecraft:block
 a4d1f05e2bfbc3c75b8f16ca3105b5168e2e66e5 data\myst2099_wooden_accents_mod\tags\blocks\support_beams.json
 7aecde9e38b12eaa4c7d42b650fc75c7ae4e9ec1 data\myst2099_wooden_accents_mod\tags\blocks\coffee_tables.json
 06f03d0f0f2e578506057538ab6ed1e74d3a20b0 data\minecraft\tags\blocks\inside_step_sound_blocks.json
@@ -20,7 +20,7 @@ ba6c1d807d60c3c4a6503381c266000927272c7b data\minecraft\tags\blocks\mineable\axe
 c851b184bfbf9b104c3b7c5557b6d4784b3def87 data\myst2099_wooden_accents_mod\tags\blocks\modern_fences.json
 91cc1e063643cedf27f3763f8bfc295b64dd59f1 data\minecraft\tags\blocks\climbable.json
 c9ad3f68ee6491dd7fa4cc571f6d0ab6a4b92dfd data\myst2099_wooden_accents_mod\tags\blocks\kitchen_counters.json
-19001083d85c7a4b2929c7f01e9d3dc0468e6d87 data\myst2099_wooden_accents_mod\tags\blocks\thin_pillars_connectable.json
+074ca30b75861fed2d74200734ed85f9e1e66e4b data\myst2099_wooden_accents_mod\tags\blocks\thin_pillars_connectable.json
 d91ff8ba1ee1210d65df2a76eabfccd158a01ec7 data\myst2099_wooden_accents_mod\tags\blocks\modern_fence_gates.json
 b801fa50f64d770542419ee4e7dd67d1a87a9d6f data\myst2099_wooden_accents_mod\tags\blocks\plank_ladders.json
 8d7965955a76a42f5ee6fa30f1bd10bb6b451932 data\myst2099_wooden_accents_mod\tags\blocks\tables.json
