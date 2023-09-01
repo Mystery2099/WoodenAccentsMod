@@ -12,7 +12,7 @@ import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.CompositeVoxelShape
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.createCuboidShape
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -85,13 +85,13 @@ class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Blo
     }
 
     companion object {
-        private val postShape: VoxelShape = VoxelShapeHelper.createCuboidShape(6, 0, 6, 10, 16, 10)
+        private val postShape: VoxelShape = createCuboidShape(6, 0, 6, 10, 16, 10)
         private val northShape: CompositeVoxelShape = CompositeVoxelShape(
-            VoxelShapeHelper.createCuboidShape(7, 11, 0, 9, 14, 6),
-            VoxelShapeHelper.createCuboidShape(7, 2, 0, 9, 5, 6),
-            VoxelShapeHelper.createCuboidShape(7.5, 5, 1, 8.5, 11, 2),
-            VoxelShapeHelper.createCuboidShape(7.5, 0, 2, 8.5, 15, 5),
-            VoxelShapeHelper.createCuboidShape(7.5, 0, 0, 8.5, 15, 1)
+            createCuboidShape(7, 11, 0, 9, 14, 6),
+            createCuboidShape(7, 2, 0, 9, 5, 6),
+            createCuboidShape(7.5, 5, 1, 8.5, 11, 2),
+            createCuboidShape(7.5, 0, 2, 8.5, 15, 5),
+            createCuboidShape(7.5, 0, 0, 8.5, 15, 1)
         )
         val directionToShapeMap = mapOf(
             Direction.NORTH to northShape.get(),

@@ -11,7 +11,7 @@ import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requir
 import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.CompositeVoxelShape
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.createCuboidShape
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
@@ -89,6 +89,7 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
         hand: Hand?,
         hit: BlockHitResult?
     ): ActionResult {
+
         if (world.isClient) return ActionResult.SUCCESS
         val blockEntity = world.getBlockEntity(pos)
         if (blockEntity is CrateBlockEntity) {
@@ -256,19 +257,19 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
 
     companion object {
         val shape = CompositeVoxelShape.of(
-            VoxelShapeHelper.createCuboidShape(0, 0, 2, 2, 2, 14),
-            VoxelShapeHelper.createCuboidShape(14, 0, 2, 16, 2, 14),
-            VoxelShapeHelper.createCuboidShape(2, 0, 0, 14, 2, 2),
-            VoxelShapeHelper.createCuboidShape(2, 0, 14, 14, 2, 16),
-            VoxelShapeHelper.createCuboidShape(0, 14, 2, 2, 16, 14),
-            VoxelShapeHelper.createCuboidShape(14, 14, 2, 16, 16, 14),
-            VoxelShapeHelper.createCuboidShape(2, 14, 0, 14, 16, 2),
-            VoxelShapeHelper.createCuboidShape(2, 14, 14, 14, 16, 16),
-            VoxelShapeHelper.createCuboidShape(0, 0, 0, 2, 16, 2),
-            VoxelShapeHelper.createCuboidShape(14, 0, 14, 16, 16, 16),
-            VoxelShapeHelper.createCuboidShape(14, 0, 0, 16, 16, 2),
-            VoxelShapeHelper.createCuboidShape(0, 0, 14, 2, 16, 16),
-            VoxelShapeHelper.createCuboidShape(1, 1, 1, 15, 15, 15)
+            createCuboidShape(0, 0, 2, 2, 2, 14),
+            createCuboidShape(14, 0, 2, 16, 2, 14),
+            createCuboidShape(2, 0, 0, 14, 2, 2),
+            createCuboidShape(2, 0, 14, 14, 2, 16),
+            createCuboidShape(0, 14, 2, 2, 16, 14),
+            createCuboidShape(14, 14, 2, 16, 16, 14),
+            createCuboidShape(2, 14, 0, 14, 16, 2),
+            createCuboidShape(2, 14, 14, 14, 16, 16),
+            createCuboidShape(0, 0, 0, 2, 16, 2),
+            createCuboidShape(14, 0, 14, 16, 16, 16),
+            createCuboidShape(14, 0, 0, 16, 16, 2),
+            createCuboidShape(0, 0, 14, 2, 16, 16),
+            createCuboidShape(1, 1, 1, 15, 15, 15)
         ).get()
         val crateBlockEntityBuilder: FabricBlockEntityTypeBuilder<CrateBlockEntity> =
             FabricBlockEntityTypeBuilder.create(::CrateBlockEntity)
