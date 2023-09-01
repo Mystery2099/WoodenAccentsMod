@@ -28,9 +28,9 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
                 ModBlockTags.thinPillars,
                 BlockTags.FENCES,
                 ModBlockTags.supportBeams,
-                ModBlockTags.tables
+                ModBlockTags.tables,
             )
-            add(Blocks.END_ROD, Blocks.HOPPER)
+            add(Blocks.END_ROD, Blocks.HOPPER, Blocks.LIGHTNING_ROD)
         }
         ModBlockTags.thickPillarsConnectable.add(ModBlockTags.thickPillars, ModBlockTags.thinPillars, BlockTags.WALLS)
 
