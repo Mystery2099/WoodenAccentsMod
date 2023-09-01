@@ -1,5 +1,6 @@
 package com.mystery2099.wooden_accents_mod.datagen
 
+import com.mystery2099.wooden_accents_mod.WoodenAccentsMod
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
 import com.mystery2099.wooden_accents_mod.block.custom.CoffeeTableBlock
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomLootTableProvider
@@ -20,7 +21,7 @@ class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTable
     override fun generate() {
         ModBlocks.blocks.forEach { block ->
             when (block) {
-                is CustomLootTableProvider -> addDrop(block, block.getLootTableBuilder(this))
+                is CustomLootTableProvider -> addCustomDrop(block)
                 !is CoffeeTableBlock -> addDrop(block)
             }
         }
@@ -42,5 +43,13 @@ class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTable
                 )
             )
         ).also { addDrop(drop, it) }
+    }
+    private fun addCustomDrop(block: CustomLootTableProvider) {
+        if (block is Block) {
+            addDrop(block, block.getLootTableBuilder(this))
+        }
+        else {
+            WoodenAccentsMod.logger.info("Interface: ${CustomLootTableProvider::class.simpleName} must be used on a class which extends Block!")
+        }
     }
 }
