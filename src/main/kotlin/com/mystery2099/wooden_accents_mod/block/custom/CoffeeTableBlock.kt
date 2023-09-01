@@ -6,10 +6,7 @@ import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.toIdentifier
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
 import com.mystery2099.wooden_accents_mod.block.custom.enums.CoffeeTableType
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomBlockStateProvider
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomItemGroupProvider
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomRecipeProvider
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomTagProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.*
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
 import com.mystery2099.wooden_accents_mod.data.ModModels
@@ -27,20 +24,27 @@ import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
 import com.mystery2099.wooden_accents_mod.util.WhenUtil
 import com.mystery2099.wooden_accents_mod.util.WhenUtil.and
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.*
+import net.minecraft.data.server.loottable.BlockLootTableGenerator
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
-import net.minecraft.enchantment.EnchantmentHelper
-import net.minecraft.enchantment.Enchantments
-import net.minecraft.entity.ItemEntity
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
+import net.minecraft.loot.LootPool
+import net.minecraft.loot.LootTable
+import net.minecraft.loot.condition.BlockStatePropertyLootCondition
+import net.minecraft.loot.entry.ItemEntry
+import net.minecraft.loot.function.SetCountLootFunction
+import net.minecraft.loot.function.SetNbtLootFunction
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.predicate.StatePredicate
 import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.state.StateManager
@@ -53,22 +57,23 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
-import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
 
 class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
     AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
-    CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider, CustomBlockStateProvider {
+    CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider, CustomBlockStateProvider,
+    CustomLootTableProvider {
     override val tag: TagKey<Block> = ModBlockTags.coffeeTables
     override val itemGroup = ModItemGroups.decorations
     private val BlockState.isTall: Boolean
         get() = this.get(type) == CoffeeTableType.TALL
 
+
     init {
         defaultState = defaultState.also {
-            it.short().asSingle().with(waterlogged, false)
+            it.setShort().asSingle().with(waterlogged, false)
         }
     }
 
@@ -83,10 +88,11 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
         )
     }
 
+    private fun NbtCompound.setTall() = this.apply { putString("coffee_table_type", CoffeeTableType.TALL.asString()) }
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
         val nbt = ctx.stack.nbt
         val state = ctx.world.getBlockState(ctx.blockPos)
-        return if (state.isOf(this) && nbt?.getString("coffee_table_type") != CoffeeTableType.TALL.asString()) state.tall()
+        return if (state.isOf(this) && nbt?.getString("coffee_table_type") != CoffeeTableType.TALL.asString()) state.setTall()
         else defaultState.asSingle().with(waterlogged, super.getPlacementState(ctx)?.get(waterlogged) == true).run {
             nbt?.let {
                 if (it.getString("coffee_table_type") == CoffeeTableType.TALL.asString()) {
@@ -103,8 +109,8 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
             .with(west, false)
     }
 
-    private fun BlockState.short(): BlockState = this.with(type, CoffeeTableType.SHORT)
-    private fun BlockState.tall(): BlockState = this.with(type, CoffeeTableType.TALL)
+    private fun BlockState.setShort(): BlockState = this.with(type, CoffeeTableType.SHORT)
+    private fun BlockState.setTall(): BlockState = this.with(type, CoffeeTableType.TALL)
 
     @Deprecated("Deprecated in Java")
     override fun canReplace(state: BlockState, context: ItemPlacementContext): Boolean {
@@ -199,33 +205,13 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
     ) {
         super.appendTooltip(stack, world, tooltip, options)
         if (stack.hasNbt()) {
-            tooltip.add(Text.literal(stack.nbt?.getString("coffee_table_type"))
-                .formatted(Formatting.GRAY, Formatting.ITALIC))
+            tooltip.add(
+                Text.literal(stack.nbt?.getString("coffee_table_type"))
+                    .formatted(Formatting.GRAY, Formatting.ITALIC)
+            )
         }
     }
 
-    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
-        if (player.isCreative) {
-            super.onBreak(world, pos, state, player)
-            return
-        }
-        val stack = ItemStack(this)
-        if (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, player.mainHandStack) > 0) {
-            stack.orCreateNbt.putString("coffee_table_type", state[type].asString())
-        }
-        else if (state[type] != CoffeeTableType.SHORT) {
-            val itemEntity = ItemEntity(
-                world, pos.x.toDouble(),
-                pos.y.toDouble(), pos.z.toDouble(), stack
-            )
-            world.spawnEntity(itemEntity)
-        }
-        val itemEntity = ItemEntity(
-            world, pos.x.toDouble(),
-            pos.y.toDouble(), pos.z.toDouble(), stack
-        )
-        world.spawnEntity(itemEntity)
-    }
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 6).apply {
@@ -329,5 +315,28 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
 
         @JvmStatic
         private val tallSouthWestLeg = tallNorthEastLeg.flip()
+    }
+
+    override fun getLootTableBuilder(provider: FabricBlockLootTableProvider): LootTable.Builder {
+        return LootTable.builder().pool(
+            LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f)).with(
+                provider.applyExplosionDecay(
+                    this, ItemEntry.builder(this).apply(
+                        SetCountLootFunction.builder(ConstantLootNumberProvider.create(2.0f))
+                            .conditionally(
+                                BlockStatePropertyLootCondition.builder(this)
+                                    .properties(StatePredicate.Builder.create().exactMatch(type, CoffeeTableType.TALL))
+                            ).conditionally(BlockLootTableGenerator.WITHOUT_SILK_TOUCH)
+                    ).apply(
+                        SetNbtLootFunction.builder(NbtCompound().setTall())
+                            .conditionally(BlockLootTableGenerator.WITH_SILK_TOUCH)
+                            .conditionally(
+                                BlockStatePropertyLootCondition.builder(this)
+                                    .properties(StatePredicate.Builder.create().exactMatch(type, CoffeeTableType.TALL))
+                            )
+                    )
+                )
+            )
+        )
     }
 }
