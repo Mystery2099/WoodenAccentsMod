@@ -5,7 +5,7 @@ import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomItemGrou
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomRecipeProvider
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomTagProvider
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
-import com.mystery2099.wooden_accents_mod.data.ModBlockTags.contains
+import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
@@ -17,6 +17,7 @@ import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
+import net.minecraft.block.SideShapeType
 import net.minecraft.data.client.MultipartBlockStateSupplier
 import net.minecraft.data.client.VariantSettings
 import net.minecraft.data.server.recipe.RecipeJsonProvider
@@ -67,7 +68,7 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         pos = pos!!,
         neighborPos = neighborPos
     )?.run {
-        with(up, canConnect(world, pos.up())).with(down, canConnect(world, pos.down()))
+        with(up, canConnect(world, pos, Direction.UP)).with(down, canConnect(world, pos, Direction.DOWN))
     } ?: defaultState
 
     @Deprecated("Deprecated in Java")
@@ -85,10 +86,16 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState = super.getPlacementState(ctx)?.run {
         val world = ctx.world
         val pos = ctx.blockPos
-        with(up, canConnect(world, pos.up())).with(down, canConnect(world, pos.down()))
+        with(up, canConnect(world, pos, Direction.UP)).with(down, canConnect(world, pos, Direction.DOWN))
     } ?: defaultState
-    private fun canConnect(world: WorldAccess, pos: BlockPos): Boolean {
-        return world.getBlockState(pos) in connectableBlockTag
+    private fun canConnect(world: WorldAccess, pos: BlockPos, direction: Direction): Boolean {
+        val otherState = world.getBlockState(pos.offset(direction))
+        return otherState isIn connectableBlockTag && otherState.isSideSolid(
+            world,
+            pos.offset(direction),
+            direction.opposite,
+            SideShapeType.CENTER
+        ) && !otherState.isSideSolidFullSquare(world, pos, direction.opposite)
     }
 
     fun offerRecipe(exporter: Consumer<RecipeJsonProvider>, outputNum: Int, primaryInput: ItemConvertible, secondaryInput: ItemConvertible) {
