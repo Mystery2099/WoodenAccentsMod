@@ -15,40 +15,42 @@
             {
               "function": "minecraft:copy_name",
               "source": "block_entity"
-            },
-            {
-              "function": "minecraft:copy_nbt",
-              "ops": [
-                {
-                  "op": "replace",
-                  "source": "Lock",
-                  "target": "BlockEntityTag.Lock"
-                },
-                {
-                  "op": "replace",
-                  "source": "LootTable",
-                  "target": "BlockEntityTag.LootTable"
-                },
-                {
-                  "op": "replace",
-                  "source": "LootTableSeed",
-                  "target": "BlockEntityTag.LootTableSeed"
-                }
-              ],
-              "source": "block_entity"
-            },
-            {
-              "type": "myst2099_wooden_accents_mod:crate",
-              "entries": [
-                {
-                  "type": "minecraft:dynamic",
-                  "name": "minecraft:contents"
-                }
-              ],
-              "function": "minecraft:set_contents"
             }
           ],
           "name": "myst2099_wooden_accents_mod:dark_oak_crate"
+        }
+      ],
+      "functions": [
+        {
+          "function": "minecraft:copy_nbt",
+          "ops": [
+            {
+              "op": "replace",
+              "source": "Lock",
+              "target": "BlockEntityTag.Lock"
+            },
+            {
+              "op": "replace",
+              "source": "LootTable",
+              "target": "BlockEntityTag.LootTable"
+            },
+            {
+              "op": "replace",
+              "source": "LootTableSeed",
+              "target": "BlockEntityTag.LootTableSeed"
+            }
+          ],
+          "source": "block_entity"
+        },
+        {
+          "type": "myst2099_wooden_accents_mod:crate",
+          "entries": [
+            {
+              "type": "minecraft:dynamic",
+              "name": "minecraft:contents"
+            }
+          ],
+          "function": "minecraft:set_contents"
         }
       ],
       "rolls": 1.0
