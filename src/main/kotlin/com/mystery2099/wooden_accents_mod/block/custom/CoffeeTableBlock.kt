@@ -13,6 +13,7 @@ import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.datagen.ModelDataGen
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.customGroup
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
+import com.mystery2099.wooden_accents_mod.datagen.conditionally
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
@@ -330,12 +331,10 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
                 provider.applyExplosionDecay(
                     this, ItemEntry.builder(this).apply(
                         SetCountLootFunction.builder(ConstantLootNumberProvider.create(2.0f))
-                            .conditionally(BlockLootTableGenerator.WITHOUT_SILK_TOUCH)
-                            .conditionally(whenBlockIsTall)
+                            .conditionally(BlockLootTableGenerator.WITHOUT_SILK_TOUCH, whenBlockIsTall)
                     ).apply(
                         SetNbtLootFunction.builder(nbt)
-                            .conditionally(BlockLootTableGenerator.WITH_SILK_TOUCH)
-                            .conditionally(whenBlockIsTall)
+                            .conditionally(BlockLootTableGenerator.WITH_SILK_TOUCH, whenBlockIsTall)
                     )
                 )
             )

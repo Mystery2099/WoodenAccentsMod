@@ -10,7 +10,9 @@ import net.minecraft.block.Block
 import net.minecraft.loot.LootPool
 import net.minecraft.loot.LootTable
 import net.minecraft.loot.condition.BlockStatePropertyLootCondition
+import net.minecraft.loot.condition.LootCondition
 import net.minecraft.loot.entry.ItemEntry
+import net.minecraft.loot.function.ConditionalLootFunction
 import net.minecraft.loot.function.SetCountLootFunction
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider
 import net.minecraft.predicate.StatePredicate
@@ -35,21 +37,27 @@ class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTable
         LootTable.builder().pool(
             LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f)).with(
                 applyExplosionDecay(
-                    drop, ItemEntry.builder(drop).apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(2.0f))
-                        .conditionally(BlockStatePropertyLootCondition.builder(drop)
-                            .properties(StatePredicate.Builder.create().exactMatch(property, value))
-                        )
+                    drop, ItemEntry.builder(drop).apply(
+                        SetCountLootFunction.builder(ConstantLootNumberProvider.create(2.0f))
+                            .conditionally(
+                                BlockStatePropertyLootCondition.builder(drop)
+                                    .properties(StatePredicate.Builder.create().exactMatch(property, value))
+                            )
                     )
                 )
             )
         ).also { addDrop(drop, it) }
     }
+
     private fun addCustomDrop(block: CustomLootTableProvider) {
         if (block is Block) {
             addDrop(block, block.getLootTableBuilder(this))
-        }
-        else {
+        } else {
             WoodenAccentsMod.logger.info("Interface: ${CustomLootTableProvider::class.simpleName} must be used on a class which extends Block!")
         }
     }
+}
+fun <t : ConditionalLootFunction.Builder<*>> t.conditionally(vararg builders: LootCondition.Builder): t {
+    builders.forEach { this.conditionally(it) }
+    return this
 }

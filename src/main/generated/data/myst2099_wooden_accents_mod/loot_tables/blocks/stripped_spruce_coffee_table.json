@@ -11,13 +11,6 @@
               "add": false,
               "conditions": [
                 {
-                  "block": "myst2099_wooden_accents_mod:stripped_spruce_coffee_table",
-                  "condition": "minecraft:block_state_property",
-                  "properties": {
-                    "type": "tall"
-                  }
-                },
-                {
                   "condition": "minecraft:inverted",
                   "term": {
                     "condition": "minecraft:match_tool",
@@ -31,6 +24,13 @@
                         }
                       ]
                     }
+                  }
+                },
+                {
+                  "block": "myst2099_wooden_accents_mod:stripped_spruce_coffee_table",
+                  "condition": "minecraft:block_state_property",
+                  "properties": {
+                    "type": "tall"
                   }
                 }
               ],
