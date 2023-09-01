@@ -38,8 +38,6 @@ import net.minecraft.loot.context.LootContext
 import net.minecraft.loot.context.LootContextParameters
 import net.minecraft.loot.entry.DynamicEntry
 import net.minecraft.loot.entry.ItemEntry
-import net.minecraft.loot.entry.LeafEntry
-import net.minecraft.loot.entry.LootPoolEntry
 import net.minecraft.loot.function.CopyNameLootFunction
 import net.minecraft.loot.function.CopyNbtLootFunction
 import net.minecraft.loot.function.SetContentsLootFunction
@@ -241,16 +239,16 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
         return LootTable.builder().pool(
             provider.addSurvivesExplosionCondition(
                 this, LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f)).with(
-                    ((ItemEntry.builder(this)
-                        .apply(CopyNameLootFunction.builder(CopyNameLootFunction.Source.BLOCK_ENTITY)) as LeafEntry.Builder<*>).apply(
-                        CopyNbtLootFunction.builder(ContextLootNbtProvider.BLOCK_ENTITY)
-                            .withOperation("Lock", "BlockEntityTag.Lock")
-                            .withOperation("LootTable", "BlockEntityTag.LootTable")
-                            .withOperation("LootTableSeed", "BlockEntityTag.LootTableSeed")
-                    ) as LeafEntry.Builder<*>).apply(
-                        SetContentsLootFunction.builder(ModBlockEntities.crate)
-                            .withEntry(DynamicEntry.builder(CrateBlock.contents))
-                    ) as Any as LootPoolEntry.Builder<*>
+                    ItemEntry.builder(this)
+                        .apply(CopyNameLootFunction.builder(CopyNameLootFunction.Source.BLOCK_ENTITY))
+                ).apply(
+                    CopyNbtLootFunction.builder(ContextLootNbtProvider.BLOCK_ENTITY)
+                        .withOperation("Lock", "BlockEntityTag.Lock")
+                        .withOperation("LootTable", "BlockEntityTag.LootTable")
+                        .withOperation("LootTableSeed", "BlockEntityTag.LootTableSeed")
+                ).apply(
+                    SetContentsLootFunction.builder(ModBlockEntities.crate)
+                        .withEntry(DynamicEntry.builder(contents))
                 )
             )
         )
