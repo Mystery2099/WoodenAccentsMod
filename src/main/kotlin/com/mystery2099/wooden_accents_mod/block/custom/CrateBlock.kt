@@ -1,10 +1,7 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomBlockStateProvider
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomItemGroupProvider
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomRecipeProvider
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomTagProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.*
 import com.mystery2099.wooden_accents_mod.block_entity.ModBlockEntities
 import com.mystery2099.wooden_accents_mod.block_entity.custom.CrateBlockEntity
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
@@ -15,6 +12,7 @@ import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.CompositeVoxelShape
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.minecraft.block.*
@@ -34,8 +32,19 @@ import net.minecraft.inventory.Inventory
 import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.loot.LootPool
+import net.minecraft.loot.LootTable
 import net.minecraft.loot.context.LootContext
 import net.minecraft.loot.context.LootContextParameters
+import net.minecraft.loot.entry.DynamicEntry
+import net.minecraft.loot.entry.ItemEntry
+import net.minecraft.loot.entry.LeafEntry
+import net.minecraft.loot.entry.LootPoolEntry
+import net.minecraft.loot.function.CopyNameLootFunction
+import net.minecraft.loot.function.CopyNbtLootFunction
+import net.minecraft.loot.function.SetContentsLootFunction
+import net.minecraft.loot.provider.nbt.ContextLootNbtProvider
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider
 import net.minecraft.nbt.NbtElement
 import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.tag.TagKey
@@ -53,8 +62,10 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import java.util.function.Consumer
 
-class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) : BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)),
-    CustomBlockStateProvider, CustomItemGroupProvider, CustomTagProvider, CustomRecipeProvider {
+class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
+    BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)),
+    CustomBlockStateProvider, CustomItemGroupProvider, CustomTagProvider, CustomRecipeProvider,
+    CustomLootTableProvider {
     override val itemGroup: CustomItemGroup = ModItemGroups.miscellaneous
     override val tag: TagKey<Block> = ModBlockTags.crates
 
@@ -156,7 +167,7 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) : BlockWith
         options: TooltipContext
     ) {
         super.appendTooltip(stack, world, tooltip, options)
-        BlockItem.getBlockEntityNbt(stack)?.let {nbtCompound ->
+        BlockItem.getBlockEntityNbt(stack)?.let { nbtCompound ->
             if (nbtCompound.contains("LootTable", NbtElement.STRING_TYPE.toInt())) {
                 tooltip.add(Text.literal("???????"))
             }
@@ -226,6 +237,25 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) : BlockWith
         }
     }
 
+    override fun getLootTableBuilder(provider: FabricBlockLootTableProvider): LootTable.Builder {
+        return LootTable.builder().pool(
+            provider.addSurvivesExplosionCondition(
+                this, LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f)).with(
+                    ((ItemEntry.builder(this)
+                        .apply(CopyNameLootFunction.builder(CopyNameLootFunction.Source.BLOCK_ENTITY)) as LeafEntry.Builder<*>).apply(
+                        CopyNbtLootFunction.builder(ContextLootNbtProvider.BLOCK_ENTITY)
+                            .withOperation("Lock", "BlockEntityTag.Lock")
+                            .withOperation("LootTable", "BlockEntityTag.LootTable")
+                            .withOperation("LootTableSeed", "BlockEntityTag.LootTableSeed")
+                    ) as LeafEntry.Builder<*>).apply(
+                        SetContentsLootFunction.builder(ModBlockEntities.crate)
+                            .withEntry(DynamicEntry.builder(CrateBlock.contents))
+                    ) as Any as LootPoolEntry.Builder<*>
+                )
+            )
+        )
+    }
+
     companion object {
         val shape = CompositeVoxelShape.of(
             VoxelShapeHelper.createCuboidShape(0, 0, 2, 2, 2, 14),
@@ -247,5 +277,4 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) : BlockWith
         val contents = Identifier("contents")
 
     }
-
 }
