@@ -20,11 +20,11 @@ import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStat
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.putModel
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.createCuboidShape
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
 import com.mystery2099.wooden_accents_mod.util.WhenUtil
 import com.mystery2099.wooden_accents_mod.util.WhenUtil.and
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.createCuboidShape
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
@@ -146,11 +146,12 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
         pos: BlockPos?,
         neighborPos: BlockPos?
     ): BlockState {
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos!!, neighborPos)
-            ?.withIfExists(north, world.checkNorthOf(pos))
-            ?.withIfExists(east, world.checkEastOf(pos))
-            ?.withIfExists(south, world.checkSouthOf(pos))
-            ?.withIfExists(west, world.checkWestOf(pos)) ?: state
+        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos!!, neighborPos)?.let {
+            it.withIfExists(north, world.checkNorthOf(pos))
+            .withIfExists(east, world.checkEastOf(pos))
+            .withIfExists(south, world.checkSouthOf(pos))
+            .withIfExists(west, world.checkWestOf(pos))
+        } ?: state
     }
 
 
