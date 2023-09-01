@@ -7,7 +7,6 @@ import com.mystery2099.wooden_accents_mod.block_entity.ModBlockEntities
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.minecraft.block.Block
-import net.minecraft.data.server.loottable.BlockLootTableGenerator
 import net.minecraft.loot.LootPool
 import net.minecraft.loot.LootTable
 import net.minecraft.loot.condition.BlockStatePropertyLootCondition
@@ -71,7 +70,4 @@ class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTable
             )
         ).also { addDrop(drop, it) }
     }
-
-    infix operator fun BlockLootTableGenerator.plusAssign(block: Block) { addDrop(block) }
-    override infix fun addDrop(block: Block) = super.addDrop(block)
 }
