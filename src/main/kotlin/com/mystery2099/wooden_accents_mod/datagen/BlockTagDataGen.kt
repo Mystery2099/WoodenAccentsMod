@@ -18,11 +18,20 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
     override fun configure(arg: RegistryWrapper.WrapperLookup) {
         ModBlocks.blocks.forEach {
             BlockTags.AXE_MINEABLE += it
-            when {it is CustomTagProvider -> it.tag += it }
+            when {
+                it is CustomTagProvider -> it.tag += it
+            }
         }
         ModBlockTags.pillars.add(ModBlockTags.thinPillars, ModBlockTags.thickPillars)
-        ModBlockTags.thinPillarsConnectable.add(ModBlockTags.thinPillars, BlockTags.FENCES, ModBlockTags.supportBeams).add(
-            Blocks.END_ROD)
+        ModBlockTags.thinPillarsConnectable.apply {
+            add(
+                ModBlockTags.thinPillars,
+                BlockTags.FENCES,
+                ModBlockTags.supportBeams,
+                ModBlockTags.tables
+            )
+            add(Blocks.END_ROD, Blocks.HOPPER)
+        }
         ModBlockTags.thickPillarsConnectable.add(ModBlockTags.thickPillars, ModBlockTags.thinPillars, BlockTags.WALLS)
 
         BlockTags.WALLS += ModBlockTags.woodenWalls
@@ -55,10 +64,16 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
         return getOrCreateTagBuilder(this).also { blocks.forEach(it::add) }
     }
 
-    private operator fun TagKey<Block>.plusAssign(tag: TagKey<Block>) { add(tag) }
+    private operator fun TagKey<Block>.plusAssign(tag: TagKey<Block>) {
+        add(tag)
+    }
 
-    private operator fun TagKey<Block>.plusAssign(block: Block) { add(block) }
+    private operator fun TagKey<Block>.plusAssign(block: Block) {
+        add(block)
+    }
 
-    private operator fun TagKey<Block>.plusAssign(tags: Array<TagKey<Block>>) { tags.map { add(it) } }
+    private operator fun TagKey<Block>.plusAssign(tags: Array<TagKey<Block>>) {
+        tags.map { add(it) }
+    }
 
 }

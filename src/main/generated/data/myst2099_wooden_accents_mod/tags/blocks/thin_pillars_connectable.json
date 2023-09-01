@@ -4,6 +4,8 @@
     "#myst2099_wooden_accents_mod:thin_pillars",
     "#minecraft:fences",
     "#myst2099_wooden_accents_mod:support_beams",
-    "minecraft:end_rod"
+    "#myst2099_wooden_accents_mod:tables",
+    "minecraft:end_rod",
+    "minecraft:hopper"
   ]
 }
