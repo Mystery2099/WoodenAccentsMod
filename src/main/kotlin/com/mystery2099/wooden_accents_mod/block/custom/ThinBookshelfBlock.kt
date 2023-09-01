@@ -1,10 +1,10 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.itemModelId
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomBlockStateProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomItemGroupProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomRecipeProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomTagProvider
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
@@ -39,7 +39,7 @@ import java.util.function.Consumer
 
 class ThinBookshelfBlock(val baseBlock: Block) :
     ChiseledBookshelfBlock(FabricBlockSettings.copyOf(baseBlock).requires(FeatureFlags.UPDATE_1_20)),
-    GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
+    CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.thinBookshelves
     override val itemGroup: CustomItemGroup = ModItemGroups.decorations
 

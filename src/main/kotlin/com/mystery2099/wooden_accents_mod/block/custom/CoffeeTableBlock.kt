@@ -6,10 +6,10 @@ import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.toIdentifier
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
 import com.mystery2099.wooden_accents_mod.block.custom.enums.CoffeeTableType
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomBlockStateProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomItemGroupProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomRecipeProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomTagProvider
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
 import com.mystery2099.wooden_accents_mod.data.ModModels
@@ -60,7 +60,7 @@ import java.util.function.Consumer
 
 class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
     AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
-    GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
+    CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.coffeeTables
     override val itemGroup = ModItemGroups.decorations
     private val BlockState.isTall: Boolean

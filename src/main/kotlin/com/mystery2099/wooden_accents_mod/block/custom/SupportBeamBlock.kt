@@ -1,10 +1,10 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.itemModelId
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomBlockStateProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomItemGroupProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomRecipeProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomTagProvider
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags.contains
 import com.mystery2099.wooden_accents_mod.data.ModModels
@@ -49,7 +49,7 @@ class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(ru
             requires(FeatureFlags.UPDATE_1_20)
         }
     }
-}), GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
+}), CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider, CustomBlockStateProvider {
     override val centerShape: VoxelShape = VoxelShapeHelper.createCuboidShape(6, 6, 6, 10, 10, 10)
     override val northShape: VoxelShape = VoxelShapeHelper.createCuboidShape(6, 6, 0, 10, 10, 6)
     override val eastShape: VoxelShape = northShape.rotateLeft()

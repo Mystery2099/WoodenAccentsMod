@@ -1,9 +1,9 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomBlockStateProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomItemGroupProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomRecipeProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomTagProvider
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags.contains
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
@@ -37,7 +37,7 @@ import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
 abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shape) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
-    GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
+    CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider, CustomBlockStateProvider {
     override val itemGroup = ModItemGroups.structuralElements
     abstract val connectableBlockTag: TagKey<Block>
     override val tag: TagKey<Block> = ModBlockTags.pillars

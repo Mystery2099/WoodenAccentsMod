@@ -1,10 +1,10 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomBlockStateProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomItemGroupProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomRecipeProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomTagProvider
 import com.mystery2099.wooden_accents_mod.block_entity.custom.KitchenCabinetBlockEntity
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModItemTags
@@ -52,7 +52,7 @@ import java.util.function.Consumer
 
 class KitchenCabinetBlock(val baseBlock: Block, val topBlock: Block) :
     BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)),
-    GroupedBlock, RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
+    CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.kitchenCabinets
     override val itemGroup = ModItemGroups.decorations
 

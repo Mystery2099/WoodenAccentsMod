@@ -1,6 +1,6 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomItemGroupProvider
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
@@ -32,7 +32,7 @@ class PlankLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(FabricB
     if (baseBlock.requiredFeatures.contains(FeatureFlags.UPDATE_1_20)) {
         requires(FeatureFlags.UPDATE_1_20)
     }
-}), GroupedBlock {
+}), CustomItemGroupProvider {
     override val tag: TagKey<Block> = ModBlockTags.plankLadders
 
     @Deprecated("Deprecated in Java")

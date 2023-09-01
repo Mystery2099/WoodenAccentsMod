@@ -1,10 +1,10 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomBlockStateProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomItemGroupProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomRecipeProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomTagProvider
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
@@ -20,8 +20,8 @@ import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.tag.TagKey
 import java.util.function.Consumer
 
-class CustomWallBlock(val baseBlock: Block) : WallBlock(FabricBlockSettings.copyOf(baseBlock)), GroupedBlock,
-    RecipeBlockData, TaggedBlock, BlockStateGeneratorDataBlock {
+class CustomWallBlock(val baseBlock: Block) : WallBlock(FabricBlockSettings.copyOf(baseBlock)), CustomItemGroupProvider,
+    CustomRecipeProvider, CustomTagProvider, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.woodenWalls
     override val itemGroup = ModItemGroups.structuralElements
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {

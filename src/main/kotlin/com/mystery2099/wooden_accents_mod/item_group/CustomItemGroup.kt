@@ -2,7 +2,7 @@ package com.mystery2099.wooden_accents_mod.item_group
 
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.toIdentifier
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomItemGroupProvider
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemGroup
@@ -17,7 +17,7 @@ class CustomItemGroup(name: String) {
         get() = run {
             val list = mutableListOf<ItemConvertible>()
             ModBlocks.blocks.forEach { block ->
-                if (block is GroupedBlock && block.itemGroup == this) list += block
+                if (block is CustomItemGroupProvider && block.itemGroup == this) list += block
             }
             return list.ifEmpty { listOf(Items.DIRT) }
         }

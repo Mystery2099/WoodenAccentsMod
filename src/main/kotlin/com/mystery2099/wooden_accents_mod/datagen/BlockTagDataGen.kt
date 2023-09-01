@@ -1,7 +1,7 @@
 package com.mystery2099.wooden_accents_mod.datagen
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomTagProvider
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
@@ -18,7 +18,7 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
     override fun configure(arg: RegistryWrapper.WrapperLookup) {
         ModBlocks.blocks.forEach {
             BlockTags.AXE_MINEABLE += it
-            when {it is TaggedBlock -> it.tag += it }
+            when {it is CustomTagProvider -> it.tag += it }
         }
         ModBlockTags.pillars.add(ModBlockTags.thinPillars, ModBlockTags.thickPillars)
         ModBlockTags.thinPillarsConnectable.add(ModBlockTags.thinPillars, BlockTags.FENCES, ModBlockTags.supportBeams).add(

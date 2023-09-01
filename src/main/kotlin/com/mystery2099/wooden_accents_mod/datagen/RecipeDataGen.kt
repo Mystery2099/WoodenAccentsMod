@@ -3,7 +3,7 @@ package com.mystery2099.wooden_accents_mod.datagen
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.isPlank
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.isStripped
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomRecipeProvider
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.minecraft.block.Block
@@ -16,7 +16,7 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
     override fun generate(exporter: Consumer<RecipeJsonProvider>) {
         ModBlocks.blocks.forEach{
             when {
-                it is RecipeBlockData -> it.offerRecipeTo(exporter)
+                it is CustomRecipeProvider -> it.offerRecipeTo(exporter)
             }
         }
     }

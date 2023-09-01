@@ -1,10 +1,10 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.GroupedBlock
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.RecipeBlockData
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.TaggedBlock
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomBlockStateProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomItemGroupProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomRecipeProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomTagProvider
 import com.mystery2099.wooden_accents_mod.block_entity.ModBlockEntities
 import com.mystery2099.wooden_accents_mod.block_entity.custom.CrateBlockEntity
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
@@ -54,7 +54,7 @@ import net.minecraft.world.World
 import java.util.function.Consumer
 
 class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) : BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)),
-    BlockStateGeneratorDataBlock, GroupedBlock, TaggedBlock, RecipeBlockData {
+    CustomBlockStateProvider, CustomItemGroupProvider, CustomTagProvider, CustomRecipeProvider {
     override val itemGroup: CustomItemGroup = ModItemGroups.miscellaneous
     override val tag: TagKey<Block> = ModBlockTags.crates
 

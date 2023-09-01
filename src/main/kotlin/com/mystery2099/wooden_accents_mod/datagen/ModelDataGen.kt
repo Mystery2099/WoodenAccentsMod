@@ -9,7 +9,7 @@ import com.mystery2099.wooden_accents_mod.block.ModBlocks
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.itemModelId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.custom.CoffeeTableBlock
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.BlockStateGeneratorDataBlock
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomBlockStateProvider
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
@@ -48,7 +48,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
             }
             ModBlocks.blocks.forEach {
                 when {
-                    it is BlockStateGeneratorDataBlock ->
+                    it is CustomBlockStateProvider ->
                         it.generateBlockStateModels(generator = blockStateModelGenerator)
                 }
             }
