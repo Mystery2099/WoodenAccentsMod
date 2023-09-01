@@ -54,10 +54,10 @@ object ModBlockTags {
     private fun String.toBlockTag(namespace: String = WoodenAccentsMod.MOD_ID): TagKey<Block> {
         return TagKey.of(RegistryKeys.BLOCK, Identifier(namespace, this))
     }
-    private fun TagKey<Block>.withMatchingItemTag() = this.also {
+    private fun TagKey<Block>.withMatchingItemTag() = also {
         blockTagWithMatchingItemTag[this] = TagKey.of(RegistryKeys.ITEM, this.id)
     }
-    infix fun BlockState.isIn(tag: TagKey<Block>) = isIn(tag)
-    infix operator fun TagKey<Block>.contains(block: BlockState) = block.isIn(this)
+    infix fun BlockState?.isIn(tag: TagKey<Block>): Boolean = this?.isIn(tag) ?: false
+    infix operator fun TagKey<Block>.contains(block: BlockState?) = block.isIn(this)
 
 }
