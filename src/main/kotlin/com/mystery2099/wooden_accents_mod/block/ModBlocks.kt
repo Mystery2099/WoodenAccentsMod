@@ -5,10 +5,7 @@ import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.toIdentifier
 import com.mystery2099.wooden_accents_mod.block.custom.*
 import com.mystery2099.wooden_accents_mod.item.CustomBlockItem
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
-import net.minecraft.block.Block
-import net.minecraft.block.Blocks
-import net.minecraft.block.FenceGateBlock
-import net.minecraft.block.WoodType
+import net.minecraft.block.*
 import net.minecraft.data.client.ModelIds
 import net.minecraft.data.client.TextureMap
 import net.minecraft.registry.Registries
@@ -18,8 +15,7 @@ import net.minecraft.util.Identifier
 @SuppressWarnings("unused")
 object ModBlocks {
     private val registries = mutableSetOf<Block>()
-    val blocks : Set<Block>
-        get() = registries
+    val blocks : Set<Block> = registries
 
     /*---------------Outside Stuff----------------*/
 
@@ -400,8 +396,8 @@ object ModBlocks {
         }
 
     fun ModBlocks.register() {
-        WoodenAccentsMod.logger.info("Registering $this for mod: ${WoodenAccentsMod.MOD_ID}")
+        WoodenAccentsMod.logger.info("Registering ${this::class.simpleName} for mod: ${WoodenAccentsMod.MOD_ID}")
     }
 
 }
-
+infix fun BlockState?.isOf(block: Block): Boolean = this?.isOf(block) ?: false
