@@ -88,16 +88,20 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
         )
     }
 
-    private fun NbtCompound.setTall() = this.apply { putString("coffee_table_type", CoffeeTableType.TALL.asString()) }
+    private fun NbtCompound.setTall() = this.setType(CoffeeTableType.TALL)
+    private fun NbtCompound.setType(type: CoffeeTableType) =
+        this.apply { putString("coffee_table_type", type.asString()) }
+
+    private val NbtCompound.isTall: Boolean
+        get() = this.getString("coffee_table_type") == CoffeeTableType.TALL.asString()
+
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
         val nbt = ctx.stack.nbt
         val state = ctx.world.getBlockState(ctx.blockPos)
         return if (state.isOf(this) && nbt?.getString("coffee_table_type") != CoffeeTableType.TALL.asString()) state.setTall()
         else defaultState.asSingle().with(waterlogged, super.getPlacementState(ctx)?.get(waterlogged) == true).run {
             nbt?.let {
-                if (it.getString("coffee_table_type") == CoffeeTableType.TALL.asString()) {
-                    with(type, CoffeeTableType.TALL)
-                } else this
+                if (it.isTall) with(type, CoffeeTableType.TALL) else this
             } ?: this
         }
     }
@@ -193,7 +197,7 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
 
     override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState): ItemStack {
         return super.getPickStack(world, pos, state).apply {
-            orCreateNbt.putString("coffee_table_type", state[type].asString())
+            orCreateNbt.setType(state[type])
         }
     }
 
@@ -318,22 +322,20 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
     }
 
     override fun getLootTableBuilder(provider: FabricBlockLootTableProvider): LootTable.Builder {
+        val tallStatePredicate = StatePredicate.Builder.create().exactMatch(type, CoffeeTableType.TALL)
+        val whenBlockIsTall = BlockStatePropertyLootCondition.builder(this).properties(tallStatePredicate)
+        val nbt = NbtCompound().setTall()
         return LootTable.builder().pool(
             LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f)).with(
                 provider.applyExplosionDecay(
                     this, ItemEntry.builder(this).apply(
                         SetCountLootFunction.builder(ConstantLootNumberProvider.create(2.0f))
-                            .conditionally(
-                                BlockStatePropertyLootCondition.builder(this)
-                                    .properties(StatePredicate.Builder.create().exactMatch(type, CoffeeTableType.TALL))
-                            ).conditionally(BlockLootTableGenerator.WITHOUT_SILK_TOUCH)
+                            .conditionally(BlockLootTableGenerator.WITHOUT_SILK_TOUCH)
+                            .conditionally(whenBlockIsTall)
                     ).apply(
-                        SetNbtLootFunction.builder(NbtCompound().setTall())
+                        SetNbtLootFunction.builder(nbt)
                             .conditionally(BlockLootTableGenerator.WITH_SILK_TOUCH)
-                            .conditionally(
-                                BlockStatePropertyLootCondition.builder(this)
-                                    .properties(StatePredicate.Builder.create().exactMatch(type, CoffeeTableType.TALL))
-                            )
+                            .conditionally(whenBlockIsTall)
                     )
                 )
             )
