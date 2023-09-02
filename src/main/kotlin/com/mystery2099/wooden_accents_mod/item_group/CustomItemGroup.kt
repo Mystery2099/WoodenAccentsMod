@@ -20,10 +20,10 @@ class CustomItemGroup(name: String) {
 
             ModBlocks.blocks.filterIsInstance<CustomItemGroupProvider>()
                 .filter { it.itemGroup == this }
-                .forEach { block ->
-                    list += if (block is Block) block.defaultItemStack else ItemStack.EMPTY
-                    if (block.hasVariantItemGroupStack) {
-                        altList += block.variantItemGroupStack
+                .forEach {
+                    list += (it as? Block)?.defaultItemStack ?: ItemStack.EMPTY
+                    if (it.hasVariantItemGroupStack) {
+                        altList += it.variantItemGroupStack
                     }
                 }
 
