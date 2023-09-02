@@ -73,7 +73,10 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
     override val itemGroup = ModItemGroups.decorations
     private val BlockState.isTall: Boolean
         get() = getOrEmpty(type) == Optional.of(CoffeeTableType.TALL)
-
+    override val variantWithNbt: ItemStack
+        get() = this.asItem().defaultStack.apply {
+            orCreateNbt.setType(CoffeeTableType.TALL)
+        }
 
     init {
         defaultState = defaultState.setShort().asSingle().with(waterlogged, false)
