@@ -9,6 +9,7 @@ import net.minecraft.block.*
 import net.minecraft.data.client.ModelIds
 import net.minecraft.data.client.TextureMap
 import net.minecraft.item.Item
+import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.util.Identifier
@@ -405,3 +406,5 @@ object ModBlocks {
 
 }
 infix fun BlockState?.isOf(block: Block): Boolean = this?.isOf(block) ?: false
+inline val Block.defaultItemStack: ItemStack
+    get() = this.asItem().defaultStack
