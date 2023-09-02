@@ -11,11 +11,8 @@ object ModItemGroups {
     val miscellaneous  = CustomItemGroup("miscellaneous")
 
     fun register() {
-        /*itemGroupToEntriesMap.forEach { (itemGroup, entries) ->
-            ItemGroupEvents.modifyEntriesEvent(itemGroup).register { entries.forEach(it::add)}
-        }*/
         CustomItemGroup.instances.forEach{ group ->
-            ItemGroupEvents.modifyEntriesEvent(group.itemGroup).register { group.entries.forEach(it::add) }
+            ItemGroupEvents.modifyEntriesEvent(group.get()).register { group.entries.forEach(it::add) }
         }
 
         WoodenAccentsMod.logger.info("Registering ItemGroups for mod: ${WoodenAccentsMod.MOD_ID}")
