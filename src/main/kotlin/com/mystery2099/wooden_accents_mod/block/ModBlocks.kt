@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.*
 import net.minecraft.data.client.ModelIds
 import net.minecraft.data.client.TextureMap
+import net.minecraft.item.Item
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.util.Identifier
@@ -384,10 +385,13 @@ object ModBlocks {
             }
             return type
         }
-    val Block.isStripped: Boolean
+    inline val Block.isStripped: Boolean
         get() = id.path.contains("stripped")
-    val Block.isPlank
+    inline val Block.isPlank
         get() = id.path.contains("plank")
+    inline val Block.item: Item
+        get() = this.asItem()
+
     private fun Block.registerAs(id: String, maxStackSize: Int = 64): Block = registerAs(id.toIdentifier(), maxStackSize)
     private fun Block.registerAs(identifier: Identifier, maxStackSize: Int = 64) =
         Registry.register(Registries.BLOCK, identifier, this).also {
