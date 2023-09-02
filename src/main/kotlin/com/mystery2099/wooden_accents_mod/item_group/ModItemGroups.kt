@@ -2,6 +2,8 @@ package com.mystery2099.wooden_accents_mod.item_group
 
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
+import net.minecraft.item.ItemGroup
+import net.minecraft.item.ItemStack
 
 
 object ModItemGroups {
@@ -16,5 +18,5 @@ object ModItemGroups {
         }
         WoodenAccentsMod.logger.info("Registering ItemGroups for mod: ${WoodenAccentsMod.MOD_ID}")
     }
-
+    infix fun ItemStack.isIn(group: ItemGroup) = this in group
 }
