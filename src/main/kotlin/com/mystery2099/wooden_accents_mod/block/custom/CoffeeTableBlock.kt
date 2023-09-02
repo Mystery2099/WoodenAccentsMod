@@ -7,6 +7,7 @@ import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
 import com.mystery2099.wooden_accents_mod.block.custom.enums.CoffeeTableType
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.*
+import com.mystery2099.wooden_accents_mod.block.defaultItemStack
 import com.mystery2099.wooden_accents_mod.block.isOf
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
@@ -73,8 +74,8 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
     override val itemGroup = ModItemGroups.decorations
     private val BlockState.isTall: Boolean
         get() = getOrEmpty(type) == Optional.of(CoffeeTableType.TALL)
-    override val variantWithNbt: ItemStack
-        get() = this.asItem().defaultStack.apply {
+    override val variantItemGroupStack: ItemStack
+        get() = this.defaultItemStack.apply {
             orCreateNbt.setType(CoffeeTableType.TALL)
         }
 
