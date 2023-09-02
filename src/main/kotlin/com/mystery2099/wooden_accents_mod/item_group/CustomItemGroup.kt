@@ -31,11 +31,12 @@ class CustomItemGroup(name: String) {
                 val element = list.lastOrNull {
                     (it.item as CustomBlockItem).tagFromProvider == (alt.item as CustomBlockItem).tagFromProvider
                 }
-                val index = list.indexOf(element)
-                if (index > -1) list.add(index + 1, alt)
+                list.indexOf(element).let {
+                    if (it > -1) list.add(it + 1, alt)
+                }
             }
 
-            return list.ifEmpty { listOf(Items.DIRT.defaultStack) }
+            return list.ifEmpty { list + Items.DIRT.defaultStack }
         }
 
     init {
