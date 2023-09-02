@@ -14,7 +14,6 @@ object ModItemGroups {
         CustomItemGroup.instances.forEach{ group ->
             ItemGroupEvents.modifyEntriesEvent(group.get()).register { group.entries.forEach(it::add) }
         }
-
         WoodenAccentsMod.logger.info("Registering ItemGroups for mod: ${WoodenAccentsMod.MOD_ID}")
     }
 
