@@ -25,7 +25,8 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.Direction
 import java.util.function.Consumer
 
-class KitchenCounterBlock(baseBlock: Block, topBlock: Block) : AbstractKitchenCounterBlock(baseBlock, topBlock), CustomItemGroupProvider, CustomTagProvider, CustomRecipeProvider, CustomBlockStateProvider {
+class KitchenCounterBlock(baseBlock: Block, topBlock: Block) : AbstractKitchenCounterBlock(baseBlock, topBlock),
+    CustomItemGroupProvider, CustomTagProvider, CustomRecipeProvider, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.kitchenCounters
     override val itemGroup: CustomItemGroup = ModItemGroups.decorations
 
@@ -34,25 +35,35 @@ class KitchenCounterBlock(baseBlock: Block, topBlock: Block) : AbstractKitchenCo
         TextureMap().apply {
             put(TextureKey.TOP, block.topBlock.textureId)
             put(TextureKey.SIDE, block.baseBlock.textureId)
-        }.let {map ->
+        }.let { map ->
             val normalModel = ModModels.kitchenCounter.upload(block, map, generator.modelCollector)
 
             generator.blockStateCollector.accept(
                 VariantsBlockStateSupplier.create(block)
-                .coordinate(
-                    variantMap(
-                        blockModel = normalModel,
-                        innerLeftModel = ModModels.kitchenCounterInnerLeftCorner.upload(block, map, generator.modelCollector),
-                        outerLeftModel = ModModels.kitchenCounterOuterLeftCorner.upload(block, map, generator.modelCollector)
+                    .coordinate(
+                        variantMap(
+                            blockModel = normalModel,
+                            innerLeftModel = ModModels.kitchenCounterInnerLeftCorner.upload(
+                                block,
+                                map,
+                                generator.modelCollector
+                            ),
+                            outerLeftModel = ModModels.kitchenCounterOuterLeftCorner.upload(
+                                block,
+                                map,
+                                generator.modelCollector
+                            )
+                        )
                     )
-                )
             )
             generator.registerParentedItemModel(block, normalModel)
         }
     }
-    private fun variantMap(blockModel: Identifier,
-                           innerLeftModel: Identifier,
-                           outerLeftModel: Identifier
+
+    private fun variantMap(
+        blockModel: Identifier,
+        innerLeftModel: Identifier,
+        outerLeftModel: Identifier
     ) = BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, Properties.STAIR_SHAPE).apply {
         val northBlock = blockModel.asBlockStateVariant()
         val northInnerLeft = innerLeftModel.asBlockStateVariant()
@@ -63,28 +74,28 @@ class KitchenCounterBlock(baseBlock: Block, topBlock: Block) : AbstractKitchenCo
                 StairShape.STRAIGHT to northBlock,
                 StairShape.INNER_LEFT to northInnerLeft,
                 StairShape.OUTER_LEFT to northOuterLeft,
-                StairShape.INNER_RIGHT to  northInnerLeft.withYRotationOf(VariantSettings.Rotation.R90),
+                StairShape.INNER_RIGHT to northInnerLeft.withYRotationOf(VariantSettings.Rotation.R90),
                 StairShape.OUTER_RIGHT to northOuterLeft.withYRotationOf(VariantSettings.Rotation.R90),
             ),
             Direction.EAST to mapOf(
                 StairShape.STRAIGHT to northBlock.withYRotationOf(VariantSettings.Rotation.R90),
                 StairShape.INNER_LEFT to northInnerLeft.withYRotationOf(VariantSettings.Rotation.R90),
                 StairShape.OUTER_LEFT to northOuterLeft.withYRotationOf(VariantSettings.Rotation.R90),
-                StairShape.INNER_RIGHT to  northInnerLeft.withYRotationOf(VariantSettings.Rotation.R180),
+                StairShape.INNER_RIGHT to northInnerLeft.withYRotationOf(VariantSettings.Rotation.R180),
                 StairShape.OUTER_RIGHT to northOuterLeft.withYRotationOf(VariantSettings.Rotation.R180),
             ),
             Direction.SOUTH to mapOf(
                 StairShape.STRAIGHT to northBlock.withYRotationOf(VariantSettings.Rotation.R180),
                 StairShape.INNER_LEFT to northInnerLeft.withYRotationOf(VariantSettings.Rotation.R180),
                 StairShape.OUTER_LEFT to northOuterLeft.withYRotationOf(VariantSettings.Rotation.R180),
-                StairShape.INNER_RIGHT to  northInnerLeft.withYRotationOf(VariantSettings.Rotation.R270),
+                StairShape.INNER_RIGHT to northInnerLeft.withYRotationOf(VariantSettings.Rotation.R270),
                 StairShape.OUTER_RIGHT to northOuterLeft.withYRotationOf(VariantSettings.Rotation.R270),
             ),
             Direction.WEST to mapOf(
                 StairShape.STRAIGHT to northBlock.withYRotationOf(VariantSettings.Rotation.R270),
                 StairShape.INNER_LEFT to northInnerLeft.withYRotationOf(VariantSettings.Rotation.R270),
                 StairShape.OUTER_LEFT to northOuterLeft.withYRotationOf(VariantSettings.Rotation.R270),
-                StairShape.INNER_RIGHT to  northInnerLeft,
+                StairShape.INNER_RIGHT to northInnerLeft,
                 StairShape.OUTER_RIGHT to northOuterLeft,
             )
         ).forEach { i -> i.value.forEach { j -> register(i.key, j.key, j.value) } }
