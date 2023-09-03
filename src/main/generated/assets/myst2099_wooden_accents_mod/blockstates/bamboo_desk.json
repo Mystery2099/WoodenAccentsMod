@@ -1,47 +1,92 @@
 {
   "variants": {
+    "facing=east,shape=center": {
+      "model": "myst2099_wooden_accents_mod:block/bamboo_desk_center",
+      "y": 90
+    },
     "facing=east,shape=left": {
+      "model": "myst2099_wooden_accents_mod:block/bamboo_desk_left",
+      "y": 90
+    },
+    "facing=east,shape=left_corner": {
       "model": "myst2099_wooden_accents_mod:block/bamboo_desk_left_corner",
       "y": 90
     },
     "facing=east,shape=right": {
+      "model": "myst2099_wooden_accents_mod:block/bamboo_desk_right",
+      "y": 90
+    },
+    "facing=east,shape=right_corner": {
       "model": "myst2099_wooden_accents_mod:block/bamboo_desk_left_corner",
       "y": 180
     },
-    "facing=east,shape=straight": {
+    "facing=east,shape=single": {
       "model": "myst2099_wooden_accents_mod:block/bamboo_desk",
       "y": 90
     },
+    "facing=north,shape=center": {
+      "model": "myst2099_wooden_accents_mod:block/bamboo_desk_center"
+    },
     "facing=north,shape=left": {
+      "model": "myst2099_wooden_accents_mod:block/bamboo_desk_left"
+    },
+    "facing=north,shape=left_corner": {
       "model": "myst2099_wooden_accents_mod:block/bamboo_desk_left_corner"
     },
     "facing=north,shape=right": {
+      "model": "myst2099_wooden_accents_mod:block/bamboo_desk_right"
+    },
+    "facing=north,shape=right_corner": {
       "model": "myst2099_wooden_accents_mod:block/bamboo_desk_left_corner",
       "y": 90
     },
-    "facing=north,shape=straight": {
+    "facing=north,shape=single": {
       "model": "myst2099_wooden_accents_mod:block/bamboo_desk"
     },
+    "facing=south,shape=center": {
+      "model": "myst2099_wooden_accents_mod:block/bamboo_desk_center",
+      "y": 180
+    },
     "facing=south,shape=left": {
+      "model": "myst2099_wooden_accents_mod:block/bamboo_desk_left",
+      "y": 180
+    },
+    "facing=south,shape=left_corner": {
       "model": "myst2099_wooden_accents_mod:block/bamboo_desk_left_corner",
       "y": 180
     },
     "facing=south,shape=right": {
+      "model": "myst2099_wooden_accents_mod:block/bamboo_desk_right",
+      "y": 180
+    },
+    "facing=south,shape=right_corner": {
       "model": "myst2099_wooden_accents_mod:block/bamboo_desk_left_corner",
       "y": 270
     },
-    "facing=south,shape=straight": {
+    "facing=south,shape=single": {
       "model": "myst2099_wooden_accents_mod:block/bamboo_desk",
       "y": 180
     },
+    "facing=west,shape=center": {
+      "model": "myst2099_wooden_accents_mod:block/bamboo_desk_center",
+      "y": 270
+    },
     "facing=west,shape=left": {
+      "model": "myst2099_wooden_accents_mod:block/bamboo_desk_left",
+      "y": 270
+    },
+    "facing=west,shape=left_corner": {
       "model": "myst2099_wooden_accents_mod:block/bamboo_desk_left_corner",
       "y": 270
     },
     "facing=west,shape=right": {
+      "model": "myst2099_wooden_accents_mod:block/bamboo_desk_right",
+      "y": 270
+    },
+    "facing=west,shape=right_corner": {
       "model": "myst2099_wooden_accents_mod:block/bamboo_desk_left_corner"
     },
-    "facing=west,shape=straight": {
+    "facing=west,shape=single": {
       "model": "myst2099_wooden_accents_mod:block/bamboo_desk",
       "y": 270
     }
