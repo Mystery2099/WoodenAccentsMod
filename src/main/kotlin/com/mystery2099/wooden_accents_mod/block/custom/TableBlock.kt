@@ -17,11 +17,11 @@ import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.createCuboidShape
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
 import com.mystery2099.wooden_accents_mod.util.WhenUtil
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.createCuboidShape
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -93,12 +93,12 @@ class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWaterlogga
         world: WorldAccess,
         pos: BlockPos?,
         neighborPos: BlockPos?
-    ): BlockState? {
+    ): BlockState {
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos!!, neighborPos)
-            ?.withIfExists(north, world.checkNorthOf(pos))
-            ?.withIfExists(east, world.checkEastOf(pos))
-            ?.withIfExists(south, world.checkSouthOf(pos))
-            ?.withIfExists(west, world.checkWestOf(pos))
+            .withIfExists(north, world.checkNorthOf(pos))
+            .withIfExists(east, world.checkEastOf(pos))
+            .withIfExists(south, world.checkSouthOf(pos))
+            .withIfExists(west, world.checkWestOf(pos))
     }
 
     @Deprecated("Deprecated in Java")
