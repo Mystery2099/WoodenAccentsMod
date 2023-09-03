@@ -1,7 +1,6 @@
 package com.mystery2099.wooden_accents_mod
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
-import com.mystery2099.wooden_accents_mod.block.ModBlocks.register
 import com.mystery2099.wooden_accents_mod.block_entity.ModBlockEntities
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import net.fabricmc.api.ModInitializer
@@ -21,12 +20,11 @@ object WoodenAccentsMod : ModInitializer {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
-		logger.info("Hello Fabric world!")
+		logger.info("Initializing $MOD_ID")
 		ModBlocks.register()
 		ModBlockEntities.register()
 		ModItemGroups.register()
 	}
-
 	fun modId(path: String): Identifier = path.toIdentifier()
 	fun String.toIdentifier(namespace: String = MOD_ID): Identifier = Identifier(namespace, this)
 	fun Identifier.asBlockModelId(): Identifier = this.withPrefixedPath("block/")
