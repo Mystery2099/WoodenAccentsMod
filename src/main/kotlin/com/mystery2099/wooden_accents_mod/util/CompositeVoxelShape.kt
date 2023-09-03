@@ -97,21 +97,21 @@ class CompositeVoxelShape(vararg voxelShapes: VoxelShape) {
         removeAll(voxelShapes)
     }
 
-    fun rotateLeft() = this.also {
+    fun rotateLeft() {
         _voxelShapes = _voxelShapes.rotateElements(VoxelShapeTransformation.ROTATE_LEFT).toMutableList()
     }
 
-    fun rotatedLeft(): CompositeVoxelShape = this.copy().also { it.rotateLeft() }
-    fun rotateRight() = this.also {
+    val rotatedLeft: CompositeVoxelShape = this.copy().also { it.rotateLeft() }
+    fun rotateRight() {
         _voxelShapes = _voxelShapes.rotateElements(VoxelShapeTransformation.ROTATE_RIGHT).toMutableList()
     }
 
-    fun rotatedRight(): CompositeVoxelShape = this.copy().also { it.rotateRight() }
-    fun flip() = this.also {
+    val rotatedRight: CompositeVoxelShape = this.copy().also { it.rotateRight() }
+    fun flip()  {
         _voxelShapes = _voxelShapes.rotateElements(VoxelShapeTransformation.FLIP).toMutableList()
     }
 
-    fun flipped(): CompositeVoxelShape = this.copy().also { it.flip() }
+    val flipped: CompositeVoxelShape = this.copy().also { it.flip() }
 
     fun copy() = CompositeVoxelShape(this.voxelShapes)
 
