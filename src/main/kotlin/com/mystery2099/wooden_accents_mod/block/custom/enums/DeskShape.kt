@@ -5,7 +5,10 @@ import net.minecraft.util.StringIdentifiable
 enum class DeskShape(val string: String) : StringIdentifiable {
     STRAIGHT("straight"),
     LEFT("left"),
-    RIGHT("right");
+    CENTER("center"),
+    RIGHT("right"),
+    LEFT_CORNER("left_corner"),
+    RIGHT_CORNER("right_corner");
 
     override fun asString(): String = string
 }
