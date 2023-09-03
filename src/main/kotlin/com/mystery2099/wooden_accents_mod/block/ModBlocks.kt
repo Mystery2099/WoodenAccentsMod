@@ -15,7 +15,7 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.util.Identifier
 
-@SuppressWarnings("unused")
+@Suppress("unused")
 object ModBlocks : WoodenAccentsModRegistry {
     private val registries = mutableSetOf<Block>()
     val blocks: Set<Block> = registries
