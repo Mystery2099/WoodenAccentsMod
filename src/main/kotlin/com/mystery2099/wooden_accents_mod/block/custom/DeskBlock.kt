@@ -53,22 +53,22 @@ class DeskBlock(settings: FabricBlockSettings, baseBlock: Block, topBlock: Block
 
         mapOf(
             Direction.NORTH to mapOf(
-                DeskShape.STRAIGHT to northBlock,
+                DeskShape.SINGLE to northBlock,
                 DeskShape.LEFT to northInnerLeft,
                 DeskShape.RIGHT to northInnerLeft.withYRotationOf(VariantSettings.Rotation.R90),
             ),
             Direction.EAST to mapOf(
-                DeskShape.STRAIGHT to northBlock.withYRotationOf(VariantSettings.Rotation.R90),
+                DeskShape.SINGLE to northBlock.withYRotationOf(VariantSettings.Rotation.R90),
                 DeskShape.LEFT to northInnerLeft.withYRotationOf(VariantSettings.Rotation.R90),
                 DeskShape.RIGHT to northInnerLeft.withYRotationOf(VariantSettings.Rotation.R180),
             ),
             Direction.SOUTH to mapOf(
-                DeskShape.STRAIGHT to northBlock.withYRotationOf(VariantSettings.Rotation.R180),
+                DeskShape.SINGLE to northBlock.withYRotationOf(VariantSettings.Rotation.R180),
                 DeskShape.LEFT to northInnerLeft.withYRotationOf(VariantSettings.Rotation.R180),
                 DeskShape.RIGHT to northInnerLeft.withYRotationOf(VariantSettings.Rotation.R270),
             ),
             Direction.WEST to mapOf(
-                DeskShape.STRAIGHT to northBlock.withYRotationOf(VariantSettings.Rotation.R270),
+                DeskShape.SINGLE to northBlock.withYRotationOf(VariantSettings.Rotation.R270),
                 DeskShape.LEFT to northInnerLeft.withYRotationOf(VariantSettings.Rotation.R270),
                 DeskShape.RIGHT to northInnerLeft,
             )

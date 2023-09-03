@@ -1,9 +1,6 @@
 package com.mystery2099.wooden_accents_mod.block.custom;
 
 import com.mystery2099.wooden_accents_mod.block.custom.enums.DeskShape;
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomBlockStateProvider;
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomItemGroupProvider;
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomRecipeProvider;
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomTagProvider;
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -36,7 +33,7 @@ public abstract class AbstractDeskBlock extends AbstractWaterloggableBlock imple
         super(settings);
         this.topBlock = topBlock;
         this.baseBlock = baseBlock;
-        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(SHAPE, DeskShape.STRAIGHT));
+        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(SHAPE, DeskShape.SINGLE));
     }
 
     private DeskShape getDeskShape(BlockState state, BlockView world, BlockPos pos) {
@@ -46,7 +43,7 @@ public abstract class AbstractDeskBlock extends AbstractWaterloggableBlock imple
         if (isDesk(blockState2) && (direction2 = blockState2.get(FACING)).getAxis() != state.get(FACING).getAxis() && isDifferentOrientation(state, world, pos, direction2.getOpposite())) {
             return (direction2 == direction.rotateYCounterclockwise()) ? DeskShape.LEFT : DeskShape.RIGHT;
         }
-        return DeskShape.STRAIGHT;
+        return DeskShape.SINGLE;
     }
 
     public boolean isDesk(BlockState state) {
