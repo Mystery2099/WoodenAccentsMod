@@ -14,7 +14,7 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.WorldAccess
 
 abstract class AbstractWaterloggableBlock(settings: Settings) : Block(settings), Waterloggable {
-    init { defaultState = stateManager.defaultState.with(waterlogged, false) }
+    init { defaultState = defaultState.with(waterlogged, false) }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
@@ -33,7 +33,7 @@ abstract class AbstractWaterloggableBlock(settings: Settings) : Block(settings),
         world: WorldAccess,
         pos: BlockPos?,
         neighborPos: BlockPos?
-    ): BlockState? {
+    ): BlockState {
         if (state[waterlogged]) world.scheduleFluidTick(
             pos,
             Fluids.WATER,
