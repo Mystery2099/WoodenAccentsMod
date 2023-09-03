@@ -43,41 +43,44 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
-class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
-    CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider, CustomBlockStateProvider {
+class TableBlock(val baseBlock: Block, private val topBlock: Block) :
+    AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)), CustomItemGroupProvider, CustomRecipeProvider,
+    CustomTagProvider, CustomBlockStateProvider {
     override val itemGroup = ModItemGroups.decorations
 
     override val tag: TagKey<Block> = ModBlockTags.tables
 
     init {
         defaultState = stateManager.defaultState.run {
-            with(north, false)
-                .with(east, false)
-                .with(south, false)
-                .with(west, false)
-                .with(waterlogged, false)
+            with(north, false).with(east, false).with(south, false).with(west, false).with(waterlogged, false)
         }
     }
+
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
         builder.add(
-            north,
-            east,
-            south,
-            west
+            north, east, south, west
         )
     }
 
-    override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
-        return defaultState.with(north, false)
-            .with(east, false)
-            .with(south, false)
-            .with(west, false)
-            .with(waterlogged, super.getPlacementState(ctx)?.get(waterlogged) ?: false)
+    override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
+        return defaultState.withDirections(
+            north = false,
+            east = false,
+            south = false,
+            west = false
+        ).with(waterlogged, super.getPlacementState(ctx).get(waterlogged) ?: false)
     }
+
+    private fun BlockState.withDirections(north: Boolean, east: Boolean, south: Boolean, west: Boolean): BlockState {
+        return this.with(TableBlock.north, north).with(TableBlock.east, east).with(TableBlock.south, south)
+            .with(TableBlock.west, west)
+    }
+
     private fun WorldAccess.checkDirection(pos: BlockPos, direction: Direction): Boolean {
         return getBlockState(pos.offset(direction)).block is TableBlock
     }
+
     private infix fun WorldAccess.checkNorthOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.NORTH)
 
     private infix fun WorldAccess.checkEastOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.EAST)
@@ -85,6 +88,7 @@ class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWaterlogga
     private infix fun WorldAccess.checkSouthOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.SOUTH)
 
     private infix fun WorldAccess.checkWestOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.WEST)
+
     @Deprecated("Deprecated in Java")
     override fun getStateForNeighborUpdate(
         state: BlockState,
@@ -95,18 +99,17 @@ class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWaterlogga
         neighborPos: BlockPos?
     ): BlockState {
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos!!, neighborPos)
-            .withIfExists(north, world.checkNorthOf(pos))
-            .withIfExists(east, world.checkEastOf(pos))
-            .withIfExists(south, world.checkSouthOf(pos))
-            .withIfExists(west, world.checkWestOf(pos))
+            .withDirections(
+                world.checkNorthOf(pos),
+                world.checkEastOf(pos),
+                world.checkSouthOf(pos),
+                world.checkWestOf(pos)
+            )
     }
 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
-        state: BlockState,
-        world: BlockView?,
-        pos: BlockPos?,
-        context: ShapeContext?
+        state: BlockState, world: BlockView?, pos: BlockPos?, context: ShapeContext?
     ): VoxelShape = state.run {
         val north = this[north]
         val east = this[east]
@@ -175,8 +178,7 @@ class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWaterlogga
         )
         //Ends
         with(
-            When.allOf(WhenUtil.notNorth, WhenUtil.notEast, WhenUtil.south, WhenUtil.notWest),
-            northEndLegVariant
+            When.allOf(WhenUtil.notNorth, WhenUtil.notEast, WhenUtil.south, WhenUtil.notWest), northEndLegVariant
         )
         with(
             When.allOf(WhenUtil.notNorth, WhenUtil.notEast, WhenUtil.notSouth, WhenUtil.west),
@@ -192,8 +194,7 @@ class TableBlock(val baseBlock: Block, val topBlock: Block) : AbstractWaterlogga
         )
         //Corners
         with(
-            When.allOf(WhenUtil.notNorth, WhenUtil.notEast, WhenUtil.south, WhenUtil.west),
-            northEastCornerVariant
+            When.allOf(WhenUtil.notNorth, WhenUtil.notEast, WhenUtil.south, WhenUtil.west), northEastCornerVariant
         )
         with(
             When.allOf(WhenUtil.notNorth, WhenUtil.east, WhenUtil.south, WhenUtil.notWest),
