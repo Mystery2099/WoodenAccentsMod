@@ -102,7 +102,8 @@ object ModModels {
     val kitchenCabinet = block("kitchen_cabinet", TextureKey.SIDE, TextureKey.TOP)
 
     /*---------------Bedroom Stuff----------------*/
-
+    val desk = block("desk", TextureKey.SIDE, TextureKey.TOP)
+    val deskInnerLeftCorner = block("desk_left_corner", "_left_corner", TextureKey.SIDE, TextureKey.TOP)
 
     @Suppress("unused")
     private fun make(vararg requiredTextureKeys: TextureKey) = Model(Optional.empty(), Optional.empty(), *requiredTextureKeys)
