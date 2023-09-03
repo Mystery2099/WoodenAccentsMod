@@ -40,6 +40,9 @@ object ModBlockTags {
     val thinBookshelves = "thin_bookshelves".toBlockTag().withMatchingItemTag()
     val plankCarpets = "plank_carpets".toBlockTag().withMatchingItemTag()
 
+    @JvmStatic
+    val desks = "desks".toBlockTag().withMatchingItemTag()
+
     /*---------------End Living Room Tags----------------*/
 
     /*---------------Kitchen Tags----------------*/
