@@ -103,6 +103,9 @@ object ModModels {
 
     /*---------------Bedroom Stuff----------------*/
     val desk = block("desk", TextureKey.SIDE, TextureKey.TOP)
+    val deskLeft = block("desk_left", "_left", TextureKey.SIDE, TextureKey.TOP)
+    val deskCenter = block("desk_center", "_center", TextureKey.SIDE, TextureKey.TOP)
+    val deskRight = block("desk_right", "_right", TextureKey.SIDE, TextureKey.TOP)
     val deskLeftCorner = block("desk_left_corner", "_left_corner", TextureKey.SIDE, TextureKey.TOP)
 
     @Suppress("unused")

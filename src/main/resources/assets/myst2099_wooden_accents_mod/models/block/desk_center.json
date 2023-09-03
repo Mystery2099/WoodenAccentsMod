@@ -1,0 +1,37 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"textures": {
+		"particle": "#side"
+	},
+	"elements": [
+		{
+			"from": [0, 15, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 1], "texture": "#top", "cullface": "north"},
+				"south": {"uv": [0, 0, 16, 1], "texture": "#top", "cullface": "south"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#top", "cullface": "up"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#top"}
+			}
+		},
+		{
+			"from": [0, 8, 15],
+			"to": [16, 15, 16],
+			"faces": {
+				"north": {"uv": [0, 1, 16, 8], "texture": "#top"},
+				"south": {"uv": [0, 1, 16, 8], "texture": "#top", "cullface": "south"},
+				"down": {"uv": [0, 0, 16, 1], "texture": "#top"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "group",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"nbt": "{}",
+			"children": [0, 1]
+		}
+	]
+}
