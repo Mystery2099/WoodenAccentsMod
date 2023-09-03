@@ -12,16 +12,13 @@ object WoodenAccentsModClient : ClientModInitializer {
     override fun onInitializeClient() {
         // This entrypoint is suitable for setting up client-specific logic, such as rendering.
         BlockRenderLayerMap.INSTANCE.apply {
-
         }
-        ModBlocks.blocks.forEach {
-			if (it is CoffeeTableBlock) {
-				ModelPredicateProviderRegistry.register(
-					it.asItem(), Identifier("height")
-				) { itemStack, _, _, _ ->
-					if (itemStack.nbt?.getString("coffee_table_type") != CoffeeTableType.TALL.asString()) 0.5f else 1.0f
-				}
+		ModBlocks.blocks.filterIsInstance<CoffeeTableBlock>().forEach {
+			ModelPredicateProviderRegistry.register(
+				it.asItem(), Identifier("height")
+			) { itemStack, _, _, _ ->
+				if (itemStack.nbt?.getString("coffee_table_type") != CoffeeTableType.TALL.asString()) 0.5f else 1.0f
 			}
-        }
+		}
     }
 }
