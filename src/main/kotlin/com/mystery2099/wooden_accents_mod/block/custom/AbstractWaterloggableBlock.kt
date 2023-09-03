@@ -21,8 +21,9 @@ abstract class AbstractWaterloggableBlock(settings: Settings) : Block(settings),
         builder.add(waterlogged)
     }
 
-    override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
-        return super.getPlacementState(ctx)?.with(waterlogged, ctx.world.getFluidState(ctx.blockPos).fluid === Fluids.WATER)
+    override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
+        return super.getPlacementState(ctx)?.with(waterlogged, ctx.world.getFluidState(ctx.blockPos).fluid == Fluids.WATER)
+            ?: defaultState
     }
 
     @Deprecated("Deprecated in Java")
