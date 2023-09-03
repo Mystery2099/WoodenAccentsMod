@@ -27,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 public abstract class AbstractDeskBlock extends AbstractWaterloggableBlock implements
-        CustomItemGroupProvider, CustomTagProvider, CustomRecipeProvider, CustomBlockStateProvider {
+        CustomTagProvider {
     public static final EnumProperty<DeskShape> SHAPE = ModProperties.getDeskShape();
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
     final Block topBlock, baseBlock;

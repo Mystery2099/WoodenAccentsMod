@@ -2,6 +2,9 @@ package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.custom.enums.DeskShape
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomBlockStateProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomItemGroupProvider
+import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomRecipeProvider
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
@@ -20,7 +23,7 @@ import net.minecraft.util.math.Direction
 import java.util.function.Consumer
 
 class DeskBlock(settings: FabricBlockSettings, baseBlock: Block, topBlock: Block) :
-    AbstractDeskBlock(settings, baseBlock, topBlock) {
+    AbstractDeskBlock(settings, baseBlock, topBlock), CustomItemGroupProvider, CustomRecipeProvider, CustomBlockStateProvider {
     override val itemGroup: CustomItemGroup = ModItemGroups.decorations
     override val tag: TagKey<Block> = ModBlockTags.desks
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
