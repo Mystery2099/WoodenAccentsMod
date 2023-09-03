@@ -18,6 +18,7 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.data.client.*
 import net.minecraft.data.server.recipe.RecipeJsonProvider
+import net.minecraft.item.ItemPlacementContext
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.DirectionProperty
@@ -47,6 +48,10 @@ class NewDeskBlock(settings: Settings, val baseBlock: Block, val topBlock: Block
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
         builder.add(facing, shape)
+    }
+
+    override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
+        return super.getPlacementState(ctx).with(facing, ctx.horizontalPlayerFacing.opposite)
     }
     @Deprecated("Deprecated in Java")
     override fun getStateForNeighborUpdate(
