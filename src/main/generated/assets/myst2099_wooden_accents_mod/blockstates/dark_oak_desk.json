@@ -1,0 +1,49 @@
+{
+  "variants": {
+    "facing=east,shape=left": {
+      "model": "myst2099_wooden_accents_mod:block/dark_oak_desk_left_corner",
+      "y": 90
+    },
+    "facing=east,shape=right": {
+      "model": "myst2099_wooden_accents_mod:block/dark_oak_desk_left_corner",
+      "y": 180
+    },
+    "facing=east,shape=straight": {
+      "model": "myst2099_wooden_accents_mod:block/dark_oak_desk",
+      "y": 90
+    },
+    "facing=north,shape=left": {
+      "model": "myst2099_wooden_accents_mod:block/dark_oak_desk_left_corner"
+    },
+    "facing=north,shape=right": {
+      "model": "myst2099_wooden_accents_mod:block/dark_oak_desk_left_corner",
+      "y": 90
+    },
+    "facing=north,shape=straight": {
+      "model": "myst2099_wooden_accents_mod:block/dark_oak_desk"
+    },
+    "facing=south,shape=left": {
+      "model": "myst2099_wooden_accents_mod:block/dark_oak_desk_left_corner",
+      "y": 180
+    },
+    "facing=south,shape=right": {
+      "model": "myst2099_wooden_accents_mod:block/dark_oak_desk_left_corner",
+      "y": 270
+    },
+    "facing=south,shape=straight": {
+      "model": "myst2099_wooden_accents_mod:block/dark_oak_desk",
+      "y": 180
+    },
+    "facing=west,shape=left": {
+      "model": "myst2099_wooden_accents_mod:block/dark_oak_desk_left_corner",
+      "y": 270
+    },
+    "facing=west,shape=right": {
+      "model": "myst2099_wooden_accents_mod:block/dark_oak_desk_left_corner"
+    },
+    "facing=west,shape=straight": {
+      "model": "myst2099_wooden_accents_mod:block/dark_oak_desk",
+      "y": 270
+    }
+  }
+}
