@@ -196,32 +196,32 @@ class ConnectingLadderBlock(val baseBlock: Block) :
 
         private val singleShapeMap = mapOf(
             Direction.NORTH to singleShape,
-            Direction.EAST to singleShape.rotatedLeft(),
-            Direction.SOUTH to singleShape.flipped(),
-            Direction.WEST to singleShape.rotatedRight()
+            Direction.EAST to singleShape.rotatedLeft,
+            Direction.SOUTH to singleShape.flipped,
+            Direction.WEST to singleShape.rotatedRight
         )
         private val centerShapeMap =
             VoxelShapeHelper.createCuboidShape(0, 1, 14.5, 16, 15, 15).toCompositeVoxelShape().let {
                 mapOf(
                     Direction.NORTH to it,
-                    Direction.EAST to it.rotatedLeft(),
-                    Direction.SOUTH to it.flipped(),
-                    Direction.WEST to it.rotatedRight()
+                    Direction.EAST to it.rotatedLeft,
+                    Direction.SOUTH to it.flipped,
+                    Direction.WEST to it.rotatedRight
                 )
             }
 
         private val leftShapeMap = mapOf(
             Direction.NORTH to leftShape,
-            Direction.EAST to leftShape.rotatedLeft(),
-            Direction.SOUTH to leftShape.flipped(),
-            Direction.WEST to leftShape.rotatedRight()
+            Direction.EAST to leftShape.rotatedLeft,
+            Direction.SOUTH to leftShape.flipped,
+            Direction.WEST to leftShape.rotatedRight
         )
 
         private val rightShapeMap = mapOf(
             Direction.NORTH to rightShape,
-            Direction.EAST to rightShape.rotatedLeft(),
-            Direction.SOUTH to rightShape.flipped(),
-            Direction.WEST to rightShape.rotatedRight()
+            Direction.EAST to rightShape.rotatedLeft,
+            Direction.SOUTH to rightShape.flipped,
+            Direction.WEST to rightShape.rotatedRight
         )
         private val shapeMap = mapOf(
             ConnectingLadderShape.SINGLE to singleShapeMap,
