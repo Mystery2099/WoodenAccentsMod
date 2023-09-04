@@ -82,28 +82,28 @@ object VoxelShapeHelper {
         )
     }*/
 
-    infix fun Collection<VoxelShape>.rotate(direction: VoxelShapeTransformation) = rotateElements(direction).combined
+    infix fun MutableCollection<VoxelShape>.rotate(direction: VoxelShapeTransformation) = rotateElements(direction).combined
     infix fun Array<VoxelShape>.rotate(direction: VoxelShapeTransformation) = rotateElements(direction).combined
 
 
     fun VoxelShape.rotateLeft() = rotate(VoxelShapeTransformation.ROTATE_LEFT)//Do not use on complex VoxelShapes
 
-    fun Collection<VoxelShape>.rotateLeft() = rotate(VoxelShapeTransformation.ROTATE_LEFT)
+    fun MutableCollection<VoxelShape>.rotateLeft() = rotate(VoxelShapeTransformation.ROTATE_LEFT)
     fun Array<VoxelShape>.rotateLeft() = rotate(VoxelShapeTransformation.ROTATE_LEFT)
 
 
     fun VoxelShape.rotateRight() = rotate(VoxelShapeTransformation.ROTATE_RIGHT)//Do not use on complex VoxelShapes
 
-    fun Collection<VoxelShape>.rotateRight() = rotate(VoxelShapeTransformation.ROTATE_RIGHT)
+    fun MutableCollection<VoxelShape>.rotateRight() = rotate(VoxelShapeTransformation.ROTATE_RIGHT)
     fun Array<VoxelShape>.rotateRight() = rotate(VoxelShapeTransformation.ROTATE_RIGHT)
 
 
     fun VoxelShape.flip() = rotate(VoxelShapeTransformation.FLIP) //Do not use on complex VoxelShapes
 
-    fun Collection<VoxelShape>.flip() = rotate(VoxelShapeTransformation.FLIP)
+    fun MutableCollection<VoxelShape>.flip() = rotate(VoxelShapeTransformation.FLIP)
     fun Array<VoxelShape>.flip() = rotate(VoxelShapeTransformation.FLIP)
 
-    infix fun Collection<VoxelShape>.rotateElements(direction: VoxelShapeTransformation): Collection<VoxelShape> {
+    infix fun <t : Collection<VoxelShape>> t.rotateElements(direction: VoxelShapeTransformation): Collection<VoxelShape> {
         if (isEmpty()) {
             val callerStackTrace = Thread.currentThread().stackTrace[2]
             val callerClassName = callerStackTrace.className
@@ -111,7 +111,7 @@ object VoxelShapeHelper {
             WoodenAccentsMod.logger.info("Warning: Collection of VoxelShapes is empty in class: $callerClassName, line: $callerLineNumber. Returning a list containing an empty VoxelShape.")
             return listOf(VoxelShapes.empty())
         }
-        return map { it.rotate(direction) }
+        return this.map { it.rotate(direction) }
     }
     infix fun Array<VoxelShape>.rotateElements(direction: VoxelShapeTransformation): Array<VoxelShape> {
         if (isEmpty()) {
