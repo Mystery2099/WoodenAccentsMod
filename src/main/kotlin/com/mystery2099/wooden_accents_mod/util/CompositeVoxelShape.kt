@@ -1,31 +1,28 @@
 package com.mystery2099.wooden_accents_mod.util
 
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateElements
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.unifyElements
 import net.minecraft.util.shape.VoxelShape
+import net.minecraft.util.shape.VoxelShapes
 
 class CompositeVoxelShape(vararg voxelShapes: VoxelShape) {
-    private var _voxelShapes: MutableList<VoxelShape>
+    private var _voxelShapes: ArrayList<VoxelShape> = ArrayList()
     val voxelShapes: List<VoxelShape>
         get() = _voxelShapes
-
     init {
-        _voxelShapes = voxelShapes.toMutableList()
+        _voxelShapes.addAll(voxelShapes)
     }
 
     constructor(voxelShapes: Collection<VoxelShape>) : this(*voxelShapes.toTypedArray())
-
-    infix operator fun get(index: Int): VoxelShape = _voxelShapes[index]
+    constructor() : this(VoxelShapes.empty())
     fun get() = _voxelShapes.unifyElements()
-    operator fun invoke(index: Int) = get(index)
-
-    operator fun set(index: Int, voxelShape: VoxelShape) {
-        _voxelShapes[index] = voxelShape
-    }
 
     fun mergeWith(other: CompositeVoxelShape) = this.also { this._voxelShapes += other.voxelShapes }
     fun mergeWith(vararg others: CompositeVoxelShape): CompositeVoxelShape = this.also {
-        it._voxelShapes += others.reduce { a, b -> a.mergeWith(b) }.voxelShapes
+        it._voxelShapes.addAll(others.reduce { a, b -> a.mergeWith(b) }.voxelShapes)
     }
 
     infix fun add(voxelShape: VoxelShape): CompositeVoxelShape = this.also {
@@ -72,11 +69,11 @@ class CompositeVoxelShape(vararg voxelShapes: VoxelShape) {
 
     fun remove(voxelShape: VoxelShape) = this.also { _voxelShapes -= voxelShape }
     fun removeAll(voxelShapes: Collection<VoxelShape>) = this.also {
-        _voxelShapes -= voxelShapes.toSet()
+        _voxelShapes.removeAll(voxelShapes.toSet())
     }
 
     fun removeAll(voxelShapes: Array<VoxelShape>) = this.also {
-        _voxelShapes -= voxelShapes.toSet()
+        _voxelShapes.removeAll(voxelShapes.toSet())
     }
 
     operator fun minus(voxelShape: VoxelShape): CompositeVoxelShape = copy().remove(voxelShape)
@@ -98,20 +95,38 @@ class CompositeVoxelShape(vararg voxelShapes: VoxelShape) {
     }
 
     fun rotateLeft() {
-        _voxelShapes = _voxelShapes.rotateElements(VoxelShapeTransformation.ROTATE_LEFT).toMutableList()
+        val newShapes: ArrayList<VoxelShape> = ArrayList<VoxelShape>().apply {
+            addAll(_voxelShapes.rotateElements(VoxelShapeTransformation.ROTATE_LEFT))
+        }
+        _voxelShapes.clear()
+        _voxelShapes.addAll(newShapes)
     }
 
-    val rotatedLeft: CompositeVoxelShape = this.copy().also { it.rotateLeft() }
+    val rotatedLeft: CompositeVoxelShape = CompositeVoxelShape().also { shape ->
+        shape._voxelShapes.addAll(this._voxelShapes.map { it.rotateLeft() })
+    }
     fun rotateRight() {
-        _voxelShapes = _voxelShapes.rotateElements(VoxelShapeTransformation.ROTATE_RIGHT).toMutableList()
+        val newShapes: ArrayList<VoxelShape> = ArrayList<VoxelShape>().apply {
+            addAll(_voxelShapes.rotateElements(VoxelShapeTransformation.ROTATE_RIGHT))
+        }
+        _voxelShapes.clear()
+        _voxelShapes.addAll(newShapes)
     }
 
-    val rotatedRight: CompositeVoxelShape = this.copy().also { it.rotateRight() }
+    val rotatedRight: CompositeVoxelShape = CompositeVoxelShape().also { shape ->
+        shape._voxelShapes.addAll(this._voxelShapes.map { it.rotateRight() })
+    }
     fun flip()  {
-        _voxelShapes = _voxelShapes.rotateElements(VoxelShapeTransformation.FLIP).toMutableList()
+        val newShapes: ArrayList<VoxelShape> = ArrayList<VoxelShape>().apply {
+            addAll(_voxelShapes.rotateElements(VoxelShapeTransformation.FLIP))
+        }
+        _voxelShapes.clear()
+        _voxelShapes.addAll(newShapes)
     }
 
-    val flipped: CompositeVoxelShape = this.copy().also { it.flip() }
+    val flipped: CompositeVoxelShape = CompositeVoxelShape().also { shape ->
+        shape._voxelShapes.addAll(this._voxelShapes.map { it.flip() })
+    }
 
     fun copy() = CompositeVoxelShape(this.voxelShapes)
 
