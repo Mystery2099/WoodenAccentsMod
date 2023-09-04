@@ -88,7 +88,7 @@ class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : Fen
             createCuboidShape(0, 2, 7.5, 16, 14, 8.5)
         )
         private val shape1 = defaultShapes.get()
-        private val shape2 = defaultShapes.rotateLeft().get()
+        private val shape2 = defaultShapes.rotatedLeft.get()
         private val wallShapes = CompositeVoxelShape(
             createCuboidShape(0, 0, 7, 1, 14, 9),
             createCuboidShape(15, 0, 7, 16, 14, 9),
@@ -100,7 +100,7 @@ class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : Fen
             createCuboidShape(7, 1, 7.5, 9, 15, 8.5)
         )
         private val wallShape1 = wallShapes.get()
-        private val wallShape2 = wallShapes.rotateLeft().get()
+        private val wallShape2 = wallShapes.rotatedLeft.get()
     }
 
 }

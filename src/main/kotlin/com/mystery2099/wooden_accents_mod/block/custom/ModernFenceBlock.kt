@@ -95,9 +95,9 @@ class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Blo
         )
         val directionToShapeMap = mapOf(
             Direction.NORTH to northShape.get(),
-            Direction.EAST to northShape.rotatedLeft().get(),
-            Direction.SOUTH to northShape.flipped().get(),
-            Direction.WEST to northShape.rotatedRight().get()
+            Direction.EAST to northShape.rotatedLeft.get(),
+            Direction.SOUTH to northShape.flipped.get(),
+            Direction.WEST to northShape.rotatedRight.get()
         )
     }
 }
