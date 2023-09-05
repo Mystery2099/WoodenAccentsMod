@@ -65,14 +65,10 @@ object VoxelShapeHelper {
     fun VoxelShape.rotated(direction: VoxelShapeTransformation): VoxelShape {
         val shapes = mutableListOf(VoxelShapes.empty())
         this.forEachBox { minX, minY, minZ, maxX, maxY, maxZ ->
-            shapes += voxelShapeFromAdjustedValues(
-                direction = direction,
-                minX = minX,
-                minY = minY,
-                minZ = minZ,
-                maxX = maxX,
-                maxY = maxY,
-                maxZ = maxZ
+            val adjustedValues = adjustValues(direction, minX, minZ, maxX, maxZ)
+            shapes += VoxelShapes.cuboid(
+                adjustedValues[0], minY,
+                adjustedValues[1], adjustedValues[2], maxY, adjustedValues[3]
             )
         }
         return shapes.reduce { a, b -> VoxelShapes.union(a, b) }
@@ -85,43 +81,17 @@ object VoxelShapeHelper {
     fun union(vararg voxelShapes: VoxelShape): VoxelShape = voxelShapes.reduce { a, b -> VoxelShapes.union(a, b) }
 
     //Adjuts values depending on the transformation, then returns a new VoxelShape from those values
-    private fun voxelShapeFromAdjustedValues(
+    private fun adjustValues(
         direction: VoxelShapeTransformation,
         minX: Double,
-        minY: Double,
         minZ: Double,
         maxX: Double,
-        maxY: Double,
         maxZ: Double
     ) = when (direction) {
-        VoxelShapeTransformation.FLIP_HORIZONTAL -> VoxelShapes.cuboid(
-            /* minX = */ 1.0f - maxX,
-            /* minY = */ minY,
-            /* minZ = */ 1.0f - maxZ,
-            /* maxX = */ 1.0f - minX,
-            /* maxY = */ maxY,
-            /* maxZ = */ 1.0f - minZ
-        )
-
-        VoxelShapeTransformation.ROTATE_RIGHT -> VoxelShapes.cuboid(
-            /* minX = */ minZ,
-            /* minY = */ minY,
-            /* minZ = */ 1.0f - maxX,
-            /* maxX = */ maxZ,
-            /* maxY = */ maxY,
-            /* maxZ = */ 1.0f - minX
-        )
-
-        VoxelShapeTransformation.ROTATE_LEFT -> VoxelShapes.cuboid(
-            /* minX = */ 1.0f - maxZ,
-            /* minY = */ minY,
-            /* minZ = */ minX,
-            /* maxX = */ 1.0f - minZ,
-            /* maxY = */ maxZ,
-            /* maxZ = */ maxX
-        )
-
-        else -> VoxelShapes.cuboid(minX, minY, minZ, maxX, maxY, maxZ)
+        VoxelShapeTransformation.FLIP_HORIZONTAL -> doubleArrayOf(1.0f - maxX, 1.0f - maxZ, 1.0f - minX, 1.0f - minZ)
+        VoxelShapeTransformation.ROTATE_RIGHT -> doubleArrayOf(minZ, 1.0f - maxX, maxZ, 1.0f - minX)
+        VoxelShapeTransformation.ROTATE_LEFT -> doubleArrayOf(1.0f - maxZ, minX, 1.0f - minZ, maxX)
+        else -> doubleArrayOf(minX, minZ, maxX, maxZ)
     }
 
     private fun Double.limit() = max(0.0, min(1.0, this))
