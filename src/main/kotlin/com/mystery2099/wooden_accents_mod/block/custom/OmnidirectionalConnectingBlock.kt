@@ -1,6 +1,6 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.mystery2099.wooden_accents_mod.util.CompositeVoxelShape
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.plus
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
@@ -53,14 +53,18 @@ open class OmnidirectionalConnectingBlock(settings: Settings) : Block(settings),
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
-    ): VoxelShape = CompositeVoxelShape(centerShape).apply {
-        northShape shallBeAddedIf state[north]
-        eastShape shallBeAddedIf state[east]
-        southShape shallBeAddedIf state[south]
-        westShape shallBeAddedIf state[west]
-        upShape shallBeAddedIf state[up]
-        downShape shallBeAddedIf state[down]
-    }.get()
+    ): VoxelShape {
+        var shape = centerShape
+
+        if (state[north]) shape += northShape
+        if (state[east]) shape += eastShape
+        if (state[south]) shape += southShape
+        if (state[west]) shape += westShape
+        if (state[up]) shape += upShape
+        if (state[down]) shape += downShape
+
+        return shape
+    }
 
     @Deprecated("Deprecated in Java")
     override fun getStateForNeighborUpdate(

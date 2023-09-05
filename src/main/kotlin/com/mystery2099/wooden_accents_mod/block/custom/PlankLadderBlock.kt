@@ -3,11 +3,11 @@ package com.mystery2099.wooden_accents_mod.block.custom
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomItemGroupProvider
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.createCuboidShape
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flipped
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedLeft
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedRight
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -58,14 +58,14 @@ class PlankLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(FabricB
     }
 
     companion object {
-        private val northShapes = arrayOf(
+        private val northShapes = VoxelShapeHelper.union(
             createCuboidShape(2, 1, 15, 14, 4, 16),
             createCuboidShape(2, 12, 15, 14, 15, 16),
             createCuboidShape(2, 6, 15, 14, 10, 16)
         )
-        private val northShape = northShapes.combined
-        private val eastShape = northShapes.rotateLeft()
-        private val southShape = northShapes.flip()
-        private val westShape = northShapes.rotateRight()
+        private val northShape = northShapes
+        private val eastShape = northShapes.rotatedLeft
+        private val southShape = northShapes.flipped
+        private val westShape = northShapes.rotatedRight
     }
 }

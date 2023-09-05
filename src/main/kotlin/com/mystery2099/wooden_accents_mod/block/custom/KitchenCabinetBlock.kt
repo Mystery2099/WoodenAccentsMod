@@ -13,9 +13,9 @@ import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.custom
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flipped
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedLeft
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedRight
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.unifiedWith
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
@@ -178,9 +178,9 @@ class KitchenCabinetBlock(val baseBlock: Block, val topBlock: Block) :
             FabricBlockEntityTypeBuilder.create(::KitchenCabinetBlockEntity)
         val directionVoxelShapeMap = mapOf(
             Direction.NORTH to AbstractKitchenCounterBlock.NORTH_SHAPE,
-            Direction.EAST to AbstractKitchenCounterBlock.NORTH_SHAPE.rotateLeft(),
-            Direction.SOUTH to AbstractKitchenCounterBlock.NORTH_SHAPE.flip(),
-            Direction.WEST to AbstractKitchenCounterBlock.NORTH_SHAPE.rotateRight()
+            Direction.EAST to AbstractKitchenCounterBlock.NORTH_SHAPE.rotatedLeft,
+            Direction.SOUTH to AbstractKitchenCounterBlock.NORTH_SHAPE.flipped,
+            Direction.WEST to AbstractKitchenCounterBlock.NORTH_SHAPE.rotatedRight
         )
     }
 

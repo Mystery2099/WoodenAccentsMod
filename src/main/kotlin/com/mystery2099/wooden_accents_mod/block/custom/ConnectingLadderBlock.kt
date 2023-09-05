@@ -7,9 +7,9 @@ import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
-import com.mystery2099.wooden_accents_mod.util.CompositeVoxelShape
-import com.mystery2099.wooden_accents_mod.util.CompositeVoxelShape.Companion.toCompositeVoxelShape
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotated
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeTransformation
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -82,7 +82,7 @@ class ConnectingLadderBlock(val baseBlock: Block) :
         pos: BlockPos?,
         context: ShapeContext?
     ): VoxelShape =
-        shapeMap[state[shape]]?.get(state[FACING])?.get() ?: super.getOutlineShape(state, world, pos, context)
+        shapeMap[state[shape]]?.get(state[FACING]) ?: super.getOutlineShape(state, world, pos, context)
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
         super.offerRecipe(exporter, baseBlock, 8, "connecting_ladder")
@@ -178,50 +178,50 @@ class ConnectingLadderBlock(val baseBlock: Block) :
     companion object {
         val shape = ModProperties.connectingLadderShape
 
-        private val singleShape = CompositeVoxelShape.of(
+        private val singleShape = VoxelShapeHelper.union(
             VoxelShapeHelper.createCuboidShape(2, 0, 15, 4, 16, 16),
             VoxelShapeHelper.createCuboidShape(12, 0, 15, 14, 16, 16),
             VoxelShapeHelper.createCuboidShape(2, 1, 14.5, 14, 15, 15)
         )
 
-        private val leftShape = CompositeVoxelShape.of(
+        private val leftShape = VoxelShapeHelper.union(
             VoxelShapeHelper.createCuboidShape(12, 0, 15, 14, 16, 16),
             VoxelShapeHelper.createCuboidShape(0, 1, 14.5, 14, 15, 15)
         )
 
-        private val rightShape = CompositeVoxelShape.of(
+        private val rightShape = VoxelShapeHelper.union(
             VoxelShapeHelper.createCuboidShape(2, 0, 15, 4, 16, 16),
             VoxelShapeHelper.createCuboidShape(2, 1, 14.5, 16, 15, 15)
         )
 
         private val singleShapeMap = mapOf(
             Direction.NORTH to singleShape,
-            Direction.EAST to singleShape.rotatedLeft,
-            Direction.SOUTH to singleShape.flipped,
-            Direction.WEST to singleShape.rotatedRight
+            Direction.EAST to singleShape.rotated(VoxelShapeTransformation.ROTATE_LEFT),
+            Direction.SOUTH to singleShape.rotated(VoxelShapeTransformation.FLIP_HORIZONTAL),
+            Direction.WEST to singleShape.rotated(VoxelShapeTransformation.ROTATE_RIGHT)
         )
         private val centerShapeMap =
-            VoxelShapeHelper.createCuboidShape(0, 1, 14.5, 16, 15, 15).toCompositeVoxelShape().let {
+            VoxelShapeHelper.createCuboidShape(0, 1, 14.5, 16, 15, 15).let {
                 mapOf(
                     Direction.NORTH to it,
-                    Direction.EAST to it.rotatedLeft,
-                    Direction.SOUTH to it.flipped,
-                    Direction.WEST to it.rotatedRight
+                    Direction.EAST to it.rotated(VoxelShapeTransformation.ROTATE_LEFT),
+                    Direction.SOUTH to it.rotated(VoxelShapeTransformation.FLIP_HORIZONTAL),
+                    Direction.WEST to it.rotated(VoxelShapeTransformation.ROTATE_RIGHT)
                 )
             }
 
         private val leftShapeMap = mapOf(
             Direction.NORTH to leftShape,
-            Direction.EAST to leftShape.rotatedLeft,
-            Direction.SOUTH to leftShape.flipped,
-            Direction.WEST to leftShape.rotatedRight
+            Direction.EAST to leftShape.rotated(VoxelShapeTransformation.ROTATE_LEFT),
+            Direction.SOUTH to leftShape.rotated(VoxelShapeTransformation.FLIP_HORIZONTAL),
+            Direction.WEST to leftShape.rotated(VoxelShapeTransformation.ROTATE_RIGHT)
         )
 
         private val rightShapeMap = mapOf(
             Direction.NORTH to rightShape,
-            Direction.EAST to rightShape.rotatedLeft,
-            Direction.SOUTH to rightShape.flipped,
-            Direction.WEST to rightShape.rotatedRight
+            Direction.EAST to rightShape.rotated(VoxelShapeTransformation.ROTATE_LEFT),
+            Direction.SOUTH to rightShape.rotated(VoxelShapeTransformation.FLIP_HORIZONTAL),
+            Direction.WEST to rightShape.rotated(VoxelShapeTransformation.ROTATE_RIGHT)
         )
         private val shapeMap = mapOf(
             ConnectingLadderShape.SINGLE to singleShapeMap,

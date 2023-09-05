@@ -16,11 +16,11 @@ import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requir
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.createCuboidShape
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flipped
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.plus
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedLeft
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedRight
 import com.mystery2099.wooden_accents_mod.util.WhenUtil
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
@@ -110,26 +110,27 @@ class TableBlock(val baseBlock: Block, private val topBlock: Block) :
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
         state: BlockState, world: BlockView?, pos: BlockPos?, context: ShapeContext?
-    ): VoxelShape = state.run {
-        val north = this[north]
-        val east = this[east]
-        val south = this[south]
-        val west = this[west]
-        mutableListOf<VoxelShape>().apply {
-            add(topShape)
-            if (!north && !east && !south && !west) add(singleLegShape)
-            //Ends
-            if (!north && !east && south && !west) add(northEndLegShape)
-            if (!north && !east && !south && west) add(eastEndLegShape)
-            if (north && !east && !south && !west) add(southEndLegShape)
-            if (!north && east && !south && !west) add(westEndLegShape)
-            //Corners
-            if (!north && !east && south && west) add(northEastLegShape)
-            if (!north && east && south && !west) add(northWestLegShape)
-            if (north && !east && !south && west) add(southEastLegShape)
-            if (north && east && !south && !west) add(southWestLegShape)
+    ): VoxelShape {
+        val north = state[north]
+        val east = state[east]
+        val south = state[south]
+        val west = state[west]
 
-        }.combined
+        var shape = topShape
+
+        if (!north && !east && !south && !west) shape += singleLegShape
+        //Ends
+        if (!north && !east && south && !west) shape += northEndLegShape
+        if (!north && !east && !south && west) shape += eastEndLegShape
+        if (north && !east && !south && !west) shape += southEndLegShape
+        if (!north && east && !south && !west) shape += westEndLegShape
+        //Corners
+        if (!north && !east && south && west) shape += northEastLegShape
+        if (!north && east && south && !west) shape += northWestLegShape
+        if (north && !east && !south && west) shape += southEastLegShape
+        if (north && east && !south && !west) shape += southWestLegShape
+
+        return shape
     }
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
@@ -219,12 +220,12 @@ class TableBlock(val baseBlock: Block, private val topBlock: Block) :
         val topShape: VoxelShape = createCuboidShape(0, 13, 0, 16, 16, 16)
         val singleLegShape: VoxelShape = createCuboidShape(6, 0, 6, 10, 13, 10)
         val northEndLegShape: VoxelShape = createCuboidShape(6, 0, 1, 10, 13, 5)
-        val eastEndLegShape: VoxelShape = northEndLegShape.rotateLeft()
-        val southEndLegShape: VoxelShape = northEndLegShape.flip()
-        val westEndLegShape: VoxelShape = northEndLegShape.rotateRight()
+        val eastEndLegShape: VoxelShape = northEndLegShape.rotatedLeft
+        val southEndLegShape: VoxelShape = northEndLegShape.flipped
+        val westEndLegShape: VoxelShape = northEndLegShape.rotatedRight
         val northEastLegShape: VoxelShape = createCuboidShape(11, 0, 1, 15, 13, 5)
-        val northWestLegShape: VoxelShape = northEastLegShape.rotateRight()
-        val southEastLegShape: VoxelShape = northWestLegShape.flip()
-        val southWestLegShape: VoxelShape = northEastLegShape.flip()
+        val northWestLegShape: VoxelShape = northEastLegShape.rotatedRight
+        val southEastLegShape: VoxelShape = northWestLegShape.flipped
+        val southWestLegShape: VoxelShape = northEastLegShape.flipped
     }
 }

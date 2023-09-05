@@ -11,7 +11,7 @@ import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.uvLock
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withXRotationOf
-import com.mystery2099.wooden_accents_mod.util.CompositeVoxelShape
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.plus
 import com.mystery2099.wooden_accents_mod.util.WhenUtil
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
@@ -37,15 +37,18 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
-abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shape) : AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
+abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shape) :
+    AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider, CustomBlockStateProvider {
     override val itemGroup = ModItemGroups.structuralElements
     abstract val connectableBlockTag: TagKey<Block>
     override val tag: TagKey<Block> = ModBlockTags.pillars
 
-    init { defaultState = defaultState.run {
-        with(up, false).with(down, false)
-    } }
+    init {
+        defaultState = defaultState.run {
+            with(up, false).with(down, false)
+        }
+    }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
@@ -77,10 +80,12 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
-    ): VoxelShape = CompositeVoxelShape(shape.centerShape).apply {
-        shape.topShape shallBeAddedIf !state[up]
-        shape.baseShape shallBeAddedIf !state[down]
-    }.get()
+    ): VoxelShape {
+        var newShape = shape.centerShape
+        if (!state[up]) newShape += shape.topShape
+        if (!state[down]) newShape += shape.baseShape
+        return newShape
+    }
 
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState = super.getPlacementState(ctx)?.run {
@@ -88,6 +93,7 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         val pos = ctx.blockPos
         with(up, canConnect(world, pos, Direction.UP)).with(down, canConnect(world, pos, Direction.DOWN))
     } ?: defaultState
+
     private fun canConnect(world: WorldAccess, pos: BlockPos, direction: Direction): Boolean {
         val otherState = world.getBlockState(pos.offset(direction))
         return otherState isIn connectableBlockTag && otherState.isSideSolid(
@@ -98,22 +104,30 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         ) && !otherState.isSideSolidFullSquare(world, pos, direction.opposite)
     }
 
-    fun offerRecipe(exporter: Consumer<RecipeJsonProvider>, outputNum: Int, primaryInput: ItemConvertible, secondaryInput: ItemConvertible) {
+    fun offerRecipe(
+        exporter: Consumer<RecipeJsonProvider>,
+        outputNum: Int,
+        primaryInput: ItemConvertible,
+        secondaryInput: ItemConvertible
+    ) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, outputNum).apply {
             input('|', secondaryInput)
             input('#', primaryInput)
             pattern("###")
             pattern(" | ")
             pattern("###")
-            group(when (this@AbstractPillarBlock) {
-                is ThickPillarBlock -> "thick_pillars"
-                is ThinPillarBlock -> "thin_pillars"
-                else -> "pillars"
-            })
+            group(
+                when (this@AbstractPillarBlock) {
+                    is ThickPillarBlock -> "thick_pillars"
+                    is ThinPillarBlock -> "thin_pillars"
+                    else -> "pillars"
+                }
+            )
             requires(primaryInput)
             offerTo(exporter)
         }
     }
+
     fun genBlockStateModelSupplier(
         centerModel: Identifier,
         bottomModel: Identifier
@@ -122,6 +136,7 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         with(WhenUtil.notUp, bottomModel.asBlockStateVariant().withXRotationOf(VariantSettings.Rotation.R180).uvLock())
         with(WhenUtil.notDown, bottomModel.asBlockStateVariant())
     }
+
     @JvmRecord
     data class Shape(val topShape: VoxelShape, val centerShape: VoxelShape, val baseShape: VoxelShape)
     companion object {

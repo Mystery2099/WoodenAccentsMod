@@ -11,8 +11,12 @@ import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
-import com.mystery2099.wooden_accents_mod.util.CompositeVoxelShape
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.createCuboidShape
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flipped
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.plus
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedLeft
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedRight
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -28,6 +32,7 @@ import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
+import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import java.util.function.Consumer
 
@@ -47,12 +52,16 @@ class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Blo
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
-    ) = CompositeVoxelShape(postShape).apply {
-        if (state[NORTH]) this += directionToShapeMap[Direction.NORTH]
-        if (state[EAST]) this += directionToShapeMap[Direction.EAST]
-        if (state[SOUTH]) this += directionToShapeMap[Direction.SOUTH]
-        if (state[WEST]) this += directionToShapeMap[Direction.WEST]
-    }.get()
+    ): VoxelShape {
+        var newShape = postShape
+
+        if (state[NORTH]) newShape += directionToShapeMap[Direction.NORTH] ?: VoxelShapes.empty()
+        if (state[EAST]) newShape += directionToShapeMap[Direction.EAST] ?: VoxelShapes.empty()
+        if (state[SOUTH]) newShape += directionToShapeMap[Direction.SOUTH] ?: VoxelShapes.empty()
+        if (state[WEST]) newShape += directionToShapeMap[Direction.WEST] ?: VoxelShapes.empty()
+
+        return newShape
+    }
 
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
@@ -86,7 +95,7 @@ class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Blo
 
     companion object {
         private val postShape: VoxelShape = createCuboidShape(6, 0, 6, 10, 16, 10)
-        private val northShape: CompositeVoxelShape = CompositeVoxelShape(
+        private val northShape: VoxelShape = VoxelShapeHelper.union(
             createCuboidShape(7, 11, 0, 9, 14, 6),
             createCuboidShape(7, 2, 0, 9, 5, 6),
             createCuboidShape(7.5, 5, 1, 8.5, 11, 2),
@@ -94,10 +103,10 @@ class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Blo
             createCuboidShape(7.5, 0, 0, 8.5, 15, 1)
         )
         val directionToShapeMap = mapOf(
-            Direction.NORTH to northShape.get(),
-            Direction.EAST to northShape.rotatedLeft.get(),
-            Direction.SOUTH to northShape.flipped.get(),
-            Direction.WEST to northShape.rotatedRight.get()
+            Direction.NORTH to northShape,
+            Direction.EAST to northShape.rotatedLeft,
+            Direction.SOUTH to northShape.flipped,
+            Direction.WEST to northShape.rotatedRight
         )
     }
 }

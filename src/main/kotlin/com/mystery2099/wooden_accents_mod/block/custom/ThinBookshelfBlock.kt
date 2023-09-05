@@ -13,9 +13,9 @@ import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flipped
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedLeft
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedRight
 import com.mystery2099.wooden_accents_mod.util.WhenUtil
 import com.mystery2099.wooden_accents_mod.util.WhenUtil.and
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
@@ -55,9 +55,9 @@ class ThinBookshelfBlock(val baseBlock: Block) :
         context: ShapeContext?
     ): VoxelShape = when (state.get(HorizontalFacingBlock.FACING)) {
         Direction.NORTH -> northShape
-        Direction.EAST -> northShape.rotateLeft()
-        Direction.SOUTH -> northShape.flip()
-        Direction.WEST -> northShape.rotateRight()
+        Direction.EAST -> northShape.rotatedLeft
+        Direction.SOUTH -> northShape.flipped
+        Direction.WEST -> northShape.rotatedRight
         else -> super.getOutlineShape(state, world, pos, context)
     }
 
