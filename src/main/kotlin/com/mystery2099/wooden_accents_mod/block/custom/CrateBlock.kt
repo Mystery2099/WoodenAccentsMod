@@ -10,7 +10,6 @@ import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.custom
 import com.mystery2099.wooden_accents_mod.datagen.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
-import com.mystery2099.wooden_accents_mod.util.CompositeVoxelShape
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
@@ -256,7 +255,7 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
     }
 
     companion object {
-        val shape = CompositeVoxelShape.of(
+        val shape = VoxelShapeHelper.union(
             VoxelShapeHelper.createCuboidShape(0, 0, 2, 2, 2, 14),
             VoxelShapeHelper.createCuboidShape(14, 0, 2, 16, 2, 14),
             VoxelShapeHelper.createCuboidShape(2, 0, 0, 14, 2, 2),
@@ -270,7 +269,7 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
             VoxelShapeHelper.createCuboidShape(14, 0, 0, 16, 16, 2),
             VoxelShapeHelper.createCuboidShape(0, 0, 14, 2, 16, 16),
             VoxelShapeHelper.createCuboidShape(1, 1, 1, 15, 15, 15)
-        ).get()
+        )
         val crateBlockEntityBuilder: FabricBlockEntityTypeBuilder<CrateBlockEntity> =
             FabricBlockEntityTypeBuilder.create(::CrateBlockEntity)
         val contents = Identifier("contents")

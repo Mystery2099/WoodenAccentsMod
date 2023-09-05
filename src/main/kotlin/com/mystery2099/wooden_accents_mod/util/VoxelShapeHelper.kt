@@ -80,7 +80,6 @@ object VoxelShapeHelper {
 
     fun union(vararg voxelShapes: VoxelShape): VoxelShape = voxelShapes.reduce { a, b -> VoxelShapes.union(a, b) }
 
-    //Adjuts values depending on the transformation, then returns a new VoxelShape from those values
     private fun adjustValues(
         direction: VoxelShapeTransformation,
         minX: Double,
