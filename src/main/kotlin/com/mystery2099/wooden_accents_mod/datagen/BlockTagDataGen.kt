@@ -15,31 +15,36 @@ import java.util.concurrent.CompletableFuture
 class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>) :
     FabricTagProvider.BlockTagProvider(output, registriesFuture) {
 
+    private val TagKey<Block>.tagBuilder: FabricTagBuilder
+        get() = getOrCreateTagBuilder(this)
+
     override fun configure(arg: RegistryWrapper.WrapperLookup) {
-        ModBlocks.blocks.forEach {
-            BlockTags.AXE_MINEABLE += it
-            when {
-                it is CustomTagProvider -> it.tag += it
-            }
+        ModBlocks.blocks.forEach { BlockTags.AXE_MINEABLE += it }
+        ModBlocks.blocks.filterIsInstance<CustomTagProvider<Block>>().forEach {
+            it.tag += it as Block
         }
-        ModBlockTags.pillars.add(ModBlockTags.thinPillars, ModBlockTags.thickPillars)
+        ModBlockTags.pillars.addAll(ModBlockTags.thinPillars, ModBlockTags.thickPillars)
         ModBlockTags.thinPillarsConnectable.apply {
-            add(
+            addAll(
                 ModBlockTags.thinPillars,
                 BlockTags.FENCES,
                 ModBlockTags.supportBeams,
                 ModBlockTags.tables,
             )
-            add(Blocks.END_ROD, Blocks.HOPPER, Blocks.LIGHTNING_ROD)
+            addAll(Blocks.END_ROD, Blocks.HOPPER, Blocks.LIGHTNING_ROD)
         }
-        ModBlockTags.thickPillarsConnectable.add(ModBlockTags.thickPillars, ModBlockTags.thinPillars, BlockTags.WALLS)
+        ModBlockTags.thickPillarsConnectable.addAll(
+            ModBlockTags.thickPillars,
+            ModBlockTags.thinPillars,
+            BlockTags.WALLS
+        )
 
         BlockTags.WALLS += ModBlockTags.woodenWalls
 
         BlockTags.FENCES += ModBlockTags.modernFences
         BlockTags.FENCE_GATES += ModBlockTags.modernFenceGates
 
-        ModBlockTags.modernFenceConnectable.add(ModBlockTags.modernFenceGates, ModBlockTags.modernFences)
+        ModBlockTags.modernFenceConnectable.addAll(ModBlockTags.modernFenceGates, ModBlockTags.modernFences)
 
         BlockTags.CLIMBABLE += ModBlockTags.plankLadders
         BlockTags.CLIMBABLE += ModBlockTags.connectingLadders
@@ -51,20 +56,11 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
         ModBlockTags.desks += ModBlockTags.deskDrawers
     }
 
-    private fun <T : Block> TagKey<Block>.add(collection: Collection<T>): FabricTagBuilder {
-        return getOrCreateTagBuilder(this).also { collection.forEach(it::add) }
-    }
+    private fun TagKey<Block>.addAll(vararg tags: TagKey<Block>) = tagBuilder.also { tags.forEach(it::addTag) }
 
-    private fun TagKey<Block>.add(vararg tags: TagKey<Block>): FabricTagBuilder {
-        return getOrCreateTagBuilder(this).also { tags.forEach(it::addTag) }
-    }
-
-    private fun TagKey<Block>.add(tag: TagKey<Block>): FabricTagBuilder = getOrCreateTagBuilder(this).addTag(tag)
-
-    private fun TagKey<Block>.add(block: Block): FabricTagBuilder = getOrCreateTagBuilder(this).add(block)
-    private fun TagKey<Block>.add(vararg blocks: Block): FabricTagBuilder {
-        return getOrCreateTagBuilder(this).also { blocks.forEach(it::add) }
-    }
+    private fun TagKey<Block>.add(tag: TagKey<Block>): FabricTagBuilder = tagBuilder.addTag(tag)
+    private fun TagKey<Block>.add(block: Block): FabricTagBuilder = tagBuilder.add(block)
+    private fun TagKey<Block>.addAll(vararg blocks: Block) = tagBuilder.also { blocks.forEach(it::add) }
 
     private operator fun TagKey<Block>.plusAssign(tag: TagKey<Block>) {
         add(tag)
@@ -77,5 +73,4 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
     private operator fun TagKey<Block>.plusAssign(tags: Array<TagKey<Block>>) {
         tags.map { add(it) }
     }
-
 }
