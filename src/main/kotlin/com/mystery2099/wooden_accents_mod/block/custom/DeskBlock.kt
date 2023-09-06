@@ -14,8 +14,13 @@ import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flipped
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedLeft
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedRight
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.block.ShapeContext
 import net.minecraft.data.client.*
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.item.ItemPlacementContext
@@ -26,16 +31,21 @@ import net.minecraft.state.property.Properties
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.shape.VoxelShape
+import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
-class NewDeskBlock(settings: Settings, val baseBlock: Block, val topBlock: Block) :
+class DeskBlock(settings: Settings, val baseBlock: Block, val topBlock: Block) :
     AbstractWaterloggableBlock(settings), CustomItemGroupProvider, CustomRecipeProvider, CustomBlockStateProvider,
     CustomTagProvider {
+
+
     override val itemGroup: CustomItemGroup = ModItemGroups.decorations
     override val tag: TagKey<Block> = ModBlockTags.desks
     private val BlockState.isDesk: Boolean
         get() = this isIn tag
+
 
     init {
         defaultState = defaultState.with(facing, Direction.NORTH).withShape(
@@ -45,15 +55,18 @@ class NewDeskBlock(settings: Settings, val baseBlock: Block, val topBlock: Block
         )
     }
 
-    /*@Deprecated("Deprecated in Java")
+    @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
         state: BlockState,
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
     ): VoxelShape =
-        shapeMap[state[shape]]?.get(state[LadderBlock.FACING])?.get() ?: super.getOutlineShape(state, world, pos,
-    context)*/
+        shapeMap[state[shape]]?.get(state[facing]) ?: super.getOutlineShape(
+            state, world, pos,
+            context
+        )
+
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
         builder.add(facing, shape)
@@ -95,7 +108,6 @@ class NewDeskBlock(settings: Settings, val baseBlock: Block, val topBlock: Block
             }
         )
     }
-
 
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
         val block = this
@@ -167,18 +179,16 @@ class NewDeskBlock(settings: Settings, val baseBlock: Block, val topBlock: Block
         ).forEach { i -> i.value.forEach { j -> register(i.key, j.key, j.value) } }
     }
 
-
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
 
     }
-
 
     companion object {
         val shape = ModProperties.deskShape
         val facing: DirectionProperty = Properties.HORIZONTAL_FACING
 
-        /*//shapes
-        private val northSingleShape = CompositeVoxelShape(
+        //shapes
+        private val northSingleShape = VoxelShapeHelper.union(
             VoxelShapeHelper.createCuboidShape(1, 15, 0, 15, 16, 16),
             VoxelShapeHelper.createCuboidShape(1, 8, 15, 15, 15, 16),
             VoxelShapeHelper.createCuboidShape(15, 0, 0, 16, 16, 2),
@@ -189,7 +199,7 @@ class NewDeskBlock(settings: Settings, val baseBlock: Block, val topBlock: Block
             VoxelShapeHelper.createCuboidShape(0, 0, 14, 1, 16, 16)
         )
 
-        private val northLeftShape = CompositeVoxelShape(
+        private val northLeftShape = VoxelShapeHelper.union(
             VoxelShapeHelper.createCuboidShape(0, 15, 0, 15, 16, 16),
             VoxelShapeHelper.createCuboidShape(0, 8, 15, 15, 15, 16),
             VoxelShapeHelper.createCuboidShape(15, 0, 0, 16, 16, 2),
@@ -197,12 +207,12 @@ class NewDeskBlock(settings: Settings, val baseBlock: Block, val topBlock: Block
             VoxelShapeHelper.createCuboidShape(15, 0, 14, 16, 16, 16)
         )
 
-        private val northCenterShape = CompositeVoxelShape(
+        private val northCenterShape = VoxelShapeHelper.union(
             VoxelShapeHelper.createCuboidShape(0, 15, 0, 16, 16, 16),
             VoxelShapeHelper.createCuboidShape(0, 8, 15, 16, 15, 16)
         )
 
-        private val northRightShape = CompositeVoxelShape(
+        private val northRightShape = VoxelShapeHelper.union(
             VoxelShapeHelper.createCuboidShape(1, 15, 0, 16, 16, 16),
             VoxelShapeHelper.createCuboidShape(1, 8, 15, 16, 15, 16),
             VoxelShapeHelper.createCuboidShape(0, 0, 0, 1, 16, 2),
@@ -210,7 +220,7 @@ class NewDeskBlock(settings: Settings, val baseBlock: Block, val topBlock: Block
             VoxelShapeHelper.createCuboidShape(0, 0, 14, 1, 16, 16)
         )
 
-        private val northLeftCornerShape = CompositeVoxelShape(
+        private val northLeftCornerShape = VoxelShapeHelper.union(
             VoxelShapeHelper.createCuboidShape(15, 0, 14, 16, 15, 16),
             VoxelShapeHelper.createCuboidShape(14, 0, 15, 15, 15, 16),
             VoxelShapeHelper.createCuboidShape(0, 8, 15, 14, 15, 16),
@@ -220,53 +230,49 @@ class NewDeskBlock(settings: Settings, val baseBlock: Block, val topBlock: Block
         private val northRightCornerShape = northLeftCornerShape.rotatedLeft
 
         private val singleShapeMap = mapOf(
-            Direction.NORTH to northSingleShape.get(),
-            Direction.EAST to northSingleShape.rotatedLeft.get(),
+            Direction.NORTH to northSingleShape,
+            Direction.EAST to northSingleShape.rotatedLeft,
             Direction.SOUTH to northSingleShape.flipped,
             Direction.WEST to northSingleShape.rotatedRight
         )
         private val centerShapeMap =
             mapOf(
-                Direction.NORTH to northCenterShape.get(),
-                Direction.EAST to northCenterShape.rotatedLeft.get(),
+                Direction.NORTH to northCenterShape,
+                Direction.EAST to northCenterShape.rotatedLeft,
                 Direction.SOUTH to northCenterShape.flipped,
                 Direction.WEST to northCenterShape.rotatedRight
             )
-    }
-
-    private val leftShapeMap = mapOf(
-        Direction.NORTH to northLeftShape.get(),
-        Direction.EAST to northLeftShape.rotatedLeft.get(),
-        Direction.SOUTH to northLeftShape.flipped.get(),
-        Direction.WEST to northLeftShape.rotatedRight.get()
-    )
-
-    private val rightShapeMap = mapOf(
-        Direction.NORTH to northRightShape.get(),
-        Direction.EAST to northRightShape.rotatedLeft.get(),
-        Direction.SOUTH to northRightShape.flipped,
-        Direction.WEST to northRightShape.rotatedRight
-    )
-    private val leftCornerShapeMap = mapOf(
-        Direction.NORTH to northLeftCornerShape.get(),
-        Direction.EAST to northLeftCornerShape.rotatedLeft.get(),
-        Direction.SOUTH to northLeftCornerShape.flipped,
-        Direction.WEST to northLeftCornerShape.rotatedRight
-    )
-    private val rightCornerShapeMap = mapOf(
-        Direction.NORTH to northRightCornerShape.get(),
-        Direction.EAST to northRightCornerShape.rotatedLeft.get(),
-        Direction.SOUTH to northRightCornerShape.flipped,
-        Direction.WEST to northRightCornerShape.rotatedRight
-    )
-
-    private val shapeMap = mapOf(
-        DeskShape.SINGLE to singleShapeMap,
-        DeskShape.CENTER to centerShapeMap,
-        DeskShape.LEFT to leftShapeMap,
-        DeskShape.RIGHT to rightShapeMap,
-        DeskShape.LEFT_CORNER to leftCornerShapeMap,
-        DeskShape.RIGHT_CORNER to rightCornerShapeMap
-    )*/
+        private val leftShapeMap = mapOf(
+            Direction.NORTH to northLeftShape,
+            Direction.EAST to northLeftShape.rotatedLeft,
+            Direction.SOUTH to northLeftShape.flipped,
+            Direction.WEST to northLeftShape.rotatedRight
+        )
+        private val rightShapeMap = mapOf(
+            Direction.NORTH to northRightShape,
+            Direction.EAST to northRightShape.rotatedLeft,
+            Direction.SOUTH to northRightShape.flipped,
+            Direction.WEST to northRightShape.rotatedRight
+        )
+        private val leftCornerShapeMap = mapOf(
+            Direction.NORTH to northLeftCornerShape,
+            Direction.EAST to northLeftCornerShape.rotatedLeft,
+            Direction.SOUTH to northLeftCornerShape.flipped,
+            Direction.WEST to northLeftCornerShape.rotatedRight
+        )
+        private val rightCornerShapeMap = mapOf(
+            Direction.NORTH to northRightCornerShape,
+            Direction.EAST to northRightCornerShape.rotatedLeft,
+            Direction.SOUTH to northRightCornerShape.flipped,
+            Direction.WEST to northRightCornerShape.rotatedRight
+        )
+        private val shapeMap = mapOf(
+            DeskShape.SINGLE to singleShapeMap,
+            DeskShape.CENTER to centerShapeMap,
+            DeskShape.LEFT to leftShapeMap,
+            DeskShape.RIGHT to rightShapeMap,
+            DeskShape.LEFT_CORNER to leftCornerShapeMap,
+            DeskShape.RIGHT_CORNER to rightCornerShapeMap
+        )
     }
 }
