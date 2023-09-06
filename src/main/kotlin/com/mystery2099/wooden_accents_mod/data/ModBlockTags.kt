@@ -44,6 +44,7 @@ object ModBlockTags {
 
     @JvmStatic
     val desks = "desks".toBlockTag().withMatchingItemTag()
+    val deskDrawers = "desk_drawers".toBlockTag().withMatchingItemTag()
 
     /*---------------End Living Room Tags----------------*/
 
