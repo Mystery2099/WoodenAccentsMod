@@ -8,8 +8,7 @@ import net.minecraft.world.biome.Biome
 import java.util.concurrent.CompletableFuture
 
 class BiomeTagDataGen(
-    output: FabricDataOutput,
-    registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>
+    output: FabricDataOutput, registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>
 ) : FabricTagProvider<Biome>(output, RegistryKeys.BIOME, registriesFuture) {
 
     override fun configure(arg: RegistryWrapper.WrapperLookup) {
