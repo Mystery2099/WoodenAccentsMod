@@ -47,6 +47,8 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
         BlockTags.INSIDE_STEP_SOUND_BLOCKS += ModBlockTags.plankCarpets
 
         ModBlockTags.kitchenCounters += ModBlockTags.kitchenCabinets
+
+        ModBlockTags.desks += ModBlockTags.deskDrawers
     }
 
     private fun <T : Block> TagKey<Block>.add(collection: Collection<T>): FabricTagBuilder {
