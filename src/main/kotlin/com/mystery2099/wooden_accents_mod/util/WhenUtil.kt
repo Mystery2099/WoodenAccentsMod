@@ -47,6 +47,7 @@ object WhenUtil {
 
     inline val newWhen: When.PropertyCondition
         get() = When.create()
+
     infix fun When.and(other: When): When = When.allOf(this, other)
     infix fun When.and(others: Collection<When>): When = When.allOf(this, *others.toTypedArray())
     infix fun When.and(others: Array<When>): When = When.allOf(this, *others)

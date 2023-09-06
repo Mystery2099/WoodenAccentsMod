@@ -36,7 +36,7 @@ class CrateBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 viewerCount = 0
             }
             ++viewerCount
-            world?.let {world ->
+            world?.let { world ->
                 world.addSyncedBlockEvent(pos, cachedState.block, 1, viewerCount)
                 if (viewerCount == 1) {
                     world.emitGameEvent(player as Entity, GameEvent.CONTAINER_OPEN, pos)
@@ -81,6 +81,7 @@ class CrateBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
         return super.onSyncedBlockEvent(type, data)
     }
+
     override fun getContainerName(): Text = Text.translatable(cachedState.block.translationKey)
     override fun readNbt(nbt: NbtCompound) {
         super.readNbt(nbt)
@@ -115,6 +116,7 @@ class CrateBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     override fun createScreenHandler(syncId: Int, playerInventory: PlayerInventory): ScreenHandler {
         return CrateScreenHandler(syncId, playerInventory, this)
     }
+
     companion object {
         const val ITEMS_KEY = "Items"
         private val availableSlots = IntStream.range(0, 9).toArray()

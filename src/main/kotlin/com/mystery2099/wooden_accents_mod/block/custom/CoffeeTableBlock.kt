@@ -1,6 +1,5 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.addIf
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asBlockModelId
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.toIdentifier
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
@@ -21,10 +20,10 @@ import com.mystery2099.wooden_accents_mod.state.property.ModProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.putModel
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.combined
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.createCuboidShape
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flipped
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.plus
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedRight
 import com.mystery2099.wooden_accents_mod.util.WhenUtil
 import com.mystery2099.wooden_accents_mod.util.WhenUtil.and
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
@@ -60,6 +59,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
+import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import java.util.*
@@ -70,6 +70,8 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
     AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider, CustomBlockStateProvider,
     CustomLootTableProvider {
+
+
     override val tag: TagKey<Block> = ModBlockTags.coffeeTables
     override val itemGroup = ModItemGroups.decorations
     private val BlockState.isTall: Boolean
@@ -78,6 +80,8 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
         get() = this.defaultItemStack.apply {
             orCreateNbt.setType(CoffeeTableType.TALL)
         }
+    private val NbtCompound.isTall: Boolean
+        get() = this.getString("coffee_table_type") == CoffeeTableType.TALL.asString()
 
     init {
         defaultState = defaultState.setShort().asSingle().with(waterlogged, false)
@@ -97,9 +101,6 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
     private fun NbtCompound.setTall() = this.setType(CoffeeTableType.TALL)
     private fun NbtCompound.setType(type: CoffeeTableType) =
         apply { putString("coffee_table_type", type.asString()) }
-
-    private val NbtCompound.isTall: Boolean
-        get() = this.getString("coffee_table_type") == CoffeeTableType.TALL.asString()
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
         val nbt = ctx.stack.nbt
@@ -142,11 +143,8 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
     }
 
     private fun WorldAccess.checkNorthOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.NORTH)
-
     private fun WorldAccess.checkEastOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.EAST)
-
     private fun WorldAccess.checkSouthOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.SOUTH)
-
     private fun WorldAccess.checkWestOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.WEST)
 
     @Deprecated("Deprecated in Java")
@@ -164,7 +162,6 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
             ?: state
     }
 
-
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
         state: BlockState,
@@ -178,33 +175,37 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
         val hasEastConnection = state[east]
         val hasWestConnection = state[west]
 
-        return mutableListOf<VoxelShape>().apply {
-            add(if (isTall) tallTopShape else shortTopShape)
-            when {
-                !hasNorthConnection -> {
-                    if (!hasEastConnection) {
-                        add(shortNorthEastLeg)
-                        addIf(isTall, tallNorthEastLeg)
-                    }
-                    if (!hasWestConnection) {
-                        add(shortNorthWestLeg)
-                        addIf(isTall, tallNorthWestLeg)
-                    }
+        var shape = VoxelShapes.empty()
+
+        shape += (if (isTall) tallTopShape else shortTopShape)
+
+        when {
+            !hasNorthConnection -> {
+                if (!hasEastConnection) {
+                    shape += shortNorthEastLeg
+                    if (isTall) shape += tallNorthEastLeg
+                }
+                if (!hasWestConnection) {
+                    shape += shortNorthWestLeg
+                    if (isTall) shape += tallNorthWestLeg
                 }
             }
-            when {
-                !hasSouthConnection -> {
-                    if (!hasEastConnection) {
-                        add(shortSouthEastLeg)
-                        addIf(isTall, tallSouthEastLeg)
-                    }
-                    if (!hasWestConnection) {
-                        add(shortSouthWestLeg)
-                        addIf(isTall, tallSouthWestLeg)
-                    }
+        }
+
+        when {
+            !hasSouthConnection -> {
+                if (!hasEastConnection) {
+                    shape += shortSouthEastLeg
+                    if (isTall) shape += tallSouthEastLeg
+                }
+                if (!hasWestConnection) {
+                    shape += shortSouthWestLeg
+                    if (isTall) shape += tallSouthWestLeg
                 }
             }
-        }.combined
+        }
+
+        return shape
     }
 
     override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState): ItemStack {
@@ -227,7 +228,6 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
             )
         }
     }
-
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 6).apply {
@@ -287,6 +287,24 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
         ).forEach(::with)
     }
 
+    override fun getLootTableBuilder(provider: FabricBlockLootTableProvider): LootTable.Builder {
+        val tallStatePredicate = StatePredicate.Builder.create().exactMatch(type, CoffeeTableType.TALL)
+        val whenBlockIsTall = BlockStatePropertyLootCondition.builder(this).properties(tallStatePredicate)
+        val nbt = NbtCompound().setTall()
+        return LootTable.builder().pool(
+            LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f)).with(
+                provider.applyExplosionDecay(
+                    this, ItemEntry.builder(this).apply(
+                        SetCountLootFunction.builder(ConstantLootNumberProvider.create(2.0f))
+                            .conditionally(BlockLootTableGenerator.WITHOUT_SILK_TOUCH, whenBlockIsTall)
+                    ).apply(
+                        SetNbtLootFunction.builder(nbt)
+                            .conditionally(BlockLootTableGenerator.WITH_SILK_TOUCH, whenBlockIsTall)
+                    )
+                )
+            )
+        )
+    }
 
     companion object {
         val type = ModProperties.coffeeTableType
@@ -309,46 +327,27 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
         private val shortNorthEastLeg = createCuboidShape(13.75, 0, 0.25, 15.75, 7, 2.25)
 
         @JvmStatic
-        private val shortNorthWestLeg = shortNorthEastLeg.rotateRight()
+        private val shortNorthWestLeg = shortNorthEastLeg.rotatedRight
 
         // Short South Shapes
         @JvmStatic
-        private val shortSouthEastLeg = shortNorthWestLeg.flip()
+        private val shortSouthEastLeg = shortNorthWestLeg.flipped
 
         @JvmStatic
-        private val shortSouthWestLeg = shortNorthEastLeg.flip()
+        private val shortSouthWestLeg = shortNorthEastLeg.flipped
 
         // Tall North Shapes
         @JvmStatic
         private val tallNorthEastLeg = shortNorthEastLeg.offset(0.0, SHAPE_VERTICAL_OFFSET, 0.0)
 
         @JvmStatic
-        private val tallNorthWestLeg = tallNorthEastLeg.rotateRight()
+        private val tallNorthWestLeg = tallNorthEastLeg.rotatedRight
 
         // Tall South Shapes
         @JvmStatic
-        private val tallSouthEastLeg = tallNorthWestLeg.flip()
+        private val tallSouthEastLeg = tallNorthWestLeg.flipped
 
         @JvmStatic
-        private val tallSouthWestLeg = tallNorthEastLeg.flip()
-    }
-
-    override fun getLootTableBuilder(provider: FabricBlockLootTableProvider): LootTable.Builder {
-        val tallStatePredicate = StatePredicate.Builder.create().exactMatch(type, CoffeeTableType.TALL)
-        val whenBlockIsTall = BlockStatePropertyLootCondition.builder(this).properties(tallStatePredicate)
-        val nbt = NbtCompound().setTall()
-        return LootTable.builder().pool(
-            LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f)).with(
-                provider.applyExplosionDecay(
-                    this, ItemEntry.builder(this).apply(
-                        SetCountLootFunction.builder(ConstantLootNumberProvider.create(2.0f))
-                            .conditionally(BlockLootTableGenerator.WITHOUT_SILK_TOUCH, whenBlockIsTall)
-                    ).apply(
-                        SetNbtLootFunction.builder(nbt)
-                            .conditionally(BlockLootTableGenerator.WITH_SILK_TOUCH, whenBlockIsTall)
-                    )
-                )
-            )
-        )
+        private val tallSouthWestLeg = tallNorthEastLeg.flipped
     }
 }

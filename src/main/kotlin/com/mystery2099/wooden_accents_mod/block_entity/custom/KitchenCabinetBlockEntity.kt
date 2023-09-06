@@ -21,7 +21,8 @@ import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class KitchenCabinetBlockEntity(pos: BlockPos, state: BlockState) : LootableContainerBlockEntity(ModBlockEntities.kitchenCabinet, pos, state) {
+class KitchenCabinetBlockEntity(pos: BlockPos, state: BlockState) :
+    LootableContainerBlockEntity(ModBlockEntities.kitchenCabinet, pos, state) {
     private var inventory: DefaultedList<ItemStack> = DefaultedList.ofSize(27, ItemStack.EMPTY)
     private val stateManager: ViewerCountManager = object : ViewerCountManager() {
         override fun onContainerOpen(world: World, pos: BlockPos, state: BlockState) {

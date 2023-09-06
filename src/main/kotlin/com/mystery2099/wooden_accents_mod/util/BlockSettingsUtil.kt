@@ -40,7 +40,7 @@ object BlockSettingsUtil {
     val strippedBambooBlockSettings = bambooBlockSettings.copyWithColor(MapColor.YELLOW)
 
     //Stems
-     val warpedSettings = FabricBlockSettings.of(Material.NETHER_WOOD, MapColor.DARK_AQUA).apply {
+    val warpedSettings = FabricBlockSettings.of(Material.NETHER_WOOD, MapColor.DARK_AQUA).apply {
         strength(2.0f)
         sounds(BlockSoundGroup.NETHER_STEM)
     }

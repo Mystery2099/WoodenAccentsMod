@@ -40,10 +40,11 @@ class CrateScreenHandler @JvmOverloads constructor(
             val itemStack2 = slot2.stack
             itemStack = itemStack2.copy()
             if (!when {
-                slot < this.inventory.size() -> insertItem(itemStack2, this.inventory.size(), this.slots.size, true)
+                    slot < this.inventory.size() -> insertItem(itemStack2, this.inventory.size(), this.slots.size, true)
                     else -> insertItem(itemStack2, 0, this.inventory.size(), false)
-            }) return ItemStack.EMPTY
-            if(itemStack2.isEmpty) slot2.stack = ItemStack.EMPTY
+                }
+            ) return ItemStack.EMPTY
+            if (itemStack2.isEmpty) slot2.stack = ItemStack.EMPTY
             else slot2.markDirty()
         }
         return itemStack

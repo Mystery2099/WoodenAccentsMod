@@ -13,9 +13,9 @@ import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flip
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateLeft
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotateRight
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flipped
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedLeft
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedRight
 import com.mystery2099.wooden_accents_mod.util.WhenUtil
 import com.mystery2099.wooden_accents_mod.util.WhenUtil.and
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
@@ -40,12 +40,9 @@ import java.util.function.Consumer
 class ThinBookshelfBlock(val baseBlock: Block) :
     ChiseledBookshelfBlock(FabricBlockSettings.copyOf(baseBlock).requires(FeatureFlags.UPDATE_1_20)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider, CustomBlockStateProvider {
+
     override val tag: TagKey<Block> = ModBlockTags.thinBookshelves
     override val itemGroup: CustomItemGroup = ModItemGroups.decorations
-
-    companion object {
-        private val northShape = VoxelShapeHelper.createCuboidShape(0, 0, 11, 16, 16, 16)
-    }
 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
@@ -55,9 +52,9 @@ class ThinBookshelfBlock(val baseBlock: Block) :
         context: ShapeContext?
     ): VoxelShape = when (state.get(HorizontalFacingBlock.FACING)) {
         Direction.NORTH -> northShape
-        Direction.EAST -> northShape.rotateLeft()
-        Direction.SOUTH -> northShape.flip()
-        Direction.WEST -> northShape.rotateRight()
+        Direction.EAST -> northShape.rotatedLeft
+        Direction.SOUTH -> northShape.flipped
+        Direction.WEST -> northShape.rotatedRight
         else -> super.getOutlineShape(state, world, pos, context)
     }
 
@@ -79,7 +76,8 @@ class ThinBookshelfBlock(val baseBlock: Block) :
             TextureMap.all(baseBlock).let { map ->
                 ModModels.thinBookshelfItem.upload(this@ThinBookshelfBlock.itemModelId, map, generator.modelCollector)
 
-                val bookshelfModel = ModModels.thinBookshelfBlock.upload(this@ThinBookshelfBlock, map, generator.modelCollector)
+                val bookshelfModel =
+                    ModModels.thinBookshelfBlock.upload(this@ThinBookshelfBlock, map, generator.modelCollector)
 
                 val slotModels = arrayOf(
                     ModModels.thinBookshelfSlot0,
@@ -97,7 +95,9 @@ class ThinBookshelfBlock(val baseBlock: Block) :
                 )
                 val variants = Array(4) { bookshelfModel.asBlockStateVariant() }
                 val slotVariants = Array(6) { i ->
-                    Array(4) { slotModels[i].asBlockStateVariant().withYRotationOf(VariantSettings.Rotation.entries[it]) }
+                    Array(4) {
+                        slotModels[i].asBlockStateVariant().withYRotationOf(VariantSettings.Rotation.entries[it])
+                    }
                 }
 
                 for (i in directions.indices) {
@@ -111,6 +111,10 @@ class ThinBookshelfBlock(val baseBlock: Block) :
                 }
             }
         }.also { generator.blockStateCollector.accept(it) }
+    }
+
+    companion object {
+        private val northShape = VoxelShapeHelper.createCuboidShape(0, 0, 11, 16, 16, 16)
     }
 
 

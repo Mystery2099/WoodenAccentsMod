@@ -19,8 +19,10 @@ object ModBlockTags {
     val thickPillars = "thick_pillars".toBlockTag().withMatchingItemTag()
     val thinPillarsConnectable = "thin_pillars_connectable".toBlockTag()
     val thickPillarsConnectable = "thick_pillars_connectable".toBlockTag()
+
     //Walls
     val woodenWalls = "wooden_walls".toBlockTag().withMatchingItemTag()
+
     //Ladders
     val plankLadders = "plank_ladders".toBlockTag().withMatchingItemTag()
     val connectingLadders = "connecting_ladders".toBlockTag().withMatchingItemTag()
@@ -57,9 +59,11 @@ object ModBlockTags {
     private fun String.toBlockTag(namespace: String = WoodenAccentsMod.MOD_ID): TagKey<Block> {
         return TagKey.of(RegistryKeys.BLOCK, Identifier(namespace, this))
     }
+
     private fun TagKey<Block>.withMatchingItemTag() = also {
         blockTagWithMatchingItemTag[this] = TagKey.of(RegistryKeys.ITEM, this.id)
     }
+
     infix fun BlockState?.isIn(tag: TagKey<Block>): Boolean = this?.isIn(tag) ?: false
     infix operator fun TagKey<Block>.contains(block: BlockState?) = block.isIn(this)
 
