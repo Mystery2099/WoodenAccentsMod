@@ -24,10 +24,12 @@ class ThickPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape)
 
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
         val map = TextureMap.all(this.baseBlock)
-        generator.blockStateCollector.accept(this.genBlockStateModelSupplier(
-            centerModel = "${this.woodType.name.lowercase()}_plank_wall_post".toIdentifier().asBlockModelId(),
-            bottomModel = ModModels.thickPillarBottom.upload(this, map, generator.modelCollector)
-        ))
+        generator.blockStateCollector.accept(
+            this.genBlockStateModelSupplier(
+                centerModel = "${this.woodType.name.lowercase()}_plank_wall_post".toIdentifier().asBlockModelId(),
+                bottomModel = ModModels.thickPillarBottom.upload(this, map, generator.modelCollector)
+            )
+        )
         ModModels.thickPillarInventory.upload(this.itemModelId, map, generator.modelCollector)
     }
 

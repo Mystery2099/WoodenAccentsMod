@@ -53,6 +53,7 @@ import java.util.function.Consumer
 class KitchenCabinetBlock(val baseBlock: Block, val topBlock: Block) :
     BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider, CustomBlockStateProvider {
+
     override val tag: TagKey<Block> = ModBlockTags.kitchenCabinets
     override val itemGroup = ModItemGroups.decorations
 
@@ -108,7 +109,6 @@ class KitchenCabinetBlock(val baseBlock: Block, val topBlock: Block) :
 
     @Deprecated("Deprecated in Java")
     override fun getRenderType(state: BlockState?): BlockRenderType = BlockRenderType.MODEL
-
     override fun onPlaced(
         world: World,
         pos: BlockPos?,
@@ -171,19 +171,6 @@ class KitchenCabinetBlock(val baseBlock: Block, val topBlock: Block) :
         }
     }
 
-    companion object {
-        val facing: DirectionProperty = Properties.HORIZONTAL_FACING
-        val open: BooleanProperty = Properties.OPEN
-        val kitchenCabinetBlockEntityTypeBuilder: FabricBlockEntityTypeBuilder<KitchenCabinetBlockEntity> =
-            FabricBlockEntityTypeBuilder.create(::KitchenCabinetBlockEntity)
-        val directionVoxelShapeMap = mapOf(
-            Direction.NORTH to AbstractKitchenCounterBlock.NORTH_SHAPE,
-            Direction.EAST to AbstractKitchenCounterBlock.NORTH_SHAPE.rotatedLeft,
-            Direction.SOUTH to AbstractKitchenCounterBlock.NORTH_SHAPE.flipped,
-            Direction.WEST to AbstractKitchenCounterBlock.NORTH_SHAPE.rotatedRight
-        )
-    }
-
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
         val map = TextureMap().apply {
             put(TextureKey.TOP, topBlock.textureId)
@@ -195,5 +182,18 @@ class KitchenCabinetBlock(val baseBlock: Block, val topBlock: Block) :
                 .coordinate(BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates())
         )
         generator.registerParentedItemModel(this, model)
+    }
+
+    companion object {
+        val facing: DirectionProperty = Properties.HORIZONTAL_FACING
+        val open: BooleanProperty = Properties.OPEN
+        val kitchenCabinetBlockEntityTypeBuilder: FabricBlockEntityTypeBuilder<KitchenCabinetBlockEntity> =
+            FabricBlockEntityTypeBuilder.create(::KitchenCabinetBlockEntity)
+        val directionVoxelShapeMap = mapOf(
+            Direction.NORTH to AbstractKitchenCounterBlock.NORTH_SHAPE,
+            Direction.EAST to AbstractKitchenCounterBlock.NORTH_SHAPE.rotatedLeft,
+            Direction.SOUTH to AbstractKitchenCounterBlock.NORTH_SHAPE.flipped,
+            Direction.WEST to AbstractKitchenCounterBlock.NORTH_SHAPE.rotatedRight
+        )
     }
 }

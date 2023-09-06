@@ -57,6 +57,7 @@ class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTable
         }
     }
 }
+
 fun <t : ConditionalLootFunction.Builder<*>> t.conditionally(vararg builders: LootCondition.Builder): t {
     builders.forEach { this.conditionally(it) }
     return this

@@ -70,6 +70,8 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
     AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider, CustomBlockStateProvider,
     CustomLootTableProvider {
+
+
     override val tag: TagKey<Block> = ModBlockTags.coffeeTables
     override val itemGroup = ModItemGroups.decorations
     private val BlockState.isTall: Boolean
@@ -78,6 +80,8 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
         get() = this.defaultItemStack.apply {
             orCreateNbt.setType(CoffeeTableType.TALL)
         }
+    private val NbtCompound.isTall: Boolean
+        get() = this.getString("coffee_table_type") == CoffeeTableType.TALL.asString()
 
     init {
         defaultState = defaultState.setShort().asSingle().with(waterlogged, false)
@@ -97,9 +101,6 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
     private fun NbtCompound.setTall() = this.setType(CoffeeTableType.TALL)
     private fun NbtCompound.setType(type: CoffeeTableType) =
         apply { putString("coffee_table_type", type.asString()) }
-
-    private val NbtCompound.isTall: Boolean
-        get() = this.getString("coffee_table_type") == CoffeeTableType.TALL.asString()
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
         val nbt = ctx.stack.nbt
@@ -142,11 +143,8 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
     }
 
     private fun WorldAccess.checkNorthOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.NORTH)
-
     private fun WorldAccess.checkEastOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.EAST)
-
     private fun WorldAccess.checkSouthOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.SOUTH)
-
     private fun WorldAccess.checkWestOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.WEST)
 
     @Deprecated("Deprecated in Java")
@@ -163,7 +161,6 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
             ?.withIfExists(south, world.checkSouthOf(pos))?.withIfExists(west, world.checkWestOf(pos))
             ?: state
     }
-
 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
@@ -232,7 +229,6 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
         }
     }
 
-
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 6).apply {
             input('_', topBlock)
@@ -291,6 +287,24 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
         ).forEach(::with)
     }
 
+    override fun getLootTableBuilder(provider: FabricBlockLootTableProvider): LootTable.Builder {
+        val tallStatePredicate = StatePredicate.Builder.create().exactMatch(type, CoffeeTableType.TALL)
+        val whenBlockIsTall = BlockStatePropertyLootCondition.builder(this).properties(tallStatePredicate)
+        val nbt = NbtCompound().setTall()
+        return LootTable.builder().pool(
+            LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f)).with(
+                provider.applyExplosionDecay(
+                    this, ItemEntry.builder(this).apply(
+                        SetCountLootFunction.builder(ConstantLootNumberProvider.create(2.0f))
+                            .conditionally(BlockLootTableGenerator.WITHOUT_SILK_TOUCH, whenBlockIsTall)
+                    ).apply(
+                        SetNbtLootFunction.builder(nbt)
+                            .conditionally(BlockLootTableGenerator.WITH_SILK_TOUCH, whenBlockIsTall)
+                    )
+                )
+            )
+        )
+    }
 
     companion object {
         val type = ModProperties.coffeeTableType
@@ -335,24 +349,5 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
 
         @JvmStatic
         private val tallSouthWestLeg = tallNorthEastLeg.flipped
-    }
-
-    override fun getLootTableBuilder(provider: FabricBlockLootTableProvider): LootTable.Builder {
-        val tallStatePredicate = StatePredicate.Builder.create().exactMatch(type, CoffeeTableType.TALL)
-        val whenBlockIsTall = BlockStatePropertyLootCondition.builder(this).properties(tallStatePredicate)
-        val nbt = NbtCompound().setTall()
-        return LootTable.builder().pool(
-            LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f)).with(
-                provider.applyExplosionDecay(
-                    this, ItemEntry.builder(this).apply(
-                        SetCountLootFunction.builder(ConstantLootNumberProvider.create(2.0f))
-                            .conditionally(BlockLootTableGenerator.WITHOUT_SILK_TOUCH, whenBlockIsTall)
-                    ).apply(
-                        SetNbtLootFunction.builder(nbt)
-                            .conditionally(BlockLootTableGenerator.WITH_SILK_TOUCH, whenBlockIsTall)
-                    )
-                )
-            )
-        )
     }
 }

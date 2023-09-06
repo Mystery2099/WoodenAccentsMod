@@ -30,10 +30,12 @@ class ThinPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape) 
 
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
         val map = TextureMap.all(this.baseBlock)
-        generator.blockStateCollector.accept(this.genBlockStateModelSupplier(
-            centerModel = Identifier("${this.woodType.name.lowercase()}_fence_post").asBlockModelId(),
-            bottomModel = ModModels.thinPillarBottom.upload(this, map, generator.modelCollector)
-        ))
+        generator.blockStateCollector.accept(
+            this.genBlockStateModelSupplier(
+                centerModel = Identifier("${this.woodType.name.lowercase()}_fence_post").asBlockModelId(),
+                bottomModel = ModModels.thinPillarBottom.upload(this, map, generator.modelCollector)
+            )
+        )
         ModModels.thinPillarInventory.upload(this.itemModelId, map, generator.modelCollector)
     }
 

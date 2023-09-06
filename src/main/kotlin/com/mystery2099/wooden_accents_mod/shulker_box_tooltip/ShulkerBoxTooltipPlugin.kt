@@ -11,22 +11,30 @@ import com.mystery2099.wooden_accents_mod.block.custom.ThinBookshelfBlock
 
 object ShulkerBoxTooltipPlugin : ShulkerBoxTooltipApi {
     override fun registerProviders(registry: PreviewProviderRegistry) {
-        ModBlocks.blocks.forEach{ block ->
+        ModBlocks.blocks.forEach { block ->
             when (block) {
                 is CrateBlock -> {
-                    registry.register("crates".toIdentifier(),
+                    registry.register(
+                        "crates".toIdentifier(),
                         CratePreviewProvider(),
-                        block.asItem())
+                        block.asItem()
+                    )
                 }
+
                 is KitchenCabinetBlock -> {
-                    registry.register("chest_like".toIdentifier(),
+                    registry.register(
+                        "chest_like".toIdentifier(),
                         BlockEntityPreviewProvider(27, true),
-                        block.asItem())
+                        block.asItem()
+                    )
                 }
+
                 is ThinBookshelfBlock -> {
-                    registry.register("chiseled_bookshelf_like".toIdentifier(),
+                    registry.register(
+                        "chiseled_bookshelf_like".toIdentifier(),
                         BlockEntityPreviewProvider(6, true, 3),
-                        block.asItem())
+                        block.asItem()
+                    )
                 }
             }
         }

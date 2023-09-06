@@ -103,5 +103,4 @@ class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : Fen
         private val wallShape1 = wallShapes
         private val wallShape2 = wallShapes.rotatedLeft
     }
-
 }

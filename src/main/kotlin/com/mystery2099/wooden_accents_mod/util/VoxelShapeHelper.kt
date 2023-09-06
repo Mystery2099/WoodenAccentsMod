@@ -10,9 +10,18 @@ import kotlin.math.max
 import kotlin.math.min
 
 object VoxelShapeHelper {
+
+    /*//Do not use on complex VoxelShapes
+    fun rotate(voxelShape: VoxelShape, direction: VoxelShapeTransformation): VoxelShape {
+        val adjustedValues = adjustValues(direction, voxelShape.minX, voxelShape.minZ, voxelShape.maxX, voxelShape.maxZ)
+        return VoxelShapes.cuboid(
+            adjustedValues[0], voxelShape.minY, adjustedValues[1],
+            adjustedValues[2], voxelShape.maxY, adjustedValues[3]
+        )
+    }*/
+
     private inline val Double.limited
         get() = this.limit()
-
     private inline val VoxelShape.minX
         get() = getMin(Direction.Axis.X)
     private inline val VoxelShape.minY
@@ -25,6 +34,12 @@ object VoxelShapeHelper {
         get() = getMax(Direction.Axis.Y)
     private inline val VoxelShape.maxZ
         get() = getMax(Direction.Axis.Z)
+    val VoxelShape.rotatedLeft: VoxelShape
+        get() = this.rotated(VoxelShapeTransformation.ROTATE_LEFT)
+    val VoxelShape.flipped: VoxelShape
+        get() = this.rotated(VoxelShapeTransformation.FLIP_HORIZONTAL)
+    val VoxelShape.rotatedRight: VoxelShape
+        get() = this.rotated(VoxelShapeTransformation.ROTATE_RIGHT)
 
     infix fun VoxelShape.unifiedWith(otherShape: VoxelShape): VoxelShape = VoxelShapes.union(this, otherShape)
     fun VoxelShape.unifiedWith(vararg otherShapes: VoxelShape): VoxelShape = union(this, *otherShapes)
@@ -47,21 +62,6 @@ object VoxelShapeHelper {
         return result.get()
     }
 
-    /*//Do not use on complex VoxelShapes
-    fun rotate(voxelShape: VoxelShape, direction: VoxelShapeTransformation): VoxelShape {
-        val adjustedValues = adjustValues(direction, voxelShape.minX, voxelShape.minZ, voxelShape.maxX, voxelShape.maxZ)
-        return VoxelShapes.cuboid(
-            adjustedValues[0], voxelShape.minY, adjustedValues[1],
-            adjustedValues[2], voxelShape.maxY, adjustedValues[3]
-        )
-    }*/
-
-    val VoxelShape.rotatedLeft: VoxelShape
-        get() = this.rotated(VoxelShapeTransformation.ROTATE_LEFT)
-    val VoxelShape.flipped: VoxelShape
-        get() = this.rotated(VoxelShapeTransformation.FLIP_HORIZONTAL)
-    val VoxelShape.rotatedRight: VoxelShape
-        get() = this.rotated(VoxelShapeTransformation.ROTATE_RIGHT)
     fun VoxelShape.rotated(direction: VoxelShapeTransformation): VoxelShape {
         val shapes = mutableListOf(VoxelShapes.empty())
         this.forEachBox { minX, minY, minZ, maxX, maxY, maxZ ->
@@ -79,7 +79,6 @@ object VoxelShapeHelper {
     }
 
     fun union(vararg voxelShapes: VoxelShape): VoxelShape = voxelShapes.reduce { a, b -> VoxelShapes.union(a, b) }
-
     private fun adjustValues(
         direction: VoxelShapeTransformation,
         minX: Double,

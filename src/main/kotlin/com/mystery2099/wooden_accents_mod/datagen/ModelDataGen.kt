@@ -30,21 +30,36 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
     override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator) {
         blockStateModelGenerator.run {
-            WoodType.stream().forEach{
-                ModModels.coffeeTableLegShort.upload("${it.name.lowercase()}_coffee_table_leg_short".toIdentifier().asBlockModelId(), TextureMap().put(
-                    ModModels.legs, it.asPlanks().textureId), modelCollector)
+            WoodType.stream().forEach {
+                ModModels.coffeeTableLegShort.upload(
+                    "${it.name.lowercase()}_coffee_table_leg_short".toIdentifier().asBlockModelId(), TextureMap().put(
+                        ModModels.legs, it.asPlanks().textureId
+                    ), modelCollector
+                )
 
-                ModModels.coffeeTableLegTall.upload("${it.name.lowercase()}_coffee_table_leg_tall".toIdentifier().asBlockModelId(), TextureMap().put(
-                    ModModels.legs, it.asPlanks().textureId), modelCollector)
+                ModModels.coffeeTableLegTall.upload(
+                    "${it.name.lowercase()}_coffee_table_leg_tall".toIdentifier().asBlockModelId(), TextureMap().put(
+                        ModModels.legs, it.asPlanks().textureId
+                    ), modelCollector
+                )
 
-                ModModels.tableCenterLeg.upload("${it.name.lowercase()}_table_single_leg".toIdentifier().asBlockModelId(), TextureMap().put(
-                    ModModels.legs, it.asPlanks().textureId), modelCollector)
+                ModModels.tableCenterLeg.upload(
+                    "${it.name.lowercase()}_table_single_leg".toIdentifier().asBlockModelId(), TextureMap().put(
+                        ModModels.legs, it.asPlanks().textureId
+                    ), modelCollector
+                )
 
-                ModModels.tableCornerLeg.upload("${it.name.lowercase()}_table_corner_leg".toIdentifier().asBlockModelId(), TextureMap().put(
-                    ModModels.legs, it.asPlanks().textureId), modelCollector)
+                ModModels.tableCornerLeg.upload(
+                    "${it.name.lowercase()}_table_corner_leg".toIdentifier().asBlockModelId(), TextureMap().put(
+                        ModModels.legs, it.asPlanks().textureId
+                    ), modelCollector
+                )
 
-                ModModels.tableEndLeg.upload("${it.name.lowercase()}_table_end_leg".toIdentifier().asBlockModelId(), TextureMap().put(
-                    ModModels.legs, it.asPlanks().textureId), modelCollector)
+                ModModels.tableEndLeg.upload(
+                    "${it.name.lowercase()}_table_end_leg".toIdentifier().asBlockModelId(), TextureMap().put(
+                        ModModels.legs, it.asPlanks().textureId
+                    ), modelCollector
+                )
             }
             ModBlocks.blocks.forEach {
                 when {
@@ -61,14 +76,20 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
     companion object {
         fun createCoffeeTableItemModel(coffeeTableBlock: CoffeeTableBlock, generator: BlockStateModelGenerator) {
-            val tallModel = ModModels.coffeeTableTallInventory.upload(coffeeTableBlock.itemModelId.withSuffixedPath("_tall"), TextureMap().apply {
-                put(TextureKey.TOP, coffeeTableBlock.topBlock.textureId)
-                put(ModModels.legs, coffeeTableBlock.baseBlock.textureId)
-            }, generator.modelCollector)
-            val jsonObject = ModModels.coffeeTableInventory.createJson(coffeeTableBlock.itemModelId, mapOf(
-                TextureKey.TOP to coffeeTableBlock.topBlock.textureId,
-                ModModels.legs to coffeeTableBlock.baseBlock.textureId
-            ))
+            val tallModel = ModModels.coffeeTableTallInventory.upload(
+                coffeeTableBlock.itemModelId.withSuffixedPath("_tall"),
+                TextureMap().apply {
+                    put(TextureKey.TOP, coffeeTableBlock.topBlock.textureId)
+                    put(ModModels.legs, coffeeTableBlock.baseBlock.textureId)
+                },
+                generator.modelCollector
+            )
+            val jsonObject = ModModels.coffeeTableInventory.createJson(
+                coffeeTableBlock.itemModelId, mapOf(
+                    TextureKey.TOP to coffeeTableBlock.topBlock.textureId,
+                    ModModels.legs to coffeeTableBlock.baseBlock.textureId
+                )
+            )
             val jsonArray = JsonArray()
             val jsonObject2 = JsonObject()
             val jsonObject3 = JsonObject()

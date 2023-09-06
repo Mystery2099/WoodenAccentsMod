@@ -24,15 +24,16 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import java.util.function.Consumer
 
-class PlankLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(FabricBlockSettings.of(baseBlock.defaultState.material, baseBlock.defaultMapColor).apply {
-    hardness(Blocks.LADDER.hardness)
-    resistance(Blocks.LADDER.blastResistance)
-    sounds(baseBlock.getSoundGroup(baseBlock.defaultState))
+class PlankLadderBlock(val baseBlock: Block) :
+    AbstractCustomLadderBlock(FabricBlockSettings.of(baseBlock.defaultState.material, baseBlock.defaultMapColor).apply {
+        hardness(Blocks.LADDER.hardness)
+        resistance(Blocks.LADDER.blastResistance)
+        sounds(baseBlock.getSoundGroup(baseBlock.defaultState))
 
-    if (baseBlock.requiredFeatures.contains(FeatureFlags.UPDATE_1_20)) {
-        requires(FeatureFlags.UPDATE_1_20)
-    }
-}), CustomItemGroupProvider {
+        if (baseBlock.requiredFeatures.contains(FeatureFlags.UPDATE_1_20)) {
+            requires(FeatureFlags.UPDATE_1_20)
+        }
+    }), CustomItemGroupProvider {
     override val tag: TagKey<Block> = ModBlockTags.plankLadders
 
     @Deprecated("Deprecated in Java")
@@ -45,7 +46,6 @@ class PlankLadderBlock(val baseBlock: Block) : AbstractCustomLadderBlock(FabricB
         Direction.WEST -> westShape
         else -> super.getOutlineShape(state, world, pos, context)
     }
-
 
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {

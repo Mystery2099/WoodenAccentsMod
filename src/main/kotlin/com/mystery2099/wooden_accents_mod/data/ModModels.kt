@@ -17,6 +17,7 @@ object ModModels {
     //Thin Pillar
     val thinPillarInventory = item("thin_pillar", TextureKey.ALL)
     val thinPillarBottom = block("thin_pillar_base", "_base", TextureKey.ALL)
+
     //Thick Pillar
     val thickPillarInventory = item("thick_pillar", TextureKey.ALL)
     val thickPillarBottom = block("thick_pillar_base", "_base", TextureKey.ALL)
@@ -45,6 +46,7 @@ object ModModels {
     val supportBeamDown = block("support_beam_down", "_down", TextureKey.ALL)
 
     val crate = block("wooden_crate", TextureKey.EDGE, TextureKey.INSIDE, TextureKey.CROSS)
+
     /*---------------Living Room Stuff----------------*/
     //Table Models
     val tableItem = item("table", TextureKey.TOP, legs)
@@ -109,7 +111,8 @@ object ModModels {
     val deskLeftCorner = block("desk_left_corner", "_left_corner", TextureKey.SIDE, TextureKey.TOP)
 
     @Suppress("unused")
-    private fun make(vararg requiredTextureKeys: TextureKey) = Model(Optional.empty(), Optional.empty(), *requiredTextureKeys)
+    private fun make(vararg requiredTextureKeys: TextureKey) =
+        Model(Optional.empty(), Optional.empty(), *requiredTextureKeys)
 
     private fun block(parent: String, vararg requiredTextureKeys: TextureKey) = Model(
         Optional.of(modId(parent).asBlockModelId()),
@@ -129,6 +132,7 @@ object ModModels {
         Optional.of(variant),
         *requiredTextureKeys
     )
+
     @Suppress("unused")
     private fun item(parent: String, variant: String, vararg requiredTextureKeys: TextureKey) = Model(
         Optional.of(modId(parent).withPrefixedPath("item/")),

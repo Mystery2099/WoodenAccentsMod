@@ -12,7 +12,7 @@ import net.minecraft.nbt.NbtElement
 import net.minecraft.registry.tag.TagKey
 
 class CustomBlockItem(block: Block, settings: Settings) : BlockItem(block, settings) {
-    override fun canBeNested(): Boolean = block !is CrateBlock
+
     val tagFromProvider: TagKey<Block>?
         get() {
             return if (block is CustomTagProvider) {
@@ -20,6 +20,7 @@ class CustomBlockItem(block: Block, settings: Settings) : BlockItem(block, setti
             } else null
         }
 
+    override fun canBeNested(): Boolean = block !is CrateBlock
     override fun onItemEntityDestroyed(entity: ItemEntity) {
         super.onItemEntityDestroyed(entity)
         if (block is CrateBlock) {
