@@ -20,10 +20,7 @@ import com.mystery2099.wooden_accents_mod.util.WhenUtil
 import com.mystery2099.wooden_accents_mod.util.WhenUtil.and
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.*
-import net.minecraft.data.client.BlockStateModelGenerator
-import net.minecraft.data.client.MultipartBlockStateSupplier
-import net.minecraft.data.client.TextureMap
-import net.minecraft.data.client.VariantSettings
+import net.minecraft.data.client.*
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.recipe.Ingredient
@@ -104,7 +101,7 @@ class ThinBookshelfBlock(val baseBlock: Block) :
                     with(directions[i], variants[i].withYRotationOf(VariantSettings.Rotation.entries[i]))
                     for (j in slotVariants.indices) {
                         with(
-                            directions[i] and WhenUtil.newWhen.set(SLOT_OCCUPIED_PROPERTIES[j], true),
+                            directions[i] and When.create().set(SLOT_OCCUPIED_PROPERTIES[j], true),
                             slotVariants[j][i]
                         )
                     }

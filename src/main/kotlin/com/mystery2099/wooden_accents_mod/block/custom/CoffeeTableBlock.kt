@@ -270,8 +270,8 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
         val shortNorthEastVariant = shortLegModel.asBlockStateVariant()
         val tallNorthEastVariant = tallLegModel.asBlockStateVariant()
 
-        val isTall = WhenUtil.newWhen.set(ModProperties.coffeeTableType, CoffeeTableType.TALL)
-        val isShort = WhenUtil.newWhen.set(ModProperties.coffeeTableType, CoffeeTableType.SHORT)
+        val isTall = When.create().set(ModProperties.coffeeTableType, CoffeeTableType.TALL)
+        val isShort = When.create().set(ModProperties.coffeeTableType, CoffeeTableType.SHORT)
 
         mapOf(
             isShort to BlockStateVariant().putModel(shortTopModel),
