@@ -38,7 +38,7 @@ import java.util.function.Consumer
 
 class DeskBlock(settings: Settings, val baseBlock: Block, val topBlock: Block) :
     AbstractWaterloggableBlock(settings), CustomItemGroupProvider, CustomRecipeProvider, CustomBlockStateProvider,
-    CustomTagProvider {
+    CustomTagProvider<Block> {
 
 
     override val itemGroup: CustomItemGroup = ModItemGroups.decorations

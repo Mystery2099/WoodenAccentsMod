@@ -45,7 +45,7 @@ import java.util.function.Consumer
 
 class TableBlock(val baseBlock: Block, private val topBlock: Block) :
     AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)), CustomItemGroupProvider, CustomRecipeProvider,
-    CustomTagProvider, CustomBlockStateProvider {
+    CustomTagProvider<Block>, CustomBlockStateProvider {
     override val itemGroup = ModItemGroups.decorations
 
     override val tag: TagKey<Block> = ModBlockTags.tables

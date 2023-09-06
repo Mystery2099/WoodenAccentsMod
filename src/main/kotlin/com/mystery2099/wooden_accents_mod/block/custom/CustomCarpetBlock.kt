@@ -34,7 +34,7 @@ class CustomCarpetBlock(val baseBlock: Block) : CarpetBlock(
             requires(FeatureFlags.UPDATE_1_20)
         }
     }
-), CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider, CustomBlockStateProvider {
+), CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
 
     override val itemGroup = ModItemGroups.decorations
     override val tag: TagKey<Block> = ModBlockTags.plankCarpets

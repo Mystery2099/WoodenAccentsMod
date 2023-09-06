@@ -37,10 +37,12 @@ open class OmnidirectionalConnectingBlock(settings: Settings) : Block(settings),
                 .with(down, false)
         }
     }
+
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
         builder.add(waterlogged, north, east, south, west, up, down)
     }
+
     @Deprecated("Deprecated in Java")
     override fun getFluidState(state: BlockState): FluidState {
         return if (state[waterlogged]) Fluids.WATER.getStill(false)
@@ -95,6 +97,7 @@ open class OmnidirectionalConnectingBlock(settings: Settings) : Block(settings),
             ctx.world.getFluidState(ctx.blockPos).fluid === Fluids.WATER
         ).setDirectionalProperties(ctx.blockPos, ctx.world)
     }
+
     private fun BlockState.setDirectionalProperties(pos: BlockPos, world: WorldAccess): BlockState {
         return this.with(north, canConnectNorthOf(pos, world))
             .with(east, canConnectEastOf(pos, world))
@@ -103,6 +106,7 @@ open class OmnidirectionalConnectingBlock(settings: Settings) : Block(settings),
             .with(up, canConnectAbove(pos, world))
             .with(down, canConnectBelow(pos, world))
     }
+
     companion object {
         val waterlogged: BooleanProperty = Properties.WATERLOGGED
         val north: BooleanProperty = Properties.NORTH

@@ -39,7 +39,7 @@ import java.util.function.Consumer
 
 abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shape) :
     AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
-    CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider, CustomBlockStateProvider {
+    CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
     override val itemGroup = ModItemGroups.structuralElements
     abstract val connectableBlockTag: TagKey<Block>
     override val tag: TagKey<Block> = ModBlockTags.pillars

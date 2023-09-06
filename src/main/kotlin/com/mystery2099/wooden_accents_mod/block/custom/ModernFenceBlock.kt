@@ -38,7 +38,7 @@ import java.util.function.Consumer
 
 class ModernFenceBlock(settings: Block, val sideBlock: Block, val postBlock: Block) :
     FenceBlock(FabricBlockSettings.copyOf(settings)),
-    CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider, CustomBlockStateProvider {
+    CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.modernFences
     override val itemGroup = ModItemGroups.structuralElements
 

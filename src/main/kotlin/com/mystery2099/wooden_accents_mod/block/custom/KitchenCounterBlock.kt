@@ -26,7 +26,7 @@ import net.minecraft.util.math.Direction
 import java.util.function.Consumer
 
 class KitchenCounterBlock(baseBlock: Block, topBlock: Block) : AbstractKitchenCounterBlock(baseBlock, topBlock),
-    CustomItemGroupProvider, CustomTagProvider, CustomRecipeProvider, CustomBlockStateProvider {
+    CustomItemGroupProvider, CustomTagProvider<Block>, CustomRecipeProvider, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.kitchenCounters
     override val itemGroup: CustomItemGroup = ModItemGroups.decorations
 

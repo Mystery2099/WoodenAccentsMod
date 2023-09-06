@@ -18,7 +18,7 @@ import net.minecraft.registry.tag.TagKey
 import java.util.function.Consumer
 
 abstract class AbstractCustomLadderBlock(settings: Settings) : LadderBlock(settings), CustomItemGroupProvider, CustomRecipeProvider,
-    CustomTagProvider, CustomBlockStateProvider {
+    CustomTagProvider<Block>, CustomBlockStateProvider {
     override val tag: TagKey<Block> = BlockTags.CLIMBABLE
     override val itemGroup: CustomItemGroup = ModItemGroups.structuralElements
 

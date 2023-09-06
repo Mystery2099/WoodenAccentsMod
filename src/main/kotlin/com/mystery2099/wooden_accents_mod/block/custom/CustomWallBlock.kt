@@ -21,7 +21,7 @@ import net.minecraft.registry.tag.TagKey
 import java.util.function.Consumer
 
 class CustomWallBlock(val baseBlock: Block) : WallBlock(FabricBlockSettings.copyOf(baseBlock)), CustomItemGroupProvider,
-    CustomRecipeProvider, CustomTagProvider, CustomBlockStateProvider {
+    CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.woodenWalls
     override val itemGroup = ModItemGroups.structuralElements
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {

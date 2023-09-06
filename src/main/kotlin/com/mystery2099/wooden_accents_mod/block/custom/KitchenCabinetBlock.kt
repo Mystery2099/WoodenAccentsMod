@@ -52,7 +52,7 @@ import java.util.function.Consumer
 
 class KitchenCabinetBlock(val baseBlock: Block, val topBlock: Block) :
     BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)),
-    CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider, CustomBlockStateProvider {
+    CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
 
     override val tag: TagKey<Block> = ModBlockTags.kitchenCabinets
     override val itemGroup = ModItemGroups.decorations

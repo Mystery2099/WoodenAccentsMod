@@ -49,7 +49,7 @@ class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(ru
             requires(FeatureFlags.UPDATE_1_20)
         }
     }
-}), CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider, CustomBlockStateProvider {
+}), CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
     override val centerShape: VoxelShape = createCuboidShape(6, 6, 6, 10, 10, 10)
     override val northShape: VoxelShape = createCuboidShape(6, 6, 0, 10, 10, 6)
     override val eastShape: VoxelShape = northShape.rotatedLeft
