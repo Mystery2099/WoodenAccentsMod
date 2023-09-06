@@ -53,22 +53,21 @@ class ConnectingLadderBlock(val baseBlock: Block) :
         pos: BlockPos,
         neighborPos: BlockPos?
     ): BlockState {
+        val leftState = world.getBlockState(pos.offset(state[FACING].rotateYClockwise()))
+        val rightState = world.getBlockState(pos.offset(state[FACING].rotateYCounterclockwise()))
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
             .withShape(
-                left = world.getBlockState(pos.offset(state[FACING].rotateYClockwise())).let {
-                    it.isConnectingLadder() && it[FACING] == state[FACING]
-                },
-                right = world.getBlockState(pos.offset(state[FACING].rotateYCounterclockwise())).let {
-                    it.isConnectingLadder() && it[FACING] == state[FACING]
-                }
+                left = state.canConnectTo(leftState),
+                right = state.canConnectTo(rightState)
             )
     }
 
     private fun BlockState.isConnectingLadder(): Boolean = this isIn tag
-    //To be used in getStateForNeighborUpdate
+
     private fun BlockState.canConnectTo(other: BlockState): Boolean {
         return this.isConnectingLadder() && other.isConnectingLadder() && this[FACING] == other[FACING]
     }
+
     private fun BlockState.withShape(left: Boolean, right: Boolean): BlockState = this.withIfExists(shape, run {
         when {
             left && right -> ConnectingLadderShape.CENTER
