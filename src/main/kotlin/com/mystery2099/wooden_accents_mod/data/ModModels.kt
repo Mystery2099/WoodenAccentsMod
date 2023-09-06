@@ -110,6 +110,11 @@ object ModModels {
     val deskRight = block("desk_right", "_right", TextureKey.SIDE, TextureKey.TOP)
     val deskLeftCorner = block("desk_left_corner", "_left_corner", TextureKey.SIDE, TextureKey.TOP)
 
+    val deskDrawer = block("desk_drawer", TextureKey.SIDE, TextureKey.EDGE)
+    val deskDrawerLeft = block("desk_drawer_left", "_left", TextureKey.SIDE, TextureKey.EDGE)
+    val deskDrawerCenter = block("desk_drawer_center", "_center", TextureKey.SIDE, TextureKey.EDGE)
+    val deskDrawerRight = block("desk_drawer_right", "_right", TextureKey.SIDE, TextureKey.EDGE)
+
     @Suppress("unused")
     private fun make(vararg requiredTextureKeys: TextureKey) =
         Model(Optional.empty(), Optional.empty(), *requiredTextureKeys)
