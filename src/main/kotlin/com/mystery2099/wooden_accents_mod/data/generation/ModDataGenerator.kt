@@ -1,4 +1,4 @@
-package com.mystery2099.wooden_accents_mod.datagen
+package com.mystery2099.wooden_accents_mod.data.generation
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator

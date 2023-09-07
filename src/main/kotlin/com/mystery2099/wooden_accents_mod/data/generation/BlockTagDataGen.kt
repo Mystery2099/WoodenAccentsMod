@@ -1,8 +1,8 @@
-package com.mystery2099.wooden_accents_mod.datagen
+package com.mystery2099.wooden_accents_mod.data.generation
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomTagProvider
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomTagProvider
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
 import net.minecraft.block.Block
@@ -53,12 +53,13 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
 
         ModBlockTags.kitchenCounters += ModBlockTags.kitchenCabinets
 
-        ModBlockTags.desks += ModBlockTags.deskDrawers
+        ModBlockTags.desks.add(ModBlockTags.deskDrawers)
     }
 
 
     private fun TagKey<Block>.add(tag: TagKey<Block>): FabricTagBuilder = tagBuilder.addTag(tag)
     private fun TagKey<Block>.add(block: Block): FabricTagBuilder = tagBuilder.add(block)
+    private fun TagKey<Block>.forceAdd(tag: TagKey<Block>): FabricTagBuilder = tagBuilder.forceAddTag(tag)
 
     private fun TagKey<Block>.addAll(vararg tags: TagKey<Block>) = tagBuilder.also { tags.forEach(it::addTag) }
     private fun TagKey<Block>.addAll(vararg blocks: Block) = tagBuilder.also { blocks.forEach(it::add) }

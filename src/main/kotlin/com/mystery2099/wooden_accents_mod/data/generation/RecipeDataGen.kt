@@ -1,9 +1,9 @@
-package com.mystery2099.wooden_accents_mod.datagen
+package com.mystery2099.wooden_accents_mod.data.generation
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.isPlank
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.isStripped
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomRecipeProvider
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomRecipeProvider
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.minecraft.block.Block

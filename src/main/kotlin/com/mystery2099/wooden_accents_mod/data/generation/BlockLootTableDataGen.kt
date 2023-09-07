@@ -1,9 +1,9 @@
-package com.mystery2099.wooden_accents_mod.datagen
+package com.mystery2099.wooden_accents_mod.data.generation
 
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
 import com.mystery2099.wooden_accents_mod.block.custom.CoffeeTableBlock
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomLootTableProvider
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomLootTableProvider
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.minecraft.block.Block

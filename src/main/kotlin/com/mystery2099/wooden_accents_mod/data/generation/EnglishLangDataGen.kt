@@ -1,4 +1,4 @@
-package com.mystery2099.wooden_accents_mod.datagen
+package com.mystery2099.wooden_accents_mod.data.generation
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.id
