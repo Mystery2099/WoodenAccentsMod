@@ -30,12 +30,13 @@ abstract class WaterloggableBlockWithEntity(settings: Settings) : BlockWithEntit
             ?: defaultState
     }
 
+    @Deprecated("Deprecated in Java")
     override fun getStateForNeighborUpdate(
         state: BlockState,
         direction: Direction?,
         neighborState: BlockState?,
         world: WorldAccess,
-        pos: BlockPos?,
+        pos: BlockPos,
         neighborPos: BlockPos?
     ): BlockState {
         if (state[AbstractWaterloggableBlock.waterlogged]) world.scheduleFluidTick(
@@ -46,6 +47,7 @@ abstract class WaterloggableBlockWithEntity(settings: Settings) : BlockWithEntit
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun getFluidState(state: BlockState): FluidState {
         return if (state[waterlogged]) Fluids.WATER.getStill(false)
         else super.getFluidState(state)

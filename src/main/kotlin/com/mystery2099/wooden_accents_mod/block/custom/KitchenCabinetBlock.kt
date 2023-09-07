@@ -18,7 +18,6 @@ import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedLeft
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedRight
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.unifiedWith
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
-import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.minecraft.block.*
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.TextureKey
@@ -59,7 +58,6 @@ class KitchenCabinetBlock(val baseBlock: Block, val topBlock: Block) :
 
     init {
         defaultState = stateManager.defaultState.with(facing, Direction.NORTH).with(open, false)
-        kitchenCabinetBlockEntityTypeBuilder.addBlock(this)
     }
 
     @Deprecated("Deprecated in Java")
@@ -187,8 +185,6 @@ class KitchenCabinetBlock(val baseBlock: Block, val topBlock: Block) :
     companion object {
         val facing: DirectionProperty = Properties.HORIZONTAL_FACING
         val open: BooleanProperty = Properties.OPEN
-        val kitchenCabinetBlockEntityTypeBuilder: FabricBlockEntityTypeBuilder<KitchenCabinetBlockEntity> =
-            FabricBlockEntityTypeBuilder.create(::KitchenCabinetBlockEntity)
         val directionVoxelShapeMap = mapOf(
             Direction.NORTH to AbstractKitchenCounterBlock.NORTH_SHAPE,
             Direction.EAST to AbstractKitchenCounterBlock.NORTH_SHAPE.rotatedLeft,

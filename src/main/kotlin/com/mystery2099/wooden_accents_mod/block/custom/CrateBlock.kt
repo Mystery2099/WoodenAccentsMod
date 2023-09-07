@@ -13,7 +13,6 @@ import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
-import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.client.item.TooltipContext
@@ -270,8 +269,6 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
             VoxelShapeHelper.createCuboidShape(0, 0, 14, 2, 16, 16),
             VoxelShapeHelper.createCuboidShape(1, 1, 1, 15, 15, 15)
         )
-        val crateBlockEntityBuilder: FabricBlockEntityTypeBuilder<CrateBlockEntity> =
-            FabricBlockEntityTypeBuilder.create(::CrateBlockEntity)
         val contents = Identifier("contents")
 
     }
