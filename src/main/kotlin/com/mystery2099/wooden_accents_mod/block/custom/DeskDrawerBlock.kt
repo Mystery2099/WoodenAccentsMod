@@ -1,5 +1,6 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.custom.enums.SidewaysConnectionShape
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomBlockStateProvider
 import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomItemGroupProvider
@@ -8,16 +9,19 @@ import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomTagProvi
 import com.mystery2099.wooden_accents_mod.block_entity.custom.DeskDrawerBlockEntity
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
+import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties
+import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
+import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
 import net.minecraft.block.entity.BlockEntity
-import net.minecraft.data.client.BlockStateModelGenerator
+import net.minecraft.data.client.*
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.mob.PiglinBrain
@@ -43,7 +47,7 @@ import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
-class DeskDrawerBlock(settings: Settings, val baseBlock: Block, val topBlock: Block) :
+class DeskDrawerBlock(settings: Settings, val baseBlock: Block, val edgeBlock: Block) :
     WaterloggableBlockWithEntity(settings), CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>,
     CustomBlockStateProvider {
 
@@ -170,7 +174,95 @@ class DeskDrawerBlock(settings: Settings, val baseBlock: Block, val topBlock: Bl
     }
 
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
+        val textureMap = TextureMap().apply {
+            put(TextureKey.SIDE, baseBlock.textureId)
+            put(TextureKey.EDGE, edgeBlock.textureId)
+        }
 
+        val singleModel = ModModels.deskDrawer.upload(this, textureMap, generator.modelCollector)
+        val leftModel = ModModels.deskDrawerLeft.upload(this, textureMap, generator.modelCollector)
+        val centerModel = ModModels.deskDrawerCenter.upload(this, textureMap, generator.modelCollector)
+        val rightModel = ModModels.deskDrawerRight.upload(this, textureMap, generator.modelCollector)
+
+        generator.blockStateCollector.accept(
+            VariantsBlockStateSupplier.create(this).coordinate(
+                BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, ModProperties.sidewaysConnectionShape).apply {
+                    val northSingleVariant = singleModel.asBlockStateVariant()
+                    val northLeftVariant = leftModel.asBlockStateVariant()
+                    val northCenterVariant = centerModel.asBlockStateVariant()
+                    val northRightVariant = rightModel.asBlockStateVariant()
+
+                    register(Direction.NORTH, SidewaysConnectionShape.SINGLE, northSingleVariant)
+                    register(Direction.NORTH, SidewaysConnectionShape.LEFT, northLeftVariant)
+                    register(Direction.NORTH, SidewaysConnectionShape.CENTER, northCenterVariant)
+                    register(Direction.NORTH, SidewaysConnectionShape.RIGHT, northRightVariant)
+
+                    register(
+                        Direction.EAST, SidewaysConnectionShape.SINGLE, northSingleVariant.withYRotationOf(
+                            VariantSettings.Rotation.R90
+                        )
+                    )
+                    register(
+                        Direction.EAST, SidewaysConnectionShape.LEFT, northLeftVariant.withYRotationOf(
+                            VariantSettings.Rotation.R90
+                        )
+                    )
+                    register(
+                        Direction.EAST, SidewaysConnectionShape.CENTER, northCenterVariant.withYRotationOf(
+                            VariantSettings.Rotation.R90
+                        )
+                    )
+                    register(
+                        Direction.EAST, SidewaysConnectionShape.RIGHT, northRightVariant.withYRotationOf(
+                            VariantSettings.Rotation.R90
+                        )
+                    )
+
+                    register(
+                        Direction.SOUTH, SidewaysConnectionShape.SINGLE, northSingleVariant.withYRotationOf(
+                            VariantSettings.Rotation.R180
+                        )
+                    )
+                    register(
+                        Direction.SOUTH, SidewaysConnectionShape.LEFT, northLeftVariant.withYRotationOf(
+                            VariantSettings.Rotation.R180
+                        )
+                    )
+                    register(
+                        Direction.SOUTH, SidewaysConnectionShape.CENTER, northCenterVariant.withYRotationOf(
+                            VariantSettings.Rotation.R180
+                        )
+                    )
+                    register(
+                        Direction.SOUTH, SidewaysConnectionShape.RIGHT, northRightVariant.withYRotationOf(
+                            VariantSettings.Rotation.R180
+                        )
+                    )
+
+                    register(
+                        Direction.WEST, SidewaysConnectionShape.SINGLE, northSingleVariant.withYRotationOf(
+                            VariantSettings.Rotation.R270
+                        )
+                    )
+                    register(
+                        Direction.WEST, SidewaysConnectionShape.LEFT, northLeftVariant.withYRotationOf(
+                            VariantSettings.Rotation.R270
+                        )
+                    )
+                    register(
+                        Direction.WEST, SidewaysConnectionShape.CENTER, northCenterVariant.withYRotationOf(
+                            VariantSettings.Rotation.R270
+                        )
+                    )
+                    register(
+                        Direction.WEST, SidewaysConnectionShape.RIGHT, northRightVariant.withYRotationOf(
+                            VariantSettings.Rotation.R270
+                        )
+                    )
+
+                }
+            )
+        )
     }
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
