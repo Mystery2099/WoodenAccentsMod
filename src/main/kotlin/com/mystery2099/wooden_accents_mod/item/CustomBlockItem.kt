@@ -9,14 +9,15 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsage
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
 
 class CustomBlockItem(block: Block, settings: Settings) : BlockItem(block, settings) {
 
     val tagFromProvider: TagKey<Block>?
         get() {
-            return if (block is CustomTagProvider) {
-                (block as CustomTagProvider).tag
+            return if (block is CustomTagProvider<*>) {
+                TagKey.of(RegistryKeys.BLOCK, (block as CustomTagProvider<*>).tag.id)
             } else null
         }
 
