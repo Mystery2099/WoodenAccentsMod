@@ -69,8 +69,4 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
     private operator fun TagKey<Block>.plusAssign(block: Block) {
         add(block)
     }
-
-    private operator fun TagKey<Block>.plusAssign(tags: Array<TagKey<Block>>) {
-        tags.map { add(it) }
-    }
 }
