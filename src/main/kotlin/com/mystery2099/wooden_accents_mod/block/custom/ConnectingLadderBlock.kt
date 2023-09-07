@@ -1,6 +1,6 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.mystery2099.wooden_accents_mod.block.custom.enums.ConnectingLadderShape
+import com.mystery2099.wooden_accents_mod.block.custom.enums.SidewaysConnectionShape
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
 import com.mystery2099.wooden_accents_mod.data.ModModels
@@ -70,10 +70,10 @@ class ConnectingLadderBlock(val baseBlock: Block) :
 
     private fun BlockState.withShape(left: Boolean, right: Boolean): BlockState = this.withIfExists(shape, run {
         when {
-            left && right -> ConnectingLadderShape.CENTER
-            left -> ConnectingLadderShape.RIGHT
-            right -> ConnectingLadderShape.LEFT
-            else -> ConnectingLadderShape.SINGLE
+            left && right -> SidewaysConnectionShape.CENTER
+            left -> SidewaysConnectionShape.RIGHT
+            right -> SidewaysConnectionShape.LEFT
+            else -> SidewaysConnectionShape.SINGLE
         }
     })
 
@@ -103,76 +103,76 @@ class ConnectingLadderBlock(val baseBlock: Block) :
         val rightModel = ModModels.connectingLadderRight.upload(this, textureMap, generator.modelCollector)
         generator.blockStateCollector.accept(
             VariantsBlockStateSupplier.create(this).coordinate(
-                BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, ModProperties.connectingLadderShape).apply {
+                BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, ModProperties.sidewaysConnectionShape).apply {
                     val northSingleVariant = singleModel.asBlockStateVariant()
                     val northLeftVariant = leftModel.asBlockStateVariant()
                     val northCenterVariant = centerModel.asBlockStateVariant()
                     val northRightVariant = rightModel.asBlockStateVariant()
 
-                    register(Direction.NORTH, ConnectingLadderShape.SINGLE, northSingleVariant)
-                    register(Direction.NORTH, ConnectingLadderShape.LEFT, northLeftVariant)
-                    register(Direction.NORTH, ConnectingLadderShape.CENTER, northCenterVariant)
-                    register(Direction.NORTH, ConnectingLadderShape.RIGHT, northRightVariant)
+                    register(Direction.NORTH, SidewaysConnectionShape.SINGLE, northSingleVariant)
+                    register(Direction.NORTH, SidewaysConnectionShape.LEFT, northLeftVariant)
+                    register(Direction.NORTH, SidewaysConnectionShape.CENTER, northCenterVariant)
+                    register(Direction.NORTH, SidewaysConnectionShape.RIGHT, northRightVariant)
 
                     register(
-                        Direction.EAST, ConnectingLadderShape.SINGLE, northSingleVariant.withYRotationOf(
+                        Direction.EAST, SidewaysConnectionShape.SINGLE, northSingleVariant.withYRotationOf(
                             VariantSettings.Rotation.R90
                         )
                     )
                     register(
-                        Direction.EAST, ConnectingLadderShape.LEFT, northLeftVariant.withYRotationOf(
+                        Direction.EAST, SidewaysConnectionShape.LEFT, northLeftVariant.withYRotationOf(
                             VariantSettings.Rotation.R90
                         )
                     )
                     register(
-                        Direction.EAST, ConnectingLadderShape.CENTER, northCenterVariant.withYRotationOf(
+                        Direction.EAST, SidewaysConnectionShape.CENTER, northCenterVariant.withYRotationOf(
                             VariantSettings.Rotation.R90
                         )
                     )
                     register(
-                        Direction.EAST, ConnectingLadderShape.RIGHT, northRightVariant.withYRotationOf(
+                        Direction.EAST, SidewaysConnectionShape.RIGHT, northRightVariant.withYRotationOf(
                             VariantSettings.Rotation.R90
-                        )
-                    )
-
-                    register(
-                        Direction.SOUTH, ConnectingLadderShape.SINGLE, northSingleVariant.withYRotationOf(
-                            VariantSettings.Rotation.R180
-                        )
-                    )
-                    register(
-                        Direction.SOUTH, ConnectingLadderShape.LEFT, northLeftVariant.withYRotationOf(
-                            VariantSettings.Rotation.R180
-                        )
-                    )
-                    register(
-                        Direction.SOUTH, ConnectingLadderShape.CENTER, northCenterVariant.withYRotationOf(
-                            VariantSettings.Rotation.R180
-                        )
-                    )
-                    register(
-                        Direction.SOUTH, ConnectingLadderShape.RIGHT, northRightVariant.withYRotationOf(
-                            VariantSettings.Rotation.R180
                         )
                     )
 
                     register(
-                        Direction.WEST, ConnectingLadderShape.SINGLE, northSingleVariant.withYRotationOf(
+                        Direction.SOUTH, SidewaysConnectionShape.SINGLE, northSingleVariant.withYRotationOf(
+                            VariantSettings.Rotation.R180
+                        )
+                    )
+                    register(
+                        Direction.SOUTH, SidewaysConnectionShape.LEFT, northLeftVariant.withYRotationOf(
+                            VariantSettings.Rotation.R180
+                        )
+                    )
+                    register(
+                        Direction.SOUTH, SidewaysConnectionShape.CENTER, northCenterVariant.withYRotationOf(
+                            VariantSettings.Rotation.R180
+                        )
+                    )
+                    register(
+                        Direction.SOUTH, SidewaysConnectionShape.RIGHT, northRightVariant.withYRotationOf(
+                            VariantSettings.Rotation.R180
+                        )
+                    )
+
+                    register(
+                        Direction.WEST, SidewaysConnectionShape.SINGLE, northSingleVariant.withYRotationOf(
                             VariantSettings.Rotation.R270
                         )
                     )
                     register(
-                        Direction.WEST, ConnectingLadderShape.LEFT, northLeftVariant.withYRotationOf(
+                        Direction.WEST, SidewaysConnectionShape.LEFT, northLeftVariant.withYRotationOf(
                             VariantSettings.Rotation.R270
                         )
                     )
                     register(
-                        Direction.WEST, ConnectingLadderShape.CENTER, northCenterVariant.withYRotationOf(
+                        Direction.WEST, SidewaysConnectionShape.CENTER, northCenterVariant.withYRotationOf(
                             VariantSettings.Rotation.R270
                         )
                     )
                     register(
-                        Direction.WEST, ConnectingLadderShape.RIGHT, northRightVariant.withYRotationOf(
+                        Direction.WEST, SidewaysConnectionShape.RIGHT, northRightVariant.withYRotationOf(
                             VariantSettings.Rotation.R270
                         )
                     )
@@ -183,7 +183,7 @@ class ConnectingLadderBlock(val baseBlock: Block) :
     }
 
     companion object {
-        val shape = ModProperties.connectingLadderShape
+        val shape = ModProperties.sidewaysConnectionShape
 
         private val singleShape = VoxelShapeHelper.union(
             VoxelShapeHelper.createCuboidShape(2, 0, 15, 4, 16, 16),
@@ -231,10 +231,10 @@ class ConnectingLadderBlock(val baseBlock: Block) :
             Direction.WEST to rightShape.rotated(VoxelShapeTransformation.ROTATE_RIGHT)
         )
         private val shapeMap = mapOf(
-            ConnectingLadderShape.SINGLE to singleShapeMap,
-            ConnectingLadderShape.CENTER to centerShapeMap,
-            ConnectingLadderShape.LEFT to leftShapeMap,
-            ConnectingLadderShape.RIGHT to rightShapeMap
+            SidewaysConnectionShape.SINGLE to singleShapeMap,
+            SidewaysConnectionShape.CENTER to centerShapeMap,
+            SidewaysConnectionShape.LEFT to leftShapeMap,
+            SidewaysConnectionShape.RIGHT to rightShapeMap
         )
 
     }

@@ -2,7 +2,7 @@ package com.mystery2099.wooden_accents_mod.block.custom.enums
 
 import net.minecraft.util.StringIdentifiable
 
-enum class ConnectingLadderShape(private val string: String) : StringIdentifiable
+enum class SidewaysConnectionShape(private val string: String) : StringIdentifiable
 {
     SINGLE("single"),
     CENTER("center"),
