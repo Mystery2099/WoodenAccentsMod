@@ -2,10 +2,10 @@ package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.custom.enums.SidewaysConnectionShape
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomBlockStateProvider
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomItemGroupProvider
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomRecipeProvider
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomTagProvider
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomBlockStateProvider
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomRecipeProvider
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomTagProvider
 import com.mystery2099.wooden_accents_mod.block_entity.custom.DeskDrawerBlockEntity
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
@@ -15,7 +15,6 @@ import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
-import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
@@ -57,8 +56,6 @@ class DeskDrawerBlock(settings: Settings, val baseBlock: Block, val edgeBlock: B
     init {
         this.defaultState =
             this.stateManager.defaultState.with(facing, Direction.NORTH).withShape(left = false, right = false)
-        blockEntityTypeBuilder.addBlock(this)
-
     }
 
     private fun BlockState.withShape(left: Boolean, right: Boolean): BlockState = this.withIfExists(
@@ -272,7 +269,5 @@ class DeskDrawerBlock(settings: Settings, val baseBlock: Block, val edgeBlock: B
     companion object {
         val facing: DirectionProperty = Properties.HORIZONTAL_FACING
         val shape: EnumProperty<SidewaysConnectionShape> = ModProperties.sidewaysConnectionShape
-        val blockEntityTypeBuilder: FabricBlockEntityTypeBuilder<DeskDrawerBlockEntity> =
-            FabricBlockEntityTypeBuilder.create(::DeskDrawerBlockEntity)
     }
 }

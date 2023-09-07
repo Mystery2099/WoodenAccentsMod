@@ -2,10 +2,10 @@ package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.custom.enums.DeskShape
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomBlockStateProvider
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomItemGroupProvider
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomRecipeProvider
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomTagProvider
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomBlockStateProvider
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomRecipeProvider
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomTagProvider
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
 import com.mystery2099.wooden_accents_mod.data.ModModels

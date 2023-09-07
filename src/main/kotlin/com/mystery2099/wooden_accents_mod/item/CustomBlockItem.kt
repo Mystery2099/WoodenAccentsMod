@@ -1,7 +1,7 @@
 package com.mystery2099.wooden_accents_mod.item
 
 import com.mystery2099.wooden_accents_mod.block.custom.CrateBlock
-import com.mystery2099.wooden_accents_mod.block.custom.interfaces.CustomTagProvider
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomTagProvider
 import net.minecraft.block.Block
 import net.minecraft.entity.ItemEntity
 import net.minecraft.item.BlockItem
