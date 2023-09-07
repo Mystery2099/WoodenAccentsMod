@@ -56,10 +56,11 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
         ModBlockTags.desks += ModBlockTags.deskDrawers
     }
 
-    private fun TagKey<Block>.addAll(vararg tags: TagKey<Block>) = tagBuilder.also { tags.forEach(it::addTag) }
 
     private fun TagKey<Block>.add(tag: TagKey<Block>): FabricTagBuilder = tagBuilder.addTag(tag)
     private fun TagKey<Block>.add(block: Block): FabricTagBuilder = tagBuilder.add(block)
+
+    private fun TagKey<Block>.addAll(vararg tags: TagKey<Block>) = tagBuilder.also { tags.forEach(it::addTag) }
     private fun TagKey<Block>.addAll(vararg blocks: Block) = tagBuilder.also { blocks.forEach(it::add) }
 
     private operator fun TagKey<Block>.plusAssign(tag: TagKey<Block>) {
