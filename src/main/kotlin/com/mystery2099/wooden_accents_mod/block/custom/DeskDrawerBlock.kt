@@ -65,11 +65,14 @@ class DeskDrawerBlock(settings: Settings, val baseBlock: Block, val topBlock: Bl
             else -> SidewaysConnectionShape.SINGLE
         }
     )
+
     private fun BlockState.isDeskDrawer(): Boolean = this isIn tag
+    private fun BlockState.isDesk(): Boolean = this isIn ModBlockTags.desks
 
     private fun BlockState.canConnectTo(other: BlockState): Boolean {
-        return this.isDeskDrawer() && other.isDeskDrawer() && this[facing] == other[facing]
+        return ((this.isDeskDrawer() || this.isDesk()) && (other.isDeskDrawer() || other.isDesk())) && (this[facing] == other[facing])
     }
+
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
         builder.add(facing, shape)
@@ -130,6 +133,7 @@ class DeskDrawerBlock(settings: Settings, val baseBlock: Block, val topBlock: Bl
                 right = state.canConnectTo(rightState)
             )
     }
+
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
         state: BlockState?,
