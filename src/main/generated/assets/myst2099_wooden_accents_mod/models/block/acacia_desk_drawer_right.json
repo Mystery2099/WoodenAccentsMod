@@ -1,7 +1,7 @@
 {
-  "parent": "myst2099_wooden_accents_mod:block/desk_right",
+  "parent": "myst2099_wooden_accents_mod:block/desk_drawer_right",
   "textures": {
-    "side": "minecraft:block/acacia_log",
-    "top": "minecraft:block/stripped_acacia_log"
+    "edge": "minecraft:block/stripped_acacia_log",
+    "side": "minecraft:block/acacia_log"
   }
 }

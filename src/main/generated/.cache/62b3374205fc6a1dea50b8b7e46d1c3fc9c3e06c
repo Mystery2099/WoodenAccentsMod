@@ -1,8 +1,9 @@
-// 1.19.4	2023-09-07T13:27:39.6498255	Wooden Accents Mod/Tags for minecraft:block
+// 1.19.4	2023-09-09T14:30:42.018051	Wooden Accents Mod/Tags for minecraft:block
 a4d1f05e2bfbc3c75b8f16ca3105b5168e2e66e5 data\myst2099_wooden_accents_mod\tags\blocks\support_beams.json
 7aecde9e38b12eaa4c7d42b650fc75c7ae4e9ec1 data\myst2099_wooden_accents_mod\tags\blocks\coffee_tables.json
 06f03d0f0f2e578506057538ab6ed1e74d3a20b0 data\minecraft\tags\blocks\inside_step_sound_blocks.json
-774738e73870eb27f3ffef0ff0af5bcc7c30646b data\myst2099_wooden_accents_mod\tags\blocks\desks.json
+2231791af07343afb0f8ce5915bc18988b36d0f0 data\myst2099_wooden_accents_mod\tags\blocks\desk_drawers.json
+203d8c940fed1f62bb12ce0f8c9d21ce93a81665 data\myst2099_wooden_accents_mod\tags\blocks\desks.json
 f8979157d12ebf274658f98623697859f4d1a7e3 data\myst2099_wooden_accents_mod\tags\blocks\wooden_walls.json
 ef46b330f084c51b9a6617d97d533650cc37763a data\myst2099_wooden_accents_mod\tags\blocks\thick_pillars_connectable.json
 79027587c088d3574137f7c4ae0bd4358e485b74 data\myst2099_wooden_accents_mod\tags\blocks\plank_carpets.json

@@ -641,57 +641,57 @@ object ModBlocks : WoodenAccentsModRegistry {
     ).registerAs("crimson_desk")
 
     //Desk Drawers
-    val oakDeskDrawer = DeskBlock(
+    val oakDeskDrawer = DeskDrawerBlock(
         BlockSettingsUtil.strippedOakSettings,
         Blocks.OAK_LOG,
         Blocks.STRIPPED_OAK_LOG
     ).registerAs("oak_desk_drawer")
-    val spruceDeskDrawer = DeskBlock(
+    val spruceDeskDrawer = DeskDrawerBlock(
         BlockSettingsUtil.strippedSpruceSettings,
         Blocks.SPRUCE_LOG,
         Blocks.STRIPPED_SPRUCE_LOG
     ).registerAs("spruce_desk_drawer")
-    val birchDeskDrawer = DeskBlock(
+    val birchDeskDrawer = DeskDrawerBlock(
         BlockSettingsUtil.strippedBirchSettings,
         Blocks.BIRCH_LOG,
         Blocks.STRIPPED_BIRCH_LOG
     ).registerAs("birch_desk_drawer")
-    val jungleDeskDrawer = DeskBlock(
+    val jungleDeskDrawer = DeskDrawerBlock(
         BlockSettingsUtil.strippedJungleSettings,
         Blocks.JUNGLE_LOG,
         Blocks.STRIPPED_JUNGLE_LOG
     ).registerAs("jungle_desk_drawer")
-    val acaciaDeskDrawer = DeskBlock(
+    val acaciaDeskDrawer = DeskDrawerBlock(
         BlockSettingsUtil.strippedAcaciaSettings,
         Blocks.ACACIA_LOG,
         Blocks.STRIPPED_ACACIA_LOG
     ).registerAs("acacia_desk_drawer")
-    val darkOakDeskDrawer = DeskBlock(
+    val darkOakDeskDrawer = DeskDrawerBlock(
         BlockSettingsUtil.strippedDarkOakSettings,
         Blocks.DARK_OAK_LOG,
         Blocks.STRIPPED_DARK_OAK_LOG
     ).registerAs("dark_oak_desk_drawer")
-    val mangroveDeskDrawer = DeskBlock(
+    val mangroveDeskDrawer = DeskDrawerBlock(
         BlockSettingsUtil.strippedMangroveSettings,
         Blocks.MANGROVE_LOG,
         Blocks.STRIPPED_MANGROVE_LOG
     ).registerAs("mangrove_desk_drawer")
-    val cherryDeskDrawer = DeskBlock(
+    val cherryDeskDrawer = DeskDrawerBlock(
         BlockSettingsUtil.strippedCherrySettings,
         Blocks.CHERRY_LOG,
         Blocks.STRIPPED_CHERRY_LOG
     ).registerAs("cherry_desk_drawer")
-    val bambooDeskDrawer = DeskBlock(
+    val bambooDeskDrawer = DeskDrawerBlock(
         BlockSettingsUtil.strippedBambooBlockSettings,
         Blocks.BAMBOO_BLOCK,
         Blocks.STRIPPED_BAMBOO_BLOCK
     ).registerAs("bamboo_desk_drawer")
-    val warpedDeskDrawer = DeskBlock(
+    val warpedDeskDrawer = DeskDrawerBlock(
         BlockSettingsUtil.strippedWarpedSettings,
         Blocks.WARPED_STEM,
         Blocks.STRIPPED_WARPED_STEM
     ).registerAs("warped_desk_drawer")
-    val crimsonDeskDrawer = DeskBlock(
+    val crimsonDeskDrawer = DeskDrawerBlock(
         BlockSettingsUtil.strippedCrimsonSettings,
         Blocks.CRIMSON_STEM,
         Blocks.STRIPPED_CRIMSON_STEM
