@@ -2,13 +2,13 @@ package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.custom.enums.DeskShape
+import com.mystery2099.wooden_accents_mod.data.ModBlockTags
+import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
+import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomBlockStateProvider
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomRecipeProvider
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomTagProvider
-import com.mystery2099.wooden_accents_mod.data.ModBlockTags
-import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
-import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties
@@ -199,7 +199,7 @@ class DeskBlock(settings: Settings, val baseBlock: Block, val topBlock: Block) :
             VoxelShapeHelper.createCuboidShape(0, 0, 14, 1, 16, 16)
         )
 
-        private val northLeftShape = VoxelShapeHelper.union(
+        val northLeftShape = VoxelShapeHelper.union(
             VoxelShapeHelper.createCuboidShape(0, 15, 0, 15, 16, 16),
             VoxelShapeHelper.createCuboidShape(0, 8, 15, 15, 15, 16),
             VoxelShapeHelper.createCuboidShape(15, 0, 0, 16, 16, 2),
@@ -207,12 +207,12 @@ class DeskBlock(settings: Settings, val baseBlock: Block, val topBlock: Block) :
             VoxelShapeHelper.createCuboidShape(15, 0, 14, 16, 16, 16)
         )
 
-        private val northCenterShape = VoxelShapeHelper.union(
+        val northCenterShape = VoxelShapeHelper.union(
             VoxelShapeHelper.createCuboidShape(0, 15, 0, 16, 16, 16),
             VoxelShapeHelper.createCuboidShape(0, 8, 15, 16, 15, 16)
         )
 
-        private val northRightShape = VoxelShapeHelper.union(
+        val northRightShape = VoxelShapeHelper.union(
             VoxelShapeHelper.createCuboidShape(1, 15, 0, 16, 16, 16),
             VoxelShapeHelper.createCuboidShape(1, 8, 15, 16, 15, 16),
             VoxelShapeHelper.createCuboidShape(0, 0, 0, 1, 16, 2),

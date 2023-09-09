@@ -15,6 +15,10 @@ import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flipped
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedLeft
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedRight
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
@@ -137,13 +141,14 @@ class DeskDrawerBlock(settings: Settings, val edgeBlock: Block, val baseBlock: B
 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
-        state: BlockState?,
+        state: BlockState,
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
-    ): VoxelShape {
-        return super.getOutlineShape(state, world, pos, context)
-    }
+    ): VoxelShape = shapeMap[state[shape]]?.get(state[facing]) ?: super.getOutlineShape(
+        state, world, pos,
+        context
+    )
 
     @Deprecated("Deprecated in Java")
     override fun getRenderType(state: BlockState?): BlockRenderType = BlockRenderType.MODEL
@@ -166,9 +171,7 @@ class DeskDrawerBlock(settings: Settings, val edgeBlock: Block, val baseBlock: B
         return state.rotate(mirror.getRotation(state[facing]))
     }
 
-    override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
-        return DeskDrawerBlockEntity(pos, state)
-    }
+    override fun createBlockEntity(pos: BlockPos, state: BlockState) = DeskDrawerBlockEntity(pos, state)
 
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
         val textureMap = TextureMap().apply {
@@ -269,5 +272,74 @@ class DeskDrawerBlock(settings: Settings, val edgeBlock: Block, val baseBlock: B
     companion object {
         val facing: DirectionProperty = Properties.HORIZONTAL_FACING
         val shape: EnumProperty<SidewaysConnectionShape> = ModProperties.sidewaysConnectionShape
+        private val nonSingleShape = VoxelShapeHelper.union(
+            VoxelShapeHelper.createCuboidShape(1, 1, 1, 15, 15, 16),
+            VoxelShapeHelper.createCuboidShape(2, 9, 0, 14, 14, 1),
+            VoxelShapeHelper.createCuboidShape(6, 11, -1, 11, 12, 0),
+            VoxelShapeHelper.createCuboidShape(6, 4, -1, 11, 5, 0),
+            VoxelShapeHelper.createCuboidShape(2, 2, 0, 14, 7, 1)
+        )
+        private val leftLegsShape = VoxelShapeHelper.union(
+            VoxelShapeHelper.createCuboidShape(1, 0, 1, 2, 1, 2),
+            VoxelShapeHelper.createCuboidShape(1, 0, 15, 2, 1, 16)
+        )
+        private val rightLegsShape = VoxelShapeHelper.union(
+            VoxelShapeHelper.createCuboidShape(14, 0, 1, 15, 1, 2),
+            VoxelShapeHelper.createCuboidShape(14, 0, 15, 15, 1, 16)
+        )
+
+        private val northSingleShape = VoxelShapeHelper.union(
+            VoxelShapeHelper.createCuboidShape(0, 15, 0, 16, 16, 16),
+            VoxelShapeHelper.createCuboidShape(1, 1, 1, 15, 15, 15),
+            VoxelShapeHelper.createCuboidShape(2, 2, 0, 14, 7, 1),
+            VoxelShapeHelper.createCuboidShape(2, 9, 0, 14, 14, 1),
+            VoxelShapeHelper.createCuboidShape(6, 11, -1, 11, 12, 0),
+            VoxelShapeHelper.createCuboidShape(6, 4, -1, 11, 5, 0),
+            VoxelShapeHelper.createCuboidShape(1, 0, 1, 2, 1, 2),
+            VoxelShapeHelper.createCuboidShape(14, 0, 1, 15, 1, 2),
+            VoxelShapeHelper.createCuboidShape(14, 0, 14, 15, 1, 15),
+            VoxelShapeHelper.createCuboidShape(1, 0, 14, 2, 1, 15)
+        )
+
+        private val northCenterShape = VoxelShapeHelper.union(
+            nonSingleShape, leftLegsShape, rightLegsShape, DeskBlock.northCenterShape
+        )
+        private val northLeftShape = VoxelShapeHelper.union(
+            nonSingleShape, leftLegsShape, DeskBlock.northLeftShape
+        )
+        private val northRightShape = VoxelShapeHelper.union(
+            nonSingleShape, rightLegsShape, DeskBlock.northRightShape
+        )
+
+        private val singleShapeMap = mapOf(
+            Direction.NORTH to northSingleShape,
+            Direction.EAST to northSingleShape.rotatedLeft,
+            Direction.SOUTH to northSingleShape.flipped,
+            Direction.WEST to northSingleShape.rotatedRight
+        )
+        private val centerShapeMap = mapOf(
+            Direction.NORTH to northCenterShape,
+            Direction.EAST to northCenterShape.rotatedLeft,
+            Direction.SOUTH to northCenterShape.flipped,
+            Direction.WEST to northCenterShape.rotatedRight
+        )
+        private val leftShapeMap = mapOf(
+            Direction.NORTH to northLeftShape,
+            Direction.EAST to northLeftShape.rotatedLeft,
+            Direction.SOUTH to northLeftShape.flipped,
+            Direction.WEST to northLeftShape.rotatedRight
+        )
+        private val rightShapeMap = mapOf(
+            Direction.NORTH to northRightShape,
+            Direction.EAST to northRightShape.rotatedLeft,
+            Direction.SOUTH to northRightShape.flipped,
+            Direction.WEST to northRightShape.rotatedRight
+        )
+        private val shapeMap = mapOf(
+            SidewaysConnectionShape.SINGLE to singleShapeMap,
+            SidewaysConnectionShape.CENTER to centerShapeMap,
+            SidewaysConnectionShape.LEFT to leftShapeMap,
+            SidewaysConnectionShape.RIGHT to rightShapeMap,
+        )
     }
 }
