@@ -4,17 +4,17 @@ import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asBlockModelId
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.toIdentifier
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
-import com.mystery2099.wooden_accents_mod.block.custom.enums.CoffeeTableType
+import com.mystery2099.wooden_accents_mod.block.custom.enums.CoffeeTableTypes
 import com.mystery2099.wooden_accents_mod.block.defaultItemStack
 import com.mystery2099.wooden_accents_mod.block.isOf
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.data.generation.ModelDataGen
-import com.mystery2099.wooden_accents_mod.data.generation.interfaces.*
 import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.customGroup
 import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.data.generation.conditionally
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.*
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
@@ -75,13 +75,13 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
     override val tag: TagKey<Block> = ModBlockTags.coffeeTables
     override val itemGroup = ModItemGroups.decorations
     private val BlockState.isTall: Boolean
-        get() = getOrEmpty(type) == Optional.of(CoffeeTableType.TALL)
+        get() = getOrEmpty(type) == Optional.of(CoffeeTableTypes.TALL)
     override val variantItemGroupStack: ItemStack
         get() = this.defaultItemStack.apply {
-            orCreateNbt.setType(CoffeeTableType.TALL)
+            orCreateNbt.setType(CoffeeTableTypes.TALL)
         }
     private val NbtCompound.isTall: Boolean
-        get() = this.getString("coffee_table_type") == CoffeeTableType.TALL.asString()
+        get() = this.getString("coffee_table_type") == CoffeeTableTypes.TALL.asString()
 
     init {
         defaultState = defaultState.setShort().asSingle().with(waterlogged, false)
@@ -98,17 +98,17 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
         )
     }
 
-    private fun NbtCompound.setTall() = this.setType(CoffeeTableType.TALL)
-    private fun NbtCompound.setType(type: CoffeeTableType) =
+    private fun NbtCompound.setTall() = this.setType(CoffeeTableTypes.TALL)
+    private fun NbtCompound.setType(type: CoffeeTableTypes) =
         apply { putString("coffee_table_type", type.asString()) }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
         val nbt = ctx.stack.nbt
         val state = ctx.world.getBlockState(ctx.blockPos)
-        return if (state.isOf(this) && nbt?.getString("coffee_table_type") != CoffeeTableType.TALL.asString()) state.setTall()
+        return if (state.isOf(this) && nbt?.getString("coffee_table_type") != CoffeeTableTypes.TALL.asString()) state.setTall()
         else defaultState.setDirections(ctx.world, ctx.blockPos).run {
             nbt?.let {
-                if (it.isTall) with(type, CoffeeTableType.TALL) else this
+                if (it.isTall) with(type, CoffeeTableTypes.TALL) else this
             } ?: this
         }
     }
@@ -120,8 +120,8 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
             .with(west, false)
     }
 
-    private fun BlockState.setShort(): BlockState = this.with(type, CoffeeTableType.SHORT)
-    private fun BlockState.setTall(): BlockState = this.with(type, CoffeeTableType.TALL)
+    private fun BlockState.setShort(): BlockState = this.with(type, CoffeeTableTypes.SHORT)
+    private fun BlockState.setTall(): BlockState = this.with(type, CoffeeTableTypes.TALL)
     private fun BlockState.setDirections(world: WorldAccess, pos: BlockPos): BlockState {
         return with(north, world.checkNorthOf(pos)).with(east, world.checkEastOf(pos))
             .with(south, world.checkSouthOf(pos)).with(west, world.checkWestOf(pos))
@@ -169,7 +169,7 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
         pos: BlockPos?,
         context: ShapeContext?
     ): VoxelShape {
-        val isTall: Boolean = state[type] == CoffeeTableType.TALL
+        val isTall: Boolean = state[type] == CoffeeTableTypes.TALL
         val hasNorthConnection = state[north]
         val hasSouthConnection = state[south]
         val hasEastConnection = state[east]
@@ -270,8 +270,8 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
         val shortNorthEastVariant = shortLegModel.asBlockStateVariant()
         val tallNorthEastVariant = tallLegModel.asBlockStateVariant()
 
-        val isTall = When.create().set(ModProperties.coffeeTableType, CoffeeTableType.TALL)
-        val isShort = When.create().set(ModProperties.coffeeTableType, CoffeeTableType.SHORT)
+        val isTall = When.create().set(ModProperties.coffeeTableType, CoffeeTableTypes.TALL)
+        val isShort = When.create().set(ModProperties.coffeeTableType, CoffeeTableTypes.SHORT)
 
         mapOf(
             isShort to BlockStateVariant().putModel(shortTopModel),
@@ -288,7 +288,7 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
     }
 
     override fun getLootTableBuilder(provider: FabricBlockLootTableProvider): LootTable.Builder {
-        val tallStatePredicate = StatePredicate.Builder.create().exactMatch(type, CoffeeTableType.TALL)
+        val tallStatePredicate = StatePredicate.Builder.create().exactMatch(type, CoffeeTableTypes.TALL)
         val whenBlockIsTall = BlockStatePropertyLootCondition.builder(this).properties(tallStatePredicate)
         val nbt = NbtCompound().setTall()
         return LootTable.builder().pool(
