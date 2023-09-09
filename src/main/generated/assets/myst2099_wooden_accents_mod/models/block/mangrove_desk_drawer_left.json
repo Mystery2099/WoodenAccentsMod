@@ -1,7 +1,7 @@
 {
   "parent": "myst2099_wooden_accents_mod:block/desk_drawer_left",
   "textures": {
-    "edge": "minecraft:block/stripped_mangrove_log",
-    "side": "minecraft:block/mangrove_log"
+    "edge": "minecraft:block/mangrove_log",
+    "side": "minecraft:block/stripped_mangrove_log"
   }
 }

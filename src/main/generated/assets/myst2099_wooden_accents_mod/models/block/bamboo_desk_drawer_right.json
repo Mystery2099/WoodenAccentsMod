@@ -1,7 +1,7 @@
 {
   "parent": "myst2099_wooden_accents_mod:block/desk_drawer_right",
   "textures": {
-    "edge": "minecraft:block/stripped_bamboo_block",
-    "side": "minecraft:block/bamboo_block"
+    "edge": "minecraft:block/bamboo_block",
+    "side": "minecraft:block/stripped_bamboo_block"
   }
 }

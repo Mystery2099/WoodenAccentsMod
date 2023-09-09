@@ -2,14 +2,14 @@ package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.custom.enums.SidewaysConnectionShape
-import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomBlockStateProvider
-import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
-import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomRecipeProvider
-import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomTagProvider
 import com.mystery2099.wooden_accents_mod.block_entity.custom.DeskDrawerBlockEntity
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
 import com.mystery2099.wooden_accents_mod.data.ModModels
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomBlockStateProvider
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomRecipeProvider
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomTagProvider
 import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties
@@ -46,7 +46,7 @@ import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
-class DeskDrawerBlock(settings: Settings, val baseBlock: Block, val edgeBlock: Block) :
+class DeskDrawerBlock(settings: Settings, val edgeBlock: Block, val baseBlock: Block) :
     WaterloggableBlockWithEntity(settings), CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>,
     CustomBlockStateProvider {
 

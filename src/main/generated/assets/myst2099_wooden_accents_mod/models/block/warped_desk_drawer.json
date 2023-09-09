@@ -1,7 +1,7 @@
 {
   "parent": "myst2099_wooden_accents_mod:block/desk_drawer",
   "textures": {
-    "edge": "minecraft:block/stripped_warped_stem",
-    "side": "minecraft:block/warped_stem"
+    "edge": "minecraft:block/warped_stem",
+    "side": "minecraft:block/stripped_warped_stem"
   }
 }
