@@ -42,9 +42,12 @@ object VoxelShapeHelper {
     val VoxelShape.rotatedRight: VoxelShape
         get() = this.rotated(VoxelShapeTransformation.ROTATE_RIGHT)
 
+    //Combines 2 VoxelShapes together and returns the new shape
+    //Basically VoxelShapes.union(this, otherShape) but in extension function form
     infix fun VoxelShape.unifiedWith(otherShape: VoxelShape): VoxelShape = VoxelShapes.union(this, otherShape)
     fun VoxelShape.unifiedWith(vararg otherShapes: VoxelShape): VoxelShape = union(this, *otherShapes)
     infix operator fun VoxelShape.plus(otherShape: VoxelShape): VoxelShape = this.unifiedWith(otherShape)
+
     fun setMaxHeight(source: VoxelShape, height: Double): VoxelShape {
         val result = AtomicReference(VoxelShapes.empty())
         source.forEachBox { minX: Double, minY: Double, minZ: Double, maxX: Double, _: Double, maxZ: Double ->
@@ -125,11 +128,10 @@ enum class VoxelShapeTransformation {
 
 class VoxelShapeModifier(private var baseShape: VoxelShape) {
     infix fun VoxelShape.case(condition: Boolean): VoxelShape {
-        if (condition) baseShape += this
-        return baseShape
+        return append(this, condition)
     }
-    infix fun append(shape: VoxelShape): VoxelShape {
-        baseShape += shape
+    fun append(shape: VoxelShape, condition: Boolean = true): VoxelShape {
+        if (condition) baseShape += shape
         return baseShape
     }
 }
