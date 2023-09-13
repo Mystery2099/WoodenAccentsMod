@@ -65,7 +65,8 @@ object ModBlockTags {
         blockTagWithMatchingItemTag[this] = TagKey.of(RegistryKeys.ITEM, this.id)
     }
 
-    infix fun BlockState?.isIn(tag: TagKey<Block>): Boolean = this?.isIn(tag) ?: false
-    infix operator fun TagKey<Block>.contains(block: BlockState?) = block.isIn(this)
+    infix operator fun TagKey<Block>?.contains(block: BlockState?) = block?.isIn(this) ?: false
+    infix operator fun TagKey<Block>.contains(block: BlockState?) = block?.isIn(this) ?: false
+    infix operator fun TagKey<Block>.contains(block: BlockState) = block.isIn(this)
 
 }
