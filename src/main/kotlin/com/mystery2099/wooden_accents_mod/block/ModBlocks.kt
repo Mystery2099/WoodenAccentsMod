@@ -6,7 +6,10 @@ import com.mystery2099.wooden_accents_mod.block.custom.*
 import com.mystery2099.wooden_accents_mod.item.CustomBlockItem
 import com.mystery2099.wooden_accents_mod.util.BlockSettingsUtil
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
-import net.minecraft.block.*
+import net.minecraft.block.Block
+import net.minecraft.block.Blocks
+import net.minecraft.block.FenceGateBlock
+import net.minecraft.block.WoodType
 import net.minecraft.data.client.ModelIds
 import net.minecraft.data.client.TextureMap
 import net.minecraft.item.Item
@@ -749,6 +752,5 @@ object ModBlocks : WoodenAccentsModRegistry {
     }
 }
 
-infix fun BlockState?.isOf(block: Block): Boolean = this?.isOf(block) ?: false
 inline val Block.defaultItemStack: ItemStack
     get() = this.asItem().defaultStack
