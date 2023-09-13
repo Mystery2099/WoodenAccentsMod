@@ -73,20 +73,20 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
     companion object {
         fun createCoffeeTableItemModel(coffeeTableBlock: CoffeeTableBlock, generator: BlockStateModelGenerator) {
+            val textureMap = mapOf(
+                TextureKey.TOP to coffeeTableBlock.topBlock.textureId,
+                ModModels.legs to coffeeTableBlock.baseBlock.textureId
+            )
             val tallModel = ModModels.coffeeTableTallInventory.upload(
                 coffeeTableBlock.itemModelId.withSuffixedPath("_tall"),
                 TextureMap().apply {
-                    put(TextureKey.TOP, coffeeTableBlock.topBlock.textureId)
-                    put(ModModels.legs, coffeeTableBlock.baseBlock.textureId)
+                    textureMap.forEach {
+                        put(it.key, it.value)
+                    }
                 },
                 generator.modelCollector
             )
-            val jsonObject = ModModels.coffeeTableInventory.createJson(
-                coffeeTableBlock.itemModelId, mapOf(
-                    TextureKey.TOP to coffeeTableBlock.topBlock.textureId,
-                    ModModels.legs to coffeeTableBlock.baseBlock.textureId
-                )
-            )
+            val jsonObject = ModModels.coffeeTableInventory.createJson(coffeeTableBlock.itemModelId, textureMap)
             val jsonArray = JsonArray()
             val jsonObject2 = JsonObject()
             val jsonObject3 = JsonObject()
