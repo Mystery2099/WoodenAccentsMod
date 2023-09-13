@@ -7,7 +7,7 @@ import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemG
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomRecipeProvider
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomTagProvider
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
-import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
+import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.isIn
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups

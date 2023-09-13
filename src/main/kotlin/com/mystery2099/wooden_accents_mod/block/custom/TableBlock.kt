@@ -5,20 +5,21 @@ import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.toIdentifier
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.itemModelId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
-import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomBlockStateProvider
-import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
-import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomRecipeProvider
-import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomTagProvider
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.customGroup
 import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.requires
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomBlockStateProvider
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomRecipeProvider
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomTagProvider
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
+import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.withProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.appendShapes
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.createCuboidShape
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flipped
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.plus
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedLeft
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedRight
 import com.mystery2099.wooden_accents_mod.util.WhenUtil
@@ -51,16 +52,17 @@ class TableBlock(val baseBlock: Block, private val topBlock: Block) :
     override val tag: TagKey<Block> = ModBlockTags.tables
 
     init {
-        defaultState = stateManager.defaultState.run {
-            with(north, false).with(east, false).with(south, false).with(west, false).with(waterlogged, false)
+        defaultState = stateManager.defaultState.withProperties {
+            north setTo false
+            east setTo false
+            south setTo false
+            west setTo false
         }
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
-        builder.add(
-            north, east, south, west
-        )
+        builder.add(north, east, south, west)
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
@@ -73,8 +75,12 @@ class TableBlock(val baseBlock: Block, private val topBlock: Block) :
     }
 
     private fun BlockState.withDirections(north: Boolean, east: Boolean, south: Boolean, west: Boolean): BlockState {
-        return this.with(TableBlock.north, north).with(TableBlock.east, east).with(TableBlock.south, south)
-            .with(TableBlock.west, west)
+        return this.withProperties {
+            TableBlock.north setTo north
+            TableBlock.east setTo east
+            TableBlock.south setTo south
+            TableBlock.west setTo west
+        }
     }
 
     private fun WorldAccess.checkDirection(pos: BlockPos, direction: Direction): Boolean {
@@ -116,21 +122,20 @@ class TableBlock(val baseBlock: Block, private val topBlock: Block) :
         val south = state[south]
         val west = state[west]
 
-        var shape = topShape
+        return topShape.appendShapes {
+            singleLegShape case (!north && !east && !south && !west)
+            //ends
+            northEndLegShape case (!north && !east && south && !west)
+            eastEndLegShape case (!north && !east && !south && west)
+            southEndLegShape case (north && !east && !south && !west)
+            westEndLegShape case (!north && east && !south && !west)
 
-        if (!north && !east && !south && !west) shape += singleLegShape
-        //Ends
-        if (!north && !east && south && !west) shape += northEndLegShape
-        if (!north && !east && !south && west) shape += eastEndLegShape
-        if (north && !east && !south && !west) shape += southEndLegShape
-        if (!north && east && !south && !west) shape += westEndLegShape
-        //Corners
-        if (!north && !east && south && west) shape += northEastLegShape
-        if (!north && east && south && !west) shape += northWestLegShape
-        if (north && !east && !south && west) shape += southEastLegShape
-        if (north && east && !south && !west) shape += southWestLegShape
-
-        return shape
+            //corners
+            northEastLegShape case (!north && !east && south && west)
+            northWestLegShape case (!north && east && south && !west)
+            southEastLegShape case (north && !east && !south && west)
+            southWestLegShape case (north && east && !south && !west)
+        }
     }
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {

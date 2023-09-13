@@ -136,7 +136,7 @@ class KitchenCabinetBlock(val baseBlock: Block, val topBlock: Block) :
 
     @Deprecated("Deprecated in Java")
     override fun rotate(state: BlockState, rotation: BlockRotation): BlockState = state.withProperties {
-        facing setTo  rotation.rotate(state[facing])
+        facing setTo rotation.rotate(state[facing])
     }
 
     @Deprecated("Deprecated in Java")

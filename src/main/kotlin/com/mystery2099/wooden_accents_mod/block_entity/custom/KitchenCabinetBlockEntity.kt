@@ -68,9 +68,7 @@ class KitchenCabinetBlockEntity(pos: BlockPos, state: BlockState) :
         }
     }
 
-    override fun size(): Int {
-        return 27
-    }
+    override fun size(): Int = 27
 
     override fun getInvStackList(): DefaultedList<ItemStack> = inventory
 
