@@ -61,11 +61,8 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
                     ), modelCollector
                 )
             }
-            ModBlocks.blocks.forEach {
-                when {
-                    it is CustomBlockStateProvider ->
-                        it.generateBlockStateModels(generator = blockStateModelGenerator)
-                }
+            ModBlocks.blocks.filterIsInstance<CustomBlockStateProvider>().forEach {
+                it.generateBlockStateModels(generator = blockStateModelGenerator)
             }
         }
     }
