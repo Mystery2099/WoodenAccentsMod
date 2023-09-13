@@ -1,6 +1,7 @@
 package com.mystery2099.wooden_accents_mod.block.custom;
 
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags;
+import com.mystery2099.wooden_accents_mod.util.BlockStateUtil;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.StairShape;
@@ -41,7 +42,7 @@ public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableB
 
     //Outer Corners
     private static final VoxelShape NORTH_EAST_OUTER = Block.createCuboidShape(0, 0, 2, 14, 14, 16);
-    private static final VoxelShape NORTH_WEST_OUTER = NORTH_EAST_OUTER.offset((double) 2/16, 0, 0);
+    private static final VoxelShape NORTH_WEST_OUTER = NORTH_EAST_OUTER.offset((double) 2 / 16, 0, 0);
     private static final VoxelShape SOUTH_EAST_OUTER = NORTH_EAST_OUTER.offset(0, 0, -((double) 2 / 16));
     private static final VoxelShape SOUTH_WEST_OUTER = NORTH_WEST_OUTER.offset(0, 0, -((double) 2 / 16));
     private final Block topBlock, baseBlock;
@@ -50,7 +51,11 @@ public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableB
         super(FabricBlockSettings.copyOf(baseBlock));
         this.baseBlock = baseBlock;
         this.topBlock = topBlock;
-        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(SHAPE, StairShape.STRAIGHT));
+        this.setDefaultState(BlockStateUtil.withProperties(getDefaultState(), c -> {
+            c.set(FACING, Direction.NORTH);
+            c.set(SHAPE, StairShape.STRAIGHT);
+            return null;
+        }));
     }
 
     private static StairShape getCounterShape(BlockState state, BlockView world, BlockPos pos) {
@@ -73,6 +78,7 @@ public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableB
         }
         return StairShape.STRAIGHT;
     }
+
     public static boolean isCounter(BlockState state) {
         return canConnectTo(state);
     }
@@ -140,7 +146,6 @@ public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableB
     public BlockState getStateForNeighborUpdate(@NotNull BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
         var stateForNeighborUpdate = super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
         if (direction.getAxis().isHorizontal()) {
-            assert stateForNeighborUpdate != null;
             return stateForNeighborUpdate.with(SHAPE, getCounterShape(state, world, pos));
         }
         return stateForNeighborUpdate;
