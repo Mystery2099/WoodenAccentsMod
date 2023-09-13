@@ -263,7 +263,7 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
                         .asBlockModelId(),
                 )
             )
-            createCoffeeTableItemModel(this, generator)
+            generateItemModel(this, generator)
         }
     }
 
@@ -292,7 +292,7 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
             WhenUtil.notSouthWest and isTall to tallNorthEastVariant.withYRotationOf(VariantSettings.Rotation.R180)
         ).forEach(::with)
     }
-    fun createCoffeeTableItemModel(coffeeTableBlock: CoffeeTableBlock, generator: BlockStateModelGenerator) {
+    fun generateItemModel(coffeeTableBlock: CoffeeTableBlock, generator: BlockStateModelGenerator) {
         val textureMap = mapOf(
             TextureKey.TOP to coffeeTableBlock.topBlock.textureId,
             ModModels.legs to coffeeTableBlock.baseBlock.textureId
