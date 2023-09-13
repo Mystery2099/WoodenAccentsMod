@@ -8,10 +8,11 @@ import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomRecip
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomTagProvider
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.isIn
+import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.withProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.uvLock
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withXRotationOf
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.plus
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.appendShapes
 import com.mystery2099.wooden_accents_mod.util.WhenUtil
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
@@ -52,8 +53,9 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
     override val tag: TagKey<Block> = ModBlockTags.pillars
 
     init {
-        defaultState = defaultState.run {
-            with(up, false).with(down, false)
+        defaultState = defaultState.withProperties {
+            up setTo false
+            down setTo false
         }
     }
 
@@ -77,9 +79,10 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         world = world,
         pos = pos!!,
         neighborPos = neighborPos
-    ).run {
-        with(up, canConnect(world, pos, Direction.UP)).with(down, canConnect(world, pos, Direction.DOWN))
-    } ?: defaultState
+    ).withProperties {
+        up setTo canConnect(world, pos, Direction.UP)
+        down setTo canConnect(world, pos, Direction.DOWN)
+    }
 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
@@ -87,19 +90,19 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
-    ): VoxelShape {
-        var newShape = shape.centerShape
-        if (!state[up]) newShape += shape.topShape
-        if (!state[down]) newShape += shape.baseShape
-        return newShape
+    ): VoxelShape = shape.centerShape.appendShapes {
+        shape.topShape case !state[up]
+        shape.baseShape case !state[down]
     }
 
 
-    override fun getPlacementState(ctx: ItemPlacementContext): BlockState = super.getPlacementState(ctx)?.run {
-        val world = ctx.world
-        val pos = ctx.blockPos
-        with(up, canConnect(world, pos, Direction.UP)).with(down, canConnect(world, pos, Direction.DOWN))
-    } ?: defaultState
+    override fun getPlacementState(ctx: ItemPlacementContext): BlockState =
+        super.getPlacementState(ctx).withProperties {
+            val world = ctx.world
+            val pos = ctx.blockPos
+            up setTo canConnect(world, pos, Direction.UP)
+            down setTo canConnect(world, pos, Direction.DOWN)
+        }
 
     private fun canConnect(world: WorldAccess, pos: BlockPos, direction: Direction): Boolean {
         val otherState = world.getBlockState(pos.offset(direction))
