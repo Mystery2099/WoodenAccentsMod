@@ -9,7 +9,7 @@ import net.minecraft.sound.BlockSoundGroup
 
 object BlockSettingsUtil {
     //Wood
-    val oakSettings = FabricBlockSettings.of(Material.WOOD, MapColor.SPRUCE_BROWN).apply {
+    val oakSettings: FabricBlockSettings = FabricBlockSettings.of(Material.WOOD, MapColor.SPRUCE_BROWN).apply {
         strength(2.0f)
         sounds(BlockSoundGroup.WOOD)
     }
@@ -40,7 +40,7 @@ object BlockSettingsUtil {
     val strippedBambooBlockSettings = bambooBlockSettings.copyWithColor(MapColor.YELLOW)
 
     //Stems
-    val warpedSettings = FabricBlockSettings.of(Material.NETHER_WOOD, MapColor.DARK_AQUA).apply {
+    val warpedSettings: FabricBlockSettings = FabricBlockSettings.of(Material.NETHER_WOOD, MapColor.DARK_AQUA).apply {
         strength(2.0f)
         sounds(BlockSoundGroup.NETHER_STEM)
     }

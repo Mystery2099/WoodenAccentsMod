@@ -58,7 +58,7 @@ import java.util.function.Consumer
  * @property topBlock
  * @constructor Create Kitchen cabinet block from the block settings of another block
  */
-class KitchenCabinetBlock(val baseBlock: Block, val topBlock: Block) :
+class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
     BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
 
@@ -108,7 +108,11 @@ class KitchenCabinetBlock(val baseBlock: Block, val topBlock: Block) :
         super.onStateReplaced(state, world, pos, newState, moved)
     }
 
-    @Deprecated("Deprecated in Java")
+    @Deprecated("Deprecated in Java", ReplaceWith(
+        "(world.getBlockEntity(pos) as? KitchenCabinetBlockEntity)?.also { it.tick() }",
+        "com.mystery2099.wooden_accents_mod.block_entity.custom.KitchenCabinetBlockEntity"
+    )
+    )
     override fun scheduledTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
         (world.getBlockEntity(pos) as? KitchenCabinetBlockEntity)?.also {
             it.tick()
@@ -117,7 +121,7 @@ class KitchenCabinetBlock(val baseBlock: Block, val topBlock: Block) :
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = KitchenCabinetBlockEntity(pos, state)
 
-    @Deprecated("Deprecated in Java")
+    @Deprecated("Deprecated in Java", ReplaceWith("BlockRenderType.MODEL", "net.minecraft.block.BlockRenderType"))
     override fun getRenderType(state: BlockState?): BlockRenderType = BlockRenderType.MODEL
     override fun onPlaced(
         world: World,
@@ -133,20 +137,34 @@ class KitchenCabinetBlock(val baseBlock: Block, val topBlock: Block) :
         }
     }
 
-    @Deprecated("Deprecated in Java")
+    @Deprecated("Deprecated in Java", ReplaceWith("true"))
     override fun hasComparatorOutput(state: BlockState?): Boolean = true
 
-    @Deprecated("Deprecated in Java")
+    @Deprecated("Deprecated in Java", ReplaceWith(
+        "ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos))",
+        "net.minecraft.screen.ScreenHandler"
+    )
+    )
     override fun getComparatorOutput(state: BlockState?, world: World, pos: BlockPos?): Int {
         return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos))
     }
 
-    @Deprecated("Deprecated in Java")
+    @Deprecated("Deprecated in Java", ReplaceWith(
+        "state.withProperties { facing setTo rotation.rotate(state[facing]) }",
+        "com.mystery2099.wooden_accents_mod.util.BlockStateUtil.withProperties",
+        "com.mystery2099.wooden_accents_mod.block.custom.KitchenCabinetBlock.Companion.facing",
+        "com.mystery2099.wooden_accents_mod.block.custom.KitchenCabinetBlock.Companion.facing"
+    )
+    )
     override fun rotate(state: BlockState, rotation: BlockRotation): BlockState = state.withProperties {
         facing setTo rotation.rotate(state[facing])
     }
 
-    @Deprecated("Deprecated in Java")
+    @Deprecated("Deprecated in Java", ReplaceWith(
+        "state.apply { rotate(mirror.getRotation(get(facing))) }",
+        "com.mystery2099.wooden_accents_mod.block.custom.KitchenCabinetBlock.Companion.facing"
+    )
+    )
     override fun mirror(state: BlockState, mirror: BlockMirror): BlockState = state.apply {
         rotate(mirror.getRotation(get(facing)))
     }

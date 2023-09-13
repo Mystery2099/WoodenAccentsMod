@@ -46,7 +46,7 @@ import java.util.function.Consumer
  *
  * @param settings
  */
-class DeskBlock(settings: Settings, val baseBlock: Block, val topBlock: Block) :
+class DeskBlock(settings: Settings, val baseBlock: Block, private val topBlock: Block) :
     AbstractWaterloggableBlock(settings), CustomItemGroupProvider, CustomRecipeProvider, CustomBlockStateProvider,
     CustomTagProvider<Block> {
 

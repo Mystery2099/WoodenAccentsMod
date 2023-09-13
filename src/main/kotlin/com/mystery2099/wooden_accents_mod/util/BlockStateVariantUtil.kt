@@ -9,7 +9,7 @@ object BlockStateVariantUtil {
     infix fun BlockStateVariant.unifiedWith(other: BlockStateVariant): BlockStateVariant =
         BlockStateVariant.union(this, other)
 
-    fun BlockStateVariant.unifiedWith(vararg others: BlockStateVariant) = others.fold(this, BlockStateVariant::union)
+    fun BlockStateVariant.unifiedWith(vararg others: BlockStateVariant): BlockStateVariant = others.fold(this, BlockStateVariant::union)
     infix fun BlockStateVariant.plus(other: BlockStateVariant) = unifiedWith(other)
 
     infix fun BlockStateVariant.putModel(model: Identifier): BlockStateVariant = this.put(VariantSettings.MODEL, model)

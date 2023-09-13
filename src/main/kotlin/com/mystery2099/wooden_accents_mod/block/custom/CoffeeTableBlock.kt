@@ -78,7 +78,7 @@ import java.util.function.Supplier
  * @property topBlock
  * @constructor Create Coffee table block from the block settings of another block
  */
-class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
+class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
     AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider,
     CustomLootTableProvider {

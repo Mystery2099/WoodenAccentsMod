@@ -60,7 +60,7 @@ import java.util.function.Consumer
  *
  * @param settings
  */
-class DeskDrawerBlock(settings: Settings, val edgeBlock: Block, val baseBlock: Block) :
+class DeskDrawerBlock(settings: Settings, private val edgeBlock: Block, val baseBlock: Block) :
     WaterloggableBlockWithEntity(settings), CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>,
     CustomBlockStateProvider {
 
@@ -161,23 +161,36 @@ class DeskDrawerBlock(settings: Settings, val edgeBlock: Block, val baseBlock: B
         context
     )
 
-    @Deprecated("Deprecated in Java")
+    @Deprecated("Deprecated in Java", ReplaceWith("BlockRenderType.MODEL", "net.minecraft.block.BlockRenderType"))
     override fun getRenderType(state: BlockState?): BlockRenderType = BlockRenderType.MODEL
 
-    @Deprecated("Deprecated in Java")
+    @Deprecated("Deprecated in Java", ReplaceWith("true"))
     override fun hasComparatorOutput(state: BlockState) = true
 
-    @Deprecated("Deprecated in Java")
+    @Deprecated("Deprecated in Java", ReplaceWith(
+        "ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos))",
+        "net.minecraft.screen.ScreenHandler"
+    )
+    )
     override fun getComparatorOutput(state: BlockState, world: World, pos: BlockPos): Int {
         return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos))
     }
 
-    @Deprecated("Deprecated in Java")
+    @Deprecated("Deprecated in Java", ReplaceWith(
+        "state.with(facing, rotation.rotate(state[facing]))",
+        "com.mystery2099.wooden_accents_mod.block.custom.DeskDrawerBlock.Companion.facing",
+        "com.mystery2099.wooden_accents_mod.block.custom.DeskDrawerBlock.Companion.facing"
+    )
+    )
     override fun rotate(state: BlockState, rotation: BlockRotation): BlockState {
         return state.with(facing, rotation.rotate(state[facing]))
     }
 
-    @Deprecated("Deprecated in Java")
+    @Deprecated("Deprecated in Java", ReplaceWith(
+        "state.rotate(mirror.getRotation(state[facing]))",
+        "com.mystery2099.wooden_accents_mod.block.custom.DeskDrawerBlock.Companion.facing"
+    )
+    )
     override fun mirror(state: BlockState, mirror: BlockMirror): BlockState {
         return state.rotate(mirror.getRotation(state[facing]))
     }

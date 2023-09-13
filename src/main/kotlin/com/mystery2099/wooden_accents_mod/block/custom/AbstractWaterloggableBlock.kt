@@ -50,7 +50,13 @@ abstract class AbstractWaterloggableBlock(settings: Settings) : Block(settings),
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
     }
 
-    @Deprecated("Deprecated in Java")
+    @Deprecated("Deprecated in Java", ReplaceWith(
+        "if (state[waterlogged]) Fluids.WATER.getStill(false) else super.getFluidState(state)",
+        "com.mystery2099.wooden_accents_mod.block.custom.AbstractWaterloggableBlock.Companion.waterlogged",
+        "net.minecraft.fluid.Fluids",
+        "net.minecraft.block.Block"
+    )
+    )
     override fun getFluidState(state: BlockState): FluidState {
         return if (state[waterlogged]) Fluids.WATER.getStill(false)
         else super.getFluidState(state)

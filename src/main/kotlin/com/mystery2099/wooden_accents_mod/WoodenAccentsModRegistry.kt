@@ -8,7 +8,7 @@ package com.mystery2099.wooden_accents_mod
 interface WoodenAccentsModRegistry {
     /**
      * Register:
-     * Logs the name of the class it's called on and stats that its for this mod
+     * Logs the name of the class it's called on and stats that it's for this mod
      */
     fun register() {
         WoodenAccentsMod.logger.info("Registering ${this::class.simpleName} for mod: ${WoodenAccentsMod.MOD_ID}")

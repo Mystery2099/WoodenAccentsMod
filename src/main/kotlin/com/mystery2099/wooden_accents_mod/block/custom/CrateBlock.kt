@@ -72,7 +72,9 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
     override val itemGroup: CustomItemGroup = ModItemGroups.miscellaneous
     override val tag: TagKey<Block> = ModBlockTags.crates
 
-    @Deprecated("Deprecated in Java")
+    @Deprecated("Deprecated in Java",
+        ReplaceWith("shape", "com.mystery2099.wooden_accents_mod.block.custom.CrateBlock.Companion.shape")
+    )
     override fun getOutlineShape(
         state: BlockState?,
         world: BlockView?,
@@ -82,7 +84,7 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity = CrateBlockEntity(pos, state)
 
-    @Deprecated("Deprecated in Java")
+    @Deprecated("Deprecated in Java", ReplaceWith("BlockRenderType.MODEL", "net.minecraft.block.BlockRenderType"))
     override fun getRenderType(state: BlockState?): BlockRenderType = BlockRenderType.MODEL
 
     @Deprecated("Deprecated in Java")
@@ -200,10 +202,15 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
     }
 
 
-    @Deprecated("Deprecated in Java")
+    @Deprecated("Deprecated in Java", ReplaceWith("true"))
     override fun hasComparatorOutput(state: BlockState?): Boolean = true
 
-    @Deprecated("Deprecated in Java")
+    @Deprecated("Deprecated in Java", ReplaceWith(
+        "ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos) as Inventory)",
+        "net.minecraft.screen.ScreenHandler",
+        "net.minecraft.inventory.Inventory"
+    )
+    )
     override fun getComparatorOutput(state: BlockState, world: World, pos: BlockPos): Int {
         return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos) as Inventory)
     }

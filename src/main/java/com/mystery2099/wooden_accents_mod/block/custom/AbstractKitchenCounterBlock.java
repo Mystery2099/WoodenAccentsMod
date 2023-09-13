@@ -136,14 +136,15 @@ public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableB
     }
 
     @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
+    public @NotNull BlockState getPlacementState(ItemPlacementContext ctx) {
         var blockPos = ctx.getBlockPos();
         var blockState = Objects.requireNonNull(super.getPlacementState(ctx)).with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
         return blockState.with(SHAPE, getCounterShape(blockState, ctx.getWorld(), blockPos));
     }
 
+    @Deprecated
     @Override
-    public BlockState getStateForNeighborUpdate(@NotNull BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+    public @NotNull BlockState getStateForNeighborUpdate(@NotNull BlockState state, Direction direction, BlockState neighborState, @NotNull WorldAccess world, BlockPos pos, BlockPos neighborPos) {
         var stateForNeighborUpdate = super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
         if (direction.getAxis().isHorizontal()) {
             return stateForNeighborUpdate.with(SHAPE, getCounterShape(state, world, pos));
@@ -205,7 +206,7 @@ public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableB
         return super.mirror(state, mirror);
     }
 
-    @Override
+    @Deprecated @Override
     public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
         if (state.isOf(state.getBlock())) return;
         world.updateNeighbor(this.baseBlock.getDefaultState(), pos, Blocks.AIR, pos, false);
