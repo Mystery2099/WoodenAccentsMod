@@ -128,5 +128,9 @@ class VoxelShapeModifier(private var baseShape: VoxelShape) {
         if (condition) baseShape += this
         return baseShape
     }
+    infix fun append(shape: VoxelShape): VoxelShape {
+        baseShape += shape
+        return baseShape
+    }
 }
 
