@@ -37,6 +37,15 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
+/**
+ * Desk block
+ *
+ * @property baseBlock
+ * @property topBlock
+ * @constructor
+ *
+ * @param settings
+ */
 class DeskBlock(settings: Settings, val baseBlock: Block, val topBlock: Block) :
     AbstractWaterloggableBlock(settings), CustomItemGroupProvider, CustomRecipeProvider, CustomBlockStateProvider,
     CustomTagProvider<Block> {

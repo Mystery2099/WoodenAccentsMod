@@ -13,6 +13,13 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.WorldAccess
 
+/**
+ * Abstract waterloggable block
+ *
+ * @constructor
+ *
+ * @param settings
+ */
 abstract class AbstractWaterloggableBlock(settings: Settings) : Block(settings), Waterloggable {
     init { defaultState = defaultState.with(waterlogged, false) }
 

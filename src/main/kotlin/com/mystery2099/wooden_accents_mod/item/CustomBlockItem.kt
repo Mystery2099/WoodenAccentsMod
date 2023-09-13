@@ -12,6 +12,14 @@ import net.minecraft.nbt.NbtElement
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
 
+/**
+ * Custom block item
+ *
+ * @constructor
+ *
+ * @param block
+ * @param settings
+ */
 class CustomBlockItem(block: Block, settings: Settings) : BlockItem(block, settings) {
 
     val tagFromProvider: TagKey<Block>?

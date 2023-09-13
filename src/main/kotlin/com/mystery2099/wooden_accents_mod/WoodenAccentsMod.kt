@@ -43,12 +43,4 @@ object WoodenAccentsMod : ModInitializer {
         WoodType.BAMBOO -> Blocks.BAMBOO_PLANKS
         else -> Blocks.OAK_PLANKS
     }
-
-    fun <T> MutableCollection<T>.addIf(condition: Boolean, element: T) {
-        if (condition) this.add(element)
-    }
-
-    infix fun <T> T.onlyIf(condition: Boolean): T? = if (condition) this else null
-
-
 }

@@ -1,13 +1,13 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
-import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.isIn
 import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomBlockStateProvider
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomRecipeProvider
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomTagProvider
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
+import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.isIn
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.uvLock
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withXRotationOf
@@ -37,6 +37,13 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
+/**
+ * Abstract pillar block
+ *
+ * @property baseBlock
+ * @property shape
+ * @constructor Create Abstract pillar block from the block settings of another block
+ */
 abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shape) :
     AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
@@ -104,6 +111,14 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         ) && !otherState.isSideSolidFullSquare(world, pos, direction.opposite)
     }
 
+    /**
+     * Offer recipe
+     *
+     * @param exporter
+     * @param outputNum
+     * @param primaryInput
+     * @param secondaryInput
+     */
     fun offerRecipe(
         exporter: Consumer<RecipeJsonProvider>,
         outputNum: Int,
@@ -128,6 +143,13 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         }
     }
 
+    /**
+     * Gen block state model supplier
+     *
+     * @param centerModel
+     * @param bottomModel
+     * @return
+     */
     fun genBlockStateModelSupplier(
         centerModel: Identifier,
         bottomModel: Identifier
@@ -137,6 +159,14 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         with(WhenUtil.notDown, bottomModel.asBlockStateVariant())
     }
 
+    /**
+     * Shape
+     *
+     * @property topShape
+     * @property centerShape
+     * @property baseShape
+     * @constructor Create empty Shape
+     */
     @JvmRecord
     data class Shape(val topShape: VoxelShape, val centerShape: VoxelShape, val baseShape: VoxelShape)
     companion object {

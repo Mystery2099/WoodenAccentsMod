@@ -39,6 +39,12 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
+/**
+ * Support beam block
+ *
+ * @property baseBlock
+ * @constructor Create empty Support beam block
+ */
 class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(run {
     if (baseBlock !is PillarBlock) FabricBlockSettings.copyOf(baseBlock)
     else FabricBlockSettings.of(baseBlock.defaultState.material, baseBlock.defaultMapColor).apply {

@@ -2,8 +2,8 @@ package com.mystery2099.wooden_accents_mod.item_group
 
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.toIdentifier
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
-import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
 import com.mystery2099.wooden_accents_mod.block.defaultItemStack
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
 import com.mystery2099.wooden_accents_mod.item.CustomBlockItem
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.minecraft.block.Block
@@ -11,6 +11,13 @@ import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 
+/**
+ * Custom item group
+ *
+ * @constructor
+ *
+ * @param name
+ */
 class CustomItemGroup(name: String) {
     val itemGroup: ItemGroup
     inline val entries: List<ItemStack>
@@ -46,8 +53,17 @@ class CustomItemGroup(name: String) {
         mutableInstances += this
     }
 
+    /**
+     * Get
+     *
+     */
     fun get() = itemGroup
 
+    /**
+     * Contains
+     *
+     * @param stack
+     */
     infix operator fun contains(stack: ItemStack) = itemGroup.contains(stack)
 
     companion object {

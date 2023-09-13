@@ -11,6 +11,15 @@ import net.minecraft.screen.ScreenHandlerType
 import net.minecraft.screen.slot.Slot
 
 
+/**
+ * Crate screen handler
+ *
+ * @property inventory
+ * @constructor
+ *
+ * @param syncId
+ * @param playerInventory
+ */
 class CrateScreenHandler @JvmOverloads constructor(
     syncId: Int,
     playerInventory: PlayerInventory,

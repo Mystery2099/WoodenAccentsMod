@@ -12,15 +12,6 @@ import kotlin.math.min
 
 object VoxelShapeHelper {
 
-    /*//Do not use on complex VoxelShapes
-    fun rotate(voxelShape: VoxelShape, direction: VoxelShapeTransformation): VoxelShape {
-        val adjustedValues = adjustValues(direction, voxelShape.minX, voxelShape.minZ, voxelShape.maxX, voxelShape.maxZ)
-        return VoxelShapes.cuboid(
-            adjustedValues[0], voxelShape.minY, adjustedValues[1],
-            adjustedValues[2], voxelShape.maxY, adjustedValues[3]
-        )
-    }*/
-
     private inline val Double.limited
         get() = this.limit()
     private inline val VoxelShape.minX
@@ -122,14 +113,72 @@ object VoxelShapeHelper {
     }
 }
 
+/**
+ * Voxel shape transformation
+ *
+ * @constructor Create empty Voxel shape transformation
+ */
 enum class VoxelShapeTransformation {
-    ROTATE_LEFT, ROTATE_RIGHT, FLIP_HORIZONTAL, ROTATE_UP, ROTATE_DOWN
+    /**
+     * Rotate Left
+     *
+     * @constructor Create empty Rotate Left
+     */
+    ROTATE_LEFT,
+
+    /**
+     * Rotate Right
+     *
+     * @constructor Create empty Rotate Right
+     */
+    ROTATE_RIGHT,
+
+    /**
+     * Flip Horizontal
+     *
+     * @constructor Create empty Flip Horizontal
+     */
+    FLIP_HORIZONTAL,
+
+    /**
+     * Rotate Up
+     *
+     * @constructor Create empty Rotate Up
+     */
+    ROTATE_UP,
+
+    /**
+     * Rotate Down
+     *
+     * @constructor Create empty Rotate Down
+     */
+    ROTATE_DOWN
 }
 
+/**
+ * Voxel shape modifier
+ *
+ * @property baseShape
+ * @constructor Create empty Voxel shape modifier
+ */
 class VoxelShapeModifier(private var baseShape: VoxelShape) {
+    /**
+     * Case
+     *
+     * @param condition
+     * @return
+     */
     infix fun VoxelShape.case(condition: Boolean): VoxelShape {
         return append(this, condition)
     }
+
+    /**
+     * Append
+     *
+     * @param shape
+     * @param condition
+     * @return
+     */
     fun append(shape: VoxelShape, condition: Boolean = true): VoxelShape {
         if (condition) baseShape += shape
         return baseShape

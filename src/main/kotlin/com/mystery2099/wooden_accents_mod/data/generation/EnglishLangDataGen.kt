@@ -8,6 +8,13 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
 import net.minecraft.block.Block
 import net.minecraft.item.ItemGroup
 
+/**
+ * English lang data gen
+ *
+ * @constructor
+ *
+ * @param dataOutput
+ */
 class EnglishLangDataGen(dataOutput: FabricDataOutput) : FabricLanguageProvider(dataOutput) {
     override fun generateTranslations(translationBuilder: TranslationBuilder) {
         with(translationBuilder) {

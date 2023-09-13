@@ -29,6 +29,12 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
+/**
+ * Connecting ladder block
+ *
+ * @property baseBlock
+ * @constructor Create Connecting ladder block from the block settings of another block
+ */
 class ConnectingLadderBlock(val baseBlock: Block) :
     AbstractCustomLadderBlock(FabricBlockSettings.of(baseBlock.defaultState.material, baseBlock.defaultMapColor).apply {
         hardness(Blocks.LADDER.hardness)

@@ -24,6 +24,14 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.event.GameEvent
 import java.util.stream.IntStream
 
+/**
+ * Crate block entity
+ *
+ * @constructor
+ *
+ * @param blockPos
+ * @param blockState
+ */
 class CrateBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     LootableContainerBlockEntity(ModBlockEntities.crate, blockPos, blockState), SidedInventory {
     private var inventory = DefaultedList.ofSize(9, ItemStack.EMPTY)

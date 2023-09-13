@@ -21,6 +21,14 @@ import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
+/**
+ * Kitchen cabinet block entity
+ *
+ * @constructor
+ *
+ * @param pos
+ * @param state
+ */
 class KitchenCabinetBlockEntity(pos: BlockPos, state: BlockState) :
     LootableContainerBlockEntity(ModBlockEntities.kitchenCabinet, pos, state) {
     private var inventory: DefaultedList<ItemStack> = DefaultedList.ofSize(27, ItemStack.EMPTY)
@@ -94,16 +102,32 @@ class KitchenCabinetBlockEntity(pos: BlockPos, state: BlockState) :
         }
     }
 
+    /**
+     * Tick
+     *
+     */
     fun tick() {
         if (!this.removed) {
             this.stateManager.updateViewerCount(this.getWorld(), this.getPos(), this.cachedState)
         }
     }
 
+    /**
+     * Set open
+     *
+     * @param state
+     * @param open
+     */
     fun setOpen(state: BlockState, open: Boolean) {
         this.world?.setBlockState(this.getPos(), state.with(KitchenCabinetBlock.open, open), Block.NOTIFY_ALL)
     }
 
+    /**
+     * Play sound
+     *
+     * @param state
+     * @param soundEvent
+     */
     fun playSound(state: BlockState, soundEvent: SoundEvent?) {
         val vec3i = state.get(KitchenCabinetBlock.facing).vector
         val d = this.pos.x.toDouble() + 0.5 + vec3i.x.toDouble() / 2.0

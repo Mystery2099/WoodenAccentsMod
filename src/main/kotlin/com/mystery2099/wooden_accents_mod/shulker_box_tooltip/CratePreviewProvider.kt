@@ -7,6 +7,11 @@ import net.minecraft.text.Style
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 
+/**
+ * Crate preview provider
+ *
+ * @constructor Create empty Crate preview provider
+ */
 class CratePreviewProvider : BlockEntityPreviewProvider(9, true, 3) {
     override fun showTooltipHints(context: PreviewContext): Boolean = true
     override fun addTooltip(context: PreviewContext): List<Text> {

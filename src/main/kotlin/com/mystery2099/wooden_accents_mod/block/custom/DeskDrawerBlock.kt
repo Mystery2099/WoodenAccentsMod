@@ -51,6 +51,15 @@ import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
+/**
+ * Desk drawer block
+ *
+ * @property edgeBlock
+ * @property baseBlock
+ * @constructor
+ *
+ * @param settings
+ */
 class DeskDrawerBlock(settings: Settings, val edgeBlock: Block, val baseBlock: Block) :
     WaterloggableBlockWithEntity(settings), CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>,
     CustomBlockStateProvider {

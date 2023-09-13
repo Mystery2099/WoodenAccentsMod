@@ -15,6 +15,13 @@ import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
 import java.util.function.Consumer
 
+/**
+ * Thin pillar block
+ *
+ * @constructor
+ *
+ * @param baseBlock
+ */
 class ThinPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape) {
     override val connectableBlockTag: TagKey<Block> = ModBlockTags.thinPillarsConnectable
     override val tag: TagKey<Block> = ModBlockTags.thinPillars

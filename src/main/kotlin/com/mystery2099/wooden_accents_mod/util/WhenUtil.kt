@@ -3,9 +3,11 @@ package com.mystery2099.wooden_accents_mod.util
 import net.minecraft.data.client.When
 import net.minecraft.state.property.Properties
 import net.minecraft.util.math.Direction
-
-//For "When" related variables and functions.
-// "When" is a class used for creating conditions to be used in block state code generation
+/**
+ * When util:
+ *  For "When" related variables and functions.
+ * "When" is a class used for creating conditions to be used in block state code generation
+ */
 object WhenUtil {
     val up: When.PropertyCondition = When.create().set(Properties.UP, true)
     val down: When.PropertyCondition = When.create().set(Properties.DOWN, true)
@@ -46,6 +48,12 @@ object WhenUtil {
     val facingWestHorizontal: When.PropertyCondition = When.create().set(Properties.HORIZONTAL_FACING, Direction.WEST)
 
 
+    /**
+     * And
+     *
+     * @param other
+     * @return
+     */
     infix fun When.and(other: When): When = When.allOf(this, other)
     infix fun When.and(others: Collection<When>): When = When.allOf(this, *others.toTypedArray())
     infix fun When.and(others: Array<When>): When = When.allOf(this, *others)

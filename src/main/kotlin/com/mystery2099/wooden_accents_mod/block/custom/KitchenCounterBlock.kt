@@ -1,14 +1,14 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
-import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomBlockStateProvider
-import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
-import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomRecipeProvider
-import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomTagProvider
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.customGroup
 import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.requires
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomBlockStateProvider
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomRecipeProvider
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomTagProvider
 import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
@@ -25,6 +25,14 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.Direction
 import java.util.function.Consumer
 
+/**
+ * Kitchen counter block
+ *
+ * @constructor
+ *
+ * @param baseBlock
+ * @param topBlock
+ */
 class KitchenCounterBlock(baseBlock: Block, topBlock: Block) : AbstractKitchenCounterBlock(baseBlock, topBlock),
     CustomItemGroupProvider, CustomTagProvider<Block>, CustomRecipeProvider, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.kitchenCounters

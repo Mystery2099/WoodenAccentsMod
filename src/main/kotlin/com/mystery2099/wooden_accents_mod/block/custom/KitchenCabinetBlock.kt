@@ -51,6 +51,13 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import java.util.function.Consumer
 
+/**
+ * Kitchen cabinet block
+ *
+ * @property baseBlock
+ * @property topBlock
+ * @constructor Create Kitchen cabinet block from the block settings of another block
+ */
 class KitchenCabinetBlock(val baseBlock: Block, val topBlock: Block) :
     BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {

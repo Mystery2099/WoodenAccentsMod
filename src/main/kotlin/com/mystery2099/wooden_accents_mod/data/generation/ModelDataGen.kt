@@ -15,6 +15,13 @@ import net.minecraft.data.client.ItemModelGenerator
 import net.minecraft.data.client.TextureMap
 import net.minecraft.util.math.Direction
 
+/**
+ * Model data gen
+ *
+ * @constructor
+ *
+ * @param output
+ */
 class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
     val block = "block/"

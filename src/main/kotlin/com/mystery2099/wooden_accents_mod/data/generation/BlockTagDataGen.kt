@@ -12,6 +12,14 @@ import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.TagKey
 import java.util.concurrent.CompletableFuture
 
+/**
+ * Block tag data gen
+ *
+ * @constructor
+ *
+ * @param output
+ * @param registriesFuture
+ */
 class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>) :
     FabricTagProvider.BlockTagProvider(output, registriesFuture) {
 
@@ -55,6 +63,7 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
 
         ModBlockTags.desks.add(ModBlockTags.deskDrawers)
     }
+
 
 
     private fun TagKey<Block>.add(tag: TagKey<Block>): FabricTagBuilder = tagBuilder.addTag(tag)

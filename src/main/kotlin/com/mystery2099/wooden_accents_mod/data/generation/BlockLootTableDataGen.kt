@@ -19,6 +19,13 @@ import net.minecraft.predicate.StatePredicate
 import net.minecraft.state.property.Property
 import net.minecraft.util.StringIdentifiable
 
+/**
+ * Block loot table data gen
+ *
+ * @constructor
+ *
+ * @param dataOutput
+ */
 class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTableProvider(dataOutput) {
     override fun generate() {
         ModBlocks.blocks.forEach { block ->
@@ -58,6 +65,13 @@ class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTable
     }
 }
 
+/**
+ * Conditionally
+ *
+ * @param t
+ * @param builders
+ * @return
+ */
 fun <t : ConditionalLootFunction.Builder<*>> t.conditionally(vararg builders: LootCondition.Builder): t {
     builders.forEach { this.conditionally(it) }
     return this

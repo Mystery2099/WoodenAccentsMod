@@ -9,6 +9,14 @@ import net.minecraft.item.Items
 import net.minecraft.registry.RegistryWrapper
 import java.util.concurrent.CompletableFuture
 
+/**
+ * Item tag data gen
+ *
+ * @constructor
+ *
+ * @param output
+ * @param completableFuture
+ */
 class ItemTagDataGen(
     output: FabricDataOutput?,
     completableFuture: CompletableFuture<RegistryWrapper.WrapperLookup>?

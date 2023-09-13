@@ -58,6 +58,13 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import java.util.function.Consumer
 
+/**
+ * Crate block
+ *
+ * @property baseBlock
+ * @property edgeBlock
+ * @constructor Create Crate block from the block settings of another block
+ */
 class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
     BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)),
     CustomBlockStateProvider, CustomItemGroupProvider, CustomTagProvider<Block>, CustomRecipeProvider,

@@ -1,8 +1,8 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.createCuboidShape
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flipped
@@ -24,6 +24,12 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import java.util.function.Consumer
 
+/**
+ * Plank ladder block
+ *
+ * @property baseBlock
+ * @constructor Create a plank ladder block from the settings of another block
+ */
 class PlankLadderBlock(val baseBlock: Block) :
     AbstractCustomLadderBlock(FabricBlockSettings.of(baseBlock.defaultState.material, baseBlock.defaultMapColor).apply {
         hardness(Blocks.LADDER.hardness)

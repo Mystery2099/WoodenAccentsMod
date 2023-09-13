@@ -14,6 +14,13 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.WorldAccess
 
+/**
+ * Waterloggable block with entity
+ *
+ * @constructor
+ *
+ * @param settings
+ */
 abstract class WaterloggableBlockWithEntity(settings: Settings) : BlockWithEntity(settings), Waterloggable {
     init {
         this.defaultState = stateManager.defaultState.with(waterlogged, false)

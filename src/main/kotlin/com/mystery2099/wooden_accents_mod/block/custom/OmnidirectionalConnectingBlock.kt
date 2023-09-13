@@ -19,6 +19,13 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 
+/**
+ * Omnidirectional connecting block
+ *
+ * @constructor
+ *
+ * @param settings
+ */
 open class OmnidirectionalConnectingBlock(settings: Settings) : Block(settings), Waterloggable {
     open val centerShape: VoxelShape = VoxelShapes.fullCube()
     open val northShape: VoxelShape = VoxelShapes.empty()
@@ -84,11 +91,58 @@ open class OmnidirectionalConnectingBlock(settings: Settings) : Block(settings),
         return state.setDirectionalProperties(pos, world)
     }
 
+    /**
+     * Can connect north of
+     *
+     * @param pos
+     * @param world
+     * @return
+     */
     open fun canConnectNorthOf(pos: BlockPos, world: WorldAccess): Boolean = world.getBlockState(pos.north()).isOf(this)
+
+    /**
+     * Can connect east of
+     *
+     * @param pos
+     * @param world
+     * @return
+     */
     open fun canConnectEastOf(pos: BlockPos, world: WorldAccess): Boolean = world.getBlockState(pos.east()).isOf(this)
+
+    /**
+     * Can connect south of
+     *
+     * @param pos
+     * @param world
+     * @return
+     */
     open fun canConnectSouthOf(pos: BlockPos, world: WorldAccess): Boolean = world.getBlockState(pos.south()).isOf(this)
+
+    /**
+     * Can connect west of
+     *
+     * @param pos
+     * @param world
+     * @return
+     */
     open fun canConnectWestOf(pos: BlockPos, world: WorldAccess): Boolean = world.getBlockState(pos.west()).isOf(this)
+
+    /**
+     * Can connect above
+     *
+     * @param pos
+     * @param world
+     * @return
+     */
     open fun canConnectAbove(pos: BlockPos, world: WorldAccess): Boolean = world.getBlockState(pos.up()).isOf(this)
+
+    /**
+     * Can connect below
+     *
+     * @param pos
+     * @param world
+     * @return
+     */
     open fun canConnectBelow(pos: BlockPos, world: WorldAccess): Boolean = world.getBlockState(pos.down()).isOf(this)
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
         return defaultState.with(

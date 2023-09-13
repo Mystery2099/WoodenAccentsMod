@@ -12,6 +12,13 @@ import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.item.ItemConvertible
 import java.util.function.Consumer
 
+/**
+ * Recipe data gen
+ *
+ * @constructor
+ *
+ * @param output
+ */
 class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
     override fun generate(exporter: Consumer<RecipeJsonProvider>) {
         ModBlocks.blocks.forEach {
