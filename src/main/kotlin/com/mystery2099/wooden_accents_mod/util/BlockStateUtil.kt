@@ -6,6 +6,7 @@ import net.minecraft.registry.tag.TagKey
 import net.minecraft.state.property.Property
 
 object BlockStateUtil {
+    @JvmStatic
     infix fun BlockState.withProperties(configure: BlockStateConfigurer.() -> Unit): BlockState {
         val builder = BlockStateConfigurer(this)
         builder.configure()
