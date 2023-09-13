@@ -11,14 +11,22 @@ object BlockStateUtil {
         builder.configure()
         return builder.blockState
     }
+
     infix fun BlockState?.isOf(block: Block): Boolean = this?.isOf(block) ?: false
     infix fun BlockState?.isIn(tag: TagKey<Block>?): Boolean = this?.isIn(tag) ?: false
 
 }
+
 class BlockStateConfigurer(var blockState: BlockState) {
     infix fun <T : Comparable<T>> Property<T>.setTo(value: T) {
-        blockState = blockState.with(this, value)
+        set(this, value)
     }
+
+    operator fun <T : Comparable<T>> set(property: Property<T>, value: T) {
+        blockState = blockState.with(property, value)
+    }
+
+    operator fun <T : Comparable<T>> get(property: Property<T>): T = blockState[property]
 }
 
 
