@@ -1,6 +1,7 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.plus
+import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.withProperties
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.appendShapes
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
@@ -28,13 +29,13 @@ open class OmnidirectionalConnectingBlock(settings: Settings) : Block(settings),
     open val downShape: VoxelShape = VoxelShapes.empty()
 
     init {
-        defaultState = defaultState.run {
-            this.with(north, false)
-                .with(east, false)
-                .with(south, false)
-                .with(west, false)
-                .with(up, false)
-                .with(down, false)
+        defaultState = defaultState.withProperties {
+            north setTo false
+            east setTo false
+            south setTo false
+            west setTo false
+            up setTo false
+            down setTo false
         }
     }
 
@@ -56,16 +57,14 @@ open class OmnidirectionalConnectingBlock(settings: Settings) : Block(settings),
         pos: BlockPos?,
         context: ShapeContext?
     ): VoxelShape {
-        var shape = centerShape
-
-        if (state[north]) shape += northShape
-        if (state[east]) shape += eastShape
-        if (state[south]) shape += southShape
-        if (state[west]) shape += westShape
-        if (state[up]) shape += upShape
-        if (state[down]) shape += downShape
-
-        return shape
+        return centerShape.appendShapes {
+            northShape case state[north]
+            eastShape case state[east]
+            southShape case state[south]
+            westShape case state[west]
+            upShape case state[up]
+            downShape case state[down]
+        }
     }
 
     @Deprecated("Deprecated in Java")
@@ -99,12 +98,14 @@ open class OmnidirectionalConnectingBlock(settings: Settings) : Block(settings),
     }
 
     private fun BlockState.setDirectionalProperties(pos: BlockPos, world: WorldAccess): BlockState {
-        return this.with(north, canConnectNorthOf(pos, world))
-            .with(east, canConnectEastOf(pos, world))
-            .with(south, canConnectSouthOf(pos, world))
-            .with(west, canConnectWestOf(pos, world))
-            .with(up, canConnectAbove(pos, world))
-            .with(down, canConnectBelow(pos, world))
+        return this.withProperties {
+            north setTo canConnectNorthOf(pos, world)
+            east setTo canConnectEastOf(pos, world)
+            south setTo canConnectSouthOf(pos, world)
+            west setTo canConnectWestOf(pos, world)
+            up setTo canConnectAbove(pos, world)
+            down setTo canConnectBelow(pos, world)
+        }
     }
 
     companion object {

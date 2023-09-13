@@ -1,17 +1,19 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
-import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomBlockStateProvider
-import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
-import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomRecipeProvider
-import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomTagProvider
 import com.mystery2099.wooden_accents_mod.block_entity.custom.KitchenCabinetBlockEntity
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModItemTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.customGroup
 import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.requires
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomBlockStateProvider
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomRecipeProvider
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomTagProvider
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
+import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.isOf
+import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.withProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flipped
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedLeft
@@ -57,7 +59,10 @@ class KitchenCabinetBlock(val baseBlock: Block, val topBlock: Block) :
     override val itemGroup = ModItemGroups.decorations
 
     init {
-        defaultState = stateManager.defaultState.with(facing, Direction.NORTH).with(open, false)
+        defaultState = stateManager.defaultState.withProperties {
+            facing setTo Direction.NORTH
+            open setTo false
+        }
     }
 
     @Deprecated("Deprecated in Java")
@@ -86,7 +91,7 @@ class KitchenCabinetBlock(val baseBlock: Block, val topBlock: Block) :
         newState: BlockState,
         moved: Boolean
     ) {
-        if (state.isOf(newState.block)) return
+        if (state isOf newState.block) return
         with(world.getBlockEntity(pos)) {
             if (this is Inventory) {
                 ItemScatterer.spawn(world, pos, this)
@@ -130,8 +135,8 @@ class KitchenCabinetBlock(val baseBlock: Block, val topBlock: Block) :
     }
 
     @Deprecated("Deprecated in Java")
-    override fun rotate(state: BlockState, rotation: BlockRotation): BlockState = state.apply {
-        with(facing, rotation.rotate(get(facing)))
+    override fun rotate(state: BlockState, rotation: BlockRotation): BlockState = state.withProperties {
+        facing setTo  rotation.rotate(state[facing])
     }
 
     @Deprecated("Deprecated in Java")

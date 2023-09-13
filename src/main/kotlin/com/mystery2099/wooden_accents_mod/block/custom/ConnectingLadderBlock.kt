@@ -2,9 +2,10 @@ package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.block.custom.enums.SidewaysConnectionShape
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
-import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties
+import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.isIn
+import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.withProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
@@ -68,14 +69,14 @@ class ConnectingLadderBlock(val baseBlock: Block) :
         return this.isConnectingLadder() && other.isConnectingLadder() && this[FACING] == other[FACING]
     }
 
-    private fun BlockState.withShape(left: Boolean, right: Boolean): BlockState = this.withIfExists(shape, run {
-        when {
+    private fun BlockState.withShape(left: Boolean, right: Boolean): BlockState = this.withProperties {
+        shape setTo when {
             left && right -> SidewaysConnectionShape.CENTER
             left -> SidewaysConnectionShape.RIGHT
             right -> SidewaysConnectionShape.LEFT
             else -> SidewaysConnectionShape.SINGLE
         }
-    })
+    }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)

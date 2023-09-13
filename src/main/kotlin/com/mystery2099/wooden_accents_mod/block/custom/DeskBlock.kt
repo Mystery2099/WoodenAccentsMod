@@ -3,7 +3,6 @@ package com.mystery2099.wooden_accents_mod.block.custom
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.custom.enums.DeskShape
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
-import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomBlockStateProvider
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
@@ -12,6 +11,8 @@ import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomTagPr
 import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties
+import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.isIn
+import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.withProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
@@ -96,9 +97,8 @@ class DeskBlock(settings: Settings, val baseBlock: Block, val topBlock: Block) :
     }
 
     private fun BlockState.withShape(left: Boolean, right: Boolean, forward: Boolean = false): BlockState {
-        return this.withIfExists(
-            shape,
-            when {
+        return this.withProperties {
+            shape setTo when {
                 left && right -> DeskShape.CENTER
                 left && forward -> DeskShape.RIGHT_CORNER
                 right && forward -> DeskShape.LEFT_CORNER
@@ -106,7 +106,7 @@ class DeskBlock(settings: Settings, val baseBlock: Block, val topBlock: Block) :
                 right -> DeskShape.LEFT
                 else -> DeskShape.SINGLE
             }
-        )
+        }
     }
 
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {

@@ -4,7 +4,6 @@ import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.custom.enums.SidewaysConnectionShape
 import com.mystery2099.wooden_accents_mod.block_entity.custom.DeskDrawerBlockEntity
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
-import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomBlockStateProvider
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
@@ -13,6 +12,8 @@ import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomTagPr
 import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties
+import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.isIn
+import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.withProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
@@ -59,17 +60,18 @@ class DeskDrawerBlock(settings: Settings, val edgeBlock: Block, val baseBlock: B
 
     init {
         this.defaultState =
-            this.stateManager.defaultState.with(facing, Direction.NORTH).withShape(left = false, right = false)
+            this.stateManager.defaultState.withProperties { facing setTo Direction.NORTH }
+                .withShape(left = false, right = false)
     }
 
-    private fun BlockState.withShape(left: Boolean, right: Boolean): BlockState = this.withIfExists(
-        shape, when {
-            left && right -> SidewaysConnectionShape.CENTER
-            left -> SidewaysConnectionShape.RIGHT
-            right -> SidewaysConnectionShape.LEFT
-            else -> SidewaysConnectionShape.SINGLE
-        }
-    )
+    private fun BlockState.withShape(left: Boolean, right: Boolean): BlockState = this.withProperties {
+        shape setTo when {
+        left && right -> SidewaysConnectionShape.CENTER
+        left -> SidewaysConnectionShape.RIGHT
+        right -> SidewaysConnectionShape.LEFT
+        else -> SidewaysConnectionShape.SINGLE
+    }
+    }
 
     private fun BlockState.isDeskDrawer(): Boolean = this isIn tag
     private fun BlockState.isDesk(): Boolean = this isIn ModBlockTags.desks

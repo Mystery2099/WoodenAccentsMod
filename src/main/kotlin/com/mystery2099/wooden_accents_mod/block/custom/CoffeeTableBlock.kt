@@ -6,9 +6,7 @@ import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
 import com.mystery2099.wooden_accents_mod.block.custom.enums.CoffeeTableTypes
 import com.mystery2099.wooden_accents_mod.block.defaultItemStack
-import com.mystery2099.wooden_accents_mod.block.isOf
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
-import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.data.generation.ModelDataGen
 import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.customGroup
@@ -17,9 +15,13 @@ import com.mystery2099.wooden_accents_mod.data.generation.conditionally
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.*
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.state.property.ModProperties
+import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.isIn
+import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.isOf
+import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.withProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.putModel
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.appendShapes
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.createCuboidShape
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flipped
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.plus
@@ -114,17 +116,23 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
     }
 
     private fun BlockState.asSingle(): BlockState {
-        return this.with(north, false)
-            .with(east, false)
-            .with(south, false)
-            .with(west, false)
+        return this.withProperties {
+            north setTo false
+            east setTo false
+            south setTo false
+            west setTo false
+        }
     }
 
     private fun BlockState.setShort(): BlockState = this.with(type, CoffeeTableTypes.SHORT)
     private fun BlockState.setTall(): BlockState = this.with(type, CoffeeTableTypes.TALL)
     private fun BlockState.setDirections(world: WorldAccess, pos: BlockPos): BlockState {
-        return with(north, world.checkNorthOf(pos)).with(east, world.checkEastOf(pos))
-            .with(south, world.checkSouthOf(pos)).with(west, world.checkWestOf(pos))
+        return this.withProperties {
+            north setTo world.checkNorthOf(pos)
+            east setTo world.checkEastOf(pos)
+            south setTo world.checkSouthOf(pos)
+            west setTo world.checkWestOf(pos)
+        }
     }
 
     @Deprecated("Deprecated in Java")
@@ -136,7 +144,7 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
         return getBlockState(pos.offset(direction))?.let { there: BlockState ->
             getBlockState(pos)?.let { here: BlockState ->
                 if (there.block is CoffeeTableBlock && here.block is CoffeeTableBlock) here.get(type) == there.get(type)
-                else if (there isOf Blocks.SCAFFOLDING) here.isTall
+                else if (there isOf  Blocks.SCAFFOLDING) here.isTall
                 else there isIn tag && here isIn tag
             } ?: false
         } ?: false
@@ -157,9 +165,12 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
         neighborPos: BlockPos?
     ): BlockState {
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos!!, neighborPos)
-            ?.withIfExists(north, world.checkNorthOf(pos))?.withIfExists(east, world.checkEastOf(pos))
-            ?.withIfExists(south, world.checkSouthOf(pos))?.withIfExists(west, world.checkWestOf(pos))
-            ?: state
+            .withProperties {
+                north setTo world.checkNorthOf(pos)
+                east setTo world.checkEastOf(pos)
+                south setTo world.checkSouthOf(pos)
+                west setTo world.checkWestOf(pos)
+            }
     }
 
     @Deprecated("Deprecated in Java")
@@ -175,34 +186,27 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
         val hasEastConnection = state[east]
         val hasWestConnection = state[west]
 
+        val shouldAppendNorthEast = !hasNorthConnection && !hasEastConnection
+        val shouldAppendNorthWest = !hasNorthConnection && !hasWestConnection
+
+        val shouldAppendSouthEast = !hasSouthConnection && !hasEastConnection
+        val shouldAppendSouthWest = !hasSouthConnection && !hasWestConnection
+
         var shape = VoxelShapes.empty()
 
         shape += (if (isTall) tallTopShape else shortTopShape)
+        shape.appendShapes {
+            //Short legs
+            shortNorthEastLeg case shouldAppendNorthEast
+            shortNorthWestLeg case shouldAppendNorthWest
+            shortSouthEastLeg case shouldAppendSouthEast
+            shortSouthWestLeg case shouldAppendSouthWest
+            //Tall legs
+            tallNorthEastLeg case (shouldAppendNorthEast && isTall)
+            tallNorthWestLeg case (shouldAppendNorthWest && isTall)
+            tallSouthEastLeg case (shouldAppendSouthEast && isTall)
+            tallSouthWestLeg case (shouldAppendSouthWest && isTall)
 
-        when {
-            !hasNorthConnection -> {
-                if (!hasEastConnection) {
-                    shape += shortNorthEastLeg
-                    if (isTall) shape += tallNorthEastLeg
-                }
-                if (!hasWestConnection) {
-                    shape += shortNorthWestLeg
-                    if (isTall) shape += tallNorthWestLeg
-                }
-            }
-        }
-
-        when {
-            !hasSouthConnection -> {
-                if (!hasEastConnection) {
-                    shape += shortSouthEastLeg
-                    if (isTall) shape += tallSouthEastLeg
-                }
-                if (!hasWestConnection) {
-                    shape += shortSouthWestLeg
-                    if (isTall) shape += tallSouthWestLeg
-                }
-            }
         }
 
         return shape

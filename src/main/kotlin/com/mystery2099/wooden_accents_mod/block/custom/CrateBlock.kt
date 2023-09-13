@@ -5,9 +5,9 @@ import com.mystery2099.wooden_accents_mod.block_entity.ModBlockEntities
 import com.mystery2099.wooden_accents_mod.block_entity.custom.CrateBlockEntity
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
-import com.mystery2099.wooden_accents_mod.data.generation.interfaces.*
 import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.customGroup
 import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.requires
+import com.mystery2099.wooden_accents_mod.data.generation.interfaces.*
 import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
@@ -140,8 +140,9 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
         itemStack: ItemStack
     ) {
         val blockEntity: BlockEntity? = world.getBlockEntity(pos)
-        if (itemStack.hasCustomName() && blockEntity is CrateBlockEntity
-        ) blockEntity.customName = itemStack.getName()
+        if (itemStack.hasCustomName() && blockEntity is CrateBlockEntity) {
+            blockEntity.customName = itemStack.getName()
+        }
     }
 
     @Deprecated("Deprecated in Java")

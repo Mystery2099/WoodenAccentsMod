@@ -1,12 +1,12 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
+import com.mystery2099.wooden_accents_mod.data.ModBlockTags
+import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.isIn
+import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomBlockStateProvider
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomRecipeProvider
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomTagProvider
-import com.mystery2099.wooden_accents_mod.data.ModBlockTags
-import com.mystery2099.wooden_accents_mod.data.ModBlockTags.isIn
-import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.uvLock
@@ -70,7 +70,7 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         world = world,
         pos = pos!!,
         neighborPos = neighborPos
-    )?.run {
+    ).run {
         with(up, canConnect(world, pos, Direction.UP)).with(down, canConnect(world, pos, Direction.DOWN))
     } ?: defaultState
 

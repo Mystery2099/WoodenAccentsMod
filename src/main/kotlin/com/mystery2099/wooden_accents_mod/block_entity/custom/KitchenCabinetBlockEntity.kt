@@ -111,11 +111,11 @@ class KitchenCabinetBlockEntity(pos: BlockPos, state: BlockState) :
         val d = this.pos.x.toDouble() + 0.5 + vec3i.x.toDouble() / 2.0
         val e = this.pos.y.toDouble() + 0.5 + vec3i.y.toDouble() / 2.0
         val f = this.pos.z.toDouble() + 0.5 + vec3i.z.toDouble() / 2.0
-        with(this.world!!) {
+        with(world!!) {
             playSound(
                 null, d, e, f, soundEvent,
                 SoundCategory.BLOCKS, 0.5f,
-                this.random.nextFloat() * 0.1f + 0.9f
+                random.nextFloat() * 0.1f + 0.9f
             )
         }
     }
