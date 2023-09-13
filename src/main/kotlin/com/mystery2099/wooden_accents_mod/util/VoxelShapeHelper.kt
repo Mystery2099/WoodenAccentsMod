@@ -1,5 +1,6 @@
 package com.mystery2099.wooden_accents_mod.util
 
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.plus
 import net.minecraft.block.Block
 import net.minecraft.util.function.BooleanBiFunction
 import net.minecraft.util.math.Direction
@@ -43,7 +44,7 @@ object VoxelShapeHelper {
 
     infix fun VoxelShape.unifiedWith(otherShape: VoxelShape): VoxelShape = VoxelShapes.union(this, otherShape)
     fun VoxelShape.unifiedWith(vararg otherShapes: VoxelShape): VoxelShape = union(this, *otherShapes)
-    infix operator fun VoxelShape.plus(otherShape: VoxelShape): VoxelShape = VoxelShapes.union(this, otherShape)
+    infix operator fun VoxelShape.plus(otherShape: VoxelShape): VoxelShape = this.unifiedWith(otherShape)
     fun setMaxHeight(source: VoxelShape, height: Double): VoxelShape {
         val result = AtomicReference(VoxelShapes.empty())
         source.forEachBox { minX: Double, minY: Double, minZ: Double, maxX: Double, _: Double, maxZ: Double ->
@@ -78,7 +79,7 @@ object VoxelShapeHelper {
         return voxelShapes.reduce { a, b -> VoxelShapes.combine(a, b, function) }
     }
 
-    fun union(vararg voxelShapes: VoxelShape): VoxelShape = voxelShapes.reduce { a, b -> VoxelShapes.union(a, b) }
+    fun union(vararg voxelShapes: VoxelShape): VoxelShape = voxelShapes.reduce(VoxelShapes::union)
     private fun adjustValues(
         direction: VoxelShapeTransformation,
         minX: Double,
@@ -108,8 +109,24 @@ object VoxelShapeHelper {
         maxY.toDouble(),
         maxZ.toDouble()
     )
+
+    infix fun VoxelShape.appendShapes(configure: VoxelShapeModifier.() -> VoxelShape): VoxelShape {
+        val modifier = VoxelShapeModifier(this)
+        return modifier.configure()
+    }
+    fun appendShapesTo(shape: VoxelShape, configure: VoxelShapeModifier.() -> VoxelShape): VoxelShape {
+        return shape.appendShapes(configure)
+    }
 }
 
 enum class VoxelShapeTransformation {
     ROTATE_LEFT, ROTATE_RIGHT, FLIP_HORIZONTAL, ROTATE_UP, ROTATE_DOWN
 }
+
+class VoxelShapeModifier(private var baseShape: VoxelShape) {
+    infix fun VoxelShape.case(condition: Boolean): VoxelShape {
+        if (condition) baseShape += this
+        return baseShape
+    }
+}
+
