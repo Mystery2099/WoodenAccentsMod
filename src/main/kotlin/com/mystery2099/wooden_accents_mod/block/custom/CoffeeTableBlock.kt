@@ -1,14 +1,16 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asBlockModelId
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.toIdentifier
+import com.mystery2099.wooden_accents_mod.block.ModBlocks.itemModelId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
 import com.mystery2099.wooden_accents_mod.block.custom.enums.CoffeeTableTypes
 import com.mystery2099.wooden_accents_mod.block.defaultItemStack
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
-import com.mystery2099.wooden_accents_mod.data.generation.ModelDataGen
 import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.customGroup
 import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.data.generation.conditionally
@@ -66,6 +68,7 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import java.util.*
 import java.util.function.Consumer
+import java.util.function.Supplier
 
 
 class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
@@ -260,8 +263,7 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
                         .asBlockModelId(),
                 )
             )
-            //ModModels.coffeeTableInventory.upload(this.getItemModelId(), map, generator.modelCollector)
-            ModelDataGen.createCoffeeTableItemModel(this, generator)
+            createCoffeeTableItemModel(this, generator)
         }
     }
 
@@ -290,7 +292,33 @@ class CoffeeTableBlock(val baseBlock: Block, val topBlock: Block) :
             WhenUtil.notSouthWest and isTall to tallNorthEastVariant.withYRotationOf(VariantSettings.Rotation.R180)
         ).forEach(::with)
     }
-
+    fun createCoffeeTableItemModel(coffeeTableBlock: CoffeeTableBlock, generator: BlockStateModelGenerator) {
+        val textureMap = mapOf(
+            TextureKey.TOP to coffeeTableBlock.topBlock.textureId,
+            ModModels.legs to coffeeTableBlock.baseBlock.textureId
+        )
+        val tallModel = ModModels.coffeeTableTallInventory.upload(
+            coffeeTableBlock.itemModelId.withSuffixedPath("_tall"),
+            TextureMap().apply {
+                textureMap.forEach {
+                    put(it.key, it.value)
+                }
+            },
+            generator.modelCollector
+        )
+        val jsonObject = ModModels.coffeeTableInventory.createJson(coffeeTableBlock.itemModelId, textureMap)
+        val jsonArray = JsonArray()
+        val jsonObject2 = JsonObject()
+        val jsonObject3 = JsonObject()
+        jsonObject3.addProperty("height", 1.0f)
+        jsonObject2.add("predicate", jsonObject3)
+        jsonObject2.addProperty("model", tallModel.toString())
+        jsonArray.add(jsonObject2)
+        jsonObject.add("overrides", jsonArray)
+        generator.modelCollector.accept(coffeeTableBlock.itemModelId, Supplier {
+            jsonObject
+        })
+    }
     override fun getLootTableBuilder(provider: FabricBlockLootTableProvider): LootTable.Builder {
         val tallStatePredicate = StatePredicate.Builder.create().exactMatch(type, CoffeeTableTypes.TALL)
         val whenBlockIsTall = BlockStatePropertyLootCondition.builder(this).properties(tallStatePredicate)

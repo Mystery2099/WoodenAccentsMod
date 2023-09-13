@@ -1,14 +1,10 @@
 package com.mystery2099.wooden_accents_mod.data.generation
 
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asBlockModelId
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asPlanks
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.toIdentifier
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
-import com.mystery2099.wooden_accents_mod.block.ModBlocks.itemModelId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
-import com.mystery2099.wooden_accents_mod.block.custom.CoffeeTableBlock
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomBlockStateProvider
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
@@ -16,10 +12,8 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
 import net.minecraft.block.WoodType
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.ItemModelGenerator
-import net.minecraft.data.client.TextureKey
 import net.minecraft.data.client.TextureMap
 import net.minecraft.util.math.Direction
-import java.util.function.Supplier
 
 class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
@@ -69,36 +63,6 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
     override fun generateItemModels(itemModelGenerator: ItemModelGenerator) {
 
-    }
-
-    companion object {
-        fun createCoffeeTableItemModel(coffeeTableBlock: CoffeeTableBlock, generator: BlockStateModelGenerator) {
-            val textureMap = mapOf(
-                TextureKey.TOP to coffeeTableBlock.topBlock.textureId,
-                ModModels.legs to coffeeTableBlock.baseBlock.textureId
-            )
-            val tallModel = ModModels.coffeeTableTallInventory.upload(
-                coffeeTableBlock.itemModelId.withSuffixedPath("_tall"),
-                TextureMap().apply {
-                    textureMap.forEach {
-                        put(it.key, it.value)
-                    }
-                },
-                generator.modelCollector
-            )
-            val jsonObject = ModModels.coffeeTableInventory.createJson(coffeeTableBlock.itemModelId, textureMap)
-            val jsonArray = JsonArray()
-            val jsonObject2 = JsonObject()
-            val jsonObject3 = JsonObject()
-            jsonObject3.addProperty("height", 1.0f)
-            jsonObject2.add("predicate", jsonObject3)
-            jsonObject2.addProperty("model", tallModel.toString())
-            jsonArray.add(jsonObject2)
-            jsonObject.add("overrides", jsonArray)
-            generator.modelCollector.accept(coffeeTableBlock.itemModelId, Supplier {
-                jsonObject
-            })
-        }
     }
 }
 
