@@ -66,7 +66,5 @@ object ModBlockTags {
     }
 
     infix operator fun TagKey<Block>?.contains(block: BlockState?) = block?.isIn(this) ?: false
-    infix operator fun TagKey<Block>.contains(block: BlockState?) = block?.isIn(this) ?: false
-    infix operator fun TagKey<Block>.contains(block: BlockState) = block.isIn(this)
 
 }
