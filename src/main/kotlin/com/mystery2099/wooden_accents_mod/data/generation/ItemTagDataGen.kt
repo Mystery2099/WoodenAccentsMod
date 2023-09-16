@@ -22,10 +22,10 @@ class ItemTagDataGen(
     completableFuture: CompletableFuture<RegistryWrapper.WrapperLookup>?
 ) : FabricTagProvider.ItemTagProvider(output, completableFuture, ModDataGenerator.blockTagGen) {
     override fun configure(arg: RegistryWrapper.WrapperLookup) {
-        ModBlockTags.blockTagWithMatchingItemTag.forEach(::copy)
+        ModBlockTags.blockToItemTagMap.forEach(::copy)
 
         getOrCreateTagBuilder(ModItemTags.uncrateable).apply {
-            addTag(ModBlockTags.blockTagWithMatchingItemTag[ModBlockTags.crates])
+            addTag(ModBlockTags.blockToItemTagMap[ModBlockTags.crates])
             forceAddTag(ConventionalItemTags.SHULKER_BOXES)
             add(Items.BUNDLE)
         }

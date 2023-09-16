@@ -9,8 +9,9 @@ import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
 
 object ModBlockTags {
-    internal val blockTagWithMatchingItemTag: MutableMap<TagKey<Block>, TagKey<Item>> = HashMap()
-
+    private val _blockToItemTagMap: MutableMap<TagKey<Block>, TagKey<Item>> = HashMap()
+    val blockToItemTagMap: Map<TagKey<Block>, TagKey<Item>>
+        get() = _blockToItemTagMap
 
     /*---------------Outside Tags----------------*/
     //Pillars
@@ -62,7 +63,7 @@ object ModBlockTags {
     }
 
     private fun TagKey<Block>.createMatchingItemTag() = also {
-        blockTagWithMatchingItemTag[this] = TagKey.of(RegistryKeys.ITEM, this.id)
+        _blockToItemTagMap[this] = TagKey.of(RegistryKeys.ITEM, this.id)
     }
 
     infix operator fun TagKey<Block>?.contains(block: BlockState?) = block?.isIn(this) ?: false
