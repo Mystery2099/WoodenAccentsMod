@@ -412,35 +412,120 @@ object ModBlocks : WoodenAccentsModRegistry {
     val strippedWarpedCoffeeTable =
         CoffeeTableBlock(Blocks.WARPED_PLANKS, Blocks.STRIPPED_WARPED_STEM).registerAs("stripped_warped_coffee_table")
 
-    //Thin Bookshelves
-    val oakPlankBookshelf = ThinBookshelfBlock(Blocks.OAK_PLANKS).registerAs("oak_plank_bookshelf")
-    val sprucePlankBookshelf = ThinBookshelfBlock(Blocks.SPRUCE_PLANKS).registerAs("spruce_plank_bookshelf")
-    val birchPlankBookshelf = ThinBookshelfBlock(Blocks.BIRCH_PLANKS).registerAs("birch_plank_bookshelf")
-    val junglePlankBookshelf = ThinBookshelfBlock(Blocks.JUNGLE_PLANKS).registerAs("jungle_plank_bookshelf")
-    val acaciaPlankBookshelf = ThinBookshelfBlock(Blocks.ACACIA_PLANKS).registerAs("acacia_plank_bookshelf")
-    val darkOakPlankBookshelf = ThinBookshelfBlock(Blocks.DARK_OAK_PLANKS).registerAs("dark_oak_plank_bookshelf")
-    val mangrovePlankBookshelf = ThinBookshelfBlock(Blocks.MANGROVE_PLANKS).registerAs("mangrove_plank_bookshelf")
-    val cherryPlankBookshelf = ThinBookshelfBlock(Blocks.CHERRY_PLANKS).registerAs("cherry_plank_bookshelf")
-    val bambooPlankBookshelf = ThinBookshelfBlock(Blocks.BAMBOO_PLANKS).registerAs("bamboo_plank_bookshelf")
-    val bambooMosaicBookshelf = ThinBookshelfBlock(Blocks.BAMBOO_MOSAIC).registerAs("bamboo_mosaic_bookshelf")
-    val crimsonPlankBookshelf = ThinBookshelfBlock(Blocks.CRIMSON_PLANKS).registerAs("crimson_plank_bookshelf")
-    val warpedPlankBookshelf = ThinBookshelfBlock(Blocks.WARPED_PLANKS).registerAs("warped_plank_bookshelf")
+    //Desks
+    val oakDesk = DeskBlock(
+        BlockSettingsUtil.strippedOakSettings,
+        Blocks.OAK_LOG,
+        Blocks.STRIPPED_OAK_LOG
+    ).registerAs("oak_desk")
+    val spruceDesk = DeskBlock(
+        BlockSettingsUtil.strippedSpruceSettings,
+        Blocks.SPRUCE_LOG,
+        Blocks.STRIPPED_SPRUCE_LOG
+    ).registerAs("spruce_desk")
+    val birchDesk = DeskBlock(
+        BlockSettingsUtil.strippedBirchSettings,
+        Blocks.BIRCH_LOG,
+        Blocks.STRIPPED_BIRCH_LOG
+    ).registerAs("birch_desk")
+    val jungleDesk = DeskBlock(
+        BlockSettingsUtil.strippedJungleSettings,
+        Blocks.JUNGLE_LOG,
+        Blocks.STRIPPED_JUNGLE_LOG
+    ).registerAs("jungle_desk")
+    val acaciaDesk = DeskBlock(
+        BlockSettingsUtil.strippedAcaciaSettings,
+        Blocks.ACACIA_LOG,
+        Blocks.STRIPPED_ACACIA_LOG
+    ).registerAs("acacia_desk")
+    val darkOakDesk = DeskBlock(
+        BlockSettingsUtil.strippedDarkOakSettings,
+        Blocks.DARK_OAK_LOG,
+        Blocks.STRIPPED_DARK_OAK_LOG
+    ).registerAs("dark_oak_desk")
+    val mangroveDesk = DeskBlock(
+        BlockSettingsUtil.strippedMangroveSettings,
+        Blocks.MANGROVE_LOG,
+        Blocks.STRIPPED_MANGROVE_LOG
+    ).registerAs("mangrove_desk")
+    val cherryDesk = DeskBlock(
+        BlockSettingsUtil.strippedCherrySettings,
+        Blocks.CHERRY_LOG,
+        Blocks.STRIPPED_CHERRY_LOG
+    ).registerAs("cherry_desk")
+    val bambooDesk = DeskBlock(
+        BlockSettingsUtil.strippedBambooBlockSettings,
+        Blocks.BAMBOO_BLOCK,
+        Blocks.STRIPPED_BAMBOO_BLOCK
+    ).registerAs("bamboo_desk")
+    val warpedDesk = DeskBlock(
+        BlockSettingsUtil.strippedWarpedSettings,
+        Blocks.WARPED_STEM,
+        Blocks.STRIPPED_WARPED_STEM
+    ).registerAs("warped_desk")
+    val crimsonDesk = DeskBlock(
+        BlockSettingsUtil.strippedCrimsonSettings,
+        Blocks.CRIMSON_STEM,
+        Blocks.STRIPPED_CRIMSON_STEM
+    ).registerAs("crimson_desk")
 
-    //Plank Carpets
-    val oakPlankCarpet = CustomCarpetBlock(Blocks.OAK_PLANKS).registerAs("oak_plank_carpet")
-    val sprucePlankCarpet = CustomCarpetBlock(Blocks.SPRUCE_PLANKS).registerAs("spruce_plank_carpet")
-    val birchPlankCarpet = CustomCarpetBlock(Blocks.BIRCH_PLANKS).registerAs("birch_plank_carpet")
-    val junglePlankCarpet = CustomCarpetBlock(Blocks.JUNGLE_PLANKS).registerAs("jungle_plank_carpet")
-    val acaciaPlankCarpet = CustomCarpetBlock(Blocks.ACACIA_PLANKS).registerAs("acacia_plank_carpet")
-    val darkOakPlankCarpet = CustomCarpetBlock(Blocks.DARK_OAK_PLANKS).registerAs("dark_oak_plank_carpet")
-    val mangrovePlankCarpet = CustomCarpetBlock(Blocks.MANGROVE_PLANKS).registerAs("mangrove_plank_carpet")
-    val cherryPlankCarpet = CustomCarpetBlock(Blocks.CHERRY_PLANKS).registerAs("cherry_plank_carpet")
-    val bambooPlankCarpet = CustomCarpetBlock(Blocks.BAMBOO_PLANKS).registerAs("bamboo_plank_carpet")
-    val bambooMosaicCarpet = CustomCarpetBlock(Blocks.BAMBOO_MOSAIC).registerAs("bamboo_mosaic_carpet")
-    val crimsonPlankCarpet = CustomCarpetBlock(Blocks.CRIMSON_PLANKS).registerAs("crimson_plank_carpet")
-    val warpedPlankCarpet = CustomCarpetBlock(Blocks.WARPED_PLANKS).registerAs("warped_plank_carpet")
+    //Desk Drawers
+    val oakDeskDrawer = DeskDrawerBlock(
+        BlockSettingsUtil.strippedOakSettings,
+        Blocks.OAK_LOG,
+        Blocks.STRIPPED_OAK_LOG
+    ).registerAs("oak_desk_drawer")
+    val spruceDeskDrawer = DeskDrawerBlock(
+        BlockSettingsUtil.strippedSpruceSettings,
+        Blocks.SPRUCE_LOG,
+        Blocks.STRIPPED_SPRUCE_LOG
+    ).registerAs("spruce_desk_drawer")
+    val birchDeskDrawer = DeskDrawerBlock(
+        BlockSettingsUtil.strippedBirchSettings,
+        Blocks.BIRCH_LOG,
+        Blocks.STRIPPED_BIRCH_LOG
+    ).registerAs("birch_desk_drawer")
+    val jungleDeskDrawer = DeskDrawerBlock(
+        BlockSettingsUtil.strippedJungleSettings,
+        Blocks.JUNGLE_LOG,
+        Blocks.STRIPPED_JUNGLE_LOG
+    ).registerAs("jungle_desk_drawer")
+    val acaciaDeskDrawer = DeskDrawerBlock(
+        BlockSettingsUtil.strippedAcaciaSettings,
+        Blocks.ACACIA_LOG,
+        Blocks.STRIPPED_ACACIA_LOG
+    ).registerAs("acacia_desk_drawer")
+    val darkOakDeskDrawer = DeskDrawerBlock(
+        BlockSettingsUtil.strippedDarkOakSettings,
+        Blocks.DARK_OAK_LOG,
+        Blocks.STRIPPED_DARK_OAK_LOG
+    ).registerAs("dark_oak_desk_drawer")
+    val mangroveDeskDrawer = DeskDrawerBlock(
+        BlockSettingsUtil.strippedMangroveSettings,
+        Blocks.MANGROVE_LOG,
+        Blocks.STRIPPED_MANGROVE_LOG
+    ).registerAs("mangrove_desk_drawer")
+    val cherryDeskDrawer = DeskDrawerBlock(
+        BlockSettingsUtil.strippedCherrySettings,
+        Blocks.CHERRY_LOG,
+        Blocks.STRIPPED_CHERRY_LOG
+    ).registerAs("cherry_desk_drawer")
+    val bambooDeskDrawer = DeskDrawerBlock(
+        BlockSettingsUtil.strippedBambooBlockSettings,
+        Blocks.BAMBOO_BLOCK,
+        Blocks.STRIPPED_BAMBOO_BLOCK
+    ).registerAs("bamboo_desk_drawer")
+    val warpedDeskDrawer = DeskDrawerBlock(
+        BlockSettingsUtil.strippedWarpedSettings,
+        Blocks.WARPED_STEM,
+        Blocks.STRIPPED_WARPED_STEM
+    ).registerAs("warped_desk_drawer")
+    val crimsonDeskDrawer = DeskDrawerBlock(
+        BlockSettingsUtil.strippedCrimsonSettings,
+        Blocks.CRIMSON_STEM,
+        Blocks.STRIPPED_CRIMSON_STEM
+    ).registerAs("crimson_desk_drawer")
 
-    /*---------------Kitchen Stuff----------------*/
     //Kitchen counters
     val oakKitchenCounter = KitchenCounterBlock(Blocks.OAK_PLANKS, Blocks.OAK_LOG).registerAs("oak_kitchen_counter")
     val spruceKitchenCounter =
@@ -583,129 +668,33 @@ object ModBlocks : WoodenAccentsModRegistry {
         Blocks.STRIPPED_WARPED_STEM
     ).registerAs("stripped_warped_kitchen_cabinet")
 
-    /*---------------End Kitchen Stuff----------------*/
+    //Thin Bookshelves
+    val oakPlankBookshelf = ThinBookshelfBlock(Blocks.OAK_PLANKS).registerAs("oak_plank_bookshelf")
+    val sprucePlankBookshelf = ThinBookshelfBlock(Blocks.SPRUCE_PLANKS).registerAs("spruce_plank_bookshelf")
+    val birchPlankBookshelf = ThinBookshelfBlock(Blocks.BIRCH_PLANKS).registerAs("birch_plank_bookshelf")
+    val junglePlankBookshelf = ThinBookshelfBlock(Blocks.JUNGLE_PLANKS).registerAs("jungle_plank_bookshelf")
+    val acaciaPlankBookshelf = ThinBookshelfBlock(Blocks.ACACIA_PLANKS).registerAs("acacia_plank_bookshelf")
+    val darkOakPlankBookshelf = ThinBookshelfBlock(Blocks.DARK_OAK_PLANKS).registerAs("dark_oak_plank_bookshelf")
+    val mangrovePlankBookshelf = ThinBookshelfBlock(Blocks.MANGROVE_PLANKS).registerAs("mangrove_plank_bookshelf")
+    val cherryPlankBookshelf = ThinBookshelfBlock(Blocks.CHERRY_PLANKS).registerAs("cherry_plank_bookshelf")
+    val bambooPlankBookshelf = ThinBookshelfBlock(Blocks.BAMBOO_PLANKS).registerAs("bamboo_plank_bookshelf")
+    val bambooMosaicBookshelf = ThinBookshelfBlock(Blocks.BAMBOO_MOSAIC).registerAs("bamboo_mosaic_bookshelf")
+    val crimsonPlankBookshelf = ThinBookshelfBlock(Blocks.CRIMSON_PLANKS).registerAs("crimson_plank_bookshelf")
+    val warpedPlankBookshelf = ThinBookshelfBlock(Blocks.WARPED_PLANKS).registerAs("warped_plank_bookshelf")
 
-    /*---------------Bedroom Stuff----------------*/
-    //Desks
-    val oakDesk = DeskBlock(
-        BlockSettingsUtil.strippedOakSettings,
-        Blocks.OAK_LOG,
-        Blocks.STRIPPED_OAK_LOG
-    ).registerAs("oak_desk")
-    val spruceDesk = DeskBlock(
-        BlockSettingsUtil.strippedSpruceSettings,
-        Blocks.SPRUCE_LOG,
-        Blocks.STRIPPED_SPRUCE_LOG
-    ).registerAs("spruce_desk")
-    val birchDesk = DeskBlock(
-        BlockSettingsUtil.strippedBirchSettings,
-        Blocks.BIRCH_LOG,
-        Blocks.STRIPPED_BIRCH_LOG
-    ).registerAs("birch_desk")
-    val jungleDesk = DeskBlock(
-        BlockSettingsUtil.strippedJungleSettings,
-        Blocks.JUNGLE_LOG,
-        Blocks.STRIPPED_JUNGLE_LOG
-    ).registerAs("jungle_desk")
-    val acaciaDesk = DeskBlock(
-        BlockSettingsUtil.strippedAcaciaSettings,
-        Blocks.ACACIA_LOG,
-        Blocks.STRIPPED_ACACIA_LOG
-    ).registerAs("acacia_desk")
-    val darkOakDesk = DeskBlock(
-        BlockSettingsUtil.strippedDarkOakSettings,
-        Blocks.DARK_OAK_LOG,
-        Blocks.STRIPPED_DARK_OAK_LOG
-    ).registerAs("dark_oak_desk")
-    val mangroveDesk = DeskBlock(
-        BlockSettingsUtil.strippedMangroveSettings,
-        Blocks.MANGROVE_LOG,
-        Blocks.STRIPPED_MANGROVE_LOG
-    ).registerAs("mangrove_desk")
-    val cherryDesk = DeskBlock(
-        BlockSettingsUtil.strippedCherrySettings,
-        Blocks.CHERRY_LOG,
-        Blocks.STRIPPED_CHERRY_LOG
-    ).registerAs("cherry_desk")
-    val bambooDesk = DeskBlock(
-        BlockSettingsUtil.strippedBambooBlockSettings,
-        Blocks.BAMBOO_BLOCK,
-        Blocks.STRIPPED_BAMBOO_BLOCK
-    ).registerAs("bamboo_desk")
-    val warpedDesk = DeskBlock(
-        BlockSettingsUtil.strippedWarpedSettings,
-        Blocks.WARPED_STEM,
-        Blocks.STRIPPED_WARPED_STEM
-    ).registerAs("warped_desk")
-    val crimsonDesk = DeskBlock(
-        BlockSettingsUtil.strippedCrimsonSettings,
-        Blocks.CRIMSON_STEM,
-        Blocks.STRIPPED_CRIMSON_STEM
-    ).registerAs("crimson_desk")
-
-    //Desk Drawers
-    val oakDeskDrawer = DeskDrawerBlock(
-        BlockSettingsUtil.strippedOakSettings,
-        Blocks.OAK_LOG,
-        Blocks.STRIPPED_OAK_LOG
-    ).registerAs("oak_desk_drawer")
-    val spruceDeskDrawer = DeskDrawerBlock(
-        BlockSettingsUtil.strippedSpruceSettings,
-        Blocks.SPRUCE_LOG,
-        Blocks.STRIPPED_SPRUCE_LOG
-    ).registerAs("spruce_desk_drawer")
-    val birchDeskDrawer = DeskDrawerBlock(
-        BlockSettingsUtil.strippedBirchSettings,
-        Blocks.BIRCH_LOG,
-        Blocks.STRIPPED_BIRCH_LOG
-    ).registerAs("birch_desk_drawer")
-    val jungleDeskDrawer = DeskDrawerBlock(
-        BlockSettingsUtil.strippedJungleSettings,
-        Blocks.JUNGLE_LOG,
-        Blocks.STRIPPED_JUNGLE_LOG
-    ).registerAs("jungle_desk_drawer")
-    val acaciaDeskDrawer = DeskDrawerBlock(
-        BlockSettingsUtil.strippedAcaciaSettings,
-        Blocks.ACACIA_LOG,
-        Blocks.STRIPPED_ACACIA_LOG
-    ).registerAs("acacia_desk_drawer")
-    val darkOakDeskDrawer = DeskDrawerBlock(
-        BlockSettingsUtil.strippedDarkOakSettings,
-        Blocks.DARK_OAK_LOG,
-        Blocks.STRIPPED_DARK_OAK_LOG
-    ).registerAs("dark_oak_desk_drawer")
-    val mangroveDeskDrawer = DeskDrawerBlock(
-        BlockSettingsUtil.strippedMangroveSettings,
-        Blocks.MANGROVE_LOG,
-        Blocks.STRIPPED_MANGROVE_LOG
-    ).registerAs("mangrove_desk_drawer")
-    val cherryDeskDrawer = DeskDrawerBlock(
-        BlockSettingsUtil.strippedCherrySettings,
-        Blocks.CHERRY_LOG,
-        Blocks.STRIPPED_CHERRY_LOG
-    ).registerAs("cherry_desk_drawer")
-    val bambooDeskDrawer = DeskDrawerBlock(
-        BlockSettingsUtil.strippedBambooBlockSettings,
-        Blocks.BAMBOO_BLOCK,
-        Blocks.STRIPPED_BAMBOO_BLOCK
-    ).registerAs("bamboo_desk_drawer")
-    val warpedDeskDrawer = DeskDrawerBlock(
-        BlockSettingsUtil.strippedWarpedSettings,
-        Blocks.WARPED_STEM,
-        Blocks.STRIPPED_WARPED_STEM
-    ).registerAs("warped_desk_drawer")
-    val crimsonDeskDrawer = DeskDrawerBlock(
-        BlockSettingsUtil.strippedCrimsonSettings,
-        Blocks.CRIMSON_STEM,
-        Blocks.STRIPPED_CRIMSON_STEM
-    ).registerAs("crimson_desk_drawer")
-
-    /*---------------End Bedroom Stuff----------------*/
-
-    /*---------------Misc Stuff----------------*/
-
-
-    /*---------------End Misc Stuff----------------*/
+    //Plank Carpets
+    val oakPlankCarpet = CustomCarpetBlock(Blocks.OAK_PLANKS).registerAs("oak_plank_carpet")
+    val sprucePlankCarpet = CustomCarpetBlock(Blocks.SPRUCE_PLANKS).registerAs("spruce_plank_carpet")
+    val birchPlankCarpet = CustomCarpetBlock(Blocks.BIRCH_PLANKS).registerAs("birch_plank_carpet")
+    val junglePlankCarpet = CustomCarpetBlock(Blocks.JUNGLE_PLANKS).registerAs("jungle_plank_carpet")
+    val acaciaPlankCarpet = CustomCarpetBlock(Blocks.ACACIA_PLANKS).registerAs("acacia_plank_carpet")
+    val darkOakPlankCarpet = CustomCarpetBlock(Blocks.DARK_OAK_PLANKS).registerAs("dark_oak_plank_carpet")
+    val mangrovePlankCarpet = CustomCarpetBlock(Blocks.MANGROVE_PLANKS).registerAs("mangrove_plank_carpet")
+    val cherryPlankCarpet = CustomCarpetBlock(Blocks.CHERRY_PLANKS).registerAs("cherry_plank_carpet")
+    val bambooPlankCarpet = CustomCarpetBlock(Blocks.BAMBOO_PLANKS).registerAs("bamboo_plank_carpet")
+    val bambooMosaicCarpet = CustomCarpetBlock(Blocks.BAMBOO_MOSAIC).registerAs("bamboo_mosaic_carpet")
+    val crimsonPlankCarpet = CustomCarpetBlock(Blocks.CRIMSON_PLANKS).registerAs("crimson_plank_carpet")
+    val warpedPlankCarpet = CustomCarpetBlock(Blocks.WARPED_PLANKS).registerAs("warped_plank_carpet")
 
     inline val Block.itemModelId: Identifier
         get() = id.withPrefixedPath("item/")
