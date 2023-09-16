@@ -68,4 +68,7 @@ object ModBlockTags {
 
     infix operator fun TagKey<Block>?.contains(block: BlockState?) = block?.isIn(this) ?: false
 
+    fun getItemTagFrom(blockTag: TagKey<Block>): TagKey<Item> {
+        return blockToItemTagMap[blockTag] ?: TagKey.of(RegistryKeys.ITEM, blockTag.id)
+    }
 }

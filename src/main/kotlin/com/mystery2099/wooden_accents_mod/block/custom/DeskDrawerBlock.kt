@@ -37,7 +37,6 @@ import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.recipe.book.RecipeCategory
-import net.minecraft.registry.tag.ItemTags
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.state.StateManager
@@ -305,7 +304,7 @@ class DeskDrawerBlock(settings: Settings, private val edgeBlock: Block, val base
             pattern("|#|")
             pattern("| |")
             customGroup(this@DeskDrawerBlock, "desk_drawers")
-            requires(ModBlockTags.blockToItemTagMap[ModBlockTags.desks] ?: ItemTags.LOGS)
+            requires(ModBlockTags.getItemTagFrom(ModBlockTags.desks))
             offerTo(exporter)
         }
     }
