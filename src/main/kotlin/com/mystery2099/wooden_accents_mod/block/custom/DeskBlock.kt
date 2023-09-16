@@ -4,6 +4,8 @@ import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.custom.enums.DeskShape
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
+import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.customGroup
+import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomBlockStateProvider
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomRecipeProvider
@@ -24,7 +26,9 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
 import net.minecraft.data.client.*
 import net.minecraft.data.server.recipe.RecipeJsonProvider
+import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.DirectionProperty
@@ -188,7 +192,16 @@ class DeskBlock(settings: Settings, val baseBlock: Block, private val topBlock: 
     }
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
-
+        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, this, 4).apply {
+            input('|', baseBlock)
+            input('_', topBlock)
+            pattern("___")
+            pattern("| |")
+            pattern("| |")
+            customGroup(this@DeskBlock, "desks")
+            requires(baseBlock)
+            offerTo(exporter)
+        }
     }
 
     companion object {

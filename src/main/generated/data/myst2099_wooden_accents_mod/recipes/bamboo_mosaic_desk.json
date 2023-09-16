@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "desks",
+  "key": {
+    "_": {
+      "item": "minecraft:bamboo_mosaic"
+    },
+    "|": {
+      "item": "minecraft:bamboo_block"
+    }
+  },
+  "pattern": [
+    "___",
+    "| |",
+    "| |"
+  ],
+  "result": {
+    "count": 4,
+    "item": "myst2099_wooden_accents_mod:bamboo_mosaic_desk"
+  },
+  "show_notification": true
+}
