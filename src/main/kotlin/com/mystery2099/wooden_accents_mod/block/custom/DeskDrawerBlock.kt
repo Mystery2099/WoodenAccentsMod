@@ -5,6 +5,8 @@ import com.mystery2099.wooden_accents_mod.block.custom.enums.SidewaysConnectionS
 import com.mystery2099.wooden_accents_mod.block_entity.custom.DeskDrawerBlockEntity
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
+import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.customGroup
+import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomBlockStateProvider
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomRecipeProvider
@@ -27,11 +29,15 @@ import net.minecraft.block.ShapeContext
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.data.client.*
 import net.minecraft.data.server.recipe.RecipeJsonProvider
+import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.mob.PiglinBrain
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
+import net.minecraft.recipe.book.RecipeCategory
+import net.minecraft.registry.tag.ItemTags
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.state.StateManager
@@ -291,7 +297,17 @@ class DeskDrawerBlock(settings: Settings, private val edgeBlock: Block, val base
     }
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
-
+        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, this, 4).apply {
+            input('|', edgeBlock)
+            input('_', baseBlock)
+            input('#', Items.CHEST)
+            pattern("___")
+            pattern("|#|")
+            pattern("| |")
+            customGroup(this@DeskDrawerBlock, "desk_drawers")
+            requires(ModBlockTags.blockToItemTagMap[ModBlockTags.desks] ?: ItemTags.LOGS)
+            offerTo(exporter)
+        }
     }
 
     companion object {

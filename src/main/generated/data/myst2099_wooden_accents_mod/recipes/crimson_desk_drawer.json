@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "desk_drawers",
+  "key": {
+    "#": {
+      "item": "minecraft:chest"
+    },
+    "_": {
+      "item": "minecraft:stripped_crimson_stem"
+    },
+    "|": {
+      "item": "minecraft:crimson_stem"
+    }
+  },
+  "pattern": [
+    "___",
+    "|#|",
+    "| |"
+  ],
+  "result": {
+    "count": 4,
+    "item": "myst2099_wooden_accents_mod:crimson_desk_drawer"
+  },
+  "show_notification": true
+}
