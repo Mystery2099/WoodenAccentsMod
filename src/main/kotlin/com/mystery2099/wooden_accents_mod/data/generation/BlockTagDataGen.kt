@@ -60,8 +60,6 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
         BlockTags.INSIDE_STEP_SOUND_BLOCKS += ModBlockTags.plankCarpets
 
         ModBlockTags.kitchenCounters += ModBlockTags.kitchenCabinets
-
-        ModBlockTags.desks.add(ModBlockTags.deskDrawers)
     }
 
 
