@@ -55,7 +55,8 @@ class DeskBlock(settings: Settings, val baseBlock: Block, private val topBlock: 
     override val tag: TagKey<Block> = ModBlockTags.desks
     private val BlockState.isDesk: Boolean
         get() = this isIn tag
-
+    private val BlockState.isDeskDrawer: Boolean
+        get() = this isIn ModBlockTags.deskDrawers
 
     init {
         defaultState = defaultState.with(facing, Direction.NORTH).withShape(
@@ -98,7 +99,7 @@ class DeskBlock(settings: Settings, val baseBlock: Block, private val topBlock: 
         val left = world.getBlockState(pos?.offset(state[facing].rotateYClockwise())).isDesk
         val right = world.getBlockState(pos?.offset(state[facing].rotateYCounterclockwise())).isDesk
         val forward = world.getBlockState(pos?.offset(state[facing])).let {
-            it.isDesk && if (left) it[facing] == state[facing].rotateYClockwise()
+            (it.isDesk || it.isDeskDrawer) && if (left) it[facing] == state[facing].rotateYClockwise()
             else if (right) it[facing] == state[facing].rotateYCounterclockwise() else true
         }
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
