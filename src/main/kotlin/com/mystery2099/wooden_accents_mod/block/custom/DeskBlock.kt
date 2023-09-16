@@ -192,7 +192,7 @@ class DeskBlock(settings: Settings, val baseBlock: Block, private val topBlock: 
     }
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, this, 4).apply {
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 4).apply {
             input('|', baseBlock)
             input('_', topBlock)
             pattern("___")

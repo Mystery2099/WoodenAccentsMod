@@ -296,7 +296,7 @@ class DeskDrawerBlock(settings: Settings, private val edgeBlock: Block, val base
     }
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, this, 4).apply {
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 4).apply {
             input('|', edgeBlock)
             input('_', baseBlock)
             input('#', Items.CHEST)
