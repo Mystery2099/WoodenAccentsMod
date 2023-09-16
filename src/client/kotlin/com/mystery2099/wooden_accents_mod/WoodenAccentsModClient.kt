@@ -17,7 +17,7 @@ object WoodenAccentsModClient : ClientModInitializer {
 			ModelPredicateProviderRegistry.register(
 				it.asItem(), Identifier("height")
 			) { itemStack, _, _, _ ->
-				if (itemStack.nbt?.getString("coffee_table_type") != CoffeeTableTypes.TALL.asString()) 0.5f else 1.0f
+				if (itemStack.nbt?.getString(CoffeeTableTypes.TAG) != CoffeeTableTypes.TALL.asString()) 0.5f else 1.0f
 			}
 		}
     }

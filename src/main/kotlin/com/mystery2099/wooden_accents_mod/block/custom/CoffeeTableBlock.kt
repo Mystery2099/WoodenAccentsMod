@@ -86,6 +86,7 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
 
     override val tag: TagKey<Block> = ModBlockTags.coffeeTables
     override val itemGroup = ModItemGroups.decorations
+
     private val BlockState.isTall: Boolean
         get() = getOrEmpty(type) == Optional.of(CoffeeTableTypes.TALL)
     override val variantItemGroupStack: ItemStack
@@ -93,7 +94,7 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
             orCreateNbt.setType(CoffeeTableTypes.TALL)
         }
     private val NbtCompound.isTall: Boolean
-        get() = this.getString("coffee_table_type") == CoffeeTableTypes.TALL.asString()
+        get() = this.getString(CoffeeTableTypes.TAG) == CoffeeTableTypes.TALL.asString()
 
     init {
         defaultState = defaultState.setShort().asSingle().with(waterlogged, false)
@@ -112,12 +113,12 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
 
     private fun NbtCompound.setTall() = this.setType(CoffeeTableTypes.TALL)
     private fun NbtCompound.setType(type: CoffeeTableTypes) =
-        apply { putString("coffee_table_type", type.asString()) }
+        apply { putString(CoffeeTableTypes.TAG, type.asString()) }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
         val nbt = ctx.stack.nbt
         val state = ctx.world.getBlockState(ctx.blockPos)
-        return if (state.isOf(this) && nbt?.getString("coffee_table_type") != CoffeeTableTypes.TALL.asString()) state.setTall()
+        return if (state.isOf(this) && nbt?.getString(CoffeeTableTypes.TAG) != CoffeeTableTypes.TALL.asString()) state.setTall()
         else defaultState.setDirections(ctx.world, ctx.blockPos).run {
             nbt?.let {
                 if (it.isTall) with(type, CoffeeTableTypes.TALL) else this
@@ -237,7 +238,7 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         super.appendTooltip(stack, world, tooltip, options)
         if (stack.hasNbt()) {
             tooltip.add(
-                Text.literal(stack.nbt?.getString("coffee_table_type"))
+                Text.literal(stack.nbt?.getString(CoffeeTableTypes.TAG))
                     .formatted(Formatting.GRAY, Formatting.ITALIC)
             )
         }
