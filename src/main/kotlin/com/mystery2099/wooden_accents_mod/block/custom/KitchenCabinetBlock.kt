@@ -195,7 +195,7 @@ class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
             pattern("#O#")
             pattern("###")
             customGroup(this@KitchenCabinetBlock, "kitchen_cabinets")
-            requires(baseBlock)
+            requires(ModBlockTags.getItemTagFrom(ModBlockTags.kitchenCounters))
             offerTo(exporter)
         }
     }

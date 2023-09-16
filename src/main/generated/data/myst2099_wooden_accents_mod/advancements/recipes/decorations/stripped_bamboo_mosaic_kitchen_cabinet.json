@@ -1,13 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_bamboo_mosaic": {
+    "has_myst2099_wooden_accents_mod:kitchen_counters": {
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:bamboo_mosaic"
-            ]
+            "tag": "myst2099_wooden_accents_mod:kitchen_counters"
           }
         ]
       },
@@ -22,7 +20,7 @@
   },
   "requirements": [
     [
-      "has_bamboo_mosaic",
+      "has_myst2099_wooden_accents_mod:kitchen_counters",
       "has_the_recipe"
     ]
   ],

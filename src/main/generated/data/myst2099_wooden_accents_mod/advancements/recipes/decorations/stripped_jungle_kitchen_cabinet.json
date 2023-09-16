@@ -1,13 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_jungle_planks": {
+    "has_myst2099_wooden_accents_mod:kitchen_counters": {
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:jungle_planks"
-            ]
+            "tag": "myst2099_wooden_accents_mod:kitchen_counters"
           }
         ]
       },
@@ -22,7 +20,7 @@
   },
   "requirements": [
     [
-      "has_jungle_planks",
+      "has_myst2099_wooden_accents_mod:kitchen_counters",
       "has_the_recipe"
     ]
   ],
