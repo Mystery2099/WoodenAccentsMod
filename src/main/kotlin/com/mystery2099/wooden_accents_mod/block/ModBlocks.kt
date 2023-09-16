@@ -458,6 +458,11 @@ object ModBlocks : WoodenAccentsModRegistry {
         Blocks.BAMBOO_BLOCK,
         Blocks.STRIPPED_BAMBOO_BLOCK
     ).registerAs("bamboo_desk")
+    val bambooMosaicDesk = DeskBlock(
+        BlockSettingsUtil.strippedBambooBlockSettings,
+        Blocks.BAMBOO_BLOCK,
+        Blocks.BAMBOO_MOSAIC
+    ).registerAs("bamboo_mosaic_desk")
     val warpedDesk = DeskBlock(
         BlockSettingsUtil.strippedWarpedSettings,
         Blocks.WARPED_STEM,
@@ -515,6 +520,11 @@ object ModBlocks : WoodenAccentsModRegistry {
         Blocks.BAMBOO_BLOCK,
         Blocks.STRIPPED_BAMBOO_BLOCK
     ).registerAs("bamboo_desk_drawer")
+    val bambooMosaicDeskDrawer = DeskDrawerBlock(
+        BlockSettingsUtil.strippedBambooBlockSettings,
+        Blocks.BAMBOO_BLOCK,
+        Blocks.BAMBOO_MOSAIC
+    ).registerAs("bamboo_mosaic_desk_drawer")
     val warpedDeskDrawer = DeskDrawerBlock(
         BlockSettingsUtil.strippedWarpedSettings,
         Blocks.WARPED_STEM,

@@ -1,0 +1,7 @@
+{
+  "parent": "myst2099_wooden_accents_mod:block/desk_drawer_left",
+  "textures": {
+    "edge": "minecraft:block/bamboo_block",
+    "side": "minecraft:block/bamboo_mosaic"
+  }
+}
