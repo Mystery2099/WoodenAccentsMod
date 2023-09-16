@@ -9,7 +9,9 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.minecraft.block.Block
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
+import net.minecraft.item.Item
 import net.minecraft.item.ItemConvertible
+import net.minecraft.registry.tag.TagKey
 import java.util.function.Consumer
 
 /**
@@ -29,8 +31,11 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
     }
 
     companion object {
-        infix fun ShapedRecipeJsonBuilder.requires(requiredItem: ItemConvertible): ShapedRecipeJsonBuilder {
+        fun ShapedRecipeJsonBuilder.requires(requiredItem: ItemConvertible): ShapedRecipeJsonBuilder {
             return criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
+        }
+        fun ShapedRecipeJsonBuilder.requires(requiredTag: TagKey<Item>): ShapedRecipeJsonBuilder {
+            return criterion("has_any_of ${requiredTag.id}", conditionsFromTag(requiredTag))
         }
 
         fun ShapedRecipeJsonBuilder.customGroup(block: Block, name: String): ShapedRecipeJsonBuilder {
