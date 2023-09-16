@@ -14,44 +14,44 @@ object ModBlockTags {
 
     /*---------------Outside Tags----------------*/
     //Pillars
-    val pillars = "pillars".toBlockTag().withMatchingItemTag()
-    val thinPillars = "thin_pillars".toBlockTag().withMatchingItemTag()
-    val thickPillars = "thick_pillars".toBlockTag().withMatchingItemTag()
+    val pillars = "pillars".toBlockTag().createMatchingItemTag()
+    val thinPillars = "thin_pillars".toBlockTag().createMatchingItemTag()
+    val thickPillars = "thick_pillars".toBlockTag().createMatchingItemTag()
     val thinPillarsConnectable = "thin_pillars_connectable".toBlockTag()
     val thickPillarsConnectable = "thick_pillars_connectable".toBlockTag()
 
     //Walls
-    val woodenWalls = "wooden_walls".toBlockTag().withMatchingItemTag()
+    val woodenWalls = "wooden_walls".toBlockTag().createMatchingItemTag()
 
     //Ladders
-    val plankLadders = "plank_ladders".toBlockTag().withMatchingItemTag()
-    val connectingLadders = "connecting_ladders".toBlockTag().withMatchingItemTag()
+    val plankLadders = "plank_ladders".toBlockTag().createMatchingItemTag()
+    val connectingLadders = "connecting_ladders".toBlockTag().createMatchingItemTag()
 
     //Fences
-    val modernFences = "modern_fences".toBlockTag().withMatchingItemTag()
+    val modernFences = "modern_fences".toBlockTag().createMatchingItemTag()
     val modernFenceConnectable = "modern_fence_connectable".toBlockTag()
-    val modernFenceGates = "modern_fence_gates".toBlockTag().withMatchingItemTag()
+    val modernFenceGates = "modern_fence_gates".toBlockTag().createMatchingItemTag()
 
-    val supportBeams = "support_beams".toBlockTag().withMatchingItemTag()
-    val crates = "crates".toBlockTag().withMatchingItemTag()
+    val supportBeams = "support_beams".toBlockTag().createMatchingItemTag()
+    val crates = "crates".toBlockTag().createMatchingItemTag()
     /*---------------End Outside Tags----------------*/
 
     /*---------------Living Room Tags----------------*/
-    val tables = "tables".toBlockTag().withMatchingItemTag()
-    val coffeeTables = "coffee_tables".toBlockTag().withMatchingItemTag()
-    val thinBookshelves = "thin_bookshelves".toBlockTag().withMatchingItemTag()
-    val plankCarpets = "plank_carpets".toBlockTag().withMatchingItemTag()
+    val tables = "tables".toBlockTag().createMatchingItemTag()
+    val coffeeTables = "coffee_tables".toBlockTag().createMatchingItemTag()
+    val thinBookshelves = "thin_bookshelves".toBlockTag().createMatchingItemTag()
+    val plankCarpets = "plank_carpets".toBlockTag().createMatchingItemTag()
 
     @JvmStatic
-    val desks = "desks".toBlockTag().withMatchingItemTag()
-    val deskDrawers = "desk_drawers".toBlockTag().withMatchingItemTag()
+    val desks = "desks".toBlockTag().createMatchingItemTag()
+    val deskDrawers = "desk_drawers".toBlockTag().createMatchingItemTag()
 
     /*---------------End Living Room Tags----------------*/
 
     /*---------------Kitchen Tags----------------*/
     @JvmStatic
-    val kitchenCounters = "kitchen_counters".toBlockTag().withMatchingItemTag()
-    val kitchenCabinets = "kitchen_cabinets".toBlockTag().withMatchingItemTag()
+    val kitchenCounters = "kitchen_counters".toBlockTag().createMatchingItemTag()
+    val kitchenCabinets = "kitchen_cabinets".toBlockTag().createMatchingItemTag()
     /*---------------End Kitchen Tags----------------*/
 
     /*---------------Storage Tags----------------*/
@@ -61,7 +61,7 @@ object ModBlockTags {
         return TagKey.of(RegistryKeys.BLOCK, Identifier(namespace, this))
     }
 
-    private fun TagKey<Block>.withMatchingItemTag() = also {
+    private fun TagKey<Block>.createMatchingItemTag() = also {
         blockTagWithMatchingItemTag[this] = TagKey.of(RegistryKeys.ITEM, this.id)
     }
 
