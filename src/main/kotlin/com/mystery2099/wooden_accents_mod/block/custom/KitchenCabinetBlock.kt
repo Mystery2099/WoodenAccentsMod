@@ -47,6 +47,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
 import net.minecraft.util.shape.VoxelShape
+import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import java.util.function.Consumer
@@ -183,7 +184,7 @@ class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
         pos: BlockPos,
         context: ShapeContext
     ): VoxelShape = directionVoxelShapeMap[state[facing]]?.unifiedWith(AbstractKitchenCounterBlock.TOP_SHAPE)
-        ?: super.getOutlineShape(state, world, pos, context)
+        ?: VoxelShapes.fullCube()
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 4).apply {

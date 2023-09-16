@@ -33,6 +33,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
+import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
@@ -73,10 +74,7 @@ class DeskBlock(settings: Settings, val baseBlock: Block, private val topBlock: 
         pos: BlockPos?,
         context: ShapeContext?
     ): VoxelShape =
-        shapeMap[state[shape]]?.get(state[facing]) ?: super.getOutlineShape(
-            state, world, pos,
-            context
-        )
+        shapeMap[state[shape]]?.get(state[facing]) ?: VoxelShapes.fullCube()
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)

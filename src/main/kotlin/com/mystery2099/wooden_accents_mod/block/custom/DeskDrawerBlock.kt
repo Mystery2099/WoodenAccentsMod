@@ -46,6 +46,7 @@ import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
+import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
@@ -157,10 +158,7 @@ class DeskDrawerBlock(settings: Settings, private val edgeBlock: Block, val base
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
-    ): VoxelShape = shapeMap[state[shape]]?.get(state[facing]) ?: super.getOutlineShape(
-        state, world, pos,
-        context
-    )
+    ): VoxelShape = shapeMap[state[shape]]?.get(state[facing]) ?: VoxelShapes.fullCube()
 
     @Deprecated("Deprecated in Java", ReplaceWith("BlockRenderType.MODEL", "net.minecraft.block.BlockRenderType"))
     override fun getRenderType(state: BlockState?): BlockRenderType = BlockRenderType.MODEL

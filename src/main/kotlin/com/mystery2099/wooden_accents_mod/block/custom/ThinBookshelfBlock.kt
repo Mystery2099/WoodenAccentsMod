@@ -31,6 +31,7 @@ import net.minecraft.resource.featuretoggle.FeatureFlags
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
+import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import java.util.function.Consumer
 
@@ -58,7 +59,7 @@ class ThinBookshelfBlock(val baseBlock: Block) :
         Direction.EAST -> northShape.rotatedLeft
         Direction.SOUTH -> northShape.flipped
         Direction.WEST -> northShape.rotatedRight
-        else -> super.getOutlineShape(state, world, pos, context)
+        else -> VoxelShapes.fullCube()
     }
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
