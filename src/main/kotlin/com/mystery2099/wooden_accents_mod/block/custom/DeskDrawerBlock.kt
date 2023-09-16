@@ -66,6 +66,10 @@ class DeskDrawerBlock(settings: Settings, private val edgeBlock: Block, val base
 
     override val itemGroup: CustomItemGroup = ModItemGroups.decorations
     override val tag: TagKey<Block> = ModBlockTags.deskDrawers
+    private inline val BlockState.isDeskDrawer: Boolean
+        get() = this isIn tag
+    private inline val BlockState.isDesk: Boolean
+        get() = this isIn ModBlockTags.desks
 
     init {
         this.defaultState =
@@ -75,18 +79,15 @@ class DeskDrawerBlock(settings: Settings, private val edgeBlock: Block, val base
 
     private fun BlockState.withShape(left: Boolean, right: Boolean): BlockState = this.withProperties {
         shape setTo when {
-        left && right -> SidewaysConnectionShape.CENTER
-        left -> SidewaysConnectionShape.RIGHT
-        right -> SidewaysConnectionShape.LEFT
-        else -> SidewaysConnectionShape.SINGLE
+            left && right -> SidewaysConnectionShape.CENTER
+            left -> SidewaysConnectionShape.RIGHT
+            right -> SidewaysConnectionShape.LEFT
+            else -> SidewaysConnectionShape.SINGLE
+        }
     }
-    }
-
-    private fun BlockState.isDeskDrawer(): Boolean = this isIn tag
-    private fun BlockState.isDesk(): Boolean = this isIn ModBlockTags.desks
 
     private fun BlockState.canConnectTo(other: BlockState): Boolean {
-        return ((this.isDeskDrawer() || this.isDesk()) && (other.isDeskDrawer() || other.isDesk())) && (this[facing] == other[facing])
+        return ((this.isDeskDrawer || this.isDesk) && (other.isDeskDrawer || other.isDesk)) && (this[facing] == other[facing])
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
@@ -167,36 +168,38 @@ class DeskDrawerBlock(settings: Settings, private val edgeBlock: Block, val base
     @Deprecated("Deprecated in Java", ReplaceWith("true"))
     override fun hasComparatorOutput(state: BlockState) = true
 
-    @Deprecated("Deprecated in Java", ReplaceWith(
-        "ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos))",
-        "net.minecraft.screen.ScreenHandler"
-    )
+    @Deprecated(
+        "Deprecated in Java", ReplaceWith(
+            "ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos))",
+            "net.minecraft.screen.ScreenHandler"
+        )
     )
     override fun getComparatorOutput(state: BlockState, world: World, pos: BlockPos): Int {
         return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos))
     }
 
-    @Deprecated("Deprecated in Java", ReplaceWith(
-        "state.with(facing, rotation.rotate(state[facing]))",
-        "com.mystery2099.wooden_accents_mod.block.custom.DeskDrawerBlock.Companion.facing",
-        "com.mystery2099.wooden_accents_mod.block.custom.DeskDrawerBlock.Companion.facing"
-    )
+    @Deprecated(
+        "Deprecated in Java", ReplaceWith(
+            "state.with(facing, rotation.rotate(state[facing]))",
+            "com.mystery2099.wooden_accents_mod.block.custom.DeskDrawerBlock.Companion.facing",
+            "com.mystery2099.wooden_accents_mod.block.custom.DeskDrawerBlock.Companion.facing"
+        )
     )
     override fun rotate(state: BlockState, rotation: BlockRotation): BlockState {
         return state.with(facing, rotation.rotate(state[facing]))
     }
 
-    @Deprecated("Deprecated in Java", ReplaceWith(
-        "state.rotate(mirror.getRotation(state[facing]))",
-        "com.mystery2099.wooden_accents_mod.block.custom.DeskDrawerBlock.Companion.facing"
-    )
+    @Deprecated(
+        "Deprecated in Java", ReplaceWith(
+            "state.rotate(mirror.getRotation(state[facing]))",
+            "com.mystery2099.wooden_accents_mod.block.custom.DeskDrawerBlock.Companion.facing"
+        )
     )
     override fun mirror(state: BlockState, mirror: BlockMirror): BlockState {
         return state.rotate(mirror.getRotation(state[facing]))
     }
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = DeskDrawerBlockEntity(pos, state)
-
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
         val textureMap = TextureMap().apply {
             put(TextureKey.SIDE, baseBlock.textureId)
