@@ -27,7 +27,7 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
         get() = getOrCreateTagBuilder(this)
 
     override fun configure(arg: RegistryWrapper.WrapperLookup) {
-        ModBlocks.blocks.forEach { BlockTags.AXE_MINEABLE += it }
+        BlockTags.AXE_MINEABLE.addAll(ModBlockTags.blockToItemTagMap.keys)
         ModBlocks.blocks.filterIsInstance<CustomTagProvider<Block>>().forEach {
             it.tag += it as Block
         }
@@ -69,6 +69,7 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
     private fun TagKey<Block>.forceAdd(tag: TagKey<Block>): FabricTagBuilder = tagBuilder.forceAddTag(tag)
 
     private fun TagKey<Block>.addAll(vararg tags: TagKey<Block>) = tagBuilder.also { tags.forEach(it::addTag) }
+    private fun TagKey<Block>.addAll(tags: Collection<TagKey<Block>>) = tagBuilder.also { tags.forEach(it::addTag) }
     private fun TagKey<Block>.addAll(vararg blocks: Block) = tagBuilder.also { blocks.forEach(it::add) }
 
     private operator fun TagKey<Block>.plusAssign(tag: TagKey<Block>) {
