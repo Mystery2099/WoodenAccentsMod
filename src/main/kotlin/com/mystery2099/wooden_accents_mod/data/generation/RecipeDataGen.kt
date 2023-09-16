@@ -35,7 +35,7 @@ class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
             return criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
         }
         fun ShapedRecipeJsonBuilder.requires(requiredTag: TagKey<Item>): ShapedRecipeJsonBuilder {
-            return criterion("has_any_of ${requiredTag.id}", conditionsFromTag(requiredTag))
+            return criterion("has_${requiredTag.id}", conditionsFromTag(requiredTag))
         }
 
         fun ShapedRecipeJsonBuilder.customGroup(block: Block, name: String): ShapedRecipeJsonBuilder {
