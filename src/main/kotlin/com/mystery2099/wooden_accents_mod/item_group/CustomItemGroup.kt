@@ -18,8 +18,10 @@ import net.minecraft.item.Items
  *
  * @param name
  */
-class CustomItemGroup(name: String) {
-    val itemGroup: ItemGroup
+data class CustomItemGroup(val name: String) {
+    val itemGroup: ItemGroup = FabricItemGroup.builder(name.toIdentifier()).apply {
+        icon { entries[0] }
+    }.build()
     inline val entries: List<ItemStack>
         get() {
             val list = mutableListOf<ItemStack>()
@@ -47,9 +49,6 @@ class CustomItemGroup(name: String) {
         }
 
     init {
-        itemGroup = FabricItemGroup.builder(name.toIdentifier()).apply {
-            icon { entries[0] }
-        }.build()
         mutableInstances += this
     }
 
