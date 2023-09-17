@@ -20,10 +20,12 @@ import net.minecraft.data.client.TexturedModel
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.registry.tag.TagKey
+import net.minecraft.state.StateManager
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import java.util.function.Consumer
 
@@ -34,8 +36,15 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
     override val itemGroup: CustomItemGroup = ModItemGroups.decorations
     override val tag: TagKey<Block> = ModBlockTags.chairs
 
+    init {
+        this.defaultState = defaultState.with(FACING, Direction.NORTH)
+    }
     constructor(baseBlock: Block) : this(FabricBlockSettings.copyOf(baseBlock), baseBlock)
 
+    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
+        super.appendProperties(builder)
+        builder.add(FACING)
+    }
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
         val texturedModel = TexturedModel.makeFactory({ TextureMap.all(baseBlock) }, ModModels.basicChair)
         generator.registerNorthDefaultHorizontalRotated(this, texturedModel)
