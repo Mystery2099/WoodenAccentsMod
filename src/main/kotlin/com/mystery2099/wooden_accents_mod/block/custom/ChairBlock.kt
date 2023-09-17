@@ -29,6 +29,7 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import java.util.function.Consumer
 
+
 class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlock(settings), Waterloggable,
     CustomBlockStateProvider, CustomItemGroupProvider,
     CustomRecipeProvider, CustomTagProvider<Block> {
@@ -39,12 +40,14 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
     init {
         this.defaultState = defaultState.with(FACING, Direction.NORTH)
     }
+
     constructor(baseBlock: Block) : this(FabricBlockSettings.copyOf(baseBlock), baseBlock)
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
         builder.add(FACING)
     }
+
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
         val texturedModel = TexturedModel.makeFactory({ TextureMap.all(baseBlock) }, ModModels.basicChair)
         generator.registerNorthDefaultHorizontalRotated(this, texturedModel)
@@ -54,20 +57,15 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
 
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onUse(
         state: BlockState,
         world: World,
-        pos: BlockPos?,
+        pos: BlockPos,
         player: PlayerEntity,
-        hand: Hand?,
-        hit: BlockHitResult?
+        hand: Hand,
+        hit: BlockHitResult
     ): ActionResult {
-        if (world.isClient()) {
-            return ActionResult.SUCCESS;
-        }
-        val seat = SeatEntity(world)
-        world.spawnEntity(seat)
-        player.startRiding(seat)
-        return ActionResult.SUCCESS
+        return SeatEntity.create(world, pos, 0.4, player, state[FACING])
     }
 }
