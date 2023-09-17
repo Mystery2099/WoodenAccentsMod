@@ -4,9 +4,9 @@ import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.toIdentifier
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
 import com.mystery2099.wooden_accents_mod.block.defaultItemStack
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
-import com.mystery2099.wooden_accents_mod.item.CustomBlockItem
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.minecraft.block.Block
+import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
@@ -38,7 +38,8 @@ data class CustomItemGroup(val name: String) {
 
             altList.forEach { alt ->
                 val element = list.lastOrNull {
-                    (it.item as CustomBlockItem).tagFromProvider == (alt.item as CustomBlockItem).tagFromProvider
+                    (it.item as BlockItem).block.javaClass == (alt.item as BlockItem).block.javaClass
+                    //(it.item as CustomBlockItem).tagFromProvider == (alt.item as CustomBlockItem).tagFromProvider
                 }
                 list.indexOf(element).let {
                     if (it > -1) list.add(it + 1, alt)
