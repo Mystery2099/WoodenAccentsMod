@@ -412,6 +412,9 @@ object ModBlocks : WoodenAccentsModRegistry {
     val strippedWarpedCoffeeTable =
         CoffeeTableBlock(Blocks.WARPED_PLANKS, Blocks.STRIPPED_WARPED_STEM).registerAs("stripped_warped_coffee_table")
 
+    //Chairs
+    val oakPlankChair = ChairBlock(Blocks.OAK_PLANKS).registerAs("oak_plank_chair")
+
     //Desks
     val oakDesk = DeskBlock(
         BlockSettingsUtil.strippedOakSettings,
