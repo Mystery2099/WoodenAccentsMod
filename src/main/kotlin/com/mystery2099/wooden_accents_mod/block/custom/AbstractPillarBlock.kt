@@ -1,6 +1,5 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomBlockStateProvider
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
@@ -50,7 +49,6 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
     override val itemGroup = ModItemGroups.structuralElements
     abstract val connectableBlockTag: TagKey<Block>
-    override val tag: TagKey<Block> = ModBlockTags.pillars
 
     init {
         defaultState = defaultState.withProperties {
