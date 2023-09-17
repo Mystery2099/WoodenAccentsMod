@@ -45,6 +45,7 @@ object ModBlockEntities : WoodenAccentsModRegistry {
                 this.addBlocks(*crateBlocks)
             }.build()
         )
+
         super.register()
     }
 }
