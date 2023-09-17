@@ -2,6 +2,7 @@ package com.mystery2099.wooden_accents_mod
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks
 import com.mystery2099.wooden_accents_mod.block.entity.ModBlockEntities
+import com.mystery2099.wooden_accents_mod.entity.ModEntities
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import net.fabricmc.api.ModInitializer
 import net.minecraft.block.Block
@@ -23,6 +24,7 @@ object WoodenAccentsMod : ModInitializer {
         logger.info("Initializing $MOD_ID")
         ModBlocks.register()
         ModBlockEntities.register()
+        ModEntities.register()
         ModItemGroups.register()
     }
 
