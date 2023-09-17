@@ -1,6 +1,6 @@
-package com.mystery2099.wooden_accents_mod.block_entity.custom
+package com.mystery2099.wooden_accents_mod.block.entity.custom
 
-import com.mystery2099.wooden_accents_mod.block_entity.ModBlockEntities
+import com.mystery2099.wooden_accents_mod.block.entity.ModBlockEntities
 import com.mystery2099.wooden_accents_mod.data.ModItemTags
 import com.mystery2099.wooden_accents_mod.data.ModItemTags.contains
 import com.mystery2099.wooden_accents_mod.screen.CrateScreenHandler

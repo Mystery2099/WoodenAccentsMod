@@ -1,8 +1,8 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
-import com.mystery2099.wooden_accents_mod.block_entity.ModBlockEntities
-import com.mystery2099.wooden_accents_mod.block_entity.custom.CrateBlockEntity
+import com.mystery2099.wooden_accents_mod.block.entity.ModBlockEntities
+import com.mystery2099.wooden_accents_mod.block.entity.custom.CrateBlockEntity
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.customGroup

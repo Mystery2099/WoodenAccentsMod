@@ -1,7 +1,7 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
-import com.mystery2099.wooden_accents_mod.block_entity.custom.KitchenCabinetBlockEntity
+import com.mystery2099.wooden_accents_mod.block.entity.custom.KitchenCabinetBlockEntity
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModItemTags
 import com.mystery2099.wooden_accents_mod.data.ModModels

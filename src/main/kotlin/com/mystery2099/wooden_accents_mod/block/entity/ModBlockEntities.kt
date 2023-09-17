@@ -1,4 +1,4 @@
-package com.mystery2099.wooden_accents_mod.block_entity
+package com.mystery2099.wooden_accents_mod.block.entity
 
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.toIdentifier
 import com.mystery2099.wooden_accents_mod.WoodenAccentsModRegistry
@@ -6,9 +6,9 @@ import com.mystery2099.wooden_accents_mod.block.ModBlocks
 import com.mystery2099.wooden_accents_mod.block.custom.CrateBlock
 import com.mystery2099.wooden_accents_mod.block.custom.DeskDrawerBlock
 import com.mystery2099.wooden_accents_mod.block.custom.KitchenCabinetBlock
-import com.mystery2099.wooden_accents_mod.block_entity.custom.CrateBlockEntity
-import com.mystery2099.wooden_accents_mod.block_entity.custom.DeskDrawerBlockEntity
-import com.mystery2099.wooden_accents_mod.block_entity.custom.KitchenCabinetBlockEntity
+import com.mystery2099.wooden_accents_mod.block.entity.custom.CrateBlockEntity
+import com.mystery2099.wooden_accents_mod.block.entity.custom.DeskDrawerBlockEntity
+import com.mystery2099.wooden_accents_mod.block.entity.custom.KitchenCabinetBlockEntity
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.registry.Registries

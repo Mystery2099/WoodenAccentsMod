@@ -1,7 +1,7 @@
-package com.mystery2099.wooden_accents_mod.block_entity.custom
+package com.mystery2099.wooden_accents_mod.block.entity.custom
 
 import com.mystery2099.wooden_accents_mod.block.custom.KitchenCabinetBlock
-import com.mystery2099.wooden_accents_mod.block_entity.ModBlockEntities
+import com.mystery2099.wooden_accents_mod.block.entity.ModBlockEntities
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.LootableContainerBlockEntity
