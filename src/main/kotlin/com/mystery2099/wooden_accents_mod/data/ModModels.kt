@@ -73,6 +73,9 @@ object ModModels {
         legs
     )
 
+    //Chair
+    val basicChair = block("chair", TextureKey.ALL)
+
     //Bookshelves
     val thinBookshelfItem = item("thin_bookshelf", TextureKey.ALL)
     val thinBookshelfBlock = block("thin_bookshelf", "_empty", TextureKey.ALL)
