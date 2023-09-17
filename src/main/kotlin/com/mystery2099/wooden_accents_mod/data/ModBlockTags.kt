@@ -53,6 +53,8 @@ object ModBlockTags {
     @JvmStatic
     val kitchenCounters = "kitchen_counters".toBlockTag().createMatchingItemTag()
     val kitchenCabinets = "kitchen_cabinets".toBlockTag().createMatchingItemTag()
+
+    val chairs = "chairs".toBlockTag().createMatchingItemTag()
     /*---------------End Kitchen Tags----------------*/
 
     /*---------------Storage Tags----------------*/
