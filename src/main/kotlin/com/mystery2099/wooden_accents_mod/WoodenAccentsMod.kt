@@ -18,9 +18,6 @@ object WoodenAccentsMod : ModInitializer {
         get() = LoggerFactory.getLogger("myst2099_wooden_accents_mod")
 
     override fun onInitialize() {
-        // This code runs as soon as Minecraft is in a mod-load-ready state.
-        // However, some things (like resources) may still be uninitialized.
-        // Proceed with mild caution.
         logger.info("Initializing $MOD_ID")
         ModBlocks.register()
         ModBlockEntities.register()

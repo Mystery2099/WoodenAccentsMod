@@ -6,6 +6,7 @@ import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomBlock
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomRecipeProvider
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomTagProvider
+import com.mystery2099.wooden_accents_mod.entity.ModEntities
 import com.mystery2099.wooden_accents_mod.entity.custom.SeatEntity
 import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
@@ -59,13 +60,29 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
 
     @Deprecated("Deprecated in Java")
     override fun onUse(
-        state: BlockState,
+        state: BlockState?,
         world: World,
         pos: BlockPos,
         player: PlayerEntity,
-        hand: Hand,
-        hit: BlockHitResult
+        hand: Hand?,
+        hit: BlockHitResult?
     ): ActionResult {
-        return SeatEntity.create(world, pos, 0.4, player, state[FACING])
+        return if (world.isClient) {
+            ActionResult.SUCCESS
+        } else {
+            val seat = SeatEntity(
+                ModEntities.seatEntity,
+                world
+            ) // create a new seat entity
+            seat.updatePosition(
+                pos.x + 0.5,
+                pos.y + 0.25,
+                pos.z + 0.5
+            )
+            world.spawnEntity(seat)
+            player.startRiding(seat)
+            ActionResult.CONSUME
+        }
     }
+
 }
