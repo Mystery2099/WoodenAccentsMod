@@ -1,9 +1,9 @@
-// 1.19.4	2023-09-17T17:51:32.1276073	Wooden Accents Mod/Tags for minecraft:item
-2eb0ba7845981a0f349442d4ecc84c7a9ed33284 data\myst2099_wooden_accents_mod\tags\items\chairs.json
-9533804c388c60a40c1a4e98f034039cc70fef53 data\myst2099_wooden_accents_mod\tags\items\thin_pillars.json
+// 1.19.4	2023-09-23T19:14:14.5949177	Wooden Accents Mod/Tags for minecraft:item
+03d606bda37fa0881ebdc9e2cef2186a84a682f4 data\myst2099_wooden_accents_mod\tags\items\chairs.json
 5c95f02c933611c9349e9819f8fe22e649d76e22 data\myst2099_wooden_accents_mod\tags\items\desk_drawers.json
-8488b3b506648473a8bbd3e1319b587610a65cd3 data\myst2099_wooden_accents_mod\tags\items\thin_bookshelves.json
+9533804c388c60a40c1a4e98f034039cc70fef53 data\myst2099_wooden_accents_mod\tags\items\thin_pillars.json
 b801fa50f64d770542419ee4e7dd67d1a87a9d6f data\myst2099_wooden_accents_mod\tags\items\plank_ladders.json
+8488b3b506648473a8bbd3e1319b587610a65cd3 data\myst2099_wooden_accents_mod\tags\items\thin_bookshelves.json
 016b0dc1a0565d4c450ac3c26d3696d574242f10 data\myst2099_wooden_accents_mod\tags\items\uncrateable.json
 bf5786f1aaf682795124e04d577a4fa63defef0e data\myst2099_wooden_accents_mod\tags\items\crates.json
 c9f7d6f65b5a96b7b1178cac27b892465664a09d data\myst2099_wooden_accents_mod\tags\items\kitchen_cabinets.json

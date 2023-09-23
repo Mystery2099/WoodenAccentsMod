@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "myst2099_wooden_accents_mod:block/cherry_plank_chair",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "myst2099_wooden_accents_mod:block/cherry_plank_chair"
+    },
+    "facing=south": {
+      "model": "myst2099_wooden_accents_mod:block/cherry_plank_chair",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "myst2099_wooden_accents_mod:block/cherry_plank_chair",
+      "y": 270
+    }
+  }
+}

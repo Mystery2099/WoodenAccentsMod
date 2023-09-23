@@ -414,6 +414,17 @@ object ModBlocks : WoodenAccentsModRegistry {
 
     //Chairs
     val oakPlankChair = ChairBlock(Blocks.OAK_PLANKS).registerAs("oak_plank_chair")
+    val sprucePlankChair = ChairBlock(Blocks.SPRUCE_PLANKS).registerAs("spruce_plank_chair")
+    val birchPlankChair = ChairBlock(Blocks.BIRCH_PLANKS).registerAs("birch_plank_chair")
+    val junglePlankChair = ChairBlock(Blocks.JUNGLE_PLANKS).registerAs("jungle_plank_chair")
+    val acaciaPlankChair = ChairBlock(Blocks.ACACIA_PLANKS).registerAs("acacia_plank_chair")
+    val darkOakPlankChair = ChairBlock(Blocks.DARK_OAK_PLANKS).registerAs("dark_oak_plank_chair")
+    val mangrovePlankChair = ChairBlock(Blocks.MANGROVE_PLANKS).registerAs("mangrove_plank_chair")
+    val cherryPlankChair = ChairBlock(Blocks.CHERRY_PLANKS).registerAs("cherry_plank_chair")
+    val bambooPlankChair = ChairBlock(Blocks.BAMBOO_PLANKS).registerAs("bamboo_plank_chair")
+    val bambooMosaicChair = ChairBlock(Blocks.BAMBOO_MOSAIC).registerAs("bamboo_mosaic_chair")
+    val crimsonPlankChair = ChairBlock(Blocks.CRIMSON_PLANKS).registerAs("crimson_plank_chair")
+    val warpedPlankChair = ChairBlock(Blocks.WARPED_PLANKS).registerAs("warped_plank_chair")
 
     //Desks
     val oakDesk = DeskBlock(
