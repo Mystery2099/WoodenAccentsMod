@@ -20,6 +20,7 @@ import net.minecraft.data.client.TextureMap
 import net.minecraft.data.client.TexturedModel
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemPlacementContext
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.state.StateManager
 import net.minecraft.util.ActionResult
@@ -47,6 +48,11 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
         builder.add(FACING)
+    }
+
+    override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
+        return defaultState.with(FACING, ctx.horizontalPlayerFacing.opposite)
+
     }
 
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
