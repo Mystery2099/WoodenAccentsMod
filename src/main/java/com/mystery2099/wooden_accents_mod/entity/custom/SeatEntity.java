@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -17,27 +18,34 @@ public class SeatEntity extends Entity {
     @Override
     public void tick() {
         super.tick();
+        this.setYaw(this.getBlockStateAtPos().get(Properties.HORIZONTAL_FACING).asRotation());
         if (!this.hasPassengers()) {
-            this.discard(); // remove the entity if it has no passengers
+            this.discard();
         }
-    }
-
-    @Override
-    public double getMountedHeightOffset() {
-        return super.getMountedHeightOffset() * 4;
     }
 
     @Override
     public ActionResult interact(PlayerEntity player, Hand hand) {
         if (player.shouldCancelInteraction()) {
             return ActionResult.PASS;
-        } else {
+        }
+        else {
             if (!this.world.isClient) {
                 player.startRiding(this);
             }
             return ActionResult.SUCCESS;
         }
     }
+
+    @Override
+    public void updatePassengerPosition(Entity passenger) {
+        super.updatePassengerPosition(passenger);
+        if (this.hasPassenger(passenger)) {
+            var yaw = this.getYaw();
+            passenger.setBodyYaw(yaw);
+        }
+    }
+
 
     @Override
     public void initDataTracker() {
