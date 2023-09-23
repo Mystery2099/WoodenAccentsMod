@@ -61,29 +61,24 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
 
     @Deprecated("Deprecated in Java")
     override fun onUse(
-        state: BlockState?,
+        state: BlockState,
         world: World,
         pos: BlockPos,
         player: PlayerEntity,
         hand: Hand?,
         hit: BlockHitResult?
-    ): ActionResult {
-        return if (world.isClient) {
-            ActionResult.SUCCESS
-        } else {
-            val seat = SeatEntity(
-                ModEntities.seatEntity,
-                world
-            ) // create a new seat entity
-            seat.updatePosition(
-                pos.x + 0.5,
-                pos.y + 0.25,
-                pos.z + 0.5
-            )
-            world.spawnEntity(seat)
-            player.startRiding(seat)
-            ActionResult.CONSUME
-        }
+    ): ActionResult = if (world.isClient) {
+        ActionResult.SUCCESS // do nothing on the client side
+    } else {
+        val seat = SeatEntity(ModEntities.seatEntity, world) // create a new seat entity
+        seat.updatePosition(
+            pos.x + 0.5,
+            pos.y + 0.3,
+            pos.z + 0.5
+        )
+        world.spawnEntity(seat)
+        player.startRiding(seat)
+        ActionResult.CONSUME
     }
 
     @Deprecated("Deprecated in Java")
