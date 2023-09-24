@@ -2,6 +2,8 @@ package com.mystery2099.wooden_accents_mod.block.custom
 
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
+import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.customGroup
+import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.requires
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomBlockStateProvider
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomRecipeProvider
@@ -21,10 +23,13 @@ import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.TextureMap
 import net.minecraft.data.client.TexturedModel
 import net.minecraft.data.server.recipe.RecipeJsonProvider
+import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
 import net.minecraft.fluid.Fluids
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.item.Items
+import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
@@ -147,7 +152,16 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
     }
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
-
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 3).apply {
+            input('#', baseBlock)
+            input('|', Items.STICK)
+            pattern("#  ")
+            pattern("###")
+            pattern("| |")
+            customGroup(this@ChairBlock, "chairs")
+            requires(baseBlock)
+            offerTo(exporter)
+        }
     }
 
     companion object {

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "plank_chairs",
+  "key": {
+    "#": {
+      "item": "minecraft:spruce_planks"
+    },
+    "|": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "#  ",
+    "###",
+    "| |"
+  ],
+  "result": {
+    "count": 3,
+    "item": "myst2099_wooden_accents_mod:spruce_plank_chair"
+  },
+  "show_notification": true
+}
