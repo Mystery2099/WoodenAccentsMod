@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import java.util.Objects;
 
 public class SeatEntity extends Entity {
-    private static final ImmutableMap<EntityPose, ImmutableList<Integer>> DISMOUNT_FREE_Y_SPACES_NEEDED = ImmutableMap.of(EntityPose.STANDING, ImmutableList.of(Integer.valueOf(0), Integer.valueOf(1), Integer.valueOf(-1)), EntityPose.CROUCHING, ImmutableList.of(Integer.valueOf(0), Integer.valueOf(1), Integer.valueOf(-1)), EntityPose.SWIMMING, ImmutableList.of(Integer.valueOf(0), Integer.valueOf(1)));
+    private static final ImmutableMap<EntityPose, ImmutableList<Integer>> DISMOUNT_FREE_Y_SPACES_NEEDED = ImmutableMap.of(EntityPose.STANDING, ImmutableList.of(0, 1, -1), EntityPose.CROUCHING, ImmutableList.of(0, 1, -1), EntityPose.SWIMMING, ImmutableList.of(0, 1));
 
     public SeatEntity(EntityType<SeatEntity> type, World world) {
         super(type, world);
@@ -71,10 +71,9 @@ public class SeatEntity extends Entity {
             for (int i : Objects.requireNonNull(DISMOUNT_FREE_Y_SPACES_NEEDED.get(entityPose))) {
                 for (int[] js : is) {
                     Vec3d vec3d;
-                    Box box;
                     mutable.set(blockPos.getX() + js[0], blockPos.getY() + i, blockPos.getZ() + js[1]);
                     double d = this.world.getDismountHeight(Dismounting.getCollisionShape(this.world, mutable), () -> Dismounting.getCollisionShape(this.world, mutable.down()));
-                    if (!Dismounting.canDismountInBlock(d) || !Dismounting.canPlaceEntityAt(this.world, passenger, (box = new Box(-f, 0.0, -f, f, entityDimensions.height, f)).offset(vec3d = Vec3d.ofCenter(mutable, d))))
+                    if (!Dismounting.canDismountInBlock(d) || !Dismounting.canPlaceEntityAt(this.world, passenger, new Box(-f, 0.0, -f, f, entityDimensions.height, f).offset(vec3d = Vec3d.ofCenter(mutable, d))))
                         continue;
                     passenger.setPose(entityPose);
                     return vec3d;
