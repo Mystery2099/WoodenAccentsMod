@@ -3,6 +3,7 @@ package com.mystery2099.wooden_accents_mod.block.custom;
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags;
 import com.mystery2099.wooden_accents_mod.util.BlockStateUtil;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.tinyremapper.extension.mixin.common.data.Pair;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.StairShape;
 import net.minecraft.item.ItemPlacementContext;
@@ -21,6 +22,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableBlock {
@@ -45,8 +48,10 @@ public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableB
     private static final VoxelShape NORTH_WEST_OUTER = NORTH_EAST_OUTER.offset((double) 2 / 16, 0, 0);
     private static final VoxelShape SOUTH_EAST_OUTER = NORTH_EAST_OUTER.offset(0, 0, -((double) 2 / 16));
     private static final VoxelShape SOUTH_WEST_OUTER = NORTH_WEST_OUTER.offset(0, 0, -((double) 2 / 16));
-    private final Block topBlock, baseBlock;
 
+    private static final Map<Pair<Direction, StairShape>, VoxelShape> SHAPE_MAP = new HashMap<>();
+
+    private final Block topBlock, baseBlock;
     public AbstractKitchenCounterBlock(Block baseBlock, Block topBlock) {
         super(FabricBlockSettings.copyOf(baseBlock));
         this.baseBlock = baseBlock;
@@ -56,6 +61,34 @@ public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableB
             c.set(SHAPE, StairShape.STRAIGHT);
             return null;
         }));
+        //North Shapes
+        SHAPE_MAP.put(Pair.of(Direction.NORTH, StairShape.STRAIGHT), NORTH_SHAPE);
+        SHAPE_MAP.put(Pair.of(Direction.NORTH, StairShape.INNER_LEFT), NORTH_WEST_INNER);
+        SHAPE_MAP.put(Pair.of(Direction.NORTH, StairShape.INNER_RIGHT), NORTH_EAST_INNER);
+        SHAPE_MAP.put(Pair.of(Direction.NORTH, StairShape.OUTER_LEFT), NORTH_WEST_OUTER);
+        SHAPE_MAP.put(Pair.of(Direction.NORTH, StairShape.OUTER_RIGHT), NORTH_EAST_OUTER);
+
+        //East Shapes
+        SHAPE_MAP.put(Pair.of(Direction.EAST, StairShape.STRAIGHT), EAST_SHAPE);
+        SHAPE_MAP.put(Pair.of(Direction.EAST, StairShape.INNER_LEFT), NORTH_EAST_INNER);
+        SHAPE_MAP.put(Pair.of(Direction.EAST, StairShape.INNER_RIGHT), SOUTH_EAST_INNER);
+        SHAPE_MAP.put(Pair.of(Direction.EAST, StairShape.OUTER_LEFT), NORTH_EAST_OUTER);
+        SHAPE_MAP.put(Pair.of(Direction.EAST, StairShape.OUTER_RIGHT), SOUTH_EAST_OUTER);
+
+        //South Shapes
+        SHAPE_MAP.put(Pair.of(Direction.SOUTH, StairShape.STRAIGHT), SOUTH_SHAPE);
+        SHAPE_MAP.put(Pair.of(Direction.SOUTH, StairShape.INNER_LEFT), SOUTH_EAST_INNER);
+        SHAPE_MAP.put(Pair.of(Direction.SOUTH, StairShape.INNER_RIGHT), SOUTH_WEST_INNER);
+        SHAPE_MAP.put(Pair.of(Direction.SOUTH, StairShape.OUTER_LEFT), SOUTH_EAST_OUTER);
+        SHAPE_MAP.put(Pair.of(Direction.SOUTH, StairShape.OUTER_RIGHT), SOUTH_WEST_OUTER);
+
+        //West Shapes
+        SHAPE_MAP.put(Pair.of(Direction.WEST, StairShape.STRAIGHT), WEST_SHAPE);
+        SHAPE_MAP.put(Pair.of(Direction.WEST, StairShape.INNER_LEFT), SOUTH_WEST_INNER);
+        SHAPE_MAP.put(Pair.of(Direction.WEST, StairShape.INNER_RIGHT), NORTH_WEST_INNER);
+        SHAPE_MAP.put(Pair.of(Direction.WEST, StairShape.OUTER_LEFT), SOUTH_WEST_OUTER);
+        SHAPE_MAP.put(Pair.of(Direction.WEST, StairShape.OUTER_RIGHT), NORTH_WEST_OUTER);
+
     }
 
     private static StairShape getCounterShape(BlockState state, BlockView world, BlockPos pos) {
@@ -95,38 +128,9 @@ public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableB
     @Override
     @SuppressWarnings("deprecation")
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        var stairShape = state.get(SHAPE);
-        return VoxelShapes.union(TOP_SHAPE, switch (state.get(FACING)) {
-            case NORTH -> switch (stairShape) {
-                case STRAIGHT -> NORTH_SHAPE;
-                case INNER_LEFT -> NORTH_WEST_INNER;
-                case INNER_RIGHT -> NORTH_EAST_INNER;
-                case OUTER_LEFT -> NORTH_WEST_OUTER;
-                case OUTER_RIGHT -> NORTH_EAST_OUTER;
-            };
-            case SOUTH -> switch (stairShape) {
-                case STRAIGHT -> SOUTH_SHAPE;
-                case INNER_LEFT -> SOUTH_EAST_INNER;
-                case INNER_RIGHT -> SOUTH_WEST_INNER;
-                case OUTER_LEFT -> SOUTH_EAST_OUTER;
-                case OUTER_RIGHT -> SOUTH_WEST_OUTER;
-            };
-            case EAST -> switch (stairShape) {
-                case STRAIGHT -> EAST_SHAPE;
-                case INNER_LEFT -> NORTH_EAST_INNER;
-                case INNER_RIGHT -> SOUTH_EAST_INNER;
-                case OUTER_LEFT -> NORTH_EAST_OUTER;
-                case OUTER_RIGHT -> SOUTH_EAST_OUTER;
-            };
-            case WEST -> switch (stairShape) {
-                case STRAIGHT -> WEST_SHAPE;
-                case INNER_LEFT -> SOUTH_WEST_INNER;
-                case INNER_RIGHT -> NORTH_WEST_INNER;
-                case OUTER_LEFT -> SOUTH_WEST_OUTER;
-                case OUTER_RIGHT -> NORTH_WEST_OUTER;
-            };
-            default -> VoxelShapes.fullCube();
-        });
+        return VoxelShapes.union(TOP_SHAPE, SHAPE_MAP.get(
+                Pair.of(state.get(FACING), state.get(SHAPE))
+        ));
     }
 
     @Override
