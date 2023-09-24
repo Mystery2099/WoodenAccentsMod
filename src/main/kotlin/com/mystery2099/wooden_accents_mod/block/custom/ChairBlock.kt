@@ -89,6 +89,7 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
         )
         world.spawnEntity(seat)
         player.startRiding(seat)
+        player.headYaw = state[FACING].asRotation()
         ActionResult.CONSUME
     }
 
@@ -106,7 +107,13 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
         else -> VoxelShapes.fullCube()
     }
 
-    @Deprecated("Deprecated in Java")
+    @Deprecated("Deprecated in Java", ReplaceWith(
+        "state.also { if (it[waterlogged]) world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world)) }",
+        "com.mystery2099.wooden_accents_mod.block.custom.ChairBlock.Companion.waterlogged",
+        "net.minecraft.fluid.Fluids",
+        "net.minecraft.fluid.Fluids"
+    )
+    )
     override fun getStateForNeighborUpdate(
         state: BlockState,
         direction: Direction?,

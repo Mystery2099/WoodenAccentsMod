@@ -31,11 +31,16 @@ public class SeatEntity extends Entity {
     }
 
     @Override
+    protected boolean canAddPassenger(Entity passenger) {
+        return super.canAddPassenger(passenger) && !passenger.hasVehicle();
+    }
+
+    @Override
     public ActionResult interact(PlayerEntity player, Hand hand) {
         if (player.shouldCancelInteraction()) {
             return ActionResult.PASS;
         } else {
-            if (!this.world.isClient) {
+            if (!this.world.isClient && !player.hasVehicle()) {
                 player.startRiding(this);
             }
             return ActionResult.SUCCESS;
@@ -46,8 +51,7 @@ public class SeatEntity extends Entity {
     public void updatePassengerPosition(Entity passenger) {
         super.updatePassengerPosition(passenger);
         if (this.hasPassenger(passenger)) {
-            var yaw = this.getYaw();
-            passenger.setBodyYaw(yaw);
+            passenger.setBodyYaw(this.getYaw());
         }
     }
 
@@ -89,7 +93,6 @@ public class SeatEntity extends Entity {
         }
         return super.updatePassengerForDismount(passenger);
     }
-
 
     @Override
     public void initDataTracker() {
