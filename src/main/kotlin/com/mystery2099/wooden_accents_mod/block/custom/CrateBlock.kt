@@ -181,8 +181,8 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
             if (nbtCompound.contains("Items", NbtElement.LIST_TYPE.toInt())) {
                 val defaultedList = DefaultedList.ofSize(9, ItemStack.EMPTY)
                 Inventories.readNbt(nbtCompound, defaultedList)
-                var i = 0
-                var j = 0
+                var i : Short = 0
+                var j : Short = 0
                 for (itemStack in defaultedList) {
                     if (itemStack.isEmpty()) continue
                     ++j
