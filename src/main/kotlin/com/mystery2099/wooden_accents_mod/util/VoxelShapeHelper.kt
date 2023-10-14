@@ -35,9 +35,9 @@ object VoxelShapeHelper {
 
     //Combines 2 VoxelShapes together and returns the new shape
     //Basically VoxelShapes.union(this, otherShape) but in extension function form
-    infix fun VoxelShape.unifiedWith(otherShape: VoxelShape): VoxelShape = VoxelShapes.union(this, otherShape)
+    infix fun VoxelShape.and(otherShape: VoxelShape): VoxelShape = VoxelShapes.union(this, otherShape)
     fun VoxelShape.unifiedWith(vararg otherShapes: VoxelShape): VoxelShape = union(this, *otherShapes)
-    infix operator fun VoxelShape.plus(otherShape: VoxelShape): VoxelShape = this.unifiedWith(otherShape)
+    infix operator fun VoxelShape.plus(otherShape: VoxelShape): VoxelShape = this.and(otherShape)
 
     fun setMaxHeight(source: VoxelShape, height: Double): VoxelShape {
         val result = AtomicReference(VoxelShapes.empty())

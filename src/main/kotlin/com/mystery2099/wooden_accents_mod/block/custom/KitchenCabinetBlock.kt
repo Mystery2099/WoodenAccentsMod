@@ -18,7 +18,7 @@ import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStat
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flipped
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedLeft
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedRight
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.unifiedWith
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.and
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.*
 import net.minecraft.data.client.BlockStateModelGenerator
@@ -183,7 +183,7 @@ class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
         world: BlockView,
         pos: BlockPos,
         context: ShapeContext
-    ): VoxelShape = directionVoxelShapeMap[state[facing]]?.unifiedWith(AbstractKitchenCounterBlock.TOP_SHAPE)
+    ): VoxelShape = directionVoxelShapeMap[state[facing]]?.and(AbstractKitchenCounterBlock.TOP_SHAPE)
         ?: VoxelShapes.fullCube()
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
