@@ -14,6 +14,7 @@ import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.withProperties
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
+import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.and
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flipped
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedLeft
 import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedRight
@@ -143,7 +144,7 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
     )
     override fun getFluidState(state: BlockState): FluidState {
         return if (state[waterlogged]) Fluids.WATER.getStill(false)
-        else super.getFluidState(state)
+        else Fluids.EMPTY.defaultState
     }
 
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
@@ -166,17 +167,19 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
 
     companion object {
         val waterlogged: BooleanProperty = Properties.WATERLOGGED
-        private val northShape = VoxelShapeHelper.union(
+
+        private val northTopShape = VoxelShapeHelper.createCuboidShape(2, 10, 12, 14, 20, 14)
+        private val bottomShape = VoxelShapeHelper.union(
+            VoxelShapeHelper.createCuboidShape(2, 8, 2, 14, 10, 14),
             VoxelShapeHelper.createCuboidShape(2, 0, 2, 4, 8, 4),
             VoxelShapeHelper.createCuboidShape(12, 0, 2, 14, 8, 4),
             VoxelShapeHelper.createCuboidShape(12, 0, 12, 14, 8, 14),
-            VoxelShapeHelper.createCuboidShape(2, 0, 12, 4, 8, 14),
-            VoxelShapeHelper.createCuboidShape(2, 10, 12, 14, 16, 14),
-            VoxelShapeHelper.createCuboidShape(2, 16, 12, 14, 20, 14),
-            VoxelShapeHelper.createCuboidShape(2, 8, 2, 14, 10, 14)
+            VoxelShapeHelper.createCuboidShape(2, 0, 12, 4, 8, 14)
         )
-        private val eastShape = northShape.rotatedLeft
-        private val southShape = northShape.flipped
-        private val westShape = northShape.rotatedRight
+
+        private val northShape = northTopShape and bottomShape
+        private val eastShape = northTopShape.rotatedLeft and bottomShape
+        private val southShape = northTopShape.flipped and bottomShape
+        private val westShape = northTopShape.rotatedRight and bottomShape
     }
 }
