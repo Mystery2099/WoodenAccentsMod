@@ -1,5 +1,10 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
+import com.github.mystery2099.voxelshapeutils.VoxelShapeUtils
+import com.github.mystery2099.voxelshapeutils.combination.VoxelShapeCombining
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.flip
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateLeft
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateRight
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.custom.enums.SidewaysConnectionShape
 import com.mystery2099.wooden_accents_mod.block.entity.custom.DeskDrawerBlockEntity
@@ -18,10 +23,6 @@ import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.isIn
 import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.withProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flipped
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedLeft
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedRight
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
@@ -312,68 +313,68 @@ class DeskDrawerBlock(settings: Settings, private val edgeBlock: Block, val base
     companion object {
         val facing: DirectionProperty = Properties.HORIZONTAL_FACING
         val shape: EnumProperty<SidewaysConnectionShape> = ModProperties.sidewaysConnectionShape
-        private val nonSingleShape = VoxelShapeHelper.union(
-            VoxelShapeHelper.createCuboidShape(1, 1, 1, 15, 15, 16),
-            VoxelShapeHelper.createCuboidShape(2, 9, 0, 14, 14, 1),
-            VoxelShapeHelper.createCuboidShape(6, 11, -1, 11, 12, 0),
-            VoxelShapeHelper.createCuboidShape(6, 4, -1, 11, 5, 0),
-            VoxelShapeHelper.createCuboidShape(2, 2, 0, 14, 7, 1)
+        private val nonSingleShape = VoxelShapeCombining.union(
+            VoxelShapeUtils.createCuboidShape(1, 1, 1, 15, 15, 16),
+            VoxelShapeUtils.createCuboidShape(2, 9, 0, 14, 14, 1),
+            VoxelShapeUtils.createCuboidShape(6, 11, -1, 11, 12, 0),
+            VoxelShapeUtils.createCuboidShape(6, 4, -1, 11, 5, 0),
+            VoxelShapeUtils.createCuboidShape(2, 2, 0, 14, 7, 1)
         )
-        private val leftLegsShape = VoxelShapeHelper.union(
-            VoxelShapeHelper.createCuboidShape(1, 0, 1, 2, 1, 2),
-            VoxelShapeHelper.createCuboidShape(1, 0, 15, 2, 1, 16)
+        private val leftLegsShape = VoxelShapeCombining.union(
+            VoxelShapeUtils.createCuboidShape(1, 0, 1, 2, 1, 2),
+            VoxelShapeUtils.createCuboidShape(1, 0, 15, 2, 1, 16)
         )
-        private val rightLegsShape = VoxelShapeHelper.union(
-            VoxelShapeHelper.createCuboidShape(14, 0, 1, 15, 1, 2),
-            VoxelShapeHelper.createCuboidShape(14, 0, 15, 15, 1, 16)
-        )
-
-        private val northSingleShape = VoxelShapeHelper.union(
-            VoxelShapeHelper.createCuboidShape(0, 15, 0, 16, 16, 16),
-            VoxelShapeHelper.createCuboidShape(1, 1, 1, 15, 15, 15),
-            VoxelShapeHelper.createCuboidShape(2, 2, 0, 14, 7, 1),
-            VoxelShapeHelper.createCuboidShape(2, 9, 0, 14, 14, 1),
-            VoxelShapeHelper.createCuboidShape(6, 11, -1, 11, 12, 0),
-            VoxelShapeHelper.createCuboidShape(6, 4, -1, 11, 5, 0),
-            VoxelShapeHelper.createCuboidShape(1, 0, 1, 2, 1, 2),
-            VoxelShapeHelper.createCuboidShape(14, 0, 1, 15, 1, 2),
-            VoxelShapeHelper.createCuboidShape(14, 0, 14, 15, 1, 15),
-            VoxelShapeHelper.createCuboidShape(1, 0, 14, 2, 1, 15)
+        private val rightLegsShape = VoxelShapeCombining.union(
+            VoxelShapeUtils.createCuboidShape(14, 0, 1, 15, 1, 2),
+            VoxelShapeUtils.createCuboidShape(14, 0, 15, 15, 1, 16)
         )
 
-        private val northCenterShape = VoxelShapeHelper.union(
+        private val northSingleShape = VoxelShapeCombining.union(
+            VoxelShapeUtils.createCuboidShape(0, 15, 0, 16, 16, 16),
+            VoxelShapeUtils.createCuboidShape(1, 1, 1, 15, 15, 15),
+            VoxelShapeUtils.createCuboidShape(2, 2, 0, 14, 7, 1),
+            VoxelShapeUtils.createCuboidShape(2, 9, 0, 14, 14, 1),
+            VoxelShapeUtils.createCuboidShape(6, 11, -1, 11, 12, 0),
+            VoxelShapeUtils.createCuboidShape(6, 4, -1, 11, 5, 0),
+            VoxelShapeUtils.createCuboidShape(1, 0, 1, 2, 1, 2),
+            VoxelShapeUtils.createCuboidShape(14, 0, 1, 15, 1, 2),
+            VoxelShapeUtils.createCuboidShape(14, 0, 14, 15, 1, 15),
+            VoxelShapeUtils.createCuboidShape(1, 0, 14, 2, 1, 15)
+        )
+
+        private val northCenterShape = VoxelShapeCombining.union(
             nonSingleShape, leftLegsShape, rightLegsShape, DeskBlock.northCenterShape
         )
-        private val northLeftShape = VoxelShapeHelper.union(
+        private val northLeftShape = VoxelShapeCombining.union(
             nonSingleShape, leftLegsShape, DeskBlock.northLeftShape
         )
-        private val northRightShape = VoxelShapeHelper.union(
+        private val northRightShape = VoxelShapeCombining.union(
             nonSingleShape, rightLegsShape, DeskBlock.northRightShape
         )
 
         private val singleShapeMap = mapOf(
             Direction.NORTH to northSingleShape,
-            Direction.EAST to northSingleShape.rotatedLeft,
-            Direction.SOUTH to northSingleShape.flipped,
-            Direction.WEST to northSingleShape.rotatedRight
+            Direction.EAST to northSingleShape.rotateLeft(),
+            Direction.SOUTH to northSingleShape.flip(),
+            Direction.WEST to northSingleShape.rotateRight()
         )
         private val centerShapeMap = mapOf(
             Direction.NORTH to northCenterShape,
-            Direction.EAST to northCenterShape.rotatedLeft,
-            Direction.SOUTH to northCenterShape.flipped,
-            Direction.WEST to northCenterShape.rotatedRight
+            Direction.EAST to northCenterShape.rotateLeft(),
+            Direction.SOUTH to northCenterShape.flip(),
+            Direction.WEST to northCenterShape.rotateRight()
         )
         private val leftShapeMap = mapOf(
             Direction.NORTH to northLeftShape,
-            Direction.EAST to northLeftShape.rotatedLeft,
-            Direction.SOUTH to northLeftShape.flipped,
-            Direction.WEST to northLeftShape.rotatedRight
+            Direction.EAST to northLeftShape.rotateLeft(),
+            Direction.SOUTH to northLeftShape.flip(),
+            Direction.WEST to northLeftShape.rotateRight()
         )
         private val rightShapeMap = mapOf(
             Direction.NORTH to northRightShape,
-            Direction.EAST to northRightShape.rotatedLeft,
-            Direction.SOUTH to northRightShape.flipped,
-            Direction.WEST to northRightShape.rotatedRight
+            Direction.EAST to northRightShape.rotateLeft(),
+            Direction.SOUTH to northRightShape.flip(),
+            Direction.WEST to northRightShape.rotateRight()
         )
         private val shapeMap = mapOf(
             SidewaysConnectionShape.SINGLE to singleShapeMap,

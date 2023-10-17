@@ -1,5 +1,11 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
+import com.github.mystery2099.voxelshapeutils.VoxelShapeUtils
+import com.github.mystery2099.voxelshapeutils.combination.VoxelShapeCombining
+import com.github.mystery2099.voxelshapeutils.combination.VoxelShapeCombining.plus
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.flip
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateLeft
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateRight
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.itemModelId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
@@ -11,12 +17,6 @@ import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomRecip
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomTagProvider
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.isIn
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.createCuboidShape
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flipped
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.plus
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedLeft
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedRight
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -103,19 +103,19 @@ class ModernFenceBlock(settings: Block, private val sideBlock: Block, private va
     }
 
     companion object {
-        private val postShape: VoxelShape = createCuboidShape(6, 0, 6, 10, 16, 10)
-        private val northShape: VoxelShape = VoxelShapeHelper.union(
-            createCuboidShape(7, 11, 0, 9, 14, 6),
-            createCuboidShape(7, 2, 0, 9, 5, 6),
-            createCuboidShape(7.5, 5, 1, 8.5, 11, 2),
-            createCuboidShape(7.5, 0, 2, 8.5, 15, 5),
-            createCuboidShape(7.5, 0, 0, 8.5, 15, 1)
+        private val postShape: VoxelShape = VoxelShapeUtils.createCuboidShape(6, 0, 6, 10, 16, 10)
+        private val northShape: VoxelShape = VoxelShapeCombining.union(
+            VoxelShapeUtils.createCuboidShape(7, 11, 0, 9, 14, 6),
+            VoxelShapeUtils.createCuboidShape(7, 2, 0, 9, 5, 6),
+            VoxelShapeUtils.createCuboidShape(7.5, 5, 1, 8.5, 11, 2),
+            VoxelShapeUtils.createCuboidShape(7.5, 0, 2, 8.5, 15, 5),
+            VoxelShapeUtils.createCuboidShape(7.5, 0, 0, 8.5, 15, 1)
         )
         val directionToShapeMap = mapOf(
             Direction.NORTH to northShape,
-            Direction.EAST to northShape.rotatedLeft,
-            Direction.SOUTH to northShape.flipped,
-            Direction.WEST to northShape.rotatedRight
+            Direction.EAST to northShape.rotateLeft(),
+            Direction.SOUTH to northShape.flip(),
+            Direction.WEST to northShape.rotateRight()
         )
     }
 }

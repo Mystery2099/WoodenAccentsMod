@@ -1,12 +1,12 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
+import com.github.mystery2099.voxelshapeutils.VoxelShapeUtils
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asBlockModelId
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.toIdentifier
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.itemModelId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.createCuboidShape
 import net.minecraft.block.Block
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.TextureMap
@@ -42,9 +42,9 @@ class ThickPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape)
 
     companion object {
         val shape = Shape(
-            topShape = createCuboidShape(1, 10, 1, 15, 16, 15),
-            centerShape = createCuboidShape(4, 0, 4, 12, 16, 12),
-            baseShape = createCuboidShape(1, 0, 1, 15, 6, 15)
+            topShape = VoxelShapeUtils.createCuboidShape(1, 10, 1, 15, 16, 15),
+            centerShape = VoxelShapeUtils.createCuboidShape(4, 0, 4, 12, 16, 12),
+            baseShape = VoxelShapeUtils.createCuboidShape(1, 0, 1, 15, 6, 15)
         )
     }
 }

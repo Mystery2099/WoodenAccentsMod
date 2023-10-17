@@ -1,5 +1,9 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
+import com.github.mystery2099.voxelshapeutils.combination.VoxelShapeCombining.and
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.flip
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateLeft
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateRight
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.entity.custom.KitchenCabinetBlockEntity
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
@@ -15,10 +19,6 @@ import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.isOf
 import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.withProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flipped
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedLeft
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedRight
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.and
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.*
 import net.minecraft.data.client.BlockStateModelGenerator
@@ -218,9 +218,9 @@ class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
         val open: BooleanProperty = Properties.OPEN
         val directionVoxelShapeMap = mapOf(
             Direction.NORTH to AbstractKitchenCounterBlock.NORTH_SHAPE,
-            Direction.EAST to AbstractKitchenCounterBlock.NORTH_SHAPE.rotatedLeft,
-            Direction.SOUTH to AbstractKitchenCounterBlock.NORTH_SHAPE.flipped,
-            Direction.WEST to AbstractKitchenCounterBlock.NORTH_SHAPE.rotatedRight
+            Direction.EAST to AbstractKitchenCounterBlock.NORTH_SHAPE.rotateLeft(),
+            Direction.SOUTH to AbstractKitchenCounterBlock.NORTH_SHAPE.flip(),
+            Direction.WEST to AbstractKitchenCounterBlock.NORTH_SHAPE.rotateRight()
         )
     }
 }

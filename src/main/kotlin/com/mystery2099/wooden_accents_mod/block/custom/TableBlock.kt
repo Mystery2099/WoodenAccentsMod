@@ -1,5 +1,10 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
+import com.github.mystery2099.voxelshapeutils.VoxelShapeUtils
+import com.github.mystery2099.voxelshapeutils.combination.VoxelShapeCombining.appendShapes
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.flip
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateLeft
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateRight
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asBlockModelId
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.toIdentifier
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.itemModelId
@@ -17,11 +22,6 @@ import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.withProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.appendShapes
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.createCuboidShape
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flipped
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedLeft
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedRight
 import com.mystery2099.wooden_accents_mod.util.WhenUtil
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
@@ -229,15 +229,15 @@ class TableBlock(val baseBlock: Block, private val topBlock: Block) :
         val south: BooleanProperty = Properties.SOUTH
         val west: BooleanProperty = Properties.WEST
 
-        val topShape: VoxelShape = createCuboidShape(0, 13, 0, 16, 16, 16)
-        val singleLegShape: VoxelShape = createCuboidShape(6, 0, 6, 10, 13, 10)
-        val northEndLegShape: VoxelShape = createCuboidShape(6, 0, 1, 10, 13, 5)
-        val eastEndLegShape: VoxelShape = northEndLegShape.rotatedLeft
-        val southEndLegShape: VoxelShape = northEndLegShape.flipped
-        val westEndLegShape: VoxelShape = northEndLegShape.rotatedRight
-        val northEastLegShape: VoxelShape = createCuboidShape(11, 0, 1, 15, 13, 5)
-        val northWestLegShape: VoxelShape = northEastLegShape.rotatedRight
-        val southEastLegShape: VoxelShape = northWestLegShape.flipped
-        val southWestLegShape: VoxelShape = northEastLegShape.flipped
+        val topShape = VoxelShapeUtils.createCuboidShape(0, 13, 0, 16, 16, 16)
+        val singleLegShape = VoxelShapeUtils.createCuboidShape(6, 0, 6, 10, 13, 10)
+        val northEndLegShape = VoxelShapeUtils.createCuboidShape(6, 0, 1, 10, 13, 5)
+        val eastEndLegShape = northEndLegShape.rotateLeft()
+        val southEndLegShape = northEndLegShape.flip()
+        val westEndLegShape = northEndLegShape.rotateRight()
+        val northEastLegShape = VoxelShapeUtils.createCuboidShape(11, 0, 1, 15, 13, 5)
+        val northWestLegShape = northEastLegShape.rotateRight()
+        val southEastLegShape = northWestLegShape.flip()
+        val southWestLegShape = northEastLegShape.flip()
     }
 }

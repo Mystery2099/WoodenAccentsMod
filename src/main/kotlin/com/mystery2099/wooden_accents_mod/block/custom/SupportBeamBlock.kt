@@ -1,5 +1,9 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
+import com.github.mystery2099.voxelshapeutils.VoxelShapeUtils
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.flip
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateLeft
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateRight
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.itemModelId
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags.contains
@@ -16,10 +20,6 @@ import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStat
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.uvLock
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withXRotationOf
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.createCuboidShape
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flipped
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedLeft
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedRight
 import com.mystery2099.wooden_accents_mod.util.WhenUtil
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
@@ -56,12 +56,12 @@ class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(ru
         }
     }
 }), CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
-    override val centerShape: VoxelShape = createCuboidShape(6, 6, 6, 10, 10, 10)
-    override val northShape: VoxelShape = createCuboidShape(6, 6, 0, 10, 10, 6)
-    override val eastShape: VoxelShape = northShape.rotatedLeft
-    override val southShape: VoxelShape = northShape.flipped
-    override val westShape: VoxelShape = northShape.rotatedRight
-    override val upShape: VoxelShape = createCuboidShape(6, 10, 6, 10, 16, 10)
+    override val centerShape: VoxelShape = VoxelShapeUtils.createCuboidShape(6, 6, 6, 10, 10, 10)
+    override val northShape: VoxelShape = VoxelShapeUtils.createCuboidShape(6, 6, 0, 10, 10, 6)
+    override val eastShape: VoxelShape = northShape.rotateLeft()
+    override val southShape: VoxelShape = northShape.flip()
+    override val westShape: VoxelShape = northShape.rotateRight()
+    override val upShape: VoxelShape = VoxelShapeUtils.createCuboidShape(6, 10, 6, 10, 16, 10)
     override val downShape: VoxelShape = upShape.offset(0.0, -10 / 16.0, 0.0)
 
     override val tag: TagKey<Block> = ModBlockTags.supportBeams

@@ -1,13 +1,13 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
+import com.github.mystery2099.voxelshapeutils.VoxelShapeUtils
+import com.github.mystery2099.voxelshapeutils.combination.VoxelShapeCombining
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.flip
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateLeft
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateRight
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.createCuboidShape
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flipped
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedLeft
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedRight
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -64,14 +64,14 @@ class PlankLadderBlock(val baseBlock: Block) :
     }
 
     companion object {
-        private val northShapes = VoxelShapeHelper.union(
-            createCuboidShape(2, 1, 15, 14, 4, 16),
-            createCuboidShape(2, 12, 15, 14, 15, 16),
-            createCuboidShape(2, 6, 15, 14, 10, 16)
+        private val northShapes = VoxelShapeCombining.union(
+            VoxelShapeUtils.createCuboidShape(2, 1, 15, 14, 4, 16),
+            VoxelShapeUtils.createCuboidShape(2, 12, 15, 14, 15, 16),
+            VoxelShapeUtils.createCuboidShape(2, 6, 15, 14, 10, 16)
         )
         private val northShape = northShapes
-        private val eastShape = northShapes.rotatedLeft
-        private val southShape = northShapes.flipped
-        private val westShape = northShapes.rotatedRight
+        private val eastShape = northShapes.rotateLeft()
+        private val southShape = northShapes.flip()
+        private val westShape = northShapes.rotateRight()
     }
 }

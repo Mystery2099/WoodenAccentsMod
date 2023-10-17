@@ -1,7 +1,7 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
+import com.github.mystery2099.voxelshapeutils.combination.VoxelShapeCombining.appendShapes
 import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.withProperties
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.appendShapes
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext

@@ -1,5 +1,10 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
+import com.github.mystery2099.voxelshapeutils.VoxelShapeUtils
+import com.github.mystery2099.voxelshapeutils.combination.VoxelShapeCombining
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.flip
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateLeft
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateRight
 import com.mystery2099.wooden_accents_mod.block.custom.enums.SidewaysConnectionShape
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
@@ -8,9 +13,6 @@ import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.isIn
 import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.withProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotated
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeTransformation
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -192,50 +194,50 @@ class ConnectingLadderBlock(val baseBlock: Block) :
     companion object {
         val shape = ModProperties.sidewaysConnectionShape
 
-        private val singleShape = VoxelShapeHelper.union(
-            VoxelShapeHelper.createCuboidShape(2, 0, 15, 4, 16, 16),
-            VoxelShapeHelper.createCuboidShape(12, 0, 15, 14, 16, 16),
-            VoxelShapeHelper.createCuboidShape(2, 1, 14.5, 14, 15, 15)
+        private val singleShape = VoxelShapeCombining.union(
+            VoxelShapeUtils.createCuboidShape(2, 0, 15, 4, 16, 16),
+            VoxelShapeUtils.createCuboidShape(12, 0, 15, 14, 16, 16),
+            VoxelShapeUtils.createCuboidShape(2, 1, 14.5, 14, 15, 15)
         )
 
-        private val leftShape = VoxelShapeHelper.union(
-            VoxelShapeHelper.createCuboidShape(12, 0, 15, 14, 16, 16),
-            VoxelShapeHelper.createCuboidShape(0, 1, 14.5, 14, 15, 15)
+        private val leftShape = VoxelShapeCombining.union(
+            VoxelShapeUtils.createCuboidShape(12, 0, 15, 14, 16, 16),
+            VoxelShapeUtils.createCuboidShape(0, 1, 14.5, 14, 15, 15)
         )
 
-        private val rightShape = VoxelShapeHelper.union(
-            VoxelShapeHelper.createCuboidShape(2, 0, 15, 4, 16, 16),
-            VoxelShapeHelper.createCuboidShape(2, 1, 14.5, 16, 15, 15)
+        private val rightShape = VoxelShapeCombining.union(
+            VoxelShapeUtils.createCuboidShape(2, 0, 15, 4, 16, 16),
+            VoxelShapeUtils.createCuboidShape(2, 1, 14.5, 16, 15, 15)
         )
 
         private val singleShapeMap = mapOf(
             Direction.NORTH to singleShape,
-            Direction.EAST to singleShape.rotated(VoxelShapeTransformation.ROTATE_LEFT),
-            Direction.SOUTH to singleShape.rotated(VoxelShapeTransformation.FLIP_HORIZONTAL),
-            Direction.WEST to singleShape.rotated(VoxelShapeTransformation.ROTATE_RIGHT)
+            Direction.EAST to singleShape.rotateLeft(),
+            Direction.SOUTH to singleShape.flip(),
+            Direction.WEST to singleShape.rotateRight()
         )
         private val centerShapeMap =
-            VoxelShapeHelper.createCuboidShape(0, 1, 14.5, 16, 15, 15).let {
+            VoxelShapeUtils.createCuboidShape(0, 1, 14.5, 16, 15, 15).let {
                 mapOf(
                     Direction.NORTH to it,
-                    Direction.EAST to it.rotated(VoxelShapeTransformation.ROTATE_LEFT),
-                    Direction.SOUTH to it.rotated(VoxelShapeTransformation.FLIP_HORIZONTAL),
-                    Direction.WEST to it.rotated(VoxelShapeTransformation.ROTATE_RIGHT)
+                    Direction.EAST to it.rotateLeft(),
+                    Direction.SOUTH to it.flip(),
+                    Direction.WEST to it.rotateRight()
                 )
             }
 
         private val leftShapeMap = mapOf(
             Direction.NORTH to leftShape,
-            Direction.EAST to leftShape.rotated(VoxelShapeTransformation.ROTATE_LEFT),
-            Direction.SOUTH to leftShape.rotated(VoxelShapeTransformation.FLIP_HORIZONTAL),
-            Direction.WEST to leftShape.rotated(VoxelShapeTransformation.ROTATE_RIGHT)
+            Direction.EAST to leftShape.rotateLeft(),
+            Direction.SOUTH to leftShape.flip(),
+            Direction.WEST to leftShape.rotateRight()
         )
 
         private val rightShapeMap = mapOf(
             Direction.NORTH to rightShape,
-            Direction.EAST to rightShape.rotated(VoxelShapeTransformation.ROTATE_LEFT),
-            Direction.SOUTH to rightShape.rotated(VoxelShapeTransformation.FLIP_HORIZONTAL),
-            Direction.WEST to rightShape.rotated(VoxelShapeTransformation.ROTATE_RIGHT)
+            Direction.EAST to rightShape.rotateLeft(),
+            Direction.SOUTH to rightShape.flip(),
+            Direction.WEST to rightShape.rotateRight()
         )
         private val shapeMap = mapOf(
             SidewaysConnectionShape.SINGLE to singleShapeMap,

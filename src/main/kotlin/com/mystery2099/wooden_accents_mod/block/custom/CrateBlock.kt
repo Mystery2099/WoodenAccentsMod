@@ -1,5 +1,7 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
+import com.github.mystery2099.voxelshapeutils.VoxelShapeUtils
+import com.github.mystery2099.voxelshapeutils.combination.VoxelShapeCombining
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.entity.ModBlockEntities
 import com.mystery2099.wooden_accents_mod.block.entity.custom.CrateBlockEntity
@@ -10,7 +12,6 @@ import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companio
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.*
 import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.*
@@ -269,20 +270,20 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
     }
 
     companion object {
-        val shape = VoxelShapeHelper.union(
-            VoxelShapeHelper.createCuboidShape(0, 0, 2, 2, 2, 14),
-            VoxelShapeHelper.createCuboidShape(14, 0, 2, 16, 2, 14),
-            VoxelShapeHelper.createCuboidShape(2, 0, 0, 14, 2, 2),
-            VoxelShapeHelper.createCuboidShape(2, 0, 14, 14, 2, 16),
-            VoxelShapeHelper.createCuboidShape(0, 14, 2, 2, 16, 14),
-            VoxelShapeHelper.createCuboidShape(14, 14, 2, 16, 16, 14),
-            VoxelShapeHelper.createCuboidShape(2, 14, 0, 14, 16, 2),
-            VoxelShapeHelper.createCuboidShape(2, 14, 14, 14, 16, 16),
-            VoxelShapeHelper.createCuboidShape(0, 0, 0, 2, 16, 2),
-            VoxelShapeHelper.createCuboidShape(14, 0, 14, 16, 16, 16),
-            VoxelShapeHelper.createCuboidShape(14, 0, 0, 16, 16, 2),
-            VoxelShapeHelper.createCuboidShape(0, 0, 14, 2, 16, 16),
-            VoxelShapeHelper.createCuboidShape(1, 1, 1, 15, 15, 15)
+        val shape = VoxelShapeCombining.union(
+            VoxelShapeUtils.createCuboidShape(0, 0, 2, 2, 2, 14),
+            VoxelShapeUtils.createCuboidShape(14, 0, 2, 16, 2, 14),
+            VoxelShapeUtils.createCuboidShape(2, 0, 0, 14, 2, 2),
+            VoxelShapeUtils.createCuboidShape(2, 0, 14, 14, 2, 16),
+            VoxelShapeUtils.createCuboidShape(0, 14, 2, 2, 16, 14),
+            VoxelShapeUtils.createCuboidShape(14, 14, 2, 16, 16, 14),
+            VoxelShapeUtils.createCuboidShape(2, 14, 0, 14, 16, 2),
+            VoxelShapeUtils.createCuboidShape(2, 14, 14, 14, 16, 16),
+            VoxelShapeUtils.createCuboidShape(0, 0, 0, 2, 16, 2),
+            VoxelShapeUtils.createCuboidShape(14, 0, 14, 16, 16, 16),
+            VoxelShapeUtils.createCuboidShape(14, 0, 0, 16, 16, 2),
+            VoxelShapeUtils.createCuboidShape(0, 0, 14, 2, 16, 16),
+            VoxelShapeUtils.createCuboidShape(1, 1, 1, 15, 15, 15)
         )
         val contents = Identifier("contents")
 

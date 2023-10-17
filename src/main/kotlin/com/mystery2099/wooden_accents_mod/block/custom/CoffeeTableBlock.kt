@@ -1,5 +1,10 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
+import com.github.mystery2099.voxelshapeutils.VoxelShapeUtils
+import com.github.mystery2099.voxelshapeutils.combination.VoxelShapeCombining.appendShapes
+import com.github.mystery2099.voxelshapeutils.combination.VoxelShapeCombining.plus
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.flip
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateRight
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asBlockModelId
@@ -23,11 +28,6 @@ import com.mystery2099.wooden_accents_mod.util.BlockStateUtil.withProperties
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.putModel
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.appendShapes
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.createCuboidShape
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flipped
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.plus
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedRight
 import com.mystery2099.wooden_accents_mod.util.WhenUtil
 import com.mystery2099.wooden_accents_mod.util.WhenUtil.and
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
@@ -357,37 +357,37 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
 
         // Top shapes
         @JvmStatic
-        private val shortTopShape = createCuboidShape(0, 7, 0, 16, 9, 16)
+        private val shortTopShape = VoxelShapeUtils.createCuboidShape(0, 7, 0, 16, 9, 16)
 
         @JvmStatic
         private val tallTopShape = shortTopShape.offset(0.0, SHAPE_VERTICAL_OFFSET, 0.0)
 
         // Short North Shapes
         @JvmStatic
-        private val shortNorthEastLeg = createCuboidShape(13.75, 0, 0.25, 15.75, 7, 2.25)
+        private val shortNorthEastLeg = VoxelShapeUtils.createCuboidShape(13.75, 0, 0.25, 15.75, 7, 2.25)
 
         @JvmStatic
-        private val shortNorthWestLeg = shortNorthEastLeg.rotatedRight
+        private val shortNorthWestLeg = shortNorthEastLeg.rotateRight()
 
         // Short South Shapes
         @JvmStatic
-        private val shortSouthEastLeg = shortNorthWestLeg.flipped
+        private val shortSouthEastLeg = shortNorthWestLeg.flip()
 
         @JvmStatic
-        private val shortSouthWestLeg = shortNorthEastLeg.flipped
+        private val shortSouthWestLeg = shortNorthEastLeg.flip()
 
         // Tall North Shapes
         @JvmStatic
         private val tallNorthEastLeg = shortNorthEastLeg.offset(0.0, SHAPE_VERTICAL_OFFSET, 0.0)
 
         @JvmStatic
-        private val tallNorthWestLeg = tallNorthEastLeg.rotatedRight
+        private val tallNorthWestLeg = tallNorthEastLeg.rotateRight()
 
         // Tall South Shapes
         @JvmStatic
-        private val tallSouthEastLeg = tallNorthWestLeg.flipped
+        private val tallSouthEastLeg = tallNorthWestLeg.flip()
 
         @JvmStatic
-        private val tallSouthWestLeg = tallNorthEastLeg.flipped
+        private val tallSouthWestLeg = tallNorthEastLeg.flip()
     }
 }

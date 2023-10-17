@@ -1,5 +1,9 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
+import com.github.mystery2099.voxelshapeutils.VoxelShapeUtils
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.flip
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateLeft
+import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateRight
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.itemModelId
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
@@ -12,10 +16,6 @@ import com.mystery2099.wooden_accents_mod.item_group.CustomItemGroup
 import com.mystery2099.wooden_accents_mod.item_group.ModItemGroups
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.asBlockStateVariant
 import com.mystery2099.wooden_accents_mod.util.BlockStateVariantUtil.withYRotationOf
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.flipped
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedLeft
-import com.mystery2099.wooden_accents_mod.util.VoxelShapeHelper.rotatedRight
 import com.mystery2099.wooden_accents_mod.util.WhenUtil
 import com.mystery2099.wooden_accents_mod.util.WhenUtil.and
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
@@ -56,9 +56,9 @@ class ThinBookshelfBlock(val baseBlock: Block) :
         context: ShapeContext?
     ): VoxelShape = when (state.get(HorizontalFacingBlock.FACING)) {
         Direction.NORTH -> northShape
-        Direction.EAST -> northShape.rotatedLeft
-        Direction.SOUTH -> northShape.flipped
-        Direction.WEST -> northShape.rotatedRight
+        Direction.EAST -> eastShape
+        Direction.SOUTH -> southShape
+        Direction.WEST -> westShape
         else -> VoxelShapes.fullCube()
     }
 
@@ -118,7 +118,10 @@ class ThinBookshelfBlock(val baseBlock: Block) :
     }
 
     companion object {
-        private val northShape = VoxelShapeHelper.createCuboidShape(0, 0, 11, 16, 16, 16)
+        private val northShape = VoxelShapeUtils.createCuboidShape(0, 0, 11, 16, 16, 16)
+        private val eastShape = northShape.rotateLeft()
+        private val southShape = northShape.rotateRight()
+        private val westShape = northShape.flip()
     }
 
 
