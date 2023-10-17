@@ -1,10 +1,9 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.github.mystery2099.voxelshapeutils.VoxelShapeUtils
-import com.github.mystery2099.voxelshapeutils.combination.VoxelShapeCombining
-import com.github.mystery2099.voxelshapeutils.rotation.Rotation.flip
-import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateLeft
-import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateRight
+import com.github.mystery2099.voxelshapeutils.combination.VoxelAssembly
+import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.flip
+import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.rotateLeft
+import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.rotateRight
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.block.custom.enums.DeskShape
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
@@ -210,44 +209,44 @@ class DeskBlock(settings: Settings, val baseBlock: Block, private val topBlock: 
         val facing: DirectionProperty = Properties.HORIZONTAL_FACING
 
         //shapes
-        private val northSingleShape = VoxelShapeCombining.union(
-            VoxelShapeUtils.createCuboidShape(1, 15, 0, 15, 16, 16),
-            VoxelShapeUtils.createCuboidShape(1, 8, 15, 15, 15, 16),
-            VoxelShapeUtils.createCuboidShape(15, 0, 0, 16, 16, 2),
-            VoxelShapeUtils.createCuboidShape(15, 14, 2, 16, 16, 14),
-            VoxelShapeUtils.createCuboidShape(15, 0, 14, 16, 16, 16),
-            VoxelShapeUtils.createCuboidShape(0, 0, 0, 1, 16, 2),
-            VoxelShapeUtils.createCuboidShape(0, 14, 2, 1, 16, 14),
-            VoxelShapeUtils.createCuboidShape(0, 0, 14, 1, 16, 16)
+        private val northSingleShape = VoxelAssembly.union(
+            VoxelAssembly.createCuboidShape(1, 15, 0, 15, 16, 16),
+            VoxelAssembly.createCuboidShape(1, 8, 15, 15, 15, 16),
+            VoxelAssembly.createCuboidShape(15, 0, 0, 16, 16, 2),
+            VoxelAssembly.createCuboidShape(15, 14, 2, 16, 16, 14),
+            VoxelAssembly.createCuboidShape(15, 0, 14, 16, 16, 16),
+            VoxelAssembly.createCuboidShape(0, 0, 0, 1, 16, 2),
+            VoxelAssembly.createCuboidShape(0, 14, 2, 1, 16, 14),
+            VoxelAssembly.createCuboidShape(0, 0, 14, 1, 16, 16)
         )
 
-        val northLeftShape = VoxelShapeCombining.union(
-            VoxelShapeUtils.createCuboidShape(0, 15, 0, 15, 16, 16),
-            VoxelShapeUtils.createCuboidShape(0, 8, 15, 15, 15, 16),
-            VoxelShapeUtils.createCuboidShape(15, 0, 0, 16, 16, 2),
-            VoxelShapeUtils.createCuboidShape(15, 14, 2, 16, 16, 14),
-            VoxelShapeUtils.createCuboidShape(15, 0, 14, 16, 16, 16)
+        val northLeftShape = VoxelAssembly.union(
+            VoxelAssembly.createCuboidShape(0, 15, 0, 15, 16, 16),
+            VoxelAssembly.createCuboidShape(0, 8, 15, 15, 15, 16),
+            VoxelAssembly.createCuboidShape(15, 0, 0, 16, 16, 2),
+            VoxelAssembly.createCuboidShape(15, 14, 2, 16, 16, 14),
+            VoxelAssembly.createCuboidShape(15, 0, 14, 16, 16, 16)
         )
 
-        val northCenterShape = VoxelShapeCombining.union(
-            VoxelShapeUtils.createCuboidShape(0, 15, 0, 16, 16, 16),
-            VoxelShapeUtils.createCuboidShape(0, 8, 15, 16, 15, 16)
+        val northCenterShape = VoxelAssembly.union(
+            VoxelAssembly.createCuboidShape(0, 15, 0, 16, 16, 16),
+            VoxelAssembly.createCuboidShape(0, 8, 15, 16, 15, 16)
         )
 
-        val northRightShape = VoxelShapeCombining.union(
-            VoxelShapeUtils.createCuboidShape(1, 15, 0, 16, 16, 16),
-            VoxelShapeUtils.createCuboidShape(1, 8, 15, 16, 15, 16),
-            VoxelShapeUtils.createCuboidShape(0, 0, 0, 1, 16, 2),
-            VoxelShapeUtils.createCuboidShape(0, 14, 2, 1, 16, 14),
-            VoxelShapeUtils.createCuboidShape(0, 0, 14, 1, 16, 16)
+        val northRightShape = VoxelAssembly.union(
+            VoxelAssembly.createCuboidShape(1, 15, 0, 16, 16, 16),
+            VoxelAssembly.createCuboidShape(1, 8, 15, 16, 15, 16),
+            VoxelAssembly.createCuboidShape(0, 0, 0, 1, 16, 2),
+            VoxelAssembly.createCuboidShape(0, 14, 2, 1, 16, 14),
+            VoxelAssembly.createCuboidShape(0, 0, 14, 1, 16, 16)
         )
 
-        private val northLeftCornerShape = VoxelShapeCombining.union(
-            VoxelShapeUtils.createCuboidShape(15, 0, 14, 16, 15, 16),
-            VoxelShapeUtils.createCuboidShape(14, 0, 15, 15, 15, 16),
-            VoxelShapeUtils.createCuboidShape(0, 8, 15, 14, 15, 16),
-            VoxelShapeUtils.createCuboidShape(15, 8, 0, 16, 15, 14),
-            VoxelShapeUtils.createCuboidShape(0, 15, 0, 16, 16, 16)
+        private val northLeftCornerShape = VoxelAssembly.union(
+            VoxelAssembly.createCuboidShape(15, 0, 14, 16, 15, 16),
+            VoxelAssembly.createCuboidShape(14, 0, 15, 15, 15, 16),
+            VoxelAssembly.createCuboidShape(0, 8, 15, 14, 15, 16),
+            VoxelAssembly.createCuboidShape(15, 8, 0, 16, 15, 14),
+            VoxelAssembly.createCuboidShape(0, 15, 0, 16, 16, 16)
         )
         private val northRightCornerShape = northLeftCornerShape.rotateLeft()
 

@@ -1,8 +1,7 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.github.mystery2099.voxelshapeutils.VoxelShapeUtils
-import com.github.mystery2099.voxelshapeutils.combination.VoxelShapeCombining
-import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateLeft
+import com.github.mystery2099.voxelshapeutils.combination.VoxelAssembly
+import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.rotateLeft
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.woodType
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
@@ -86,27 +85,27 @@ class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : Fen
     }
 
     companion object {
-        private val defaultShapes = VoxelShapeCombining.union(
-            VoxelShapeUtils.createCuboidShape(0, 0, 7.5, 1, 15, 8.5),
-            VoxelShapeUtils.createCuboidShape(15, 0, 7.5, 16, 15, 8.5),
-            VoxelShapeUtils.createCuboidShape(11, 1, 7.5, 13, 16, 8.5),
-            VoxelShapeUtils.createCuboidShape(3, 1, 7.5, 5, 16, 8.5),
-            VoxelShapeUtils.createCuboidShape(7, 1, 7.5, 9, 15, 8.5),
-            VoxelShapeUtils.createCuboidShape(0, 11, 7, 16, 14, 9),
-            VoxelShapeUtils.createCuboidShape(0, 2, 7, 16, 5, 9),
-            VoxelShapeUtils.createCuboidShape(0, 2, 7.5, 16, 14, 8.5)
+        private val defaultShapes = VoxelAssembly.union(
+            VoxelAssembly.createCuboidShape(0, 0, 7.5, 1, 15, 8.5),
+            VoxelAssembly.createCuboidShape(15, 0, 7.5, 16, 15, 8.5),
+            VoxelAssembly.createCuboidShape(11, 1, 7.5, 13, 16, 8.5),
+            VoxelAssembly.createCuboidShape(3, 1, 7.5, 5, 16, 8.5),
+            VoxelAssembly.createCuboidShape(7, 1, 7.5, 9, 15, 8.5),
+            VoxelAssembly.createCuboidShape(0, 11, 7, 16, 14, 9),
+            VoxelAssembly.createCuboidShape(0, 2, 7, 16, 5, 9),
+            VoxelAssembly.createCuboidShape(0, 2, 7.5, 16, 14, 8.5)
         )
         private val shape1 = defaultShapes
         private val shape2 = defaultShapes.rotateLeft()
-        private val wallShapes = VoxelShapeCombining.union(
-            VoxelShapeUtils.createCuboidShape(0, 0, 7, 1, 14, 9),
-            VoxelShapeUtils.createCuboidShape(15, 0, 7, 16, 14, 9),
-            VoxelShapeUtils.createCuboidShape(1, 11, 7, 15, 14, 9),
-            VoxelShapeUtils.createCuboidShape(1, 2, 7, 15, 5, 9),
-            VoxelShapeUtils.createCuboidShape(1, 5, 7.5, 15, 11, 8.5),
-            VoxelShapeUtils.createCuboidShape(11, 1, 7.5, 13, 16, 8.5),
-            VoxelShapeUtils.createCuboidShape(3, 1, 7.5, 5, 16, 8.5),
-            VoxelShapeUtils.createCuboidShape(7, 1, 7.5, 9, 15, 8.5)
+        private val wallShapes = VoxelAssembly.union(
+            VoxelAssembly.createCuboidShape(0, 0, 7, 1, 14, 9),
+            VoxelAssembly.createCuboidShape(15, 0, 7, 16, 14, 9),
+            VoxelAssembly.createCuboidShape(1, 11, 7, 15, 14, 9),
+            VoxelAssembly.createCuboidShape(1, 2, 7, 15, 5, 9),
+            VoxelAssembly.createCuboidShape(1, 5, 7.5, 15, 11, 8.5),
+            VoxelAssembly.createCuboidShape(11, 1, 7.5, 13, 16, 8.5),
+            VoxelAssembly.createCuboidShape(3, 1, 7.5, 5, 16, 8.5),
+            VoxelAssembly.createCuboidShape(7, 1, 7.5, 9, 15, 8.5)
         )
         private val wallShape1 = wallShapes
         private val wallShape2 = wallShapes.rotateLeft()

@@ -1,10 +1,10 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.github.mystery2099.voxelshapeutils.VoxelShapeUtils
-import com.github.mystery2099.voxelshapeutils.combination.VoxelShapeCombining.appendShapes
-import com.github.mystery2099.voxelshapeutils.combination.VoxelShapeCombining.plus
-import com.github.mystery2099.voxelshapeutils.rotation.Rotation.flip
-import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateRight
+import com.github.mystery2099.voxelshapeutils.combination.VoxelAssembly
+import com.github.mystery2099.voxelshapeutils.combination.VoxelAssembly.appendShapes
+import com.github.mystery2099.voxelshapeutils.combination.VoxelAssembly.plus
+import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.flip
+import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.rotateRight
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asBlockModelId
@@ -357,14 +357,14 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
 
         // Top shapes
         @JvmStatic
-        private val shortTopShape = VoxelShapeUtils.createCuboidShape(0, 7, 0, 16, 9, 16)
+        private val shortTopShape = VoxelAssembly.createCuboidShape(0, 7, 0, 16, 9, 16)
 
         @JvmStatic
         private val tallTopShape = shortTopShape.offset(0.0, SHAPE_VERTICAL_OFFSET, 0.0)
 
         // Short North Shapes
         @JvmStatic
-        private val shortNorthEastLeg = VoxelShapeUtils.createCuboidShape(13.75, 0, 0.25, 15.75, 7, 2.25)
+        private val shortNorthEastLeg = VoxelAssembly.createCuboidShape(13.75, 0, 0.25, 15.75, 7, 2.25)
 
         @JvmStatic
         private val shortNorthWestLeg = shortNorthEastLeg.rotateRight()

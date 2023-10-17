@@ -1,11 +1,10 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.github.mystery2099.voxelshapeutils.VoxelShapeUtils
-import com.github.mystery2099.voxelshapeutils.combination.VoxelShapeCombining
-import com.github.mystery2099.voxelshapeutils.combination.VoxelShapeCombining.and
-import com.github.mystery2099.voxelshapeutils.rotation.Rotation.flip
-import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateLeft
-import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateRight
+import com.github.mystery2099.voxelshapeutils.combination.VoxelAssembly
+import com.github.mystery2099.voxelshapeutils.combination.VoxelAssembly.and
+import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.flip
+import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.rotateLeft
+import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.rotateRight
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.data.generation.RecipeDataGen.Companion.customGroup
@@ -168,13 +167,13 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
 
     companion object {
         val waterlogged: BooleanProperty = Properties.WATERLOGGED
-        private val northTopShape = VoxelShapeUtils.createCuboidShape(2, 10, 12, 14, 20, 14)
-        private val bottomShape = VoxelShapeCombining.union(
-            VoxelShapeUtils.createCuboidShape(2, 8, 2, 14, 10, 14),
-            VoxelShapeUtils.createCuboidShape(2, 0, 2, 4, 8, 4),
-            VoxelShapeUtils.createCuboidShape(12, 0, 2, 14, 8, 4),
-            VoxelShapeUtils.createCuboidShape(12, 0, 12, 14, 8, 14),
-            VoxelShapeUtils.createCuboidShape(2, 0, 12, 4, 8, 14)
+        private val northTopShape = VoxelAssembly.createCuboidShape(2, 10, 12, 14, 20, 14)
+        private val bottomShape = VoxelAssembly.union(
+            VoxelAssembly.createCuboidShape(2, 8, 2, 14, 10, 14),
+            VoxelAssembly.createCuboidShape(2, 0, 2, 4, 8, 4),
+            VoxelAssembly.createCuboidShape(12, 0, 2, 14, 8, 4),
+            VoxelAssembly.createCuboidShape(12, 0, 12, 14, 8, 14),
+            VoxelAssembly.createCuboidShape(2, 0, 12, 4, 8, 14)
         )
 
         private val northShape = northTopShape and bottomShape

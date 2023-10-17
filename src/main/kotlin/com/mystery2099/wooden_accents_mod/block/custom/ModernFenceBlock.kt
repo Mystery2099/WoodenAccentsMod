@@ -1,11 +1,10 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.github.mystery2099.voxelshapeutils.VoxelShapeUtils
-import com.github.mystery2099.voxelshapeutils.combination.VoxelShapeCombining
-import com.github.mystery2099.voxelshapeutils.combination.VoxelShapeCombining.plus
-import com.github.mystery2099.voxelshapeutils.rotation.Rotation.flip
-import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateLeft
-import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateRight
+import com.github.mystery2099.voxelshapeutils.combination.VoxelAssembly
+import com.github.mystery2099.voxelshapeutils.combination.VoxelAssembly.plus
+import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.flip
+import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.rotateLeft
+import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.rotateRight
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.itemModelId
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.textureId
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
@@ -103,13 +102,13 @@ class ModernFenceBlock(settings: Block, private val sideBlock: Block, private va
     }
 
     companion object {
-        private val postShape: VoxelShape = VoxelShapeUtils.createCuboidShape(6, 0, 6, 10, 16, 10)
-        private val northShape: VoxelShape = VoxelShapeCombining.union(
-            VoxelShapeUtils.createCuboidShape(7, 11, 0, 9, 14, 6),
-            VoxelShapeUtils.createCuboidShape(7, 2, 0, 9, 5, 6),
-            VoxelShapeUtils.createCuboidShape(7.5, 5, 1, 8.5, 11, 2),
-            VoxelShapeUtils.createCuboidShape(7.5, 0, 2, 8.5, 15, 5),
-            VoxelShapeUtils.createCuboidShape(7.5, 0, 0, 8.5, 15, 1)
+        private val postShape: VoxelShape = VoxelAssembly.createCuboidShape(6, 0, 6, 10, 16, 10)
+        private val northShape: VoxelShape = VoxelAssembly.union(
+            VoxelAssembly.createCuboidShape(7, 11, 0, 9, 14, 6),
+            VoxelAssembly.createCuboidShape(7, 2, 0, 9, 5, 6),
+            VoxelAssembly.createCuboidShape(7.5, 5, 1, 8.5, 11, 2),
+            VoxelAssembly.createCuboidShape(7.5, 0, 2, 8.5, 15, 5),
+            VoxelAssembly.createCuboidShape(7.5, 0, 0, 8.5, 15, 1)
         )
         val directionToShapeMap = mapOf(
             Direction.NORTH to northShape,

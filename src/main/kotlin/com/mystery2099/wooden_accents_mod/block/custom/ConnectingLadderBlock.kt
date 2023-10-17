@@ -1,10 +1,9 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.github.mystery2099.voxelshapeutils.VoxelShapeUtils
-import com.github.mystery2099.voxelshapeutils.combination.VoxelShapeCombining
-import com.github.mystery2099.voxelshapeutils.rotation.Rotation.flip
-import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateLeft
-import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateRight
+import com.github.mystery2099.voxelshapeutils.combination.VoxelAssembly
+import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.flip
+import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.rotateLeft
+import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.rotateRight
 import com.mystery2099.wooden_accents_mod.block.custom.enums.SidewaysConnectionShape
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
@@ -194,20 +193,20 @@ class ConnectingLadderBlock(val baseBlock: Block) :
     companion object {
         val shape = ModProperties.sidewaysConnectionShape
 
-        private val singleShape = VoxelShapeCombining.union(
-            VoxelShapeUtils.createCuboidShape(2, 0, 15, 4, 16, 16),
-            VoxelShapeUtils.createCuboidShape(12, 0, 15, 14, 16, 16),
-            VoxelShapeUtils.createCuboidShape(2, 1, 14.5, 14, 15, 15)
+        private val singleShape = VoxelAssembly.union(
+            VoxelAssembly.createCuboidShape(2, 0, 15, 4, 16, 16),
+            VoxelAssembly.createCuboidShape(12, 0, 15, 14, 16, 16),
+            VoxelAssembly.createCuboidShape(2, 1, 14.5, 14, 15, 15)
         )
 
-        private val leftShape = VoxelShapeCombining.union(
-            VoxelShapeUtils.createCuboidShape(12, 0, 15, 14, 16, 16),
-            VoxelShapeUtils.createCuboidShape(0, 1, 14.5, 14, 15, 15)
+        private val leftShape = VoxelAssembly.union(
+            VoxelAssembly.createCuboidShape(12, 0, 15, 14, 16, 16),
+            VoxelAssembly.createCuboidShape(0, 1, 14.5, 14, 15, 15)
         )
 
-        private val rightShape = VoxelShapeCombining.union(
-            VoxelShapeUtils.createCuboidShape(2, 0, 15, 4, 16, 16),
-            VoxelShapeUtils.createCuboidShape(2, 1, 14.5, 16, 15, 15)
+        private val rightShape = VoxelAssembly.union(
+            VoxelAssembly.createCuboidShape(2, 0, 15, 4, 16, 16),
+            VoxelAssembly.createCuboidShape(2, 1, 14.5, 16, 15, 15)
         )
 
         private val singleShapeMap = mapOf(
@@ -217,7 +216,7 @@ class ConnectingLadderBlock(val baseBlock: Block) :
             Direction.WEST to singleShape.rotateRight()
         )
         private val centerShapeMap =
-            VoxelShapeUtils.createCuboidShape(0, 1, 14.5, 16, 15, 15).let {
+            VoxelAssembly.createCuboidShape(0, 1, 14.5, 16, 15, 15).let {
                 mapOf(
                     Direction.NORTH to it,
                     Direction.EAST to it.rotateLeft(),

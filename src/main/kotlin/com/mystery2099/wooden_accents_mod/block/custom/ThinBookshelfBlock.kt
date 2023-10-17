@@ -1,9 +1,9 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.github.mystery2099.voxelshapeutils.VoxelShapeUtils
-import com.github.mystery2099.voxelshapeutils.rotation.Rotation.flip
-import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateLeft
-import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateRight
+import com.github.mystery2099.voxelshapeutils.combination.VoxelAssembly
+import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.flip
+import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.rotateLeft
+import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.rotateRight
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.itemModelId
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
@@ -118,7 +118,7 @@ class ThinBookshelfBlock(val baseBlock: Block) :
     }
 
     companion object {
-        private val northShape = VoxelShapeUtils.createCuboidShape(0, 0, 11, 16, 16, 16)
+        private val northShape = VoxelAssembly.createCuboidShape(0, 0, 11, 16, 16, 16)
         private val eastShape = northShape.rotateLeft()
         private val southShape = northShape.rotateRight()
         private val westShape = northShape.flip()

@@ -1,10 +1,9 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.github.mystery2099.voxelshapeutils.VoxelShapeUtils
-import com.github.mystery2099.voxelshapeutils.combination.VoxelShapeCombining
-import com.github.mystery2099.voxelshapeutils.rotation.Rotation.flip
-import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateLeft
-import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateRight
+import com.github.mystery2099.voxelshapeutils.combination.VoxelAssembly
+import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.flip
+import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.rotateLeft
+import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.rotateRight
 import com.mystery2099.wooden_accents_mod.data.ModBlockTags
 import com.mystery2099.wooden_accents_mod.data.ModModels
 import com.mystery2099.wooden_accents_mod.data.generation.interfaces.CustomItemGroupProvider
@@ -64,10 +63,10 @@ class PlankLadderBlock(val baseBlock: Block) :
     }
 
     companion object {
-        private val northShapes = VoxelShapeCombining.union(
-            VoxelShapeUtils.createCuboidShape(2, 1, 15, 14, 4, 16),
-            VoxelShapeUtils.createCuboidShape(2, 12, 15, 14, 15, 16),
-            VoxelShapeUtils.createCuboidShape(2, 6, 15, 14, 10, 16)
+        private val northShapes = VoxelAssembly.union(
+            VoxelAssembly.createCuboidShape(2, 1, 15, 14, 4, 16),
+            VoxelAssembly.createCuboidShape(2, 12, 15, 14, 15, 16),
+            VoxelAssembly.createCuboidShape(2, 6, 15, 14, 10, 16)
         )
         private val northShape = northShapes
         private val eastShape = northShapes.rotateLeft()

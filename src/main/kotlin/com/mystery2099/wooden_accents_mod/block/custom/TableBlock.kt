@@ -1,10 +1,10 @@
 package com.mystery2099.wooden_accents_mod.block.custom
 
-import com.github.mystery2099.voxelshapeutils.VoxelShapeUtils
-import com.github.mystery2099.voxelshapeutils.combination.VoxelShapeCombining.appendShapes
-import com.github.mystery2099.voxelshapeutils.rotation.Rotation.flip
-import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateLeft
-import com.github.mystery2099.voxelshapeutils.rotation.Rotation.rotateRight
+import com.github.mystery2099.voxelshapeutils.combination.VoxelAssembly
+import com.github.mystery2099.voxelshapeutils.combination.VoxelAssembly.appendShapes
+import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.flip
+import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.rotateLeft
+import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.rotateRight
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.asBlockModelId
 import com.mystery2099.wooden_accents_mod.WoodenAccentsMod.toIdentifier
 import com.mystery2099.wooden_accents_mod.block.ModBlocks.itemModelId
@@ -229,13 +229,13 @@ class TableBlock(val baseBlock: Block, private val topBlock: Block) :
         val south: BooleanProperty = Properties.SOUTH
         val west: BooleanProperty = Properties.WEST
 
-        val topShape = VoxelShapeUtils.createCuboidShape(0, 13, 0, 16, 16, 16)
-        val singleLegShape = VoxelShapeUtils.createCuboidShape(6, 0, 6, 10, 13, 10)
-        val northEndLegShape = VoxelShapeUtils.createCuboidShape(6, 0, 1, 10, 13, 5)
+        val topShape = VoxelAssembly.createCuboidShape(0, 13, 0, 16, 16, 16)
+        val singleLegShape = VoxelAssembly.createCuboidShape(6, 0, 6, 10, 13, 10)
+        val northEndLegShape = VoxelAssembly.createCuboidShape(6, 0, 1, 10, 13, 5)
         val eastEndLegShape = northEndLegShape.rotateLeft()
         val southEndLegShape = northEndLegShape.flip()
         val westEndLegShape = northEndLegShape.rotateRight()
-        val northEastLegShape = VoxelShapeUtils.createCuboidShape(11, 0, 1, 15, 13, 5)
+        val northEastLegShape = VoxelAssembly.createCuboidShape(11, 0, 1, 15, 13, 5)
         val northWestLegShape = northEastLegShape.rotateRight()
         val southEastLegShape = northWestLegShape.flip()
         val southWestLegShape = northEastLegShape.flip()
