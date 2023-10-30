@@ -1,6 +1,0 @@
-{
-  "parent": "myst2099_wooden_accents_mod:item/support_beam",
-  "textures": {
-    "all": "minecraft:block/spruce_planks"
-  }
-}

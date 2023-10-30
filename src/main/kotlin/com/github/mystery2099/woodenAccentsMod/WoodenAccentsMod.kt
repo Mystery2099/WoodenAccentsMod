@@ -13,7 +13,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 object WoodenAccentsMod : ModInitializer {
-    const val MOD_ID = "myst2099_wooden_accents_mod"
+    const val MOD_ID = "wooden_accents_mod"
     val LOGGER: Logger = LoggerFactory.getLogger(MOD_ID)
 
     override fun onInitialize() {

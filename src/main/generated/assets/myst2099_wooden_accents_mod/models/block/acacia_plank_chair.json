@@ -1,6 +1,0 @@
-{
-  "parent": "myst2099_wooden_accents_mod:block/chair",
-  "textures": {
-    "all": "minecraft:block/acacia_planks"
-  }
-}

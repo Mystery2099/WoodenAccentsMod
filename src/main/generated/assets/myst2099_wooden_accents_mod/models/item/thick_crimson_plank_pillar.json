@@ -1,6 +1,0 @@
-{
-  "parent": "myst2099_wooden_accents_mod:item/thick_pillar",
-  "textures": {
-    "all": "minecraft:block/crimson_planks"
-  }
-}

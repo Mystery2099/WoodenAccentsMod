@@ -43,8 +43,8 @@
     ]
   },
   "environment": "*",
-  "icon": "assets/myst2099_wooden_accents_mod/icon.png",
-  "id": "myst2099_wooden_accents_mod",
+  "icon": "assets/wooden_accents_mod/icon.png",
+  "id": "wooden_accents_mod",
   "license": "CC0-1.0",
   "name": "Wooden Accents Mod",
   "suggests": {

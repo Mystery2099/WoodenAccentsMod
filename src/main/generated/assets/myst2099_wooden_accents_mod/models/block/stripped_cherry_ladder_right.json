@@ -1,6 +1,0 @@
-{
-  "parent": "myst2099_wooden_accents_mod:block/connecting_ladder_right",
-  "textures": {
-    "all": "minecraft:block/stripped_cherry_log"
-  }
-}

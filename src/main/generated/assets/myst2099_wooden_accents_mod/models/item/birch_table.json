@@ -1,7 +1,0 @@
-{
-  "parent": "myst2099_wooden_accents_mod:item/table",
-  "textures": {
-    "legs": "minecraft:block/birch_planks",
-    "top": "minecraft:block/birch_log"
-  }
-}

@@ -1,7 +1,0 @@
-{
-  "parent": "myst2099_wooden_accents_mod:block/desk_drawer_left",
-  "textures": {
-    "edge": "minecraft:block/dark_oak_log",
-    "side": "minecraft:block/stripped_dark_oak_log"
-  }
-}

@@ -1,7 +1,0 @@
-{
-  "parent": "myst2099_wooden_accents_mod:block/kitchen_counter_inner_left_corner",
-  "textures": {
-    "side": "minecraft:block/bamboo_mosaic",
-    "top": "minecraft:block/bamboo_block"
-  }
-}
