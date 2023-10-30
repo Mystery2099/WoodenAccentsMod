@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "desks",
+  "key": {
+    "_": {
+      "item": "minecraft:stripped_jungle_log"
+    },
+    "|": {
+      "item": "minecraft:jungle_log"
+    }
+  },
+  "pattern": [
+    "___",
+    "| |",
+    "| |"
+  ],
+  "result": {
+    "count": 4,
+    "item": "wooden_accents_mod:jungle_desk"
+  },
+  "show_notification": true
+}

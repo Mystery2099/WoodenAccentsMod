@@ -1,0 +1,8 @@
+{
+  "parent": "wooden_accents_mod:block/wooden_crate",
+  "textures": {
+    "cross": "minecraft:block/stripped_dark_oak_log",
+    "edge": "minecraft:block/dark_oak_log",
+    "inside": "minecraft:block/dark_oak_planks"
+  }
+}

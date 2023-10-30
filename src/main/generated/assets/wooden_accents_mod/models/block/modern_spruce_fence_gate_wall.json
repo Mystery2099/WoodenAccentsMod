@@ -1,0 +1,6 @@
+{
+  "parent": "wooden_accents_mod:block/modern_fence_gate_wall",
+  "textures": {
+    "all": "minecraft:block/stripped_spruce_log"
+  }
+}

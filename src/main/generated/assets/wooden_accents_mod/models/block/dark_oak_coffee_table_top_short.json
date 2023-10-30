@@ -1,0 +1,6 @@
+{
+  "parent": "wooden_accents_mod:block/coffee_table_top_short",
+  "textures": {
+    "top": "minecraft:block/dark_oak_log"
+  }
+}

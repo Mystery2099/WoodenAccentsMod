@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "wooden_accents_mod:oak_plank_ladder",
+    "wooden_accents_mod:spruce_plank_ladder",
+    "wooden_accents_mod:birch_plank_ladder",
+    "wooden_accents_mod:jungle_plank_ladder",
+    "wooden_accents_mod:acacia_plank_ladder",
+    "wooden_accents_mod:dark_oak_plank_ladder",
+    "wooden_accents_mod:mangrove_plank_ladder",
+    "wooden_accents_mod:cherry_plank_ladder",
+    "wooden_accents_mod:bamboo_plank_ladder",
+    "wooden_accents_mod:bamboo_mosaic_ladder",
+    "wooden_accents_mod:crimson_plank_ladder",
+    "wooden_accents_mod:warped_plank_ladder"
+  ]
+}

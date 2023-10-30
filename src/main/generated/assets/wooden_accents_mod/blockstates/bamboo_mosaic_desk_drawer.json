@@ -1,0 +1,64 @@
+{
+  "variants": {
+    "facing=east,shape=center": {
+      "model": "wooden_accents_mod:block/bamboo_mosaic_desk_drawer_center",
+      "y": 90
+    },
+    "facing=east,shape=left": {
+      "model": "wooden_accents_mod:block/bamboo_mosaic_desk_drawer_left",
+      "y": 90
+    },
+    "facing=east,shape=right": {
+      "model": "wooden_accents_mod:block/bamboo_mosaic_desk_drawer_right",
+      "y": 90
+    },
+    "facing=east,shape=single": {
+      "model": "wooden_accents_mod:block/bamboo_mosaic_desk_drawer",
+      "y": 90
+    },
+    "facing=north,shape=center": {
+      "model": "wooden_accents_mod:block/bamboo_mosaic_desk_drawer_center"
+    },
+    "facing=north,shape=left": {
+      "model": "wooden_accents_mod:block/bamboo_mosaic_desk_drawer_left"
+    },
+    "facing=north,shape=right": {
+      "model": "wooden_accents_mod:block/bamboo_mosaic_desk_drawer_right"
+    },
+    "facing=north,shape=single": {
+      "model": "wooden_accents_mod:block/bamboo_mosaic_desk_drawer"
+    },
+    "facing=south,shape=center": {
+      "model": "wooden_accents_mod:block/bamboo_mosaic_desk_drawer_center",
+      "y": 180
+    },
+    "facing=south,shape=left": {
+      "model": "wooden_accents_mod:block/bamboo_mosaic_desk_drawer_left",
+      "y": 180
+    },
+    "facing=south,shape=right": {
+      "model": "wooden_accents_mod:block/bamboo_mosaic_desk_drawer_right",
+      "y": 180
+    },
+    "facing=south,shape=single": {
+      "model": "wooden_accents_mod:block/bamboo_mosaic_desk_drawer",
+      "y": 180
+    },
+    "facing=west,shape=center": {
+      "model": "wooden_accents_mod:block/bamboo_mosaic_desk_drawer_center",
+      "y": 270
+    },
+    "facing=west,shape=left": {
+      "model": "wooden_accents_mod:block/bamboo_mosaic_desk_drawer_left",
+      "y": 270
+    },
+    "facing=west,shape=right": {
+      "model": "wooden_accents_mod:block/bamboo_mosaic_desk_drawer_right",
+      "y": 270
+    },
+    "facing=west,shape=single": {
+      "model": "wooden_accents_mod:block/bamboo_mosaic_desk_drawer",
+      "y": 270
+    }
+  }
+}

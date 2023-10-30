@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "desk_drawers",
+  "key": {
+    "#": {
+      "item": "minecraft:chest"
+    },
+    "_": {
+      "item": "minecraft:stripped_spruce_log"
+    },
+    "|": {
+      "item": "minecraft:spruce_log"
+    }
+  },
+  "pattern": [
+    "___",
+    "|#|",
+    "| |"
+  ],
+  "result": {
+    "count": 4,
+    "item": "wooden_accents_mod:spruce_desk_drawer"
+  },
+  "show_notification": true
+}

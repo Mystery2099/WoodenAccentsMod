@@ -1,0 +1,8 @@
+{
+  "parent": "wooden_accents_mod:item/modern_fence",
+  "textures": {
+    "end": "minecraft:block/warped_stem",
+    "side": "minecraft:block/stripped_warped_stem",
+    "up": "minecraft:block/warped_stem_top"
+  }
+}

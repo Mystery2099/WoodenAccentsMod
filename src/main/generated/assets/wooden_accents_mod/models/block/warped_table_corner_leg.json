@@ -1,0 +1,6 @@
+{
+  "parent": "wooden_accents_mod:block/table_corner_leg",
+  "textures": {
+    "legs": "minecraft:block/warped_planks"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "wooden_accents_mod:item/coffee_table_tall",
+  "textures": {
+    "legs": "minecraft:block/acacia_planks",
+    "top": "minecraft:block/acacia_planks"
+  }
+}

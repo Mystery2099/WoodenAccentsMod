@@ -1,0 +1,6 @@
+{
+  "parent": "wooden_accents_mod:block/chair",
+  "textures": {
+    "all": "minecraft:block/acacia_planks"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "desks",
+  "key": {
+    "_": {
+      "item": "minecraft:stripped_warped_stem"
+    },
+    "|": {
+      "item": "minecraft:warped_stem"
+    }
+  },
+  "pattern": [
+    "___",
+    "| |",
+    "| |"
+  ],
+  "result": {
+    "count": 4,
+    "item": "wooden_accents_mod:warped_desk"
+  },
+  "show_notification": true
+}

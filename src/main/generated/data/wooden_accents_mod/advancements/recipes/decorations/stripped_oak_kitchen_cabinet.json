@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "wooden_accents_mod:stripped_oak_kitchen_cabinet"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_wooden_accents_mod:kitchen_counters": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "wooden_accents_mod:kitchen_counters"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_wooden_accents_mod:kitchen_counters",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "wooden_accents_mod:stripped_oak_kitchen_cabinet"
+    ]
+  }
+}

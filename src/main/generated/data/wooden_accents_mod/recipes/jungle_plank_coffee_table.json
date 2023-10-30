@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "plank_coffee_tables",
+  "key": {
+    "_": {
+      "item": "minecraft:jungle_planks"
+    },
+    "|": {
+      "item": "minecraft:jungle_planks"
+    }
+  },
+  "pattern": [
+    "___",
+    "| |"
+  ],
+  "result": {
+    "count": 6,
+    "item": "wooden_accents_mod:jungle_plank_coffee_table"
+  },
+  "show_notification": true
+}

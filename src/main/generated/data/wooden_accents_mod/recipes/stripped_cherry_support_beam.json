@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "stripped_support_beams",
+  "key": {
+    "#": {
+      "item": "minecraft:stripped_cherry_log"
+    },
+    "0": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "000",
+    "0#0",
+    "000"
+  ],
+  "result": {
+    "count": 6,
+    "item": "wooden_accents_mod:stripped_cherry_support_beam"
+  },
+  "show_notification": true
+}

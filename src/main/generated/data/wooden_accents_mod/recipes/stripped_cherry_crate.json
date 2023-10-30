@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "stripped_crates",
+  "key": {
+    "n": {
+      "item": "minecraft:cherry_planks"
+    },
+    "t": {
+      "item": "minecraft:stripped_cherry_log"
+    },
+    "u": {
+      "item": "minecraft:chest"
+    }
+  },
+  "pattern": [
+    "tnt",
+    "nun",
+    "tnt"
+  ],
+  "result": {
+    "item": "wooden_accents_mod:stripped_cherry_crate"
+  },
+  "show_notification": true
+}

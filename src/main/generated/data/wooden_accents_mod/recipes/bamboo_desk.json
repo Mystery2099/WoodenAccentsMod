@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "desks",
+  "key": {
+    "_": {
+      "item": "minecraft:stripped_bamboo_block"
+    },
+    "|": {
+      "item": "minecraft:bamboo_block"
+    }
+  },
+  "pattern": [
+    "___",
+    "| |",
+    "| |"
+  ],
+  "result": {
+    "count": 4,
+    "item": "wooden_accents_mod:bamboo_desk"
+  },
+  "show_notification": true
+}

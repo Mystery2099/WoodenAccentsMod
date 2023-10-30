@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "stripped_tables",
+  "key": {
+    "#": {
+      "item": "minecraft:stripped_mangrove_log"
+    },
+    "|": {
+      "item": "minecraft:mangrove_planks"
+    }
+  },
+  "pattern": [
+    "###",
+    " | ",
+    " | "
+  ],
+  "result": {
+    "count": 4,
+    "item": "wooden_accents_mod:stripped_mangrove_table"
+  },
+  "show_notification": true
+}

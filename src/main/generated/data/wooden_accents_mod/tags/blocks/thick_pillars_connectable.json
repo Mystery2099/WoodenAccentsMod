@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#wooden_accents_mod:thick_pillars",
+    "#wooden_accents_mod:thin_pillars",
+    "#minecraft:walls"
+  ]
+}

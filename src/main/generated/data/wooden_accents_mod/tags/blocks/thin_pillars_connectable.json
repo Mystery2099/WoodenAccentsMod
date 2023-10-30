@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "#wooden_accents_mod:thin_pillars",
+    "#minecraft:fences",
+    "#wooden_accents_mod:support_beams",
+    "#wooden_accents_mod:tables",
+    "minecraft:end_rod",
+    "minecraft:hopper",
+    "minecraft:lightning_rod"
+  ]
+}

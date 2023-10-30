@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "thick_pillars",
+  "key": {
+    "#": {
+      "item": "minecraft:cherry_planks"
+    },
+    "|": {
+      "item": "minecraft:cherry_planks"
+    }
+  },
+  "pattern": [
+    "###",
+    " | ",
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "item": "wooden_accents_mod:thick_cherry_plank_pillar"
+  },
+  "show_notification": true
+}

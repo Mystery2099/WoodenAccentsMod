@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "thin_bookshelves",
+  "key": {
+    "#": {
+      "item": "minecraft:cherry_planks"
+    },
+    "_": {
+      "tag": "minecraft:wooden_slabs"
+    }
+  },
+  "pattern": [
+    "##",
+    "__",
+    "##"
+  ],
+  "result": {
+    "count": 2,
+    "item": "wooden_accents_mod:cherry_plank_bookshelf"
+  },
+  "show_notification": true
+}

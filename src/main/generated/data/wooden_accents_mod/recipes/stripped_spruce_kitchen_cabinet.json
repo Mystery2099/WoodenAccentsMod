@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "stripped_kitchen_cabinets",
+  "key": {
+    "#": {
+      "item": "minecraft:spruce_planks"
+    },
+    "O": {
+      "tag": "c:chests"
+    },
+    "_": {
+      "item": "minecraft:stripped_spruce_log"
+    }
+  },
+  "pattern": [
+    "___",
+    "#O#",
+    "###"
+  ],
+  "result": {
+    "count": 4,
+    "item": "wooden_accents_mod:stripped_spruce_kitchen_cabinet"
+  },
+  "show_notification": true
+}

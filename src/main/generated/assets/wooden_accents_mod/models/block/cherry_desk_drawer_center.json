@@ -1,0 +1,7 @@
+{
+  "parent": "wooden_accents_mod:block/desk_drawer_center",
+  "textures": {
+    "edge": "minecraft:block/cherry_log",
+    "side": "minecraft:block/stripped_cherry_log"
+  }
+}

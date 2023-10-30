@@ -1,0 +1,7 @@
+{
+  "parent": "wooden_accents_mod:block/kitchen_cabinet",
+  "textures": {
+    "side": "minecraft:block/dark_oak_planks",
+    "top": "minecraft:block/stripped_dark_oak_log"
+  }
+}

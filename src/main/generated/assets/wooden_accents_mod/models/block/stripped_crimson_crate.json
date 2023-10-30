@@ -1,0 +1,8 @@
+{
+  "parent": "wooden_accents_mod:block/wooden_crate",
+  "textures": {
+    "cross": "minecraft:block/stripped_crimson_stem",
+    "edge": "minecraft:block/stripped_crimson_stem",
+    "inside": "minecraft:block/crimson_planks"
+  }
+}

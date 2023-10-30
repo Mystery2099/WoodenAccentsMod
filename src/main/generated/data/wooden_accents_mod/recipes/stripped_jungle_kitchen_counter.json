@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "stripped_kitchen_counters",
+  "key": {
+    "#": {
+      "item": "minecraft:jungle_planks"
+    },
+    "_": {
+      "item": "minecraft:stripped_jungle_log"
+    }
+  },
+  "pattern": [
+    "___",
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 4,
+    "item": "wooden_accents_mod:stripped_jungle_kitchen_counter"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,15 @@
+{
+  "parent": "wooden_accents_mod:item/coffee_table",
+  "overrides": [
+    {
+      "model": "wooden_accents_mod:item/bamboo_plank_coffee_table_tall",
+      "predicate": {
+        "height": 1.0
+      }
+    }
+  ],
+  "textures": {
+    "legs": "minecraft:block/bamboo_planks",
+    "top": "minecraft:block/bamboo_planks"
+  }
+}

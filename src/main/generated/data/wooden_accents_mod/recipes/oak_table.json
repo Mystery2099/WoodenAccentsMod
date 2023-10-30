@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "tables",
+  "key": {
+    "#": {
+      "item": "minecraft:oak_log"
+    },
+    "|": {
+      "item": "minecraft:oak_planks"
+    }
+  },
+  "pattern": [
+    "###",
+    " | ",
+    " | "
+  ],
+  "result": {
+    "count": 4,
+    "item": "wooden_accents_mod:oak_table"
+  },
+  "show_notification": true
+}

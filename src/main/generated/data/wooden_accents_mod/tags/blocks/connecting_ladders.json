@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+    "wooden_accents_mod:stripped_oak_ladder",
+    "wooden_accents_mod:stripped_spruce_ladder",
+    "wooden_accents_mod:stripped_birch_ladder",
+    "wooden_accents_mod:stripped_jungle_ladder",
+    "wooden_accents_mod:stripped_acacia_ladder",
+    "wooden_accents_mod:stripped_dark_oak_ladder",
+    "wooden_accents_mod:stripped_mangrove_ladder",
+    "wooden_accents_mod:stripped_cherry_ladder",
+    "wooden_accents_mod:stripped_bamboo_ladder",
+    "wooden_accents_mod:stripped_crimson_ladder",
+    "wooden_accents_mod:stripped_warped_ladder"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "wooden_accents_mod:item/support_beam",
+  "textures": {
+    "all": "minecraft:block/mangrove_log"
+  }
+}

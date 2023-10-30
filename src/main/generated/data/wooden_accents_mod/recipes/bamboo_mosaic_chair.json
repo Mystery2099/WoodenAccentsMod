@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "chairs",
+  "key": {
+    "#": {
+      "item": "minecraft:bamboo_mosaic"
+    },
+    "|": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "#  ",
+    "###",
+    "| |"
+  ],
+  "result": {
+    "count": 3,
+    "item": "wooden_accents_mod:bamboo_mosaic_chair"
+  },
+  "show_notification": true
+}

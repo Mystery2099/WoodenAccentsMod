@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "plank_support_beams",
+  "key": {
+    "#": {
+      "item": "minecraft:spruce_planks"
+    },
+    "0": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "000",
+    "0#0",
+    "000"
+  ],
+  "result": {
+    "count": 6,
+    "item": "wooden_accents_mod:spruce_plank_support_beam"
+  },
+  "show_notification": true
+}

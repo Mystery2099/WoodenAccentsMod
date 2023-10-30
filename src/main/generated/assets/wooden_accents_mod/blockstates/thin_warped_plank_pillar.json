@@ -1,0 +1,27 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "minecraft:block/warped_fence_post"
+      }
+    },
+    {
+      "apply": {
+        "model": "wooden_accents_mod:block/thin_warped_plank_pillar_base",
+        "uvlock": true,
+        "x": 180
+      },
+      "when": {
+        "up": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "wooden_accents_mod:block/thin_warped_plank_pillar_base"
+      },
+      "when": {
+        "down": "false"
+      }
+    }
+  ]
+}

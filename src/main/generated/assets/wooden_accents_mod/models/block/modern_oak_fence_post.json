@@ -1,0 +1,7 @@
+{
+  "parent": "wooden_accents_mod:block/modern_fence_post",
+  "textures": {
+    "end": "minecraft:block/oak_log",
+    "up": "minecraft:block/oak_log_top"
+  }
+}

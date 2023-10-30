@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "plank_tables",
+  "key": {
+    "#": {
+      "item": "minecraft:acacia_planks"
+    },
+    "|": {
+      "item": "minecraft:acacia_planks"
+    }
+  },
+  "pattern": [
+    "###",
+    " | ",
+    " | "
+  ],
+  "result": {
+    "count": 4,
+    "item": "wooden_accents_mod:acacia_plank_table"
+  },
+  "show_notification": true
+}

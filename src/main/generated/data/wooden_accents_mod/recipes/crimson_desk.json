@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "desks",
+  "key": {
+    "_": {
+      "item": "minecraft:stripped_crimson_stem"
+    },
+    "|": {
+      "item": "minecraft:crimson_stem"
+    }
+  },
+  "pattern": [
+    "___",
+    "| |",
+    "| |"
+  ],
+  "result": {
+    "count": 4,
+    "item": "wooden_accents_mod:crimson_desk"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "thick_pillars",
+  "key": {
+    "#": {
+      "item": "minecraft:crimson_planks"
+    },
+    "|": {
+      "item": "minecraft:crimson_planks"
+    }
+  },
+  "pattern": [
+    "###",
+    " | ",
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "item": "wooden_accents_mod:thick_crimson_plank_pillar"
+  },
+  "show_notification": true
+}

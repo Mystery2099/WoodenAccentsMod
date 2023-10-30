@@ -1,0 +1,29 @@
+{
+  "replace": false,
+  "values": [
+    "wooden_accents_mod:oak_crate",
+    "wooden_accents_mod:spruce_crate",
+    "wooden_accents_mod:birch_crate",
+    "wooden_accents_mod:jungle_crate",
+    "wooden_accents_mod:acacia_crate",
+    "wooden_accents_mod:dark_oak_crate",
+    "wooden_accents_mod:mangrove_crate",
+    "wooden_accents_mod:cherry_crate",
+    "wooden_accents_mod:bamboo_crate",
+    "wooden_accents_mod:bamboo_mosaic_crate",
+    "wooden_accents_mod:crimson_crate",
+    "wooden_accents_mod:warped_crate",
+    "wooden_accents_mod:stripped_oak_crate",
+    "wooden_accents_mod:stripped_spruce_crate",
+    "wooden_accents_mod:stripped_birch_crate",
+    "wooden_accents_mod:stripped_jungle_crate",
+    "wooden_accents_mod:stripped_acacia_crate",
+    "wooden_accents_mod:stripped_dark_oak_crate",
+    "wooden_accents_mod:stripped_mangrove_crate",
+    "wooden_accents_mod:stripped_cherry_crate",
+    "wooden_accents_mod:stripped_bamboo_crate",
+    "wooden_accents_mod:stripped_bamboo_mosaic_crate",
+    "wooden_accents_mod:stripped_crimson_crate",
+    "wooden_accents_mod:stripped_warped_crate"
+  ]
+}

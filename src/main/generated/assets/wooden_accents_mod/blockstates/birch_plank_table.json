@@ -1,0 +1,204 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "wooden_accents_mod:block/birch_plank_table_top"
+      }
+    },
+    {
+      "apply": {
+        "model": "wooden_accents_mod:block/birch_table_single_leg"
+      },
+      "when": {
+        "AND": [
+          {
+            "north": "false"
+          },
+          {
+            "east": "false"
+          },
+          {
+            "south": "false"
+          },
+          {
+            "west": "false"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "wooden_accents_mod:block/birch_table_end_leg"
+      },
+      "when": {
+        "AND": [
+          {
+            "north": "false"
+          },
+          {
+            "east": "false"
+          },
+          {
+            "south": "true"
+          },
+          {
+            "west": "false"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "wooden_accents_mod:block/birch_table_end_leg",
+        "y": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "north": "false"
+          },
+          {
+            "east": "false"
+          },
+          {
+            "south": "false"
+          },
+          {
+            "west": "true"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "wooden_accents_mod:block/birch_table_end_leg",
+        "y": 180
+      },
+      "when": {
+        "AND": [
+          {
+            "north": "true"
+          },
+          {
+            "east": "false"
+          },
+          {
+            "south": "false"
+          },
+          {
+            "west": "false"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "wooden_accents_mod:block/birch_table_end_leg",
+        "y": 270
+      },
+      "when": {
+        "AND": [
+          {
+            "north": "false"
+          },
+          {
+            "east": "true"
+          },
+          {
+            "south": "false"
+          },
+          {
+            "west": "false"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "wooden_accents_mod:block/birch_table_corner_leg"
+      },
+      "when": {
+        "AND": [
+          {
+            "north": "false"
+          },
+          {
+            "east": "false"
+          },
+          {
+            "south": "true"
+          },
+          {
+            "west": "true"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "wooden_accents_mod:block/birch_table_corner_leg",
+        "y": 270
+      },
+      "when": {
+        "AND": [
+          {
+            "north": "false"
+          },
+          {
+            "east": "true"
+          },
+          {
+            "south": "true"
+          },
+          {
+            "west": "false"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "wooden_accents_mod:block/birch_table_corner_leg",
+        "y": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "north": "true"
+          },
+          {
+            "east": "false"
+          },
+          {
+            "south": "false"
+          },
+          {
+            "west": "true"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "wooden_accents_mod:block/birch_table_corner_leg",
+        "y": 180
+      },
+      "when": {
+        "AND": [
+          {
+            "north": "true"
+          },
+          {
+            "east": "true"
+          },
+          {
+            "south": "false"
+          },
+          {
+            "west": "false"
+          }
+        ]
+      }
+    }
+  ]
+}

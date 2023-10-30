@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "stripped_kitchen_counters",
+  "key": {
+    "#": {
+      "item": "minecraft:mangrove_planks"
+    },
+    "_": {
+      "item": "minecraft:stripped_mangrove_log"
+    }
+  },
+  "pattern": [
+    "___",
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 4,
+    "item": "wooden_accents_mod:stripped_mangrove_kitchen_counter"
+  },
+  "show_notification": true
+}

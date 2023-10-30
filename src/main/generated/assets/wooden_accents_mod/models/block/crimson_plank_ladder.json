@@ -1,0 +1,6 @@
+{
+  "parent": "wooden_accents_mod:block/plank_ladder",
+  "textures": {
+    "all": "minecraft:block/crimson_planks"
+  }
+}

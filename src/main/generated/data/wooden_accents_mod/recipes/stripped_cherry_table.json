@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "stripped_tables",
+  "key": {
+    "#": {
+      "item": "minecraft:stripped_cherry_log"
+    },
+    "|": {
+      "item": "minecraft:cherry_planks"
+    }
+  },
+  "pattern": [
+    "###",
+    " | ",
+    " | "
+  ],
+  "result": {
+    "count": 4,
+    "item": "wooden_accents_mod:stripped_cherry_table"
+  },
+  "show_notification": true
+}

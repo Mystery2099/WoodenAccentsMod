@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "thin_pillars",
+  "key": {
+    "#": {
+      "item": "minecraft:bamboo_mosaic"
+    },
+    "|": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "###",
+    " | ",
+    "###"
+  ],
+  "result": {
+    "count": 5,
+    "item": "wooden_accents_mod:thin_bamboo_mosaic_pillar"
+  },
+  "show_notification": true
+}

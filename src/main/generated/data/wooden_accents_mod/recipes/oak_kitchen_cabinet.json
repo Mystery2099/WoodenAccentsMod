@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "kitchen_cabinets",
+  "key": {
+    "#": {
+      "item": "minecraft:oak_planks"
+    },
+    "O": {
+      "tag": "c:chests"
+    },
+    "_": {
+      "item": "minecraft:oak_log"
+    }
+  },
+  "pattern": [
+    "___",
+    "#O#",
+    "###"
+  ],
+  "result": {
+    "count": 4,
+    "item": "wooden_accents_mod:oak_kitchen_cabinet"
+  },
+  "show_notification": true
+}

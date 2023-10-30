@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "kitchen_cabinets",
+  "key": {
+    "#": {
+      "item": "minecraft:bamboo_mosaic"
+    },
+    "O": {
+      "tag": "c:chests"
+    },
+    "_": {
+      "item": "minecraft:bamboo_block"
+    }
+  },
+  "pattern": [
+    "___",
+    "#O#",
+    "###"
+  ],
+  "result": {
+    "count": 4,
+    "item": "wooden_accents_mod:bamboo_mosaic_kitchen_cabinet"
+  },
+  "show_notification": true
+}

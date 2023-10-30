@@ -1,0 +1,6 @@
+{
+  "parent": "wooden_accents_mod:block/table_end_leg",
+  "textures": {
+    "legs": "minecraft:block/dark_oak_planks"
+  }
+}

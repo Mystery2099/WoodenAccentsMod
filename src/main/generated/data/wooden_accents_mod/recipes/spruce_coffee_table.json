@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "coffee_tables",
+  "key": {
+    "_": {
+      "item": "minecraft:spruce_log"
+    },
+    "|": {
+      "item": "minecraft:spruce_planks"
+    }
+  },
+  "pattern": [
+    "___",
+    "| |"
+  ],
+  "result": {
+    "count": 6,
+    "item": "wooden_accents_mod:spruce_coffee_table"
+  },
+  "show_notification": true
+}

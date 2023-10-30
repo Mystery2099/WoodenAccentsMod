@@ -1,0 +1,6 @@
+{
+  "parent": "wooden_accents_mod:block/support_beam_down",
+  "textures": {
+    "all": "minecraft:block/acacia_planks"
+  }
+}

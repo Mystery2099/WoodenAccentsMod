@@ -1,0 +1,7 @@
+{
+  "parent": "wooden_accents_mod:block/desk_left",
+  "textures": {
+    "side": "minecraft:block/oak_log",
+    "top": "minecraft:block/stripped_oak_log"
+  }
+}

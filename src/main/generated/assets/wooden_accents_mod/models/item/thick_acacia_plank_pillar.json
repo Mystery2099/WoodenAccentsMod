@@ -1,0 +1,6 @@
+{
+  "parent": "wooden_accents_mod:item/thick_pillar",
+  "textures": {
+    "all": "minecraft:block/acacia_planks"
+  }
+}
