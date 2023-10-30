@@ -5,7 +5,8 @@
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/Mystery2099/WoodenAccentsMod-1.19.4"
+    "sources": "https://github.com/Mystery2099/WoodenAccentsMod",
+    "issues": "https://github.com/Mystery2099/WoodenAccentsMod/issues"
   },
   "depends": {
     "fabricloader": ">=0.14.23",
