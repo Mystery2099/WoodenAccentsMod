@@ -1,7 +1,7 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "myst2099_wooden_accents_mod:block/steel_block",
+		"1": "wooden_accents_mod:block/steel_block",
 		"particle": "#all"
 	},
 	"elements": [

@@ -1,6 +1,6 @@
 {
 	"credit": "Made with Blockbench",
-	"parent": "myst2099_wooden_accents_mod:block/vertical_thin_block",
+	"parent": "wooden_accents_mod:block/vertical_thin_block",
 	"textures": {
 		"particle": "#all"
 	},
