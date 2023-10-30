@@ -1,6 +1,6 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
-import com.github.mystery2099.voxelshapeutils.combination.VoxelAssembly.appendShapes
+import com.github.mystery2099.voxlib.combination.VoxelAssembly.appendShapes
 import com.github.mystery2099.woodenAccentsMod.util.BlockStateUtil.withProperties
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState

@@ -13,7 +13,7 @@
     "java": ">=17",
     "fabric-api": "*",
     "fabric-language-kotlin": ">=1.8.22",
-    "voxelshapeutils": "1.0.0"
+    "voxlib": "1.0.0"
   },
   "description": "Add some charm and warmth to your world or builds with the Wooden Accents Mod! This mod adds beautiful wooden furniture, walls, pillars, crates, and more, for all the different wood types. Wooden Accents Mod is the perfect mod for anyone who loves building and decorating with wood!",
   "entrypoints": {

@@ -1,9 +1,9 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
-import com.github.mystery2099.voxelshapeutils.combination.VoxelAssembly
-import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.flip
-import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.rotateLeft
-import com.github.mystery2099.voxelshapeutils.rotation.VoxelRotation.rotateRight
+import com.github.mystery2099.voxlib.combination.VoxelAssembly
+import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
+import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
+import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateRight
 import com.github.mystery2099.woodenAccentsMod.block.ModBlocks.textureId
 import com.github.mystery2099.woodenAccentsMod.block.custom.enums.DeskShape
 import com.github.mystery2099.woodenAccentsMod.data.ModBlockTags

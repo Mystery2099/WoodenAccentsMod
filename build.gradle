@@ -74,7 +74,7 @@ dependencies {
 	modImplementation("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
-	modImplementation("com.github.Mystery2099:VoxelShapeUtils:${project.voxel_shape_utils_version}")
+	modImplementation("com.github.Mystery2099:VoxLib:${project.voxlib_version}")
 }
 
 processResources {

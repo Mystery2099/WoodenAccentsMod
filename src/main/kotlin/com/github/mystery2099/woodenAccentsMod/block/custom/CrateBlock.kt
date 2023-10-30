@@ -1,6 +1,6 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
-import com.github.mystery2099.voxelshapeutils.combination.VoxelAssembly
+import com.github.mystery2099.voxlib.combination.VoxelAssembly
 import com.github.mystery2099.woodenAccentsMod.block.ModBlocks.textureId
 import com.github.mystery2099.woodenAccentsMod.block.entity.ModBlockEntities
 import com.github.mystery2099.woodenAccentsMod.block.entity.custom.CrateBlockEntity

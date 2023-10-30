@@ -1,6 +1,6 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
-import com.github.mystery2099.voxelshapeutils.combination.VoxelAssembly.appendShapes
+import com.github.mystery2099.voxlib.combination.VoxelAssembly.appendShapes
 import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeDataGen.Companion.requires
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomBlockStateProvider
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomItemGroupProvider
