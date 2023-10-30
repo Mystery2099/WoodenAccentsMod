@@ -8,23 +8,24 @@
     "sources": "https://github.com/Mystery2099/WoodenAccentsMod-1.19.4"
   },
   "depends": {
-    "fabricloader": ">=0.14.21",
+    "fabricloader": ">=0.14.23",
     "minecraft": "~1.19.4",
     "java": ">=17",
     "fabric-api": "*",
-    "fabric-language-kotlin": ">=1.8.22"
+    "fabric-language-kotlin": ">=1.8.22",
+    "voxelshapeutils": "1.0.0"
   },
   "description": "Add some charm and warmth to your world or builds with the Wooden Accents Mod! This mod adds beautiful wooden furniture, walls, pillars, crates, and more, for all the different wood types. Wooden Accents Mod is the perfect mod for anyone who loves building and decorating with wood!",
   "entrypoints": {
     "main": [
       {
-        "value": "com.mystery2099.wooden_accents_mod.WoodenAccentsMod",
+        "value": "com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod",
         "adapter": "kotlin"
       }
     ],
     "client": [
       {
-        "value": "com.mystery2099.wooden_accents_mod.WoodenAccentsModClient",
+        "value": "com.github.mystery2099.woodenAccentsMod.WoodenAccentsModClient",
         "adapter": "kotlin"
       }
     ],
@@ -36,7 +37,7 @@
     ],
     "shulkerboxtooltip": [
       {
-        "value": "com.mystery2099.wooden_accents_mod.shulker_box_tooltip.ShulkerBoxTooltipPlugin",
+        "value": "com.github.mystery2099.woodenAccentsMod.shulker_box_tooltip.ShulkerBoxTooltipPlugin",
         "adapter": "kotlin"
       }
     ]
@@ -54,7 +55,7 @@
   ],
   "name": "Wooden Accents Mod",
   "suggests": {
-    "another-mod": "*"
+    "shulker-box-tooltip": "3.4.0+1.19.4"
   },
   "version": "${version}"
 }
