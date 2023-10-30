@@ -31,13 +31,13 @@
     ],
     "fabric-datagen": [
       {
-        "value": "com.mystery2099.wooden_accents_mod.data.generation.ModDataGenerator",
+        "value": "com.github.mystery2099.woodenAccentsMod.data.generation.ModDataGenerator",
         "adapter": "kotlin"
       }
     ],
     "shulkerboxtooltip": [
       {
-        "value": "com.github.mystery2099.woodenAccentsMod.shulker_box_tooltip.ShulkerBoxTooltipPlugin",
+        "value": "com.github.mystery2099.woodenAccentsMod.shulkerBoxTooltip.ShulkerBoxTooltipPlugin",
         "adapter": "kotlin"
       }
     ]
