@@ -46,13 +46,6 @@
   "icon": "assets/myst2099_wooden_accents_mod/icon.png",
   "id": "myst2099_wooden_accents_mod",
   "license": "CC0-1.0",
-  "mixins": [
-    "myst2099_wooden_accents_mod.mixins.json",
-    {
-      "config": "myst2099_wooden_accents_mod.client.mixins.json",
-      "environment": "client"
-    }
-  ],
   "name": "Wooden Accents Mod",
   "suggests": {
     "shulker-box-tooltip": "3.4.0+1.19.4"
