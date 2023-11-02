@@ -1,6 +1,7 @@
 package com.github.mystery2099.woodenAccentsMod.item
 
 import com.github.mystery2099.woodenAccentsMod.block.custom.CrateBlock
+import com.github.mystery2099.woodenAccentsMod.block.custom.Unnestable
 import net.minecraft.block.Block
 import net.minecraft.entity.ItemEntity
 import net.minecraft.item.BlockItem
@@ -10,15 +11,13 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 
 /**
- * Custom block item
+ * [CustomBlockItem] is a specialized [BlockItem] for custom blocks in the Wooden Accents Mod.
  *
- * @constructor
- *
- * @param block
- * @param settings
+ * @param block The block associated with this custom item.
+ * @param settings The settings for the item.
  */
 class CustomBlockItem(block: Block, settings: Settings) : BlockItem(block, settings) {
-    override fun canBeNested(): Boolean = block !is CrateBlock
+    override fun canBeNested(): Boolean = block !is Unnestable
     override fun onItemEntityDestroyed(entity: ItemEntity) {
         super.onItemEntityDestroyed(entity)
         if (block is CrateBlock) {
