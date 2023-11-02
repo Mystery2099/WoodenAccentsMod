@@ -5,8 +5,6 @@ import com.github.mystery2099.woodenAccentsMod.block.ModBlocks.id
 import com.github.mystery2099.woodenAccentsMod.item.group.CustomItemGroup
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
-import net.minecraft.block.Block
-import net.minecraft.item.ItemGroup
 
 /**
  * English lang data gen
@@ -17,23 +15,28 @@ import net.minecraft.item.ItemGroup
  */
 class EnglishLangDataGen(dataOutput: FabricDataOutput) : FabricLanguageProvider(dataOutput) {
     override fun generateTranslations(translationBuilder: TranslationBuilder) {
-        with(translationBuilder) {
-            com.github.mystery2099.woodenAccentsMod.block.ModBlocks.blocks.forEach { it.genLangName(this) }
-            CustomItemGroup.instances.forEach { it.itemGroup.genLangName(this) }
+        translationBuilder.run {
+            ModBlocks.blocks.forEach {
+                translationBuilder.add(it, it.id.path.toName())
+            }
+            CustomItemGroup.instances.map { it.itemGroup }.forEach {
+                translationBuilder.add(it, "WAM: ${it.id.path.toName()}")
+            }
             add("container.crate.more", "and %s more...")
         }
-
     }
 
-    private fun ItemGroup.genLangName(translationBuilder: TranslationBuilder) {
-        translationBuilder.add(this, "WAM: ${this.id.path.toName()}")
+    /**
+     * Convert a string, typically in snake_case, to a more human-readable name format.
+     *
+     * @param input The input string to be transformed.
+     * @return The transformed string in a more human-readable format.
+     */
+    private fun String?.toName(): String {
+        return if (isNullOrEmpty()) ""
+        else split("_").joinToString(" ") {
+            it.replaceFirstChar(Char::uppercase)
+        }
     }
-
-    private fun Block.genLangName(translationBuilder: TranslationBuilder) {
-        translationBuilder.add(this, id.path.toName())
-    }
-
-    private fun String?.toName(): String = if (isNullOrEmpty()) ""
-    else split("_").joinToString(" ") { it.replaceFirstChar(Char::uppercase) }
 
 }
