@@ -118,7 +118,7 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
         val nbt = ctx.stack.nbt
         val state = ctx.world.getBlockState(ctx.blockPos)
-        return if (state.isOf(this) && nbt?.getString(CoffeeTableTypes.TAG) != CoffeeTableTypes.TALL.asString()) state.setTall()
+        return if (state isOf this && nbt?.getString(CoffeeTableTypes.TAG) != CoffeeTableTypes.TALL.asString()) state.setTall()
         else defaultState.setDirections(ctx.world, ctx.blockPos).run {
             nbt?.let {
                 if (it.isTall) with(type, CoffeeTableTypes.TALL) else this
@@ -152,11 +152,12 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
     }
 
     private fun WorldAccess.checkDirection(pos: BlockPos, direction: Direction): Boolean {
-        return getBlockState(pos.offset(direction))?.let { there: BlockState ->
-            getBlockState(pos)?.let { here: BlockState ->
-                if (there.block is CoffeeTableBlock && here.block is CoffeeTableBlock) here.get(type) == there.get(type)
-                else if (there isOf  Blocks.SCAFFOLDING) here.isTall
-                else there isIn tag && here isIn tag
+        return getBlockState(pos.offset(direction))?.let { otherState: BlockState ->
+            getBlockState(pos)?.let { thisState: BlockState ->
+                val states = arrayOf(thisState, otherState)
+                if (states.all { it.block is CoffeeTableBlock }) thisState.get(type) == otherState.get(type)
+                else if (otherState isOf  Blocks.SCAFFOLDING) thisState.isTall
+                else states.all { it isIn tag }
             } ?: false
         } ?: false
     }
@@ -174,15 +175,13 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         world: WorldAccess,
         pos: BlockPos?,
         neighborPos: BlockPos?
-    ): BlockState {
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos!!, neighborPos)
-            .withProperties {
-                north setTo world.checkNorthOf(pos)
-                east setTo world.checkEastOf(pos)
-                south setTo world.checkSouthOf(pos)
-                west setTo world.checkWestOf(pos)
-            }
-    }
+    ): BlockState = super.getStateForNeighborUpdate(state, direction, neighborState, world, pos!!, neighborPos)
+        .withProperties {
+            north setTo world.checkNorthOf(pos)
+            east setTo world.checkEastOf(pos)
+            south setTo world.checkSouthOf(pos)
+            west setTo world.checkWestOf(pos)
+        }
 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
@@ -356,38 +355,28 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         private const val SHAPE_VERTICAL_OFFSET = 7.0 / 16
 
         // Top shapes
-        @JvmStatic
         private val shortTopShape = VoxelAssembly.createCuboidShape(0, 7, 0, 16, 9, 16)
 
-        @JvmStatic
         private val tallTopShape = shortTopShape.offset(0.0, SHAPE_VERTICAL_OFFSET, 0.0)
 
         // Short North Shapes
-        @JvmStatic
         private val shortNorthEastLeg = VoxelAssembly.createCuboidShape(13.75, 0, 0.25, 15.75, 7, 2.25)
 
-        @JvmStatic
         private val shortNorthWestLeg = shortNorthEastLeg.rotateRight()
 
         // Short South Shapes
-        @JvmStatic
         private val shortSouthEastLeg = shortNorthWestLeg.flip()
 
-        @JvmStatic
         private val shortSouthWestLeg = shortNorthEastLeg.flip()
 
         // Tall North Shapes
-        @JvmStatic
         private val tallNorthEastLeg = shortNorthEastLeg.offset(0.0, SHAPE_VERTICAL_OFFSET, 0.0)
 
-        @JvmStatic
         private val tallNorthWestLeg = tallNorthEastLeg.rotateRight()
 
         // Tall South Shapes
-        @JvmStatic
         private val tallSouthEastLeg = tallNorthWestLeg.flip()
 
-        @JvmStatic
         private val tallSouthWestLeg = tallNorthEastLeg.flip()
     }
 }

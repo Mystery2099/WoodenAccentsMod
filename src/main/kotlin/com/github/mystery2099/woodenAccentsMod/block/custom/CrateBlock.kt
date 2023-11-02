@@ -11,6 +11,7 @@ import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeDataGen.Com
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.*
 import com.github.mystery2099.woodenAccentsMod.item.group.CustomItemGroup
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
+import com.github.mystery2099.woodenAccentsMod.util.BlockStateUtil.isOf
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.*
@@ -96,13 +97,14 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
         hand: Hand?,
         hit: BlockHitResult?
     ): ActionResult {
-
         if (world.isClient) return ActionResult.SUCCESS
+
         val blockEntity = world.getBlockEntity(pos)
         if (blockEntity is CrateBlockEntity) {
             player.openHandledScreen(blockEntity)
             PiglinBrain.onGuardedBlockInteracted(player, true)
         }
+
         return ActionResult.CONSUME
     }
 
@@ -110,17 +112,22 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
     override fun onBreak(world: World, pos: BlockPos, state: BlockState?, player: PlayerEntity) {
         val blockEntity = world.getBlockEntity(pos)
         if (blockEntity is CrateBlockEntity) {
+
             if (!world.isClient && player.isCreative && !blockEntity.isEmpty()) {
+
                 val itemStack = ItemStack(this)
                 blockEntity.setStackNbt(itemStack)
                 if (blockEntity.hasCustomName()) {
                     itemStack.setCustomName(blockEntity.customName)
                 }
+
                 val itemEntity =
                     ItemEntity(world, pos.x.toDouble() + 0.5, pos.y.toDouble() + 0.5, pos.z.toDouble() + 0.5, itemStack)
                 itemEntity.setToDefaultPickupDelay()
                 world.spawnEntity(itemEntity)
+
             } else blockEntity.checkLootInteraction(player)
+
         }
         super.onBreak(world, pos, state, player)
     }
@@ -133,7 +140,7 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
             newBuilder = newBuilder.putDrop(
                 contents
             ) { _: LootContext?, consumer: Consumer<ItemStack?> ->
-                for (i in 0 until blockEntity.size()) {
+                for (i in 0..<blockEntity.size()) {
                     consumer.accept(blockEntity.getStack(i))
                 }
             }
@@ -162,7 +169,7 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
         newState: BlockState,
         moved: Boolean
     ) {
-        if (state.isOf(newState.block)) return
+        if (state isOf newState.block) return
         if (world.getBlockEntity(pos) is CrateBlockEntity) world.updateComparators(pos, state.block)
         super.onStateReplaced(state, world, pos, newState, moved)
     }

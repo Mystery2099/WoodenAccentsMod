@@ -24,10 +24,8 @@ import java.util.function.Consumer
 class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
     override fun generate(exporter: Consumer<RecipeJsonProvider>) {
         //TODO Change to use filterIsInstance
-        ModBlocks.blocks.forEach {
-            when {
-                it is CustomRecipeProvider -> it.offerRecipeTo(exporter)
-            }
+        ModBlocks.blocks.filterIsInstance<CustomRecipeProvider>().forEach {
+            it.offerRecipeTo(exporter)
         }
     }
 

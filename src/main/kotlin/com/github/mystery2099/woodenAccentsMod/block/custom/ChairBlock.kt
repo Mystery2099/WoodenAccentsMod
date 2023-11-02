@@ -170,7 +170,8 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
 
     companion object {
         val waterlogged: BooleanProperty = Properties.WATERLOGGED
-        private val northTopShape = VoxelAssembly.createCuboidShape(2, 10, 12, 14, 20, 14)
+
+        private val northBaseShape = VoxelAssembly.createCuboidShape(2, 10, 12, 14, 20, 14)
         private val bottomShape = VoxelAssembly.union(
             VoxelAssembly.createCuboidShape(2, 8, 2, 14, 10, 14),
             VoxelAssembly.createCuboidShape(2, 0, 2, 4, 8, 4),
@@ -179,9 +180,9 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
             VoxelAssembly.createCuboidShape(2, 0, 12, 4, 8, 14)
         )
 
-        private val northShape = northTopShape and bottomShape
-        private val eastShape = northTopShape.rotateLeft() and bottomShape
-        private val southShape = northTopShape.flip() and bottomShape
-        private val westShape = northTopShape.rotateRight() and bottomShape
+        private val northShape = northBaseShape and bottomShape
+        private val eastShape = northBaseShape.rotateLeft() and bottomShape
+        private val southShape = northBaseShape.flip() and bottomShape
+        private val westShape = northBaseShape.rotateRight() and bottomShape
     }
 }

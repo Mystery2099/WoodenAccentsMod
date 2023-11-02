@@ -1,5 +1,6 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
+import com.github.mystery2099.woodenAccentsMod.util.BlockStateUtil.isOf
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.BlockWithEntity
@@ -28,12 +29,13 @@ abstract class WaterloggableBlockWithEntity(settings: Settings) : BlockWithEntit
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
-        builder.add(AbstractWaterloggableBlock.waterlogged)
-
+        builder.add(waterlogged)
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
-        return super.getPlacementState(ctx)?.with(waterlogged, ctx.world.getFluidState(ctx.blockPos).isOf(Fluids.WATER))
+        return super.getPlacementState(ctx)?.with(
+            waterlogged,
+            ctx.world.getFluidState(ctx.blockPos) isOf Fluids.WATER)
             ?: defaultState
     }
 
@@ -46,11 +48,13 @@ abstract class WaterloggableBlockWithEntity(settings: Settings) : BlockWithEntit
         pos: BlockPos,
         neighborPos: BlockPos?
     ): BlockState = state.also {
-        if (state[AbstractWaterloggableBlock.waterlogged]) world.scheduleFluidTick(
-            pos,
-            Fluids.WATER,
-            Fluids.WATER.getTickRate(world)
-        )
+        if (state[AbstractWaterloggableBlock.waterlogged]) {
+            world.scheduleFluidTick(
+                pos,
+                Fluids.WATER,
+                Fluids.WATER.getTickRate(world)
+            )
+        }
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith(

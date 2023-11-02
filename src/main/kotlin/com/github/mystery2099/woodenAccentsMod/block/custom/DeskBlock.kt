@@ -64,11 +64,10 @@ class DeskBlock(settings: Settings, val baseBlock: Block, private val topBlock: 
         get() = this isIn ModBlockTags.deskDrawers
 
     init {
-        defaultState = defaultState.with(facing, Direction.NORTH).withShape(
-            left = false,
-            right = false,
-            forward = false
-        )
+        defaultState = defaultState.withProperties {
+            facing setTo Direction.NORTH
+            shape setTo DeskShape.SINGLE
+        }
     }
 
     @Deprecated("Deprecated in Java")
@@ -101,8 +100,10 @@ class DeskBlock(settings: Settings, val baseBlock: Block, private val topBlock: 
         val left = world.getBlockState(pos?.offset(state[facing].rotateYClockwise())).isDesk
         val right = world.getBlockState(pos?.offset(state[facing].rotateYCounterclockwise())).isDesk
         val forward = world.getBlockState(pos?.offset(state[facing])).let {
-            (it.isDesk || it.isDeskDrawer) && if (left) it[facing] == state[facing].rotateYClockwise()
-            else if (right) it[facing] == state[facing].rotateYCounterclockwise() else true
+            (it.isDesk || it.isDeskDrawer) &&
+                    if (left) it[facing] == state[facing].rotateYClockwise()
+                    else if (right) it[facing] == state[facing].rotateYCounterclockwise()
+                    else true
         }
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
             .withShape(left, right, forward)

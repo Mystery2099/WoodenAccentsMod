@@ -11,6 +11,6 @@ interface WoodenAccentsModRegistry {
      * Logs the name of the class it's called on and stats that it's for this mod
      */
     fun register() {
-        WoodenAccentsMod.LOGGER.info("Registering ${this::class.simpleName} for mod: ${WoodenAccentsMod.MOD_ID}")
+        WoodenAccentsMod.logger.info("Registering ${this::class.simpleName} for mod: ${WoodenAccentsMod.MOD_ID}")
     }
 }

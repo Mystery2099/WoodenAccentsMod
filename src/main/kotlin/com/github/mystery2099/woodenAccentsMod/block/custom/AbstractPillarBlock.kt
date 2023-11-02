@@ -171,7 +171,7 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
     @JvmRecord
     data class Shape(val topShape: VoxelShape, val centerShape: VoxelShape, val baseShape: VoxelShape)
     companion object {
-        val up: BooleanProperty = Properties.UP!!
-        val down: BooleanProperty = Properties.DOWN!!
+        val up: BooleanProperty = Properties.UP
+        val down: BooleanProperty = Properties.DOWN
     }
 }

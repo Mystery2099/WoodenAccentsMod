@@ -3,6 +3,7 @@ package com.github.mystery2099.woodenAccentsMod.data.generation
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.asBlockModelId
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.asPlanks
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.toIdentifier
+import com.github.mystery2099.woodenAccentsMod.block.ModBlocks
 import com.github.mystery2099.woodenAccentsMod.block.ModBlocks.textureId
 import com.github.mystery2099.woodenAccentsMod.data.ModModels
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomBlockStateProvider
@@ -61,7 +62,7 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
                     ), modelCollector
                 )
             }
-            com.github.mystery2099.woodenAccentsMod.block.ModBlocks.blocks.filterIsInstance<CustomBlockStateProvider>().forEach {
+            ModBlocks.blocks.filterIsInstance<CustomBlockStateProvider>().forEach {
                 it.generateBlockStateModels(generator = blockStateModelGenerator)
             }
         }

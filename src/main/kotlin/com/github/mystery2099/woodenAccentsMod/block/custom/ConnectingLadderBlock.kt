@@ -70,7 +70,7 @@ class ConnectingLadderBlock(val baseBlock: Block) :
             )
     }
 
-    private fun BlockState.isConnectingLadder(): Boolean = this isIn tag
+    private fun BlockState.isConnectingLadder(): Boolean = this isIn tag || this.block is ConnectingLadderBlock
 
     private fun BlockState.canConnectTo(other: BlockState): Boolean {
         return this.isConnectingLadder() && other.isConnectingLadder() && this[FACING] == other[FACING]
