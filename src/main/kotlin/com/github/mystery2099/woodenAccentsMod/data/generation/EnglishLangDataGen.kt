@@ -27,15 +27,16 @@ class EnglishLangDataGen(dataOutput: FabricDataOutput) : FabricLanguageProvider(
     }
 
     /**
-     * Convert a string, typically in snake_case, to a more human-readable name format.
+     * Convert a snake_case [String], to a more human-readable title_case format.
      *
-     * @param input The input string to be transformed.
-     * @return The transformed string in a more human-readable format.
+     * @return The transformed string in a more human-readable, title_case format.
      */
     private fun String?.toName(): String {
         return if (isNullOrEmpty()) ""
-        else split("_").joinToString(" ") {
-            it.replaceFirstChar(Char::uppercase)
+        else lowercase().split("_").joinToString(" ") {
+            if (it != "of") {
+                it.replaceFirstChar(Char::uppercase)
+            } else it
         }
     }
 
