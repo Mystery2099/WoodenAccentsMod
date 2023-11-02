@@ -10,7 +10,9 @@ import net.minecraft.entity.SpawnGroup
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 
-
+/**
+ * [ModEntities] is responsible for registering custom [EntityType]s in the Wooden Accents Mod.
+ */
 object ModEntities : WoodenAccentsModRegistry {
     val seatEntity: EntityType<SeatEntity> = FabricEntityTypeBuilder.create(SpawnGroup.MISC) { type, world ->
         SeatEntity(

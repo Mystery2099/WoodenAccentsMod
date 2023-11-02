@@ -24,9 +24,39 @@ object WoodenAccentsMod : ModInitializer {
         ModItemGroups.register()
     }
 
+    /**
+     * Converts a path to an [Identifier] using the mod's namespace.
+     *
+     * @param path The [String] path to convert to an [Identifier].
+     * @return The [Identifier] with the mod's namespace.
+     * @see String.toIdentifier
+     * @see Identifier
+     */
     fun modId(path: String): Identifier = path.toIdentifier()
+
+    /**
+     * Converts a [String] to an [Identifier] using the mod's namespace.
+     *
+     * @param namespace The namespace for the [Identifier].
+     * @return The [Identifier] with the mod's namespace.
+     * @see modId
+     * @see Identifier
+     */
     fun String.toIdentifier(namespace: String = MOD_ID): Identifier = Identifier(namespace, this)
+
+    /**
+     * Converts an [Identifier] to a block model [Identifier] with the "block/" prefix.
+     *
+     * @return The block model [Identifier] with the "block/" prefix.
+     */
     fun Identifier.asBlockModelId(): Identifier = this.withPrefixedPath("block/")
+
+
+    /**
+     * Converts a [WoodType] to its corresponding planks [Block].
+     *
+     * @return The planks [Block] for the given [WoodType].
+     */
     fun WoodType.asPlanks(): Block = when (this) {
         WoodType.OAK -> Blocks.OAK_PLANKS
         WoodType.SPRUCE -> Blocks.SPRUCE_PLANKS

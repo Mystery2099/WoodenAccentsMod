@@ -6,7 +6,9 @@ import net.minecraft.data.client.Model
 import net.minecraft.data.client.TextureKey
 import java.util.*
 
-
+/**
+ * [ModModels] is responsible for defining various model resources used in the Wooden Accents Mod.
+ */
 object ModModels {
 
     /*---------------Texture Keys----------------*/

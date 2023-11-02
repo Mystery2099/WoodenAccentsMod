@@ -13,24 +13,25 @@ import net.minecraft.block.WoodType
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.ItemModelGenerator
 import net.minecraft.data.client.TextureMap
-import net.minecraft.util.math.Direction
 
 /**
- * Model data gen
+ * [ModelDataGen] is responsible for generating custom model data for the Wooden Accents Mod.
+ * It extends [FabricModelProvider], which is used for generating model data.
  *
- * @constructor
- *
- * @param output
+ * @param output The data output to which the generated models will be written.
  */
 class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
+    // A common prefix for block models.
     val block = "block/"
-
-    //Collections
-    private val horizontalDirections = arrayOf(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)
-
+    /**
+     * Generate block state models for the mod.
+     *
+     * @param blockStateModelGenerator The block state model generator to create block state models.
+     */
     override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator) {
         blockStateModelGenerator.run {
+            // Iterate through wood types and generate models for coffee tables and table legs.
             WoodType.stream().forEach {
                 ModModels.coffeeTableLegShort.upload(
                     "${it.name.lowercase()}_coffee_table_leg_short".toIdentifier().asBlockModelId(), TextureMap().put(
@@ -62,6 +63,8 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
                     ), modelCollector
                 )
             }
+
+            // Iterate through custom block state providers in ModBlocks and generate block state models.
             ModBlocks.blocks.filterIsInstance<CustomBlockStateProvider>().forEach {
                 it.generateBlockStateModels(generator = blockStateModelGenerator)
             }

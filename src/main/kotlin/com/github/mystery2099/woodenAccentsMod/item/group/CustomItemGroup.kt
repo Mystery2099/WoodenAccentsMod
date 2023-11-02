@@ -5,22 +5,24 @@ import com.github.mystery2099.woodenAccentsMod.block.defaultItemStack
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomItemGroupProvider
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.minecraft.block.Block
-import net.minecraft.item.BlockItem
-import net.minecraft.item.ItemGroup
-import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
+import net.minecraft.item.*
 
 /**
- * Custom item group
+ * [CustomItemGroup] is a data class representing a custom [ItemGroup] for organizing and displaying [Item]s in the creative menu.
  *
- * @constructor
- *
- * @param name
+ * @constructor Create a custom [ItemGroup] with the given name.
+ * @param name The name of the custom [ItemGroup].
+ * @see ModItemGroups
+ * @see ItemGroup
+ * @see ItemGroups
  */
 data class CustomItemGroup(val name: String) {
+    // The ItemGroup associated with this custom item group.
     val itemGroup: ItemGroup = FabricItemGroup.builder(name.toIdentifier()).apply {
         icon { entries[0] }
     }.build()
+
+    // Get a list of item stack entries for this item group.
     inline val entries: List<ItemStack>
         get() {
             val list = mutableListOf<ItemStack>()
@@ -53,15 +55,17 @@ data class CustomItemGroup(val name: String) {
     }
 
     /**
-     * Get
+     * Get the associated [ItemGroup].
      *
+     * @return The [ItemGroup] associated with this [CustomItemGroup].
      */
     fun get() = itemGroup
 
     /**
-     * Contains
+     * Check if a given [ItemStack] is contained in [itemGroup].
      *
-     * @param stack
+     * @param stack The [ItemStack] to check.
+     * @return true if the [ItemStack] is contained, false otherwise.
      */
     infix operator fun contains(stack: ItemStack) = itemGroup.contains(stack)
 

@@ -1,14 +1,14 @@
 package com.github.mystery2099.woodenAccentsMod
 
 /**
- * Wooden accents mod registry
- *
- * @constructor Create empty Wooden accents mod registry
+ * Interface for registering components within the Wooden Accents Mod.
  */
 interface WoodenAccentsModRegistry {
     /**
-     * Register:
-     * Logs the name of the class it's called on and stats that it's for this mod
+     * Register a component for the mod.
+     * This method logs the name of the class it's called on and states that it's for the Wooden Accents Mod.
+     *
+     * Should be called in the mod initializer
      */
     fun register() {
         WoodenAccentsMod.logger.info("Registering ${this::class.simpleName} for mod: ${WoodenAccentsMod.MOD_ID}")

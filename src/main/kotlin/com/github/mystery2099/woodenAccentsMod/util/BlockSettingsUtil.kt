@@ -7,8 +7,11 @@ import net.minecraft.block.Material
 import net.minecraft.resource.featuretoggle.FeatureFlags
 import net.minecraft.sound.BlockSoundGroup
 
+/**
+ * [BlockSettingsUtil] is a utility object for creating and managing [AbstractBlock.Settings] for various types of blocks.
+ */
 object BlockSettingsUtil {
-    //Wood
+    //Wood Blocks
     val oakSettings: FabricBlockSettings = FabricBlockSettings.of(Material.WOOD, MapColor.SPRUCE_BROWN).apply {
         strength(2.0f)
         sounds(BlockSoundGroup.WOOD)
@@ -28,7 +31,7 @@ object BlockSettingsUtil {
         requires(FeatureFlags.UPDATE_1_20)
     }
 
-    //Stripped Wood
+    //Stripped Wood Blocks
     val strippedOakSettings = oakSettings.copyWithColor(MapColor.OAK_TAN)
     val strippedSpruceSettings = oakSettings.copyWithColor(MapColor.SPRUCE_BROWN)
     val strippedBirchSettings = oakSettings.copyWithColor(MapColor.PALE_YELLOW)
@@ -39,18 +42,39 @@ object BlockSettingsUtil {
     val strippedMangroveSettings = oakSettings.copyWithColor(MapColor.RED)
     val strippedBambooBlockSettings = bambooBlockSettings.copyWithColor(MapColor.YELLOW)
 
-    //Stems
+    //Stem Blocks
     val warpedSettings: FabricBlockSettings = FabricBlockSettings.of(Material.NETHER_WOOD, MapColor.DARK_AQUA).apply {
         strength(2.0f)
         sounds(BlockSoundGroup.NETHER_STEM)
     }
     val crimsonSettings = warpedSettings.copyWithColor(MapColor.DARK_CRIMSON)
 
-    //Stripped Stems
+    //Stripped Stem Blocks
     val strippedWarpedSettings = warpedSettings.copyWithColor(MapColor.TEAL)
     val strippedCrimsonSettings = crimsonSettings.copyWithColor(MapColor.DULL_PINK)
+
+
+    /**
+     * Creates a copy of the current [FabricBlockSettings] with a specified [MapColor].
+     *
+     * @param mapColor The `MapColor` to associate with the copied settings.
+     * @return The copied [FabricBlockSettings] with the specified [MapColor].
+     */
     fun FabricBlockSettings.copyWithColor(mapColor: MapColor): FabricBlockSettings = this.copy().mapColor(mapColor)
+
+
+    /**
+     * Creates a copy of the [AbstractBlock.Settings] object.
+     *
+     * @return The copied [AbstractBlock.Settings].
+     */
     fun AbstractBlock.Settings.copy(): AbstractBlock.Settings = FabricBlockSettings.copyOf(this)
+
+    /**
+     * Creates a copy of the current [FabricBlockSettings].
+     *
+     * @return The copied [FabricBlockSettings].
+     */
     fun FabricBlockSettings.copy(): FabricBlockSettings = FabricBlockSettings.copyOf(this)
 
 }

@@ -8,8 +8,17 @@ import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
 
+/**
+ * [ModBlockTags] defines custom block tags for blocks used in the Wooden Accents Mod.
+ */
 object ModBlockTags {
+
+    // A map to associate block tags with their matching item tags
     private val _blockToItemTagMap: MutableMap<TagKey<Block>, TagKey<Item>> = HashMap()
+
+    /**
+     * Get the map of block tags to their matching item tags.
+     */
     val blockToItemTagMap: Map<TagKey<Block>, TagKey<Item>>
         get() = _blockToItemTagMap
 
@@ -60,16 +69,39 @@ object ModBlockTags {
     /*---------------Storage Tags----------------*/
     /*---------------End Storage Tags----------------*/
 
+    /**
+     * Creates a block tag using the current [String] and allows specifying a namespace.
+     *
+     * @param namespace The namespace for the block tag.
+     * @return The created TagKey for blocks.
+     */
     private fun String.toBlockTag(namespace: String = WoodenAccentsMod.MOD_ID): TagKey<Block> {
         return TagKey.of(RegistryKeys.BLOCK, Identifier(namespace, this))
     }
 
+    /**
+     * Creates a matching item tag for the current block tag.
+     *
+     * @return The matching item tag.
+     */
     private fun TagKey<Block>.createMatchingItemTag() = also {
         _blockToItemTagMap[this] = TagKey.of(RegistryKeys.ITEM, this.id)
     }
 
-    infix operator fun TagKey<Block>?.contains(block: BlockState?) = block?.isIn(this) ?: false
+    /**
+     * Checks if the current [BlockState] is in the specified block tag.
+     *
+     * @param blockState The [BlockState] to check for.
+     * @return True if the [BlockState] is in the specified block tag; otherwise, false.
+     */
+    operator fun TagKey<Block>?.contains(blockState: BlockState?) = blockState?.isIn(this) ?: false
 
+    /**
+     * Gets the matching item tag for a block tag.
+     *
+     * @param blockTag The block tag to get the matching item tag for.
+     * @return The matching item tag.
+     */
     fun getItemTagFrom(blockTag: TagKey<Block>): TagKey<Item> {
         return blockToItemTagMap[blockTag] ?: TagKey.of(RegistryKeys.ITEM, blockTag.id)
     }

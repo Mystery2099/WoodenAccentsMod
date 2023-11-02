@@ -6,6 +6,9 @@ import com.github.mystery2099.woodenAccentsMod.block.custom.enums.SidewaysConnec
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.EnumProperty
 
+/**
+ * ModProperties is an object that provides custom property definitions for various block states in the mod.
+ */
 object ModProperties {
     val left: BooleanProperty = BooleanProperty.of("left")
     val right: BooleanProperty = BooleanProperty.of("right")

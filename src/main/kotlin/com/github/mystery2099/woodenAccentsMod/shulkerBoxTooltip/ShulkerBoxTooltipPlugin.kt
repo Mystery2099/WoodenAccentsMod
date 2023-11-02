@@ -10,18 +10,32 @@ import com.misterpemodder.shulkerboxtooltip.api.provider.BlockEntityPreviewProvi
 import com.misterpemodder.shulkerboxtooltip.api.provider.PreviewProviderRegistry
 import net.minecraft.block.Block
 
+/**
+ * ShulkerBoxTooltipPlugin is a plugin for the ShulkerBoxTooltip mod that registers block preview providers
+ * for various custom blocks in the Wooden Accents Mod.
+ */
 object ShulkerBoxTooltipPlugin : ShulkerBoxTooltipApi {
+    /**
+     * Registers block preview providers for custom blocks in the Wooden Accents Mod.
+     *
+     * @param registry The [PreviewProviderRegistry] for registering block preview providers.
+     */
     override fun registerProviders(registry: PreviewProviderRegistry) {
+        // Register preview providers for crates
         registry.register(
             "crates".toIdentifier(),
             CratePreviewProvider(),
             *(ModBlocks.blocks.filterIsInstance<CrateBlock>().map(Block::asItem).toTypedArray())
         )
+
+        // Register preview providers for chest-like blocks
         registry.register(
             "chest_like".toIdentifier(),
             BlockEntityPreviewProvider(27, true),
             *(ModBlocks.blocks.filterIsInstance<KitchenCabinetBlock>().map(Block::asItem).toTypedArray())
         )
+
+        // Register preview providers for chiseled bookshelf-like blocks
         registry.register(
             "chiseled_bookshelf_like".toIdentifier(),
             BlockEntityPreviewProvider(6, true, 3),

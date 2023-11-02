@@ -10,32 +10,9 @@ import net.minecraft.util.StringIdentifiable
  */
 enum class SidewaysConnectionShape(private val string: String) : StringIdentifiable
 {
-    /**
-     * Single
-     *
-     * @constructor Create empty Single
-     */
     SINGLE("single"),
-
-    /**
-     * Center
-     *
-     * @constructor Create empty Center
-     */
     CENTER("center"),
-
-    /**
-     * Left
-     *
-     * @constructor Create empty Left
-     */
     LEFT("left"),
-
-    /**
-     * Right
-     *
-     * @constructor Create empty Right
-     */
     RIGHT("right");
 
 
