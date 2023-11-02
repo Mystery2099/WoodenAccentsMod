@@ -27,21 +27,21 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
         get() = getOrCreateTagBuilder(this)
 
     override fun configure(arg: RegistryWrapper.WrapperLookup) {
-        BlockTags.AXE_MINEABLE.addAll(ModBlockTags.blockToItemTagMap.keys)
+        BlockTags.AXE_MINEABLE.addTags(*ModBlockTags.blockToItemTagMap.keys.toTypedArray())
         ModBlocks.blocks.filterIsInstance<CustomTagProvider<Block>>().forEach {
             it.tag += it as Block
         }
-        ModBlockTags.pillars.addAll(ModBlockTags.thinPillars, ModBlockTags.thickPillars)
+        ModBlockTags.pillars.addTags(ModBlockTags.thinPillars, ModBlockTags.thickPillars)
         ModBlockTags.thinPillarsConnectable.apply {
-            addAll(
+            addTags(
                 ModBlockTags.thinPillars,
                 BlockTags.FENCES,
                 ModBlockTags.supportBeams,
                 ModBlockTags.tables,
             )
-            addAll(Blocks.END_ROD, Blocks.HOPPER, Blocks.LIGHTNING_ROD)
+            addBlocks(Blocks.END_ROD, Blocks.HOPPER, Blocks.LIGHTNING_ROD)
         }
-        ModBlockTags.thickPillarsConnectable.addAll(
+        ModBlockTags.thickPillarsConnectable.addTags(
             ModBlockTags.thickPillars,
             ModBlockTags.thinPillars,
             BlockTags.WALLS
@@ -52,7 +52,7 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
         BlockTags.FENCES += ModBlockTags.modernFences
         BlockTags.FENCE_GATES += ModBlockTags.modernFenceGates
 
-        ModBlockTags.modernFenceConnectable.addAll(ModBlockTags.modernFenceGates, ModBlockTags.modernFences)
+        ModBlockTags.modernFenceConnectable.addTags(ModBlockTags.modernFenceGates, ModBlockTags.modernFences)
 
         BlockTags.CLIMBABLE += ModBlockTags.plankLadders
         BlockTags.CLIMBABLE += ModBlockTags.connectingLadders
@@ -68,9 +68,8 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
     private fun TagKey<Block>.add(block: Block): FabricTagBuilder = tagBuilder.add(block)
     private fun TagKey<Block>.forceAdd(tag: TagKey<Block>): FabricTagBuilder = tagBuilder.forceAddTag(tag)
 
-    private fun TagKey<Block>.addAll(vararg tags: TagKey<Block>) = tagBuilder.also { tags.forEach(it::addTag) }
-    private fun TagKey<Block>.addAll(tags: Collection<TagKey<Block>>) = tagBuilder.also { tags.forEach(it::addTag) }
-    private fun TagKey<Block>.addAll(vararg blocks: Block) = tagBuilder.also { blocks.forEach(it::add) }
+    private fun TagKey<Block>.addTags(vararg tags: TagKey<Block>) = tagBuilder.also { tags.forEach(it::addTag) }
+    private fun TagKey<Block>.addBlocks(vararg blocks: Block) = tagBuilder.also { blocks.forEach(it::add) }
 
     private operator fun TagKey<Block>.plusAssign(tag: TagKey<Block>) {
         add(tag)
