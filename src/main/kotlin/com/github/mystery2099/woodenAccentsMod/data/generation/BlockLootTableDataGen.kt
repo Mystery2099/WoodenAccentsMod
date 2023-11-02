@@ -29,7 +29,7 @@ class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTable
     override fun generate() {
         ModBlocks.blocks.forEach { block ->
             when (block) {
-                is CustomLootTableProvider -> addCustomDrop(block)
+                is CustomLootTableProvider -> block.addDrop()
                 else -> addDrop(block)
             }
         }
@@ -55,11 +55,11 @@ class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTable
         ).also { addDrop(drop, it) }
     }
 
-    private fun addCustomDrop(block: CustomLootTableProvider) {
-        if (block is Block) {
-            addDrop(block, block.getLootTableBuilder(this))
+    private fun CustomLootTableProvider.addDrop() {
+        if (this is Block) {
+            addDrop(this, this.getLootTableBuilder(this@BlockLootTableDataGen))
         } else {
-            WoodenAccentsMod.LOGGER.info("Interface: ${CustomLootTableProvider::class.simpleName} must be used on a class which extends Block!")
+            WoodenAccentsMod.logger.info("Interface: ${CustomLootTableProvider::class.simpleName} must be used on a class which extends Block!")
         }
     }
 }
