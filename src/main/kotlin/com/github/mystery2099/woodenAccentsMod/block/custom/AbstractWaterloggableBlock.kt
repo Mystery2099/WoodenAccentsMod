@@ -14,20 +14,33 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.WorldAccess
 
 /**
- * Abstract waterloggable block
+ * Abstract waterloggable block.
  *
- * @constructor
+ * This abstract class represents a [Block] that can be waterlogged, allowing it to interact with [FluidState]s, specifically water.
  *
- * @param settings
+ * @constructor Creates an instance of `AbstractWaterloggableBlock` with the specified [settings].
+ * @param settings The settings for the waterloggable block.
  */
 abstract class AbstractWaterloggableBlock(settings: Settings) : Block(settings), Waterloggable {
+
     init { defaultState = defaultState.with(waterlogged, false) }
 
+    /**
+     * Appends the [waterlogged] property to the [BlockState] properties.
+     *
+     * @param builder The [BlockState] builder for this [Block].
+     */
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
         builder.add(waterlogged)
     }
 
+    /**
+     * Determines the [BlockState] when placing the block, considering nearby [FluidState]s.
+     *
+     * @param ctx The placement context.
+     * @return The [BlockState] of the waterloggable block after placement.
+     */
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
         return super.getPlacementState(ctx)?.with(waterlogged, ctx.world.getFluidState(ctx.blockPos).fluid == Fluids.WATER)
             ?: defaultState

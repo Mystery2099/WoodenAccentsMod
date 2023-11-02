@@ -18,11 +18,12 @@ import net.minecraft.registry.tag.TagKey
 import java.util.function.Consumer
 
 /**
- * Abstract custom ladder block
+ * Abstract custom ladder block.
  *
- * @constructor
+ * This abstract class extends `LadderBlock` and provides additional functionality for custom ladder blocks.
  *
- * @param settings
+ * @constructor Creates an instance of `AbstractCustomLadderBlock` with the specified settings.
+ * @param settings The settings for the ladder block.
  */
 abstract class AbstractCustomLadderBlock(settings: Settings) : LadderBlock(settings), CustomItemGroupProvider,
     CustomRecipeProvider,
@@ -31,12 +32,12 @@ abstract class AbstractCustomLadderBlock(settings: Settings) : LadderBlock(setti
     override val itemGroup: CustomItemGroup = ModItemGroups.structuralElements
 
     /**
-     * Offer recipe
+     * Offer a recipe for creating this ladder block.
      *
-     * @param exporter
-     * @param input
-     * @param outputNum
-     * @param group
+     * @param exporter The consumer for exporting the recipe.
+     * @param input The input item convertible used in the recipe.
+     * @param outputNum The number of ladder blocks to be produced in the recipe.
+     * @param group The recipe group to which this recipe belongs.
      */
     fun offerRecipe(exporter: Consumer<RecipeJsonProvider>, input: ItemConvertible, outputNum: Int, group: String) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, outputNum).apply {

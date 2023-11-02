@@ -38,11 +38,16 @@ import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
 /**
- * Abstract pillar block
+ * Abstract pillar block.
  *
- * @property baseBlock
- * @property shape
- * @constructor Create Abstract pillar block from the block settings of another block
+ * This abstract class represents a pillar block that can be used as a base for various pillar-like structures.
+ * It extends [AbstractWaterloggableBlock] and provides additional functionality for custom pillar blocks.
+ *
+ * @property baseBlock The base block on which this pillar is based.
+ * @property shape The shape of the pillar, containing top, center, and base shapes.
+ * @constructor Creates an instance of `AbstractPillarBlock` from the block settings of another block.
+ * @param baseBlock The base block to be used as a template for this pillar block.
+ * @param shape The shape of the pillar, including top, center, and base shapes.
  */
 abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shape) :
     AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
@@ -57,6 +62,11 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         }
     }
 
+    /**
+     * Appends custom block state properties for this pillar block.
+     *
+     * @param builder The block state builder for this block.
+     */
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
         builder.add(up, down)
@@ -82,6 +92,15 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         down setTo canConnect(world, pos, Direction.DOWN)
     }
 
+    /**
+     * Returns the outline shape of this pillar block based on its state.
+     *
+     * @param state The block state of the pillar.
+     * @param world The world where the block is located.
+     * @param pos The position of the block.
+     * @param context The shape context.
+     * @return The voxel shape representing the outline of the pillar.
+     */
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
         state: BlockState,
@@ -93,7 +112,12 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         shape.baseShape case !state[down]
     }
 
-
+    /**
+     * Determines the block state when placing this pillar block.
+     *
+     * @param ctx The placement context.
+     * @return The block state of the pillar after placement.
+     */
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState =
         super.getPlacementState(ctx).withProperties {
             val world = ctx.world
@@ -102,6 +126,14 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
             down setTo canConnect(world, pos, Direction.DOWN)
         }
 
+    /**
+     * Checks if this pillar can connect to another block in the specified direction.
+     *
+     * @param world The world in which the block is placed.
+     * @param pos The position of the block.
+     * @param direction The direction to check for connection.
+     * @return `true` if the pillar can connect to the block in the specified direction, `false` otherwise.
+     */
     private fun canConnect(world: WorldAccess, pos: BlockPos, direction: Direction): Boolean {
         val otherState = world.getBlockState(pos.offset(direction))
         return otherState isIn connectableBlockTag && otherState.isSideSolid(
@@ -113,12 +145,12 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
     }
 
     /**
-     * Offer recipe
+     * Offer a crafting recipe for this pillar block.
      *
-     * @param exporter
-     * @param outputNum
-     * @param primaryInput
-     * @param secondaryInput
+     * @param exporter The consumer for exporting the recipe.
+     * @param outputNum The number of pillar blocks to be produced in the recipe.
+     * @param primaryInput The primary input item convertible for the recipe.
+     * @param secondaryInput The secondary input item convertible for the recipe.
      */
     fun offerRecipe(
         exporter: Consumer<RecipeJsonProvider>,
@@ -145,11 +177,11 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
     }
 
     /**
-     * Gen block state model supplier
+     * Generates a block state model supplier for this pillar block.
      *
-     * @param centerModel
-     * @param bottomModel
-     * @return
+     * @param centerModel The identifier for the center model.
+     * @param bottomModel The identifier for the bottom model.
+     * @return A `MultipartBlockStateSupplier` for the pillar block.
      */
     fun genBlockStateModelSupplier(
         centerModel: Identifier,
@@ -161,12 +193,11 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
     }
 
     /**
-     * Shape
+     * Represents the shape of the pillar, containing top, center, and base shapes.
      *
-     * @property topShape
-     * @property centerShape
-     * @property baseShape
-     * @constructor Create empty Shape
+     * @property topShape The voxel shape for the top part of the pillar.
+     * @property centerShape The voxel shape for the center part of the pillar.
+     * @property baseShape The voxel shape for the base part of the pillar.
      */
     @JvmRecord
     data class Shape(val topShape: VoxelShape, val centerShape: VoxelShape, val baseShape: VoxelShape)

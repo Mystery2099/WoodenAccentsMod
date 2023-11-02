@@ -47,7 +47,16 @@ import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
-
+/**
+ * Chair block with the ability to seat a player.
+ *
+ * This class represents a chair block that can be used to seat a player. The chair can be waterlogged and faces a
+ * specific direction. It is used in various decorations.
+ *
+ * @constructor Creates an instance of `ChairBlock` with the specified settings and a base block.
+ * @param settings The settings for the chair block.
+ * @param baseBlock The base block that the chair is made from.
+ */
 class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlock(settings), Waterloggable,
     CustomBlockStateProvider, CustomItemGroupProvider,
     CustomRecipeProvider, CustomTagProvider<Block> {
@@ -62,6 +71,9 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
         }
     }
 
+    /**
+     * Constructor for a chair block without specifying settings, using a base block.
+     */
     constructor(baseBlock: Block) : this(FabricBlockSettings.copyOf(baseBlock), baseBlock)
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
@@ -76,6 +88,17 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
         }
     }
 
+    /**
+     * Handles player interaction with the chair block, allowing players to sit on it.
+     *
+     * @param state The [BlockState].
+     * @param world The [World] in which the block is located.
+     * @param pos The [BlockPos] of the block.
+     * @param player The [PlayerEntity] interacting with the block.
+     * @param hand The [player]'s hand used for interaction.
+     * @param hit The hit result of the interaction.
+     * @return The result of the interaction, indicating success or failure.
+     */
     @Deprecated("Deprecated in Java")
     override fun onUse(
         state: BlockState,
@@ -150,11 +173,21 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
         else Fluids.EMPTY.defaultState
     }
 
+    /**
+     * Generates block state models for the chair block.
+     *
+     * @param generator The block state model generator.
+     */
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
         val texturedModel = TexturedModel.makeFactory({ TextureMap.all(baseBlock) }, ModModels.basicChair)
         generator.registerNorthDefaultHorizontalRotated(this, texturedModel)
     }
 
+    /**
+     * Offers a crafting recipe for the chair block.
+     *
+     * @param exporter The consumer for exporting the recipe.
+     */
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 3).apply {
             input('#', baseBlock)
@@ -171,6 +204,7 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
     companion object {
         val waterlogged: BooleanProperty = Properties.WATERLOGGED
 
+        // VoxelShapes for chair shapes in different directions
         private val northBaseShape = VoxelAssembly.createCuboidShape(2, 10, 12, 14, 20, 14)
         private val bottomShape = VoxelAssembly.union(
             VoxelAssembly.createCuboidShape(2, 8, 2, 14, 10, 14),

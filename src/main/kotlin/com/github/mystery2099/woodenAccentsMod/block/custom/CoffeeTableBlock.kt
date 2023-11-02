@@ -74,9 +74,9 @@ import java.util.function.Supplier
 /**
  * Coffee table block
  *
- * @property baseBlock
- * @property topBlock
- * @constructor Create Coffee table block from the block settings of another block
+ * @property baseBlock The base block for the coffee table.
+ * @property topBlock The block used for the top(texture) of the coffee table.
+ * @constructor Creates a [CoffeeTableBlock] using the block [settings] of another [Block] as the base.
  */
 class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
     AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
@@ -87,6 +87,9 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
     override val tag: TagKey<Block> = ModBlockTags.coffeeTables
     override val itemGroup = ModItemGroups.decorations
 
+    /*
+     * Getters for checking and setting specific properties of [BlockState]s.
+     */
     private val BlockState.isTall: Boolean
         get() = getOrEmpty(type) == Optional.of(CoffeeTableTypes.TALL)
     override val variantItemGroupStack: ItemStack
@@ -110,6 +113,7 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
             west
         )
     }
+
 
     private fun NbtCompound.setTall() = this.setType(CoffeeTableTypes.TALL)
     private fun NbtCompound.setType(type: CoffeeTableTypes) =
@@ -135,8 +139,26 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         }
     }
 
+    /**
+     * Sets the [CoffeeTableBlock]'s type to [CoffeeTableTypes.SHORT].
+     *
+     * @return The updated [BlockState].
+     */
     private fun BlockState.setShort(): BlockState = this.with(type, CoffeeTableTypes.SHORT)
+    /**
+     * Sets the [CoffeeTableBlock]'s type to [CoffeeTableTypes.TALL].
+     *
+     * @return The updated [BlockState].
+     */
     private fun BlockState.setTall(): BlockState = this.with(type, CoffeeTableTypes.TALL)
+
+    /**
+     * Sets the connection directions for the [CoffeeTableBlock] based on the surrounding blocks.
+     *
+     * @param world The [WorldAccess] where the block is located.
+     * @param pos The position of the [Block].
+     * @return The updated [BlockState].
+     */
     private fun BlockState.setDirections(world: WorldAccess, pos: BlockPos): BlockState {
         return this.withProperties {
             north setTo world.checkNorthOf(pos)
@@ -243,6 +265,11 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         }
     }
 
+    /**
+     * Offers a shaped recipe for the [CoffeeTableBlock] to the recipe exporter.
+     *
+     * @param exporter The recipe exporter to offer the recipe to.
+     */
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 6).apply {
             input('_', topBlock)
@@ -255,6 +282,11 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         }
     }
 
+    /**
+     * Generates block state models and item models for the [CoffeeTableBlock].
+     *
+     * @param generator The block state model generator.
+     */
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
         TextureMap().apply {
             put(TextureKey.TOP, topBlock.textureId)
@@ -274,6 +306,15 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         }
     }
 
+    /**
+     * A [MultipartBlockStateSupplier] for the block state model of the [CoffeeTableBlock].
+     *
+     * @param shortTopModel The model identifier for the short top.
+     * @param shortLegModel The model identifier for the short leg.
+     * @param tallTopModel The model identifier for the tall top.
+     * @param tallLegModel The model identifier for the tall leg.
+     * @return A [MultipartBlockStateSupplier] for the [CoffeeTableBlock].
+     */
     private fun blockStateModelSupplier(
         shortTopModel: Identifier,
         shortLegModel: Identifier,
@@ -299,6 +340,8 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
             WhenUtil.notSouthWest and isTall to tallNorthEastVariant.withYRotationOf(VariantSettings.Rotation.R180)
         ).forEach(::with)
     }
+
+
     private fun generateItemModel(coffeeTableBlock: CoffeeTableBlock, generator: BlockStateModelGenerator) {
         val textureMap = mapOf(
             TextureKey.TOP to coffeeTableBlock.topBlock.textureId,
