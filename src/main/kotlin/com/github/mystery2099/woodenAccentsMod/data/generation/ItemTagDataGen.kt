@@ -9,14 +9,6 @@ import net.minecraft.item.Items
 import net.minecraft.registry.RegistryWrapper
 import java.util.concurrent.CompletableFuture
 
-/**
- * Item tag data gen
- *
- * @constructor
- *
- * @param output
- * @param completableFuture
- */
 class ItemTagDataGen(
     output: FabricDataOutput?,
     completableFuture: CompletableFuture<RegistryWrapper.WrapperLookup>?
@@ -24,7 +16,7 @@ class ItemTagDataGen(
     override fun configure(arg: RegistryWrapper.WrapperLookup) {
         ModBlockTags.blockToItemTagMap.forEach(::copy)
 
-        getOrCreateTagBuilder(ModItemTags.uncrateable).apply {
+        getOrCreateTagBuilder(ModItemTags.unnestable).apply {
             addTag(ModBlockTags.blockToItemTagMap[ModBlockTags.crates])
             forceAddTag(ConventionalItemTags.SHULKER_BOXES)
             add(Items.BUNDLE)

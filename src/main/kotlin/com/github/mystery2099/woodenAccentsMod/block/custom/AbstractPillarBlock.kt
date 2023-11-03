@@ -80,7 +80,7 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         direction = direction,
         neighborState = neighborState,
         world = world,
-        pos = pos!!,
+        pos = pos,
         neighborPos = neighborPos
     ).withProperties {
         up setTo canConnect(world, pos, Direction.UP)

@@ -1,7 +1,9 @@
 package com.github.mystery2099.woodenAccentsMod.item
 
+import com.github.mystery2099.woodenAccentsMod.block.ModBlocks.item
 import com.github.mystery2099.woodenAccentsMod.block.custom.CrateBlock
-import com.github.mystery2099.woodenAccentsMod.block.custom.Unnestable
+import com.github.mystery2099.woodenAccentsMod.data.ModItemTags
+import com.github.mystery2099.woodenAccentsMod.data.ModItemTags.contains
 import net.minecraft.block.Block
 import net.minecraft.entity.ItemEntity
 import net.minecraft.item.BlockItem
@@ -17,7 +19,7 @@ import net.minecraft.nbt.NbtElement
  * @param settings The settings for the item.
  */
 class CustomBlockItem(block: Block, settings: Settings) : BlockItem(block, settings) {
-    override fun canBeNested(): Boolean = block !is Unnestable
+    override fun canBeNested(): Boolean = block.item.defaultStack !in ModItemTags.unnestable
     override fun onItemEntityDestroyed(entity: ItemEntity) {
         super.onItemEntityDestroyed(entity)
         if (block is CrateBlock) {

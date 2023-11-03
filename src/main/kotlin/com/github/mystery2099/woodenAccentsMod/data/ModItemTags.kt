@@ -13,7 +13,7 @@ import net.minecraft.registry.tag.TagKey
 object ModItemTags {
 
     val chests = "chests".createItemTag("c")
-    val uncrateable = "uncrateable".createItemTag()
+    val unnestable = "unnestable".createItemTag()
 
 
     private fun String.createItemTag(namespace: String = WoodenAccentsMod.MOD_ID): TagKey<Item> = TagKey.of(RegistryKeys.ITEM, this.toIdentifier(namespace))

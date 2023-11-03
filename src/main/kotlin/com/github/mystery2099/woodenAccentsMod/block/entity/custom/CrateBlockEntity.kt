@@ -117,7 +117,7 @@ class CrateBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
 
-    override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?): Boolean = stack !in ModItemTags.uncrateable
+    override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?): Boolean = stack !in ModItemTags.unnestable
 
     override fun canExtract(slot: Int, stack: ItemStack?, dir: Direction?): Boolean = true
 

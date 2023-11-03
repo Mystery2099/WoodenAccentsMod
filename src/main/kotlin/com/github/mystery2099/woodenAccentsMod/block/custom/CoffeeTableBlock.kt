@@ -194,7 +194,7 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         world: WorldAccess,
         pos: BlockPos,
         neighborPos: BlockPos?
-    ): BlockState = super.getStateForNeighborUpdate(state, direction, neighborState, world, pos!!, neighborPos)
+    ): BlockState = super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
         .withProperties {
             north setTo world.checkNorthOf(pos)
             east setTo world.checkEastOf(pos)
