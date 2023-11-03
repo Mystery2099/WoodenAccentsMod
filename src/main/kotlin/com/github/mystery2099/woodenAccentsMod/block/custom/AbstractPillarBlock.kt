@@ -62,11 +62,6 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         }
     }
 
-    /**
-     * Appends custom block state properties for this pillar block.
-     *
-     * @param builder The block state builder for this block.
-     */
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
         builder.add(up, down)
@@ -92,15 +87,6 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         down setTo canConnect(world, pos, Direction.DOWN)
     }
 
-    /**
-     * Returns the outline shape of this pillar block based on its state.
-     *
-     * @param state The block state of the pillar.
-     * @param world The world where the block is located.
-     * @param pos The position of the block.
-     * @param context The shape context.
-     * @return The voxel shape representing the outline of the pillar.
-     */
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
         state: BlockState,
@@ -112,12 +98,6 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         shape.baseShape case !state[down]
     }
 
-    /**
-     * Determines the block state when placing this pillar block.
-     *
-     * @param ctx The placement context.
-     * @return The block state of the pillar after placement.
-     */
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState =
         super.getPlacementState(ctx).withProperties {
             val world = ctx.world

@@ -2,7 +2,6 @@ package com.github.mystery2099.woodenAccentsMod.block.custom
 
 import com.github.mystery2099.voxlib.combination.VoxelAssembly
 import com.github.mystery2099.voxlib.combination.VoxelAssembly.appendShapes
-import com.github.mystery2099.voxlib.combination.VoxelAssembly.plus
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateRight
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.asBlockModelId
@@ -63,7 +62,6 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import java.util.*
@@ -113,7 +111,6 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
             west
         )
     }
-
 
     private fun NbtCompound.setTall() = this.setType(CoffeeTableTypes.TALL)
     private fun NbtCompound.setType(type: CoffeeTableTypes) =
@@ -224,10 +221,7 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         val shouldAppendSouthEast = !hasSouthConnection && !hasEastConnection
         val shouldAppendSouthWest = !hasSouthConnection && !hasWestConnection
 
-        var shape = VoxelShapes.empty()
-
-        shape += (if (isTall) tallTopShape else shortTopShape)
-        shape.appendShapes {
+        return (if (isTall) tallTopShape else shortTopShape).appendShapes {
             //Short legs
             shortNorthEastLeg case shouldAppendNorthEast
             shortNorthWestLeg case shouldAppendNorthWest
@@ -240,8 +234,6 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
             tallSouthWestLeg case (shouldAppendSouthWest && isTall)
 
         }
-
-        return shape
     }
 
     override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState): ItemStack {
