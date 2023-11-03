@@ -70,6 +70,7 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
     BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)),
     CustomBlockStateProvider, CustomItemGroupProvider, CustomTagProvider<Block>, CustomRecipeProvider,
     CustomBlockLootTableProvider {
+
     override val itemGroup: CustomItemGroup = ModItemGroups.miscellaneous
     override val tag: TagKey<Block> = ModBlockTags.crates
 
