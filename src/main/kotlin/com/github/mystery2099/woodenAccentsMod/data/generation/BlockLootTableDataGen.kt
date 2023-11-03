@@ -2,7 +2,7 @@ package com.github.mystery2099.woodenAccentsMod.data.generation
 
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod
 import com.github.mystery2099.woodenAccentsMod.block.ModBlocks
-import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomLootTableProvider
+import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomBlockLootTableProvider
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.minecraft.block.Block
@@ -29,7 +29,7 @@ class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTable
     override fun generate() {
         ModBlocks.blocks.forEach { block ->
             when (block) {
-                is CustomLootTableProvider -> block.addDrop()
+                is CustomBlockLootTableProvider -> block.addDrop()
                 else -> addDrop(block)
             }
         }
@@ -55,11 +55,11 @@ class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTable
         ).also { addDrop(drop, it) }
     }
 
-    private fun CustomLootTableProvider.addDrop() {
+    private fun CustomBlockLootTableProvider.addDrop() {
         if (this is Block) {
             addDrop(this, this.getLootTableBuilder(this@BlockLootTableDataGen))
         } else {
-            WoodenAccentsMod.logger.info("Interface: ${CustomLootTableProvider::class.simpleName} must be used on a class which extends Block!")
+            WoodenAccentsMod.logger.info("Interface: ${CustomBlockLootTableProvider::class.simpleName} must be used on a class which extends Block!")
         }
     }
 }
