@@ -1,4 +1,4 @@
-// 1.19.4	2023-11-03T12:40:18.9505737	Wooden Accents Mod/Tags for minecraft:block
+// 1.19.4	2023-11-03T15:53:51.7549247	Wooden Accents Mod/Tags for minecraft:block
 b24da23541ac100e8153b3205d38118032dcd0ce data\wooden_accents_mod\tags\blocks\desk_drawers.json
 71ae7a5be94d757f9a6063db9715864cf1b7f2e8 data\wooden_accents_mod\tags\blocks\thick_pillars.json
 8d2c3811f0477673901b062c301a26c6cb3b4425 data\minecraft\tags\blocks\inside_step_sound_blocks.json
@@ -12,12 +12,12 @@ b7aab40ceaadda84c40d747ea51f27cf31e33d10 data\wooden_accents_mod\tags\blocks\thi
 e72980bdb59eaf2ae7e8e3b0028a352055cd4e95 data\minecraft\tags\blocks\walls.json
 c740672d0999de039f2817c276cdf9f6d38b3010 data\minecraft\tags\blocks\fences.json
 32f537192002843e23009967d77c1198b62ea573 data\wooden_accents_mod\tags\blocks\thin_bookshelves.json
-093b63d9d5b5cbf39f549e227b7b582a034e8988 data\wooden_accents_mod\tags\blocks\modern_fences.json
 7c852fff41b08dd982f386c40a6008b9484d4c55 data\wooden_accents_mod\tags\blocks\chairs.json
+093b63d9d5b5cbf39f549e227b7b582a034e8988 data\wooden_accents_mod\tags\blocks\modern_fences.json
 53d1f5157b3ea073f2f94940501af09e65579d82 data\wooden_accents_mod\tags\blocks\support_beams.json
 9e12f2a3c1b7c56feaa25e6e0dc35aea64dfb19f data\wooden_accents_mod\tags\blocks\thin_pillars.json
-c7cc042611314dd6f8a67051c5cd79b73735f296 data\wooden_accents_mod\tags\blocks\desks.json
 a2a21a4364134ee97823dd7f18f6860bb018cfe1 data\wooden_accents_mod\tags\blocks\thin_pillars_connectable.json
+c7cc042611314dd6f8a67051c5cd79b73735f296 data\wooden_accents_mod\tags\blocks\desks.json
 7f3ebf5cae9f0cda199eb01e15bbcf6056e58cb0 data\minecraft\tags\blocks\fence_gates.json
 05c0d71664d2c4010cfe32fda8a17c2705229877 data\wooden_accents_mod\tags\blocks\coffee_tables.json
 4c7f967c16f8a233ceda0b52c4f6d19338f28d83 data\minecraft\tags\blocks\mineable\axe.json
