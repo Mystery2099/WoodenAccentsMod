@@ -81,7 +81,7 @@ import java.util.function.Supplier
 class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
     AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider,
-    CustomLootTableProvider {
+    CustomBlockLootTableProvider {
 
 
     override val tag: TagKey<Block> = ModBlockTags.coffeeTables
