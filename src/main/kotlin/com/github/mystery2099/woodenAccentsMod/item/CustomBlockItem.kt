@@ -19,7 +19,7 @@ import net.minecraft.nbt.NbtElement
  * @param settings The settings for the item.
  */
 class CustomBlockItem(block: Block, settings: Settings) : BlockItem(block, settings) {
-    override fun canBeNested(): Boolean = block.item.defaultStack !in ModItemTags.unnestable
+    override fun canBeNested(): Boolean = super.canBeNested() && block.item.defaultStack !in ModItemTags.unnestable
     override fun onItemEntityDestroyed(entity: ItemEntity) {
         super.onItemEntityDestroyed(entity)
         if (block is CrateBlock) {
