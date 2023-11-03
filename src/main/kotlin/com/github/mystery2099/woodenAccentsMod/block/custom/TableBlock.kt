@@ -107,7 +107,7 @@ class TableBlock(val baseBlock: Block, private val topBlock: Block) :
         direction: Direction?,
         neighborState: BlockState?,
         world: WorldAccess,
-        pos: BlockPos?,
+        pos: BlockPos,
         neighborPos: BlockPos?
     ): BlockState {
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos!!, neighborPos)

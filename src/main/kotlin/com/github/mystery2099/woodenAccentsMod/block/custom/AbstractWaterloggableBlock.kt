@@ -52,7 +52,7 @@ abstract class AbstractWaterloggableBlock(settings: Settings) : Block(settings),
         direction: Direction?,
         neighborState: BlockState?,
         world: WorldAccess,
-        pos: BlockPos?,
+        pos: BlockPos,
         neighborPos: BlockPos?
     ): BlockState {
         if (state[waterlogged]) world.scheduleFluidTick(

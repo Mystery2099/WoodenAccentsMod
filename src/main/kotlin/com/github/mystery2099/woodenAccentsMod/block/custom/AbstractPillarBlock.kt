@@ -78,7 +78,7 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         direction: Direction?,
         neighborState: BlockState?,
         world: WorldAccess,
-        pos: BlockPos?,
+        pos: BlockPos,
         neighborPos: BlockPos?
     ): BlockState = super.getStateForNeighborUpdate(
         state = state,

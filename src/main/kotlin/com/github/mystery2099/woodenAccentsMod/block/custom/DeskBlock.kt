@@ -84,8 +84,32 @@ class DeskBlock(settings: Settings, val baseBlock: Block, private val topBlock: 
         builder.add(facing, shape)
     }
 
+    private fun BlockState.canConnectTo(otherState: BlockState): Boolean {
+        return (this.isDesk || this.isDeskDrawer) && (otherState.isDesk || otherState.isDeskDrawer)
+    }
+    private fun checkNeighbors(world: WorldAccess, pos: BlockPos, state: BlockState = world.getBlockState(pos)): Array<Boolean> {
+        val leftState = world.getBlockState(pos.offset(state[facing].rotateYClockwise()))
+        val rightState = world.getBlockState(pos.offset(state[facing].rotateYCounterclockwise()))
+        val left = state.canConnectTo(leftState)
+        val right = state.canConnectTo(rightState)
+        val forward = world.getBlockState(pos.offset(state[facing])).let {
+            (state.canConnectTo(it)) &&
+                    if (left) it[facing] == state[facing].rotateYClockwise()
+                    else if (right) it[facing] == state[facing].rotateYCounterclockwise()
+                    else true
+        }
+        return arrayOf(left, right, forward)
+    }
+
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
-        return super.getPlacementState(ctx).with(facing, ctx.horizontalPlayerFacing.opposite)
+        return super.getPlacementState(ctx).with(facing, ctx.horizontalPlayerFacing.opposite).let {
+            val checkedNeighbors = checkNeighbors(ctx.world, ctx.blockPos, it)
+            it.withShape(
+                left = checkedNeighbors[0],
+                right = checkedNeighbors[1],
+                forward = checkedNeighbors[2]
+            )
+        }
     }
 
     @Deprecated("Deprecated in Java")
@@ -94,19 +118,16 @@ class DeskBlock(settings: Settings, val baseBlock: Block, private val topBlock: 
         direction: Direction?,
         neighborState: BlockState?,
         world: WorldAccess,
-        pos: BlockPos?,
+        pos: BlockPos,
         neighborPos: BlockPos?
     ): BlockState {
-        val left = world.getBlockState(pos?.offset(state[facing].rotateYClockwise())).isDesk
-        val right = world.getBlockState(pos?.offset(state[facing].rotateYCounterclockwise())).isDesk
-        val forward = world.getBlockState(pos?.offset(state[facing])).let {
-            (it.isDesk || it.isDeskDrawer) &&
-                    if (left) it[facing] == state[facing].rotateYClockwise()
-                    else if (right) it[facing] == state[facing].rotateYCounterclockwise()
-                    else true
-        }
+        val checkedNeighbors = checkNeighbors(world, pos)
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
-            .withShape(left, right, forward)
+            .withShape(
+                left = checkedNeighbors[0],
+                right = checkedNeighbors[1],
+                forward = checkedNeighbors[2]
+            )
     }
 
     private fun BlockState.withShape(left: Boolean, right: Boolean, forward: Boolean = false): BlockState {

@@ -67,7 +67,7 @@ class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
     override val itemGroup = ModItemGroups.decorations
 
     init {
-        defaultState = stateManager.defaultState.withProperties {
+        defaultState = defaultState.withProperties {
             facing setTo Direction.NORTH
             open setTo false
         }
@@ -109,9 +109,10 @@ class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
         super.onStateReplaced(state, world, pos, newState, moved)
     }
 
+
     @Deprecated("Deprecated in Java", ReplaceWith(
         "(world.getBlockEntity(pos) as? KitchenCabinetBlockEntity)?.also { it.tick() }",
-        "com.mystery2099.wooden_accents_mod.block_entity.custom.KitchenCabinetBlockEntity"
+        "com.github.mystery2099.woodenAccentsMod.block.entity.custom.KitchenCabinetBlockEntity"
     )
     )
     override fun scheduledTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {

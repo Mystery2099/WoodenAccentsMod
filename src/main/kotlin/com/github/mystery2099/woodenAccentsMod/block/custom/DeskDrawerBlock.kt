@@ -92,8 +92,8 @@ class DeskDrawerBlock(settings: Settings, private val edgeBlock: Block, val base
         }
     }
 
-    private fun BlockState.canConnectTo(other: BlockState): Boolean {
-        return ((this.isDeskDrawer || this.isDesk) && (other.isDeskDrawer || other.isDesk)) && (this[facing] == other[facing])
+    private fun BlockState.canConnectTo(otherState: BlockState): Boolean {
+        return ((this.isDeskDrawer || this.isDesk) && (otherState.isDeskDrawer || otherState.isDesk)) && (this[facing] == otherState[facing])
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
@@ -101,10 +101,22 @@ class DeskDrawerBlock(settings: Settings, private val edgeBlock: Block, val base
         builder.add(facing, shape)
     }
 
+    private fun getAdjacentStates(world: WorldAccess, pos: BlockPos, state: BlockState = world.getBlockState(pos)): Array<BlockState> {
+        return arrayOf(
+            world.getBlockState(pos.offset(state[facing].rotateYClockwise())),
+            world.getBlockState(pos.offset(state[facing].rotateYCounterclockwise()))
+        )
+    }
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
-        return super.getPlacementState(ctx).with(facing, ctx.horizontalPlayerFacing.opposite).withShape(
-            left = false,
-            right = false
+        val world = ctx.world
+        val pos = ctx.blockPos
+
+        //States
+        val state = super.getPlacementState(ctx).with(facing, ctx.horizontalPlayerFacing.opposite)
+        val adjacentStates = getAdjacentStates(world, pos, state)
+        return state.withShape(
+            left = state.canConnectTo(adjacentStates[0]),
+            right = state.canConnectTo(adjacentStates[1])
         )
     }
 
@@ -116,7 +128,7 @@ class DeskDrawerBlock(settings: Settings, private val edgeBlock: Block, val base
         itemStack: ItemStack
     ) {
         val blockEntity: BlockEntity? = world.getBlockEntity(pos)
-        if (itemStack.hasCustomName() && blockEntity is DeskDrawerBlockEntity) {
+                if (itemStack.hasCustomName() && blockEntity is DeskDrawerBlockEntity) {
             blockEntity.customName = itemStack.name
         }
     }
@@ -148,12 +160,11 @@ class DeskDrawerBlock(settings: Settings, private val edgeBlock: Block, val base
         pos: BlockPos,
         neighborPos: BlockPos?
     ): BlockState {
-        val leftState = world.getBlockState(pos.offset(state[facing].rotateYClockwise()))
-        val rightState = world.getBlockState(pos.offset(state[facing].rotateYCounterclockwise()))
+        val adjacentStates = getAdjacentStates(world, pos)
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
             .withShape(
-                left = state.canConnectTo(leftState),
-                right = state.canConnectTo(rightState)
+                left = state.canConnectTo(adjacentStates[0]),
+                right = state.canConnectTo(adjacentStates[1])
             )
     }
 
