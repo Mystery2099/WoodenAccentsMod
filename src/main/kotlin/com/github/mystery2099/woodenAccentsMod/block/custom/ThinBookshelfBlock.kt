@@ -98,7 +98,7 @@ class ThinBookshelfBlock(val baseBlock: Block) :
                     WhenUtil.facingWestHorizontal
                 )
                 val variants = Array(4) { bookshelfModel.asBlockStateVariant() }
-                val slotVariants = Array<Array<BlockStateVariant>>(6) { i ->
+                val slotVariants = Array(6) { i ->
                     Array(4) {
                         slotModels[i].asBlockStateVariant().withYRotationOf(VariantSettings.Rotation.entries[it])
                     }
@@ -120,9 +120,7 @@ class ThinBookshelfBlock(val baseBlock: Block) :
     companion object {
         private val northShape = VoxelAssembly.createCuboidShape(0, 0, 11, 16, 16, 16)
         private val eastShape = northShape.rotateLeft()
-        private val southShape = northShape.rotateRight()
-        private val westShape = northShape.flip()
+        private val southShape = northShape.flip()
+        private val westShape = northShape.rotateRight()
     }
-
-
 }
