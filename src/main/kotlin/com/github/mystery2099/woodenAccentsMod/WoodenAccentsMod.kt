@@ -13,8 +13,12 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 object WoodenAccentsMod : ModInitializer {
-    const val MOD_ID = "wooden_accents_mod"
-    val logger: Logger = LoggerFactory.getLogger(MOD_ID)
+
+    /** The mod's unique identifier. **/
+    internal const val MOD_ID = "wooden_accents_mod"
+
+    /** The logger for the mod. **/
+    internal val logger: Logger = LoggerFactory.getLogger(MOD_ID)
 
     override fun onInitialize() {
         logger.info("Initializing $MOD_ID")
@@ -42,9 +46,9 @@ object WoodenAccentsMod : ModInitializer {
 
 
     /**
-     * Converts a [WoodType] to its corresponding planks [Block].
+     * Extension property for [WoodType] to get the corresponding plank [block][Block].
      *
-     * @return The planks [Block] for the given [WoodType].
+     * @return The plank [block][Block] associated with the [wood type][WoodType].
      */
     val WoodType.planks: Block
         get() = when (this) {
