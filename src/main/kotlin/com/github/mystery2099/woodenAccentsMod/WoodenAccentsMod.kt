@@ -46,18 +46,19 @@ object WoodenAccentsMod : ModInitializer {
      *
      * @return The planks [Block] for the given [WoodType].
      */
-    fun WoodType.asPlanks(): Block = when (this) {
-        WoodType.OAK -> Blocks.OAK_PLANKS
-        WoodType.SPRUCE -> Blocks.SPRUCE_PLANKS
-        WoodType.BIRCH -> Blocks.BIRCH_PLANKS
-        WoodType.ACACIA -> Blocks.ACACIA_PLANKS
-        WoodType.CHERRY -> Blocks.CHERRY_PLANKS
-        WoodType.JUNGLE -> Blocks.JUNGLE_PLANKS
-        WoodType.DARK_OAK -> Blocks.DARK_OAK_PLANKS
-        WoodType.CRIMSON -> Blocks.CRIMSON_PLANKS
-        WoodType.WARPED -> Blocks.WARPED_PLANKS
-        WoodType.MANGROVE -> Blocks.MANGROVE_PLANKS
-        WoodType.BAMBOO -> Blocks.BAMBOO_PLANKS
-        else -> Blocks.OAK_PLANKS
-    }
+    val WoodType.planks: Block
+        get() = when (this) {
+            WoodType.OAK -> Blocks.OAK_PLANKS
+            WoodType.SPRUCE -> Blocks.SPRUCE_PLANKS
+            WoodType.BIRCH -> Blocks.BIRCH_PLANKS
+            WoodType.ACACIA -> Blocks.ACACIA_PLANKS
+            WoodType.CHERRY -> Blocks.CHERRY_PLANKS
+            WoodType.JUNGLE -> Blocks.JUNGLE_PLANKS
+            WoodType.DARK_OAK -> Blocks.DARK_OAK_PLANKS
+            WoodType.CRIMSON -> Blocks.CRIMSON_PLANKS
+            WoodType.WARPED -> Blocks.WARPED_PLANKS
+            WoodType.MANGROVE -> Blocks.MANGROVE_PLANKS
+            WoodType.BAMBOO -> Blocks.BAMBOO_PLANKS
+            else -> Blocks.OAK_PLANKS
+        }
 }

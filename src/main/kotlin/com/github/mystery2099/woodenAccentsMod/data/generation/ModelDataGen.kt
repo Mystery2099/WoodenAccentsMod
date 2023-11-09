@@ -1,8 +1,8 @@
 package com.github.mystery2099.woodenAccentsMod.data.generation
 
-import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.withBlockModelPath
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.planks
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.toIdentifier
+import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.withBlockModelPath
 import com.github.mystery2099.woodenAccentsMod.block.ModBlocks
 import com.github.mystery2099.woodenAccentsMod.block.ModBlocks.textureId
 import com.github.mystery2099.woodenAccentsMod.data.ModModels
@@ -35,31 +35,31 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
             WoodType.stream().forEach {
                 ModModels.coffeeTableLegShort.upload(
                     "${it.name.lowercase()}_coffee_table_leg_short".toIdentifier().withBlockModelPath(), TextureMap().put(
-                        ModModels.legs, it.planks().textureId
+                        ModModels.legs, it.planks.textureId
                     ), modelCollector
                 )
 
                 ModModels.coffeeTableLegTall.upload(
                     "${it.name.lowercase()}_coffee_table_leg_tall".toIdentifier().withBlockModelPath(), TextureMap().put(
-                        ModModels.legs, it.planks().textureId
+                        ModModels.legs, it.planks.textureId
                     ), modelCollector
                 )
 
                 ModModels.tableCenterLeg.upload(
                     "${it.name.lowercase()}_table_single_leg".toIdentifier().withBlockModelPath(), TextureMap().put(
-                        ModModels.legs, it.planks().textureId
+                        ModModels.legs, it.planks.textureId
                     ), modelCollector
                 )
 
                 ModModels.tableCornerLeg.upload(
                     "${it.name.lowercase()}_table_corner_leg".toIdentifier().withBlockModelPath(), TextureMap().put(
-                        ModModels.legs, it.planks().textureId
+                        ModModels.legs, it.planks.textureId
                     ), modelCollector
                 )
 
                 ModModels.tableEndLeg.upload(
                     "${it.name.lowercase()}_table_end_leg".toIdentifier().withBlockModelPath(), TextureMap().put(
-                        ModModels.legs, it.planks().textureId
+                        ModModels.legs, it.planks.textureId
                     ), modelCollector
                 )
             }
