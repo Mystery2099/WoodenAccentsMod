@@ -22,8 +22,7 @@ import net.minecraft.data.client.TextureMap
  */
 class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
-    // A common prefix for block models.
-    val block = "block/"
+
     /**
      * Generate block state models for the mod.
      *
@@ -34,31 +33,31 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
             // Iterate through wood types and generate models for coffee tables and table legs.
             WoodType.stream().forEach {
                 ModModels.coffeeTableLegShort.upload(
-                    "${it.name.lowercase()}_coffee_table_leg_short".toIdentifier().withBlockModelPath(), TextureMap().put(
+                    "${it.name.lowercase()}_coffee_table_leg_short".toIdentifier().withBlockModelPath(), TextureMap.of(
                         ModModels.legs, it.planks.textureId
                     ), modelCollector
                 )
 
                 ModModels.coffeeTableLegTall.upload(
-                    "${it.name.lowercase()}_coffee_table_leg_tall".toIdentifier().withBlockModelPath(), TextureMap().put(
+                    "${it.name.lowercase()}_coffee_table_leg_tall".toIdentifier().withBlockModelPath(), TextureMap.of(
                         ModModels.legs, it.planks.textureId
                     ), modelCollector
                 )
 
                 ModModels.tableCenterLeg.upload(
-                    "${it.name.lowercase()}_table_single_leg".toIdentifier().withBlockModelPath(), TextureMap().put(
+                    "${it.name.lowercase()}_table_single_leg".toIdentifier().withBlockModelPath(), TextureMap.of(
                         ModModels.legs, it.planks.textureId
                     ), modelCollector
                 )
 
                 ModModels.tableCornerLeg.upload(
-                    "${it.name.lowercase()}_table_corner_leg".toIdentifier().withBlockModelPath(), TextureMap().put(
+                    "${it.name.lowercase()}_table_corner_leg".toIdentifier().withBlockModelPath(), TextureMap.of(
                         ModModels.legs, it.planks.textureId
                     ), modelCollector
                 )
 
                 ModModels.tableEndLeg.upload(
-                    "${it.name.lowercase()}_table_end_leg".toIdentifier().withBlockModelPath(), TextureMap().put(
+                    "${it.name.lowercase()}_table_end_leg".toIdentifier().withBlockModelPath(), TextureMap.of(
                         ModModels.legs, it.planks.textureId
                     ), modelCollector
                 )
