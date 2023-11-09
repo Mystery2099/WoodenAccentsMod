@@ -5,7 +5,7 @@ import com.github.mystery2099.voxlib.combination.VoxelAssembly.appendShapes
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateRight
-import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.asBlockModelId
+import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.withBlockModelPath
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.toIdentifier
 import com.github.mystery2099.woodenAccentsMod.block.ModBlocks.itemModelId
 import com.github.mystery2099.woodenAccentsMod.block.ModBlocks.textureId
@@ -163,9 +163,9 @@ class TableBlock(val baseBlock: Block, private val topBlock: Block) :
             generator.blockStateCollector.accept(
                 blockStateModelSupplier(
                     ModModels.tableTop.upload(this, map, generator.modelCollector),
-                    "${woodType.name.lowercase()}_table_single_leg".toIdentifier().asBlockModelId(),
-                    "${woodType.name.lowercase()}_table_end_leg".toIdentifier().asBlockModelId(),
-                    "${woodType.name.lowercase()}_table_corner_leg".toIdentifier().asBlockModelId(),
+                    "${woodType.name.lowercase()}_table_single_leg".toIdentifier().withBlockModelPath(),
+                    "${woodType.name.lowercase()}_table_end_leg".toIdentifier().withBlockModelPath(),
+                    "${woodType.name.lowercase()}_table_corner_leg".toIdentifier().withBlockModelPath(),
                 )
             )
             ModModels.tableItem.upload(this.itemModelId, map, generator.modelCollector)

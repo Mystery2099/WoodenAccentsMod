@@ -25,21 +25,10 @@ object WoodenAccentsMod : ModInitializer {
     }
 
     /**
-     * Converts a path to an [Identifier] using the mod's namespace.
-     *
-     * @param path The [String] path to convert to an [Identifier].
-     * @return The [Identifier] with the mod's namespace.
-     * @see String.toIdentifier
-     * @see Identifier
-     */
-    fun modId(path: String): Identifier = path.toIdentifier()
-
-    /**
      * Converts a [String] to an [Identifier] using the mod's namespace.
      *
      * @param namespace The namespace for the [Identifier].
      * @return The [Identifier] with the mod's namespace.
-     * @see modId
      * @see Identifier
      */
     fun String.toIdentifier(namespace: String = MOD_ID): Identifier = Identifier(namespace, this)
@@ -49,7 +38,7 @@ object WoodenAccentsMod : ModInitializer {
      *
      * @return The block model [Identifier] with the "block/" prefix.
      */
-    fun Identifier.asBlockModelId(): Identifier = this.withPrefixedPath("block/")
+    fun Identifier.withBlockModelPath(): Identifier = this.withPrefixedPath("block/")
 
 
     /**

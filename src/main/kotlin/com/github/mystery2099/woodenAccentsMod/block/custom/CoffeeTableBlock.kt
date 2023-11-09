@@ -4,7 +4,7 @@ import com.github.mystery2099.voxlib.combination.VoxelAssembly
 import com.github.mystery2099.voxlib.combination.VoxelAssembly.appendShapes
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateRight
-import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.asBlockModelId
+import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.withBlockModelPath
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.toIdentifier
 import com.github.mystery2099.woodenAccentsMod.block.ModBlocks.itemModelId
 import com.github.mystery2099.woodenAccentsMod.block.ModBlocks.textureId
@@ -288,10 +288,10 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
                 blockStateModelSupplier(
                     shortTopModel = ModModels.coffeeTableTopShort.upload(this, map, generator.modelCollector),
                     shortLegModel = "${this.woodType.name.lowercase()}_coffee_table_leg_short".toIdentifier()
-                        .asBlockModelId(),
+                        .withBlockModelPath(),
                     tallTopModel = ModModels.coffeeTableTopTall.upload(this, map, generator.modelCollector),
                     tallLegModel = "${this.woodType.name.lowercase()}_coffee_table_leg_tall".toIdentifier()
-                        .asBlockModelId(),
+                        .withBlockModelPath(),
                 )
             )
             generateItemModel(this, generator)
