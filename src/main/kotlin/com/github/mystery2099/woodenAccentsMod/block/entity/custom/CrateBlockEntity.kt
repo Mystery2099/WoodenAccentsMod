@@ -1,8 +1,8 @@
 package com.github.mystery2099.woodenAccentsMod.block.entity.custom
 
 import com.github.mystery2099.woodenAccentsMod.block.entity.ModBlockEntities
-import com.github.mystery2099.woodenAccentsMod.data.ModItemTags
-import com.github.mystery2099.woodenAccentsMod.data.ModItemTags.contains
+import com.github.mystery2099.woodenAccentsMod.registry.tag.ModItemTags
+import com.github.mystery2099.woodenAccentsMod.registry.tag.ModItemTags.contains
 import com.github.mystery2099.woodenAccentsMod.screen.CrateScreenHandler
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.LootableContainerBlockEntity

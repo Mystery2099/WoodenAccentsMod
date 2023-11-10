@@ -5,8 +5,8 @@ import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.withBlockModelPa
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.toIdentifier
 import com.github.mystery2099.woodenAccentsMod.block.itemModelId
 import com.github.mystery2099.woodenAccentsMod.block.woodType
-import com.github.mystery2099.woodenAccentsMod.data.ModBlockTags
-import com.github.mystery2099.woodenAccentsMod.data.ModModels
+import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
+import com.github.mystery2099.woodenAccentsMod.data.client.ModModels
 import net.minecraft.block.Block
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.TextureMap

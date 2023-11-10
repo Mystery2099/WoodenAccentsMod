@@ -1,7 +1,7 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom;
 
-import com.github.mystery2099.woodenAccentsMod.data.ModBlockTags;
-import com.github.mystery2099.woodenAccentsMod.util.BlockStateUtil;
+import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags;
+import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.tinyremapper.extension.mixin.common.data.Pair;
 import net.minecraft.block.*;

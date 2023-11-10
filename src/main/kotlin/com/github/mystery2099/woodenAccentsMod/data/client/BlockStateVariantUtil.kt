@@ -1,4 +1,4 @@
-package com.github.mystery2099.woodenAccentsMod.util
+package com.github.mystery2099.woodenAccentsMod.data.client
 
 import net.minecraft.data.client.BlockStateVariant
 import net.minecraft.data.client.VariantSetting

@@ -7,11 +7,11 @@ import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.Custom
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomRecipeProvider
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomTagProvider
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
-import com.github.mystery2099.woodenAccentsMod.util.BlockStateUtil.isIn
-import com.github.mystery2099.woodenAccentsMod.util.BlockStateUtil.withProperties
-import com.github.mystery2099.woodenAccentsMod.util.BlockStateVariantUtil.asBlockStateVariant
-import com.github.mystery2099.woodenAccentsMod.util.BlockStateVariantUtil.uvLock
-import com.github.mystery2099.woodenAccentsMod.util.BlockStateVariantUtil.withXRotationOf
+import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil.isIn
+import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil.withProperties
+import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.asBlockStateVariant
+import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.uvLock
+import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.withXRotationOf
 import com.github.mystery2099.woodenAccentsMod.util.WhenUtil
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block

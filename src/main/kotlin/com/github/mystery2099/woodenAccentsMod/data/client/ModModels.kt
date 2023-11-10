@@ -1,4 +1,4 @@
-package com.github.mystery2099.woodenAccentsMod.data
+package com.github.mystery2099.woodenAccentsMod.data.client
 
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.toIdentifier
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.withBlockModelPath

@@ -1,6 +1,6 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
-import com.github.mystery2099.woodenAccentsMod.util.BlockStateUtil.isOf
+import com.github.mystery2099.woodenAccentsMod.fluid.isOf
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.BlockWithEntity

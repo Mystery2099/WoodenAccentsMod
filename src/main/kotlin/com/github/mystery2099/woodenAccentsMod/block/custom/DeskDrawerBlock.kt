@@ -7,8 +7,8 @@ import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateRight
 import com.github.mystery2099.woodenAccentsMod.block.textureId
 import com.github.mystery2099.woodenAccentsMod.block.custom.enums.SidewaysConnectionShape
 import com.github.mystery2099.woodenAccentsMod.block.entity.custom.DeskDrawerBlockEntity
-import com.github.mystery2099.woodenAccentsMod.data.ModBlockTags
-import com.github.mystery2099.woodenAccentsMod.data.ModModels
+import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
+import com.github.mystery2099.woodenAccentsMod.data.client.ModModels
 import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeDataGen.Companion.customGroup
 import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeDataGen.Companion.requires
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomBlockStateProvider
@@ -18,10 +18,10 @@ import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.Custom
 import com.github.mystery2099.woodenAccentsMod.item.group.CustomItemGroup
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
 import com.github.mystery2099.woodenAccentsMod.state.property.ModProperties
-import com.github.mystery2099.woodenAccentsMod.util.BlockStateUtil.isIn
-import com.github.mystery2099.woodenAccentsMod.util.BlockStateUtil.withProperties
-import com.github.mystery2099.woodenAccentsMod.util.BlockStateVariantUtil.asBlockStateVariant
-import com.github.mystery2099.woodenAccentsMod.util.BlockStateVariantUtil.withYRotationOf
+import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil.isIn
+import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil.withProperties
+import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.asBlockStateVariant
+import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.withYRotationOf
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState

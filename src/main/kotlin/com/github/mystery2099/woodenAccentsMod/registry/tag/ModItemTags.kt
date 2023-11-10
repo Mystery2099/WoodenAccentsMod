@@ -1,4 +1,4 @@
-package com.github.mystery2099.woodenAccentsMod.data
+package com.github.mystery2099.woodenAccentsMod.registry.tag
 
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.toIdentifier

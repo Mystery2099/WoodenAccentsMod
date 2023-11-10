@@ -1,7 +1,7 @@
 package com.github.mystery2099.woodenAccentsMod.data.generation
 
 import com.github.mystery2099.woodenAccentsMod.block.ModBlocks
-import com.github.mystery2099.woodenAccentsMod.data.ModBlockTags
+import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomTagProvider
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
