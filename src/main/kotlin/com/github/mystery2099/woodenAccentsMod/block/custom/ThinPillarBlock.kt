@@ -2,8 +2,8 @@ package com.github.mystery2099.woodenAccentsMod.block.custom
 
 import com.github.mystery2099.voxlib.combination.VoxelAssembly
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.withBlockModelPath
-import com.github.mystery2099.woodenAccentsMod.block.ModBlocks.itemModelId
-import com.github.mystery2099.woodenAccentsMod.block.ModBlocks.woodType
+import com.github.mystery2099.woodenAccentsMod.block.itemModelId
+import com.github.mystery2099.woodenAccentsMod.block.woodType
 import com.github.mystery2099.woodenAccentsMod.data.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.data.ModModels
 import net.minecraft.block.Block

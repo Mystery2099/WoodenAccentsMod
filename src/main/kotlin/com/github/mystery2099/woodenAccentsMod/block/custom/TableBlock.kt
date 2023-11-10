@@ -7,9 +7,9 @@ import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateRight
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.withBlockModelPath
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.toIdentifier
-import com.github.mystery2099.woodenAccentsMod.block.ModBlocks.itemModelId
-import com.github.mystery2099.woodenAccentsMod.block.ModBlocks.textureId
-import com.github.mystery2099.woodenAccentsMod.block.ModBlocks.woodType
+import com.github.mystery2099.woodenAccentsMod.block.itemModelId
+import com.github.mystery2099.woodenAccentsMod.block.textureId
+import com.github.mystery2099.woodenAccentsMod.block.woodType
 import com.github.mystery2099.woodenAccentsMod.data.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.data.ModModels
 import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeDataGen.Companion.customGroup

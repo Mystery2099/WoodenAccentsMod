@@ -4,7 +4,7 @@ import com.github.mystery2099.voxlib.combination.VoxelAssembly
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateRight
-import com.github.mystery2099.woodenAccentsMod.block.ModBlocks.textureId
+import com.github.mystery2099.woodenAccentsMod.block.textureId
 import com.github.mystery2099.woodenAccentsMod.block.custom.enums.DeskShape
 import com.github.mystery2099.woodenAccentsMod.data.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.data.ModModels

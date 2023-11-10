@@ -1,8 +1,8 @@
 package com.github.mystery2099.woodenAccentsMod.data.generation
 
 import com.github.mystery2099.woodenAccentsMod.block.ModBlocks
-import com.github.mystery2099.woodenAccentsMod.block.ModBlocks.isPlank
-import com.github.mystery2099.woodenAccentsMod.block.ModBlocks.isStripped
+import com.github.mystery2099.woodenAccentsMod.block.isPlank
+import com.github.mystery2099.woodenAccentsMod.block.isStripped
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomRecipeProvider
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider

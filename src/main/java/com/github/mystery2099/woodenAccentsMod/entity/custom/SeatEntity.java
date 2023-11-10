@@ -57,22 +57,22 @@ public class SeatEntity extends Entity {
 
     @Override
     public Vec3d updatePassengerForDismount(LivingEntity passenger) {
-        Direction direction = this.getMovementDirection();
+        var direction = this.getMovementDirection();
         if (direction.getAxis() == Direction.Axis.Y) {
             return super.updatePassengerForDismount(passenger);
         }
         int[][] is = Dismounting.getDismountOffsets(direction);
-        BlockPos blockPos = this.getBlockPos();
-        BlockPos.Mutable mutable = new BlockPos.Mutable();
+        var blockPos = this.getBlockPos();
+        var mutable = new BlockPos.Mutable();
         ImmutableList<EntityPose> immutableList = passenger.getPoses();
         for (EntityPose entityPose : immutableList) {
             EntityDimensions entityDimensions = passenger.getDimensions(entityPose);
-            float f = Math.min(entityDimensions.width, 1.0f) / 2.0f;
-            for (int i : Objects.requireNonNull(DISMOUNT_FREE_Y_SPACES_NEEDED.get(entityPose))) {
+            var f = Math.min(entityDimensions.width, 1.0f) / 2.0f;
+            for (var i : Objects.requireNonNull(DISMOUNT_FREE_Y_SPACES_NEEDED.get(entityPose))) {
                 for (int[] js : is) {
                     Vec3d vec3d;
                     mutable.set(blockPos.getX() + js[0], blockPos.getY() + i, blockPos.getZ() + js[1]);
-                    double d = this.world.getDismountHeight(Dismounting.getCollisionShape(this.world, mutable), () -> Dismounting.getCollisionShape(this.world, mutable.down()));
+                    var d = this.world.getDismountHeight(Dismounting.getCollisionShape(this.world, mutable), () -> Dismounting.getCollisionShape(this.world, mutable.down()));
                     if (!Dismounting.canDismountInBlock(d) || !Dismounting.canPlaceEntityAt(this.world, passenger, new Box(-f, 0.0, -f, f, entityDimensions.height, f).offset(vec3d = Vec3d.ofCenter(mutable, d))))
                         continue;
                     passenger.setPose(entityPose);
@@ -80,7 +80,7 @@ public class SeatEntity extends Entity {
                 }
             }
         }
-        double e = this.getBoundingBox().maxY;
+        var e = this.getBoundingBox().maxY;
         mutable.set(blockPos.getX(), e, blockPos.getZ());
         for (EntityPose entityPose2 : immutableList) {
             double g = passenger.getDimensions(entityPose2).height;

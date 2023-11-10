@@ -13,6 +13,7 @@ import net.minecraft.block.WoodType
 import net.minecraft.data.client.ModelIds
 import net.minecraft.data.client.TextureMap
 import net.minecraft.item.Item
+import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.util.Identifier
@@ -667,34 +668,7 @@ object ModBlocks : WoodenAccentsModRegistry {
         CrateBlock(Blocks.WARPED_PLANKS, Blocks.STRIPPED_WARPED_STEM).registerAs("stripped_warped_crate", 4)
 
 
-    inline val Block.itemModelId: Identifier
-        get() = id.withPrefixedPath("item/")
-    inline val Block.id: Identifier
-        get() = Registries.BLOCK.getId(this)
-    inline val Block.modelId: Identifier
-        get() = ModelIds.getBlockModelId(this)
-    inline val Block.textureId: Identifier
-        get() = TextureMap.getId(this)
 
-    inline val Block.woodType: WoodType
-        get() {
-            lateinit var type: WoodType
-            WoodType.stream().forEach {
-                if (this.id.path.contains(it.name)) {
-                    type = it
-                    if (!it.name.contains("dark") && !this.id.path.contains("dark")) {
-                        return@forEach
-                    }
-                }
-            }
-            return type
-        }
-    inline val Block.isStripped: Boolean
-        get() = id.path.contains("stripped")
-    inline val Block.isPlank
-        get() = id.path.contains("plank")
-    inline val Block.item: Item
-        get() = this.asItem()
 
     private fun Block.registerAs(id: String, maxStackSize: Int = 64): Block {
         return registerAs(id.toIdentifier(), maxStackSize)
@@ -711,3 +685,33 @@ object ModBlocks : WoodenAccentsModRegistry {
         }
     }
 }
+inline val Block.itemModelId: Identifier
+    get() = id.withPrefixedPath("item/")
+inline val Block.id: Identifier
+    get() = Registries.BLOCK.getId(this)
+inline val Block.modelId: Identifier
+    get() = ModelIds.getBlockModelId(this)
+inline val Block.textureId: Identifier
+    get() = TextureMap.getId(this)
+
+inline val Block.woodType: WoodType
+    get() {
+        lateinit var type: WoodType
+        WoodType.stream().forEach {
+            if (this.id.path.contains(it.name)) {
+                type = it
+                if (!it.name.contains("dark") && !this.id.path.contains("dark")) {
+                    return@forEach
+                }
+            }
+        }
+        return type
+    }
+inline val Block.isStripped: Boolean
+    get() = id.path.contains("stripped")
+inline val Block.isPlank
+    get() = id.path.contains("plank")
+inline val Block.item: Item
+    get() = this.asItem()
+inline val Block.defaultItemStack: ItemStack
+    get() = this.asItem().defaultStack
