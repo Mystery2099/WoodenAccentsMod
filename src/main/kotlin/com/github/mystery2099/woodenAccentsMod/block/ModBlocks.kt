@@ -667,7 +667,33 @@ object ModBlocks : WoodenAccentsModRegistry {
     val strippedWarpedCrate =
         CrateBlock(Blocks.WARPED_PLANKS, Blocks.STRIPPED_WARPED_STEM).registerAs("stripped_warped_crate", 4)
 
+    //Thin Bookshelves
+    val oakPlankBookshelf = ThinBookshelfBlock(Blocks.OAK_PLANKS).registerAs("oak_plank_bookshelf")
+    val sprucePlankBookshelf = ThinBookshelfBlock(Blocks.SPRUCE_PLANKS).registerAs("spruce_plank_bookshelf")
+    val birchPlankBookshelf = ThinBookshelfBlock(Blocks.BIRCH_PLANKS).registerAs("birch_plank_bookshelf")
+    val junglePlankBookshelf = ThinBookshelfBlock(Blocks.JUNGLE_PLANKS).registerAs("jungle_plank_bookshelf")
+    val acaciaPlankBookshelf = ThinBookshelfBlock(Blocks.ACACIA_PLANKS).registerAs("acacia_plank_bookshelf")
+    val darkOakPlankBookshelf = ThinBookshelfBlock(Blocks.DARK_OAK_PLANKS).registerAs("dark_oak_plank_bookshelf")
+    val mangrovePlankBookshelf = ThinBookshelfBlock(Blocks.MANGROVE_PLANKS).registerAs("mangrove_plank_bookshelf")
+    val cherryPlankBookshelf = ThinBookshelfBlock(Blocks.CHERRY_PLANKS).registerAs("cherry_plank_bookshelf")
+    val bambooPlankBookshelf = ThinBookshelfBlock(Blocks.BAMBOO_PLANKS).registerAs("bamboo_plank_bookshelf")
+    val bambooMosaicBookshelf = ThinBookshelfBlock(Blocks.BAMBOO_MOSAIC).registerAs("bamboo_mosaic_bookshelf")
+    val crimsonPlankBookshelf = ThinBookshelfBlock(Blocks.CRIMSON_PLANKS).registerAs("crimson_plank_bookshelf")
+    val warpedPlankBookshelf = ThinBookshelfBlock(Blocks.WARPED_PLANKS).registerAs("warped_plank_bookshelf")
 
+    //Plank Carpets
+    val oakPlankCarpet = CustomCarpetBlock(Blocks.OAK_PLANKS).registerAs("oak_plank_carpet")
+    val sprucePlankCarpet = CustomCarpetBlock(Blocks.SPRUCE_PLANKS).registerAs("spruce_plank_carpet")
+    val birchPlankCarpet = CustomCarpetBlock(Blocks.BIRCH_PLANKS).registerAs("birch_plank_carpet")
+    val junglePlankCarpet = CustomCarpetBlock(Blocks.JUNGLE_PLANKS).registerAs("jungle_plank_carpet")
+    val acaciaPlankCarpet = CustomCarpetBlock(Blocks.ACACIA_PLANKS).registerAs("acacia_plank_carpet")
+    val darkOakPlankCarpet = CustomCarpetBlock(Blocks.DARK_OAK_PLANKS).registerAs("dark_oak_plank_carpet")
+    val mangrovePlankCarpet = CustomCarpetBlock(Blocks.MANGROVE_PLANKS).registerAs("mangrove_plank_carpet")
+    val cherryPlankCarpet = CustomCarpetBlock(Blocks.CHERRY_PLANKS).registerAs("cherry_plank_carpet")
+    val bambooPlankCarpet = CustomCarpetBlock(Blocks.BAMBOO_PLANKS).registerAs("bamboo_plank_carpet")
+    val bambooMosaicCarpet = CustomCarpetBlock(Blocks.BAMBOO_MOSAIC).registerAs("bamboo_mosaic_carpet")
+    val crimsonPlankCarpet = CustomCarpetBlock(Blocks.CRIMSON_PLANKS).registerAs("crimson_plank_carpet")
+    val warpedPlankCarpet = CustomCarpetBlock(Blocks.WARPED_PLANKS).registerAs("warped_plank_carpet")
 
 
     private fun Block.registerAs(id: String, maxStackSize: Int = 64): Block {
@@ -685,6 +711,7 @@ object ModBlocks : WoodenAccentsModRegistry {
         }
     }
 }
+
 inline val Block.itemModelId: Identifier
     get() = id.withPrefixedPath("item/")
 inline val Block.id: Identifier
