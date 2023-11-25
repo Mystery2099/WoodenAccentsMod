@@ -46,10 +46,10 @@
   "environment": "*",
   "icon": "assets/wooden_accents_mod/icon.png",
   "id": "wooden_accents_mod",
-  "license": "CC0-1.0",
+  "license": "MMPL-1.0.1",
   "name": "Wooden Accents Mod",
   "suggests": {
-    "shulker-box-tooltip": "3.4.0+1.19.4"
+    "shulker-box-tooltip": "3.4.2+1.19.4"
   },
   "version": "${version}"
 }
