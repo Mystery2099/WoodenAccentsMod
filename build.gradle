@@ -21,14 +21,24 @@ repositories {
 	// for more information about repositories.
 	maven { url "https://maven.misterpemodder.com/libs-release/" }
 	maven { url "https://maven.shedaniel.me/" }
-	maven { url 'https://jitpack.io' }
+	//maven { url 'https://jitpack.io' }
+	maven {
+		name = "GitHubPackages"
+		url = "https://maven.pkg.github.com/Mystery2099/VoxLib"
+		def actor = "Mystery2099"
+		def token = System.getenv().GITHUB_TOKEN
+		credentials {
+			username = actor
+			password = token
+		}
+	}
 }
 
 loom {
     splitEnvironmentSourceSets()
 
 	mods {
-		"myst2099_wooden_accents_mod" {
+		"wooden_accents_mod" {
 			sourceSet sourceSets.main
 			sourceSet sourceSets.client
 		}
@@ -74,7 +84,8 @@ dependencies {
 	modImplementation("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
-	modImplementation("com.github.Mystery2099:VoxLib:${project.voxlib_version}")
+	//modImplementation("com.github.Mystery2099:VoxLib:${project.voxlib_version}")
+	modImplementation("com.github.mystery2099:voxlib:${voxlib_version}")
 }
 
 processResources {

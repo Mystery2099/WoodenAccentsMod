@@ -5,7 +5,7 @@ import com.github.mystery2099.voxlib.combination.VoxelAssembly.and
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateRight
-import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
+import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil.withProperties
 import com.github.mystery2099.woodenAccentsMod.data.client.ModModels
 import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeDataGen.Companion.customGroup
 import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeDataGen.Companion.requires
@@ -17,7 +17,7 @@ import com.github.mystery2099.woodenAccentsMod.entity.ModEntities
 import com.github.mystery2099.woodenAccentsMod.entity.custom.SeatEntity
 import com.github.mystery2099.woodenAccentsMod.item.group.CustomItemGroup
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
-import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil.withProperties
+import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.*
 import net.minecraft.data.client.BlockStateModelGenerator
@@ -161,11 +161,12 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
         )
     }
 
+
     @Deprecated("Deprecated in Java", ReplaceWith(
-        "if (state[waterlogged]) Fluids.WATER.getStill(false) else super.getFluidState(state)",
-        "com.mystery2099.wooden_accents_mod.block.custom.ChairBlock.Companion.waterlogged",
+        "if (state[waterlogged]) Fluids.WATER.getStill(false) else Fluids.EMPTY.defaultState",
+        "com.github.mystery2099.woodenAccentsMod.block.custom.ChairBlock.Companion.waterlogged",
         "net.minecraft.fluid.Fluids",
-        "net.minecraft.block.HorizontalFacingBlock"
+        "net.minecraft.fluid.Fluids"
     )
     )
     override fun getFluidState(state: BlockState): FluidState {
