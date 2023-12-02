@@ -29,11 +29,9 @@ repositories {
 		if (gitCredFile.exists()) {
 			gitCreds.load(new FileInputStream(gitCredFile))
 		}
-		println("Username is: " + System.getenv("USERNAME"))
-		println("Token is: " + System.getenv("TOKEN"))
 		credentials {
-			username = System.getenv("USERNAME") ?: gitCreds.username
-			password = System.getenv("TOKEN") ?: gitCreds.token
+			username = gitCreds.username ?: System.getenv("USERNAME")
+			password = gitCreds.token ?: System.getenv("TOKEN")
 		}
 	}
 }
@@ -104,9 +102,7 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 tasks.withType(KotlinCompile).configureEach {
-	it.kotlinOptions {
-		jvmTarget = 17
-	}
+	it.kotlinOptions.jvmTarget = 17
 }
 
 java {
