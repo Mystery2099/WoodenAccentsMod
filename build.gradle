@@ -21,15 +21,17 @@ repositories {
 	// for more information about repositories.
 	maven { url "https://maven.misterpemodder.com/libs-release/" }
 	maven { url "https://maven.shedaniel.me/" }
-	//maven { url 'https://jitpack.io' }
 	maven {
 		name = "GitHubPackages"
 		url = "https://maven.pkg.github.com/Mystery2099/VoxLib"
-		def actor = "Mystery2099"
-		def token = System.getenv().GITHUB_TOKEN
+		def gitCreds = new Properties()
+		def gitCredFile = new File("./gitlogin.properties")
+		if (gitCredFile.exists()) {
+			gitCreds.load(new FileInputStream(gitCredFile))
+		}
 		credentials {
-			username = actor
-			password = token
+			username = System.getenv("USERNAME") ?: gitCreds.username
+			password = System.getenv("GITHUB_TOKEN") ?: gitCreds.token
 		}
 	}
 }
@@ -51,7 +53,7 @@ loom {
 			vmArg "-Dfabric-api.datagen"
 			vmArg "-Dfabric-api.datagen.output-dir=${file("src/main/generated")}"
 			vmArg "-Dfabric-api.datagen.modid=$archives_base_name"
- 
+
 			runDir "build/datagen"
 		}
 	}
@@ -84,8 +86,7 @@ dependencies {
 	modImplementation("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
-	//modImplementation("com.github.Mystery2099:VoxLib:${project.voxlib_version}")
-	modImplementation("com.github.mystery2099:voxlib:${voxlib_version}")
+	modImplementation("com.github.mystery2099:voxlib:${project.voxlib_version}")
 }
 
 processResources {
@@ -118,7 +119,7 @@ java {
 
 jar {
 	from("LICENSE") {
-		rename { "${it}_${project.archives_base_name}"}
+		rename { "${it}_${archives_base_name}"}
 	}
 }
 
