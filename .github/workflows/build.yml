@@ -27,9 +27,10 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           distribution: 'microsoft'
-        env:
-          USERNAME: ${{ secrets.MY_USERNAME }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: set environment variables
+        run: |
+          echo "USERNAME=${{ secrets.MY_USERNAME }}" >> $GITHUB_ENV
+          echo "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
       - name: make gradle wrapper executable
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
