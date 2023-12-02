@@ -29,9 +29,11 @@ repositories {
 		if (gitCredFile.exists()) {
 			gitCreds.load(new FileInputStream(gitCredFile))
 		}
+		println("Username is: " + System.getenv("USERNAME"))
+		println("Token is: " + System.getenv("TOKEN"))
 		credentials {
 			username = System.getenv("USERNAME") ?: gitCreds.username
-			password = System.getenv("GITHUB_TOKEN") ?: gitCreds.token
+			password = System.getenv("TOKEN") ?: gitCreds.token
 		}
 	}
 }
