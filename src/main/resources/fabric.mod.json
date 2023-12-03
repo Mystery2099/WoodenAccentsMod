@@ -4,7 +4,7 @@
     "Mystery2099"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
+    "homepage": "https://modrinth.com/mod/wooden-accents-mod",
     "sources": "https://github.com/Mystery2099/WoodenAccentsMod",
     "issues": "https://github.com/Mystery2099/WoodenAccentsMod/issues"
   },
@@ -13,8 +13,8 @@
     "minecraft": "~1.19.4",
     "java": ">=17",
     "fabric-api": "*",
-    "fabric-language-kotlin": ">=1.8.22",
-    "voxlib": "1.0.0"
+    "fabric-language-kotlin": ">=1.10.14+kotlin.1.9.20",
+    "voxlib": ">=1.0.0+1.19.4"
   },
   "description": "Add some charm and warmth to your world or builds with the Wooden Accents Mod! This mod adds beautiful wooden furniture, walls, pillars, crates, and more, for all the different wood types. Wooden Accents Mod is the perfect mod for anyone who loves building and decorating with wood!",
   "entrypoints": {
@@ -49,7 +49,8 @@
   "license": "MMPL-1.0.1",
   "name": "Wooden Accents Mod",
   "suggests": {
-    "shulker-box-tooltip": "3.4.2+1.19.4"
+    "shulker-box-tooltip": "3.4.2+1.19.4",
+    "roughlyenoughitems": "11.*.*"
   },
   "version": "${version}"
 }
