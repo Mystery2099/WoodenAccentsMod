@@ -16,6 +16,7 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
 import net.minecraft.text.Text
 import net.minecraft.util.collection.DefaultedList
@@ -38,46 +39,45 @@ class CrateBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private var viewerCount = 0
     override fun size(): Int = inventory.size
 
+
+    private fun playSoundAtPos(soundEvent: SoundEvent) {
+        world?.let {world ->
+            world.playSound(
+                null,
+                pos,
+                soundEvent,
+                SoundCategory.BLOCKS,
+                0.5f,
+                world.random.nextFloat() * 0.1f + 0.9f
+            )
+        }
+    }
+
+    private fun emitGameEventAtPos(player: PlayerEntity, viewerCount: Int, gameEvent: GameEvent) {
+        world?.let { world ->
+            world.addSyncedBlockEvent(pos, cachedState.block, 1, viewerCount)
+            if (viewerCount == 1) {
+                world.emitGameEvent(player as Entity, gameEvent, pos)
+            }
+        }
+    }
+
     override fun onOpen(player: PlayerEntity) {
         if (!removed && !player.isSpectator) {
             if (viewerCount < 0) {
                 viewerCount = 0
             }
             ++viewerCount
-            world?.let { world ->
-                world.addSyncedBlockEvent(pos, cachedState.block, 1, viewerCount)
-                if (viewerCount == 1) {
-                    world.emitGameEvent(player as Entity, GameEvent.CONTAINER_OPEN, pos)
-                    world.playSound(
-                        null,
-                        pos,
-                        SoundEvents.BLOCK_BARREL_OPEN,
-                        SoundCategory.BLOCKS,
-                        0.5f,
-                        world.random.nextFloat() * 0.1f + 0.9f
-                    )
-                }
-            }
+            emitGameEventAtPos(player, viewerCount, GameEvent.CONTAINER_OPEN)
+            playSoundAtPos(SoundEvents.BLOCK_BARREL_OPEN)
         }
     }
 
     override fun onClose(player: PlayerEntity) {
         if (!removed && !player.isSpectator) {
             --viewerCount
-            world?.let { world ->
-                world.addSyncedBlockEvent(pos, cachedState.block, 1, viewerCount)
-                if (viewerCount <= 0) {
-                    world.emitGameEvent(player as Entity, GameEvent.CONTAINER_CLOSE, pos)
-                    world.playSound(
-                        null,
-                        pos,
-                        SoundEvents.BLOCK_BARREL_CLOSE,
-                        SoundCategory.BLOCKS,
-                        0.5f,
-                        world.random.nextFloat() * 0.1f + 0.9f
-                    )
-                }
-            }
+            emitGameEventAtPos(player, viewerCount, GameEvent.CONTAINER_OPEN)
+            playSoundAtPos(SoundEvents.BLOCK_BARREL_CLOSE)
         }
     }
 
