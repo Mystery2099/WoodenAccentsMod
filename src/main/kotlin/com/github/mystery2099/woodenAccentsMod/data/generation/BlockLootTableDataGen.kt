@@ -18,12 +18,12 @@ import net.minecraft.predicate.StatePredicate
 import net.minecraft.state.property.Property
 import net.minecraft.util.StringIdentifiable
 
+
 /**
- * Block loot table data gen
+ * The `BlockLootTableDataGen` class is responsible for generating custom loot tables for blocks during data generation.
+ * It extends the `FabricBlockLootTableProvider` class, which provides the basic functionality for generating loot tables.
  *
- * @constructor
- *
- * @param dataOutput
+ * @param dataOutput The data output to which the generated loot tables will be written.
  */
 class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTableProvider(dataOutput) {
     override fun generate() {
@@ -35,6 +35,16 @@ class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTable
         }
     }
 
+    /**
+     * Adds a loot pool to the loot table of a block that drops the block twice if a specific property has a specific value.
+     *
+     * @param drop The block to add the loot pool to.
+     * @param property The property to compare with.
+     * @param value The value of the property to match.
+     * @param T The type of the property.
+     *
+     * @throws IllegalArgumentException if T is not Comparable and StringIdentifiable.
+     */
     private fun <T> addDropsDoubleWithProperty(
         drop: Block,
         property: Property<T>,

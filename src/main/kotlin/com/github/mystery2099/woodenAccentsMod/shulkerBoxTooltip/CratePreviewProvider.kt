@@ -7,10 +7,11 @@ import net.minecraft.text.Style
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 
+
 /**
- * Crate preview provider
+ * A class that provides block entity preview for crates.
  *
- * @constructor Create empty Crate preview provider
+ * @constructor Creates a CratePreviewProvider instance.
  */
 class CratePreviewProvider : BlockEntityPreviewProvider(9, true, 3) {
     override fun showTooltipHints(context: PreviewContext): Boolean = true

@@ -18,6 +18,82 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.util.Identifier
 
+/**
+ * The `ModBlocks` class is a registry for all the block objects in the Wooden Accents mod.
+ * It implements the `WoodenAccentsModRegistry` interface.
+ *
+ * Available Blocks:
+ * - Seating:
+ *   - oakPlankChair
+ *   - sprucePlankChair
+ *   - birchPlankChair
+ *   - junglePlankChair
+ *   - acaciaPlankChair
+ *   - darkOakPlankChair
+ *   - mangrovePlankChair
+ *   - cherryPlankChair
+ *   - bambooPlankChair
+ *   - bambooMosaicChair
+ *   - crimsonPlankChair
+ *   - warpedPlankChair
+ *
+ * - Tables:
+ *   - Plank Tables:
+ *     - oakPlankTable
+ *     - sprucePlankTable
+ *     - birchPlankTable
+ *     - junglePlankTable
+ *     - acaciaPlankTable
+ *     - darkOakPlankTable
+ *     - mangrovePlankTable
+ *     - cherryPlankTable
+ *     - bambooPlankTable
+ *     - bambooMosaicTable
+ *     - crimsonPlankTable
+ *     - warpedPlankTable
+ *
+ *   - Wood Tables:
+ *     - oakTable
+ *     - spruceTable
+ *     - birchTable
+ *     - jungleTable
+ *     - acaciaTable
+ *     - darkOakTable
+ *     - mangroveTable
+ *     - cherryTable
+ *     - bambooTable
+ *     - crimsonTable
+ *     - warpedTable
+ *
+ *   - Stripped Tables:
+ *     - strippedOakTable
+ *     - strippedSpruceTable
+ *     - strippedBirchTable
+ *     - strippedJungleTable
+ *     - strippedAcaciaTable
+ *     - strippedDarkOakTable
+ *     - strippedMangroveTable
+ *     - strippedCherryTable
+ *     - strippedBambooTable
+ *     - strippedCrimsonTable
+ *     - strippedWarpedTable
+ *
+ *   - Plank Coffee Tables:
+ *     - oakPlankCoffeeTable
+ *     - sprucePlankCoffeeTable
+ *     - birchPlankCoffeeTable
+ *     - junglePlankCoffeeTable
+ *     - acaciaPlankCoffeeTable
+ *     - darkOakPlankCoffeeTable
+ *     - mangrovePlankCoffeeTable
+ *     - cherryPlankCoffeeTable
+ *     - bambooPlankCoffeeTable
+ *     - bambooMosaicCoffeeTable
+ *     - crimsonPlankCoffeeTable
+ *     - warpedPlankCoffeeTable
+ *
+ * @suppress Unused
+ */
 @Suppress("unused")
 object ModBlocks : WoodenAccentsModRegistry {
     private val registries = mutableSetOf<Block>()
@@ -696,10 +772,24 @@ object ModBlocks : WoodenAccentsModRegistry {
     val warpedPlankCarpet = CustomCarpetBlock(Blocks.WARPED_PLANKS).registerAs("warped_plank_carpet")
 
 
+    /**
+     * Registers a block with an identifier and optional maximum stack size.
+     *
+     * @param id The identifier to register the block with.
+     * @param maxStackSize The maximum stack size for the block item. Default value is 64.
+     * @return The registered block.
+     */
     private fun Block.registerAs(id: String, maxStackSize: Int = 64): Block {
         return registerAs(id.toIdentifier(), maxStackSize)
     }
 
+    /**
+     * Registers a block with an identifier and optional maximum stack size.
+     *
+     * @param identifier The identifier to register the block with.
+     * @param maxStackSize The maximum stack size for the block item. Default value is 64.
+     * @return The registered block.
+     */
     private fun Block.registerAs(identifier: Identifier, maxStackSize: Int = 64): Block {
         return Registry.register(Registries.BLOCK, identifier, this).also {
             registries += it
@@ -712,15 +802,43 @@ object ModBlocks : WoodenAccentsModRegistry {
     }
 }
 
+/**
+ * Represents the item model ID of a block's item variant.
+ *
+ * @property itemModelId The identifier for the item model.
+ */
 inline val Block.itemModelId: Identifier
     get() = id.withPrefixedPath("item/")
+/**
+ * Gets the identifier of the block.
+ *
+ * @receiver The block.
+ * @return The identifier of the block.
+ */
 inline val Block.id: Identifier
     get() = Registries.BLOCK.getId(this)
+/**
+ * The `modelId` property represents the unique identifier of a block model.
+ *
+ * @receiver Block A block instance.
+ * @return Identifier The unique identifier of the block model.
+ */
 inline val Block.modelId: Identifier
     get() = ModelIds.getBlockModelId(this)
+/**
+ * Returns the texture identifier associated with this Block.
+ *
+ * @return The texture identifier.
+ */
 inline val Block.textureId: Identifier
     get() = TextureMap.getId(this)
 
+/**
+ * Represents the type of wood for a block.
+ *
+ * This property is an inline property extension for the `Block` class.
+ * It retrieves the wood type based on the block's ID path.
+ */
 inline val Block.woodType: WoodType
     get() {
         lateinit var type: WoodType
@@ -734,11 +852,38 @@ inline val Block.woodType: WoodType
         }
         return type
     }
+/**
+ * Determines whether the block is stripped.
+ *
+ * This property returns true if the path of the block's ID contains the string "stripped", indicating that
+ * the block has been stripped.
+ *
+ * @return true if the block is stripped, false otherwise.
+ */
 inline val Block.isStripped: Boolean
     get() = id.path.contains("stripped")
+/**
+ * This property is used to check whether a block is a plank.
+ *
+ * @return `true` if the block is a plank, `false` otherwise.
+ */
 inline val Block.isPlank
     get() = id.path.contains("plank")
+/**
+ * A read-only inline property that returns the item associated with a block.
+ *
+ * @return The item associated with the block.
+ */
 inline val Block.item: Item
     get() = this.asItem()
+/**
+ * Inline property that returns the default [ItemStack] for a [Block].
+ *
+ * This property is an extension property for the [Block] class. It retrieves the default [ItemStack] by calling the [item] function on the [Block] and accessing its [Item.getDefaultStack]
+ * function.
+ *
+ * @receiver The [Block] instance.
+ * @return The default [ItemStack] associated with the [Block].
+ */
 inline val Block.defaultItemStack: ItemStack
-    get() = this.asItem().defaultStack
+    get() = this.item.defaultStack

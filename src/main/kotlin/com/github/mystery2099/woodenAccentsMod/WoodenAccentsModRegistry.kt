@@ -1,7 +1,9 @@
 package com.github.mystery2099.woodenAccentsMod
 
+
 /**
- * Interface for registering components within the Wooden Accents Mod.
+ * This interface defines a registry for the Wooden Accents Mod.
+ * It provides a method to register a component for the mod.
  */
 interface WoodenAccentsModRegistry {
     /**

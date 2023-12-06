@@ -1,8 +1,8 @@
 package com.github.mystery2099.woodenAccentsMod.data.generation
 
 import com.github.mystery2099.woodenAccentsMod.block.ModBlocks
-import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomTagProvider
+import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
 import net.minecraft.block.Block
@@ -12,21 +12,25 @@ import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.TagKey
 import java.util.concurrent.CompletableFuture
 
+
 /**
- * Block Tag Data Generation
+ * The `BlockTagDataGen` class is responsible for generating block tags during data generation.
  *
- * This class is responsible for generating block tags for the Wooden Accents Mod.
- *
- * @param output The data output for block tags.
- * @param registriesFuture A [CompletableFuture] for registry lookup.
+ * @param output The [FabricDataOutput] to write the generated data to.
+ * @param registriesFuture The [CompletableFuture] representing the lookup of the wrapper registries.
+ * @see FabricTagProvider.BlockTagProvider
  */
 class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>) :
     FabricTagProvider.BlockTagProvider(output, registriesFuture) {
-
     /**
-     * Gets or creates the [FabricTagProvider.FabricTagBuilder] for the associated [TagKey]<[Block]>.
+     * The `tagBuilder` property is a private extension property of type `FabricTagBuilder`.
+     * It is accessed through a getter function that returns the result of calling the `getOrCreateTagBuilder` function with the current `TagKey<Block>` instance.
+     *
+     * @return The `FabricTagBuilder` instance associated with the current `TagKey<Block>`.
      *
      * @see getOrCreateTagBuilder
+     * @see TagKey
+     * @see FabricTagProvider.FabricTagBuilder
      */
     private val TagKey<Block>.tagBuilder: FabricTagBuilder
         get() = getOrCreateTagBuilder(this)
@@ -37,6 +41,7 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
         ModBlocks.blocks.filterIsInstance<CustomTagProvider<Block>>().forEach {
             it.tag += it as Block
         }
+
 
         // Define relationships between custom block tags
         ModBlockTags.pillars.addTags(ModBlockTags.thinPillars, ModBlockTags.thickPillars)
@@ -70,23 +75,19 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
      * Adds the provided [tag] to the current [TagKey]<[Block]> tag builder.
      *
      * @param tag The tag to add.
-     * @return The updated tag builder.
-     * @see TagKey.plusAssign
-     * @see TagKey.forceAdd
+     * @return The updated [FabricTagProvider.FabricTagBuilder].
      */
     private fun TagKey<Block>.add(tag: TagKey<Block>): FabricTagBuilder = tagBuilder.addTag(tag)
-
     /**
      * Adds the provided [block] to the current [TagKey]<[Block]> tag builder.
      *
      * @param block The [Block] to add.
      * @return The updated [FabricTagProvider.FabricTagBuilder].
-     * @see TagKey.plusAssign
      */
     private fun TagKey<Block>.add(block: Block): FabricTagBuilder = tagBuilder.add(block)
 
     /**
-     * Forces the addition of the provided [tag] to the current [TagKey]<[Block]> tag builder.
+     * Forcefully adds the provided [tag] to the current [TagKey]<[Block]> tag builder.
      *
      * @param tag The tag to add.
      * @return The updated [FabricTagProvider.FabricTagBuilder].
@@ -95,10 +96,9 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
 
     /**
      * Adds the provided [tag] to the current [TagKey]<[Block]> tag builder.
+     * This method is an operator function for the `+=` operator.
      *
      * @param tag The tag to add.
-     * @see TagKey.add
-     * @see TagKey.forceAdd
      */
     private operator fun TagKey<Block>.plusAssign(tag: TagKey<Block>) {
         add(tag)
@@ -108,24 +108,12 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
      * Adds the provided [block] to the current [TagKey]<[Block]> tag builder.
      *
      * @param block The [Block] to add.
-     * @see TagKey.add
      */
     private operator fun TagKey<Block>.plusAssign(block: Block) {
         add(block)
     }
 
-    /**
-     * Adds the provided tags to the current TagKey<Block> tag builder.
-     *
-     * @param tags The array of tags to add.
-     * @return The updated tag builder.
-     */
     private fun TagKey<Block>.addTags(vararg tags: TagKey<Block>) = tagBuilder.also { tags.forEach(it::addTag) }
 
-    /**
-     * Adds the provided block to the current TagKey tag builder.
-     * @param blocks the [Array] of [Block]s to add
-     * @return The updated [FabricTagProvider.FabricTagBuilder].
-     * */
     private fun TagKey<Block>.addBlocks(vararg blocks: Block) = tagBuilder.also { blocks.forEach(it::add) }
 }

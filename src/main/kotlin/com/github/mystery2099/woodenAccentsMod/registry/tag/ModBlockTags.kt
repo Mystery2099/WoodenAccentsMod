@@ -8,16 +8,26 @@ import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
 
+
 /**
- * [ModBlockTags] defines custom block tags for blocks used in the Wooden Accents Mod.
+ * ModBlockTags is a class that represents a collection of custom block tags.
+ *
+ * This class provides methods for creating block tags, creating matching item tags, checking if a block state
+ * is in a block tag, and getting the matching item tag for a block tag.
  */
 object ModBlockTags {
 
-    // A map to associate block tags with their matching item tags
+    /**
+     * A map to associate block tags with their matching item tags.
+     * It is used to store the mapping between block tags and their corresponding item tags.
+     *
+     * @property _blockToItemTagMap A mutable map that stores the mapping between block tags and item tags.
+     */
     private val _blockToItemTagMap: MutableMap<TagKey<Block>, TagKey<Item>> = HashMap()
 
+
     /**
-     * Get the map of block tags to their matching item tags.
+     * Map that associates block tags with corresponding item tags.
      */
     val blockToItemTagMap: Map<TagKey<Block>, TagKey<Item>>
         get() = _blockToItemTagMap
@@ -69,38 +79,41 @@ object ModBlockTags {
     /*---------------Storage Tags----------------*/
     /*---------------End Storage Tags----------------*/
 
+
     /**
-     * Creates a block tag using the current [String] and allows specifying a namespace.
+     * Converts the given string to a block tag key.
      *
-     * @param namespace The namespace for the block tag.
-     * @return The created TagKey for blocks.
+     * @param namespace the namespace of the block tag key (default is the MOD_ID)
+     * @return the block tag key
      */
     private fun String.toBlockTag(namespace: String = WoodenAccentsMod.MOD_ID): TagKey<Block> {
         return TagKey.of(RegistryKeys.BLOCK, Identifier(namespace, this))
     }
 
     /**
-     * Creates a matching item tag for the current block tag.
+     * Creates a matching item tag based on this block tag key.
      *
-     * @return The matching item tag.
+     * @return The modified block tag key.
      */
     private fun TagKey<Block>.createMatchingItemTag() = also {
         _blockToItemTagMap[this] = TagKey.of(RegistryKeys.ITEM, this.id)
     }
 
+
     /**
-     * Checks if the current [BlockState] is in the specified block tag.
+     * Checks if the given [BlockState] is contained within the tag specified by [TagKey].
+     * Returns true if the block is in the tag or if the blockState is null.
      *
-     * @param blockState The [BlockState] to check for.
-     * @return True if the [BlockState] is in the specified block tag; otherwise, false.
+     * @param blockState The block state to check if it is contained within the tag.
+     * @return True if the block is in the tag or if the blockState is null, false otherwise.
      */
     operator fun TagKey<Block>?.contains(blockState: BlockState?) = blockState?.isIn(this) ?: false
 
     /**
-     * Gets the matching item tag for a block tag.
+     * Retrieves the item tag associated with the given block tag.
      *
-     * @param blockTag The block tag to get the matching item tag for.
-     * @return The matching item tag.
+     * @param blockTag The block tag key for which to retrieve the item tag.
+     * @return The item tag key associated with the given block tag.
      */
     fun getItemTagFrom(blockTag: TagKey<Block>): TagKey<Item> {
         return blockToItemTagMap[blockTag] ?: TagKey.of(RegistryKeys.ITEM, blockTag.id)

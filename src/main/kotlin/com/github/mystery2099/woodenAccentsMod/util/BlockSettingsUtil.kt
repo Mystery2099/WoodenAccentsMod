@@ -8,7 +8,7 @@ import net.minecraft.resource.featuretoggle.FeatureFlags
 import net.minecraft.sound.BlockSoundGroup
 
 /**
- * [BlockSettingsUtil] is a utility object for creating and managing [AbstractBlock.Settings] for various types of blocks.
+ * This object provides various pre-configured block settings for different types of blocks.
  */
 object BlockSettingsUtil {
     //Wood Blocks
@@ -55,25 +55,28 @@ object BlockSettingsUtil {
 
 
     /**
-     * Creates a copy of the current [FabricBlockSettings] with a specified [MapColor].
+     * Creates a new instance of [FabricBlockSettings] with the specified [mapColor].
      *
-     * @param mapColor The `MapColor` to associate with the copied settings.
-     * @return The copied [FabricBlockSettings] with the specified [MapColor].
+     * @param mapColor The [MapColor] to set for the block.
+     * @return A new instance of [FabricBlockSettings] with the specified [mapColor].
      */
     fun FabricBlockSettings.copyWithColor(mapColor: MapColor): FabricBlockSettings = this.copy().mapColor(mapColor)
 
 
+
     /**
-     * Creates a copy of the [AbstractBlock.Settings] object.
+     * Creates a deep copy of the current [AbstractBlock.Settings] object.
      *
-     * @return The copied [AbstractBlock.Settings].
+     * @return A new [AbstractBlock.Settings] object that is a copy of the original.
      */
     fun AbstractBlock.Settings.copy(): AbstractBlock.Settings = FabricBlockSettings.copyOf(this)
 
+
     /**
-     * Creates a copy of the current [FabricBlockSettings].
+     * Creates a new instance of [FabricBlockSettings] that is a copy of the current instance.
+     * This method is used to clone a [FabricBlockSettings] object.
      *
-     * @return The copied [FabricBlockSettings].
+     * @return A new instance of [FabricBlockSettings] that is a copy of the current instance.
      */
     fun FabricBlockSettings.copy(): FabricBlockSettings = FabricBlockSettings.copyOf(this)
 

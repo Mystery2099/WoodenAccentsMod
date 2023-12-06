@@ -10,15 +10,13 @@ import net.minecraft.screen.ScreenHandler
 import net.minecraft.screen.ScreenHandlerType
 import net.minecraft.screen.slot.Slot
 
-
 /**
- * Crate screen handler
+ * This class represents a screen handler for a crate.
+ * It handles the interaction between the player and the crate inventory.
  *
- * @property inventory
- * @constructor
- *
- * @param syncId
- * @param playerInventory
+ * @param syncId The synchronization ID for the screen handler.
+ * @param playerInventory The player's inventory.
+ * @param inventory The inventory of the crate.
  */
 class CrateScreenHandler @JvmOverloads constructor(
     syncId: Int,
