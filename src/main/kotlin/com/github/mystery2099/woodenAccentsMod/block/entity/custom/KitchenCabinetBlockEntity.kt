@@ -21,18 +21,22 @@ import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
+
 /**
- * Kitchen cabinet block entity
+ * KitchenCabinetBlockEntity represents a block entity for a kitchen cabinet block.
  *
- * @constructor
- *
- * @param pos
- * @param state
+ * @property inventory The inventory of the cabinet block.
+ * @property stateManager The manager responsible for tracking container open/close events and viewer counts.
+ * @constructor Creates a new instance of KitchenCabinetBlockEntity.
+ * @param pos The position of the block entity.
+ * @param state The block state of the block entity.
  */
 class KitchenCabinetBlockEntity(pos: BlockPos, state: BlockState) :
     LootableContainerBlockEntity(ModBlockEntities.kitchenCabinet, pos, state) {
-    private var inventory: DefaultedList<ItemStack> = DefaultedList.ofSize(27, ItemStack.EMPTY)
-    private val stateManager: ViewerCountManager = object : ViewerCountManager() {
+
+        private var inventory: DefaultedList<ItemStack> = DefaultedList.ofSize(27, ItemStack.EMPTY)
+
+        private val stateManager: ViewerCountManager = object : ViewerCountManager() {
         override fun onContainerOpen(world: World, pos: BlockPos, state: BlockState) {
             playSound(state, SoundEvents.BLOCK_BARREL_OPEN)
             setOpen(state, true)
@@ -102,10 +106,7 @@ class KitchenCabinetBlockEntity(pos: BlockPos, state: BlockState) :
         }
     }
 
-    /**
-     * Tick
-     *
-     */
+
     fun tick() {
         if (!this.removed) {
             this.stateManager.updateViewerCount(this.getWorld(), this.getPos(), this.cachedState)
@@ -129,10 +130,7 @@ class KitchenCabinetBlockEntity(pos: BlockPos, state: BlockState) :
      * @param soundEvent
      */
     fun playSound(state: BlockState, soundEvent: SoundEvent?) {
-        val vec3i = state.get(KitchenCabinetBlock.facing).vector
-        val d = this.pos.x.toDouble() + 0.5 + vec3i.x.toDouble() / 2.0
-        val e = this.pos.y.toDouble() + 0.5 + vec3i.y.toDouble() / 2.0
-        val f = this.pos.z.toDouble() + 0.5 + vec3i.z.toDouble() / 2.0
+        val (d, e, f) = getSoundLocation(state)
         with(world!!) {
             playSound(
                 null, d, e, f, soundEvent,
@@ -140,6 +138,14 @@ class KitchenCabinetBlockEntity(pos: BlockPos, state: BlockState) :
                 random.nextFloat() * 0.1f + 0.9f
             )
         }
+    }
+
+    private fun getSoundLocation(state: BlockState): Triple<Double, Double, Double> {
+        val vec3i = state.get(KitchenCabinetBlock.facing).vector
+        val d = this.pos.x.toDouble() + 0.5 + vec3i.x.toDouble() / 2.0
+        val e = this.pos.y.toDouble() + 0.5 + vec3i.y.toDouble() / 2.0
+        val f = this.pos.z.toDouble() + 0.5 + vec3i.z.toDouble() / 2.0
+        return Triple(d, e, f)
     }
 }
 
