@@ -4,8 +4,8 @@ import com.github.mystery2099.voxlib.combination.VoxelAssembly.and
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateRight
+import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.withProperties
 import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil.isOf
-import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil.withProperties
 import com.github.mystery2099.woodenAccentsMod.block.entity.custom.KitchenCabinetBlockEntity
 import com.github.mystery2099.woodenAccentsMod.block.textureId
 import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.asBlockStateVariant

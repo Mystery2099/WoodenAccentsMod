@@ -6,9 +6,9 @@ import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateRight
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.toIdentifier
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.withBlockModelPath
+import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.withProperties
 import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil.isIn
 import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil.isOf
-import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil.withProperties
 import com.github.mystery2099.woodenAccentsMod.block.custom.enums.CoffeeTableTypes
 import com.github.mystery2099.woodenAccentsMod.block.defaultItemStack
 import com.github.mystery2099.woodenAccentsMod.block.itemModelId
