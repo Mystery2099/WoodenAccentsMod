@@ -14,9 +14,9 @@ import java.util.function.Consumer
  */
 interface CustomRecipeProvider {
     /**
-     * Offers custom recipes for data generation by providing them to a [RecipeJsonProvider].
+     * Offers a recipe to the specified exporter.
      *
-     * @param exporter A Consumer<RecipeJsonProvider> function responsible for accepting and processing the provided recipes.
+     * @param exporter the consumer that provides a RecipeJsonProvider to export the recipe
      */
     infix fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>)
 }
