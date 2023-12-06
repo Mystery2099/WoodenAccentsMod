@@ -2,7 +2,6 @@ package com.github.mystery2099.woodenAccentsMod.block.custom
 
 import com.github.mystery2099.woodenAccentsMod.block.modelId
 import com.github.mystery2099.woodenAccentsMod.block.textureId
-import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeDataGen.Companion.customGroup
 import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeDataGen.Companion.requires
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomBlockStateProvider
@@ -10,6 +9,7 @@ import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.Custom
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomRecipeProvider
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomTagProvider
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
+import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.CarpetBlock
@@ -27,10 +27,9 @@ import net.minecraft.resource.featuretoggle.FeatureFlags
 import java.util.function.Consumer
 
 /**
- * Custom carpet block
+ * The [CustomCarpetBlock] class represents a custom carpet block that extends the [CarpetBlock] class.
  *
- * @property baseBlock
- * @constructor Create Custom carpet block from the settings of another block
+ * @property baseBlock The base block for the custom carpet block.
  */
 class CustomCarpetBlock(val baseBlock: Block) : CarpetBlock(
     FabricBlockSettings.of(Material.CARPET).strength(0.1f).apply {

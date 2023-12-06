@@ -46,16 +46,11 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
-
 /**
- * Chair block with the ability to seat a player.
+ * The ChairBlock class represents a block that serves as a chair. It can be interacted with by players to sit on it.
  *
- * This class represents a chair block that can be used to seat a player. The chair can be waterlogged and faces a
- * specific direction. It is used in various decorations.
- *
- * @constructor Creates an instance of `ChairBlock` with the specified settings and a base block.
- * @param settings The settings for the chair block.
- * @param baseBlock The base block that the chair is made from.
+ * @property settings The settings for the ChairBlock.
+ * @property baseBlock The base block used for constructing the ChairBlock.
  */
 class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlock(settings), Waterloggable,
     CustomBlockStateProvider, CustomItemGroupProvider,

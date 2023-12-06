@@ -14,6 +14,9 @@ import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 
+/**
+ * The ModBlockEntities class is responsible for registering and managing block entities for the mod.
+ */
 object ModBlockEntities : WoodenAccentsModRegistry {
 
     lateinit var kitchenCabinet: BlockEntityType<KitchenCabinetBlockEntity>

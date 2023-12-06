@@ -36,18 +36,11 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
-
 /**
- * Abstract pillar block.
+ * AbstractPillarBlock is an abstract class representing a pillar block in the game.
  *
- * This abstract class represents a pillar block that can be used as a base for various pillar-like structures.
- * It extends [AbstractWaterloggableBlock] and provides additional functionality for custom pillar blocks.
- *
- * @property baseBlock The base block on which this pillar is based.
- * @property shape The shape of the pillar, containing top, center, and base shapes.
- * @constructor Creates an instance of `AbstractPillarBlock` from the block settings of another block.
- * @param baseBlock The base block to be used as a template for this pillar block.
- * @param shape The shape of the pillar, including top, center, and base shapes.
+ * @param baseBlock The base block for the pillar.
+ * @param shape The shape of the pillar, containing the top, center, and base shapes.
  */
 abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shape) :
     AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),

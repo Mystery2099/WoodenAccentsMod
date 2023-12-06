@@ -4,8 +4,8 @@ import com.github.mystery2099.voxlib.combination.VoxelAssembly
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.withBlockModelPath
 import com.github.mystery2099.woodenAccentsMod.block.itemModelId
 import com.github.mystery2099.woodenAccentsMod.block.woodType
-import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.data.client.ModModels
+import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import net.minecraft.block.Block
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.TextureMap
@@ -15,12 +15,11 @@ import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
 import java.util.function.Consumer
 
+
 /**
- * Thin pillar block
+ * ThinPillarBlock represents a pillar block that is derived from a base block.
  *
- * @constructor
- *
- * @param baseBlock
+ * @param baseBlock The base block on which this pillar is based.
  */
 class ThinPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape) {
     override val connectableBlockTag: TagKey<Block> = ModBlockTags.thinPillarsConnectable

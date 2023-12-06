@@ -5,7 +5,8 @@ import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateRight
 import com.github.mystery2099.woodenAccentsMod.block.itemModelId
-import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
+import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.asBlockStateVariant
+import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.withYRotationOf
 import com.github.mystery2099.woodenAccentsMod.data.client.ModModels
 import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeDataGen.Companion.requires
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomBlockStateProvider
@@ -14,8 +15,7 @@ import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.Custom
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomTagProvider
 import com.github.mystery2099.woodenAccentsMod.item.group.CustomItemGroup
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
-import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.asBlockStateVariant
-import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.withYRotationOf
+import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.util.WhenUtil
 import com.github.mystery2099.woodenAccentsMod.util.WhenUtil.and
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
@@ -36,10 +36,9 @@ import net.minecraft.world.BlockView
 import java.util.function.Consumer
 
 /**
- * Thin bookshelf block
+ * The [ThinBookshelfBlock] class represents a block that serves as a thin bookshelf in the game.
  *
- * @property baseBlock
- * @constructor Create empty Thin bookshelf block
+ * @param baseBlock The base block to use for the thin bookshelf.
  */
 class ThinBookshelfBlock(val baseBlock: Block) :
     ChiseledBookshelfBlock(FabricBlockSettings.copyOf(baseBlock).requires(FeatureFlags.UPDATE_1_20)),

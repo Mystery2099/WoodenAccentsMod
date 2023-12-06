@@ -41,15 +41,12 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
-
 /**
- * Desk block
+ * Represents a desk block.
  *
- * @property baseBlock
- * @property topBlock
- * @constructor
- *
- * @param settings
+ * @param settings The settings for the desk block.
+ * @param baseBlock The base block of the desk.
+ * @param topBlock The top block of the desk.
  */
 class DeskBlock(settings: Settings, val baseBlock: Block, private val topBlock: Block) :
     AbstractWaterloggableBlock(settings), CustomItemGroupProvider, CustomRecipeProvider, CustomBlockStateProvider,

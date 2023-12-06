@@ -31,10 +31,10 @@ import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
 /**
- * Connecting ladder block
+ * Represents a custom connecting ladder block that extends `AbstractCustomLadderBlock`.
  *
- * @property baseBlock
- * @constructor Create Connecting ladder block from the block settings of another block
+ * @property baseBlock The base block to be used as the material for the connecting ladder block.
+ * @constructor Creates a ConnectingLadderBlock with the specified base block.
  */
 class ConnectingLadderBlock(val baseBlock: Block) :
     AbstractCustomLadderBlock(FabricBlockSettings.of(baseBlock.defaultState.material, baseBlock.defaultMapColor).apply {

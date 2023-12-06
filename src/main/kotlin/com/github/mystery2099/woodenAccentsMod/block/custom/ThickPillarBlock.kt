@@ -1,12 +1,12 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
 import com.github.mystery2099.voxlib.combination.VoxelAssembly
-import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.withBlockModelPath
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.toIdentifier
+import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.withBlockModelPath
 import com.github.mystery2099.woodenAccentsMod.block.itemModelId
 import com.github.mystery2099.woodenAccentsMod.block.woodType
-import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.data.client.ModModels
+import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import net.minecraft.block.Block
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.TextureMap
@@ -15,11 +15,9 @@ import net.minecraft.registry.tag.TagKey
 import java.util.function.Consumer
 
 /**
- * Thick pillar block
+ * Represents a class that defines a thick pillar block.
  *
- * @constructor
- *
- * @param baseBlock
+ * @param baseBlock The base block on which this pillar is based.
  */
 class ThickPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape) {
     override val connectableBlockTag: TagKey<Block> = ModBlockTags.thickPillarsConnectable

@@ -58,13 +58,11 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import java.util.function.Consumer
-
 /**
- * Crate block
+ * A custom block representing a crate that can store items.
  *
- * @property baseBlock
- * @property edgeBlock
- * @constructor Create Crate block from the block settings of another block
+ * @property baseBlock The base block used for the main body of the crate.
+ * @property edgeBlock The block used for the edges of the crate.
  */
 class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
     BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)),

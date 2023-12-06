@@ -43,12 +43,12 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
+
 /**
- * Table block
+ * Represents a table block.
  *
- * @property baseBlock
- * @property topBlock
- * @constructor Create empty Table block
+ * @property baseBlock The base block of the table.
+ * @property topBlock The top block of the table.
  */
 class TableBlock(val baseBlock: Block, private val topBlock: Block) :
     AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)), CustomItemGroupProvider, CustomRecipeProvider,

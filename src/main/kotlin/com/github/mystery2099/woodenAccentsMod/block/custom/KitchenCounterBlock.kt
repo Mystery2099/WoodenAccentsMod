@@ -1,7 +1,8 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
 import com.github.mystery2099.woodenAccentsMod.block.textureId
-import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
+import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.asBlockStateVariant
+import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.withYRotationOf
 import com.github.mystery2099.woodenAccentsMod.data.client.ModModels
 import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeDataGen.Companion.customGroup
 import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeDataGen.Companion.requires
@@ -11,8 +12,7 @@ import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.Custom
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomTagProvider
 import com.github.mystery2099.woodenAccentsMod.item.group.CustomItemGroup
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
-import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.asBlockStateVariant
-import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.withYRotationOf
+import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import net.minecraft.block.Block
 import net.minecraft.block.enums.StairShape
 import net.minecraft.data.client.*
@@ -25,13 +25,12 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.Direction
 import java.util.function.Consumer
 
+
 /**
- * Kitchen counter block
+ * KitchenCounterBlock represents a block in a kitchen counter.
  *
- * @constructor
- *
- * @param baseBlock
- * @param topBlock
+ * @property baseBlock The base block of the kitchen counter.
+ * @property topBlock The top block of the kitchen counter.
  */
 class KitchenCounterBlock(baseBlock: Block, topBlock: Block) : AbstractKitchenCounterBlock(baseBlock, topBlock),
     CustomItemGroupProvider, CustomTagProvider<Block>, CustomRecipeProvider, CustomBlockStateProvider {

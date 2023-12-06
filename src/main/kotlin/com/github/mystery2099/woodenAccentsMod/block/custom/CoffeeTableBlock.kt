@@ -67,14 +67,15 @@ import net.minecraft.world.WorldAccess
 import java.util.*
 import java.util.function.Consumer
 import java.util.function.Supplier
-
-
 /**
- * Coffee table block
+ * Represents a coffee table block.
  *
- * @property baseBlock The base block for the coffee table.
- * @property topBlock The block used for the top(texture) of the coffee table.
- * @constructor Creates a [CoffeeTableBlock] using the block [settings] of another [Block] as the base.
+ * @property baseBlock The base block of the coffee table.
+ * @property topBlock The top block of the coffee table.
+ * @property tag The tag of the coffee table.
+ * @property itemGroup The item group of the coffee table.
+ * @property isTall Whether the coffee table is tall.
+ * @property variantItemGroupStack The variant item group stack of the coffee table.
  */
 class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
     AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),

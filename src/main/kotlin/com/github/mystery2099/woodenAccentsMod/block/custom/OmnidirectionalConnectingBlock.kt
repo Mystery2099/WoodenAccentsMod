@@ -20,11 +20,14 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 
 /**
- * Omnidirectional connecting block
+ * The OmnidirectionalConnectingBlock class is an open class that extends the Block class and implements
+ * the Waterloggable interface. It represents a block that can connect in all directions.
  *
- * @constructor
+ * @constructor Creates an instance of the OmnidirectionalConnectingBlock with the specified settings.
+ * @param settings The settings for the block.
  *
- * @param settings
+ * @see Block
+ * @see Waterloggable
  */
 open class OmnidirectionalConnectingBlock(settings: Settings) : Block(settings), Waterloggable {
     open val centerShape: VoxelShape = VoxelShapes.fullCube()

@@ -5,9 +5,9 @@ import com.github.mystery2099.voxlib.combination.VoxelAssembly.plus
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateRight
+import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil.isIn
 import com.github.mystery2099.woodenAccentsMod.block.itemModelId
 import com.github.mystery2099.woodenAccentsMod.block.textureId
-import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.data.client.ModModels
 import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeDataGen.Companion.requires
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomBlockStateProvider
@@ -15,7 +15,7 @@ import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.Custom
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomRecipeProvider
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomTagProvider
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
-import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil.isIn
+import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -36,13 +36,11 @@ import net.minecraft.world.BlockView
 import java.util.function.Consumer
 
 /**
- * Modern fence block
+ * The ModernFenceBlock class represents a custom fence block with a modern design.
  *
- * @property sideBlock
- * @property postBlock
- * @constructor
- *
- * @param settings
+ * @param settings The settings of the modern fence block.
+ * @param sideBlock The block used for the sides of the fence.
+ * @param postBlock The block used for the posts of the fence.
  */
 class ModernFenceBlock(settings: Block, private val sideBlock: Block, private val postBlock: Block) :
     FenceBlock(FabricBlockSettings.copyOf(settings)),

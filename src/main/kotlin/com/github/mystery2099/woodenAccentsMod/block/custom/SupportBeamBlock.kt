@@ -5,8 +5,10 @@ import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateRight
 import com.github.mystery2099.woodenAccentsMod.block.itemModelId
-import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
-import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags.contains
+import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.asBlockStateVariant
+import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.uvLock
+import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.withXRotationOf
+import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.withYRotationOf
 import com.github.mystery2099.woodenAccentsMod.data.client.ModModels
 import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeDataGen.Companion.customGroup
 import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeDataGen.Companion.requires
@@ -16,10 +18,8 @@ import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.Custom
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomTagProvider
 import com.github.mystery2099.woodenAccentsMod.item.group.CustomItemGroup
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
-import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.asBlockStateVariant
-import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.uvLock
-import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.withXRotationOf
-import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.withYRotationOf
+import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
+import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags.contains
 import com.github.mystery2099.woodenAccentsMod.util.WhenUtil
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
@@ -40,10 +40,18 @@ import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
 /**
- * Support beam block
+ * SupportBeamBlock is a class that represents a support beam block in a game.
  *
- * @property baseBlock
- * @constructor Create empty Support beam block
+ * @property baseBlock The base block used to create the support beam block.
+ * @property centerShape The VoxelShape representing the shape of the center of the support beam block.
+ * @property northShape The VoxelShape representing the shape of the north side of the support beam block.
+ * @property eastShape The VoxelShape representing the shape of the east side of the support beam block.
+ * @property southShape The VoxelShape representing the shape of the south side of the support beam block.
+ * @property westShape The VoxelShape representing the shape of the west side of the support beam block.
+ * @property upShape The VoxelShape representing the shape of the top side of the support beam block.
+ * @property downShape The VoxelShape representing the shape of the bottom side of the support beam block.
+ * @property tag The tag key for the support beams.
+ * @property itemGroup The custom item group for the support beam.
  */
 class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(run {
     if (baseBlock !is PillarBlock) FabricBlockSettings.copyOf(baseBlock)

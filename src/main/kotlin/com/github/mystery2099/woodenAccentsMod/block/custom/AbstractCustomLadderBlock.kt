@@ -16,13 +16,9 @@ import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.TagKey
 import java.util.function.Consumer
-
 /**
- * Abstract custom ladder block.
+ * An abstract class representing a custom ladder block.
  *
- * This abstract class extends `LadderBlock` and provides additional functionality for custom ladder blocks.
- *
- * @constructor Creates an instance of `AbstractCustomLadderBlock` with the specified settings.
  * @param settings The settings for the ladder block.
  */
 abstract class AbstractCustomLadderBlock(settings: Settings) : LadderBlock(settings), CustomItemGroupProvider,

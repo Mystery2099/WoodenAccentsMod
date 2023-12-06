@@ -3,7 +3,6 @@ package com.github.mystery2099.woodenAccentsMod.block.custom
 import com.github.mystery2099.voxlib.combination.VoxelAssembly
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
 import com.github.mystery2099.woodenAccentsMod.block.woodType
-import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.data.client.ModModels
 import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeDataGen.Companion.requires
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomBlockStateProvider
@@ -11,6 +10,7 @@ import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.Custom
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomRecipeProvider
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomTagProvider
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
+import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -30,12 +30,11 @@ import net.minecraft.world.BlockView
 import java.util.function.Consumer
 
 /**
- * Modern fence gate block
+ * The ModernFenceGateBlock class represents a custom modern fence gate block that extends the FenceGateBlock class
+ * and implements several custom interfaces for item group, recipe, tag, and block state generation.
  *
- * @property baseBlock
- * @constructor
- *
- * @param baseGate
+ * @param baseGate The base FenceGateBlock to copy settings from.
+ * @param baseBlock The base Block to use in recipe and block state generation.
  */
 class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : FenceGateBlock(FabricBlockSettings.copyOf(baseGate), baseGate.woodType),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {

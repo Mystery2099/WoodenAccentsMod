@@ -47,14 +47,29 @@ abstract class WaterloggableBlockWithEntity(settings: Settings) : BlockWithEntit
         world: WorldAccess,
         pos: BlockPos,
         neighborPos: BlockPos?
-    ): BlockState = state.also {
-        if (state[AbstractWaterloggableBlock.waterlogged]) {
+    ): BlockState = scheduleWaterTickIfWaterlogged(state, world, pos)
+
+    /**
+     * Schedules a water tick for the block at the specified position if it is waterlogged.
+     *
+     * @param state The current block state.
+     * @param world The world where the block is located.
+     * @param pos The position of the block.
+     * @return The updated block state.
+     */
+    private fun scheduleWaterTickIfWaterlogged(
+        state: BlockState,
+        world: WorldAccess,
+        pos: BlockPos
+    ) : BlockState {
+        if (state[waterlogged]) {
             world.scheduleFluidTick(
                 pos,
                 Fluids.WATER,
                 Fluids.WATER.getTickRate(world)
             )
         }
+        return state
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith(
