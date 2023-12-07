@@ -1,7 +1,7 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
 import com.github.mystery2099.voxlib.combination.VoxelAssembly.appendShapes
-import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.withProperties
+import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.with
 import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil.isIn
 import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.asBlockStateVariant
 import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.uvLock
@@ -49,9 +49,9 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
     abstract val connectableBlockTag: TagKey<Block>
 
     init {
-        defaultState = defaultState.withProperties {
-            up setTo false
-            down setTo false
+        defaultState = defaultState.with {
+            up to false
+            down to false
         }
     }
 
@@ -75,9 +75,9 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         world = world,
         pos = pos,
         neighborPos = neighborPos
-    ).withProperties {
-        up setTo canConnect(world, pos, Direction.UP)
-        down setTo canConnect(world, pos, Direction.DOWN)
+    ).with {
+        up to canConnect(world, pos, Direction.UP)
+        down to canConnect(world, pos, Direction.DOWN)
     }
 
     @Deprecated("Deprecated in Java")
@@ -92,11 +92,11 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState =
-        super.getPlacementState(ctx).withProperties {
+        super.getPlacementState(ctx).with {
             val world = ctx.world
             val pos = ctx.blockPos
-            up setTo canConnect(world, pos, Direction.UP)
-            down setTo canConnect(world, pos, Direction.DOWN)
+            up to canConnect(world, pos, Direction.UP)
+            down to canConnect(world, pos, Direction.DOWN)
         }
 
     /**

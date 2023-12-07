@@ -5,7 +5,7 @@ import com.github.mystery2099.voxlib.combination.VoxelAssembly.and
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateRight
-import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.withProperties
+import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.with
 import com.github.mystery2099.woodenAccentsMod.data.client.ModModels
 import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeDataGen.Companion.customGroup
 import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeDataGen.Companion.requires
@@ -60,9 +60,9 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
     override val tag: TagKey<Block> = ModBlockTags.chairs
 
     init {
-        this.defaultState = defaultState.withProperties {
-            waterlogged setTo false
-            FACING setTo Direction.NORTH
+        this.defaultState = defaultState.with {
+            waterlogged to false
+            FACING to Direction.NORTH
         }
     }
 
@@ -77,9 +77,9 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
-        return defaultState.withProperties {
-            waterlogged setTo ctx.world.getFluidState(ctx.blockPos).isOf(Fluids.WATER)
-            FACING setTo ctx.horizontalPlayerFacing.opposite
+        return defaultState.with {
+            waterlogged to ctx.world.getFluidState(ctx.blockPos).isOf(Fluids.WATER)
+            FACING to ctx.horizontalPlayerFacing.opposite
         }
     }
 

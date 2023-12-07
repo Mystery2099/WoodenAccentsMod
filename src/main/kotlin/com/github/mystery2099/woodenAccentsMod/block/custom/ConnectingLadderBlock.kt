@@ -4,7 +4,7 @@ import com.github.mystery2099.voxlib.combination.VoxelAssembly
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateRight
-import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.withProperties
+import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.with
 import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil.isIn
 import com.github.mystery2099.woodenAccentsMod.block.custom.enums.SidewaysConnectionShape
 import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.asBlockStateVariant
@@ -76,8 +76,8 @@ class ConnectingLadderBlock(val baseBlock: Block) :
         return this.isConnectingLadder() && other.isConnectingLadder() && this[FACING] == other[FACING]
     }
 
-    private fun BlockState.withShape(left: Boolean, right: Boolean): BlockState = this.withProperties {
-        shape setTo when {
+    private fun BlockState.withShape(left: Boolean, right: Boolean): BlockState = this.with {
+        shape to when {
             left && right -> SidewaysConnectionShape.CENTER
             left -> SidewaysConnectionShape.RIGHT
             right -> SidewaysConnectionShape.LEFT

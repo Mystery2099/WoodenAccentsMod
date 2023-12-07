@@ -7,7 +7,7 @@ import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateRight
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.toIdentifier
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.withBlockModelPath
-import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.withProperties
+import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.with
 import com.github.mystery2099.woodenAccentsMod.block.itemModelId
 import com.github.mystery2099.woodenAccentsMod.block.textureId
 import com.github.mystery2099.woodenAccentsMod.block.woodType
@@ -58,11 +58,11 @@ class TableBlock(val baseBlock: Block, private val topBlock: Block) :
     override val tag: TagKey<Block> = ModBlockTags.tables
 
     init {
-        defaultState = stateManager.defaultState.withProperties {
-            north setTo false
-            east setTo false
-            south setTo false
-            west setTo false
+        defaultState = stateManager.defaultState.with {
+            north to false
+            east to false
+            south to false
+            west to false
         }
     }
 
@@ -72,20 +72,21 @@ class TableBlock(val baseBlock: Block, private val topBlock: Block) :
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
-        return defaultState.withDirections(
-            north = false,
-            east = false,
-            south = false,
-            west = false
-        ).with(waterlogged, super.getPlacementState(ctx).get(waterlogged) ?: false)
+        return defaultState.with {
+            north to false
+            east to false
+            south to false
+            west to false
+            waterlogged to (super.getPlacementState(ctx).get(waterlogged) ?: false)
+        }
     }
 
     private fun BlockState.withDirections(north: Boolean, east: Boolean, south: Boolean, west: Boolean): BlockState {
-        return this.withProperties {
-            TableBlock.north setTo north
-            TableBlock.east setTo east
-            TableBlock.south setTo south
-            TableBlock.west setTo west
+        return this.with {
+            TableBlock.north to north
+            TableBlock.east to east
+            TableBlock.south to south
+            TableBlock.west to west
         }
     }
 

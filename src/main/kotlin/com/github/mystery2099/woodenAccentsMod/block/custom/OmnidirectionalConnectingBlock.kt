@@ -1,7 +1,7 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
 import com.github.mystery2099.voxlib.combination.VoxelAssembly.appendShapes
-import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.withProperties
+import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.with
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
@@ -39,13 +39,13 @@ open class OmnidirectionalConnectingBlock(settings: Settings) : Block(settings),
     open val downShape: VoxelShape = VoxelShapes.empty()
 
     init {
-        defaultState = defaultState.withProperties {
-            north setTo false
-            east setTo false
-            south setTo false
-            west setTo false
-            up setTo false
-            down setTo false
+        defaultState = defaultState.with {
+            north to false
+            east to false
+            south to false
+            west to false
+            up to false
+            down to false
         }
     }
 
@@ -161,13 +161,13 @@ open class OmnidirectionalConnectingBlock(settings: Settings) : Block(settings),
     }
 
     private fun BlockState.setDirectionalProperties(pos: BlockPos, world: WorldAccess): BlockState {
-        return this.withProperties {
-            north setTo canConnectNorthOf(pos, world)
-            east setTo canConnectEastOf(pos, world)
-            south setTo canConnectSouthOf(pos, world)
-            west setTo canConnectWestOf(pos, world)
-            up setTo canConnectAbove(pos, world)
-            down setTo canConnectBelow(pos, world)
+        return this.with {
+            north to canConnectNorthOf(pos, world)
+            east to canConnectEastOf(pos, world)
+            south to canConnectSouthOf(pos, world)
+            west to canConnectWestOf(pos, world)
+            up to canConnectAbove(pos, world)
+            down to canConnectBelow(pos, world)
         }
     }
 

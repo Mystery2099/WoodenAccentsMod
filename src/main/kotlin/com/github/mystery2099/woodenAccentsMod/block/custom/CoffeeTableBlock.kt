@@ -6,7 +6,7 @@ import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateRight
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.toIdentifier
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.withBlockModelPath
-import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.withProperties
+import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.with
 import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil.isIn
 import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil.isOf
 import com.github.mystery2099.woodenAccentsMod.block.custom.enums.CoffeeTableTypes
@@ -129,11 +129,11 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
     }
 
     private fun BlockState.asSingle(): BlockState {
-        return this.withProperties {
-            north setTo false
-            east setTo false
-            south setTo false
-            west setTo false
+        return this.with {
+            north to false
+            east to false
+            south to false
+            west to false
         }
     }
 
@@ -158,11 +158,11 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
      * @return The updated [BlockState].
      */
     private fun BlockState.setDirections(world: WorldAccess, pos: BlockPos): BlockState {
-        return this.withProperties {
-            north setTo world.checkNorthOf(pos)
-            east setTo world.checkEastOf(pos)
-            south setTo world.checkSouthOf(pos)
-            west setTo world.checkWestOf(pos)
+        return this.with {
+            north to world.checkNorthOf(pos)
+            east to world.checkEastOf(pos)
+            south to world.checkSouthOf(pos)
+            west to world.checkWestOf(pos)
         }
     }
 
@@ -196,11 +196,11 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         pos: BlockPos,
         neighborPos: BlockPos?
     ): BlockState = super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
-        .withProperties {
-            north setTo world.checkNorthOf(pos)
-            east setTo world.checkEastOf(pos)
-            south setTo world.checkSouthOf(pos)
-            west setTo world.checkWestOf(pos)
+        .with {
+            north to world.checkNorthOf(pos)
+            east to world.checkEastOf(pos)
+            south to world.checkSouthOf(pos)
+            west to world.checkWestOf(pos)
         }
 
     @Deprecated("Deprecated in Java")

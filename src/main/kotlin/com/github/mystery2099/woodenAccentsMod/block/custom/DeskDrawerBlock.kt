@@ -4,7 +4,7 @@ import com.github.mystery2099.voxlib.combination.VoxelAssembly
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateRight
-import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.withProperties
+import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.with
 import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil.isIn
 import com.github.mystery2099.woodenAccentsMod.block.custom.enums.SidewaysConnectionShape
 import com.github.mystery2099.woodenAccentsMod.block.entity.custom.DeskDrawerBlockEntity
@@ -72,12 +72,12 @@ class DeskDrawerBlock(settings: Settings, private val edgeBlock: Block, val base
 
     init {
         this.defaultState =
-            this.stateManager.defaultState.withProperties { facing setTo Direction.NORTH }
+            this.stateManager.defaultState.with { facing to Direction.NORTH }
                 .withShape(left = false, right = false)
     }
 
-    private fun BlockState.withShape(left: Boolean, right: Boolean): BlockState = this.withProperties {
-        shape setTo when {
+    private fun BlockState.withShape(left: Boolean, right: Boolean): BlockState = this.with {
+        shape to when {
             left && right -> SidewaysConnectionShape.CENTER
             left -> SidewaysConnectionShape.RIGHT
             right -> SidewaysConnectionShape.LEFT

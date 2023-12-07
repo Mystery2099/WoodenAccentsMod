@@ -1,7 +1,7 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom;
 
+import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer;
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags;
-import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.tinyremapper.extension.mixin.common.data.Pair;
 import net.minecraft.block.*;
@@ -56,9 +56,9 @@ public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableB
         super(FabricBlockSettings.copyOf(baseBlock));
         this.baseBlock = baseBlock;
         this.topBlock = topBlock;
-        this.setDefaultState(BlockStateUtil.withProperties(getDefaultState(), c -> {
-            c.set(FACING, Direction.NORTH);
-            c.set(SHAPE, StairShape.STRAIGHT);
+        this.setDefaultState(BlockStateConfigurer.with(getDefaultState(), c -> {
+            c.setProperty(FACING, Direction.NORTH);
+            c.setProperty(SHAPE, StairShape.STRAIGHT);
             return null;
         }));
         //North Shapes

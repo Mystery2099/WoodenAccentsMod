@@ -4,7 +4,7 @@ import com.github.mystery2099.voxlib.combination.VoxelAssembly.and
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateRight
-import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.withProperties
+import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.with
 import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil.isOf
 import com.github.mystery2099.woodenAccentsMod.block.entity.custom.KitchenCabinetBlockEntity
 import com.github.mystery2099.woodenAccentsMod.block.textureId
@@ -66,9 +66,9 @@ class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
     override val itemGroup = ModItemGroups.decorations
 
     init {
-        defaultState = defaultState.withProperties {
-            facing setTo Direction.NORTH
-            open setTo false
+        defaultState = defaultState.with {
+            facing to Direction.NORTH
+            open to false
         }
     }
 
@@ -157,8 +157,8 @@ class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
         "com.mystery2099.wooden_accents_mod.block.custom.KitchenCabinetBlock.Companion.facing"
     )
     )
-    override fun rotate(state: BlockState, rotation: BlockRotation): BlockState = state.withProperties {
-        facing setTo rotation.rotate(state[facing])
+    override fun rotate(state: BlockState, rotation: BlockRotation): BlockState = state.with {
+        facing to rotation.rotate(state[facing])
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith(

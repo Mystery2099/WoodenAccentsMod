@@ -4,7 +4,7 @@ import com.github.mystery2099.voxlib.combination.VoxelAssembly
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateRight
-import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.withProperties
+import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.with
 import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil.isIn
 import com.github.mystery2099.woodenAccentsMod.block.custom.enums.DeskShape
 import com.github.mystery2099.woodenAccentsMod.block.textureId
@@ -61,9 +61,9 @@ class DeskBlock(settings: Settings, val baseBlock: Block, private val topBlock: 
         get() = this isIn ModBlockTags.deskDrawers
 
     init {
-        defaultState = defaultState.withProperties {
-            facing setTo Direction.NORTH
-            shape setTo DeskShape.SINGLE
+        defaultState = defaultState.with {
+            facing to Direction.NORTH
+            shape to DeskShape.SINGLE
         }
     }
 
@@ -128,8 +128,8 @@ class DeskBlock(settings: Settings, val baseBlock: Block, private val topBlock: 
     }
 
     private fun BlockState.withShape(left: Boolean, right: Boolean, forward: Boolean = false): BlockState {
-        return this.withProperties {
-            shape setTo when {
+        return this.with {
+            shape to when {
                 left && right -> DeskShape.CENTER
                 left && forward -> DeskShape.RIGHT_CORNER
                 right && forward -> DeskShape.LEFT_CORNER
