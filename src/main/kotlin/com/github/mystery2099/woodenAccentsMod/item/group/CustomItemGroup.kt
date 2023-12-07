@@ -28,23 +28,9 @@ data class CustomItemGroup(val name: String) {
      * @property itemGroup The associated ItemGroup for this item group.
      */
     val itemGroup: ItemGroup = FabricItemGroup.builder(name.toIdentifier()).apply {
-        icon { entries[0] }
+        icon { getEntries()[0] }
     }.build()
 
-
-    /**
-     * Retrieves a list of [ItemStack] entries for the CustomItemGroup.
-     *
-     * This method retrieves a list of [ItemStack] entries for the CustomItemGroup. It first calls the
-     * [getBlocksWithMatchingItemGroup] function to obtain a list of blocks that have a matching itemGroup.
-     * Then, it calls the [getStackListWithVariants] function to extract the itemStack entries from
-     * the list of CustomItemGroupProvider objects. Finally, it calls the [addDefaultStackIfEmpty] function
-     * to add a default DIRT item stack to the list if it is empty.
-     *
-     * @return The list of [ItemStack] entries for the CustomItemGroup.
-     */
-    val entries: List<ItemStack>
-        get() = getEntries()
     /**
      * Retrieves a list of [ItemStack] entries for the CustomItemGroup.
      *
@@ -56,7 +42,7 @@ data class CustomItemGroup(val name: String) {
      *
      * @return The list of [ItemStack] entries for the CustomItemGroup.
      */
-    private fun getEntries(): List<ItemStack> {
+    internal fun getEntries(): List<ItemStack> {
         val matchingItems = getBlocksWithMatchingItemGroup()
         val stacksList = getStackListWithVariants(matchingItems)
 
