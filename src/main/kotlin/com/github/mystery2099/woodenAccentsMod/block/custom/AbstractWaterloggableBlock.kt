@@ -29,25 +29,26 @@ abstract class AbstractWaterloggableBlock(settings: Settings) : Block(settings),
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
-        return super.getPlacementState(ctx)?.with(waterlogged, ctx.world.getFluidState(ctx.blockPos).fluid == Fluids.WATER)
-            ?: defaultState
+        return this.defaultState.with(waterlogged, ctx.world.getFluidState(ctx.blockPos).fluid == Fluids.WATER)
     }
 
     @Deprecated("Deprecated in Java")
-    override fun getStateForNeighborUpdate(
+	override fun getStateForNeighborUpdate(
         state: BlockState,
         direction: Direction?,
         neighborState: BlockState?,
         world: WorldAccess,
         pos: BlockPos,
         neighborPos: BlockPos?
-    ): BlockState {
+    ): BlockState = getStateForNeighborUpdate(state, pos, world)
+
+    fun getStateForNeighborUpdate(state: BlockState, pos: BlockPos, world: WorldAccess): BlockState {
         if (state[waterlogged]) world.scheduleFluidTick(
             pos,
             Fluids.WATER,
             Fluids.WATER.getTickRate(world)
         )
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
+        return state
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith(

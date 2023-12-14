@@ -72,12 +72,11 @@ class TableBlock(val baseBlock: Block, private val topBlock: Block) :
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
-        return defaultState.with {
+        return super.getPlacementState(ctx).with {
             north to false
             east to false
             south to false
             west to false
-            waterlogged to (super.getPlacementState(ctx).get(waterlogged) ?: false)
         }
     }
 
@@ -110,15 +109,12 @@ class TableBlock(val baseBlock: Block, private val topBlock: Block) :
         world: WorldAccess,
         pos: BlockPos,
         neighborPos: BlockPos?
-    ): BlockState {
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos!!, neighborPos)
-            .withDirections(
-                world.checkNorthOf(pos),
-                world.checkEastOf(pos),
-                world.checkSouthOf(pos),
-                world.checkWestOf(pos)
-            )
-    }
+    ): BlockState = super.getStateForNeighborUpdate(state, pos, world).withDirections(
+		world.checkNorthOf(pos),
+		world.checkEastOf(pos),
+		world.checkSouthOf(pos),
+		world.checkWestOf(pos)
+	)
 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
