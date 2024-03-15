@@ -1,5 +1,6 @@
 {
   "type": "iteminteractionscore:block_entity",
+  "background_color": "pink",
   "block_entity_type": "wooden_accents_mod:kitchen_cabinet",
   "inventory_height": 3,
   "inventory_width": 9
