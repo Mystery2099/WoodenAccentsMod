@@ -704,6 +704,34 @@ object ModBlocks : WoodenAccentsModRegistry {
     val strippedWarpedSupportBeam =
         SupportBeamBlock(Blocks.STRIPPED_WARPED_STEM).registerAs("stripped_warped_support_beam")
 
+    //Thin Pillars
+    val thinOakPillar = ThinPillarBlock(Blocks.OAK_PLANKS).registerAs("thin_oak_plank_pillar")
+    val thinSprucePillar = ThinPillarBlock(Blocks.SPRUCE_PLANKS).registerAs("thin_spruce_plank_pillar")
+    val thinBirchPillar = ThinPillarBlock(Blocks.BIRCH_PLANKS).registerAs("thin_birch_plank_pillar")
+    val thinJunglePillar = ThinPillarBlock(Blocks.JUNGLE_PLANKS).registerAs("thin_jungle_plank_pillar")
+    val thinAcaciaPillar = ThinPillarBlock(Blocks.ACACIA_PLANKS).registerAs("thin_acacia_plank_pillar")
+    val thinDarkOakPillar = ThinPillarBlock(Blocks.DARK_OAK_PLANKS).registerAs("thin_dark_oak_plank_pillar")
+    val thinMangrovePillar = ThinPillarBlock(Blocks.MANGROVE_PLANKS).registerAs("thin_mangrove_plank_pillar")
+    val thinCherryPillar = ThinPillarBlock(Blocks.CHERRY_PLANKS).registerAs("thin_cherry_plank_pillar")
+    val thinBambooPillar = ThinPillarBlock(Blocks.BAMBOO_PLANKS).registerAs("thin_bamboo_plank_pillar")
+    val thinBambooMosaicPillar = ThinPillarBlock(Blocks.BAMBOO_MOSAIC).registerAs("thin_bamboo_mosaic_pillar")
+    val thinCrimsonPillar = ThinPillarBlock(Blocks.CRIMSON_PLANKS).registerAs("thin_crimson_plank_pillar")
+    val thinWarpedPillar = ThinPillarBlock(Blocks.WARPED_PLANKS).registerAs("thin_warped_plank_pillar")
+
+    //Thick plank pillars
+    val thickOakPillar = ThickPillarBlock(Blocks.OAK_PLANKS).registerAs("thick_oak_plank_pillar")
+    val thickSprucePillar = ThickPillarBlock(Blocks.SPRUCE_PLANKS).registerAs("thick_spruce_plank_pillar")
+    val thickBirchPillar = ThickPillarBlock(Blocks.BIRCH_PLANKS).registerAs("thick_birch_plank_pillar")
+    val thickJunglePillar = ThickPillarBlock(Blocks.JUNGLE_PLANKS).registerAs("thick_jungle_plank_pillar")
+    val thickAcaciaPillar = ThickPillarBlock(Blocks.ACACIA_PLANKS).registerAs("thick_acacia_plank_pillar")
+    val thickDarkOakPillar = ThickPillarBlock(Blocks.DARK_OAK_PLANKS).registerAs("thick_dark_oak_plank_pillar")
+    val thickMangrovePillar = ThickPillarBlock(Blocks.MANGROVE_PLANKS).registerAs("thick_mangrove_plank_pillar")
+    val thickCherryPillar = ThickPillarBlock(Blocks.CHERRY_PLANKS).registerAs("thick_cherry_plank_pillar")
+    val thickBambooPillar = ThickPillarBlock(Blocks.BAMBOO_PLANKS).registerAs("thick_bamboo_plank_pillar")
+    val thickBambooMosaicPillar = ThickPillarBlock(Blocks.BAMBOO_MOSAIC).registerAs("thick_bamboo_mosaic_pillar")
+    val thickCrimsonPillar = ThickPillarBlock(Blocks.CRIMSON_PLANKS).registerAs("thick_crimson_plank_pillar")
+    val thickWarpedPillar = ThickPillarBlock(Blocks.WARPED_PLANKS).registerAs("thick_warped_plank_pillar")
+
     //Crates
     val oakCrate = CrateBlock(Blocks.OAK_PLANKS, Blocks.OAK_LOG).registerAs("oak_crate", 4)
     val spruceCrate = CrateBlock(Blocks.SPRUCE_PLANKS, Blocks.SPRUCE_LOG).registerAs("spruce_crate", 4)
