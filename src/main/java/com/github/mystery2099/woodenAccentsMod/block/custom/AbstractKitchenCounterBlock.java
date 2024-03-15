@@ -3,7 +3,7 @@ package com.github.mystery2099.woodenAccentsMod.block.custom;
 import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer;
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.fabricmc.tinyremapper.extension.mixin.common.data.Pair;
+import net.fabricmc.loader.impl.lib.tinyremapper.extension.mixin.common.data.Pair;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.StairShape;
 import net.minecraft.item.ItemPlacementContext;
@@ -210,7 +210,7 @@ public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableB
         return super.mirror(state, mirror);
     }
 
-    @Deprecated @Override
+    @Override
     public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
         if (state.isOf(state.getBlock())) return;
         world.updateNeighbor(this.baseBlock.getDefaultState(), pos, Blocks.AIR, pos, false);
