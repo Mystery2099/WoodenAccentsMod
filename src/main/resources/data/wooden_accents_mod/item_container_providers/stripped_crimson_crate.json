@@ -1,0 +1,9 @@
+{
+  "type": "iteminteractionscore:block_entity",
+  "any_game_mode": true,
+  "background_color": "red",
+  "block_entity_type": "wooden_accents_mod:crate",
+  "filter_container_items": true,
+  "inventory_height": 3,
+  "inventory_width": 3
+}
