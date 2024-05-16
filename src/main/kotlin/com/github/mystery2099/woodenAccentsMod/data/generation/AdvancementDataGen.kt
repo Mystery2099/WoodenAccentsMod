@@ -11,6 +11,7 @@ import net.minecraft.advancement.Advancement
 import net.minecraft.advancement.AdvancementFrame
 import net.minecraft.advancement.criterion.InventoryChangedCriterion
 import net.minecraft.advancement.criterion.PlacedBlockCriterion
+import net.minecraft.advancement.criterion.TickCriterion
 import net.minecraft.block.Block
 import net.minecraft.predicate.NbtPredicate
 import net.minecraft.predicate.NumberRange
@@ -27,8 +28,23 @@ import java.util.function.Consumer
 
 class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(output) {
     override fun generateAdvancement(consumer: Consumer<Advancement>) {
+
+        val root = Advancement.Builder.create()
+            .display(
+                ModBlocks.oakPlankTable,
+                Text.literal("Wooden Accents Mod"),
+                Text.literal("Add some charm and warmth to your world with the Wooden Accents Mod"),
+                Identifier("textures/gui/advancements/backgrounds/adventure.png"),
+                AdvancementFrame.TASK,
+                true,
+                false,
+                false
+            )
+            .criterion("start", TickCriterion.Conditions.createTick())
+            .build(consumer, WoodenAccentsMod.MOD_ID + "/root")
+
         // 1. Furniture
-        val basicComfort = Advancement.Builder.create()
+        val basicComfort = Advancement.Builder.create().parent(root)
             .display(
                 ModBlocks.oakPlankChair,
                 Text.literal("Welcome Home!"),
@@ -74,6 +90,18 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .criterion("made_tall_coffee_table",
                 placedBlockInTagConditions(ModBlockTags.coffeeTables))
             .build(consumer, WoodenAccentsMod.MOD_ID + "/furniture/better_table")
+
+
+        // 2. Building (
+        // Interior Design (Wooden Carpet)
+        // Ladders Up (Ladders) - parent = Interior Design
+        // Storage Solutions (Crates) - parent = Interior Design
+        // Stacking Crates (min 2 crates in slot, recommend trying with same items in crate) - parent = storage solutions
+        // Modern Touches (modern fences + fence gates) - parent = Interior Design
+        // Structural Support (Craft & use supports) - parent = Interior Design
+        // Pillars of Strength (Craft thick & thin pillars) - parent = In
+        // connections (place a thin pillar on above or below a modern fence)  - parent = Structural Support
+        //
     }
     private inline fun <reified R : Block> inventoryChangedConditionsOfInstance(): InventoryChangedCriterion.Conditions {
         val blocks = ModBlocks.blocks.filterIsInstance<R>().toTypedArray()

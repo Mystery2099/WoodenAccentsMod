@@ -1,4 +1,4 @@
-// 1.19.4	2024-05-16T13:07:21.9030768	Wooden Accents Mod/Tags for minecraft:item
+// 1.19.4	2024-05-16T13:38:38.092605	Wooden Accents Mod/Tags for minecraft:item
 5e14210acb3e6602383df5f8a2ed2b4a9f27db65 data\wooden_accents_mod\tags\items\plank_ladders.json
 6afd4f68dc9cbd24724126d6bcb94cf5e73912ba data\wooden_accents_mod\tags\items\plank_carpets.json
 fe884341c4d4275c907019843f1d82731be4cd13 data\wooden_accents_mod\tags\items\connecting_ladders.json
@@ -16,6 +16,6 @@ a9c162eaaa23876cdb2e60b07cdc6f5a70c8ba15 data\wooden_accents_mod\tags\items\wood
 96a0f5ca24a19aeba2e560a0b3ffa774cfef1cef data\wooden_accents_mod\tags\items\crates.json
 093b63d9d5b5cbf39f549e227b7b582a034e8988 data\wooden_accents_mod\tags\items\modern_fences.json
 b24da23541ac100e8153b3205d38118032dcd0ce data\wooden_accents_mod\tags\items\desk_drawers.json
-7c852fff41b08dd982f386c40a6008b9484d4c55 data\wooden_accents_mod\tags\items\chairs.json
 12429ea2121bd91a6cc9a29b32c96a00facf5b0a data\wooden_accents_mod\tags\items\kitchen_cabinets.json
+7c852fff41b08dd982f386c40a6008b9484d4c55 data\wooden_accents_mod\tags\items\chairs.json
 fb6222a23f4dbae427395b0241b5a196bf2eca66 data\wooden_accents_mod\tags\items\pillars.json

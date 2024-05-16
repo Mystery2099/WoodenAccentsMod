@@ -1,0 +1,29 @@
+{
+  "criteria": {
+    "start": {
+      "conditions": {},
+      "trigger": "minecraft:tick"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+    "description": {
+      "text": "Add some charm and warmth to your world with the Wooden Accents Mod"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "wooden_accents_mod:oak_plank_table"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "Wooden Accents Mod"
+    }
+  },
+  "requirements": [
+    [
+      "start"
+    ]
+  ]
+}
