@@ -91,17 +91,48 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
                 placedBlockInTagConditions(ModBlockTags.coffeeTables))
             .build(consumer, WoodenAccentsMod.MOD_ID + "/furniture/better_table")
 
+        val interiorDesign = Advancement.Builder.create().parent(root)
+            .display(
+                ModBlocks.oakPlankCarpet,
+                Text.literal("Spruce Up Your Space!"),
+                Text.literal("Craft a plank carpet for a soft touch and cover up the ugly dirt or stone floor"),
+                Identifier("textures/gui/advancements/backgrounds/adventure.png"),
+                AdvancementFrame.TASK,
+                true,
+                false,
+                false
+            )
+            .criterion("has_plank_carpet",
+                inventoryChangedConditionsInTag(ModBlockTags.plankCarpets))
+            .build(consumer, WoodenAccentsMod.MOD_ID + "/furniture/interior_design")
 
-        // 2. Building (
-        // Interior Design (Wooden Carpet)
-        // Ladders Up (Ladders) - parent = Interior Design
+
+        val ladderUp = Advancement.Builder.create().parent(root)
+            .display(
+                ModBlocks.oakPlankLadder,
+                Text.literal("Climb High!"),
+                Text.literal("Craft a Stripped Wood Ladder for a classic look and a Plank Ladder for a simpler option"),
+                Identifier("textures/gui/advancements/backgrounds/adventure.png"),
+                AdvancementFrame.TASK,
+                true,
+                false,
+                false
+            )
+            .criterion("has_plank_ladder", inventoryChangedConditionsInTag(ModBlockTags.plankLadders))
+            .criterion("has_connecting_ladder", inventoryChangedConditionsInTag(ModBlockTags.connectingLadders))
+            .build(consumer, WoodenAccentsMod.MOD_ID + "/ladder_up")
+
+
+        // Planned Advancements
         // Storage Solutions (Crates) - parent = Interior Design
         // Stacking Crates (min 2 crates in slot, recommend trying with same items in crate) - parent = storage solutions
         // Modern Touches (modern fences + fence gates) - parent = Interior Design
-        // Structural Support (Craft & use supports) - parent = Interior Design
-        // Pillars of Strength (Craft thick & thin pillars) - parent = In
+        // Plank Walls
+        // Structural stuff
+        // Structural Support (Craft & use supports)
+        // Pillars of Strength (Craft thick & thin pillars)
         // connections (place a thin pillar on above or below a modern fence)  - parent = Structural Support
-        //
+        // Plank Walls
     }
     private inline fun <reified R : Block> inventoryChangedConditionsOfInstance(): InventoryChangedCriterion.Conditions {
         val blocks = ModBlocks.blocks.filterIsInstance<R>().toTypedArray()

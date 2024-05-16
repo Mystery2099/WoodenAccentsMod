@@ -1,0 +1,49 @@
+{
+  "parent": "minecraft:wooden_accents_mod/root",
+  "criteria": {
+    "has_connecting_ladder": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "wooden_accents_mod:connecting_ladders"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_plank_ladder": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "wooden_accents_mod:plank_ladders"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+    "description": {
+      "text": "Craft a Stripped Wood Ladder for a classic look and a Plank Ladder for a simpler option"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "wooden_accents_mod:oak_plank_ladder"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "Climb High!"
+    }
+  },
+  "requirements": [
+    [
+      "has_plank_ladder"
+    ],
+    [
+      "has_connecting_ladder"
+    ]
+  ]
+}

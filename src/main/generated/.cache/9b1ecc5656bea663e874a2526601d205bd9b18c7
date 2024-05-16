@@ -1,5 +1,7 @@
-// 1.19.4	2024-05-16T13:38:38.0844827	Wooden Accents Mod/Advancements
+// 1.19.4	2024-05-16T13:53:03.5761084	Wooden Accents Mod/Advancements
 4dba4fdf08ba30842327d4d67156763dc24695c8 data\minecraft\advancements\wooden_accents_mod\furniture\root.json
+8396dcdd61143fe98de409d2fbbb33761a7ce223 data\minecraft\advancements\wooden_accents_mod\ladder_up.json
+173e56e1c129a8bfcd440aa87eb8e5241ca6fe1f data\minecraft\advancements\wooden_accents_mod\root.json
 a38ab80564bed3628680edb472feb2de96216435 data\minecraft\advancements\wooden_accents_mod\furniture\coffee_break.json
 93621a93df2b0929defc1ce541879aa17d8dfecf data\minecraft\advancements\wooden_accents_mod\furniture\better_table.json
-173e56e1c129a8bfcd440aa87eb8e5241ca6fe1f data\minecraft\advancements\wooden_accents_mod\root.json
+4f1cd6f142afe456efa5bc8563fe9a5430d96d4a data\minecraft\advancements\wooden_accents_mod\furniture\interior_design.json

@@ -1,4 +1,4 @@
-// 1.19.4	2024-05-16T13:38:38.1020242	Wooden Accents Mod/Block Loot Tables
+// 1.19.4	2024-05-16T13:53:03.5941625	Wooden Accents Mod/Block Loot Tables
 cee2f7463093e6d904363c2b872ace70e29cc43d data\wooden_accents_mod\loot_tables\blocks\cherry_table.json
 ee8de53895bdee9ac4395c0d9ffe8704878b2f5b data\wooden_accents_mod\loot_tables\blocks\bamboo_mosaic_ladder.json
 34a52d8119d5d073148761f303e0d85f72069158 data\wooden_accents_mod\loot_tables\blocks\modern_mangrove_fence.json
@@ -300,8 +300,8 @@ ca548d31d1c6ed1e40333bff7e09a18d67ce6478 data\wooden_accents_mod\loot_tables\blo
 5a1da001d82c94e601479ae3506048648f7adfe0 data\wooden_accents_mod\loot_tables\blocks\cherry_desk.json
 34703241a042ad8c28f863ef4c4f601d9b5ce19d data\wooden_accents_mod\loot_tables\blocks\warped_desk_drawer.json
 4160f05c6d02b20f574964c5530ee737b49fee63 data\wooden_accents_mod\loot_tables\blocks\stripped_birch_coffee_table.json
-3ae907caf29e3d1f6e9492bfb05d60fce2d7826a data\wooden_accents_mod\loot_tables\blocks\mangrove_plank_support_beam.json
 f4a3db02e0681ff199910653e97d952b52e03c5d data\wooden_accents_mod\loot_tables\blocks\thick_bamboo_plank_pillar.json
+3ae907caf29e3d1f6e9492bfb05d60fce2d7826a data\wooden_accents_mod\loot_tables\blocks\mangrove_plank_support_beam.json
 f77523a5feff5b9b1a55352f1f01ccd045ee274a data\wooden_accents_mod\loot_tables\blocks\modern_oak_fence_gate.json
 10668916cb97a91bfbaf6382df746a15fb3e0992 data\wooden_accents_mod\loot_tables\blocks\stripped_crimson_ladder.json
 951907d42646af9b7b25b761abd7e7743e56dea6 data\wooden_accents_mod\loot_tables\blocks\acacia_crate.json
