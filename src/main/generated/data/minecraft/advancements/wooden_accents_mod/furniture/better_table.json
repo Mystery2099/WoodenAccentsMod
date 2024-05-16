@@ -1,0 +1,37 @@
+{
+  "parent": "minecraft:wooden_accents_mod/furniture/coffee_break",
+  "criteria": {
+    "made_tall_coffee_table": {
+      "conditions": {
+        "item": {
+          "tag": "wooden_accents_mod:coffee_tables"
+        },
+        "state": {
+          "type": "tall"
+        }
+      },
+      "trigger": "minecraft:placed_block"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+    "description": {
+      "text": "Stack one coffee table on top of another to create a brand new table"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "wooden_accents_mod:oak_coffee_table"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "A better table?"
+    }
+  },
+  "requirements": [
+    [
+      "made_tall_coffee_table"
+    ]
+  ]
+}

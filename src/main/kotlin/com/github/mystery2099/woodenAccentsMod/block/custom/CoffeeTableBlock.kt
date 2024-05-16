@@ -91,10 +91,12 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
      */
     private val BlockState.isTall: Boolean
         get() = getOrEmpty(type) == Optional.of(CoffeeTableTypes.TALL)
+
     override val variantItemGroupStack: ItemStack
         get() = this.defaultItemStack.apply {
             orCreateNbt.setType(CoffeeTableTypes.TALL)
         }
+
     private val NbtCompound.isTall: Boolean
         get() = this.getString(CoffeeTableTypes.TAG) == CoffeeTableTypes.TALL.asString()
 

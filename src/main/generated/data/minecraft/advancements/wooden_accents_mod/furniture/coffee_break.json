@@ -1,0 +1,36 @@
+{
+  "parent": "minecraft:wooden_accents_mod/furniture/root",
+  "criteria": {
+    "has_coffee_table": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "wooden_accents_mod:coffee_tables"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+    "description": {
+      "text": "Craft a coffee table because why not?"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "wooden_accents_mod:oak_coffee_table"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "Take a break!"
+    }
+  },
+  "requirements": [
+    [
+      "has_coffee_table"
+    ]
+  ]
+}
