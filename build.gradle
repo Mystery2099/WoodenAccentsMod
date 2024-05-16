@@ -21,19 +21,6 @@ repositories {
 	// for more information about repositories.
 	maven { url "https://maven.misterpemodder.com/libs-release/" }
 	maven { url "https://maven.shedaniel.me/" }
-	/*maven {
-		name = "GitHubPackages"
-		url = "https://maven.pkg.github.com/Mystery2099/VoxLib"
-		def gitCreds = new Properties()
-		def gitCredFile = new File("./gitlogin.properties")
-		if (gitCredFile.exists()) {
-			gitCreds.load(new FileInputStream(gitCredFile))
-		}
-		credentials {
-			username = gitCreds.username ?: System.getenv("USERNAME")
-			password = gitCreds.token ?: System.getenv("TOKEN")
-		}
-	}*/
 	exclusiveContent {
 		forRepository {
 			maven {
@@ -96,7 +83,6 @@ dependencies {
 	modImplementation("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
-	/*modImplementation("com.github.mystery2099:voxlib:${project.voxlib_version}")*/
 	modImplementation "curse.maven:voxlib-945749:5184891"
 }
 
