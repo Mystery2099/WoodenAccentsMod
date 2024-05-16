@@ -21,6 +21,6 @@ object ModDataGenerator : DataGeneratorEntrypoint {
             blockTagGen = addProvider(::BlockTagDataGen)
             addProvider(::ItemTagDataGen)
             addProvider(::BiomeTagDataGen)
-        }
+        }.addProvider(::AdvancementDataGen)
     }
 }
