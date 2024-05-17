@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:wooden_accents_mod/furniture/coffee_break",
+  "parent": "minecraft:wooden_accents_mod/decor/coffee_break",
   "criteria": {
     "made_tall_coffee_table": {
       "conditions": {

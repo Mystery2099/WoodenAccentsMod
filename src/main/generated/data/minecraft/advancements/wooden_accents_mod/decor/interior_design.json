@@ -1,0 +1,36 @@
+{
+  "parent": "minecraft:wooden_accents_mod/decor/root",
+  "criteria": {
+    "has_plank_carpet": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "wooden_accents_mod:plank_carpets"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+    "description": {
+      "text": "Craft a plank carpet for a soft touch and cover up the ugly dirt or stone floor"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "wooden_accents_mod:oak_plank_carpet"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "Spruce Up Your Space!"
+    }
+  },
+  "requirements": [
+    [
+      "has_plank_carpet"
+    ]
+  ]
+}

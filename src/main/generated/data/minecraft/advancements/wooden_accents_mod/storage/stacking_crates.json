@@ -1,0 +1,39 @@
+{
+  "parent": "minecraft:wooden_accents_mod/storage/root",
+  "criteria": {
+    "stacked_crates": {
+      "conditions": {
+        "items": [
+          {
+            "count": {
+              "min": 2
+            },
+            "tag": "wooden_accents_mod:crates"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+    "description": {
+      "text": "Crates are stackable? Make sure they contain the same items"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "wooden_accents_mod:oak_crate"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "Better than Shulker Box"
+    }
+  },
+  "requirements": [
+    [
+      "stacked_crates"
+    ]
+  ]
+}

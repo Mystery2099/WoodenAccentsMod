@@ -1,11 +1,11 @@
 {
-  "parent": "minecraft:wooden_accents_mod/furniture/root",
+  "parent": "minecraft:wooden_accents_mod/root",
   "criteria": {
-    "has_coffee_table": {
+    "has_crate": {
       "conditions": {
         "items": [
           {
-            "tag": "wooden_accents_mod:coffee_tables"
+            "tag": "wooden_accents_mod:crates"
           }
         ]
       },
@@ -16,21 +16,21 @@
     "announce_to_chat": false,
     "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
     "description": {
-      "text": "Craft a coffee table because why not?"
+      "text": "Craft a Crate for portable storage"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "wooden_accents_mod:oak_coffee_table"
+      "item": "wooden_accents_mod:oak_crate"
     },
     "show_toast": true,
     "title": {
-      "text": "Take a break!"
+      "text": "I can't believe it's not a Shulker Box!"
     }
   },
   "requirements": [
     [
-      "has_coffee_table"
+      "has_crate"
     ]
   ]
 }
