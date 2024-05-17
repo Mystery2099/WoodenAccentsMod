@@ -72,16 +72,6 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
     override val itemGroup: CustomItemGroup = ModItemGroups.miscellaneous
     override val tag: TagKey<Block> = ModBlockTags.crates
 
-    @Deprecated("Deprecated in Java",
-        ReplaceWith("shape", "com.mystery2099.wooden_accents_mod.block.custom.CrateBlock.Companion.shape")
-    )
-    override fun getOutlineShape(
-        state: BlockState?,
-        world: BlockView?,
-        pos: BlockPos?,
-        context: ShapeContext?
-    ): VoxelShape = shape
-
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity = CrateBlockEntity(pos, state)
 
     @Deprecated("Deprecated in Java", ReplaceWith("BlockRenderType.MODEL", "net.minecraft.block.BlockRenderType"))
@@ -275,22 +265,6 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
     }
 
     companion object {
-        val shape = VoxelAssembly.union(
-            VoxelAssembly.createCuboidShape(0, 0, 2, 2, 2, 14),
-            VoxelAssembly.createCuboidShape(14, 0, 2, 16, 2, 14),
-            VoxelAssembly.createCuboidShape(2, 0, 0, 14, 2, 2),
-            VoxelAssembly.createCuboidShape(2, 0, 14, 14, 2, 16),
-            VoxelAssembly.createCuboidShape(0, 14, 2, 2, 16, 14),
-            VoxelAssembly.createCuboidShape(14, 14, 2, 16, 16, 14),
-            VoxelAssembly.createCuboidShape(2, 14, 0, 14, 16, 2),
-            VoxelAssembly.createCuboidShape(2, 14, 14, 14, 16, 16),
-            VoxelAssembly.createCuboidShape(0, 0, 0, 2, 16, 2),
-            VoxelAssembly.createCuboidShape(14, 0, 14, 16, 16, 16),
-            VoxelAssembly.createCuboidShape(14, 0, 0, 16, 16, 2),
-            VoxelAssembly.createCuboidShape(0, 0, 14, 2, 16, 16),
-            VoxelAssembly.createCuboidShape(1, 1, 1, 15, 15, 15)
-        )
         val contents = Identifier("contents")
-
     }
 }
