@@ -1,0 +1,36 @@
+{
+  "parent": "minecraft:wooden_accents_mod/root",
+  "criteria": {
+    "has_support_beam": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "wooden_accents_mod:support_beams"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+    "description": {
+      "text": "Craft Supports to reinforce your structures and connect them in different directions for added stability"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "wooden_accents_mod:oak_support_beam"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "Build it Strong!"
+    }
+  },
+  "requirements": [
+    [
+      "has_support_beam"
+    ]
+  ]
+}

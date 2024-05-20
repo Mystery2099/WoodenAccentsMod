@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:wooden_accents_mod/root",
+  "parent": "minecraft:wooden_accents_mod/structural/root",
   "criteria": {
     "has_modern_fence": {
       "conditions": {
@@ -26,7 +26,7 @@
     "announce_to_chat": false,
     "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
     "description": {
-      "text": "Protect your property with a Modern Fence and a Modern Fence Gate to enter."
+      "text": "Protect your property with a Modern Fence and a Modern Fence Gate to enter"
     },
     "frame": "task",
     "hidden": false,

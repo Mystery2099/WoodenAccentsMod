@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:wooden_accents_mod/root",
+  "parent": "minecraft:wooden_accents_mod/structural/root",
   "criteria": {
     "has_connecting_ladder": {
       "conditions": {

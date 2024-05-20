@@ -43,7 +43,7 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .criterion("start", TickCriterion.Conditions.createTick())
             .build(consumer, WoodenAccentsMod.MOD_ID + "/root")
 
-        // 1. Furniture
+        // 1. Decor
         val basicComfort = Advancement.Builder.create().parent(root)
             .display(
                 ModBlocks.oakPlankChair,
@@ -107,21 +107,8 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .build(consumer, WoodenAccentsMod.MOD_ID + "/decor/interior_design")
 
 
-        val ladderUp = Advancement.Builder.create().parent(root)
-            .display(
-                ModBlocks.oakPlankLadder,
-                Text.literal("Climb High!"),
-                Text.literal("Craft a Stripped Wood Ladder for a classic look and a Plank Ladder for a simpler option"),
-                Identifier("textures/gui/advancements/backgrounds/adventure.png"),
-                AdvancementFrame.TASK,
-                true,
-                false,
-                false
-            )
-            .criterion("has_plank_ladder", inventoryChangedConditionsInTag(ModBlockTags.plankLadders))
-            .criterion("has_connecting_ladder", inventoryChangedConditionsInTag(ModBlockTags.connectingLadders))
-            .build(consumer, WoodenAccentsMod.MOD_ID + "/structural/ladder_up")
 
+        // Storage
         val crates = Advancement.Builder.create().parent(root)
             .display(
                 ModBlocks.oakCrate,
@@ -150,11 +137,26 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .criterion("stacked_crates", inventoryChangedConditionsInTag(ModBlockTags.crates, NumberRange.IntRange.atLeast(2)))
             .build(consumer, WoodenAccentsMod.MOD_ID + "/storage/stacking_crates")
 
-        val modernTouches = Advancement.Builder.create().parent(root)
+        // Structural
+        val structuralSupport = Advancement.Builder.create().parent(root)
+            .display(
+                ModBlocks.oakSupportBeam,
+                Text.literal("Build it Strong!"),
+                Text.literal("Craft Supports to reinforce your structures and connect them in different directions for added stability"),
+                Identifier("textures/gui/advancements/backgrounds/adventure.png"),
+                AdvancementFrame.TASK,
+                true,
+                false,
+                false
+            )
+            .criterion("has_support_beam", inventoryChangedConditionsInTag(ModBlockTags.supportBeams))
+            .build(consumer, WoodenAccentsMod.MOD_ID + "/structural/root")
+
+        val modernTouches = Advancement.Builder.create().parent(structuralSupport)
             .display(
                 ModBlocks.modernOakFence,
                 Text.literal("Hippity hoppity this is my MODERN property"),
-                Text.literal("Protect your property with a Modern Fence and a Modern Fence Gate to enter."),
+                Text.literal("Protect your property with a Modern Fence and a Modern Fence Gate to enter"),
                 Identifier("textures/gui/advancements/backgrounds/adventure.png"),
                 AdvancementFrame.TASK,
                 true,
@@ -165,10 +167,24 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .criterion("has_modern_fence_gate", inventoryChangedConditionsInTag(ModBlockTags.modernFenceGates))
             .build(consumer, WoodenAccentsMod.MOD_ID + "/structural/modern_touches")
 
+        val ladderUp = Advancement.Builder.create().parent(structuralSupport)
+            .display(
+                ModBlocks.oakPlankLadder,
+                Text.literal("Climb High!"),
+                Text.literal("Craft a Stripped Wood Ladder for a classic look and a Plank Ladder for a simpler option"),
+                Identifier("textures/gui/advancements/backgrounds/adventure.png"),
+                AdvancementFrame.TASK,
+                true,
+                false,
+                false
+            )
+            .criterion("has_plank_ladder", inventoryChangedConditionsInTag(ModBlockTags.plankLadders))
+            .criterion("has_connecting_ladder", inventoryChangedConditionsInTag(ModBlockTags.connectingLadders))
+            .build(consumer, WoodenAccentsMod.MOD_ID + "/structural/ladder_up")
+
         // Planned Advancements
         // Advancements for desks + desk drawers
         // Advancements for kitchen counter + cabinet
-        // Structural Support (Craft & use supports)
         // Pillars of Strength (Craft thick & thin pillars)
         // connections (place a thin pillar on above or below a modern fence)  - parent = Structural Support
     }

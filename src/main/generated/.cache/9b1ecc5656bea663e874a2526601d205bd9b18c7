@@ -1,10 +1,11 @@
-// 1.19.4	2024-05-17T15:17:27.0887768	Wooden Accents Mod/Advancements
+// 1.19.4	2024-05-20T13:48:42.4794145	Wooden Accents Mod/Advancements
 0fc6ee0795678bd67ddf027341a6b0694599cb5b data\minecraft\advancements\wooden_accents_mod\storage\root.json
 4dba4fdf08ba30842327d4d67156763dc24695c8 data\minecraft\advancements\wooden_accents_mod\decor\root.json
 9fc54a8a52c5c049590d6167c33081091e0b6d19 data\minecraft\advancements\wooden_accents_mod\decor\coffee_break.json
 ed23d3739a0213bdd44888d6125315515f0a5594 data\minecraft\advancements\wooden_accents_mod\decor\interior_design.json
-8396dcdd61143fe98de409d2fbbb33761a7ce223 data\minecraft\advancements\wooden_accents_mod\structural\ladder_up.json
+b5d22d32a4ff9d4fec1992b4c92b3a8e2e65c7a9 data\minecraft\advancements\wooden_accents_mod\structural\root.json
+764c87648d396b0cec012f2b4419a56d62067950 data\minecraft\advancements\wooden_accents_mod\structural\ladder_up.json
 173e56e1c129a8bfcd440aa87eb8e5241ca6fe1f data\minecraft\advancements\wooden_accents_mod\root.json
 b229a97e1a872360737ce4eb6d92dbefcbc4243b data\minecraft\advancements\wooden_accents_mod\decor\better_table.json
+0db012093f6c88923145d5f6bf83b554564e1eab data\minecraft\advancements\wooden_accents_mod\structural\modern_touches.json
 4d08da92190c3c7c0840a8f09fd76176c5a11125 data\minecraft\advancements\wooden_accents_mod\storage\stacking_crates.json
-486abb5b281488d3b2a46c08bba9039a4db99748 data\minecraft\advancements\wooden_accents_mod\structural\modern_touches.json
