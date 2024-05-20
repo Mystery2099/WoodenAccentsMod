@@ -155,7 +155,7 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
         val modernTouches = Advancement.Builder.create().parent(structuralSupport)
             .display(
                 ModBlocks.modernOakFence,
-                Text.literal("Hippity hoppity this is my MODERN property"),
+                Text.literal("Time to Modernize!"),
                 Text.literal("Protect your property with a Modern Fence and a Modern Fence Gate to enter"),
                 Identifier("textures/gui/advancements/backgrounds/adventure.png"),
                 AdvancementFrame.TASK,
