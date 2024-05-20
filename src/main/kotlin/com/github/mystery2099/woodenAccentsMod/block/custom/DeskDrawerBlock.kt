@@ -333,16 +333,8 @@ class DeskDrawerBlock(settings: Settings, private val edgeBlock: Block, val base
         )
 
         private val northSingleShape = VoxelAssembly.union(
-            VoxelAssembly.createCuboidShape(0, 15, 0, 16, 16, 16),
-            VoxelAssembly.createCuboidShape(1, 1, 1, 15, 15, 15),
-            VoxelAssembly.createCuboidShape(2, 2, 0, 14, 7, 1),
-            VoxelAssembly.createCuboidShape(2, 9, 0, 14, 14, 1),
-            VoxelAssembly.createCuboidShape(6, 11, -1, 11, 12, 0),
-            VoxelAssembly.createCuboidShape(6, 4, -1, 11, 5, 0),
-            VoxelAssembly.createCuboidShape(1, 0, 1, 2, 1, 2),
-            VoxelAssembly.createCuboidShape(14, 0, 1, 15, 1, 2),
-            VoxelAssembly.createCuboidShape(14, 0, 14, 15, 1, 15),
-            VoxelAssembly.createCuboidShape(1, 0, 14, 2, 1, 15)
+            VoxelAssembly.createCuboidShape(1, 0, 1, 15, 15, 15),
+            VoxelAssembly.createCuboidShape(0, 15, 0, 16, 16, 16)
         )
 
         private val northCenterShape = VoxelAssembly.union(
