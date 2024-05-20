@@ -93,14 +93,12 @@ class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : Fen
         )
         private val shape2 = shape1.rotateLeft()
         private val wallShape1 = VoxelAssembly.union(
-            VoxelAssembly.createCuboidShape(0, 0, 7, 1, 14, 9),
-            VoxelAssembly.createCuboidShape(15, 0, 7, 16, 14, 9),
-            VoxelAssembly.createCuboidShape(1, 11, 7, 15, 14, 9),
-            VoxelAssembly.createCuboidShape(1, 2, 7, 15, 5, 9),
-            VoxelAssembly.createCuboidShape(1, 5, 7.5, 15, 11, 8.5),
-            VoxelAssembly.createCuboidShape(11, 1, 7.5, 13, 16, 8.5),
-            VoxelAssembly.createCuboidShape(3, 1, 7.5, 5, 16, 8.5),
-            VoxelAssembly.createCuboidShape(7, 1, 7.5, 9, 15, 8.5)
+            VoxelAssembly.createCuboidShape(15, 0, 7, 16, 1, 9),
+            VoxelAssembly.createCuboidShape(0, 0, 7, 1, 1, 9),
+            VoxelAssembly.createCuboidShape(3, 15, 7, 5, 16, 9),
+            VoxelAssembly.createCuboidShape(11, 15, 7, 13, 16, 9),
+            VoxelAssembly.createCuboidShape(3, 14, 7, 13, 15, 9),
+            VoxelAssembly.createCuboidShape(0, 1, 7, 16, 14, 9)
         )
         private val wallShape2 = wallShape1.rotateLeft()
     }
