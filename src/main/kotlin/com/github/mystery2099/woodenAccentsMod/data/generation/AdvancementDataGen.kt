@@ -76,7 +76,8 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
                 inventoryChangedConditionsInTag(ModBlockTags.coffeeTables))
             .build(consumer, WoodenAccentsMod.MOD_ID + "/decor/coffee_break")
 
-        val betterTable = Advancement.Builder.create().parent(coffeeBreak)
+        // Better Table
+        Advancement.Builder.create().parent(coffeeBreak)
             .display(
                 ModBlocks.oakCoffeeTable,
                 Text.literal("A better table?"),
@@ -91,7 +92,8 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
                 placedBlockInTagConditions(ModBlockTags.coffeeTables))
             .build(consumer, WoodenAccentsMod.MOD_ID + "/decor/better_table")
 
-        val interiorDesign = Advancement.Builder.create().parent(basicComfort)
+        // Interior Design
+        Advancement.Builder.create().parent(basicComfort)
             .display(
                 ModBlocks.oakPlankCarpet,
                 Text.literal("Spruce Up Your Space!"),
@@ -105,8 +107,6 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .criterion("has_plank_carpet",
                 inventoryChangedConditionsInTag(ModBlockTags.plankCarpets))
             .build(consumer, WoodenAccentsMod.MOD_ID + "/decor/interior_design")
-
-
 
         // Storage
         val crates = Advancement.Builder.create().parent(root)
@@ -123,7 +123,8 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .criterion("has_crate", inventoryChangedConditionsInTag(ModBlockTags.crates))
             .build(consumer, WoodenAccentsMod.MOD_ID + "/storage/root")
 
-        val stackingCrates = Advancement.Builder.create().parent(crates)
+        // Stacking Crates
+        Advancement.Builder.create().parent(crates)
             .display(
                 ModBlocks.oakCrate,
                 Text.literal("Better than Shulker Box"),
@@ -152,7 +153,8 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .criterion("has_support_beam", inventoryChangedConditionsInTag(ModBlockTags.supportBeams))
             .build(consumer, WoodenAccentsMod.MOD_ID + "/structural/root")
 
-        val modernTouches = Advancement.Builder.create().parent(structuralSupport)
+        // Modern Touches
+        Advancement.Builder.create().parent(structuralSupport)
             .display(
                 ModBlocks.modernOakFence,
                 Text.literal("Time to Modernize!"),
@@ -167,7 +169,8 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .criterion("has_modern_fence_gate", inventoryChangedConditionsInTag(ModBlockTags.modernFenceGates))
             .build(consumer, WoodenAccentsMod.MOD_ID + "/structural/modern_touches")
 
-        val ladderUp = Advancement.Builder.create().parent(structuralSupport)
+        // Ladder Up
+        Advancement.Builder.create().parent(structuralSupport)
             .display(
                 ModBlocks.oakPlankLadder,
                 Text.literal("Climb High!"),
@@ -182,7 +185,8 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .criterion("has_connecting_ladder", inventoryChangedConditionsInTag(ModBlockTags.connectingLadders))
             .build(consumer, WoodenAccentsMod.MOD_ID + "/structural/ladder_up")
 
-        val pillars = Advancement.Builder.create().parent(structuralSupport)
+        // Pillars
+        Advancement.Builder.create().parent(structuralSupport)
             .display(
                 ModBlocks.thinOakPillar,
                 Text.literal("Reach for the Sky!"),
@@ -200,13 +204,8 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
         // Planned Advancements
         // Advancements for desks + desk drawers
         // Advancements for kitchen counter + cabinet
-        // connections (place a thin pillar on above or below a modern fence)  - parent = Structural Support
     }
 
-    private inline fun <reified R : Block> inventoryChangedConditionsOfInstance(): InventoryChangedCriterion.Conditions {
-        val blocks = ModBlocks.blocks.filterIsInstance<R>().toTypedArray()
-        return InventoryChangedCriterion.Conditions.items(*blocks)
-    }
     private fun inventoryChangedConditionsInTag(tag: TagKey<Block>, itemCount: NumberRange.IntRange = NumberRange.IntRange.ANY): InventoryChangedCriterion.Conditions {
         val itemTag = ModBlockTags.getItemTagFrom(tag)
         val pred = ItemPredicate(itemTag, null, itemCount, NumberRange.IntRange.ANY, EnchantmentPredicate.ARRAY_OF_ANY, EnchantmentPredicate.ARRAY_OF_ANY, null, NbtPredicate.ANY)
