@@ -84,19 +84,15 @@ class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : Fen
     }
 
     companion object {
-        private val defaultShapes = VoxelAssembly.union(
-            VoxelAssembly.createCuboidShape(0, 0, 7.5, 1, 15, 8.5),
-            VoxelAssembly.createCuboidShape(15, 0, 7.5, 16, 15, 8.5),
-            VoxelAssembly.createCuboidShape(11, 1, 7.5, 13, 16, 8.5),
-            VoxelAssembly.createCuboidShape(3, 1, 7.5, 5, 16, 8.5),
-            VoxelAssembly.createCuboidShape(7, 1, 7.5, 9, 15, 8.5),
-            VoxelAssembly.createCuboidShape(0, 11, 7, 16, 14, 9),
-            VoxelAssembly.createCuboidShape(0, 2, 7, 16, 5, 9),
-            VoxelAssembly.createCuboidShape(0, 2, 7.5, 16, 14, 8.5)
+        private val shape1 = VoxelAssembly.union(
+            VoxelAssembly.createCuboidShape(3, 15, 7, 5, 16, 9),
+            VoxelAssembly.createCuboidShape(11, 15, 7, 13, 16, 9),
+            VoxelAssembly.createCuboidShape(0, 0, 7, 1, 15, 9),
+            VoxelAssembly.createCuboidShape(15, 0, 7, 16, 15, 9),
+            VoxelAssembly.createCuboidShape(1, 1, 7, 15, 15, 9)
         )
-        private val shape1 = defaultShapes
-        private val shape2 = defaultShapes.rotateLeft()
-        private val wallShapes = VoxelAssembly.union(
+        private val shape2 = shape1.rotateLeft()
+        private val wallShape1 = VoxelAssembly.union(
             VoxelAssembly.createCuboidShape(0, 0, 7, 1, 14, 9),
             VoxelAssembly.createCuboidShape(15, 0, 7, 16, 14, 9),
             VoxelAssembly.createCuboidShape(1, 11, 7, 15, 14, 9),
@@ -106,7 +102,6 @@ class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : Fen
             VoxelAssembly.createCuboidShape(3, 1, 7.5, 5, 16, 8.5),
             VoxelAssembly.createCuboidShape(7, 1, 7.5, 9, 15, 8.5)
         )
-        private val wallShape1 = wallShapes
-        private val wallShape2 = wallShapes.rotateLeft()
+        private val wallShape2 = wallShape1.rotateLeft()
     }
 }
