@@ -101,13 +101,7 @@ class ModernFenceBlock(settings: Block, private val sideBlock: Block, private va
 
     companion object {
         private val postShape: VoxelShape = VoxelAssembly.createCuboidShape(6, 0, 6, 10, 16, 10)
-        private val northShape: VoxelShape = VoxelAssembly.union(
-            VoxelAssembly.createCuboidShape(7, 11, 0, 9, 14, 6),
-            VoxelAssembly.createCuboidShape(7, 2, 0, 9, 5, 6),
-            VoxelAssembly.createCuboidShape(7.5, 5, 1, 8.5, 11, 2),
-            VoxelAssembly.createCuboidShape(7.5, 0, 2, 8.5, 15, 5),
-            VoxelAssembly.createCuboidShape(7.5, 0, 0, 8.5, 15, 1)
-        )
+        private val northShape: VoxelShape = VoxelAssembly.createCuboidShape(7, 0, 0, 9, 15, 6)
         val directionToShapeMap = mapOf(
             Direction.NORTH to northShape,
             Direction.EAST to northShape.rotateLeft(),
