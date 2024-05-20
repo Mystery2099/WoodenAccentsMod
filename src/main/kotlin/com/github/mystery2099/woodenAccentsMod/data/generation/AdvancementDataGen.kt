@@ -184,7 +184,7 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
 
         val pillars = Advancement.Builder.create().parent(structuralSupport)
             .display(
-                ModBlocks.oakPlankLadder,
+                ModBlocks.thinOakPillar,
                 Text.literal("Reach for the Sky!"),
                 Text.literal("Craft a Thin Pillar for a slim look and a Thick Pillar for a bolder design"),
                 Identifier("textures/gui/advancements/backgrounds/adventure.png"),

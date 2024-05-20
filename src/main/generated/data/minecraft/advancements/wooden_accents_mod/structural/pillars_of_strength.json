@@ -31,7 +31,7 @@
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "wooden_accents_mod:oak_plank_ladder"
+      "item": "wooden_accents_mod:thin_oak_plank_pillar"
     },
     "show_toast": true,
     "title": {
