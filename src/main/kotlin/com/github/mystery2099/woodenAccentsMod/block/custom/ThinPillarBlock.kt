@@ -47,15 +47,9 @@ class ThinPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape) 
 
     companion object {
         val shape = Shape(
-            topShape = VoxelAssembly.union(
-                VoxelAssembly.createCuboidShape(5, 13, 5, 11, 14, 11),
-                VoxelAssembly.createCuboidShape(4, 14, 4, 12, 16, 12)
-            ),
+            topShape = VoxelAssembly.createCuboidShape(4, 13, 4, 12, 16, 12),
             centerShape = VoxelAssembly.createCuboidShape(6, 0, 6, 10, 16, 10),
-            baseShape = VoxelAssembly.union(
-                VoxelAssembly.createCuboidShape(5, 2, 5, 11, 3, 11),
-                VoxelAssembly.createCuboidShape(4, 0, 4, 12, 2, 12)
-            )
+            baseShape = VoxelAssembly.createCuboidShape(4, 0, 4, 12, 3, 12)
         )
     }
 }
