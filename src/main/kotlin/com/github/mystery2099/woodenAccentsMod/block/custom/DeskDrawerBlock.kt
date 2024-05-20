@@ -1,6 +1,7 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
 import com.github.mystery2099.voxlib.combination.VoxelAssembly
+import com.github.mystery2099.voxlib.combination.VoxelAssembly.and
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateRight
@@ -316,36 +317,16 @@ class DeskDrawerBlock(settings: Settings, private val edgeBlock: Block, val base
     companion object {
         val facing: DirectionProperty = Properties.HORIZONTAL_FACING
         val shape: EnumProperty<SidewaysConnectionShape> = ModProperties.sidewaysConnectionShape
-        private val nonSingleShape = VoxelAssembly.union(
-            VoxelAssembly.createCuboidShape(1, 1, 1, 15, 15, 16),
-            VoxelAssembly.createCuboidShape(2, 9, 0, 14, 14, 1),
-            VoxelAssembly.createCuboidShape(6, 11, -1, 11, 12, 0),
-            VoxelAssembly.createCuboidShape(6, 4, -1, 11, 5, 0),
-            VoxelAssembly.createCuboidShape(2, 2, 0, 14, 7, 1)
-        )
-        private val leftLegsShape = VoxelAssembly.union(
-            VoxelAssembly.createCuboidShape(1, 0, 1, 2, 1, 2),
-            VoxelAssembly.createCuboidShape(1, 0, 15, 2, 1, 16)
-        )
-        private val rightLegsShape = VoxelAssembly.union(
-            VoxelAssembly.createCuboidShape(14, 0, 1, 15, 1, 2),
-            VoxelAssembly.createCuboidShape(14, 0, 15, 15, 1, 16)
+        private val northShape = VoxelAssembly.createCuboidShape(1, 0, 1, 15, 15, 16)
+        private val northSingleShape = VoxelAssembly.createCuboidShape(
+            1, 0, 1, 15, 15, 15
+        ) and VoxelAssembly.createCuboidShape(
+            0, 15, 0, 16, 16, 16
         )
 
-        private val northSingleShape = VoxelAssembly.union(
-            VoxelAssembly.createCuboidShape(1, 0, 1, 15, 15, 15),
-            VoxelAssembly.createCuboidShape(0, 15, 0, 16, 16, 16)
-        )
-
-        private val northCenterShape = VoxelAssembly.union(
-            nonSingleShape, leftLegsShape, rightLegsShape, DeskBlock.northCenterShape
-        )
-        private val northLeftShape = VoxelAssembly.union(
-            nonSingleShape, leftLegsShape, DeskBlock.northLeftShape
-        )
-        private val northRightShape = VoxelAssembly.union(
-            nonSingleShape, rightLegsShape, DeskBlock.northRightShape
-        )
+        private val northCenterShape = northShape and DeskBlock.northCenterShape
+        private val northLeftShape = northShape and DeskBlock.northLeftShape
+        private val northRightShape = northShape and DeskBlock.northRightShape
 
         private val singleShapeMap = mapOf(
             Direction.NORTH to northSingleShape,
