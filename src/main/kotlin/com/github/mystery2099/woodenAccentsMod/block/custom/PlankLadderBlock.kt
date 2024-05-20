@@ -65,14 +65,9 @@ class PlankLadderBlock(val baseBlock: Block) :
     }
 
     companion object {
-        private val northShapes = VoxelAssembly.union(
-            VoxelAssembly.createCuboidShape(2, 1, 15, 14, 4, 16),
-            VoxelAssembly.createCuboidShape(2, 12, 15, 14, 15, 16),
-            VoxelAssembly.createCuboidShape(2, 6, 15, 14, 10, 16)
-        )
-        private val northShape = northShapes
-        private val eastShape = northShapes.rotateLeft()
-        private val southShape = northShapes.flip()
-        private val westShape = northShapes.rotateRight()
+        private val northShape = VoxelAssembly.createCuboidShape(2, 1, 15, 14, 15, 16)
+        private val eastShape = northShape.rotateLeft()
+        private val southShape = northShape.flip()
+        private val westShape = northShape.rotateRight()
     }
 }
