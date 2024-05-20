@@ -1,4 +1,4 @@
-// 1.19.4	2024-05-20T13:48:42.4794145	Wooden Accents Mod/Advancements
+// 1.19.4	2024-05-20T13:52:21.5453494	Wooden Accents Mod/Advancements
 0fc6ee0795678bd67ddf027341a6b0694599cb5b data\minecraft\advancements\wooden_accents_mod\storage\root.json
 4dba4fdf08ba30842327d4d67156763dc24695c8 data\minecraft\advancements\wooden_accents_mod\decor\root.json
 9fc54a8a52c5c049590d6167c33081091e0b6d19 data\minecraft\advancements\wooden_accents_mod\decor\coffee_break.json
@@ -9,3 +9,4 @@ b5d22d32a4ff9d4fec1992b4c92b3a8e2e65c7a9 data\minecraft\advancements\wooden_acce
 b229a97e1a872360737ce4eb6d92dbefcbc4243b data\minecraft\advancements\wooden_accents_mod\decor\better_table.json
 0db012093f6c88923145d5f6bf83b554564e1eab data\minecraft\advancements\wooden_accents_mod\structural\modern_touches.json
 4d08da92190c3c7c0840a8f09fd76176c5a11125 data\minecraft\advancements\wooden_accents_mod\storage\stacking_crates.json
+d0a8092718fecfec06d6db8c53efa39a61c6dd81 data\minecraft\advancements\wooden_accents_mod\structural\pillars_of_strength.json

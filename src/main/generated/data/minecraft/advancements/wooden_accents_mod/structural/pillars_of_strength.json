@@ -1,0 +1,49 @@
+{
+  "parent": "minecraft:wooden_accents_mod/structural/root",
+  "criteria": {
+    "has_thick_pillar": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "wooden_accents_mod:thick_pillars"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_thin_pillar": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "wooden_accents_mod:thin_pillars"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+    "description": {
+      "text": "Craft a Thin Pillar for a slim look and a Thick Pillar for a bolder design"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "wooden_accents_mod:oak_plank_ladder"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "Reach for the Sky!"
+    }
+  },
+  "requirements": [
+    [
+      "has_thin_pillar"
+    ],
+    [
+      "has_thick_pillar"
+    ]
+  ]
+}

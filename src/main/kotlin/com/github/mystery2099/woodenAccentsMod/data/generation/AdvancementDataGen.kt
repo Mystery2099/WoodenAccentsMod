@@ -182,10 +182,24 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .criterion("has_connecting_ladder", inventoryChangedConditionsInTag(ModBlockTags.connectingLadders))
             .build(consumer, WoodenAccentsMod.MOD_ID + "/structural/ladder_up")
 
+        val pillars = Advancement.Builder.create().parent(structuralSupport)
+            .display(
+                ModBlocks.oakPlankLadder,
+                Text.literal("Reach for the Sky!"),
+                Text.literal("Craft a Thin Pillar for a slim look and a Thick Pillar for a bolder design"),
+                Identifier("textures/gui/advancements/backgrounds/adventure.png"),
+                AdvancementFrame.TASK,
+                true,
+                false,
+                false
+            )
+            .criterion("has_thin_pillar", inventoryChangedConditionsInTag(ModBlockTags.thinPillars))
+            .criterion("has_thick_pillar", inventoryChangedConditionsInTag(ModBlockTags.thickPillars))
+            .build(consumer, WoodenAccentsMod.MOD_ID + "/structural/pillars_of_strength")
+
         // Planned Advancements
         // Advancements for desks + desk drawers
         // Advancements for kitchen counter + cabinet
-        // Pillars of Strength (Craft thick & thin pillars)
         // connections (place a thin pillar on above or below a modern fence)  - parent = Structural Support
     }
 
