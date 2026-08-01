@@ -1,7 +1,7 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-	id 'fabric-loom' version "$loom_version"
+	id 'net.fabricmc.fabric-loom-remap' version "$loom_version"
 	id 'maven-publish'
 	id "org.jetbrains.kotlin.jvm" version "$kotlin_version"
 }
@@ -19,16 +19,17 @@ repositories {
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
-	maven { url "https://maven.misterpemodder.com/libs-release/" }
-	maven { url "https://maven.shedaniel.me/" }
+	maven { url = uri("https://maven.misterpemodder.com/libs-release/") }
+	maven { url = uri("https://maven.shedaniel.me/") }
 	exclusiveContent {
 		forRepository {
 			maven {
-				url "https://cursemaven.com"
+				name = "Modrinth"
+				url = uri("https://api.modrinth.com/maven")
 			}
 		}
 		filter {
-			includeGroup "curse.maven"
+			includeGroup "maven.modrinth"
 		}
 	}
 }
@@ -79,18 +80,24 @@ dependencies {
 	// These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
 
 	// modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
-	modImplementation("com.misterpemodder:shulkerboxtooltip-fabric:${project.shulker_box_tooltip_version}") { transitive false }
+	modImplementation("com.misterpemodder:shulkerboxtooltip-fabric:${project.shulker_box_tooltip_version}") { transitive = false }
 	modImplementation("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
-	modImplementation "curse.maven:voxlib-945749:5184891"
+	modImplementation "maven.modrinth:voxlib:${project.voxlib_version}"
+	// Loom's development remap drops VoxLib's nested-jar declaration, so provide its embedded library at runtime.
+	runtimeOnly("com.github.ben-manes.caffeine:caffeine:${project.caffeine_version}") {
+		exclude(group: "org.checkerframework", module: "checker-qual")
+		exclude(group: "com.google.errorprone", module: "error_prone_annotations")
+	}
 }
 
 processResources {
-	inputs.property "version", project.version
+	def projectVersion = version
+	inputs.property "version", projectVersion
 
 	filesMatching("fabric.mod.json") {
-		expand "version": project.version
+		expand "version": projectVersion
 	}
 }
 
@@ -98,8 +105,10 @@ tasks.withType(JavaCompile).configureEach {
 	it.options.release.set(17)
 }
 
-tasks.withType(KotlinCompile).configureEach {
-	it.kotlinOptions.jvmTarget = 17
+kotlin {
+	compilerOptions {
+		jvmTarget = JvmTarget.JVM_17
+	}
 }
 
 java {
