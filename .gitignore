@@ -40,3 +40,4 @@ replay_*.log
 *.jfr
 /gitlogin.properties
 /AGENTS.md
+/template-mod-template-1.19.4.zip
