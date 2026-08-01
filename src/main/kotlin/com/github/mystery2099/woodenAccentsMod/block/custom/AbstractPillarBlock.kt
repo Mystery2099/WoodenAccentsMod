@@ -40,9 +40,9 @@ import java.util.function.Consumer
  * AbstractPillarBlock is an abstract class representing a pillar block in the game.
  *
  * @param baseBlock The base block for the pillar.
- * @param shape The shape of the pillar, containing the top, center, and base shapes.
+ * @param pillarShape The shape of the pillar, containing the top, center, and base shapes.
  */
-abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shape) :
+abstract class AbstractPillarBlock(val baseBlock: Block, private val pillarShape: Shape) :
     AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
     override val itemGroup = ModItemGroups.structuralElements
@@ -86,9 +86,9 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val shape: Shap
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
-    ): VoxelShape = shape.centerShape.appendShapes {
-        shape.topShape case !state[up]
-        shape.baseShape case !state[down]
+    ): VoxelShape = pillarShape.centerShape.appendShapes {
+        pillarShape.topShape case !state[up]
+        pillarShape.baseShape case !state[down]
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState =
