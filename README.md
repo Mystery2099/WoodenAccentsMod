@@ -33,3 +33,9 @@ Wooden Accents Mod is the perfect mod for anyone who loves building!
 > There is a variant of each block for each wood type in the game, 
 > including the ones locked behind experimental features 
 > (experimental features must be enabled to use them).
+
+## Support (totally optional)
+
+This project is free, and it always will be. Nobody owes me anything for it.
+
+If you somehow still want to tip, you can [buy me a coffee](https://buymeacoffee.com/mystery2099). No pressure at all.
