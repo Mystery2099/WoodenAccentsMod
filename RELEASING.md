@@ -1,32 +1,63 @@
 # Releasing Wooden Accents Mod
 
-Releases are published manually to GitHub. Nothing is published by a push, merge, tag, or scheduled workflow, and GitHub provides the required token automatically.
+Releases are deliberately manual. Merging a pull request, pushing a commit, or creating a tag does **not** publish the mod.
+
+The release workflow publishes to GitHub Releases only. It does not upload anything to Modrinth, CurseForge, or a Maven repository.
+
+## Safety checks
+
+The workflow is set up to make accidental releases difficult:
+
+- Dry-run mode is enabled by default.
+- A real release must run from `master`.
+- A real release requires the **Confirm release** checkbox.
+- Existing GitHub releases and tags are rejected instead of overwritten.
+- The publishing token is provided by GitHub Actions; there is no personal token to configure.
 
 ## Prepare a release
 
 1. Update `mod_version` in `gradle.properties`.
-2. Move the pending notes under `## [Unreleased]` in `CHANGELOG.md` to a new section named `## [<mod_version>] - YYYY-MM-DD`.
-3. Open and merge a pull request containing the version and changelog changes.
-4. Confirm the build workflow succeeds on `master`.
+2. Move the relevant notes from `## [Unreleased]` in `CHANGELOG.md` into a new `## [<mod_version>] - YYYY-MM-DD` section.
+3. Make sure the new changelog section is not empty and matches `mod_version` exactly.
+4. Open and merge a pull request containing the version and changelog changes.
+5. Confirm the build on `master` succeeds.
 
-The changelog heading must match `mod_version` exactly and its section must not be empty.
+The Gradle publishing tasks deliberately fail when the current version is missing from the changelog or its section is empty.
+
+## Run a dry run first
+
+1. Open **Actions → Release → Run workflow**.
+2. Select `master` or the branch you want to validate.
+3. Leave **Dry run** enabled.
+4. Leave **Confirm release** disabled.
+5. Choose the intended release type and run the workflow.
+
+The workflow builds the same remapped release and sources JARs used by a real release, then uploads them as a temporary workflow artifact. It does not create a tag or GitHub release. Dry-run artifacts are kept for seven days.
+
+For a local dry run, use:
+
+```bash
+./gradlew clean publishMods -PdryRun=true -PreleaseType=STABLE
+```
 
 ## Publish
 
+Once the release commit and dry run are both good:
+
 1. Open **Actions → Release → Run workflow**.
 2. Select the `master` branch.
-3. Select `STABLE`, `BETA`, or `ALPHA`.
-4. Leave dry run disabled.
-5. Check **Confirm release**.
+3. Choose `STABLE`, `BETA`, or `ALPHA`.
+4. Disable **Dry run**.
+5. Enable **Confirm release**.
 6. Run the workflow.
-7. Verify the new version on GitHub Releases.
+7. Verify the tag, release notes, and both attached JARs on GitHub Releases.
 
-The workflow creates a `v<mod_version>` GitHub tag from the exact commit selected by the workflow and attaches the remapped release and sources JARs.
+The workflow creates `v<mod_version>` from the exact `master` commit used by the run. `BETA` and `ALPHA` releases are marked as prereleases by the publishing plugin.
 
-## Dry run
+## If publishing fails
 
-Enable **Dry run** to validate the release metadata and artifacts without publishing. Dry runs may use any branch and do not require confirmation. The generated files are uploaded as a workflow artifact.
+Do not blindly rerun the workflow.
 
-## Retry a failed release
+First check GitHub Releases and repository tags for a partial result. If the plugin created a draft release but failed while uploading an asset, either finish that draft or remove it before retrying. The workflow will refuse to continue while the target tag or release already exists.
 
-If publishing fails while uploading assets, inspect GitHub for a draft release. Remove or finish that draft before rerunning the workflow.
+Nothing outside GitHub needs to be cleaned up because this workflow does not publish anywhere else.

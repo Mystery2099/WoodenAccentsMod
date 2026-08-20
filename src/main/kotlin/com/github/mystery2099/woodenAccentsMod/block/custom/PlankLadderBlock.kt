@@ -23,14 +23,6 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import java.util.function.Consumer
 
-/**
- * PlankLadderBlock class represents a custom ladder block made of planks.
- *
- * This class extends AbstractCustomLadderBlock class and provides additional functionality for custom ladder blocks made of planks.
- *
- * @property baseBlock The base block used to create the plank ladder block.
- * @constructor Creates an instance of PlankLadderBlock with the specified base block.
- */
 class PlankLadderBlock(val baseBlock: Block) :
     AbstractCustomLadderBlock(FabricBlockSettings.of(baseBlock.defaultState.material, baseBlock.defaultMapColor).apply {
         hardness(Blocks.LADDER.hardness)

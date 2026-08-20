@@ -20,13 +20,6 @@ import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.tag.TagKey
 import java.util.function.Consumer
 
-/**
- * Represents a custom wall block that extends the [WallBlock] class.
- *
- * This class provides functionality for custom item group, custom recipes, custom tags, and custom block state models.
- *
- * @param baseBlock The base block used to create the custom wall block.
- */
 class CustomWallBlock(val baseBlock: Block) : WallBlock(FabricBlockSettings.copyOf(baseBlock)), CustomItemGroupProvider,
     CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.woodenWalls

@@ -9,8 +9,7 @@ enum class CoffeeTableTypes(private val string: String) : StringIdentifiable {
 
     override fun asString() = string
     companion object {
-        //To be used for things like NBT
+        // Stable serialized key used by block-item NBT.
         const val TAG = "coffee_table_type"
     }
 }
-

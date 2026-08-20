@@ -26,11 +26,6 @@ import net.minecraft.registry.tag.TagKey
 import net.minecraft.resource.featuretoggle.FeatureFlags
 import java.util.function.Consumer
 
-/**
- * The [CustomCarpetBlock] class represents a custom carpet block that extends the [CarpetBlock] class.
- *
- * @property baseBlock The base block for the custom carpet block.
- */
 class CustomCarpetBlock(val baseBlock: Block) : CarpetBlock(
     FabricBlockSettings.of(Material.CARPET).strength(0.1f).apply {
         mapColor(baseBlock.defaultMapColor)

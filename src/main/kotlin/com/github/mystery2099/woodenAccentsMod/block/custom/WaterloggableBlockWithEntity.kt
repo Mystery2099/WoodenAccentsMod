@@ -15,13 +15,6 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.WorldAccess
 
-/**
- * Waterloggable block with entity
- *
- * @constructor
- *
- * @param settings
- */
 abstract class WaterloggableBlockWithEntity(settings: Settings) : BlockWithEntity(settings), Waterloggable {
     init {
         this.defaultState = stateManager.defaultState.with(waterlogged, false)
@@ -49,14 +42,6 @@ abstract class WaterloggableBlockWithEntity(settings: Settings) : BlockWithEntit
         neighborPos: BlockPos?
     ): BlockState = scheduleWaterTickIfWaterlogged(state, world, pos)
 
-    /**
-     * Schedules a water tick for the block at the specified position if it is waterlogged.
-     *
-     * @param state The current block state.
-     * @param world The world where the block is located.
-     * @param pos The position of the block.
-     * @return The updated block state.
-     */
     private fun scheduleWaterTickIfWaterlogged(
         state: BlockState,
         world: WorldAccess,

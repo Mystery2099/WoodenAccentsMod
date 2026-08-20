@@ -35,11 +35,6 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import java.util.function.Consumer
 
-/**
- * The [ThinBookshelfBlock] class represents a block that serves as a thin bookshelf in the game.
- *
- * @param baseBlock The base block to use for the thin bookshelf.
- */
 class ThinBookshelfBlock(val baseBlock: Block) :
     ChiseledBookshelfBlock(FabricBlockSettings.copyOf(baseBlock).requires(FeatureFlags.UPDATE_1_20)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {

@@ -44,12 +44,6 @@ import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
 
-/**
- * Represents a table block.
- *
- * @property baseBlock The base block of the table.
- * @property topBlock The top block of the table.
- */
 class TableBlock(val baseBlock: Block, private val topBlock: Block) :
     AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)), CustomItemGroupProvider, CustomRecipeProvider,
     CustomTagProvider<Block>, CustomBlockStateProvider {
@@ -126,13 +120,13 @@ class TableBlock(val baseBlock: Block, private val topBlock: Block) :
         val west = state[west]
 
         singleLegShape case (!north && !east && !south && !west)
-        //ends
+        // End legs
         northEndLegShape case (!north && !east && south && !west)
         eastEndLegShape case (!north && !east && !south && west)
         southEndLegShape case (north && !east && !south && !west)
         westEndLegShape case (!north && east && !south && !west)
 
-        //corners
+        // Corner legs
         northEastLegShape case (!north && !east && south && west)
         northWestLegShape case (!north && east && south && !west)
         southEastLegShape case (north && !east && !south && west)
@@ -183,7 +177,7 @@ class TableBlock(val baseBlock: Block, private val topBlock: Block) :
             When.allOf(WhenUtil.notNorth, WhenUtil.notEast, WhenUtil.notSouth, WhenUtil.notWest),
             singleLegModel.asBlockStateVariant()
         )
-        //Ends
+        // End legs
         with(
             When.allOf(WhenUtil.notNorth, WhenUtil.notEast, WhenUtil.south, WhenUtil.notWest), northEndLegVariant
         )
@@ -199,7 +193,7 @@ class TableBlock(val baseBlock: Block, private val topBlock: Block) :
             When.allOf(WhenUtil.notNorth, WhenUtil.east, WhenUtil.notSouth, WhenUtil.notWest),
             northEndLegVariant.withYRotationOf(VariantSettings.Rotation.R270)
         )
-        //Corners
+        // Corner legs
         with(
             When.allOf(WhenUtil.notNorth, WhenUtil.notEast, WhenUtil.south, WhenUtil.west), northEastCornerVariant
         )

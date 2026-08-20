@@ -57,9 +57,6 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
-/**
- * Represents a desk drawer block.
- */
 class DeskDrawerBlock(settings: Settings, private val edgeBlock: Block, val baseBlock: Block) :
     WaterloggableBlockWithEntity(settings), CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>,
     CustomBlockStateProvider {
@@ -105,7 +102,6 @@ class DeskDrawerBlock(settings: Settings, private val edgeBlock: Block, val base
         val world = ctx.world
         val pos = ctx.blockPos
 
-        //States
         val state = super.getPlacementState(ctx).with(facing, ctx.horizontalPlayerFacing.opposite)
         val adjacentStates = getAdjacentStates(world, pos, state)
         return state.withShape(

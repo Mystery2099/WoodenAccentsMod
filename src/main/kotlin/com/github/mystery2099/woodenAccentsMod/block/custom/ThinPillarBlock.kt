@@ -16,11 +16,6 @@ import net.minecraft.util.Identifier
 import java.util.function.Consumer
 
 
-/**
- * ThinPillarBlock represents a pillar block that is derived from a base block.
- *
- * @param baseBlock The base block on which this pillar is based.
- */
 class ThinPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape) {
     override val connectableBlockTag: TagKey<Block> = ModBlockTags.thinPillarsConnectable
     override val tag: TagKey<Block> = ModBlockTags.thinPillars

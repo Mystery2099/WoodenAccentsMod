@@ -8,11 +8,7 @@ import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 
 
-/**
- * A class that provides block entity preview for crates.
- *
- * @constructor Creates a CratePreviewProvider instance.
- */
+/** Matches the crate's 3x3 layout without revealing unresolved loot-table contents. */
 class CratePreviewProvider : BlockEntityPreviewProvider(9, true, 3) {
     override fun showTooltipHints(context: PreviewContext): Boolean = true
     override fun addTooltip(context: PreviewContext): List<Text> {

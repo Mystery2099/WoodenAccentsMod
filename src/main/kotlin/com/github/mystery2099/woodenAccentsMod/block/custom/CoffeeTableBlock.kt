@@ -67,16 +67,6 @@ import net.minecraft.world.WorldAccess
 import java.util.*
 import java.util.function.Consumer
 import java.util.function.Supplier
-/**
- * Represents a coffee table block.
- *
- * @property baseBlock The base block of the coffee table.
- * @property topBlock The top block of the coffee table.
- * @property tag The tag of the coffee table.
- * @property itemGroup The item group of the coffee table.
- * @property isTall Whether the coffee table is tall.
- * @property variantItemGroupStack The variant item group stack of the coffee table.
- */
 class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
     AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider,
@@ -86,9 +76,6 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
     override val tag: TagKey<Block> = ModBlockTags.coffeeTables
     override val itemGroup = ModItemGroups.decorations
 
-    /*
-     * Getters for checking and setting specific properties of [BlockState]s.
-     */
     private val BlockState.isTall: Boolean
         get() = getOrEmpty(type) == Optional.of(CoffeeTableTypes.TALL)
 
@@ -119,6 +106,7 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
     private fun NbtCompound.setType(type: CoffeeTableTypes) =
         apply { putString(CoffeeTableTypes.TAG, type.asString()) }
 
+    // Placing another short table on a short table upgrades it to the tall variant.
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
         val nbt = ctx.stack.nbt
         val state = ctx.world.getBlockState(ctx.blockPos)
@@ -139,26 +127,10 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         }
     }
 
-    /**
-     * Sets the [CoffeeTableBlock]'s type to [CoffeeTableTypes.SHORT].
-     *
-     * @return The updated [BlockState].
-     */
     private fun BlockState.setShort(): BlockState = this.with(type, CoffeeTableTypes.SHORT)
-    /**
-     * Sets the [CoffeeTableBlock]'s type to [CoffeeTableTypes.TALL].
-     *
-     * @return The updated [BlockState].
-     */
+
     private fun BlockState.setTall(): BlockState = this.with(type, CoffeeTableTypes.TALL)
 
-    /**
-     * Sets the connection directions for the [CoffeeTableBlock] based on the surrounding blocks.
-     *
-     * @param world The [WorldAccess] where the block is located.
-     * @param pos The position of the [Block].
-     * @return The updated [BlockState].
-     */
     private fun BlockState.setDirections(world: WorldAccess, pos: BlockPos): BlockState {
         return this.with {
             north to world.checkNorthOf(pos)
@@ -225,12 +197,12 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         val shouldAppendSouthWest = !hasSouthConnection && !hasWestConnection
 
         return (if (isTall) tallTopShape else shortTopShape).appendShapes {
-            //Short legs
+            // Short legs
             shortNorthEastLeg case shouldAppendNorthEast
             shortNorthWestLeg case shouldAppendNorthWest
             shortSouthEastLeg case shouldAppendSouthEast
             shortSouthWestLeg case shouldAppendSouthWest
-            //Tall legs
+            // Tall legs
             tallNorthEastLeg case (shouldAppendNorthEast && isTall)
             tallNorthWestLeg case (shouldAppendNorthWest && isTall)
             tallSouthEastLeg case (shouldAppendSouthEast && isTall)
@@ -260,11 +232,6 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         }
     }
 
-    /**
-     * Offers a shaped recipe for the [CoffeeTableBlock] to the recipe exporter.
-     *
-     * @param exporter The recipe exporter to offer the recipe to.
-     */
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 6).apply {
             input('_', topBlock)
@@ -277,11 +244,6 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         }
     }
 
-    /**
-     * Generates block state models and item models for the [CoffeeTableBlock].
-     *
-     * @param generator The block state model generator.
-     */
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
         TextureMap().apply {
             put(TextureKey.TOP, topBlock.textureId)
@@ -301,15 +263,6 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         }
     }
 
-    /**
-     * A [MultipartBlockStateSupplier] for the block state model of the [CoffeeTableBlock].
-     *
-     * @param shortTopModel The model identifier for the short top.
-     * @param shortLegModel The model identifier for the short leg.
-     * @param tallTopModel The model identifier for the tall top.
-     * @param tallLegModel The model identifier for the tall leg.
-     * @return A [MultipartBlockStateSupplier] for the [CoffeeTableBlock].
-     */
     private fun blockStateModelSupplier(
         shortTopModel: Identifier,
         shortLegModel: Identifier,
@@ -392,27 +345,27 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
 
         private const val SHAPE_VERTICAL_OFFSET = 7.0 / 16
 
-        // Top shapes
+        // Tops
         private val shortTopShape = VoxelAssembly.createCuboidShape(0, 7, 0, 16, 9, 16)
 
         private val tallTopShape = shortTopShape.offset(0.0, SHAPE_VERTICAL_OFFSET, 0.0)
 
-        // Short North Shapes
+        // Short legs, authored facing north
         private val shortNorthEastLeg = VoxelAssembly.createCuboidShape(13.75, 0, 0.25, 15.75, 7, 2.25)
 
         private val shortNorthWestLeg = shortNorthEastLeg.rotateRight()
 
-        // Short South Shapes
+        // Short legs, authored facing south
         private val shortSouthEastLeg = shortNorthWestLeg.flip()
 
         private val shortSouthWestLeg = shortNorthEastLeg.flip()
 
-        // Tall North Shapes
+        // Tall legs, authored facing north
         private val tallNorthEastLeg = shortNorthEastLeg.offset(0.0, SHAPE_VERTICAL_OFFSET, 0.0)
 
         private val tallNorthWestLeg = tallNorthEastLeg.rotateRight()
 
-        // Tall South Shapes
+        // Tall legs, authored facing south
         private val tallSouthEastLeg = tallNorthWestLeg.flip()
 
         private val tallSouthWestLeg = tallNorthEastLeg.flip()

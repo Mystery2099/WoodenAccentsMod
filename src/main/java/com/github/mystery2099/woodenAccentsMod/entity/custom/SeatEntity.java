@@ -18,7 +18,7 @@ public class SeatEntity extends Entity {
 
     public SeatEntity(EntityType<SeatEntity> type, World world) {
         super(type, world);
-        this.noClip = true; // make the entity ignore collisions
+        this.noClip = true;
     }
 
     @Override
@@ -57,6 +57,7 @@ public class SeatEntity extends Entity {
 
     @Override
     public Vec3d updatePassengerForDismount(LivingEntity passenger) {
+        // Use Vanilla's vehicle-style dismount search so the rider is placed beside the chair.
         var direction = this.getMovementDirection();
         if (direction.getAxis() == Direction.Axis.Y) {
             return super.updatePassengerForDismount(passenger);

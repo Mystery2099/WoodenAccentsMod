@@ -22,15 +22,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
 
-/**
- * KitchenCabinetBlockEntity represents a block entity for a kitchen cabinet block.
- *
- * @property inventory The inventory of the cabinet block.
- * @property stateManager The manager responsible for tracking container open/close events and viewer counts.
- * @constructor Creates a new instance of KitchenCabinetBlockEntity.
- * @param pos The position of the block entity.
- * @param state The block state of the block entity.
- */
+/** A 27-slot cabinet with vanilla loot-table and viewer-count behavior. */
 class KitchenCabinetBlockEntity(pos: BlockPos, state: BlockState) :
     LootableContainerBlockEntity(ModBlockEntities.kitchenCabinet, pos, state) {
 
@@ -113,22 +105,10 @@ class KitchenCabinetBlockEntity(pos: BlockPos, state: BlockState) :
         }
     }
 
-    /**
-     * Set open
-     *
-     * @param state
-     * @param open
-     */
     fun setOpen(state: BlockState, open: Boolean) {
         this.world?.setBlockState(this.getPos(), state.with(KitchenCabinetBlock.open, open), Block.NOTIFY_ALL)
     }
 
-    /**
-     * Play sound
-     *
-     * @param state
-     * @param soundEvent
-     */
     fun playSound(state: BlockState, soundEvent: SoundEvent?) {
         val (d, e, f) = getSoundLocation(state)
         with(world!!) {
@@ -148,4 +128,3 @@ class KitchenCabinetBlockEntity(pos: BlockPos, state: BlockState) :
         return Triple(d, e, f)
     }
 }
-

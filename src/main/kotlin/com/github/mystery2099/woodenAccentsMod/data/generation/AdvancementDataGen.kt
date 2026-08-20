@@ -43,7 +43,6 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .criterion("start", TickCriterion.Conditions.createTick())
             .build(consumer, WoodenAccentsMod.MOD_ID + "/root")
 
-        // 1. Decor
         val basicComfort = Advancement.Builder.create().parent(root)
             .display(
                 ModBlocks.oakPlankChair,
@@ -76,7 +75,6 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
                 inventoryChangedConditionsInTag(ModBlockTags.coffeeTables))
             .build(consumer, WoodenAccentsMod.MOD_ID + "/decor/coffee_break")
 
-        // Better Table
         Advancement.Builder.create().parent(coffeeBreak)
             .display(
                 ModBlocks.oakCoffeeTable,
@@ -92,7 +90,6 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
                 placedBlockInTagConditions(ModBlockTags.coffeeTables))
             .build(consumer, WoodenAccentsMod.MOD_ID + "/decor/better_table")
 
-        // Interior Design
         Advancement.Builder.create().parent(basicComfort)
             .display(
                 ModBlocks.oakPlankCarpet,
@@ -108,7 +105,6 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
                 inventoryChangedConditionsInTag(ModBlockTags.plankCarpets))
             .build(consumer, WoodenAccentsMod.MOD_ID + "/decor/interior_design")
 
-        // Storage
         val crates = Advancement.Builder.create().parent(root)
             .display(
                 ModBlocks.oakCrate,
@@ -123,7 +119,6 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .criterion("has_crate", inventoryChangedConditionsInTag(ModBlockTags.crates))
             .build(consumer, WoodenAccentsMod.MOD_ID + "/storage/root")
 
-        // Stacking Crates
         Advancement.Builder.create().parent(crates)
             .display(
                 ModBlocks.oakCrate,
@@ -138,7 +133,6 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .criterion("stacked_crates", inventoryChangedConditionsInTag(ModBlockTags.crates, NumberRange.IntRange.atLeast(2)))
             .build(consumer, WoodenAccentsMod.MOD_ID + "/storage/stacking_crates")
 
-        // Structural
         val structuralSupport = Advancement.Builder.create().parent(root)
             .display(
                 ModBlocks.oakSupportBeam,
@@ -153,7 +147,6 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .criterion("has_support_beam", inventoryChangedConditionsInTag(ModBlockTags.supportBeams))
             .build(consumer, WoodenAccentsMod.MOD_ID + "/structural/root")
 
-        // Modern Touches
         Advancement.Builder.create().parent(structuralSupport)
             .display(
                 ModBlocks.modernOakFence,
@@ -169,7 +162,6 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .criterion("has_modern_fence_gate", inventoryChangedConditionsInTag(ModBlockTags.modernFenceGates))
             .build(consumer, WoodenAccentsMod.MOD_ID + "/structural/modern_touches")
 
-        // Ladder Up
         Advancement.Builder.create().parent(structuralSupport)
             .display(
                 ModBlocks.oakPlankLadder,
@@ -185,7 +177,6 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .criterion("has_connecting_ladder", inventoryChangedConditionsInTag(ModBlockTags.connectingLadders))
             .build(consumer, WoodenAccentsMod.MOD_ID + "/structural/ladder_up")
 
-        // Pillars
         Advancement.Builder.create().parent(structuralSupport)
             .display(
                 ModBlocks.thinOakPillar,
@@ -201,9 +192,7 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .criterion("has_thick_pillar", inventoryChangedConditionsInTag(ModBlockTags.thickPillars))
             .build(consumer, WoodenAccentsMod.MOD_ID + "/structural/pillars_of_strength")
 
-        // Planned Advancements
-        // Advancements for desks + desk drawers
-        // Advancements for kitchen counter + cabinet
+        // TODO: Add advancement branches for desks, drawers, counters, and cabinets.
     }
 
     private fun inventoryChangedConditionsInTag(tag: TagKey<Block>, itemCount: NumberRange.IntRange = NumberRange.IntRange.ANY): InventoryChangedCriterion.Conditions {

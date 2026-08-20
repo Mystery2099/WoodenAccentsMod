@@ -1,6 +1,12 @@
 # Changelog
 
+This file tracks player-visible changes and anything maintainers need to know before publishing a release. Release headings must match `mod_version` in `gradle.properties` so the publishing workflow can use the section as its release notes.
+
 ## [Unreleased]
+
+### Changed
+
+- Reworked the project, contribution, and release documentation.
 
 ## [1.19.4-1.1.1.1] - 2024-05-20
 

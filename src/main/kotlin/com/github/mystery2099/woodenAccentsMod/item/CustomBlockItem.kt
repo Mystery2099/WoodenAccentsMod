@@ -14,11 +14,9 @@ import net.minecraft.nbt.NbtElement
 
 
 /**
- * This class represents a custom block item that extends the functionality of the base [BlockItem] class.
+ * Applies the mod's container-item rules to its blocks.
  *
- * @constructor Creates a new CustomBlockItem instance with the specified block and settings.
- * @param block The block associated with this custom block item.
- * @param settings The settings for this custom block item.
+ * Crates cannot contain items tagged as unnestable, and spill their stored contents when their item entity is destroyed.
  */
 class CustomBlockItem(block: Block, settings: Settings) : BlockItem(block, settings) {
     override fun canBeNested(): Boolean = super.canBeNested() && block.item.defaultStack !in ModItemTags.unnestable

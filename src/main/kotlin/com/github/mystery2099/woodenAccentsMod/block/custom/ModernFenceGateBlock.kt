@@ -29,13 +29,6 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import java.util.function.Consumer
 
-/**
- * The ModernFenceGateBlock class represents a custom modern fence gate block that extends the FenceGateBlock class
- * and implements several custom interfaces for item group, recipe, tag, and block state generation.
- *
- * @param baseGate The base FenceGateBlock to copy settings from.
- * @param baseBlock The base Block to use in recipe and block state generation.
- */
 class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : FenceGateBlock(FabricBlockSettings.copyOf(baseGate), baseGate.woodType),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.modernFenceGates

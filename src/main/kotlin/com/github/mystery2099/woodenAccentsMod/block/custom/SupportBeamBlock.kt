@@ -39,20 +39,6 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
-/**
- * SupportBeamBlock is a class that represents a support beam block in a game.
- *
- * @property baseBlock The base block used to create the support beam block.
- * @property centerShape The VoxelShape representing the shape of the center of the support beam block.
- * @property northShape The VoxelShape representing the shape of the north side of the support beam block.
- * @property eastShape The VoxelShape representing the shape of the east side of the support beam block.
- * @property southShape The VoxelShape representing the shape of the south side of the support beam block.
- * @property westShape The VoxelShape representing the shape of the west side of the support beam block.
- * @property upShape The VoxelShape representing the shape of the top side of the support beam block.
- * @property downShape The VoxelShape representing the shape of the bottom side of the support beam block.
- * @property tag The tag key for the support beams.
- * @property itemGroup The custom item group for the support beam.
- */
 class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(run {
     if (baseBlock !is PillarBlock) FabricBlockSettings.copyOf(baseBlock)
     else FabricBlockSettings.of(baseBlock.defaultState.material, baseBlock.defaultMapColor).apply {
@@ -77,6 +63,7 @@ class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(ru
 
     private fun canConnect(pos: BlockPos, direction: Direction, world: WorldAccess): Boolean {
         val otherState = world.getBlockState(pos.offset(direction))
+        // Fence gates expose a solid center face but should not anchor support beams.
         return (otherState.isSideSolid(
             world,
             pos.offset(direction),

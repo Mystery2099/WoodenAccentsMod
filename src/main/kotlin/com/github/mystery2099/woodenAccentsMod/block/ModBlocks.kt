@@ -18,18 +18,12 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.util.Identifier
 
-/**
- * The `ModBlocks` class is a registry for all the block objects in the Wooden Accents mod.
- * It implements the `WoodenAccentsModRegistry` interface.
- *
- * @suppress Unused
- */
 @Suppress("unused")
 object ModBlocks : WoodenAccentsModRegistry {
     private val registries = mutableSetOf<Block>()
     val blocks: Set<Block> = registries
 
-    /*Seating*/
+    // Seating
     val oakPlankChair = ChairBlock(Blocks.OAK_PLANKS).registerAs("oak_plank_chair")
     val sprucePlankChair = ChairBlock(Blocks.SPRUCE_PLANKS).registerAs("spruce_plank_chair")
     val birchPlankChair = ChairBlock(Blocks.BIRCH_PLANKS).registerAs("birch_plank_chair")
@@ -43,8 +37,8 @@ object ModBlocks : WoodenAccentsModRegistry {
     val crimsonPlankChair = ChairBlock(Blocks.CRIMSON_PLANKS).registerAs("crimson_plank_chair")
     val warpedPlankChair = ChairBlock(Blocks.WARPED_PLANKS).registerAs("warped_plank_chair")
 
-    /*Tables*/
-    //Plank Tables
+    // Tables
+    // Plank tables
     val oakPlankTable = TableBlock(Blocks.OAK_PLANKS, Blocks.OAK_PLANKS).registerAs("oak_plank_table")
     val sprucePlankTable = TableBlock(Blocks.SPRUCE_PLANKS, Blocks.SPRUCE_PLANKS).registerAs("spruce_plank_table")
     val birchPlankTable = TableBlock(Blocks.BIRCH_PLANKS, Blocks.BIRCH_PLANKS).registerAs("birch_plank_table")
@@ -60,7 +54,7 @@ object ModBlocks : WoodenAccentsModRegistry {
     val crimsonPlankTable = TableBlock(Blocks.CRIMSON_PLANKS, Blocks.CRIMSON_PLANKS).registerAs("crimson_plank_table")
     val warpedPlankTable = TableBlock(Blocks.WARPED_PLANKS, Blocks.WARPED_PLANKS).registerAs("warped_plank_table")
 
-    //Wood Tables
+    // Wood tables
     val oakTable = TableBlock(Blocks.OAK_PLANKS, Blocks.OAK_LOG).registerAs("oak_table")
     val spruceTable = TableBlock(Blocks.SPRUCE_PLANKS, Blocks.SPRUCE_LOG).registerAs("spruce_table")
     val birchTable = TableBlock(Blocks.BIRCH_PLANKS, Blocks.BIRCH_LOG).registerAs("birch_table")
@@ -73,7 +67,7 @@ object ModBlocks : WoodenAccentsModRegistry {
     val crimsonTable = TableBlock(Blocks.CRIMSON_PLANKS, Blocks.CRIMSON_STEM).registerAs("crimson_table")
     val warpedTable = TableBlock(Blocks.WARPED_PLANKS, Blocks.WARPED_STEM).registerAs("warped_table")
 
-    //Stripped Tables
+    // Stripped tables
     val strippedOakTable = TableBlock(Blocks.OAK_PLANKS, Blocks.STRIPPED_OAK_LOG).registerAs("stripped_oak_table")
     val strippedSpruceTable =
         TableBlock(Blocks.SPRUCE_PLANKS, Blocks.STRIPPED_SPRUCE_LOG).registerAs("stripped_spruce_table")
@@ -96,7 +90,7 @@ object ModBlocks : WoodenAccentsModRegistry {
     val strippedWarpedTable =
         TableBlock(Blocks.WARPED_PLANKS, Blocks.STRIPPED_WARPED_STEM).registerAs("stripped_warped_table")
 
-    //Plank Coffee Tables
+    // Plank coffee tables
     val oakPlankCoffeeTable =
         CoffeeTableBlock(Blocks.OAK_PLANKS, Blocks.OAK_PLANKS).registerAs("oak_plank_coffee_table")
     val sprucePlankCoffeeTable =
@@ -122,7 +116,7 @@ object ModBlocks : WoodenAccentsModRegistry {
     val warpedPlankCoffeeTable =
         CoffeeTableBlock(Blocks.WARPED_PLANKS, Blocks.WARPED_PLANKS).registerAs("warped_plank_coffee_table")
 
-    //Coffee tables
+    // Wood coffee tables
     val oakCoffeeTable = CoffeeTableBlock(Blocks.OAK_PLANKS, Blocks.OAK_LOG).registerAs("oak_coffee_table")
     val spruceCoffeeTable = CoffeeTableBlock(Blocks.SPRUCE_PLANKS, Blocks.SPRUCE_LOG).registerAs("spruce_coffee_table")
     val birchCoffeeTable = CoffeeTableBlock(Blocks.BIRCH_PLANKS, Blocks.BIRCH_LOG).registerAs("birch_coffee_table")
@@ -139,7 +133,7 @@ object ModBlocks : WoodenAccentsModRegistry {
         CoffeeTableBlock(Blocks.CRIMSON_PLANKS, Blocks.CRIMSON_STEM).registerAs("crimson_coffee_table")
     val warpedCoffeeTable = CoffeeTableBlock(Blocks.WARPED_PLANKS, Blocks.WARPED_STEM).registerAs("warped_coffee_table")
 
-    //Stripped Coffee tables
+    // Stripped coffee tables
     val strippedOakCoffeeTable =
         CoffeeTableBlock(Blocks.OAK_PLANKS, Blocks.STRIPPED_OAK_LOG).registerAs("stripped_oak_coffee_table")
     val strippedSpruceCoffeeTable =
@@ -170,8 +164,7 @@ object ModBlocks : WoodenAccentsModRegistry {
         CoffeeTableBlock(Blocks.WARPED_PLANKS, Blocks.STRIPPED_WARPED_STEM).registerAs("stripped_warped_coffee_table")
 
 
-    /*Desks*/
-    //Desks
+    // Desks
     val oakDesk = DeskBlock(
         BlockSettingsUtil.strippedOakSettings,
         Blocks.OAK_LOG,
@@ -233,7 +226,7 @@ object ModBlocks : WoodenAccentsModRegistry {
         Blocks.STRIPPED_CRIMSON_STEM
     ).registerAs("crimson_desk")
 
-    //Desk Drawers
+    // Desk drawers
     val oakDeskDrawer = DeskDrawerBlock(
         BlockSettingsUtil.strippedOakSettings,
         Blocks.OAK_LOG,
@@ -295,8 +288,7 @@ object ModBlocks : WoodenAccentsModRegistry {
         Blocks.STRIPPED_CRIMSON_STEM
     ).registerAs("crimson_desk_drawer")
 
-    /*Kitchen*/
-    //Kitchen counters
+    // Kitchen counters
     val oakKitchenCounter = KitchenCounterBlock(Blocks.OAK_PLANKS, Blocks.OAK_LOG).registerAs("oak_kitchen_counter")
     val spruceKitchenCounter =
         KitchenCounterBlock(Blocks.SPRUCE_PLANKS, Blocks.SPRUCE_LOG).registerAs("spruce_kitchen_counter")
@@ -321,7 +313,7 @@ object ModBlocks : WoodenAccentsModRegistry {
     val warpedKitchenCounter =
         KitchenCounterBlock(Blocks.WARPED_PLANKS, Blocks.WARPED_STEM).registerAs("warped_kitchen_counter")
 
-    //Stripped Kitchen counters
+    // Stripped kitchen counters
     val strippedOakKitchenCounter =
         KitchenCounterBlock(Blocks.OAK_PLANKS, Blocks.STRIPPED_OAK_LOG).registerAs("stripped_oak_kitchen_counter")
     val strippedSpruceKitchenCounter = KitchenCounterBlock(
@@ -367,7 +359,7 @@ object ModBlocks : WoodenAccentsModRegistry {
         Blocks.STRIPPED_WARPED_STEM
     ).registerAs("stripped_warped_kitchen_counter")
 
-    //Kitchen Cabinets
+    // Kitchen cabinets
     val oakKitchenCabinet = KitchenCabinetBlock(Blocks.OAK_PLANKS, Blocks.OAK_LOG).registerAs("oak_kitchen_cabinet")
     val spruceKitchenCabinet =
         KitchenCabinetBlock(Blocks.SPRUCE_PLANKS, Blocks.SPRUCE_LOG).registerAs("spruce_kitchen_cabinet")
@@ -392,7 +384,7 @@ object ModBlocks : WoodenAccentsModRegistry {
     val warpedKitchenCabinet =
         KitchenCabinetBlock(Blocks.WARPED_PLANKS, Blocks.WARPED_STEM).registerAs("warped_kitchen_cabinet")
 
-    //Stripped Cabinets
+    // Stripped kitchen cabinets
     val strippedOakKitchenCabinet =
         KitchenCabinetBlock(Blocks.OAK_PLANKS, Blocks.STRIPPED_OAK_LOG).registerAs("stripped_oak_kitchen_cabinet")
     val strippedSpruceKitchenCabinet = KitchenCabinetBlock(
@@ -439,8 +431,7 @@ object ModBlocks : WoodenAccentsModRegistry {
     ).registerAs("stripped_warped_kitchen_cabinet")
 
 
-    /*Fences & Walls*/
-    //Walls
+    // Walls
     val oakPlankWall = CustomWallBlock(Blocks.OAK_PLANKS).registerAs("oak_plank_wall")
     val sprucePlankWall = CustomWallBlock(Blocks.SPRUCE_PLANKS).registerAs("spruce_plank_wall")
     val birchPlankWall = CustomWallBlock(Blocks.BIRCH_PLANKS).registerAs("birch_plank_wall")
@@ -454,7 +445,7 @@ object ModBlocks : WoodenAccentsModRegistry {
     val crimsonPlankWall = CustomWallBlock(Blocks.CRIMSON_PLANKS).registerAs("crimson_plank_wall")
     val warpedPlankWall = CustomWallBlock(Blocks.WARPED_PLANKS).registerAs("warped_plank_wall")
 
-    //Modern Fences
+    // Modern fences
     val modernOakFence =
         ModernFenceBlock(Blocks.OAK_FENCE, Blocks.STRIPPED_OAK_LOG, Blocks.OAK_LOG).registerAs("modern_oak_fence")
     val modernSpruceFence = ModernFenceBlock(
@@ -508,7 +499,7 @@ object ModBlocks : WoodenAccentsModRegistry {
         Blocks.WARPED_STEM
     ).registerAs("modern_warped_fence")
 
-    //Modern Fence Gates
+    // Modern fence gates
     val modernOakFenceGate = ModernFenceGateBlock(
         Blocks.OAK_FENCE_GATE as FenceGateBlock,
         Blocks.STRIPPED_OAK_LOG
@@ -554,8 +545,7 @@ object ModBlocks : WoodenAccentsModRegistry {
         Blocks.STRIPPED_WARPED_STEM
     ).registerAs("modern_warped_fence_gate")
 
-    /*Miscellaneous*/
-    //Plank Ladders
+    // Plank ladders
     val oakPlankLadder = PlankLadderBlock(Blocks.OAK_PLANKS).registerAs("oak_plank_ladder")
     val sprucePlankLadder = PlankLadderBlock(Blocks.SPRUCE_PLANKS).registerAs("spruce_plank_ladder")
     val birchPlankLadder = PlankLadderBlock(Blocks.BIRCH_PLANKS).registerAs("birch_plank_ladder")
@@ -569,7 +559,7 @@ object ModBlocks : WoodenAccentsModRegistry {
     val crimsonPlankLadder = PlankLadderBlock(Blocks.CRIMSON_PLANKS).registerAs("crimson_plank_ladder")
     val warpedPlankLadder = PlankLadderBlock(Blocks.WARPED_PLANKS).registerAs("warped_plank_ladder")
 
-    //Stripped Ladders
+    // Stripped ladders
     val strippedOakLadder = ConnectingLadderBlock(Blocks.STRIPPED_OAK_LOG).registerAs("stripped_oak_ladder")
     val strippedSpruceLadder = ConnectingLadderBlock(Blocks.STRIPPED_SPRUCE_LOG).registerAs("stripped_spruce_ladder")
     val strippedBirchLadder = ConnectingLadderBlock(Blocks.STRIPPED_BIRCH_LOG).registerAs("stripped_birch_ladder")
@@ -585,7 +575,7 @@ object ModBlocks : WoodenAccentsModRegistry {
         ConnectingLadderBlock(Blocks.STRIPPED_CRIMSON_STEM).registerAs("stripped_crimson_ladder")
     val strippedWarpedLadder = ConnectingLadderBlock(Blocks.STRIPPED_WARPED_STEM).registerAs("stripped_warped_ladder")
 
-    //Plank Support Beams
+    // Plank support beams
     val oakPlankSupportBeam = SupportBeamBlock(Blocks.OAK_PLANKS).registerAs("oak_plank_support_beam")
     val sprucePlankSupportBeam = SupportBeamBlock(Blocks.SPRUCE_PLANKS).registerAs("spruce_plank_support_beam")
     val birchPlankSupportBeam = SupportBeamBlock(Blocks.BIRCH_PLANKS).registerAs("birch_plank_support_beam")
@@ -599,7 +589,7 @@ object ModBlocks : WoodenAccentsModRegistry {
     val crimsonPlankSupportBeam = SupportBeamBlock(Blocks.CRIMSON_PLANKS).registerAs("crimson_plank_support_beam")
     val warpedPlankSupportBeam = SupportBeamBlock(Blocks.WARPED_PLANKS).registerAs("warped_plank_support_beam")
 
-    //Wooden Support Beams
+    // Wood support beams
     val oakSupportBeam = SupportBeamBlock(Blocks.OAK_LOG).registerAs("oak_support_beam")
     val spruceSupportBeam = SupportBeamBlock(Blocks.SPRUCE_LOG).registerAs("spruce_support_beam")
     val birchSupportBeam = SupportBeamBlock(Blocks.BIRCH_LOG).registerAs("birch_support_beam")
@@ -612,7 +602,7 @@ object ModBlocks : WoodenAccentsModRegistry {
     val crimsonSupportBeam = SupportBeamBlock(Blocks.CRIMSON_STEM).registerAs("crimson_support_beam")
     val warpedSupportBeam = SupportBeamBlock(Blocks.WARPED_STEM).registerAs("warped_support_beam")
 
-    //Stripped Support Beams
+    // Stripped support beams
     val strippedOakSupportBeam = SupportBeamBlock(Blocks.STRIPPED_OAK_LOG).registerAs("stripped_oak_support_beam")
     val strippedSpruceSupportBeam =
         SupportBeamBlock(Blocks.STRIPPED_SPRUCE_LOG).registerAs("stripped_spruce_support_beam")
@@ -634,7 +624,7 @@ object ModBlocks : WoodenAccentsModRegistry {
     val strippedWarpedSupportBeam =
         SupportBeamBlock(Blocks.STRIPPED_WARPED_STEM).registerAs("stripped_warped_support_beam")
 
-    //Thin Pillars
+    // Thin pillars
     val thinOakPillar = ThinPillarBlock(Blocks.OAK_PLANKS).registerAs("thin_oak_plank_pillar")
     val thinSprucePillar = ThinPillarBlock(Blocks.SPRUCE_PLANKS).registerAs("thin_spruce_plank_pillar")
     val thinBirchPillar = ThinPillarBlock(Blocks.BIRCH_PLANKS).registerAs("thin_birch_plank_pillar")
@@ -648,7 +638,7 @@ object ModBlocks : WoodenAccentsModRegistry {
     val thinCrimsonPillar = ThinPillarBlock(Blocks.CRIMSON_PLANKS).registerAs("thin_crimson_plank_pillar")
     val thinWarpedPillar = ThinPillarBlock(Blocks.WARPED_PLANKS).registerAs("thin_warped_plank_pillar")
 
-    //Thick plank pillars
+    // Thick pillars
     val thickOakPillar = ThickPillarBlock(Blocks.OAK_PLANKS).registerAs("thick_oak_plank_pillar")
     val thickSprucePillar = ThickPillarBlock(Blocks.SPRUCE_PLANKS).registerAs("thick_spruce_plank_pillar")
     val thickBirchPillar = ThickPillarBlock(Blocks.BIRCH_PLANKS).registerAs("thick_birch_plank_pillar")
@@ -662,7 +652,7 @@ object ModBlocks : WoodenAccentsModRegistry {
     val thickCrimsonPillar = ThickPillarBlock(Blocks.CRIMSON_PLANKS).registerAs("thick_crimson_plank_pillar")
     val thickWarpedPillar = ThickPillarBlock(Blocks.WARPED_PLANKS).registerAs("thick_warped_plank_pillar")
 
-    //Crates
+    // Crates
     val oakCrate = CrateBlock(Blocks.OAK_PLANKS, Blocks.OAK_LOG).registerAs("oak_crate", 4)
     val spruceCrate = CrateBlock(Blocks.SPRUCE_PLANKS, Blocks.SPRUCE_LOG).registerAs("spruce_crate", 4)
     val birchCrate = CrateBlock(Blocks.BIRCH_PLANKS, Blocks.BIRCH_LOG).registerAs("birch_crate", 4)
@@ -676,7 +666,7 @@ object ModBlocks : WoodenAccentsModRegistry {
     val crimsonCrate = CrateBlock(Blocks.CRIMSON_PLANKS, Blocks.CRIMSON_STEM).registerAs("crimson_crate", 4)
     val warpedCrate = CrateBlock(Blocks.WARPED_PLANKS, Blocks.WARPED_STEM).registerAs("warped_crate", 4)
 
-    //Stripped Crates
+    // Stripped crates
     val strippedOakCrate = CrateBlock(Blocks.OAK_PLANKS, Blocks.STRIPPED_OAK_LOG).registerAs("stripped_oak_crate", 4)
     val strippedSpruceCrate =
         CrateBlock(Blocks.SPRUCE_PLANKS, Blocks.STRIPPED_SPRUCE_LOG).registerAs("stripped_spruce_crate", 4)
@@ -701,7 +691,7 @@ object ModBlocks : WoodenAccentsModRegistry {
     val strippedWarpedCrate =
         CrateBlock(Blocks.WARPED_PLANKS, Blocks.STRIPPED_WARPED_STEM).registerAs("stripped_warped_crate", 4)
 
-    //Thin Bookshelves
+    // Thin bookshelves
     val oakPlankBookshelf = ThinBookshelfBlock(Blocks.OAK_PLANKS).registerAs("oak_plank_bookshelf")
     val sprucePlankBookshelf = ThinBookshelfBlock(Blocks.SPRUCE_PLANKS).registerAs("spruce_plank_bookshelf")
     val birchPlankBookshelf = ThinBookshelfBlock(Blocks.BIRCH_PLANKS).registerAs("birch_plank_bookshelf")
@@ -715,7 +705,7 @@ object ModBlocks : WoodenAccentsModRegistry {
     val crimsonPlankBookshelf = ThinBookshelfBlock(Blocks.CRIMSON_PLANKS).registerAs("crimson_plank_bookshelf")
     val warpedPlankBookshelf = ThinBookshelfBlock(Blocks.WARPED_PLANKS).registerAs("warped_plank_bookshelf")
 
-    //Plank Carpets
+    // Plank carpets
     val oakPlankCarpet = CustomCarpetBlock(Blocks.OAK_PLANKS).registerAs("oak_plank_carpet")
     val sprucePlankCarpet = CustomCarpetBlock(Blocks.SPRUCE_PLANKS).registerAs("spruce_plank_carpet")
     val birchPlankCarpet = CustomCarpetBlock(Blocks.BIRCH_PLANKS).registerAs("birch_plank_carpet")
@@ -730,24 +720,10 @@ object ModBlocks : WoodenAccentsModRegistry {
     val warpedPlankCarpet = CustomCarpetBlock(Blocks.WARPED_PLANKS).registerAs("warped_plank_carpet")
 
 
-    /**
-     * Registers a block with an identifier and optional maximum stack size.
-     *
-     * @param id The identifier to register the block with.
-     * @param maxStackSize The maximum stack size for the block item. Default value is 64.
-     * @return The registered block.
-     */
     private fun Block.registerAs(id: String, maxStackSize: Int = 64): Block {
         return registerAs(id.toIdentifier(), maxStackSize)
     }
 
-    /**
-     * Registers a block with an identifier and optional maximum stack size.
-     *
-     * @param identifier The identifier to register the block with.
-     * @param maxStackSize The maximum stack size for the block item. Default value is 64.
-     * @return The registered block.
-     */
     private fun Block.registerAs(identifier: Identifier, maxStackSize: Int = 64): Block {
         return Registry.register(Registries.BLOCK, identifier, this).also {
             registries += it
@@ -760,42 +736,21 @@ object ModBlocks : WoodenAccentsModRegistry {
     }
 }
 
-/**
- * Represents the item model ID of a block's item variant.
- *
- * @property itemModelId The identifier for the item model.
- */
 inline val Block.itemModelId: Identifier
     get() = id.withPrefixedPath("item/")
-/**
- * Gets the identifier of the block.
- *
- * @receiver The block.
- * @return The identifier of the block.
- */
+
 inline val Block.id: Identifier
     get() = Registries.BLOCK.getId(this)
-/**
- * The `modelId` property represents the unique identifier of a block model.
- *
- * @receiver Block A block instance.
- * @return Identifier The unique identifier of the block model.
- */
+
 inline val Block.modelId: Identifier
     get() = ModelIds.getBlockModelId(this)
-/**
- * Returns the texture identifier associated with this Block.
- *
- * @return The texture identifier.
- */
+
 inline val Block.textureId: Identifier
     get() = TextureMap.getId(this)
 
 /**
- * Represents the type of wood for a block.
- *
- * This property is an inline property extension for the `Block` class.
- * It retrieves the wood type based on the block's ID path.
+ * Infers the vanilla wood type from the block ID. Only use this for registered wood variants; IDs without a
+ * wood name fail when the inferred type is read.
  */
 inline val Block.woodType: WoodType
     get() {
@@ -810,38 +765,15 @@ inline val Block.woodType: WoodType
         }
         return type
     }
-/**
- * Determines whether the block is stripped.
- *
- * This property returns true if the path of the block's ID contains the string "stripped", indicating that
- * the block has been stripped.
- *
- * @return true if the block is stripped, false otherwise.
- */
+
 inline val Block.isStripped: Boolean
     get() = id.path.contains("stripped")
-/**
- * This property is used to check whether a block is a plank.
- *
- * @return `true` if the block is a plank, `false` otherwise.
- */
+
 inline val Block.isPlank
     get() = id.path.contains("plank")
-/**
- * A read-only inline property that returns the item associated with a block.
- *
- * @return The item associated with the block.
- */
+
 inline val Block.item: Item
     get() = this.asItem()
-/**
- * Inline property that returns the default [ItemStack] for a [Block].
- *
- * This property is an extension property for the [Block] class. It retrieves the default [ItemStack] by calling the [item] function on the [Block] and accessing its [Item.getDefaultStack]
- * function.
- *
- * @receiver The [Block] instance.
- * @return The default [ItemStack] associated with the [Block].
- */
+
 inline val Block.defaultItemStack: ItemStack
     get() = this.item.defaultStack

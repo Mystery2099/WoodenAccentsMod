@@ -41,13 +41,6 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
-/**
- * Represents a desk block.
- *
- * @param settings The settings for the desk block.
- * @param baseBlock The base block of the desk.
- * @param topBlock The top block of the desk.
- */
 class DeskBlock(settings: Settings, val baseBlock: Block, private val topBlock: Block) :
     AbstractWaterloggableBlock(settings), CustomItemGroupProvider, CustomRecipeProvider, CustomBlockStateProvider,
     CustomTagProvider<Block> {
@@ -227,7 +220,7 @@ class DeskBlock(settings: Settings, val baseBlock: Block, private val topBlock: 
         val shape = ModProperties.deskShape
         val facing: DirectionProperty = Properties.HORIZONTAL_FACING
 
-        //shapes
+        // Shapes are authored facing north, then rotated for the other directions.
         private val northSingleShape = VoxelAssembly.union(
             VoxelAssembly.createCuboidShape(1, 15, 0, 15, 16, 16),
             VoxelAssembly.createCuboidShape(1, 8, 15, 15, 15, 16),

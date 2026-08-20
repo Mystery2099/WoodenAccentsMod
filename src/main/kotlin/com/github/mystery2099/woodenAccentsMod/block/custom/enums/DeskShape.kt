@@ -2,12 +2,6 @@ package com.github.mystery2099.woodenAccentsMod.block.custom.enums
 
 import net.minecraft.util.StringIdentifiable
 
-/**
- * Desk shape
- *
- * @property string
- * @constructor Create empty Desk shape
- */
 enum class DeskShape(val string: String) : StringIdentifiable {
     SINGLE("single"),
     LEFT("left"),

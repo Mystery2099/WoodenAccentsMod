@@ -51,13 +51,6 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import java.util.function.Consumer
-/**
- * The KitchenCabinetBlock class represents a block for the kitchen cabinet in the game.
- *
- * @property baseBlock The base block of the kitchen cabinet.
- * @property topBlock The top block of the kitchen cabinet.
- * @constructor Creates a kitchen cabinet block with the given base and top blocks.
- */
 class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
     BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {

@@ -31,19 +31,19 @@ public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableB
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
     public static final VoxelShape TOP_SHAPE = createCuboidShape(0, 14, 0, 16, 16, 16);
 
-    //Straight
+    // Straight counters
     public static final VoxelShape NORTH_SHAPE = createCuboidShape(0, 0, 2, 16, 14, 16);
     public static final VoxelShape EAST_SHAPE = createCuboidShape(0, 0, 0, 14, 14, 16);
     public static final VoxelShape SOUTH_SHAPE = NORTH_SHAPE.offset(0, 0, -((double) 2 / 16));
     public static final VoxelShape WEST_SHAPE = EAST_SHAPE.offset((double) 2 / 16, 0, 0);
 
-    //Inner Corners
+    // Inner corners
     private static final VoxelShape NORTH_WEST_INNER = VoxelShapes.union(NORTH_SHAPE, WEST_SHAPE);
     private static final VoxelShape SOUTH_WEST_INNER = VoxelShapes.union(SOUTH_SHAPE, WEST_SHAPE);
     private static final VoxelShape SOUTH_EAST_INNER = VoxelShapes.union(SOUTH_SHAPE, EAST_SHAPE);
     private static final VoxelShape NORTH_EAST_INNER = VoxelShapes.union(NORTH_SHAPE, EAST_SHAPE);
 
-    //Outer Corners
+    // Outer corners
     private static final VoxelShape NORTH_EAST_OUTER = createCuboidShape(0, 0, 2, 14, 14, 16);
     private static final VoxelShape NORTH_WEST_OUTER = NORTH_EAST_OUTER.offset((double) 2 / 16, 0, 0);
     private static final VoxelShape SOUTH_EAST_OUTER = NORTH_EAST_OUTER.offset(0, 0, -((double) 2 / 16));
@@ -61,28 +61,24 @@ public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableB
             c.setProperty(SHAPE, StairShape.STRAIGHT);
             return null;
         }));
-        //North Shapes
         SHAPE_MAP.put(Pair.of(Direction.NORTH, StairShape.STRAIGHT), NORTH_SHAPE);
         SHAPE_MAP.put(Pair.of(Direction.NORTH, StairShape.INNER_LEFT), NORTH_WEST_INNER);
         SHAPE_MAP.put(Pair.of(Direction.NORTH, StairShape.INNER_RIGHT), NORTH_EAST_INNER);
         SHAPE_MAP.put(Pair.of(Direction.NORTH, StairShape.OUTER_LEFT), NORTH_WEST_OUTER);
         SHAPE_MAP.put(Pair.of(Direction.NORTH, StairShape.OUTER_RIGHT), NORTH_EAST_OUTER);
 
-        //East Shapes
         SHAPE_MAP.put(Pair.of(Direction.EAST, StairShape.STRAIGHT), EAST_SHAPE);
         SHAPE_MAP.put(Pair.of(Direction.EAST, StairShape.INNER_LEFT), NORTH_EAST_INNER);
         SHAPE_MAP.put(Pair.of(Direction.EAST, StairShape.INNER_RIGHT), SOUTH_EAST_INNER);
         SHAPE_MAP.put(Pair.of(Direction.EAST, StairShape.OUTER_LEFT), NORTH_EAST_OUTER);
         SHAPE_MAP.put(Pair.of(Direction.EAST, StairShape.OUTER_RIGHT), SOUTH_EAST_OUTER);
 
-        //South Shapes
         SHAPE_MAP.put(Pair.of(Direction.SOUTH, StairShape.STRAIGHT), SOUTH_SHAPE);
         SHAPE_MAP.put(Pair.of(Direction.SOUTH, StairShape.INNER_LEFT), SOUTH_EAST_INNER);
         SHAPE_MAP.put(Pair.of(Direction.SOUTH, StairShape.INNER_RIGHT), SOUTH_WEST_INNER);
         SHAPE_MAP.put(Pair.of(Direction.SOUTH, StairShape.OUTER_LEFT), SOUTH_EAST_OUTER);
         SHAPE_MAP.put(Pair.of(Direction.SOUTH, StairShape.OUTER_RIGHT), SOUTH_WEST_OUTER);
 
-        //West Shapes
         SHAPE_MAP.put(Pair.of(Direction.WEST, StairShape.STRAIGHT), WEST_SHAPE);
         SHAPE_MAP.put(Pair.of(Direction.WEST, StairShape.INNER_LEFT), SOUTH_WEST_INNER);
         SHAPE_MAP.put(Pair.of(Direction.WEST, StairShape.INNER_RIGHT), NORTH_WEST_INNER);

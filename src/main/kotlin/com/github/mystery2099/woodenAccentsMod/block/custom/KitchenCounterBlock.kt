@@ -26,12 +26,6 @@ import net.minecraft.util.math.Direction
 import java.util.function.Consumer
 
 
-/**
- * KitchenCounterBlock represents a block in a kitchen counter.
- *
- * @property baseBlock The base block of the kitchen counter.
- * @property topBlock The top block of the kitchen counter.
- */
 class KitchenCounterBlock(baseBlock: Block, topBlock: Block) : AbstractKitchenCounterBlock(baseBlock, topBlock),
     CustomItemGroupProvider, CustomTagProvider<Block>, CustomRecipeProvider, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.kitchenCounters

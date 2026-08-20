@@ -35,13 +35,6 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import java.util.function.Consumer
 
-/**
- * The ModernFenceBlock class represents a custom fence block with a modern design.
- *
- * @param settings The settings of the modern fence block.
- * @param sideBlock The block used for the sides of the fence.
- * @param postBlock The block used for the posts of the fence.
- */
 class ModernFenceBlock(settings: Block, private val sideBlock: Block, private val postBlock: Block) :
     FenceBlock(FabricBlockSettings.copyOf(settings)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
@@ -110,5 +103,4 @@ class ModernFenceBlock(settings: Block, private val sideBlock: Block, private va
         )
     }
 }
-
 

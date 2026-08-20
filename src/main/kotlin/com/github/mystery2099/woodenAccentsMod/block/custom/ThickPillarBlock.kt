@@ -14,11 +14,6 @@ import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.registry.tag.TagKey
 import java.util.function.Consumer
 
-/**
- * Represents a class that defines a thick pillar block.
- *
- * @param baseBlock The base block on which this pillar is based.
- */
 class ThickPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape) {
     override val connectableBlockTag: TagKey<Block> = ModBlockTags.thickPillarsConnectable
     override val tag: TagKey<Block> = ModBlockTags.thickPillars

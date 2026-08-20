@@ -14,23 +14,11 @@ import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.ItemModelGenerator
 import net.minecraft.data.client.TextureMap
 
-/**
- * [ModelDataGen] is responsible for generating custom model data for the Wooden Accents Mod.
- * It extends [FabricModelProvider], which is used for generating model data.
- *
- * @param output The data output to which the generated models will be written.
- */
 class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
-
-    /**
-     * Generate block state models for the mod.
-     *
-     * @param blockStateModelGenerator The block state model generator to create block state models.
-     */
     override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator) {
         blockStateModelGenerator.run {
-            // Iterate through wood types and generate models for coffee tables and table legs.
+            // Block providers reference these shared leg models instead of uploading duplicates.
             WoodType.stream().forEach {
                 ModModels.coffeeTableLegShort.upload(
                     "${it.name.lowercase()}_coffee_table_leg_short".toIdentifier().withBlockModelPath(), TextureMap.of(
@@ -63,7 +51,6 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
                 )
             }
 
-            // Iterate through custom block state providers in ModBlocks and generate block state models.
             ModBlocks.blocks.filterIsInstance<CustomBlockStateProvider>().forEach {
                 it.generateBlockStateModels(generator = blockStateModelGenerator)
             }
@@ -74,4 +61,3 @@ class ModelDataGen(output: FabricDataOutput) : FabricModelProvider(output) {
 
     }
 }
-

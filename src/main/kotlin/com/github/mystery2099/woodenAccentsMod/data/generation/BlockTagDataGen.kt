@@ -13,25 +13,8 @@ import net.minecraft.registry.tag.TagKey
 import java.util.concurrent.CompletableFuture
 
 
-/**
- * The `BlockTagDataGen` class is responsible for generating block tags during data generation.
- *
- * @param output The [FabricDataOutput] to write the generated data to.
- * @param registriesFuture The [CompletableFuture] representing the lookup of the wrapper registries.
- * @see FabricTagProvider.BlockTagProvider
- */
 class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>) :
     FabricTagProvider.BlockTagProvider(output, registriesFuture) {
-    /**
-     * The `tagBuilder` property is a private extension property of type `FabricTagBuilder`.
-     * It is accessed through a getter function that returns the result of calling the `getOrCreateTagBuilder` function with the current `TagKey<Block>` instance.
-     *
-     * @return The `FabricTagBuilder` instance associated with the current `TagKey<Block>`.
-     *
-     * @see getOrCreateTagBuilder
-     * @see TagKey
-     * @see FabricTagProvider.FabricTagBuilder
-     */
     private val TagKey<Block>.tagBuilder: FabricTagBuilder
         get() = getOrCreateTagBuilder(this)
 
@@ -42,8 +25,6 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
             it.tag += it as Block
         }
 
-
-        // Define relationships between custom block tags
         ModBlockTags.pillars.addTags(ModBlockTags.thinPillars, ModBlockTags.thickPillars)
         ModBlockTags.thinPillarsConnectable.apply {
             addTags(
@@ -62,7 +43,6 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
         ModBlockTags.modernFenceConnectable.addTags(ModBlockTags.modernFenceGates, ModBlockTags.modernFences)
         ModBlockTags.kitchenCounters += ModBlockTags.kitchenCabinets
 
-        // Update predefined block tags with custom block tags
         BlockTags.WALLS += ModBlockTags.woodenWalls
         BlockTags.FENCES += ModBlockTags.modernFences
         BlockTags.FENCE_GATES += ModBlockTags.modernFenceGates
@@ -70,45 +50,16 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
         BlockTags.INSIDE_STEP_SOUND_BLOCKS += ModBlockTags.plankCarpets
     }
 
-
-    /**
-     * Adds the provided [tag] to the current [TagKey]<[Block]> tag builder.
-     *
-     * @param tag The tag to add.
-     * @return The updated [FabricTagProvider.FabricTagBuilder].
-     */
     private fun TagKey<Block>.add(tag: TagKey<Block>): FabricTagBuilder = tagBuilder.addTag(tag)
-    /**
-     * Adds the provided [block] to the current [TagKey]<[Block]> tag builder.
-     *
-     * @param block The [Block] to add.
-     * @return The updated [FabricTagProvider.FabricTagBuilder].
-     */
+
     private fun TagKey<Block>.add(block: Block): FabricTagBuilder = tagBuilder.add(block)
 
-    /**
-     * Forcefully adds the provided [tag] to the current [TagKey]<[Block]> tag builder.
-     *
-     * @param tag The tag to add.
-     * @return The updated [FabricTagProvider.FabricTagBuilder].
-     */
     private fun TagKey<Block>.forceAdd(tag: TagKey<Block>): FabricTagBuilder = tagBuilder.forceAddTag(tag)
 
-    /**
-     * Adds the provided [tag] to the current [TagKey]<[Block]> tag builder.
-     * This method is an operator function for the `+=` operator.
-     *
-     * @param tag The tag to add.
-     */
     private operator fun TagKey<Block>.plusAssign(tag: TagKey<Block>) {
         add(tag)
     }
 
-    /**
-     * Adds the provided [block] to the current [TagKey]<[Block]> tag builder.
-     *
-     * @param block The [Block] to add.
-     */
     private operator fun TagKey<Block>.plusAssign(block: Block) {
         add(block)
     }

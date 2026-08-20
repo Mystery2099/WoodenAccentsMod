@@ -12,21 +12,9 @@ import net.minecraft.util.Identifier
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-/**
- * Singleton object representing the Wooden Accents Mod.
- * Implements the ModInitializer interface for mod initialization.
- */
 object WoodenAccentsMod : ModInitializer {
-
-    /**
-     * This constant represents the ID of the Wooden Accents Mod.
-     * It is an internal constant and has a value of "wooden_accents_mod".
-     */
     internal const val MOD_ID = "wooden_accents_mod"
 
-    /**
-     * The logger for the software.
-     */
     internal val logger: Logger = LoggerFactory.getLogger(MOD_ID)
 
     override fun onInitialize() {
@@ -37,25 +25,13 @@ object WoodenAccentsMod : ModInitializer {
         ModItemGroups.register()
     }
 
-    /**
-     * Converts a string to an [Identifier] object.
-     *
-     * @param namespace The namespace prefix for the identifier. Defaults to [MOD_ID].
-     * @return The converted [Identifier] object.
-     */
     fun String.toIdentifier(namespace: String = MOD_ID): Identifier = Identifier(namespace, this)
 
-
-    /**
-     * @return A new [Identifier] with the block model path prefix.
-     */
     fun Identifier.withBlockModelPath(): Identifier = this.withPrefixedPath("block/")
 
-
     /**
-     * Returns the corresponding block for the given WoodType.
-     *
-     * @return The corresponding block for the WoodType.
+     * Maps vanilla wood types to their plank blocks. Unknown or modded types fall back to oak because
+     * Minecraft 1.19.4 does not expose this relationship through a registry.
      */
     val WoodType.planks: Block
         get() = when (this) {

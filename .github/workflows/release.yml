@@ -18,7 +18,7 @@ on:
         default: true
         type: boolean
       confirm_release:
-        description: Confirm real publication to the selected destinations
+        description: Confirm real publication to GitHub Releases
         required: true
         default: false
         type: boolean

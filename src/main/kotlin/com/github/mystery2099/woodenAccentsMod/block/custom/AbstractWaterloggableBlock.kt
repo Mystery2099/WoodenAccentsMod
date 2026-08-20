@@ -14,11 +14,6 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.WorldAccess
 
 
-/**
- * AbstractWaterloggableBlock is an abstract class that represents a waterloggable block.
- *
- * @param settings The settings for the block.
- */
 abstract class AbstractWaterloggableBlock(settings: Settings) : Block(settings), Waterloggable {
 
     init { defaultState = defaultState.with(waterlogged, false) }

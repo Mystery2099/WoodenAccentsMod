@@ -6,13 +6,6 @@ import com.github.mystery2099.woodenAccentsMod.item.group.CustomItemGroup
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
 
-/**
- * English lang data gen
- *
- * @constructor
- *
- * @param dataOutput
- */
 class EnglishLangDataGen(dataOutput: FabricDataOutput) : FabricLanguageProvider(dataOutput) {
     override fun generateTranslations(translationBuilder: TranslationBuilder) {
         translationBuilder.run {
@@ -26,11 +19,6 @@ class EnglishLangDataGen(dataOutput: FabricDataOutput) : FabricLanguageProvider(
         }
     }
 
-    /**
-     * Convert a snake_case [String], to a more human-readable title_case format.
-     *
-     * @return The transformed string in a more human-readable, title_case format.
-     */
     private fun String?.toName(): String {
         return if (isNullOrEmpty()) ""
         else lowercase().split("_").joinToString(" ") {

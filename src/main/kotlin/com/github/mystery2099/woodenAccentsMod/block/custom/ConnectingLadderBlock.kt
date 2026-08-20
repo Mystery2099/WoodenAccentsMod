@@ -30,12 +30,6 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
-/**
- * Represents a custom connecting ladder block that extends `AbstractCustomLadderBlock`.
- *
- * @property baseBlock The base block to be used as the material for the connecting ladder block.
- * @constructor Creates a ConnectingLadderBlock with the specified base block.
- */
 class ConnectingLadderBlock(val baseBlock: Block) :
     AbstractCustomLadderBlock(FabricBlockSettings.of(baseBlock.defaultState.material, baseBlock.defaultMapColor).apply {
         hardness(Blocks.LADDER.hardness)

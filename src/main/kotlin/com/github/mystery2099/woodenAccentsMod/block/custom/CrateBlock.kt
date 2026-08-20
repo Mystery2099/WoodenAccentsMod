@@ -58,12 +58,6 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import java.util.function.Consumer
-/**
- * A custom block representing a crate that can store items.
- *
- * @property baseBlock The base block used for the main body of the crate.
- * @property edgeBlock The block used for the edges of the crate.
- */
 class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
     BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)),
     CustomBlockStateProvider, CustomItemGroupProvider, CustomTagProvider<Block>, CustomRecipeProvider,
@@ -102,6 +96,7 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
         val blockEntity = world.getBlockEntity(pos)
         if (blockEntity is CrateBlockEntity) {
 
+            // Match shulker boxes: creative players keep the crate and its contents together.
             if (!world.isClient && player.isCreative && !blockEntity.isEmpty()) {
 
                 val itemStack = ItemStack(this)

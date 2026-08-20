@@ -19,14 +19,7 @@ import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.event.GameEvent
 
-/**
- * Desk drawer block entity
- *
- * @constructor
- *
- * @param blockPos
- * @param blockState
- */
+/** A 27-slot desk inventory stored with vanilla container NBT. */
 class DeskDrawerBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     LootableContainerBlockEntity(ModBlockEntities.deskDrawer, blockPos, blockState) {
     private var inventory = DefaultedList.ofSize(27, ItemStack.EMPTY)
