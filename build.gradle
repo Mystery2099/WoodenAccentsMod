@@ -1,13 +1,45 @@
+import me.modmuss50.mpp.ReleaseType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
 	id 'net.fabricmc.fabric-loom-remap' version "$loom_version"
-	id 'maven-publish'
+	id "me.modmuss50.mod-publish-plugin" version "$mod_publish_version"
 	id "org.jetbrains.kotlin.jvm" version "$kotlin_version"
 }
 
 version = "${project.mod_version}"
 group = "${project.maven_group}"
+
+def releaseChangelog = providers.fileContents(layout.projectDirectory.file("CHANGELOG.md")).asText.map { changelog ->
+	def releaseHeading = "## [${project.version}]"
+	def changelogLines = changelog.readLines()
+	def sectionStart = changelogLines.findIndexOf { line ->
+		line == releaseHeading || line.startsWith("${releaseHeading} - ")
+	}
+
+	if (sectionStart < 0) {
+		throw new GradleException("CHANGELOG.md does not contain a section for version ${project.version}")
+	}
+
+	def followingLines = changelogLines.subList(sectionStart + 1, changelogLines.size())
+	def relativeSectionEnd = followingLines.findIndexOf { line -> line.startsWith("## [") }
+	def sectionEnd = relativeSectionEnd < 0 ? changelogLines.size() : sectionStart + 1 + relativeSectionEnd
+	def releaseNotes = changelogLines.subList(sectionStart + 1, sectionEnd).join("\n").trim()
+
+	if (releaseNotes.isEmpty()) {
+		throw new GradleException("CHANGELOG.md section for version ${project.version} is empty")
+	}
+
+	return releaseNotes
+}
+
+def releaseType = providers.gradleProperty("releaseType").orElse("STABLE").map { configuredType ->
+	try {
+		return ReleaseType.valueOf(configuredType.toUpperCase(Locale.ROOT))
+	} catch (IllegalArgumentException ignored) {
+		throw new GradleException("Unsupported release type '${configuredType}'. Expected STABLE, BETA, or ALPHA.")
+	}
+}
 
 base {
 	archivesName = project.archives_base_name
@@ -127,19 +159,19 @@ jar {
 	}
 }
 
-// configure the maven publication
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			from components.java
-		}
-	}
+publishMods {
+	file = remapJar.archiveFile
+	changelog = releaseChangelog
+	type = releaseType
+	displayName = "Wooden Accents Mod ${project.version}"
+	modLoaders.add("fabric")
+	dryRun = providers.gradleProperty("dryRun").map { it.toBoolean() }.orElse(false)
 
-	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-	repositories {
-		// Add repositories to publish to here.
-		// Notice: This block does NOT have the same function as the block in the top level.
-		// The repositories here will be used for publishing your artifact, not for
-		// retrieving dependencies.
+	github {
+		accessToken = providers.environmentVariable("GITHUB_TOKEN")
+		repository = "Mystery2099/WoodenAccentsMod"
+		commitish = providers.environmentVariable("GITHUB_SHA").orElse("master")
+		tagName = "v${project.version}"
+		additionalFiles.from(remapSourcesJar.archiveFile)
 	}
 }
