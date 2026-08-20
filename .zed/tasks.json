@@ -1,0 +1,102 @@
+[
+  // Build
+  { "label": "Gradle › Build: assemble", "command": "./gradlew", "args": ["assemble"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Build: build", "command": "./gradlew", "args": ["build"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Build: buildDependents", "command": "./gradlew", "args": ["buildDependents"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Build: buildKotlinToolingMetadata", "command": "./gradlew", "args": ["buildKotlinToolingMetadata"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Build: buildNeeded", "command": "./gradlew", "args": ["buildNeeded"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Build: classes", "command": "./gradlew", "args": ["classes"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Build: clean", "command": "./gradlew", "args": ["clean"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Build: clientClasses", "command": "./gradlew", "args": ["clientClasses"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Build: jar", "command": "./gradlew", "args": ["jar"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Build: kotlinSourcesJar", "command": "./gradlew", "args": ["kotlinSourcesJar"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Build: sourcesJar", "command": "./gradlew", "args": ["sourcesJar"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Build: testClasses", "command": "./gradlew", "args": ["testClasses"], "cwd": "$ZED_WORKTREE_ROOT" },
+
+  // Build setup
+  { "label": "Gradle › Setup: init", "command": "./gradlew", "args": ["init"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Setup: updateDaemonJvm", "command": "./gradlew", "args": ["updateDaemonJvm"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Setup: wrapper", "command": "./gradlew", "args": ["wrapper"], "cwd": "$ZED_WORKTREE_ROOT" },
+
+  // Documentation
+  { "label": "Gradle › Documentation: javadoc", "command": "./gradlew", "args": ["javadoc"], "cwd": "$ZED_WORKTREE_ROOT" },
+
+  // Fabric Loom
+  { "label": "Gradle › Fabric: configureClientLaunch", "command": "./gradlew", "args": ["configureClientLaunch"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: configureLaunch", "command": "./gradlew", "args": ["configureLaunch"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: downloadAssets", "command": "./gradlew", "args": ["downloadAssets"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: downloadRenderDoc", "command": "./gradlew", "args": ["downloadRenderDoc"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: exportClasspath", "command": "./gradlew", "args": ["exportClasspath"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: extractRenderDoc", "command": "./gradlew", "args": ["extractRenderDoc"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: genClientOnlySources", "command": "./gradlew", "args": ["genClientOnlySources"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: genClientOnlySourcesWithCfr", "command": "./gradlew", "args": ["genClientOnlySourcesWithCfr"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: genClientOnlySourcesWithVineflower", "command": "./gradlew", "args": ["genClientOnlySourcesWithVineflower"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: genCommonSources", "command": "./gradlew", "args": ["genCommonSources"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: genCommonSourcesWithCfr", "command": "./gradlew", "args": ["genCommonSourcesWithCfr"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: genCommonSourcesWithVineflower", "command": "./gradlew", "args": ["genCommonSourcesWithVineflower"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: generateDLIConfig", "command": "./gradlew", "args": ["generateDLIConfig"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: generateLog4jConfig", "command": "./gradlew", "args": ["generateLog4jConfig"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: generateRemapClasspath", "command": "./gradlew", "args": ["generateRemapClasspath"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: genSources", "command": "./gradlew", "args": ["genSources"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: genSourcesWithCfr", "command": "./gradlew", "args": ["genSourcesWithCfr"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: genSourcesWithVineflower", "command": "./gradlew", "args": ["genSourcesWithVineflower"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: migrateClassTweakerMappings", "command": "./gradlew", "args": ["migrateClassTweakerMappings"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: migrateMappings", "command": "./gradlew", "args": ["migrateMappings"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: processIncludeJars", "command": "./gradlew", "args": ["processIncludeJars"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: remapJar", "command": "./gradlew", "args": ["remapJar"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: remapSourcesJar", "command": "./gradlew", "args": ["remapSourcesJar"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: runClient", "command": "./gradlew", "args": ["runClient"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: runClientRenderDoc", "command": "./gradlew", "args": ["runClientRenderDoc"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: runDatagen", "command": "./gradlew", "args": ["runDatagen"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: runServer", "command": "./gradlew", "args": ["runServer"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Fabric: startRenderDocUI", "command": "./gradlew", "args": ["startRenderDocUI"], "cwd": "$ZED_WORKTREE_ROOT" },
+
+  // Help and diagnostics
+  { "label": "Gradle › Help: artifactTransforms", "command": "./gradlew", "args": ["artifactTransforms"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Help: buildEnvironment", "command": "./gradlew", "args": ["buildEnvironment"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Help: dependencies", "command": "./gradlew", "args": ["dependencies"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Help: dependencyInsight", "command": "./gradlew", "args": ["dependencyInsight"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Help: help", "command": "./gradlew", "args": ["help"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Help: javaToolchains", "command": "./gradlew", "args": ["javaToolchains"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Help: outgoingVariants", "command": "./gradlew", "args": ["outgoingVariants"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Help: projects", "command": "./gradlew", "args": ["projects"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Help: properties", "command": "./gradlew", "args": ["properties"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Help: resolvableConfigurations", "command": "./gradlew", "args": ["resolvableConfigurations"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Help: tasks", "command": "./gradlew", "args": ["tasks", "--all"], "cwd": "$ZED_WORKTREE_ROOT" },
+
+  // IDE integration
+  { "label": "Gradle › IDE: cleanEclipse", "command": "./gradlew", "args": ["cleanEclipse"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › IDE: eclipse", "command": "./gradlew", "args": ["eclipse"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › IDE: genEclipseRuns", "command": "./gradlew", "args": ["genEclipseRuns"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › IDE: ideaSyncTask", "command": "./gradlew", "args": ["ideaSyncTask"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › IDE: vscode", "command": "./gradlew", "args": ["vscode"], "cwd": "$ZED_WORKTREE_ROOT" },
+
+  // Publishing
+  { "label": "Gradle › Publishing: publishGithub", "command": "./gradlew", "args": ["publishGithub"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Publishing: publishMods", "command": "./gradlew", "args": ["publishMods"], "cwd": "$ZED_WORKTREE_ROOT" },
+
+  // Verification
+  { "label": "Gradle › Verification: check", "command": "./gradlew", "args": ["check"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Verification: checkKotlinGradlePluginConfigurationErrors", "command": "./gradlew", "args": ["checkKotlinGradlePluginConfigurationErrors"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Verification: test", "command": "./gradlew", "args": ["test"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Verification: validateAccessWidener", "command": "./gradlew", "args": ["validateAccessWidener"], "cwd": "$ZED_WORKTREE_ROOT" },
+
+  // Compilation and resource processing
+  { "label": "Gradle › Other: cleanEclipseClasspath", "command": "./gradlew", "args": ["cleanEclipseClasspath"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Other: cleanEclipseJdt", "command": "./gradlew", "args": ["cleanEclipseJdt"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Other: cleanEclipseProject", "command": "./gradlew", "args": ["cleanEclipseProject"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Other: compileClientJava", "command": "./gradlew", "args": ["compileClientJava"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Other: compileClientKotlin", "command": "./gradlew", "args": ["compileClientKotlin"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Other: compileJava", "command": "./gradlew", "args": ["compileJava"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Other: compileKotlin", "command": "./gradlew", "args": ["compileKotlin"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Other: compileTestJava", "command": "./gradlew", "args": ["compileTestJava"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Other: compileTestKotlin", "command": "./gradlew", "args": ["compileTestKotlin"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Other: eclipseClasspath", "command": "./gradlew", "args": ["eclipseClasspath"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Other: eclipseJdt", "command": "./gradlew", "args": ["eclipseJdt"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Other: eclipseProject", "command": "./gradlew", "args": ["eclipseProject"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Other: mainClasses", "command": "./gradlew", "args": ["mainClasses"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Other: prepareKotlinBuildScriptModel", "command": "./gradlew", "args": ["prepareKotlinBuildScriptModel"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Other: processClientResources", "command": "./gradlew", "args": ["processClientResources"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Other: processResources", "command": "./gradlew", "args": ["processResources"], "cwd": "$ZED_WORKTREE_ROOT" },
+  { "label": "Gradle › Other: processTestResources", "command": "./gradlew", "args": ["processTestResources"], "cwd": "$ZED_WORKTREE_ROOT" }
+]

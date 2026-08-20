@@ -1,0 +1,90 @@
+// Project-specific Zed settings for the Fabric/Gradle workspace.
+{
+  // Keep Gradle and Minecraft runtime output out of Zed's project index.
+  // Zed's defaults must be repeated because this setting replaces them.
+  "inlay_hints": {
+    "enabled": true
+  },
+  "file_scan_exclusions": [
+    "**/.git",
+    "**/.svn",
+    "**/.hg",
+    "**/.jj",
+    "**/CVS",
+    "**/.DS_Store",
+    "**/Thumbs.db",
+    "**/.classpath",
+    "**/.settings",
+    "**/.gradle",
+    "**/build",
+    "**/classes",
+    "**/out",
+    "**/run",
+    "**/src/main/generated/.cache"
+  ],
+
+  "languages": {
+    "Java": {
+      "language_servers": ["jdtls", "..."],
+      "formatter": "language_server",
+      "format_on_save": "modifications_if_available",
+      "hard_tabs": false,
+      "tab_size": 4,
+      "preferred_line_length": 120
+    },
+    "Kotlin": {
+      // Prefer JetBrains' official Kotlin LSP and avoid running two Kotlin servers.
+      "language_servers": ["kotlin-lsp", "!kotlin-language-server", "..."],
+      "formatter": "language_server",
+      "format_on_save": "modifications_if_available",
+      "hard_tabs": false,
+      "tab_size": 4,
+      "preferred_line_length": 120
+    },
+    "Gradle": {
+      "hard_tabs": true,
+      "tab_size": 4
+    },
+    "JSON": {
+      "hard_tabs": false,
+      "tab_size": 2
+    },
+    "JSONC": {
+      "hard_tabs": false,
+      "tab_size": 2
+    }
+  },
+
+  "lsp": {
+    "jdtls": {
+      "initialization_options": {
+        "settings": {
+          "java": {
+            "configuration": {
+              "updateBuildConfiguration": "automatic"
+            },
+            "jdt": {
+              "ls": {
+                // Required for Java sources to resolve types compiled from Kotlin.
+                "kotlinSupport": {
+                  "enabled": true
+                }
+              }
+            },
+            "import": {
+              "gradle": {
+                "enabled": true,
+                "wrapper": {
+                  "enabled": true
+                }
+              },
+              "maven": {
+                "enabled": false
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
