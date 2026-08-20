@@ -21,6 +21,7 @@ import com.github.mystery2099.woodenAccentsMod.item.group.CustomItemGroup
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.state.property.ModProperties
+import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
@@ -41,9 +42,10 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
-class DeskBlock(settings: Settings, val baseBlock: Block, private val topBlock: Block) :
-    AbstractWaterloggableBlock(settings), CustomItemGroupProvider, CustomRecipeProvider, CustomBlockStateProvider,
-    CustomTagProvider<Block> {
+
+class DeskBlock(val baseBlock: Block, private val topBlock: Block) :
+    AbstractWaterloggableBlock(FabricBlockSettings.copyOf(topBlock).mapColor(topBlock.defaultMapColor)),
+    CustomItemGroupProvider, CustomRecipeProvider, CustomBlockStateProvider, CustomTagProvider<Block> {
 
 
     override val itemGroup: CustomItemGroup = ModItemGroups.decorations

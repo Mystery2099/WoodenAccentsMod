@@ -4,7 +4,6 @@ import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.toIdentifier
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsModRegistry
 import com.github.mystery2099.woodenAccentsMod.block.custom.*
 import com.github.mystery2099.woodenAccentsMod.item.CustomBlockItem
-import com.github.mystery2099.woodenAccentsMod.util.BlockSettingsUtil
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
@@ -165,128 +164,43 @@ object ModBlocks : WoodenAccentsModRegistry {
 
 
     // Desks
-    val oakDesk = DeskBlock(
-        BlockSettingsUtil.strippedOakSettings,
-        Blocks.OAK_LOG,
-        Blocks.STRIPPED_OAK_LOG
-    ).registerAs("oak_desk")
-    val spruceDesk = DeskBlock(
-        BlockSettingsUtil.strippedSpruceSettings,
-        Blocks.SPRUCE_LOG,
-        Blocks.STRIPPED_SPRUCE_LOG
-    ).registerAs("spruce_desk")
-    val birchDesk = DeskBlock(
-        BlockSettingsUtil.strippedBirchSettings,
-        Blocks.BIRCH_LOG,
-        Blocks.STRIPPED_BIRCH_LOG
-    ).registerAs("birch_desk")
-    val jungleDesk = DeskBlock(
-        BlockSettingsUtil.strippedJungleSettings,
-        Blocks.JUNGLE_LOG,
-        Blocks.STRIPPED_JUNGLE_LOG
-    ).registerAs("jungle_desk")
-    val acaciaDesk = DeskBlock(
-        BlockSettingsUtil.strippedAcaciaSettings,
-        Blocks.ACACIA_LOG,
-        Blocks.STRIPPED_ACACIA_LOG
-    ).registerAs("acacia_desk")
-    val darkOakDesk = DeskBlock(
-        BlockSettingsUtil.strippedDarkOakSettings,
-        Blocks.DARK_OAK_LOG,
-        Blocks.STRIPPED_DARK_OAK_LOG
-    ).registerAs("dark_oak_desk")
-    val mangroveDesk = DeskBlock(
-        BlockSettingsUtil.strippedMangroveSettings,
-        Blocks.MANGROVE_LOG,
-        Blocks.STRIPPED_MANGROVE_LOG
-    ).registerAs("mangrove_desk")
-    val cherryDesk = DeskBlock(
-        BlockSettingsUtil.strippedCherrySettings,
-        Blocks.CHERRY_LOG,
-        Blocks.STRIPPED_CHERRY_LOG
-    ).registerAs("cherry_desk")
-    val bambooDesk = DeskBlock(
-        BlockSettingsUtil.strippedBambooBlockSettings,
-        Blocks.BAMBOO_BLOCK,
-        Blocks.STRIPPED_BAMBOO_BLOCK
-    ).registerAs("bamboo_desk")
-    val bambooMosaicDesk = DeskBlock(
-        BlockSettingsUtil.strippedBambooBlockSettings,
-        Blocks.BAMBOO_BLOCK,
-        Blocks.BAMBOO_MOSAIC
-    ).registerAs("bamboo_mosaic_desk")
-    val warpedDesk = DeskBlock(
-        BlockSettingsUtil.strippedWarpedSettings,
-        Blocks.WARPED_STEM,
-        Blocks.STRIPPED_WARPED_STEM
-    ).registerAs("warped_desk")
-    val crimsonDesk = DeskBlock(
-        BlockSettingsUtil.strippedCrimsonSettings,
-        Blocks.CRIMSON_STEM,
-        Blocks.STRIPPED_CRIMSON_STEM
-    ).registerAs("crimson_desk")
+    val oakDesk = DeskBlock(Blocks.OAK_LOG, Blocks.STRIPPED_OAK_LOG).registerAs("oak_desk")
+    val spruceDesk = DeskBlock(Blocks.SPRUCE_LOG, Blocks.STRIPPED_SPRUCE_LOG).registerAs("spruce_desk")
+    val birchDesk = DeskBlock(Blocks.BIRCH_LOG, Blocks.STRIPPED_BIRCH_LOG).registerAs("birch_desk")
+    val jungleDesk = DeskBlock(Blocks.JUNGLE_LOG, Blocks.STRIPPED_JUNGLE_LOG).registerAs("jungle_desk")
+    val acaciaDesk = DeskBlock(Blocks.ACACIA_LOG, Blocks.STRIPPED_ACACIA_LOG).registerAs("acacia_desk")
+    val darkOakDesk = DeskBlock(Blocks.DARK_OAK_LOG, Blocks.STRIPPED_DARK_OAK_LOG).registerAs("dark_oak_desk")
+    val mangroveDesk = DeskBlock(Blocks.MANGROVE_LOG, Blocks.STRIPPED_MANGROVE_LOG).registerAs("mangrove_desk")
+    val cherryDesk = DeskBlock(Blocks.CHERRY_LOG, Blocks.STRIPPED_CHERRY_LOG).registerAs("cherry_desk")
+    val bambooDesk = DeskBlock(Blocks.BAMBOO_BLOCK, Blocks.STRIPPED_BAMBOO_BLOCK).registerAs("bamboo_desk")
+    val bambooMosaicDesk = DeskBlock(Blocks.BAMBOO_BLOCK, Blocks.BAMBOO_MOSAIC).registerAs("bamboo_mosaic_desk")
+    val warpedDesk = DeskBlock(Blocks.WARPED_STEM, Blocks.STRIPPED_WARPED_STEM).registerAs("warped_desk")
+    val crimsonDesk = DeskBlock(Blocks.CRIMSON_STEM, Blocks.STRIPPED_CRIMSON_STEM).registerAs("crimson_desk")
 
     // Desk drawers
-    val oakDeskDrawer = DeskDrawerBlock(
-        BlockSettingsUtil.strippedOakSettings,
-        Blocks.OAK_LOG,
-        Blocks.STRIPPED_OAK_LOG
-    ).registerAs("oak_desk_drawer")
-    val spruceDeskDrawer = DeskDrawerBlock(
-        BlockSettingsUtil.strippedSpruceSettings,
-        Blocks.SPRUCE_LOG,
-        Blocks.STRIPPED_SPRUCE_LOG
-    ).registerAs("spruce_desk_drawer")
-    val birchDeskDrawer = DeskDrawerBlock(
-        BlockSettingsUtil.strippedBirchSettings,
-        Blocks.BIRCH_LOG,
-        Blocks.STRIPPED_BIRCH_LOG
-    ).registerAs("birch_desk_drawer")
-    val jungleDeskDrawer = DeskDrawerBlock(
-        BlockSettingsUtil.strippedJungleSettings,
-        Blocks.JUNGLE_LOG,
-        Blocks.STRIPPED_JUNGLE_LOG
-    ).registerAs("jungle_desk_drawer")
-    val acaciaDeskDrawer = DeskDrawerBlock(
-        BlockSettingsUtil.strippedAcaciaSettings,
-        Blocks.ACACIA_LOG,
-        Blocks.STRIPPED_ACACIA_LOG
-    ).registerAs("acacia_desk_drawer")
-    val darkOakDeskDrawer = DeskDrawerBlock(
-        BlockSettingsUtil.strippedDarkOakSettings,
-        Blocks.DARK_OAK_LOG,
-        Blocks.STRIPPED_DARK_OAK_LOG
-    ).registerAs("dark_oak_desk_drawer")
-    val mangroveDeskDrawer = DeskDrawerBlock(
-        BlockSettingsUtil.strippedMangroveSettings,
-        Blocks.MANGROVE_LOG,
-        Blocks.STRIPPED_MANGROVE_LOG
-    ).registerAs("mangrove_desk_drawer")
-    val cherryDeskDrawer = DeskDrawerBlock(
-        BlockSettingsUtil.strippedCherrySettings,
-        Blocks.CHERRY_LOG,
-        Blocks.STRIPPED_CHERRY_LOG
-    ).registerAs("cherry_desk_drawer")
-    val bambooDeskDrawer = DeskDrawerBlock(
-        BlockSettingsUtil.strippedBambooBlockSettings,
-        Blocks.BAMBOO_BLOCK,
-        Blocks.STRIPPED_BAMBOO_BLOCK
-    ).registerAs("bamboo_desk_drawer")
-    val bambooMosaicDeskDrawer = DeskDrawerBlock(
-        BlockSettingsUtil.strippedBambooBlockSettings,
-        Blocks.BAMBOO_BLOCK,
-        Blocks.BAMBOO_MOSAIC
-    ).registerAs("bamboo_mosaic_desk_drawer")
-    val warpedDeskDrawer = DeskDrawerBlock(
-        BlockSettingsUtil.strippedWarpedSettings,
-        Blocks.WARPED_STEM,
-        Blocks.STRIPPED_WARPED_STEM
-    ).registerAs("warped_desk_drawer")
-    val crimsonDeskDrawer = DeskDrawerBlock(
-        BlockSettingsUtil.strippedCrimsonSettings,
-        Blocks.CRIMSON_STEM,
-        Blocks.STRIPPED_CRIMSON_STEM
-    ).registerAs("crimson_desk_drawer")
+    val oakDeskDrawer = DeskDrawerBlock(Blocks.OAK_LOG, Blocks.STRIPPED_OAK_LOG).registerAs("oak_desk_drawer")
+    val spruceDeskDrawer =
+        DeskDrawerBlock(Blocks.SPRUCE_LOG, Blocks.STRIPPED_SPRUCE_LOG).registerAs("spruce_desk_drawer")
+    val birchDeskDrawer =
+        DeskDrawerBlock(Blocks.BIRCH_LOG, Blocks.STRIPPED_BIRCH_LOG).registerAs("birch_desk_drawer")
+    val jungleDeskDrawer =
+        DeskDrawerBlock(Blocks.JUNGLE_LOG, Blocks.STRIPPED_JUNGLE_LOG).registerAs("jungle_desk_drawer")
+    val acaciaDeskDrawer =
+        DeskDrawerBlock(Blocks.ACACIA_LOG, Blocks.STRIPPED_ACACIA_LOG).registerAs("acacia_desk_drawer")
+    val darkOakDeskDrawer =
+        DeskDrawerBlock(Blocks.DARK_OAK_LOG, Blocks.STRIPPED_DARK_OAK_LOG).registerAs("dark_oak_desk_drawer")
+    val mangroveDeskDrawer =
+        DeskDrawerBlock(Blocks.MANGROVE_LOG, Blocks.STRIPPED_MANGROVE_LOG).registerAs("mangrove_desk_drawer")
+    val cherryDeskDrawer =
+        DeskDrawerBlock(Blocks.CHERRY_LOG, Blocks.STRIPPED_CHERRY_LOG).registerAs("cherry_desk_drawer")
+    val bambooDeskDrawer =
+        DeskDrawerBlock(Blocks.BAMBOO_BLOCK, Blocks.STRIPPED_BAMBOO_BLOCK).registerAs("bamboo_desk_drawer")
+    val bambooMosaicDeskDrawer =
+        DeskDrawerBlock(Blocks.BAMBOO_BLOCK, Blocks.BAMBOO_MOSAIC).registerAs("bamboo_mosaic_desk_drawer")
+    val warpedDeskDrawer =
+        DeskDrawerBlock(Blocks.WARPED_STEM, Blocks.STRIPPED_WARPED_STEM).registerAs("warped_desk_drawer")
+    val crimsonDeskDrawer =
+        DeskDrawerBlock(Blocks.CRIMSON_STEM, Blocks.STRIPPED_CRIMSON_STEM).registerAs("crimson_desk_drawer")
 
     // Kitchen counters
     val oakKitchenCounter = KitchenCounterBlock(Blocks.OAK_PLANKS, Blocks.OAK_LOG).registerAs("oak_kitchen_counter")

@@ -23,6 +23,7 @@ import com.github.mystery2099.woodenAccentsMod.item.group.CustomItemGroup
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.state.property.ModProperties
+import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
@@ -57,9 +58,10 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
-class DeskDrawerBlock(settings: Settings, private val edgeBlock: Block, val baseBlock: Block) :
-    WaterloggableBlockWithEntity(settings), CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>,
-    CustomBlockStateProvider {
+
+class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
+    WaterloggableBlockWithEntity(FabricBlockSettings.copyOf(baseBlock).mapColor(baseBlock.defaultMapColor)),
+    CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
 
     override val itemGroup: CustomItemGroup = ModItemGroups.decorations
     override val tag: TagKey<Block> = ModBlockTags.deskDrawers
