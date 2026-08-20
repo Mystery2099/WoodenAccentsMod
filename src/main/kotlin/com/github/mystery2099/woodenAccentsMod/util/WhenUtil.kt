@@ -14,12 +14,6 @@ object WhenUtil {
     val south: When.PropertyCondition = When.create().set(Properties.SOUTH, true)
     val west: When.PropertyCondition = When.create().set(Properties.WEST, true)
 
-    // Diagonal connections
-    val whenNorthEast: When by lazy { north and east }
-    val whenSouthEast: When by lazy { south and east }
-    val whenNorthWest: When by lazy { north and west }
-    val whenSouthWest: When by lazy { south and west }
-
     // Missing connections
     val notUp: When.PropertyCondition = When.create().set(Properties.UP, false)
     val notDown: When.PropertyCondition = When.create().set(Properties.DOWN, false)
@@ -28,19 +22,11 @@ object WhenUtil {
     val notSouth: When.PropertyCondition = When.create().set(Properties.SOUTH, false)
     val notWest: When.PropertyCondition = When.create().set(Properties.WEST, false)
 
-    // Missing diagonal connections
+    // Missing diagonal connections (neither of the two directions)
     val notNorthEast: When = notNorth and notEast
     val notSouthEast: When = notSouth and notEast
     val notNorthWest: When = notNorth and notWest
     val notSouthWest: When = notSouth and notWest
-
-    // Facing
-    val facingNorth: When.PropertyCondition by lazy { When.create().set(Properties.FACING, Direction.NORTH) }
-    val facingEast: When.PropertyCondition by lazy { When.create().set(Properties.FACING, Direction.EAST) }
-    val facingSouth: When.PropertyCondition by lazy { When.create().set(Properties.FACING, Direction.SOUTH) }
-    val facingWest: When.PropertyCondition by lazy { When.create().set(Properties.FACING, Direction.WEST) }
-    val facingUp: When.PropertyCondition by lazy { When.create().set(Properties.FACING, Direction.UP) }
-    val facingDown: When.PropertyCondition by lazy { When.create().set(Properties.FACING, Direction.DOWN) }
 
     // Horizontal facing
     val facingNorthHorizontal: When.PropertyCondition = When.create().set(Properties.HORIZONTAL_FACING, Direction.NORTH)
@@ -49,12 +35,6 @@ object WhenUtil {
     val facingWestHorizontal: When.PropertyCondition = When.create().set(Properties.HORIZONTAL_FACING, Direction.WEST)
 
     infix fun When.and(other: When): When = When.allOf(this, other)
-
-    infix fun When.and(others: Collection<When>): When = When.allOf(this, *others.toTypedArray())
-
-    infix fun When.and(others: Array<When>): When = When.allOf(this, *others)
-
-    infix operator fun When.plus(other: When): When = this and other
 
     infix fun When.or(other: When): When = When.anyOf(this, other)
 }

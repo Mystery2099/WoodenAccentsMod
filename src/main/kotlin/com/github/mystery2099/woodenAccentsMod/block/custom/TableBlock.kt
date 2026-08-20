@@ -23,6 +23,7 @@ import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.Custom
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.util.WhenUtil
+import com.github.mystery2099.woodenAccentsMod.util.WhenUtil.and
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -174,39 +175,41 @@ class TableBlock(val baseBlock: Block, private val topBlock: Block) :
 
         with(topModel.asBlockStateVariant())
         with(
-            When.allOf(WhenUtil.notNorth, WhenUtil.notEast, WhenUtil.notSouth, WhenUtil.notWest),
+            WhenUtil.notNorth and WhenUtil.notEast and WhenUtil.notSouth and WhenUtil.notWest,
             singleLegModel.asBlockStateVariant()
         )
         // End legs
         with(
-            When.allOf(WhenUtil.notNorth, WhenUtil.notEast, WhenUtil.south, WhenUtil.notWest), northEndLegVariant
+            WhenUtil.notNorth and WhenUtil.notEast and WhenUtil.south and WhenUtil.notWest,
+            northEndLegVariant
         )
         with(
-            When.allOf(WhenUtil.notNorth, WhenUtil.notEast, WhenUtil.notSouth, WhenUtil.west),
+            WhenUtil.notNorth and WhenUtil.notEast and WhenUtil.notSouth and WhenUtil.west,
             northEndLegVariant.withYRotationOf(VariantSettings.Rotation.R90)
         )
         with(
-            When.allOf(WhenUtil.north, WhenUtil.notEast, WhenUtil.notSouth, WhenUtil.notWest),
+            WhenUtil.north and WhenUtil.notEast and WhenUtil.notSouth and WhenUtil.notWest,
             northEndLegVariant.withYRotationOf(VariantSettings.Rotation.R180)
         )
         with(
-            When.allOf(WhenUtil.notNorth, WhenUtil.east, WhenUtil.notSouth, WhenUtil.notWest),
+            WhenUtil.notNorth and WhenUtil.east and WhenUtil.notSouth and WhenUtil.notWest,
             northEndLegVariant.withYRotationOf(VariantSettings.Rotation.R270)
         )
         // Corner legs
         with(
-            When.allOf(WhenUtil.notNorth, WhenUtil.notEast, WhenUtil.south, WhenUtil.west), northEastCornerVariant
+            WhenUtil.notNorth and WhenUtil.notEast and WhenUtil.south and WhenUtil.west,
+            northEastCornerVariant
         )
         with(
-            When.allOf(WhenUtil.notNorth, WhenUtil.east, WhenUtil.south, WhenUtil.notWest),
+            WhenUtil.notNorth and WhenUtil.east and WhenUtil.south and WhenUtil.notWest,
             northEastCornerVariant.withYRotationOf(VariantSettings.Rotation.R270)
         )
         with(
-            When.allOf(WhenUtil.north, WhenUtil.notEast, WhenUtil.notSouth, WhenUtil.west),
+            WhenUtil.north and WhenUtil.notEast and WhenUtil.notSouth and WhenUtil.west,
             northEastCornerVariant.withYRotationOf(VariantSettings.Rotation.R90)
         )
         with(
-            When.allOf(WhenUtil.north, WhenUtil.east, WhenUtil.notSouth, WhenUtil.notWest),
+            WhenUtil.north and WhenUtil.east and WhenUtil.notSouth and WhenUtil.notWest,
             northEastCornerVariant.withYRotationOf(VariantSettings.Rotation.R180)
         )
     }
