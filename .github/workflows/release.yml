@@ -15,7 +15,7 @@ on:
       dry_run:
         description: Validate and package the release without publishing
         required: true
-        default: false
+        default: true
         type: boolean
       confirm_release:
         description: Confirm real publication to the selected destinations
