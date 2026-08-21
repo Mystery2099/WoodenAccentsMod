@@ -9,7 +9,7 @@ This file tracks player-visible changes and anything maintainers need to know be
 - Reworked the project, contribution, and release documentation.
 - Rewrote the player README for clearer features, dependencies, and FAQ, and mirrored Modrinth gallery screenshots under `docs/images/`.
 - Precomputed reusable outline shapes for connecting and multipart blocks without changing their dimensions.
-- Simplified physical collision for desks, desk drawers, kitchen counters, and kitchen cabinets while retaining their detailed selection outlines.
+- Simplified physical collision for desks, desk drawers, kitchen counters, and kitchen cabinets while retaining their detailed selection outlines. Isolated thick pillars now use full-block collision and return to their detailed shape when connected.
 
 ## [1.19.4-1.1.1.1] - 2024-05-20
 
