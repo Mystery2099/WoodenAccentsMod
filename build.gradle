@@ -96,6 +96,7 @@ sourceSets {
 			srcDirs += [
 					'src/main/generated'
 			]
+			exclude '.cache/**'
 		}
 	}
 }

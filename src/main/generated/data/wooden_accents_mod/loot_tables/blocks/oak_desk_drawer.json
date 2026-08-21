@@ -11,6 +11,12 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:copy_name",
+              "source": "block_entity"
+            }
+          ],
           "name": "wooden_accents_mod:oak_desk_drawer"
         }
       ],

@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier
 
 object ModBlockTags {
 
-    private val _blockToItemTagMap: MutableMap<TagKey<Block>, TagKey<Item>> = HashMap()
+    private val _blockToItemTagMap: MutableMap<TagKey<Block>, TagKey<Item>> = linkedMapOf()
 
     /** Block tags that should have an item tag with the same contents during data generation. */
     val blockToItemTagMap: Map<TagKey<Block>, TagKey<Item>>
@@ -39,6 +39,7 @@ object ModBlockTags {
 
     val supportBeams = "support_beams".toBlockTag().createMatchingItemTag()
     val crates = "crates".toBlockTag().createMatchingItemTag()
+
     // Living room
     val tables = "tables".toBlockTag().createMatchingItemTag()
     val coffeeTables = "coffee_tables".toBlockTag().createMatchingItemTag()
@@ -48,6 +49,7 @@ object ModBlockTags {
     @JvmStatic
     val desks = "desks".toBlockTag().createMatchingItemTag()
     val deskDrawers = "desk_drawers".toBlockTag().createMatchingItemTag()
+
     // Kitchen
     @JvmStatic
     val kitchenCounters = "kitchen_counters".toBlockTag().createMatchingItemTag()
@@ -68,6 +70,6 @@ object ModBlockTags {
 
     /** Falls back to a same-ID item tag for block tags that were not registered above. */
     fun getItemTagFrom(blockTag: TagKey<Block>): TagKey<Item> {
-        return blockToItemTagMap[blockTag] ?: TagKey.of(RegistryKeys.ITEM, blockTag.id)
+        return _blockToItemTagMap[blockTag] ?: TagKey.of(RegistryKeys.ITEM, blockTag.id)
     }
 }

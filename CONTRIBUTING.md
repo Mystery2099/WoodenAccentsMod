@@ -31,6 +31,8 @@ Generated resources in `src/main/generated/` are committed on purpose. When chan
 2. Run `./gradlew runDatagen`.
 3. Review the generated diff before committing it.
 
+CI regenerates these resources and rejects stale or missing output. The data generator's `.cache/` directory is ignored and excluded from mod jars.
+
 Do not manually patch generated JSON unless there is no source-side way to represent the file. Hand-written models and compatibility data belong in `src/main/resources/`.
 
 ## Code style
