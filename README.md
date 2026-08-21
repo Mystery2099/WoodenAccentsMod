@@ -1,4 +1,4 @@
-# Wooden Accents
+# Wooden Accents Mod
 
 Vanilla-scale furniture and structural accents for every wood type.
 
@@ -23,8 +23,8 @@ I like building with vanilla blocks, but sometimes a chair should look like a ch
 
 ### Store
 
-- Crates that work like wooden shulker boxes and can be stacked
-- Desk drawers
+- Nine-slot crates that keep their contents when broken and stack up to four as items
+- Desk drawers that drop their stored contents when broken
 
 ### Structure
 
@@ -35,7 +35,7 @@ I like building with vanilla blocks, but sometimes a chair should look like a ch
 - Omnidirectional support beams (like wooden pipes, but featureless)
 - Thin and thick pillars that connect vertically
 
-Every block has a variant for each vanilla wood type in 1.19.4, including bamboo, cherry, crimson, and warped wood. Experimental wood types and thin bookshelves need the matching experimental features enabled in the world.
+Every block has a variant for each vanilla wood type in 1.19.4, including bamboo, cherry, crimson, and warped wood. In Minecraft 1.19.4, bamboo and cherry variants and thin bookshelves require the Update 1.20 experimental features to be enabled in the world.
 
 ## Gallery
 
@@ -71,19 +71,19 @@ Every block has a variant for each vanilla wood type in 1.19.4, including bamboo
 
 **Required**
 
-- [Fabric Loader](https://fabricmc.net/use/installer/)
-- [Fabric API](https://modrinth.com/mod/fabric-api)
-- [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin)
-- [VoxLib](https://modrinth.com/mod/voxlib)
+- [Fabric Loader 0.19.3 or newer](https://fabricmc.net/use/installer/)
+- [Fabric API 0.87.2+1.19.4 or newer](https://modrinth.com/mod/fabric-api)
+- [Fabric Language Kotlin 1.13.13+kotlin.2.4.10 or newer](https://modrinth.com/mod/fabric-language-kotlin)
+- [VoxLib 1.6.1+1.19.4 or newer](https://modrinth.com/mod/voxlib)
 
 **Optional / recommended**
 
-- [Shulker Box Tooltip](https://modrinth.com/mod/shulkerboxtooltip) or [Easy Shulker Boxes](https://modrinth.com/mod/easy-shulker-boxes) for crate inventory previews
+- [Shulker Box Tooltip 3.4.5+1.19.4 or newer](https://modrinth.com/mod/shulkerboxtooltip) or [Easy Shulker Boxes](https://modrinth.com/mod/easy-shulker-boxes) for crate inventory previews
 - [Just Enough Items](https://modrinth.com/mod/jei) or [Roughly Enough Items](https://modrinth.com/mod/rei) for recipes
 
 ## Installation
 
-1. Install Fabric Loader for Minecraft 1.19.4.
+1. Install Fabric Loader 0.19.3 or newer for Minecraft 1.19.4.
 2. Install the required dependencies above (Modrinth usually pulls them in for you).
 3. Download Wooden Accents from Modrinth, CurseForge, or [GitHub Releases](https://github.com/Mystery2099/WoodenAccentsMod/releases).
 4. Put the mod JARs in your Minecraft `mods` folder.
@@ -96,7 +96,7 @@ If Minecraft reports a missing or incompatible dependency, use the version named
 
 **Where are the recipes?** In JEI or REI, same as any other mod.
 
-**Why are some wood types or thin bookshelves missing?** Enable the matching experimental world features.
+**Why are bamboo, cherry, or thin bookshelf variants missing?** Enable the Update 1.20 experimental features when creating the world.
 
 **Wrong Minecraft version?** This build is for 1.19.4 only. Do not mix it with mods built for other versions.
 
