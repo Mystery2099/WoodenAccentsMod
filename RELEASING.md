@@ -61,3 +61,19 @@ Do not blindly rerun the workflow.
 First check GitHub Releases and repository tags for a partial result. If the plugin created a draft release but failed while uploading an asset, either finish that draft or remove it before retrying. The workflow will refuse to continue while the target tag or release already exists.
 
 Nothing outside GitHub needs to be cleaned up because this workflow does not publish anywhere else.
+
+## Keep Modrinth (and CurseForge) in sync
+
+`README.md` is the player-facing source of truth. The GitHub Actions release workflow does not update Modrinth or CurseForge descriptions.
+
+When you change player-facing README content:
+
+1. Open the Modrinth project settings for Wooden Accents.
+2. Paste the README body into the project description.
+3. Remove the **Gallery** section and any embedded image markdown. Modrinth already has its own gallery.
+4. Set the short summary to: `Vanilla-scale furniture and structural accents for every wood type.`
+5. Repeat on CurseForge if that page is still maintained.
+
+Doc links in the README use absolute GitHub URLs so they keep working when pasted onto Modrinth or CurseForge.
+
+Do this for documentation-only README edits as well, not only full releases.
