@@ -49,7 +49,8 @@ public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableB
     private static final VoxelShape SOUTH_EAST_OUTER = NORTH_EAST_OUTER.offset(0, 0, -((double) 2 / 16));
     private static final VoxelShape SOUTH_WEST_OUTER = NORTH_WEST_OUTER.offset(0, 0, -((double) 2 / 16));
 
-    private static final Map<Pair<Direction, StairShape>, VoxelShape> SHAPE_MAP = new HashMap<>();
+    private static final Map<Pair<Direction, StairShape>, VoxelShape> SHAPE_MAP = createShapeMap();
+    private static final Map<Pair<Direction, StairShape>, VoxelShape> OUTLINE_SHAPE_MAP = createOutlineShapeMap();
 
     private final Block topBlock, baseBlock;
     public AbstractKitchenCounterBlock(Block baseBlock, Block topBlock) {
@@ -61,30 +62,40 @@ public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableB
             c.setProperty(SHAPE, StairShape.STRAIGHT);
             return null;
         }));
-        SHAPE_MAP.put(Pair.of(Direction.NORTH, StairShape.STRAIGHT), NORTH_SHAPE);
-        SHAPE_MAP.put(Pair.of(Direction.NORTH, StairShape.INNER_LEFT), NORTH_WEST_INNER);
-        SHAPE_MAP.put(Pair.of(Direction.NORTH, StairShape.INNER_RIGHT), NORTH_EAST_INNER);
-        SHAPE_MAP.put(Pair.of(Direction.NORTH, StairShape.OUTER_LEFT), NORTH_WEST_OUTER);
-        SHAPE_MAP.put(Pair.of(Direction.NORTH, StairShape.OUTER_RIGHT), NORTH_EAST_OUTER);
+    }
 
-        SHAPE_MAP.put(Pair.of(Direction.EAST, StairShape.STRAIGHT), EAST_SHAPE);
-        SHAPE_MAP.put(Pair.of(Direction.EAST, StairShape.INNER_LEFT), NORTH_EAST_INNER);
-        SHAPE_MAP.put(Pair.of(Direction.EAST, StairShape.INNER_RIGHT), SOUTH_EAST_INNER);
-        SHAPE_MAP.put(Pair.of(Direction.EAST, StairShape.OUTER_LEFT), NORTH_EAST_OUTER);
-        SHAPE_MAP.put(Pair.of(Direction.EAST, StairShape.OUTER_RIGHT), SOUTH_EAST_OUTER);
+    private static Map<Pair<Direction, StairShape>, VoxelShape> createShapeMap() {
+        Map<Pair<Direction, StairShape>, VoxelShape> shapes = new HashMap<>();
+        shapes.put(Pair.of(Direction.NORTH, StairShape.STRAIGHT), NORTH_SHAPE);
+        shapes.put(Pair.of(Direction.NORTH, StairShape.INNER_LEFT), NORTH_WEST_INNER);
+        shapes.put(Pair.of(Direction.NORTH, StairShape.INNER_RIGHT), NORTH_EAST_INNER);
+        shapes.put(Pair.of(Direction.NORTH, StairShape.OUTER_LEFT), NORTH_WEST_OUTER);
+        shapes.put(Pair.of(Direction.NORTH, StairShape.OUTER_RIGHT), NORTH_EAST_OUTER);
 
-        SHAPE_MAP.put(Pair.of(Direction.SOUTH, StairShape.STRAIGHT), SOUTH_SHAPE);
-        SHAPE_MAP.put(Pair.of(Direction.SOUTH, StairShape.INNER_LEFT), SOUTH_EAST_INNER);
-        SHAPE_MAP.put(Pair.of(Direction.SOUTH, StairShape.INNER_RIGHT), SOUTH_WEST_INNER);
-        SHAPE_MAP.put(Pair.of(Direction.SOUTH, StairShape.OUTER_LEFT), SOUTH_EAST_OUTER);
-        SHAPE_MAP.put(Pair.of(Direction.SOUTH, StairShape.OUTER_RIGHT), SOUTH_WEST_OUTER);
+        shapes.put(Pair.of(Direction.EAST, StairShape.STRAIGHT), EAST_SHAPE);
+        shapes.put(Pair.of(Direction.EAST, StairShape.INNER_LEFT), NORTH_EAST_INNER);
+        shapes.put(Pair.of(Direction.EAST, StairShape.INNER_RIGHT), SOUTH_EAST_INNER);
+        shapes.put(Pair.of(Direction.EAST, StairShape.OUTER_LEFT), NORTH_EAST_OUTER);
+        shapes.put(Pair.of(Direction.EAST, StairShape.OUTER_RIGHT), SOUTH_EAST_OUTER);
 
-        SHAPE_MAP.put(Pair.of(Direction.WEST, StairShape.STRAIGHT), WEST_SHAPE);
-        SHAPE_MAP.put(Pair.of(Direction.WEST, StairShape.INNER_LEFT), SOUTH_WEST_INNER);
-        SHAPE_MAP.put(Pair.of(Direction.WEST, StairShape.INNER_RIGHT), NORTH_WEST_INNER);
-        SHAPE_MAP.put(Pair.of(Direction.WEST, StairShape.OUTER_LEFT), SOUTH_WEST_OUTER);
-        SHAPE_MAP.put(Pair.of(Direction.WEST, StairShape.OUTER_RIGHT), NORTH_WEST_OUTER);
+        shapes.put(Pair.of(Direction.SOUTH, StairShape.STRAIGHT), SOUTH_SHAPE);
+        shapes.put(Pair.of(Direction.SOUTH, StairShape.INNER_LEFT), SOUTH_EAST_INNER);
+        shapes.put(Pair.of(Direction.SOUTH, StairShape.INNER_RIGHT), SOUTH_WEST_INNER);
+        shapes.put(Pair.of(Direction.SOUTH, StairShape.OUTER_LEFT), SOUTH_EAST_OUTER);
+        shapes.put(Pair.of(Direction.SOUTH, StairShape.OUTER_RIGHT), SOUTH_WEST_OUTER);
 
+        shapes.put(Pair.of(Direction.WEST, StairShape.STRAIGHT), WEST_SHAPE);
+        shapes.put(Pair.of(Direction.WEST, StairShape.INNER_LEFT), SOUTH_WEST_INNER);
+        shapes.put(Pair.of(Direction.WEST, StairShape.INNER_RIGHT), NORTH_WEST_INNER);
+        shapes.put(Pair.of(Direction.WEST, StairShape.OUTER_LEFT), SOUTH_WEST_OUTER);
+        shapes.put(Pair.of(Direction.WEST, StairShape.OUTER_RIGHT), NORTH_WEST_OUTER);
+        return Map.copyOf(shapes);
+    }
+
+    private static Map<Pair<Direction, StairShape>, VoxelShape> createOutlineShapeMap() {
+        Map<Pair<Direction, StairShape>, VoxelShape> outlineShapes = new HashMap<>();
+        SHAPE_MAP.forEach((key, shape) -> outlineShapes.put(key, VoxelShapes.union(TOP_SHAPE, shape)));
+        return Map.copyOf(outlineShapes);
     }
 
     private static StairShape getCounterShape(BlockState state, BlockView world, BlockPos pos) {
@@ -124,9 +135,9 @@ public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableB
     @Override
     @SuppressWarnings("deprecation")
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return VoxelShapes.union(TOP_SHAPE, SHAPE_MAP.get(
+        return OUTLINE_SHAPE_MAP.get(
                 Pair.of(state.get(FACING), state.get(SHAPE))
-        ));
+        );
     }
 
     @Override

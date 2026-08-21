@@ -31,7 +31,6 @@ import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import java.util.function.Consumer
 
@@ -51,16 +50,7 @@ class ModernFenceBlock(settings: Block, private val sideBlock: Block, private va
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
-    ): VoxelShape {
-        var newShape = postShape
-
-        if (state[NORTH]) newShape += directionToShapeMap[Direction.NORTH] ?: VoxelShapes.empty()
-        if (state[EAST]) newShape += directionToShapeMap[Direction.EAST] ?: VoxelShapes.empty()
-        if (state[SOUTH]) newShape += directionToShapeMap[Direction.SOUTH] ?: VoxelShapes.empty()
-        if (state[WEST]) newShape += directionToShapeMap[Direction.WEST] ?: VoxelShapes.empty()
-
-        return newShape
-    }
+    ): VoxelShape = outlineShapes[getConnectionIndex(state)]
 
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
@@ -101,6 +91,28 @@ class ModernFenceBlock(settings: Block, private val sideBlock: Block, private va
             Direction.SOUTH to northShape.flip(),
             Direction.WEST to northShape.rotateRight()
         )
+
+        private val outlineShapes = Array(16) { connections ->
+            var shape = postShape
+            if (connections and NORTH_CONNECTION != 0) shape += directionToShapeMap.getValue(Direction.NORTH)
+            if (connections and EAST_CONNECTION != 0) shape += directionToShapeMap.getValue(Direction.EAST)
+            if (connections and SOUTH_CONNECTION != 0) shape += directionToShapeMap.getValue(Direction.SOUTH)
+            if (connections and WEST_CONNECTION != 0) shape += directionToShapeMap.getValue(Direction.WEST)
+            shape
+        }
+
+        private fun getConnectionIndex(state: BlockState): Int {
+            var connections = 0
+            if (state[NORTH]) connections = connections or NORTH_CONNECTION
+            if (state[EAST]) connections = connections or EAST_CONNECTION
+            if (state[SOUTH]) connections = connections or SOUTH_CONNECTION
+            if (state[WEST]) connections = connections or WEST_CONNECTION
+            return connections
+        }
+
+        private const val NORTH_CONNECTION = 1
+        private const val EAST_CONNECTION = 2
+        private const val SOUTH_CONNECTION = 4
+        private const val WEST_CONNECTION = 8
     }
 }
-

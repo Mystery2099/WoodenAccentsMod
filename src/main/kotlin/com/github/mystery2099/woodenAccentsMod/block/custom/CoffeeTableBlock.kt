@@ -183,32 +183,16 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
-    ): VoxelShape {
-        val isTall: Boolean = state[type] == CoffeeTableTypes.TALL
-        val hasNorthConnection = state[north]
-        val hasSouthConnection = state[south]
-        val hasEastConnection = state[east]
-        val hasWestConnection = state[west]
+    ): VoxelShape = outlineShapes[shapeIndex(state)]
 
-        val shouldAppendNorthEast = !hasNorthConnection && !hasEastConnection
-        val shouldAppendNorthWest = !hasNorthConnection && !hasWestConnection
-
-        val shouldAppendSouthEast = !hasSouthConnection && !hasEastConnection
-        val shouldAppendSouthWest = !hasSouthConnection && !hasWestConnection
-
-        return (if (isTall) tallTopShape else shortTopShape).appendShapes {
-            // Short legs
-            shortNorthEastLeg case shouldAppendNorthEast
-            shortNorthWestLeg case shouldAppendNorthWest
-            shortSouthEastLeg case shouldAppendSouthEast
-            shortSouthWestLeg case shouldAppendSouthWest
-            // Tall legs
-            tallNorthEastLeg case (shouldAppendNorthEast && isTall)
-            tallNorthWestLeg case (shouldAppendNorthWest && isTall)
-            tallSouthEastLeg case (shouldAppendSouthEast && isTall)
-            tallSouthWestLeg case (shouldAppendSouthWest && isTall)
-
-        }
+    private fun shapeIndex(state: BlockState): Int {
+        var index = 0
+        if (state[north]) index = index or NORTH_MASK
+        if (state[east]) index = index or EAST_MASK
+        if (state[south]) index = index or SOUTH_MASK
+        if (state[west]) index = index or WEST_MASK
+        if (state[type] == CoffeeTableTypes.TALL) index = index or TALL_MASK
+        return index
     }
 
     override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState): ItemStack {
@@ -369,5 +353,39 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         private val tallSouthEastLeg = tallNorthWestLeg.flip()
 
         private val tallSouthWestLeg = tallNorthEastLeg.flip()
+
+        private val outlineShapes = Array(1 shl 5) { index -> shapeForIndex(index) }
+
+        private fun shapeForIndex(index: Int): VoxelShape {
+            val isTall = index and TALL_MASK != 0
+            val north = index and NORTH_MASK != 0
+            val east = index and EAST_MASK != 0
+            val south = index and SOUTH_MASK != 0
+            val west = index and WEST_MASK != 0
+
+            val shouldAppendNorthEast = !north && !east
+            val shouldAppendNorthWest = !north && !west
+            val shouldAppendSouthEast = !south && !east
+            val shouldAppendSouthWest = !south && !west
+
+            return (if (isTall) tallTopShape else shortTopShape).appendShapes {
+                // Short legs
+                shortNorthEastLeg case shouldAppendNorthEast
+                shortNorthWestLeg case shouldAppendNorthWest
+                shortSouthEastLeg case shouldAppendSouthEast
+                shortSouthWestLeg case shouldAppendSouthWest
+                // Tall legs
+                tallNorthEastLeg case (shouldAppendNorthEast && isTall)
+                tallNorthWestLeg case (shouldAppendNorthWest && isTall)
+                tallSouthEastLeg case (shouldAppendSouthEast && isTall)
+                tallSouthWestLeg case (shouldAppendSouthWest && isTall)
+            }
+        }
+
+        private const val NORTH_MASK = 1
+        private const val EAST_MASK = 1 shl 1
+        private const val SOUTH_MASK = 1 shl 2
+        private const val WEST_MASK = 1 shl 3
+        private const val TALL_MASK = 1 shl 4
     }
 }

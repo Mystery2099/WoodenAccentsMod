@@ -114,24 +114,15 @@ class TableBlock(val baseBlock: Block, private val topBlock: Block) :
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(
         state: BlockState, world: BlockView?, pos: BlockPos?, context: ShapeContext?
-    ) = topShape.appendShapes {
-        val north = state[north]
-        val east = state[east]
-        val south = state[south]
-        val west = state[west]
+    ) = outlineShapes[connectionMask(state)]
 
-        singleLegShape case (!north && !east && !south && !west)
-        // End legs
-        northEndLegShape case (!north && !east && south && !west)
-        eastEndLegShape case (!north && !east && !south && west)
-        southEndLegShape case (north && !east && !south && !west)
-        westEndLegShape case (!north && east && !south && !west)
-
-        // Corner legs
-        northEastLegShape case (!north && !east && south && west)
-        northWestLegShape case (!north && east && south && !west)
-        southEastLegShape case (north && !east && !south && west)
-        southWestLegShape case (north && east && !south && !west)
+    private fun connectionMask(state: BlockState): Int {
+        var mask = 0
+        if (state[north]) mask = mask or NORTH_MASK
+        if (state[east]) mask = mask or EAST_MASK
+        if (state[south]) mask = mask or SOUTH_MASK
+        if (state[west]) mask = mask or WEST_MASK
+        return mask
     }
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
@@ -230,5 +221,32 @@ class TableBlock(val baseBlock: Block, private val topBlock: Block) :
         val northWestLegShape = northEastLegShape.rotateRight()
         val southEastLegShape = northWestLegShape.flip()
         val southWestLegShape = northEastLegShape.flip()
+
+        private val outlineShapes = Array(1 shl 4) { mask -> shapeForMask(mask) }
+
+        private fun shapeForMask(mask: Int) = topShape.appendShapes {
+            val north = mask and NORTH_MASK != 0
+            val east = mask and EAST_MASK != 0
+            val south = mask and SOUTH_MASK != 0
+            val west = mask and WEST_MASK != 0
+
+            singleLegShape case (!north && !east && !south && !west)
+            // End legs
+            northEndLegShape case (!north && !east && south && !west)
+            eastEndLegShape case (!north && !east && !south && west)
+            southEndLegShape case (north && !east && !south && !west)
+            westEndLegShape case (!north && east && !south && !west)
+
+            // Corner legs
+            northEastLegShape case (!north && !east && south && west)
+            northWestLegShape case (!north && east && south && !west)
+            southEastLegShape case (north && !east && !south && west)
+            southWestLegShape case (north && east && !south && !west)
+        }
+
+        private const val NORTH_MASK = 1
+        private const val EAST_MASK = 1 shl 1
+        private const val SOUTH_MASK = 1 shl 2
+        private const val WEST_MASK = 1 shl 3
     }
 }
