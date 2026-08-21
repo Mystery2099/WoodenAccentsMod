@@ -98,13 +98,19 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val pillarShape
         }
 
     private fun canConnect(world: WorldAccess, pos: BlockPos, direction: Direction): Boolean {
-        val otherState = world.getBlockState(pos.offset(direction))
-        return otherState isIn connectableBlockTag && otherState.isSideSolid(
+        val otherPos = pos.offset(direction)
+        val otherState = world.getBlockState(otherPos)
+        if (!(otherState isIn connectableBlockTag)) return false
+
+        // An isolated thick pillar has full-cube collision, but remains visually connectable as a pillar.
+        if (otherState.block is ThickPillarBlock) return true
+
+        return otherState.isSideSolid(
             world,
-            pos.offset(direction),
+            otherPos,
             direction.opposite,
             SideShapeType.CENTER
-        ) && !otherState.isSideSolidFullSquare(world, pos, direction.opposite)
+        ) && !otherState.isSideSolidFullSquare(world, otherPos, direction.opposite)
     }
 
     fun offerRecipe(
