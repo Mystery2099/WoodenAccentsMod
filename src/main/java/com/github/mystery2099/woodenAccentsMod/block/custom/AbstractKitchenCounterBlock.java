@@ -141,6 +141,12 @@ public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableB
     }
 
     @Override
+    @SuppressWarnings("deprecation")
+    public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return VoxelShapes.fullCube();
+    }
+
+    @Override
     protected void appendProperties(StateManager.@NotNull Builder<Block, BlockState> builder) {
         super.appendProperties(builder);
         builder.add(FACING, SHAPE);

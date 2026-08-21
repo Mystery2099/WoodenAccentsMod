@@ -8,15 +8,33 @@ import com.github.mystery2099.woodenAccentsMod.block.woodType
 import com.github.mystery2099.woodenAccentsMod.data.client.ModModels
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import net.minecraft.block.Block
+import net.minecraft.block.BlockState
+import net.minecraft.block.ShapeContext
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.TextureMap
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.registry.tag.TagKey
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.shape.VoxelShape
+import net.minecraft.util.shape.VoxelShapes
+import net.minecraft.world.BlockView
 import java.util.function.Consumer
 
 class ThickPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape) {
     override val connectableBlockTag: TagKey<Block> = ModBlockTags.thickPillarsConnectable
     override val tag: TagKey<Block> = ModBlockTags.thickPillars
+
+    @Deprecated("Deprecated in Java")
+    override fun getCollisionShape(
+        state: BlockState,
+        world: BlockView,
+        pos: BlockPos,
+        context: ShapeContext
+    ): VoxelShape = if (!state[AbstractPillarBlock.up] && !state[AbstractPillarBlock.down]) {
+        VoxelShapes.fullCube()
+    } else {
+        getOutlineShape(state, world, pos, context)
+    }
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
         this.offerRecipe(exporter = exporter, outputNum = 6, primaryInput = baseBlock, secondaryInput = baseBlock)
