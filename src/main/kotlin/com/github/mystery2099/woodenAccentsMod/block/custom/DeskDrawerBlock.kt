@@ -7,6 +7,7 @@ import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateRight
 import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.with
 import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil.isIn
+import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil.isOf
 import com.github.mystery2099.woodenAccentsMod.block.custom.enums.SidewaysConnectionShape
 import com.github.mystery2099.woodenAccentsMod.block.entity.custom.DeskDrawerBlockEntity
 import com.github.mystery2099.woodenAccentsMod.block.textureId
@@ -15,6 +16,7 @@ import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil
 import com.github.mystery2099.woodenAccentsMod.data.client.ModModels
 import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeDataGen.Companion.customGroup
 import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeDataGen.Companion.requires
+import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomBlockLootTableProvider
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomBlockStateProvider
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomItemGroupProvider
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomRecipeProvider
@@ -23,6 +25,7 @@ import com.github.mystery2099.woodenAccentsMod.item.group.CustomItemGroup
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.state.property.ModProperties
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
@@ -35,9 +38,15 @@ import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.mob.PiglinBrain
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.inventory.Inventory
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.loot.LootPool
+import net.minecraft.loot.LootTable
+import net.minecraft.loot.entry.ItemEntry
+import net.minecraft.loot.function.CopyNameLootFunction
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider
 import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.screen.ScreenHandler
@@ -49,6 +58,7 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.BlockMirror
 import net.minecraft.util.BlockRotation
 import net.minecraft.util.Hand
+import net.minecraft.util.ItemScatterer
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -61,7 +71,8 @@ import java.util.function.Consumer
 
 class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
     WaterloggableBlockWithEntity(FabricBlockSettings.copyOf(baseBlock).mapColor(baseBlock.defaultMapColor)),
-    CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
+    CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider,
+    CustomBlockLootTableProvider {
 
     override val itemGroup: CustomItemGroup = ModItemGroups.decorations
     override val tag: TagKey<Block> = ModBlockTags.deskDrawers
@@ -144,6 +155,25 @@ class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
     }
 
     @Deprecated("Deprecated in Java")
+    override fun onStateReplaced(
+        state: BlockState,
+        world: World,
+        pos: BlockPos,
+        newState: BlockState,
+        moved: Boolean
+    ) {
+        if (state isOf newState.block) return
+
+        val blockEntity = world.getBlockEntity(pos)
+        if (blockEntity is Inventory) {
+            ItemScatterer.spawn(world, pos, blockEntity)
+            world.updateComparators(pos, this)
+        }
+
+        super.onStateReplaced(state, world, pos, newState, moved)
+    }
+
+    @Deprecated("Deprecated in Java")
     override fun getStateForNeighborUpdate(
         state: BlockState,
         direction: Direction?,
@@ -206,6 +236,19 @@ class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
     }
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = DeskDrawerBlockEntity(pos, state)
+
+    override fun getLootTableBuilder(provider: FabricBlockLootTableProvider): LootTable.Builder {
+        return LootTable.builder().pool(
+            provider.addSurvivesExplosionCondition(
+                this,
+                LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f)).with(
+                    ItemEntry.builder(this)
+                        .apply(CopyNameLootFunction.builder(CopyNameLootFunction.Source.BLOCK_ENTITY))
+                )
+            )
+        )
+    }
+
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
         val textureMap = TextureMap().apply {
             put(TextureKey.SIDE, baseBlock.textureId)
