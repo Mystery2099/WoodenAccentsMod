@@ -4,12 +4,21 @@ This file tracks player-visible changes and anything maintainers need to know be
 
 ## [Unreleased]
 
+## [1.19.4-1.1.2.0] - 2026-08-21
+
 ### Changed
 
 - Reworked the project, contribution, and release documentation.
 - Rewrote the player README for clearer features, dependencies, and FAQ, and mirrored Modrinth gallery screenshots under `docs/images/`.
 - Precomputed reusable outline shapes for connecting and multipart blocks without changing their dimensions.
-- Simplified physical collision for desks, desk drawers, kitchen counters, and kitchen cabinets while retaining their detailed selection outlines. Isolated thick pillars now use full-block collision and return to their detailed shape when connected.
+- Desks, desk drawers, kitchen counters, and kitchen cabinets now use full-block collision while retaining their detailed selection outlines. Isolated thick pillars use full-block collision and return to their detailed shape when connected.
+- Raised the minimum supported versions to Fabric Loader 0.19.3, Fabric Language Kotlin 1.13.13+kotlin.2.4.10, and VoxLib 1.6.1+1.19.4.
+
+### Fixed
+
+- Desk drawers now drop their stored contents when broken and preserve custom names on the dropped block item.
+
+[Full changelog](https://github.com/Mystery2099/WoodenAccentsMod/compare/v1.19.4-1.1.1.1...v1.19.4-1.1.2.0)
 
 ## [1.19.4-1.1.1.1] - 2024-05-20
 
