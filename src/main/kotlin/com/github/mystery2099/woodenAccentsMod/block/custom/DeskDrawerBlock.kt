@@ -198,6 +198,14 @@ class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
         context: ShapeContext?
     ): VoxelShape = shapeMap[state[shape]]?.get(state[facing]) ?: VoxelShapes.fullCube()
 
+    @Deprecated("Deprecated in Java")
+    override fun getCollisionShape(
+        state: BlockState,
+        world: BlockView,
+        pos: BlockPos,
+        context: ShapeContext
+    ): VoxelShape = VoxelShapes.fullCube()
+
     @Deprecated("Deprecated in Java", ReplaceWith("BlockRenderType.MODEL", "net.minecraft.block.BlockRenderType"))
     override fun getRenderType(state: BlockState?): BlockRenderType = BlockRenderType.MODEL
 

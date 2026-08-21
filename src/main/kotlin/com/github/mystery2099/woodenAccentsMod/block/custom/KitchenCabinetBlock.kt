@@ -179,6 +179,14 @@ class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
     ): VoxelShape = outlineShapes[state[facing]]
         ?: VoxelShapes.fullCube()
 
+    @Deprecated("Deprecated in Java")
+    override fun getCollisionShape(
+        state: BlockState,
+        world: BlockView,
+        pos: BlockPos,
+        context: ShapeContext
+    ): VoxelShape = VoxelShapes.fullCube()
+
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 4).apply {
             input('#', baseBlock)
