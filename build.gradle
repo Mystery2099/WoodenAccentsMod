@@ -53,6 +53,10 @@ repositories {
 	// for more information about repositories.
 	maven { url = uri("https://maven.misterpemodder.com/libs-release/") }
 	maven { url = uri("https://maven.shedaniel.me/") }
+	maven {
+		name = "Terraformers"
+		url = uri("https://maven.terraformersmc.com/")
+	}
 	exclusiveContent {
 		forRepository {
 			maven {
@@ -118,6 +122,8 @@ dependencies {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 	modImplementation "maven.modrinth:voxlib:${project.voxlib_version}"
+	// Makes VoxLib's shape debugger accessible in development without shipping Mod Menu.
+	modLocalRuntime "com.terraformersmc:modmenu:${project.modmenu_version}"
 	// Loom's development remap drops VoxLib's nested-jar declaration, so provide its embedded library at runtime.
 	runtimeOnly("com.github.ben-manes.caffeine:caffeine:${project.caffeine_version}") {
 		exclude(group: "org.checkerframework", module: "checker-qual")

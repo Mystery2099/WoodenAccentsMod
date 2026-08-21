@@ -8,6 +8,7 @@ This file tracks player-visible changes and anything maintainers need to know be
 
 - Reworked the project, contribution, and release documentation.
 - Rewrote the player README for clearer features, dependencies, and FAQ, and mirrored Modrinth gallery screenshots under `docs/images/`.
+- Precomputed reusable outline shapes for connecting and multipart blocks without changing their dimensions.
 
 ## [1.19.4-1.1.1.1] - 2024-05-20
 

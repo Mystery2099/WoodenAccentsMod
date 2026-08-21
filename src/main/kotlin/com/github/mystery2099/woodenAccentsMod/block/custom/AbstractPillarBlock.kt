@@ -42,6 +42,13 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val pillarShape
     override val itemGroup = ModItemGroups.structuralElements
     abstract val connectableBlockTag: TagKey<Block>
 
+    private val outlineShapes = Array(4) { connections ->
+        pillarShape.centerShape.appendShapes {
+            pillarShape.topShape case (connections and UP_CONNECTION == 0)
+            pillarShape.baseShape case (connections and DOWN_CONNECTION == 0)
+        }
+    }
+
     init {
         defaultState = defaultState.with {
             up to false
@@ -80,10 +87,7 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val pillarShape
         world: BlockView?,
         pos: BlockPos?,
         context: ShapeContext?
-    ): VoxelShape = pillarShape.centerShape.appendShapes {
-        pillarShape.topShape case !state[up]
-        pillarShape.baseShape case !state[down]
-    }
+    ): VoxelShape = outlineShapes[getConnectionIndex(state)]
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState =
         super.getPlacementState(ctx).with {
@@ -141,5 +145,15 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val pillarShape
     companion object {
         val up: BooleanProperty = Properties.UP
         val down: BooleanProperty = Properties.DOWN
+
+        private fun getConnectionIndex(state: BlockState): Int {
+            var connections = 0
+            if (state[up]) connections = connections or UP_CONNECTION
+            if (state[down]) connections = connections or DOWN_CONNECTION
+            return connections
+        }
+
+        private const val UP_CONNECTION = 1
+        private const val DOWN_CONNECTION = 2
     }
 }

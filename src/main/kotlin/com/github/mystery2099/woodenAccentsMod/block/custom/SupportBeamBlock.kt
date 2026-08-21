@@ -1,9 +1,5 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
-import com.github.mystery2099.voxlib.combination.VoxelAssembly
-import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
-import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
-import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateRight
 import com.github.mystery2099.woodenAccentsMod.block.itemModelId
 import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.asBlockStateVariant
 import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.uvLock
@@ -35,7 +31,6 @@ import net.minecraft.registry.tag.TagKey
 import net.minecraft.resource.featuretoggle.FeatureFlags
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
-import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
@@ -50,14 +45,6 @@ class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(ru
         }
     }
 }), CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
-    override val centerShape: VoxelShape = VoxelAssembly.createCuboidShape(6, 6, 6, 10, 10, 10)
-    override val northShape: VoxelShape = VoxelAssembly.createCuboidShape(6, 6, 0, 10, 10, 6)
-    override val eastShape: VoxelShape = northShape.rotateLeft()
-    override val southShape: VoxelShape = northShape.flip()
-    override val westShape: VoxelShape = northShape.rotateRight()
-    override val upShape: VoxelShape = VoxelAssembly.createCuboidShape(6, 10, 6, 10, 16, 10)
-    override val downShape: VoxelShape = upShape.offset(0.0, -10 / 16.0, 0.0)
-
     override val tag: TagKey<Block> = ModBlockTags.supportBeams
     override val itemGroup: CustomItemGroup = ModItemGroups.structuralElements
 

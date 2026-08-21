@@ -1,10 +1,9 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
-import com.github.mystery2099.voxlib.combination.VoxelAssembly.appendShapes
 import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.with
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
-import net.minecraft.block.ShapeContext
+import net.minecraft.block.ConnectingBlock
 import net.minecraft.block.Waterloggable
 import net.minecraft.fluid.FluidState
 import net.minecraft.fluid.Fluids
@@ -14,19 +13,9 @@ import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.Properties
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
-import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 
-open class OmnidirectionalConnectingBlock(settings: Settings) : Block(settings), Waterloggable {
-    open val centerShape: VoxelShape = VoxelShapes.fullCube()
-    open val northShape: VoxelShape = VoxelShapes.empty()
-    open val eastShape: VoxelShape = VoxelShapes.empty()
-    open val southShape: VoxelShape = VoxelShapes.empty()
-    open val westShape: VoxelShape = VoxelShapes.empty()
-    open val upShape: VoxelShape = VoxelShapes.empty()
-    open val downShape: VoxelShape = VoxelShapes.empty()
+open class OmnidirectionalConnectingBlock(settings: Settings) : ConnectingBlock(2.0F / 16.0F, settings), Waterloggable {
 
     init {
         defaultState = defaultState.with {
@@ -54,23 +43,6 @@ open class OmnidirectionalConnectingBlock(settings: Settings) : Block(settings),
     override fun getFluidState(state: BlockState): FluidState {
         return if (state[waterlogged]) Fluids.WATER.getStill(false)
         else super.getFluidState(state)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun getOutlineShape(
-        state: BlockState,
-        world: BlockView?,
-        pos: BlockPos?,
-        context: ShapeContext?
-    ): VoxelShape {
-        return centerShape.appendShapes {
-            northShape case state[north]
-            eastShape case state[east]
-            southShape case state[south]
-            westShape case state[west]
-            upShape case state[up]
-            downShape case state[down]
-        }
     }
 
     @Deprecated("Deprecated in Java")

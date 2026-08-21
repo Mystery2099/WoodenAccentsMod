@@ -176,7 +176,7 @@ class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
         world: BlockView,
         pos: BlockPos,
         context: ShapeContext
-    ): VoxelShape = directionVoxelShapeMap[state[facing]]?.and(AbstractKitchenCounterBlock.TOP_SHAPE)
+    ): VoxelShape = outlineShapes[state[facing]]
         ?: VoxelShapes.fullCube()
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
@@ -215,5 +215,8 @@ class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
             Direction.SOUTH to AbstractKitchenCounterBlock.NORTH_SHAPE.flip(),
             Direction.WEST to AbstractKitchenCounterBlock.NORTH_SHAPE.rotateRight()
         )
+        private val outlineShapes = directionVoxelShapeMap.mapValues { (_, shape) ->
+            shape.and(AbstractKitchenCounterBlock.TOP_SHAPE)
+        }
     }
 }
