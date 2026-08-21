@@ -26,7 +26,7 @@ import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.state.property.ModProperties
 import com.github.mystery2099.woodenAccentsMod.util.WhenUtil
-import com.github.mystery2099.woodenAccentsMod.util.WhenUtil.and
+import com.github.mystery2099.woodenAccentsMod.util.WhenUtil.allOf
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
@@ -282,10 +282,10 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
             WhenUtil.notSouthEast to shortNorthEastVariant.withYRotationOf(VariantSettings.Rotation.R90),
             WhenUtil.notSouthWest to shortNorthEastVariant.withYRotationOf(VariantSettings.Rotation.R180),
             isTall to tallTopModel.asBlockStateVariant(),
-            WhenUtil.notNorthEast and isTall to tallNorthEastVariant,
-            WhenUtil.notNorthWest and isTall to tallNorthEastVariant.withYRotationOf(VariantSettings.Rotation.R270),
-            WhenUtil.notSouthEast and isTall to tallNorthEastVariant.withYRotationOf(VariantSettings.Rotation.R90),
-            WhenUtil.notSouthWest and isTall to tallNorthEastVariant.withYRotationOf(VariantSettings.Rotation.R180)
+            allOf(WhenUtil.notNorthEast, isTall) to tallNorthEastVariant,
+            allOf(WhenUtil.notNorthWest, isTall) to tallNorthEastVariant.withYRotationOf(VariantSettings.Rotation.R270),
+            allOf(WhenUtil.notSouthEast, isTall) to tallNorthEastVariant.withYRotationOf(VariantSettings.Rotation.R90),
+            allOf(WhenUtil.notSouthWest, isTall) to tallNorthEastVariant.withYRotationOf(VariantSettings.Rotation.R180)
         ).forEach(::with)
     }
 

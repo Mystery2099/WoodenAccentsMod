@@ -17,7 +17,7 @@ import com.github.mystery2099.woodenAccentsMod.item.group.CustomItemGroup
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.util.WhenUtil
-import com.github.mystery2099.woodenAccentsMod.util.WhenUtil.and
+import com.github.mystery2099.woodenAccentsMod.util.WhenUtil.allOf
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.*
 import net.minecraft.data.client.*
@@ -102,7 +102,7 @@ class ThinBookshelfBlock(val baseBlock: Block) :
                     with(directions[i], variants[i].withYRotationOf(VariantSettings.Rotation.entries[i]))
                     for (j in slotVariants.indices) {
                         with(
-                            directions[i] and When.create().set(SLOT_OCCUPIED_PROPERTIES[j], true),
+                            allOf(directions[i], When.create().set(SLOT_OCCUPIED_PROPERTIES[j], true)),
                             slotVariants[j][i]
                         )
                     }

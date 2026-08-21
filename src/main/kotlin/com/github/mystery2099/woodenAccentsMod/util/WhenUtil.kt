@@ -23,10 +23,10 @@ object WhenUtil {
     val notWest: When.PropertyCondition = When.create().set(Properties.WEST, false)
 
     // Missing diagonal connections (neither of the two directions)
-    val notNorthEast: When = notNorth and notEast
-    val notSouthEast: When = notSouth and notEast
-    val notNorthWest: When = notNorth and notWest
-    val notSouthWest: When = notSouth and notWest
+    val notNorthEast: When = allOf(notNorth, notEast)
+    val notSouthEast: When = allOf(notSouth, notEast)
+    val notNorthWest: When = allOf(notNorth, notWest)
+    val notSouthWest: When = allOf(notSouth, notWest)
 
     // Horizontal facing
     val facingNorthHorizontal: When.PropertyCondition = When.create().set(Properties.HORIZONTAL_FACING, Direction.NORTH)
@@ -34,7 +34,5 @@ object WhenUtil {
     val facingSouthHorizontal: When.PropertyCondition = When.create().set(Properties.HORIZONTAL_FACING, Direction.SOUTH)
     val facingWestHorizontal: When.PropertyCondition = When.create().set(Properties.HORIZONTAL_FACING, Direction.WEST)
 
-    infix fun When.and(other: When): When = When.allOf(this, other)
-
-    infix fun When.or(other: When): When = When.anyOf(this, other)
+    fun allOf(vararg conditions: When): When = When.allOf(*conditions)
 }
