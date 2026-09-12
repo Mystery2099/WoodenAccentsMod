@@ -47,6 +47,10 @@ replay_*.log
 # cursor
 /.cursor/
 
+# kdevelop
+*.kdev4
+/.kdev4/
+
 # opencode
 /opencode.json
 /skills-lock.json
