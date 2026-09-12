@@ -31,6 +31,7 @@ object ModBlockTags {
     // Ladders
     val plankLadders = "plank_ladders".toBlockTag().createMatchingItemTag()
     val connectingLadders = "connecting_ladders".toBlockTag().createMatchingItemTag()
+    val simpleLadders = "simple_ladders".toBlockTag().createMatchingItemTag()
 
     // Fences
     val modernFences = "modern_fences".toBlockTag().createMatchingItemTag()

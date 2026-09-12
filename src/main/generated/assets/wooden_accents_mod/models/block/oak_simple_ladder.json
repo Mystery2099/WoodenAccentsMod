@@ -1,0 +1,6 @@
+{
+  "parent": "wooden_accents_mod:block/simple_ladder",
+  "textures": {
+    "all": "wooden_accents_mod:block/oak_ladder"
+  }
+}
