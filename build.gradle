@@ -163,8 +163,11 @@ java {
 }
 
 jar {
+	// Capture indices_base property up front so the rename closure stays
+	// compatible with the Gradle configuration cache.
+	def baseName = archives_base_name
 	from("LICENSE") {
-		rename { "${it}_${archives_base_name}"}
+		rename { "${it}_${baseName}" }
 	}
 }
 
