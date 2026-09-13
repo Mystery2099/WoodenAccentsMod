@@ -41,4 +41,16 @@ replay_*.log
 *.jfr
 /gitlogin.properties
 /AGENTS.md
+/.agents/
 /template-mod-template-1.19.4.zip
+
+# cursor
+/.cursor/
+
+# kdevelop
+*.kdev4
+/.kdev4/
+
+# opencode
+/opencode.json
+/skills-lock.json

@@ -489,6 +489,22 @@ object ModBlocks : WoodenAccentsModRegistry {
         ConnectingLadderBlock(Blocks.STRIPPED_CRIMSON_STEM).registerAs("stripped_crimson_ladder")
     val strippedWarpedLadder = ConnectingLadderBlock(Blocks.STRIPPED_WARPED_STEM).registerAs("stripped_warped_ladder")
 
+    // Simple ladders
+    val oakSimpleLadder = SimpleLadderBlock(Blocks.OAK_PLANKS).registerAs("oak_simple_ladder")
+    val spruceSimpleLadder = SimpleLadderBlock(Blocks.SPRUCE_PLANKS).registerAs("spruce_simple_ladder")
+    val birchSimpleLadder = SimpleLadderBlock(Blocks.BIRCH_PLANKS).registerAs("birch_simple_ladder")
+    val jungleSimpleLadder = SimpleLadderBlock(Blocks.JUNGLE_PLANKS).registerAs("jungle_simple_ladder")
+    val acaciaSimpleLadder = SimpleLadderBlock(Blocks.ACACIA_PLANKS).registerAs("acacia_simple_ladder")
+    val darkOakSimpleLadder =
+        SimpleLadderBlock(Blocks.DARK_OAK_PLANKS).registerAs("dark_oak_simple_ladder")
+    val mangroveSimpleLadder =
+        SimpleLadderBlock(Blocks.MANGROVE_PLANKS).registerAs("mangrove_simple_ladder")
+    val cherrySimpleLadder = SimpleLadderBlock(Blocks.CHERRY_PLANKS).registerAs("cherry_simple_ladder")
+    val bambooSimpleLadder = SimpleLadderBlock(Blocks.BAMBOO_PLANKS).registerAs("bamboo_simple_ladder")
+    val crimsonSimpleLadder =
+        SimpleLadderBlock(Blocks.CRIMSON_PLANKS).registerAs("crimson_simple_ladder")
+    val warpedSimpleLadder = SimpleLadderBlock(Blocks.WARPED_PLANKS).registerAs("warped_simple_ladder")
+
     // Plank support beams
     val oakPlankSupportBeam = SupportBeamBlock(Blocks.OAK_PLANKS).registerAs("oak_plank_support_beam")
     val sprucePlankSupportBeam = SupportBeamBlock(Blocks.SPRUCE_PLANKS).registerAs("spruce_plank_support_beam")

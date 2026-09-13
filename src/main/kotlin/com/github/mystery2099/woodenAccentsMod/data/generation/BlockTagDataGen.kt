@@ -46,7 +46,7 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
         BlockTags.WALLS += ModBlockTags.woodenWalls
         BlockTags.FENCES += ModBlockTags.modernFences
         BlockTags.FENCE_GATES += ModBlockTags.modernFenceGates
-        BlockTags.CLIMBABLE.addTags(ModBlockTags.plankLadders, ModBlockTags.connectingLadders)
+        BlockTags.CLIMBABLE.addTags(ModBlockTags.plankLadders, ModBlockTags.connectingLadders, ModBlockTags.simpleLadders)
         BlockTags.INSIDE_STEP_SOUND_BLOCKS += ModBlockTags.plankCarpets
     }
 
