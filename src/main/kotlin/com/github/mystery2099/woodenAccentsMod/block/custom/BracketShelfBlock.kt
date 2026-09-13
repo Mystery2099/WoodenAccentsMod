@@ -372,9 +372,22 @@ class BracketShelfBlock(val baseBlock: Block) : AbstractWaterloggableBlock(
         val left: BooleanProperty = com.github.mystery2099.woodenAccentsMod.state.property.ModProperties.left
         val right: BooleanProperty = com.github.mystery2099.woodenAccentsMod.state.property.ModProperties.right
 
-        private val northShelfShape = VoxelAssembly.createCuboidShape(0, 11, 6, 16, 15, 16)
-        private val northLeftBracketShape = VoxelAssembly.createCuboidShape(2, 3, 7, 4, 11, 16)
-        private val northRightBracketShape = VoxelAssembly.createCuboidShape(12, 3, 7, 14, 11, 16)
+        private val northShelfShape = VoxelAssembly.union(
+            VoxelAssembly.createCuboidShape(0, 11, 6, 16, 13, 16),
+            VoxelAssembly.createCuboidShape(0, 13, 15, 16, 15, 16)
+        )
+        private val northLeftBracketShape = VoxelAssembly.union(
+            VoxelAssembly.createCuboidShape(2, 3, 14, 4, 11, 16),
+            VoxelAssembly.createCuboidShape(2, 9, 7, 4, 11, 14),
+            VoxelAssembly.createCuboidShape(2, 7, 9, 4, 9, 14),
+            VoxelAssembly.createCuboidShape(2, 5, 11, 4, 7, 14)
+        )
+        private val northRightBracketShape = VoxelAssembly.union(
+            VoxelAssembly.createCuboidShape(12, 3, 14, 14, 11, 16),
+            VoxelAssembly.createCuboidShape(12, 9, 7, 14, 11, 14),
+            VoxelAssembly.createCuboidShape(12, 7, 9, 14, 9, 14),
+            VoxelAssembly.createCuboidShape(12, 5, 11, 14, 7, 14)
+        )
 
         private val shelfShapeByFacing = shapesByFacing(northShelfShape)
         private val leftBracketShapeByFacing = shapesByFacing(northLeftBracketShape)
