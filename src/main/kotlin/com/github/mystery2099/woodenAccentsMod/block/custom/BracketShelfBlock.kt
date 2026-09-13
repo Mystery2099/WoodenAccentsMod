@@ -112,13 +112,21 @@ class BracketShelfBlock(val baseBlock: Block) : AbstractWaterloggableBlock(
 
     private fun BlockState.withBracketVisibility(world: WorldAccess, pos: BlockPos): BlockState {
         val leftDirection = this[facing].rotateYCounterclockwise()
-        val rightDirection = this[facing].rotateYClockwise()
         var distanceFromLeft = 0
         var cursor = pos.offset(leftDirection)
         while (canConnect(world.getBlockState(cursor))) {
             distanceFromLeft++
             cursor = cursor.offset(leftDirection)
         }
+        return withBracketVisibility(world, pos, distanceFromLeft)
+    }
+
+    private fun BlockState.withBracketVisibility(
+        world: WorldAccess,
+        pos: BlockPos,
+        distanceFromLeft: Int
+    ): BlockState {
+        val rightDirection = this[facing].rotateYClockwise()
         val hasRightNeighbor = canConnect(world.getBlockState(pos.offset(rightDirection)))
         return this.with {
             left to (distanceFromLeft > 0)
@@ -139,13 +147,15 @@ class BracketShelfBlock(val baseBlock: Block) : AbstractWaterloggableBlock(
         }
 
         var cursor = start
+        var distanceFromLeft = 0
         while (state.canConnect(world.getBlockState(cursor))) {
             val currentState = world.getBlockState(cursor)
-            val updatedState = currentState.withBracketVisibility(world, cursor)
+            val updatedState = currentState.withBracketVisibility(world, cursor, distanceFromLeft)
             if (updatedState != currentState) {
                 world.setBlockState(cursor, updatedState, Block.NOTIFY_LISTENERS)
             }
             cursor = cursor.offset(rightDirection)
+            distanceFromLeft++
         }
     }
 
