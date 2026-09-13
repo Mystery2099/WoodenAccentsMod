@@ -1,3 +1,6 @@
 {
-  "parent": "wooden_accents_mod:block/acacia_simple_ladder"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "wooden_accents_mod:block/acacia_ladder"
+  }
 }

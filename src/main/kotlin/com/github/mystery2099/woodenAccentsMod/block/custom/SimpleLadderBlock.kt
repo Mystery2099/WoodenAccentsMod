@@ -2,12 +2,14 @@ package com.github.mystery2099.woodenAccentsMod.block.custom
 
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.toIdentifier
 import com.github.mystery2099.woodenAccentsMod.block.id
+import com.github.mystery2099.woodenAccentsMod.block.itemModelId
 import com.github.mystery2099.woodenAccentsMod.data.client.ModModels
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
 import net.minecraft.data.client.BlockStateModelGenerator
+import net.minecraft.data.client.Models
 import net.minecraft.data.client.TextureKey
 import net.minecraft.data.client.TextureMap
 import net.minecraft.data.server.recipe.RecipeJsonProvider
@@ -34,6 +36,7 @@ class SimpleLadderBlock(val baseBlock: Block) :
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
         val ladderTexture = (id.path.removeSuffix("_simple_ladder") + "_ladder").toIdentifier().withPrefixedPath("block/")
         ModModels.simpleLadder.upload(this, TextureMap.of(TextureKey.ALL, ladderTexture), generator.modelCollector)
+        Models.GENERATED.upload(itemModelId, TextureMap.layer0(ladderTexture), generator.modelCollector)
         generator.registerNorthDefaultHorizontalRotation(this)
     }
 }
