@@ -4,6 +4,14 @@ This file tracks player-visible changes and anything maintainers need to know be
 
 ## [Unreleased]
 
+### Added
+
+- Bracket shelves for all 12 vanilla plank types. Shelves attach to any full square solid side, connect side-by-side with supports at each end and every three shelves, and can be placed in or out of water like other waterloggable blocks. Crafted with 3 planks over two sticks, yielding two shelves.
+- Bracket shelves now store and display up to three full item stacks, one per third of the shelf face. Using a shelf swaps the pointed-at slot with the stack in the interacting hand, like vanilla wall shelves.
+- When powered by redstone, interacting with a bracket shelf swaps its three slots (and those of any connected powered shelves facing the same way, up to three shelves in total) with the rightmost three, six, or all nine hotbar slots for instant loadout changes.
+- A comparator placed behind a bracket shelf outputs a signal strength based on which slots are filled: 1 for the first slot, 2 for the second, 4 for the third, up to a maximum of 7.
+- Hoppers can fill bracket shelves from above and empty them from below. Shelves scatter their stored items when broken or when their support block is removed.
+
 ## [1.19.4-1.1.2.0] - 2026-08-21
 
 ### Changed

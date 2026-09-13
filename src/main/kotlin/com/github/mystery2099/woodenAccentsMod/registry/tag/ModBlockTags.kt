@@ -46,6 +46,7 @@ object ModBlockTags {
     val coffeeTables = "coffee_tables".toBlockTag().createMatchingItemTag()
     val thinBookshelves = "thin_bookshelves".toBlockTag().createMatchingItemTag()
     val plankCarpets = "plank_carpets".toBlockTag().createMatchingItemTag()
+    val bracketShelves = "bracket_shelves".toBlockTag().createMatchingItemTag()
 
     @JvmStatic
     val desks = "desks".toBlockTag().createMatchingItemTag()

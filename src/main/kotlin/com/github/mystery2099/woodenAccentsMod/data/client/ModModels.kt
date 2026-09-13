@@ -65,6 +65,11 @@ object ModModels {
 
     val basicChair = block("chair", TextureKey.ALL)
 
+    val bracketShelfItem = item("bracket_shelf", TextureKey.ALL)
+    val bracketShelfBase = block("bracket_shelf_base", "_base", TextureKey.ALL)
+    val bracketShelfLeft = block("bracket_shelf_left", "_left", TextureKey.ALL)
+    val bracketShelfRight = block("bracket_shelf_right", "_right", TextureKey.ALL)
+
     val thinBookshelfItem = item("thin_bookshelf", TextureKey.ALL)
     val thinBookshelfBlock = block("thin_bookshelf", "_empty", TextureKey.ALL)
     val thinBookshelfSlot0 = "thin_bookshelf_slot_0".toIdentifier().withBlockModelPath()
