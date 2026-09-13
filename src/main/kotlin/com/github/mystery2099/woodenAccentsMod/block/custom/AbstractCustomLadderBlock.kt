@@ -16,7 +16,7 @@ import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.TagKey
 import java.util.function.Consumer
-abstract class AbstractCustomLadderBlock(settings: Settings) : LadderBlock(settings), CustomItemGroupProvider,
+abstract class AbstractCustomLadderBlock(settings: Settings) : LadderBlock(settings.nonOpaque()), CustomItemGroupProvider,
     CustomRecipeProvider,
     CustomTagProvider<Block>, CustomBlockStateProvider {
     override val tag: TagKey<Block> = BlockTags.CLIMBABLE
