@@ -230,17 +230,18 @@ class BracketShelfBlock(val baseBlock: Block) : AbstractWaterloggableBlock(
     }
 
     /** A powered shelf swaps its slots (and its powered neighbours', up to three
-     * shelves, all facing [facing]) with the rightmost hotbar slots. */
+     * shelves of the same wood, all facing [facing]) with the rightmost hotbar slots. */
     private fun swapWithHotbar(world: World, clickedPos: BlockPos, facing: Direction, player: PlayerEntity) {
         val leftDirection = facing.rotateYCounterclockwise()
         val rightDirection = facing.rotateYClockwise()
+        val shelfBlock = world.getBlockState(clickedPos).block
 
         val leftEnd = generateSequence(clickedPos, { it.offset(leftDirection) })
-            .takeWhile { isPoweredShelf(it, world, facing) }
+            .takeWhile { isPoweredShelf(it, world, shelfBlock, facing) }
             .take(3)
             .last()
         val group = generateSequence(leftEnd, { it.offset(rightDirection) })
-            .takeWhile { isPoweredShelf(it, world, facing) }
+            .takeWhile { isPoweredShelf(it, world, shelfBlock, facing) }
             .take(3)
             .toList()
 
@@ -265,9 +266,9 @@ class BracketShelfBlock(val baseBlock: Block) : AbstractWaterloggableBlock(
         )
     }
 
-    private fun isPoweredShelf(pos: BlockPos, world: World, shelfFacing: Direction): Boolean {
+    private fun isPoweredShelf(pos: BlockPos, world: World, shelfBlock: Block, shelfFacing: Direction): Boolean {
         val state = world.getBlockState(pos)
-        return state.block is BracketShelfBlock &&
+        return state.block === shelfBlock &&
             state[facing] == shelfFacing &&
             world.isReceivingRedstonePower(pos)
     }
