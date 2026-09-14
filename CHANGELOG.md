@@ -2,7 +2,7 @@
 
 This file tracks player-visible changes and anything maintainers need to know before publishing a release. Release headings must match `mod_version` in `gradle.properties` so the publishing workflow can use the section as its release notes.
 
-## [1.19.4-1.2.0.0] - 2026-09-14
+## [1.19.4-1.1.3.0] - 2026-09-14
 
 ### Added
 
@@ -12,7 +12,7 @@ This file tracks player-visible changes and anything maintainers need to know be
 - A comparator placed behind a bracket shelf outputs a signal strength based on which slots are filled: 1 for the first slot, 2 for the second, 4 for the third, up to a maximum of 7.
 - Hoppers can fill bracket shelves from above and empty them from below. Shelves scatter their stored items when broken or when their support block is removed.
 
-[Full changelog](https://github.com/Mystery2099/WoodenAccentsMod/compare/v1.19.4-1.1.2.0...v1.19.4-1.2.0.0)
+[Full changelog](https://github.com/Mystery2099/WoodenAccentsMod/compare/v1.19.4-1.1.2.0...v1.19.4-1.1.3.0)
 
 ## [1.19.4-1.1.2.0] - 2026-08-21
 
