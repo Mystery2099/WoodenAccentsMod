@@ -635,6 +635,20 @@ object ModBlocks : WoodenAccentsModRegistry {
     val crimsonPlankBookshelf = ThinBookshelfBlock(Blocks.CRIMSON_PLANKS).registerAs("crimson_plank_bookshelf")
     val warpedPlankBookshelf = ThinBookshelfBlock(Blocks.WARPED_PLANKS).registerAs("warped_plank_bookshelf")
 
+    // Bracket shelves
+    val oakBracketShelf = BracketShelfBlock(Blocks.OAK_PLANKS).registerAs("oak_bracket_shelf")
+    val spruceBracketShelf = BracketShelfBlock(Blocks.SPRUCE_PLANKS).registerAs("spruce_bracket_shelf")
+    val birchBracketShelf = BracketShelfBlock(Blocks.BIRCH_PLANKS).registerAs("birch_bracket_shelf")
+    val jungleBracketShelf = BracketShelfBlock(Blocks.JUNGLE_PLANKS).registerAs("jungle_bracket_shelf")
+    val acaciaBracketShelf = BracketShelfBlock(Blocks.ACACIA_PLANKS).registerAs("acacia_bracket_shelf")
+    val darkOakBracketShelf = BracketShelfBlock(Blocks.DARK_OAK_PLANKS).registerAs("dark_oak_bracket_shelf")
+    val mangroveBracketShelf = BracketShelfBlock(Blocks.MANGROVE_PLANKS).registerAs("mangrove_bracket_shelf")
+    val cherryBracketShelf = BracketShelfBlock(Blocks.CHERRY_PLANKS).registerAs("cherry_bracket_shelf")
+    val bambooBracketShelf = BracketShelfBlock(Blocks.BAMBOO_PLANKS).registerAs("bamboo_bracket_shelf")
+    val bambooMosaicBracketShelf = BracketShelfBlock(Blocks.BAMBOO_MOSAIC).registerAs("bamboo_mosaic_bracket_shelf")
+    val crimsonBracketShelf = BracketShelfBlock(Blocks.CRIMSON_PLANKS).registerAs("crimson_bracket_shelf")
+    val warpedBracketShelf = BracketShelfBlock(Blocks.WARPED_PLANKS).registerAs("warped_bracket_shelf")
+
     // Plank carpets
     val oakPlankCarpet = CustomCarpetBlock(Blocks.OAK_PLANKS).registerAs("oak_plank_carpet")
     val sprucePlankCarpet = CustomCarpetBlock(Blocks.SPRUCE_PLANKS).registerAs("spruce_plank_carpet")

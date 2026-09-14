@@ -1,0 +1,6 @@
+{
+  "parent": "wooden_accents_mod:block/bracket_shelf_base",
+  "textures": {
+    "all": "minecraft:block/bamboo_planks"
+  }
+}

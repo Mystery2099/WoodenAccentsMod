@@ -1,0 +1,6 @@
+{
+  "parent": "wooden_accents_mod:block/bracket_shelf_left",
+  "textures": {
+    "all": "minecraft:block/crimson_planks"
+  }
+}
