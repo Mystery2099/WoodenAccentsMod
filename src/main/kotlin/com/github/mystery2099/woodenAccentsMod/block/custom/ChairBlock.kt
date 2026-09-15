@@ -85,11 +85,13 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
         hit: BlockHitResult?
     ): ActionResult {
         if (player.shouldCancelInteraction() || player.hasVehicle()) return ActionResult.PASS
-        if (world.getEntitiesByClass(SeatEntity::class.java, Box(pos)) { !it.isRemoved }.isNotEmpty()) {
+        val seats = world.getEntitiesByClass(SeatEntity::class.java, Box(pos)) { !it.isRemoved }
+        if (seats.any { it.hasPassengers() }) {
             return ActionResult.CONSUME
         }
         if (world.isClient) return ActionResult.SUCCESS
 
+        seats.forEach { it.discard() }
         val seat = SeatEntity(ModEntities.seatEntity, world)
         seat.updatePosition(pos.x + 0.5, pos.y + 0.3, pos.z + 0.5)
         seat.yaw = state[FACING].asRotation()

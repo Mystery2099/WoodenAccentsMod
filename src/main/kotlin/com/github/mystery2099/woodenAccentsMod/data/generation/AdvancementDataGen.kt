@@ -117,7 +117,7 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .display(
                 ModBlocks.oakPlankBookshelf,
                 Text.literal("Getting Organized!"),
-                Text.literal("Craft a Thin Bookshelf to show off your printed literature"),
+                Text.literal("Craft a Narrow Bookshelf to store your books"),
                 null,
                 AdvancementFrame.TASK,
                 true,
@@ -289,7 +289,7 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .display(
                 ModBlocks.modernOakFenceGate,
                 Text.literal("Gatekeeper!"),
-                Text.literal("Fit a Modern Picket Fence Gate into a fence line"),
+                Text.literal("Fit a Picket Fence Gate into a wall opening"),
                 null,
                 AdvancementFrame.TASK,
                 true,
@@ -397,12 +397,12 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
                 false,
                 false
             )
-            .criterion("has_chairs", inventoryChangedConditionsInTag(ModBlockTags.chairs))
-            .criterion("has_tables", inventoryChangedConditionsInTag(ModBlockTags.tables))
-            .criterion("has_desks", inventoryChangedConditionsInTag(ModBlockTags.desks))
-            .criterion("has_crates", inventoryChangedConditionsInTag(ModBlockTags.crates))
-            .criterion("has_support_beams", inventoryChangedConditionsInTag(ModBlockTags.supportBeams))
-            .criterion("has_kitchen_counters", inventoryChangedConditionsInTag(ModBlockTags.kitchenCounters))
+            .criterion("has_all_categories", InventoryChangedCriterion.Conditions.items(
+                *arrayOf(ModBlockTags.chairs, ModBlockTags.tables, ModBlockTags.desks,
+                    ModBlockTags.crates, ModBlockTags.supportBeams, ModBlockTags.kitchenCounters)
+                    .map { ItemPredicate.Builder.create().tag(ModBlockTags.getItemTagFrom(it)).build() }
+                    .toTypedArray()
+            ))
             .build(consumer, WoodenAccentsMod.MOD_ID + "/home_sweet_home")
     }
 

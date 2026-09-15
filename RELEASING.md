@@ -21,7 +21,7 @@ In-game screenshots of mixed structural builds would improve the README's schema
 ## Prepare a release
 
 1. Update `mod_version` in `gradle.properties`.
-2. Move the relevant notes from `## [Unreleased]` in `CHANGELOG.md` into a new `## [<mod_version>] - YYYY-MM-DD` section.
+2. Find `## [<mod_version>] - Unreleased` in `CHANGELOG.md` and replace `Unreleased` with the release date in `YYYY-MM-DD` format.
 3. Make sure the new changelog section is not empty and matches `mod_version` exactly.
 4. Open and merge a pull request containing the version and changelog changes.
 5. Confirm the build on `master` succeeds.
