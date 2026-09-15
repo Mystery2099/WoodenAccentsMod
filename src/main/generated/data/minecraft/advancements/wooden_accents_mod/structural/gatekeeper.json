@@ -1,13 +1,13 @@
 {
-  "parent": "minecraft:wooden_accents_mod/decor/coffee_break",
+  "parent": "minecraft:wooden_accents_mod/structural/root",
   "criteria": {
-    "made_tall_coffee_table": {
+    "fitted_gate": {
       "conditions": {
         "item": {
-          "tag": "wooden_accents_mod:coffee_tables"
+          "tag": "wooden_accents_mod:modern_fence_gates"
         },
         "state": {
-          "type": "tall"
+          "in_wall": "true"
         }
       },
       "trigger": "minecraft:placed_block"
@@ -16,21 +16,21 @@
   "display": {
     "announce_to_chat": false,
     "description": {
-      "text": "Stack two matching coffee tables to make a tall coffee table"
+      "text": "Fit a Modern Picket Fence Gate into a fence line"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "wooden_accents_mod:oak_coffee_table"
+      "item": "wooden_accents_mod:modern_oak_fence_gate"
     },
     "show_toast": true,
     "title": {
-      "text": "A better table?"
+      "text": "Gatekeeper!"
     }
   },
   "requirements": [
     [
-      "made_tall_coffee_table"
+      "fitted_gate"
     ]
   ]
 }

@@ -1,11 +1,11 @@
 {
-  "parent": "minecraft:wooden_accents_mod/root",
+  "parent": "minecraft:wooden_accents_mod/decor/root",
   "criteria": {
-    "has_crate": {
+    "has_thin_bookshelf": {
       "conditions": {
         "items": [
           {
-            "tag": "wooden_accents_mod:crates"
+            "tag": "wooden_accents_mod:thin_bookshelves"
           }
         ]
       },
@@ -15,21 +15,21 @@
   "display": {
     "announce_to_chat": false,
     "description": {
-      "text": "Craft a Crate for portable storage"
+      "text": "Craft a Thin Bookshelf to show off your printed literature"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "wooden_accents_mod:oak_crate"
+      "item": "wooden_accents_mod:oak_plank_bookshelf"
     },
     "show_toast": true,
     "title": {
-      "text": "I can't believe it's not a Shulker Box!"
+      "text": "Getting Organized!"
     }
   },
   "requirements": [
     [
-      "has_crate"
+      "has_thin_bookshelf"
     ]
   ]
 }

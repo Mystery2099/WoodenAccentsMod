@@ -1,11 +1,11 @@
 {
-  "parent": "minecraft:wooden_accents_mod/root",
+  "parent": "minecraft:wooden_accents_mod/structural/root",
   "criteria": {
-    "has_crate": {
+    "has_plank_wall": {
       "conditions": {
         "items": [
           {
-            "tag": "wooden_accents_mod:crates"
+            "tag": "wooden_accents_mod:wooden_walls"
           }
         ]
       },
@@ -15,21 +15,21 @@
   "display": {
     "announce_to_chat": false,
     "description": {
-      "text": "Craft a Crate for portable storage"
+      "text": "Craft a Plank Wall for boundaries that blend right into your builds"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "wooden_accents_mod:oak_crate"
+      "item": "wooden_accents_mod:oak_plank_wall"
     },
     "show_toast": true,
     "title": {
-      "text": "I can't believe it's not a Shulker Box!"
+      "text": "Walled In!"
     }
   },
   "requirements": [
     [
-      "has_crate"
+      "has_plank_wall"
     ]
   ]
 }

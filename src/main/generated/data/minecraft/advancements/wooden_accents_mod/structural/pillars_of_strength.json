@@ -24,7 +24,6 @@
   },
   "display": {
     "announce_to_chat": false,
-    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
     "description": {
       "text": "Craft a Thin Pillar for a slim look and a Thick Pillar for a bolder design"
     },

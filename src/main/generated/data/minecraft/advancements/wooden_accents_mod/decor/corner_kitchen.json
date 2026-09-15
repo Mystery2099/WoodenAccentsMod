@@ -1,0 +1,72 @@
+{
+  "parent": "minecraft:wooden_accents_mod/decor/kitchen_counter",
+  "criteria": {
+    "inner_left": {
+      "conditions": {
+        "item": {
+          "tag": "wooden_accents_mod:kitchen_counters"
+        },
+        "state": {
+          "shape": "inner_left"
+        }
+      },
+      "trigger": "minecraft:placed_block"
+    },
+    "inner_right": {
+      "conditions": {
+        "item": {
+          "tag": "wooden_accents_mod:kitchen_counters"
+        },
+        "state": {
+          "shape": "inner_right"
+        }
+      },
+      "trigger": "minecraft:placed_block"
+    },
+    "outer_left": {
+      "conditions": {
+        "item": {
+          "tag": "wooden_accents_mod:kitchen_counters"
+        },
+        "state": {
+          "shape": "outer_left"
+        }
+      },
+      "trigger": "minecraft:placed_block"
+    },
+    "outer_right": {
+      "conditions": {
+        "item": {
+          "tag": "wooden_accents_mod:kitchen_counters"
+        },
+        "state": {
+          "shape": "outer_right"
+        }
+      },
+      "trigger": "minecraft:placed_block"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "text": "Connect counters around a corner for a seamless kitchen layout"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "wooden_accents_mod:oak_kitchen_counter"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "Corner Kitchen!"
+    }
+  },
+  "requirements": [
+    [
+      "inner_left",
+      "inner_right",
+      "outer_left",
+      "outer_right"
+    ]
+  ]
+}

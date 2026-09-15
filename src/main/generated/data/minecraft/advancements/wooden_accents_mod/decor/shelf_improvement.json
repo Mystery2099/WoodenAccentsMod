@@ -1,11 +1,11 @@
 {
-  "parent": "minecraft:wooden_accents_mod/root",
+  "parent": "minecraft:wooden_accents_mod/decor/root",
   "criteria": {
-    "has_crate": {
+    "has_bracket_shelf": {
       "conditions": {
         "items": [
           {
-            "tag": "wooden_accents_mod:crates"
+            "tag": "wooden_accents_mod:bracket_shelves"
           }
         ]
       },
@@ -15,21 +15,21 @@
   "display": {
     "announce_to_chat": false,
     "description": {
-      "text": "Craft a Crate for portable storage"
+      "text": "Craft a Bracket Shelf to hang your display items on the wall"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "wooden_accents_mod:oak_crate"
+      "item": "wooden_accents_mod:oak_bracket_shelf"
     },
     "show_toast": true,
     "title": {
-      "text": "I can't believe it's not a Shulker Box!"
+      "text": "Shelf Improvement!"
     }
   },
   "requirements": [
     [
-      "has_crate"
+      "has_bracket_shelf"
     ]
   ]
 }
