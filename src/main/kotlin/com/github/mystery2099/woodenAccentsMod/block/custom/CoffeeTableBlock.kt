@@ -142,7 +142,7 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
 
     @Deprecated("Deprecated in Java")
     override fun canReplace(state: BlockState, context: ItemPlacementContext): Boolean {
-        return !state.isTall && context.stack.item == asItem()
+        return !context.shouldCancelInteraction() && !state.isTall && context.stack.item == asItem()
     }
 
     private fun WorldAccess.checkDirection(pos: BlockPos, direction: Direction): Boolean {
