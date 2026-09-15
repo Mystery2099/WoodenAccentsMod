@@ -8,6 +8,8 @@ This is a rough release order, not a schedule. Plans may change as I work on the
 
 The next 1.19.4 release will focus on making the current blocks more consistent and easier to use.
 
+Implementation and remaining playtest checks are tracked in [the polish release checklist](docs/polish-release-checklist.md).
+
 ### Finish what is already here
 
 - Test every block family and fix placement, connection, collision, and waterlogging problems.
@@ -28,7 +30,7 @@ The current tab idea is:
 - Wooden Accents: Storage
 - Wooden Accents: Building
 
-Some names still need work, especially the thin bookshelves, modern fences, plank carpets, support beams, and pillars.
+The polish branch uses Narrow Bookshelf, Picket Fence, and Plank Flooring. Support Beam and Thin/Thick Pillar keep their current names.
 
 ### Finish progression and documentation
 
@@ -83,9 +85,4 @@ Rope physics, generated bridges, and a separate railing family are not planned f
 
 ## Still deciding
 
-- A better name for the thin bookshelves.
-- The final creative tab names and contents.
-- Whether modern fences should be called picket fences.
-- Whether plank carpets should be called plank flooring or floorboards.
-- Whether support beams and pillars need clearer names.
 - Whether to begin the Minecraft 1.20.1 port after the polish release.

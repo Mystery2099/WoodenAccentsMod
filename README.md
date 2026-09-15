@@ -19,33 +19,46 @@ I like building with vanilla blocks, but sometimes a chair should look like a ch
 - Chairs you can sit in
 - Tables, desks, kitchen counters, and cabinets
 - Coffee tables that stack into a taller version; Silk Touch keeps the tall variant when you pick it up
-- Thin bookshelves based on vanilla chiseled bookshelves
+- Narrow bookshelves based on vanilla chiseled bookshelves
 
 ### Store
 
 - Nine-slot crates that keep their contents when broken and stack up to four as items
-- Desk drawers that drop their stored contents when broken
+- Desk drawers and kitchen cabinets with 27 slots; both drop their stored contents when broken
+- Bracket shelves that display three item stacks and swap hotbar loadouts when powered
 
 ### Structure
 
 - Connecting stripped-wood ladders
 - Plank ladders (a few planks nailed to a wall)
-- Plank carpets and walls
-- Modern fences and fence gates
+- Plank flooring and walls
+- Picket fences and fence gates
 - Omnidirectional support beams (like wooden pipes, but featureless)
 - Thin and thick pillars that connect vertically
 
-Every block has a variant for each vanilla wood type in 1.19.4, including bamboo, cherry, crimson, and warped wood. In Minecraft 1.19.4, bamboo and cherry variants and thin bookshelves require the Update 1.20 experimental features to be enabled in the world.
+Every block has a variant for each vanilla wood type in 1.19.4, including bamboo, cherry, crimson, and warped wood. In Minecraft 1.19.4, bamboo and cherry variants and narrow bookshelves require the Update 1.20 experimental features to be enabled in the world.
+
+## Using the blocks
+
+Find blocks in three creative tabs: Wooden Accents: Furniture, Wooden Accents: Storage, and Wooden Accents: Building. Each block family stays together, with wood variants in vanilla order within each finish.
+
+- Use a chair to sit and sneak to dismount. Each chair seats one player. Breaking an occupied chair dismounts its rider.
+- Crates keep their nine slots of items when broken. Crates with identical item data can stack up to four. Crates reject items in the mod's `unnestable` tag, including other crates and shulker boxes.
+- Name a crate, desk drawer, or kitchen cabinet in an anvil before placing it. The container uses that name, and its dropped block item keeps it. Drawers and cabinets scatter their contents separately when broken.
+- Place a matching coffee table on top of a short one to make it tall. Silk Touch keeps the tall version; breaking it normally drops two short tables.
+- Attach bracket shelves to solid block faces. Use the left, middle, or right third to swap that slot with your held stack. Power up to three connected shelves facing the same way to swap their contents with the rightmost three, six, or nine hotbar slots. Hoppers insert from above and extract below.
+
+Picket fences, plank flooring, and narrow bookshelves previously had names based on "modern fences," "plank carpets," and "bookshelves." Their block and item IDs are unchanged, so existing worlds and recipes keep working.
 
 ## Gallery
 
-![Default modern fences](docs/images/fences-default.webp)
+![Default picket fences](docs/images/fences-default.webp)
 
-*Modern fences and fence gates without experimental features*
+*Picket fences and fence gates without experimental features*
 
-![Thin bookshelves](docs/images/thin-bookshelves.webp)
+![Narrow bookshelves](docs/images/thin-bookshelves.webp)
 
-*Thin bookshelves*
+*Narrow bookshelves*
 
 ![Experimental chairs](docs/images/chairs-experimental.webp)
 
@@ -55,9 +68,9 @@ Every block has a variant for each vanilla wood type in 1.19.4, including bamboo
 
 *Extra crates unlocked when experimental features are enabled*
 
-![Experimental modern fences](docs/images/fences-experimental.png)
+![Experimental picket fences](docs/images/fences-experimental.png)
 
-*Modern fences and fence gates unlocked when experimental features are enabled*
+*Picket fences and fence gates unlocked when experimental features are enabled*
 
 ## Compatibility
 
@@ -96,7 +109,7 @@ If Minecraft reports a missing or incompatible dependency, use the version named
 
 **Where are the recipes?** In JEI or REI, same as any other mod.
 
-**Why are bamboo, cherry, or thin bookshelf variants missing?** Enable the Update 1.20 experimental features when creating the world.
+**Why are bamboo, cherry, or narrow bookshelf variants missing?** Enable the Update 1.20 experimental features when creating the world.
 
 **Wrong Minecraft version?** This build is for 1.19.4 only. Do not mix it with mods built for other versions.
 

@@ -2,6 +2,28 @@
 
 This file tracks player-visible changes and anything maintainers need to know before publishing a release. Release headings must match `mod_version` in `gradle.properties` so the publishing workflow can use the section as its release notes.
 
+## [1.19.4-1.1.4.0] - Unreleased
+
+### Added
+
+- Advancements for desks, desk drawers, kitchen counters, and kitchen cabinets.
+- Player documentation for seating, named storage, portable crates, tall coffee tables, and bracket shelf loadouts.
+
+### Changed
+
+- Organized creative tabs into Wooden Accents: Furniture, Storage, and Building. Each family stays together, including tall coffee table variants in vanilla wood order.
+- Renamed modern fences to picket fences, plank carpets to plank flooring, and thin bookshelves to narrow bookshelves. Existing block and item IDs are unchanged.
+- Updated advancement descriptions to match the new names.
+
+### Fixed
+
+- Chairs reject additional riders and clean up their seat entity when the chair breaks or the rider leaves.
+- Kitchen cabinets preserve custom names on dropped items and mirror their facing correctly.
+- Picking a crate preserves its custom display name along with its contents.
+- Crates and desk drawers emit a container-close event when the last viewer closes them.
+- Connecting ladders safely detach when their support is removed and connect immediately on placement.
+- Tables initialize their connections on placement.
+
 ## [1.19.4-1.1.3.1] - 2026-09-14
 
 ### Fixed
