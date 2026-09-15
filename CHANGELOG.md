@@ -7,6 +7,8 @@ This file tracks player-visible changes and anything maintainers need to know be
 ### Added
 
 - Advancements for desks, desk drawers, kitchen counters, and kitchen cabinets.
+- Advancements covering narrow bookshelves, bracket shelves, plank walls, simple ladders, and a "Home Sweet Home" goal for owning furniture from every category.
+- Placement-based advancement challenges that showcase block flexibility: connect pillars into seamless columns, stack support beams, link connecting ladders sideways, fit picket fence gates into a fence line, link bracket shelves together, and build corner-connected desks and kitchen counters.
 - Player documentation for seating, named storage, portable crates, tall coffee tables, and bracket shelf loadouts.
 
 ### Changed
@@ -24,6 +26,7 @@ This file tracks player-visible changes and anything maintainers need to know be
 - Crates and desk drawers emit a container-close event when the last viewer closes them.
 - Connecting ladders safely detach when their support is removed and connect immediately on placement.
 - Tables initialize their connections on placement.
+- Sneak-placing a coffee table against another coffee table places it normally instead of creating a tall coffee table.
 
 ## [1.19.4-1.1.3.1] - 2026-09-14
 
