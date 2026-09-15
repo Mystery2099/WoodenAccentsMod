@@ -14,7 +14,6 @@
   },
   "display": {
     "announce_to_chat": false,
-    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
     "description": {
       "text": "Craft a Crate for portable storage"
     },

@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:wooden_accents_mod/decor/root",
+  "criteria": {
+    "has_bracket_shelf": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "wooden_accents_mod:bracket_shelves"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "text": "Craft a Bracket Shelf to hang your display items on the wall"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "wooden_accents_mod:oak_bracket_shelf"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "Shelf Improvement!"
+    }
+  },
+  "requirements": [
+    [
+      "has_bracket_shelf"
+    ]
+  ]
+}

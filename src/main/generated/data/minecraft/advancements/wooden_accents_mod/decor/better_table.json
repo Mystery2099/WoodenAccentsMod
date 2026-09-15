@@ -15,9 +15,8 @@
   },
   "display": {
     "announce_to_chat": false,
-    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
     "description": {
-      "text": "Stack one coffee table on top of another to create a brand new table"
+      "text": "Stack two matching coffee tables to make a tall coffee table"
     },
     "frame": "task",
     "hidden": false,

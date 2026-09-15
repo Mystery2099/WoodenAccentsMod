@@ -20,13 +20,22 @@
         ]
       },
       "trigger": "minecraft:inventory_changed"
+    },
+    "has_simple_ladder": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "wooden_accents_mod:simple_ladders"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     }
   },
   "display": {
     "announce_to_chat": false,
-    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
     "description": {
-      "text": "Craft a Stripped Wood Ladder for a classic look and a Plank Ladder for a simpler option"
+      "text": "Craft all three ladder styles: Stripped Wood for a classic look, Plank for a simpler option, and Simple for a minimal touch"
     },
     "frame": "task",
     "hidden": false,
@@ -44,6 +53,9 @@
     ],
     [
       "has_connecting_ladder"
+    ],
+    [
+      "has_simple_ladder"
     ]
   ]
 }

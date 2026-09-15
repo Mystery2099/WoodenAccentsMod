@@ -1,0 +1,37 @@
+{
+  "parent": "minecraft:wooden_accents_mod/structural/root",
+  "criteria": {
+    "column_beam": {
+      "conditions": {
+        "item": {
+          "tag": "wooden_accents_mod:support_beams"
+        },
+        "state": {
+          "down": "true",
+          "up": "true"
+        }
+      },
+      "trigger": "minecraft:placed_block"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "text": "Stack support beams into a full vertical column"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "wooden_accents_mod:oak_support_beam"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "Standing Tall!"
+    }
+  },
+  "requirements": [
+    [
+      "column_beam"
+    ]
+  ]
+}

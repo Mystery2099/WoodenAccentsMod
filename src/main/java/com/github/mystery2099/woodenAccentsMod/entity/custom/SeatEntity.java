@@ -1,5 +1,6 @@
 package com.github.mystery2099.woodenAccentsMod.entity.custom;
 
+import com.github.mystery2099.woodenAccentsMod.block.custom.ChairBlock;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.entity.*;
@@ -24,10 +25,16 @@ public class SeatEntity extends Entity {
     @Override
     public void tick() {
         super.tick();
-        this.setYaw(this.getBlockStateAtPos().get(Properties.HORIZONTAL_FACING).asRotation());
-        if (!this.hasPassengers()) {
-            this.discard();
+        if (this.world.isClient) {
+            return;
         }
+        var state = this.getBlockStateAtPos();
+        if (!(state.getBlock() instanceof ChairBlock) || !this.hasPassengers()) {
+            this.removeAllPassengers();
+            this.discard();
+            return;
+        }
+        this.setYaw(state.get(Properties.HORIZONTAL_FACING).asRotation());
     }
 
     @Override
@@ -45,6 +52,13 @@ public class SeatEntity extends Entity {
             }
             return ActionResult.SUCCESS;
         }
+    }
+
+    @Override
+    public double getMountedHeightOffset() {
+        // Clear the seat's front edge with vanilla's downward-angled thighs.
+        // Keep the rider height independent of this entity's tiny hitbox.
+        return 1.0 / 16.0;
     }
 
     @Override

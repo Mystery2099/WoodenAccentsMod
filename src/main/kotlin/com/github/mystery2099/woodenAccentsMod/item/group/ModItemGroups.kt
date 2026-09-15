@@ -8,9 +8,9 @@ import net.minecraft.item.ItemStack
 
 object ModItemGroups : WoodenAccentsModRegistry {
 
-    val structuralElements = CustomItemGroup("structural_elements")
-    val decorations = CustomItemGroup("decorations")
-    val miscellaneous = CustomItemGroup("miscellaneous")
+    val furniture = CustomItemGroup("decorations")
+    val storage = CustomItemGroup("miscellaneous")
+    val building = CustomItemGroup("structural_elements")
 
     override fun register() {
         CustomItemGroup.instances.forEach { group ->

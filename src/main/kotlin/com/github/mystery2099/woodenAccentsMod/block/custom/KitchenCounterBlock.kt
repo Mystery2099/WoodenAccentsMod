@@ -29,7 +29,7 @@ import java.util.function.Consumer
 class KitchenCounterBlock(baseBlock: Block, topBlock: Block) : AbstractKitchenCounterBlock(baseBlock, topBlock),
     CustomItemGroupProvider, CustomTagProvider<Block>, CustomRecipeProvider, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.kitchenCounters
-    override val itemGroup: CustomItemGroup = ModItemGroups.decorations
+    override val itemGroup: CustomItemGroup = ModItemGroups.furniture
 
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
         val block = this

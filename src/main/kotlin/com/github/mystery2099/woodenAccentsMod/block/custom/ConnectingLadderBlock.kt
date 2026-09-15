@@ -19,6 +19,7 @@ import net.minecraft.block.Blocks
 import net.minecraft.block.ShapeContext
 import net.minecraft.data.client.*
 import net.minecraft.data.server.recipe.RecipeJsonProvider
+import net.minecraft.item.ItemPlacementContext
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.resource.featuretoggle.FeatureFlags
 import net.minecraft.state.StateManager
@@ -55,13 +56,22 @@ class ConnectingLadderBlock(val baseBlock: Block) :
         pos: BlockPos,
         neighborPos: BlockPos?
     ): BlockState {
+        val updatedState = super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
+        if (!updatedState.isOf(this)) return updatedState
         val leftState = world.getBlockState(pos.offset(state[FACING].rotateYClockwise()))
         val rightState = world.getBlockState(pos.offset(state[FACING].rotateYCounterclockwise()))
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
-            .withShape(
+        return updatedState.withShape(
                 left = state.canConnectTo(leftState),
                 right = state.canConnectTo(rightState)
             )
+    }
+
+    override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
+        val state = super.getPlacementState(ctx) ?: return null
+        return state.withShape(
+            left = state.canConnectTo(ctx.world.getBlockState(ctx.blockPos.offset(state[FACING].rotateYClockwise()))),
+            right = state.canConnectTo(ctx.world.getBlockState(ctx.blockPos.offset(state[FACING].rotateYCounterclockwise())))
+        )
     }
 
     private fun BlockState.isConnectingLadder(): Boolean = this isIn tag || this.block is ConnectingLadderBlock

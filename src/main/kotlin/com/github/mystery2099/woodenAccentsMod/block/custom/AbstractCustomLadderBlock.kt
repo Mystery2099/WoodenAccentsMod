@@ -20,7 +20,7 @@ abstract class AbstractCustomLadderBlock(settings: Settings) : LadderBlock(setti
     CustomRecipeProvider,
     CustomTagProvider<Block>, CustomBlockStateProvider {
     override val tag: TagKey<Block> = BlockTags.CLIMBABLE
-    override val itemGroup: CustomItemGroup = ModItemGroups.structuralElements
+    override val itemGroup: CustomItemGroup = ModItemGroups.building
 
     fun offerRecipe(exporter: Consumer<RecipeJsonProvider>, input: ItemConvertible, outputNum: Int, group: String) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, outputNum).apply {

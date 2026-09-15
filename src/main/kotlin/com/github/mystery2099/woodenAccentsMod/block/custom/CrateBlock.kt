@@ -63,7 +63,7 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
     CustomBlockStateProvider, CustomItemGroupProvider, CustomTagProvider<Block>, CustomRecipeProvider,
     CustomBlockLootTableProvider {
 
-    override val itemGroup: CustomItemGroup = ModItemGroups.miscellaneous
+    override val itemGroup: CustomItemGroup = ModItemGroups.storage
     override val tag: TagKey<Block> = ModBlockTags.crates
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity = CrateBlockEntity(pos, state)
@@ -210,6 +210,7 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
         val itemStack = super.getPickStack(world, pos, state)
         world.getBlockEntity(pos, ModBlockEntities.crate).ifPresent { blockEntity: CrateBlockEntity ->
             blockEntity.setStackNbt(itemStack)
+            if (blockEntity.hasCustomName()) itemStack.setCustomName(blockEntity.customName)
         }
         return itemStack
     }

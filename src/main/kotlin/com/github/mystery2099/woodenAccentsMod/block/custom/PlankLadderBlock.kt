@@ -1,5 +1,6 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
+import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeDataGen.Companion.requires
 import com.github.mystery2099.voxlib.combination.VoxelAssembly
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
@@ -15,6 +16,9 @@ import net.minecraft.block.ShapeContext
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.TextureMap
 import net.minecraft.data.server.recipe.RecipeJsonProvider
+import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
+import net.minecraft.item.Items
+import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.resource.featuretoggle.FeatureFlags
 import net.minecraft.util.math.BlockPos
@@ -48,7 +52,16 @@ class PlankLadderBlock(val baseBlock: Block) :
 
 
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
-        offerRecipe(exporter, baseBlock, 8, "plank_ladders")
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 4).apply {
+            input('S', Items.STICK)
+            input('P', baseBlock)
+            pattern("SSS")
+            pattern("P P")
+            pattern("SSS")
+            group("plank_ladders")
+            requires(baseBlock)
+            offerTo(exporter)
+        }
     }
 
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {

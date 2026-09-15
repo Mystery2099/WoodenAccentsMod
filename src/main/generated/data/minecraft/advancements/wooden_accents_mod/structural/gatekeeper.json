@@ -1,0 +1,36 @@
+{
+  "parent": "minecraft:wooden_accents_mod/structural/root",
+  "criteria": {
+    "fitted_gate": {
+      "conditions": {
+        "item": {
+          "tag": "wooden_accents_mod:modern_fence_gates"
+        },
+        "state": {
+          "in_wall": "true"
+        }
+      },
+      "trigger": "minecraft:placed_block"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "text": "Fit a Picket Fence Gate into a wall opening"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "wooden_accents_mod:modern_oak_fence_gate"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "Gatekeeper!"
+    }
+  },
+  "requirements": [
+    [
+      "fitted_gate"
+    ]
+  ]
+}

@@ -14,9 +14,8 @@
   },
   "display": {
     "announce_to_chat": false,
-    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
     "description": {
-      "text": "Craft a plank carpet for a soft touch and cover up the ugly dirt or stone floor"
+      "text": "Cover a floor with plank flooring"
     },
     "frame": "task",
     "hidden": false,

@@ -17,7 +17,6 @@
   },
   "display": {
     "announce_to_chat": false,
-    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
     "description": {
       "text": "Crates are stackable? Make sure they contain the same items"
     },

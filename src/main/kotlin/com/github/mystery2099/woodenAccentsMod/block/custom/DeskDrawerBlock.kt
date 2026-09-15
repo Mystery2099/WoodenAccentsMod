@@ -74,7 +74,7 @@ class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider,
     CustomBlockLootTableProvider {
 
-    override val itemGroup: CustomItemGroup = ModItemGroups.decorations
+    override val itemGroup: CustomItemGroup = ModItemGroups.storage
     override val tag: TagKey<Block> = ModBlockTags.deskDrawers
     private inline val BlockState.isDeskDrawer: Boolean
         get() = this isIn tag

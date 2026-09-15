@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:wooden_accents_mod/decor/root",
+  "criteria": {
+    "has_thin_bookshelf": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "wooden_accents_mod:thin_bookshelves"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "text": "Craft a Narrow Bookshelf to store your books"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "wooden_accents_mod:oak_plank_bookshelf"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "Getting Organized!"
+    }
+  },
+  "requirements": [
+    [
+      "has_thin_bookshelf"
+    ]
+  ]
+}

@@ -36,7 +36,7 @@ class CustomCarpetBlock(val baseBlock: Block) : CarpetBlock(
     }
 ), CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
 
-    override val itemGroup = ModItemGroups.decorations
+    override val itemGroup = ModItemGroups.building
     override val tag: TagKey<Block> = ModBlockTags.plankCarpets
     override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 3).apply {

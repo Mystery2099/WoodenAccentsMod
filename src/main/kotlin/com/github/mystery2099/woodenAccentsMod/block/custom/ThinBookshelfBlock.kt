@@ -40,7 +40,7 @@ class ThinBookshelfBlock(val baseBlock: Block) :
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
 
     override val tag: TagKey<Block> = ModBlockTags.thinBookshelves
-    override val itemGroup: CustomItemGroup = ModItemGroups.decorations
+    override val itemGroup: CustomItemGroup = ModItemGroups.storage
 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(

@@ -38,7 +38,7 @@ class ModernFenceBlock(settings: Block, private val sideBlock: Block, private va
     FenceBlock(FabricBlockSettings.copyOf(settings)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.modernFences
-    override val itemGroup = ModItemGroups.structuralElements
+    override val itemGroup = ModItemGroups.building
 
     override fun canConnect(state: BlockState, neighborIsFullSquare: Boolean, dir: Direction): Boolean {
         return !cannotConnect(state) && neighborIsFullSquare || state isIn ModBlockTags.modernFenceConnectable

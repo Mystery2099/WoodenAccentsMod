@@ -6,46 +6,73 @@ Vanilla-scale furniture and structural accents for every wood type.
 
 ## About
 
-I like building with vanilla blocks, but sometimes a chair should look like a chair and a support beam should not need three layers of trapdoors. Wooden Accents adds furniture, storage, and structural details for Minecraft 1.19.4 on Fabric. More options, no prescribed style.
+Wooden Accents adds wooden furniture, storage, and building blocks for Minecraft 1.19.4 on Fabric. I want the pieces to be simple, useful where it makes sense, and easy to work into your own builds.
 
 ![Default chairs](docs/images/chairs-default.webp)
 
 ![Default crates](docs/images/crates-default.png)
 
+## Building with Wooden Accents
+
+The idea is to give you more things to build with, without deciding how you should use them. Some decorations have a function, like sitting in chairs or storing items in cabinets. Others are just pieces to build with.
+
+Walls, pillars, fences, and support beams are designed to work together. Their sizes are intentional: thick pillar cores line up with wall posts, and thin pillar bases have the same width as those posts. Thin pillar cores match the width of fence posts and support beams.
+
+The connections work across block types, too. You can continue a thin pillar vertically into a fence or support beam, or put a wall or thin pillar above a thick pillar. Try mixing them in your builds. You don't have to stick to one type of block for a whole column or railing.
+
+Block tags define many of these connections, so data packs can change which blocks are compatible. The neighboring block's shape also matters.
+
+![Thick pillars combined with wall posts and thin pillars, and a thin pillar combined with a support beam.](docs/images/structural-combinations.svg)
+
+*Simplified front views showing how the widths line up.*
+
 ## Features
 
-### Furnish
+### Furniture
 
 - Chairs you can sit in
 - Tables, desks, kitchen counters, and cabinets
 - Coffee tables that stack into a taller version; Silk Touch keeps the tall variant when you pick it up
-- Thin bookshelves based on vanilla chiseled bookshelves
+- Narrow bookshelves based on vanilla chiseled bookshelves
 
-### Store
+### Storage
 
 - Nine-slot crates that keep their contents when broken and stack up to four as items
-- Desk drawers that drop their stored contents when broken
+- Desk drawers and kitchen cabinets with 27 slots; both drop their stored contents when broken
+- Bracket shelves that display three item stacks and swap hotbar loadouts when powered
 
-### Structure
+### Building blocks
 
 - Connecting stripped-wood ladders
-- Plank ladders (a few planks nailed to a wall)
-- Plank carpets and walls
-- Modern fences and fence gates
-- Omnidirectional support beams (like wooden pipes, but featureless)
+- Plank ladders
+- Plank flooring and walls
+- Picket fences and fence gates
+- Support beams that connect in all six directions
 - Thin and thick pillars that connect vertically
 
-Every block has a variant for each vanilla wood type in 1.19.4, including bamboo, cherry, crimson, and warped wood. In Minecraft 1.19.4, bamboo and cherry variants and thin bookshelves require the Update 1.20 experimental features to be enabled in the world.
+Every block has a variant for each vanilla wood type in 1.19.4, including bamboo, cherry, crimson, and warped wood. In Minecraft 1.19.4, bamboo and cherry variants and narrow bookshelves require the Update 1.20 experimental features to be enabled in the world.
+
+## Using the blocks
+
+The creative tabs group blocks into Furniture, Storage, and Building. Each block type has its wood variants together.
+
+- Use a chair to sit and sneak to dismount. Each chair seats one player. Breaking an occupied chair dismounts its rider.
+- Crates keep their nine slots of items when broken. Crates with identical item data can stack up to four. Crates reject items in the mod's `unnestable` tag, including other crates and shulker boxes.
+- Name a crate, desk drawer, or kitchen cabinet in an anvil before placing it. The container uses that name, and its dropped block item keeps it. Drawers and cabinets scatter their contents separately when broken.
+- Place a matching coffee table on top of a short one to make it tall. Silk Touch keeps the tall version; breaking it normally drops two short tables.
+- Attach bracket shelves to solid block faces. Use the left, middle, or right third to swap that slot with your held stack. Power up to three connected shelves facing the same way to swap their contents with the rightmost three, six, or nine hotbar slots. Hoppers insert from above and extract below.
+
+Picket fences, plank flooring, and narrow bookshelves previously had names based on "modern fences," "plank carpets," and "bookshelves." Their block and item IDs are unchanged, so existing worlds and recipes keep working.
 
 ## Gallery
 
-![Default modern fences](docs/images/fences-default.webp)
+![Default picket fences](docs/images/fences-default.webp)
 
-*Modern fences and fence gates without experimental features*
+*Picket fences and fence gates without experimental features*
 
-![Thin bookshelves](docs/images/thin-bookshelves.webp)
+![Narrow bookshelves](docs/images/thin-bookshelves.webp)
 
-*Thin bookshelves*
+*Narrow bookshelves*
 
 ![Experimental chairs](docs/images/chairs-experimental.webp)
 
@@ -55,9 +82,9 @@ Every block has a variant for each vanilla wood type in 1.19.4, including bamboo
 
 *Extra crates unlocked when experimental features are enabled*
 
-![Experimental modern fences](docs/images/fences-experimental.png)
+![Experimental picket fences](docs/images/fences-experimental.png)
 
-*Modern fences and fence gates unlocked when experimental features are enabled*
+*Picket fences and fence gates unlocked when experimental features are enabled*
 
 ## Compatibility
 
@@ -96,20 +123,16 @@ If Minecraft reports a missing or incompatible dependency, use the version named
 
 **Where are the recipes?** In JEI or REI, same as any other mod.
 
-**Why are bamboo, cherry, or thin bookshelf variants missing?** Enable the Update 1.20 experimental features when creating the world.
-
-**Wrong Minecraft version?** This build is for 1.19.4 only. Do not mix it with mods built for other versions.
+**Why are bamboo, cherry, or narrow bookshelf variants missing?** Enable the Update 1.20 experimental features when creating the world.
 
 ## Development
 
-Building from source, datagen, and contribution conventions live in [CONTRIBUTING.md](https://github.com/Mystery2099/WoodenAccentsMod/blob/master/CONTRIBUTING.md).
+For build instructions and help contributing, see [CONTRIBUTING.md](https://github.com/Mystery2099/WoodenAccentsMod/blob/master/CONTRIBUTING.md).
 
 ## License
 
 Wooden Accents is available under the [Minecraft Mod Public License 1.0.1](https://github.com/Mystery2099/WoodenAccentsMod/blob/master/LICENSE).
 
-## Support (totally optional)
+## Support
 
-This project is free, and it always will be. Nobody owes me anything for it.
-
-If you somehow still want to tip, you can [buy me a coffee](https://buymeacoffee.com/mystery2099). No pressure at all.
+The mod is free. If you'd like to support my work, you can [buy me a coffee](https://buymeacoffee.com/mystery2099).

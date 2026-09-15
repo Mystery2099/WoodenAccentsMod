@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:wooden_accents_mod/structural/root",
+  "criteria": {
+    "has_plank_wall": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "wooden_accents_mod:wooden_walls"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "text": "Craft a Plank Wall for boundaries that blend right into your builds"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "wooden_accents_mod:oak_plank_wall"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "Walled In!"
+    }
+  },
+  "requirements": [
+    [
+      "has_plank_wall"
+    ]
+  ]
+}

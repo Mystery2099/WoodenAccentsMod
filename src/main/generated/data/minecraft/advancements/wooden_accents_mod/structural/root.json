@@ -14,7 +14,6 @@
   },
   "display": {
     "announce_to_chat": false,
-    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
     "description": {
       "text": "Craft Supports to reinforce your structures and connect them in different directions for added stability"
     },

@@ -77,7 +77,8 @@ class DeskDrawerBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private fun emitGameEventAtPos(player: PlayerEntity, viewerCount: Int, gameEvent: GameEvent) {
         world?.let { world ->
             world.addSyncedBlockEvent(pos, cachedState.block, 1, viewerCount)
-            if (viewerCount == 1) {
+            if ((gameEvent == GameEvent.CONTAINER_OPEN && viewerCount == 1) ||
+                (gameEvent == GameEvent.CONTAINER_CLOSE && viewerCount == 0)) {
                 world.emitGameEvent(player as Entity, gameEvent, pos)
             }
         }
@@ -96,8 +97,9 @@ class DeskDrawerBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     override fun onClose(player: PlayerEntity) {
         if (!removed && !player.isSpectator) {
+            if (viewerCount == 0) return
             --viewerCount
-            emitGameEventAtPos(player, viewerCount, GameEvent.CONTAINER_OPEN)
+            emitGameEventAtPos(player, viewerCount, GameEvent.CONTAINER_CLOSE)
             playSoundAtPos(SoundEvents.BLOCK_BARREL_CLOSE)
         }
     }

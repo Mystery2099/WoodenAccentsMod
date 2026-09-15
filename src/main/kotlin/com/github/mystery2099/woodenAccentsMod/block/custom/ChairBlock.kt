@@ -38,6 +38,7 @@ import net.minecraft.state.property.Properties
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
+import net.minecraft.util.math.Box
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
@@ -50,7 +51,7 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
     CustomBlockStateProvider, CustomItemGroupProvider,
     CustomRecipeProvider, CustomTagProvider<Block> {
 
-    override val itemGroup: CustomItemGroup = ModItemGroups.decorations
+    override val itemGroup: CustomItemGroup = ModItemGroups.furniture
     override val tag: TagKey<Block> = ModBlockTags.chairs
 
     init {
@@ -82,22 +83,25 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
         player: PlayerEntity,
         hand: Hand?,
         hit: BlockHitResult?
-    ): ActionResult = if (world.isClient) {
-        ActionResult.SUCCESS
-    } else {
-        val seat = SeatEntity(
-            ModEntities.seatEntity,
-            world
-        )
-        seat.updatePosition(
-            pos.x + 0.5,
-            pos.y + 0.3,
-            pos.z + 0.5
-        )
-        world.spawnEntity(seat)
-        player.startRiding(seat)
+    ): ActionResult {
+        if (player.shouldCancelInteraction() || player.hasVehicle()) return ActionResult.PASS
+        val seats = world.getEntitiesByClass(SeatEntity::class.java, Box(pos)) { !it.isRemoved }
+        if (seats.any { it.hasPassengers() }) {
+            return ActionResult.CONSUME
+        }
+        if (world.isClient) return ActionResult.SUCCESS
+
+        seats.forEach { it.discard() }
+        val seat = SeatEntity(ModEntities.seatEntity, world)
+        seat.updatePosition(pos.x + 0.5, pos.y + 0.3, pos.z + 0.5)
+        seat.yaw = state[FACING].asRotation()
+        if (!world.spawnEntity(seat)) return ActionResult.PASS
+        if (!player.startRiding(seat)) {
+            seat.discard()
+            return ActionResult.PASS
+        }
         player.headYaw = state[FACING].asRotation()
-        ActionResult.CONSUME
+        return ActionResult.CONSUME
     }
 
     @Deprecated("Deprecated in Java")

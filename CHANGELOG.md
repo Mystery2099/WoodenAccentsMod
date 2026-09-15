@@ -2,6 +2,34 @@
 
 This file tracks player-visible changes and anything maintainers need to know before publishing a release. Release headings must match `mod_version` in `gradle.properties` so the publishing workflow can use the section as its release notes.
 
+## [1.19.4-1.1.4.0] - Unreleased
+
+### Added
+
+- Design philosophy and a visual guide to combining structural blocks.
+- Advancements for desks, desk drawers, kitchen counters, and kitchen cabinets.
+- Advancements covering narrow bookshelves, bracket shelves, plank walls, simple ladders, and a "Home Sweet Home" goal for owning furniture from every category.
+- Placement-based advancement challenges that showcase block flexibility: connect pillars into seamless columns, stack support beams, link connecting ladders sideways, fit picket fence gates into wall openings, link bracket shelves together, and build corner-connected desks and kitchen counters.
+- Player documentation for seating, named storage, portable crates, tall coffee tables, and bracket shelf loadouts.
+
+### Changed
+
+- Organized creative tabs into Wooden Accents: Furniture, Storage, and Building. Each family stays together, including tall coffee table variants in vanilla wood order.
+- Renamed modern fences to picket fences, plank carpets to plank flooring, and thin bookshelves to narrow bookshelves. Existing block and item IDs are unchanged.
+- Updated advancement descriptions to match the new names.
+- Reworked plank ladder recipes to look like boards nailed to a wall: two planks of the wood between rows of stick supports, yielding four ladders. This also resolves the recipe conflicts with the simple ladders, which keep the original all-planks recipe.
+
+### Fixed
+
+- Chairs lift riders slightly so their legs clear the seat's front edge.
+- Chairs reject additional riders and clean up their seat entity when the chair breaks or the rider leaves.
+- Kitchen cabinets preserve custom names on dropped items and mirror their facing correctly.
+- Picking a crate preserves its custom display name along with its contents.
+- Crates and desk drawers emit a container-close event when the last viewer closes them.
+- Connecting ladders safely detach when their support is removed and connect immediately on placement.
+- Tables initialize their connections on placement.
+- Sneak-placing a coffee table against another coffee table places it normally instead of creating a tall coffee table.
+
 ## [1.19.4-1.1.3.1] - 2026-09-14
 
 ### Fixed

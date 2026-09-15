@@ -1,0 +1,50 @@
+{
+  "parent": "minecraft:wooden_accents_mod/root",
+  "criteria": {
+    "has_all_categories": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "wooden_accents_mod:chairs"
+          },
+          {
+            "tag": "wooden_accents_mod:tables"
+          },
+          {
+            "tag": "wooden_accents_mod:desks"
+          },
+          {
+            "tag": "wooden_accents_mod:crates"
+          },
+          {
+            "tag": "wooden_accents_mod:support_beams"
+          },
+          {
+            "tag": "wooden_accents_mod:kitchen_counters"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "text": "Have furniture from every Wooden Accents category in your inventory at once"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "wooden_accents_mod:oak_plank_table"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "Home Sweet Home!"
+    }
+  },
+  "requirements": [
+    [
+      "has_all_categories"
+    ]
+  ]
+}
