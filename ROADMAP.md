@@ -1,88 +1,33 @@
 # Wooden Accents roadmap
 
-Wooden Accents currently supports Minecraft 1.19.4. I want to finish the existing content before adding another large set of blocks.
+I want to finish the existing 1.19.4 content before adding more blocks. These plans may change as I work on the mod.
 
-This is a rough release order, not a schedule. Plans may change as I work on the mod.
+## Polish release
 
-## Next release: polish and cleanup
+The current release work covers block connections, placement, storage, and seating fixes, along with clearer names, creative tabs, and advancements. Existing block and item IDs stay the same so old worlds keep working.
 
-The next 1.19.4 release will focus on making the current blocks more consistent and easier to use.
+The renamed blocks are Picket Fence, Plank Flooring, and Narrow Bookshelf. Support Beam and the thin/thick pillar names stay as they are. The creative tabs are Furniture, Storage, and Building.
 
-Implementation and remaining playtest checks are tracked in [the polish release checklist](docs/polish-release-checklist.md).
+See the [changelog](CHANGELOG.md) for the changes and [release instructions](RELEASING.md) for the remaining checks. Larger performance changes can wait until profiling shows a need for them.
 
-### Finish what is already here
+## Possible Minecraft 1.20.1 port
 
-- Test every block family and fix placement, connection, collision, and waterlogging problems.
-- Make crates, desk drawers, and kitchen cabinets handle names and stored items consistently.
-- Check chair seating and dismounting, including what happens when an occupied chair breaks.
-- Review recipes, yields, tags, sounds, hardness, and tool requirements.
+I'm considering a 1.20.1 port after the polish release. It would start with the same content as 1.19.4.
 
-### Clean up names and creative tabs
+This needs a VoxLib update and testing of existing worlds, inventories, and storage-preview integrations. Cherry, bamboo, and chiseled-bookshelf content would no longer need experimental features.
 
-- Replace unclear block names with names that better match their appearance and use.
-- Rework the creative tabs so blocks are easier to find.
-- Keep each block family together and sort wood variants in vanilla order.
-- Keep existing block and item IDs so old worlds do not lose their blocks.
+If 1.20.1 becomes the main version, I'd keep 1.19.4 updates to important fixes.
 
-The current tab idea is:
+## Outdoor building ideas
 
-- Wooden Accents: Furniture
-- Wooden Accents: Storage
-- Wooden Accents: Building
-
-The polish branch uses Narrow Bookshelf, Picket Fence, and Plank Flooring. Support Beam and Thin/Thick Pillar keep their current names.
-
-### Finish progression and documentation
-
-- Add advancements for desks, desk drawers, kitchen counters, and kitchen cabinets.
-- Update advancement text after the naming pass.
-- Document useful behavior that is easy to miss, such as portable crates and tall coffee tables.
-- Replace screenshots when they no longer match the mod.
-
-### Optimize as I go
-
-Small, safe optimizations may be included when I am already working on the affected code. Larger optimization work will wait until profiling shows where it would matter.
-
-This release will avoid a broad rewrite. The goal is to leave the 1.19.4 version complete and dependable.
-
-## Considering: Minecraft 1.20.1
-
-I am considering a 1.20.1 port after the polish release. This is not promised yet.
-
-The first 1.20.1 build would contain the same blocks and behavior as the finished 1.19.4 version. It would not add a second wave of features during the port.
-
-The port would include:
-
-- Updating VoxLib for 1.20.1.
-- Making cherry, bamboo, and chiseled-bookshelf content available without experimental features.
-- Preserving block IDs, inventories, custom names, and item data.
-- Checking storage preview integrations.
-- Testing a copy of an existing 1.19.4 world before release.
-
-If 1.20.1 becomes the main version, 1.19.4 would receive only small, important fixes.
-
-## Possible 1.2.0.0 release: outdoor building
-
-After the polish work and possible port, the next feature idea is a small outdoor building update.
+A possible 1.2.0.0 update would add bridges and benches.
 
 ### Bridges
 
-- Modular bridge sections placed by the player.
-- Automatic connections between sections.
-- Side railings where the bridge edge is exposed.
-- Connections to existing fences where they make sense.
-- Waterlogging for docks and low walkways.
+I'd like players to build bridges from sections that connect automatically, with railings along exposed edges. They should work with existing fences where possible and support waterlogging for docks and low walkways.
 
-The old `BridgeBlock` class is only an unfinished experiment. The bridge design will start with a new oak prototype before expanding to every wood type.
+The old `BridgeBlock` class is an unfinished experiment. I'll start with an oak prototype before adding the other woods. Rope physics, generated bridges, and a separate railing family aren't planned.
 
 ### Benches
 
-- Benches that use the existing chair seating behavior.
-- Connected left, middle, and right sections.
-- One finished design before considering more styles.
-
-Rope physics, generated bridges, and a separate railing family are not planned for this release.
-
-## Still deciding
-
-- Whether to begin the Minecraft 1.20.1 port after the polish release.
+Benches would use the chair seating behavior and connect into longer seats with left, middle, and right sections. I'll start with one design before considering more styles.

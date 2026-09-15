@@ -6,6 +6,7 @@ This file tracks player-visible changes and anything maintainers need to know be
 
 ### Added
 
+- Design philosophy and a visual guide to combining structural blocks.
 - Advancements for desks, desk drawers, kitchen counters, and kitchen cabinets.
 - Advancements covering narrow bookshelves, bracket shelves, plank walls, simple ladders, and a "Home Sweet Home" goal for owning furniture from every category.
 - Placement-based advancement challenges that showcase block flexibility: connect pillars into seamless columns, stack support beams, link connecting ladders sideways, fit picket fence gates into a fence line, link bracket shelves together, and build corner-connected desks and kitchen counters.

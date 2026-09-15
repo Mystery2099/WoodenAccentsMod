@@ -1,18 +1,22 @@
 # Releasing Wooden Accents Mod
 
-Releases are deliberately manual. Merging a pull request, pushing a commit, or creating a tag does **not** publish the mod.
+Run the Release workflow manually to publish. Merging a pull request, pushing a commit, or creating a tag does not start a release.
 
 The release workflow publishes to GitHub Releases only. It does not upload anything to Modrinth, CurseForge, or a Maven repository.
 
-## Safety checks
-
-The workflow is set up to make accidental releases difficult:
+## Workflow requirements
 
 - Dry-run mode is enabled by default.
 - A real release must run from `master`.
 - A real release requires the **Confirm release** checkbox.
 - Existing GitHub releases and tags are rejected instead of overwritten.
 - The publishing token is provided by GitHub Actions; there is no personal token to configure.
+
+## Testing for 1.19.4-1.1.4.0
+
+Mathew confirmed single-player testing passed, including the corrected ladder recipes, and chose to proceed without multiplayer testing. Dedicated-server multiplayer, existing-world migration, and optional storage-preview integrations remain unverified. The local publishing dry run passed.
+
+In-game screenshots of mixed structural builds would improve the README's schematic examples, but are optional for this release. A custom seated pose is deferred.
 
 ## Prepare a release
 
@@ -22,7 +26,7 @@ The workflow is set up to make accidental releases difficult:
 4. Open and merge a pull request containing the version and changelog changes.
 5. Confirm the build on `master` succeeds.
 
-The Gradle publishing tasks deliberately fail when the current version is missing from the changelog or its section is empty.
+The Gradle publishing tasks fail when the current version is missing from the changelog or its section is empty.
 
 ## Run a dry run first
 
@@ -56,15 +60,11 @@ The workflow creates `v<mod_version>` from the exact `master` commit used by the
 
 ## If publishing fails
 
-Do not blindly rerun the workflow.
-
-First check GitHub Releases and repository tags for a partial result. If the plugin created a draft release but failed while uploading an asset, either finish that draft or remove it before retrying. The workflow will refuse to continue while the target tag or release already exists.
-
-Nothing outside GitHub needs to be cleaned up because this workflow does not publish anywhere else.
+Before retrying, check GitHub Releases and repository tags for a partial result. If the plugin created a draft release but failed while uploading an asset, either finish that draft or remove it before retrying. The workflow will refuse to continue while the target tag or release already exists.
 
 ## Keep Modrinth (and CurseForge) in sync
 
-`README.md` is the player-facing source of truth. The GitHub Actions release workflow does not update Modrinth or CurseForge descriptions.
+Use `README.md` for the project descriptions. The GitHub Actions release workflow does not update Modrinth or CurseForge descriptions.
 
 When you change player-facing README content:
 

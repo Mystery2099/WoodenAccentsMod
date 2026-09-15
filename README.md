@@ -6,41 +6,55 @@ Vanilla-scale furniture and structural accents for every wood type.
 
 ## About
 
-I like building with vanilla blocks, but sometimes a chair should look like a chair and a support beam should not need three layers of trapdoors. Wooden Accents adds furniture, storage, and structural details for Minecraft 1.19.4 on Fabric. More options, no prescribed style.
+Wooden Accents adds wooden furniture, storage, and building blocks for Minecraft 1.19.4 on Fabric. I want the pieces to be simple, useful where it makes sense, and easy to work into your own builds.
 
 ![Default chairs](docs/images/chairs-default.webp)
 
 ![Default crates](docs/images/crates-default.png)
 
+## Building with Wooden Accents
+
+The idea is to give you more things to build with, without deciding how you should use them. Some decorations have a function, like sitting in chairs or storing items in cabinets. Others are just pieces to build with.
+
+Walls, pillars, fences, and support beams are designed to work together. Their sizes are intentional: thick pillar cores line up with wall posts, and thin pillar bases have the same width as those posts. Thin pillar cores match the width of fence posts and support beams.
+
+The connections work across block types, too. You can continue a thin pillar vertically into a fence or support beam, or put a wall or thin pillar above a thick pillar. Try mixing them in your builds. You don't have to stick to one type of block for a whole column or railing.
+
+Block tags define many of these connections, so data packs can change which blocks are compatible. The neighboring block's shape also matters.
+
+![Thick pillars combined with wall posts and thin pillars, and a thin pillar combined with a support beam.](docs/images/structural-combinations.svg)
+
+*Simplified front views showing how the widths line up.*
+
 ## Features
 
-### Furnish
+### Furniture
 
 - Chairs you can sit in
 - Tables, desks, kitchen counters, and cabinets
 - Coffee tables that stack into a taller version; Silk Touch keeps the tall variant when you pick it up
 - Narrow bookshelves based on vanilla chiseled bookshelves
 
-### Store
+### Storage
 
 - Nine-slot crates that keep their contents when broken and stack up to four as items
 - Desk drawers and kitchen cabinets with 27 slots; both drop their stored contents when broken
 - Bracket shelves that display three item stacks and swap hotbar loadouts when powered
 
-### Structure
+### Building blocks
 
 - Connecting stripped-wood ladders
-- Plank ladders (a few planks nailed to a wall)
+- Plank ladders
 - Plank flooring and walls
 - Picket fences and fence gates
-- Omnidirectional support beams (like wooden pipes, but featureless)
+- Support beams that connect in all six directions
 - Thin and thick pillars that connect vertically
 
 Every block has a variant for each vanilla wood type in 1.19.4, including bamboo, cherry, crimson, and warped wood. In Minecraft 1.19.4, bamboo and cherry variants and narrow bookshelves require the Update 1.20 experimental features to be enabled in the world.
 
 ## Using the blocks
 
-Find blocks in three creative tabs: Wooden Accents: Furniture, Wooden Accents: Storage, and Wooden Accents: Building. Each block family stays together, with wood variants in vanilla order within each finish.
+The creative tabs group blocks into Furniture, Storage, and Building. Each block type has its wood variants together.
 
 - Use a chair to sit and sneak to dismount. Each chair seats one player. Breaking an occupied chair dismounts its rider.
 - Crates keep their nine slots of items when broken. Crates with identical item data can stack up to four. Crates reject items in the mod's `unnestable` tag, including other crates and shulker boxes.
@@ -111,18 +125,14 @@ If Minecraft reports a missing or incompatible dependency, use the version named
 
 **Why are bamboo, cherry, or narrow bookshelf variants missing?** Enable the Update 1.20 experimental features when creating the world.
 
-**Wrong Minecraft version?** This build is for 1.19.4 only. Do not mix it with mods built for other versions.
-
 ## Development
 
-Building from source, datagen, and contribution conventions live in [CONTRIBUTING.md](https://github.com/Mystery2099/WoodenAccentsMod/blob/master/CONTRIBUTING.md).
+For build instructions and help contributing, see [CONTRIBUTING.md](https://github.com/Mystery2099/WoodenAccentsMod/blob/master/CONTRIBUTING.md).
 
 ## License
 
 Wooden Accents is available under the [Minecraft Mod Public License 1.0.1](https://github.com/Mystery2099/WoodenAccentsMod/blob/master/LICENSE).
 
-## Support (totally optional)
+## Support
 
-This project is free, and it always will be. Nobody owes me anything for it.
-
-If you somehow still want to tip, you can [buy me a coffee](https://buymeacoffee.com/mystery2099). No pressure at all.
+The mod is free. If you'd like to support my work, you can [buy me a coffee](https://buymeacoffee.com/mystery2099).
