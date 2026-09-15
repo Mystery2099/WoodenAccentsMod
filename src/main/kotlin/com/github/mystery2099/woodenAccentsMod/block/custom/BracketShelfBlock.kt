@@ -214,9 +214,9 @@ class BracketShelfBlock(val baseBlock: Block) : AbstractWaterloggableBlock(
     }
 
     /** Swaps the main-hand stack with the slot under the cursor; the shelf's
-     * first slot is the one closest to [facing]'s counterclockwise side. */
+     * first slot is the leftmost one when viewed from the front. */
     private fun slotFromHit(hit: BlockHitResult, pos: BlockPos, facing: Direction): Int {
-        val leftDirection = facing.rotateYCounterclockwise()
+        val leftDirection = facing.rotateYClockwise()
         val hitPos = hit.pos
         val localX = hitPos.x - pos.x
         val localZ = hitPos.z - pos.z
@@ -225,15 +225,15 @@ class BracketShelfBlock(val baseBlock: Block) : AbstractWaterloggableBlock(
         } else {
             if (leftDirection.direction == Direction.AxisDirection.POSITIVE) localZ else 1.0 - localZ
         }
-        // alongLeft is 0.0 at the counterclockwise edge, i.e. at the first slot.
+        // alongLeft is 1.0 at the viewer's left edge, where the first slot starts.
         return ((1.0 - alongLeft) * 3.0).toInt().coerceIn(0, BracketShelfBlockEntity.SLOT_COUNT - 1)
     }
 
     /** A powered shelf swaps its slots (and its powered neighbours', up to three
      * shelves of the same wood, all facing [facing]) with the rightmost hotbar slots. */
     private fun swapWithHotbar(world: World, clickedPos: BlockPos, facing: Direction, player: PlayerEntity) {
-        val leftDirection = facing.rotateYCounterclockwise()
-        val rightDirection = facing.rotateYClockwise()
+        val leftDirection = facing.rotateYClockwise()
+        val rightDirection = facing.rotateYCounterclockwise()
         val shelfBlock = world.getBlockState(clickedPos).block
 
         val leftEnd = generateSequence(clickedPos, { it.offset(leftDirection) })
