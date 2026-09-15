@@ -64,7 +64,7 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .display(
                 ModBlocks.oakCoffeeTable,
                 Text.literal("Take a break!"),
-                Text.literal("Craft a coffee table because why not?"),
+                Text.literal("Craft a coffee table"),
                 Identifier("textures/gui/advancements/backgrounds/adventure.png"),
                 AdvancementFrame.TASK,
                 true,
@@ -79,7 +79,7 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .display(
                 ModBlocks.oakCoffeeTable,
                 Text.literal("A better table?"),
-                Text.literal("Stack one coffee table on top of another to create a brand new table"),
+                Text.literal("Stack two matching coffee tables to make a tall coffee table"),
                 Identifier("textures/gui/advancements/backgrounds/adventure.png"),
                 AdvancementFrame.TASK,
                 true,
@@ -94,7 +94,7 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .display(
                 ModBlocks.oakPlankCarpet,
                 Text.literal("Spruce Up Your Space!"),
-                Text.literal("Craft a plank carpet for a soft touch and cover up the ugly dirt or stone floor"),
+                Text.literal("Cover a floor with plank flooring"),
                 Identifier("textures/gui/advancements/backgrounds/adventure.png"),
                 AdvancementFrame.TASK,
                 true,
@@ -151,7 +151,7 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .display(
                 ModBlocks.modernOakFence,
                 Text.literal("Time to Modernize!"),
-                Text.literal("Protect your property with a Modern Fence and a Modern Fence Gate to enter"),
+                Text.literal("Craft a picket fence and a matching picket fence gate"),
                 Identifier("textures/gui/advancements/backgrounds/adventure.png"),
                 AdvancementFrame.TASK,
                 true,
@@ -192,7 +192,29 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
             .criterion("has_thick_pillar", inventoryChangedConditionsInTag(ModBlockTags.thickPillars))
             .build(consumer, WoodenAccentsMod.MOD_ID + "/structural/pillars_of_strength")
 
-        // TODO: Add advancement branches for desks, drawers, counters, and cabinets.
+        val desk = Advancement.Builder.create().parent(basicComfort)
+            .display(ModBlocks.oakDesk, Text.literal("A place to work"),
+                Text.literal("Craft a desk"), null, AdvancementFrame.TASK, true, false, false)
+            .criterion("has_desk", inventoryChangedConditionsInTag(ModBlockTags.desks))
+            .build(consumer, WoodenAccentsMod.MOD_ID + "/decor/desk")
+
+        Advancement.Builder.create().parent(desk)
+            .display(ModBlocks.oakDeskDrawer, Text.literal("Everything in its drawer"),
+                Text.literal("Craft a desk drawer for your supplies"), null, AdvancementFrame.TASK, true, false, false)
+            .criterion("has_desk_drawer", inventoryChangedConditionsInTag(ModBlockTags.deskDrawers))
+            .build(consumer, WoodenAccentsMod.MOD_ID + "/storage/desk_drawer")
+
+        val counter = Advancement.Builder.create().parent(basicComfort)
+            .display(ModBlocks.oakKitchenCounter, Text.literal("Room to cook"),
+                Text.literal("Craft a kitchen counter or cabinet"), null, AdvancementFrame.TASK, true, false, false)
+            .criterion("has_kitchen_counter", inventoryChangedConditionsInTag(ModBlockTags.kitchenCounters))
+            .build(consumer, WoodenAccentsMod.MOD_ID + "/decor/kitchen_counter")
+
+        Advancement.Builder.create().parent(counter)
+            .display(ModBlocks.oakKitchenCabinet, Text.literal("Stock the kitchen"),
+                Text.literal("Craft a kitchen cabinet for your ingredients"), null, AdvancementFrame.TASK, true, false, false)
+            .criterion("has_kitchen_cabinet", inventoryChangedConditionsInTag(ModBlockTags.kitchenCabinets))
+            .build(consumer, WoodenAccentsMod.MOD_ID + "/storage/kitchen_cabinet")
     }
 
     private fun inventoryChangedConditionsInTag(tag: TagKey<Block>, itemCount: NumberRange.IntRange = NumberRange.IntRange.ANY): InventoryChangedCriterion.Conditions {

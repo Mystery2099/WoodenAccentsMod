@@ -48,7 +48,7 @@ import java.util.function.Consumer
 class TableBlock(val baseBlock: Block, private val topBlock: Block) :
     AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)), CustomItemGroupProvider, CustomRecipeProvider,
     CustomTagProvider<Block>, CustomBlockStateProvider {
-    override val itemGroup = ModItemGroups.decorations
+    override val itemGroup = ModItemGroups.furniture
 
     override val tag: TagKey<Block> = ModBlockTags.tables
 
@@ -67,12 +67,12 @@ class TableBlock(val baseBlock: Block, private val topBlock: Block) :
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
-        return super.getPlacementState(ctx).with {
-            north to false
-            east to false
-            south to false
-            west to false
-        }
+        return super.getPlacementState(ctx).withDirections(
+            ctx.world.checkNorthOf(ctx.blockPos),
+            ctx.world.checkEastOf(ctx.blockPos),
+            ctx.world.checkSouthOf(ctx.blockPos),
+            ctx.world.checkWestOf(ctx.blockPos)
+        )
     }
 
     private fun BlockState.withDirections(north: Boolean, east: Boolean, south: Boolean, west: Boolean): BlockState {

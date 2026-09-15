@@ -68,7 +68,7 @@ class BracketShelfBlock(val baseBlock: Block) : AbstractWaterloggableBlock(
     }
 ), BlockEntityProvider, CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
 
-    override val itemGroup = ModItemGroups.decorations
+    override val itemGroup = ModItemGroups.storage
     override val tag: TagKey<Block> = ModBlockTags.bracketShelves
 
     init {

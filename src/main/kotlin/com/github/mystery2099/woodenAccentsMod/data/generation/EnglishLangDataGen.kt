@@ -10,13 +10,28 @@ class EnglishLangDataGen(dataOutput: FabricDataOutput) : FabricLanguageProvider(
     override fun generateTranslations(translationBuilder: TranslationBuilder) {
         translationBuilder.run {
             ModBlocks.blocks.forEach {
-                translationBuilder.add(it, it.id.path.toName())
+                translationBuilder.add(it, it.id.path.toDisplayName())
             }
             CustomItemGroup.instances.map { it.itemGroup }.forEach {
-                translationBuilder.add(it, "WAM: ${it.id.path.toName()}")
+                translationBuilder.add(it, "Wooden Accents: ${when (it.id.path) {
+                    "decorations" -> "Furniture"
+                    "miscellaneous" -> "Storage"
+                    else -> "Building"
+                }}")
             }
             add("container.crate.more", "and %s more...")
         }
+    }
+
+    private fun String.toDisplayName(): String {
+        val displayPath = when {
+            startsWith("modern_") -> removePrefix("modern_").replace("fence", "picket_fence")
+            endsWith("_plank_carpet") -> replace("_plank_carpet", "_plank_flooring")
+            endsWith("_carpet") -> replace("_carpet", "_flooring")
+            endsWith("_bookshelf") -> replace("_bookshelf", "_narrow_bookshelf")
+            else -> this
+        }
+        return displayPath.toName()
     }
 
     private fun String?.toName(): String {

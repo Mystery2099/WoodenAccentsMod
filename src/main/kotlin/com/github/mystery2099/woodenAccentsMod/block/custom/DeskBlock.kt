@@ -48,7 +48,7 @@ class DeskBlock(val baseBlock: Block, private val topBlock: Block) :
     CustomItemGroupProvider, CustomRecipeProvider, CustomBlockStateProvider, CustomTagProvider<Block> {
 
 
-    override val itemGroup: CustomItemGroup = ModItemGroups.decorations
+    override val itemGroup: CustomItemGroup = ModItemGroups.furniture
     override val tag: TagKey<Block> = ModBlockTags.desks
     private val BlockState.isDesk: Boolean
         get() = this isIn tag

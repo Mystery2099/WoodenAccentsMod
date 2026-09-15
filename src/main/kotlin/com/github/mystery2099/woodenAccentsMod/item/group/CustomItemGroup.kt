@@ -6,7 +6,6 @@ import com.github.mystery2099.woodenAccentsMod.block.defaultItemStack
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomItemGroupProvider
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.minecraft.block.Block
-import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
@@ -27,27 +26,18 @@ data class CustomItemGroup(val name: String) {
         return addDefaultStackIfEmpty(stacksList)
     }
 
-    /** Keeps each variant directly after the last default stack backed by the same block class. */
+    /** Registration order keeps finishes in vanilla wood order within each family. */
     private fun getStackListWithVariants(matchingItems: List<CustomItemGroupProvider>): MutableList<ItemStack> {
-        val list = mutableListOf<ItemStack>()
-        val altList = mutableListOf<ItemStack>()
-
-        matchingItems.forEach {
-            list += (it as? Block)?.defaultItemStack ?: ItemStack.EMPTY
-            if (it.hasVariantItemGroupStack) {
-                altList += it.variantItemGroupStack
+        val stacks = mutableListOf<ItemStack>()
+        for (family in matchingItems.groupBy { it.javaClass }.values) {
+            for (entry in family) {
+                if (entry is Block) stacks += entry.defaultItemStack
+            }
+            for (entry in family) {
+                if (entry.hasVariantItemGroupStack) stacks += entry.variantItemGroupStack
             }
         }
-
-        altList.forEach { alt ->
-            val element = list.lastOrNull {
-                (it.item as BlockItem).block.javaClass == (alt.item as BlockItem).block.javaClass
-            }
-            list.indexOf(element).let {
-                if (it > -1) list.add(it + 1, alt)
-            }
-        }
-        return list
+        return stacks
     }
 
     /** The group icon reads entry zero, so empty groups need a harmless fallback. */

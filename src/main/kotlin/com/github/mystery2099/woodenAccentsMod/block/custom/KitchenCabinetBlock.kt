@@ -19,6 +19,9 @@ import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.Custom
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModItemTags
+import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomBlockLootTableProvider
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
+import net.minecraft.loot.LootTable
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.*
 import net.minecraft.data.client.BlockStateModelGenerator
@@ -53,10 +56,11 @@ import net.minecraft.world.World
 import java.util.function.Consumer
 class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
     BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)),
-    CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
+    CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider,
+    CustomBlockLootTableProvider {
 
     override val tag: TagKey<Block> = ModBlockTags.kitchenCabinets
-    override val itemGroup = ModItemGroups.decorations
+    override val itemGroup = ModItemGroups.storage
 
     init {
         defaultState = defaultState.with {
@@ -154,14 +158,12 @@ class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
         facing to rotation.rotate(state[facing])
     }
 
-    @Deprecated("Deprecated in Java", ReplaceWith(
-        "state.apply { rotate(mirror.getRotation(get(facing))) }",
-        "com.mystery2099.wooden_accents_mod.block.custom.KitchenCabinetBlock.Companion.facing"
-    )
-    )
-    override fun mirror(state: BlockState, mirror: BlockMirror): BlockState = state.apply {
-        rotate(mirror.getRotation(get(facing)))
-    }
+    @Deprecated("Deprecated in Java")
+    override fun mirror(state: BlockState, mirror: BlockMirror): BlockState =
+        state.rotate(mirror.getRotation(state[facing]))
+
+    override fun getLootTableBuilder(provider: FabricBlockLootTableProvider): LootTable.Builder =
+        provider.nameableContainerDrops(this)
 
     override fun appendProperties(builder: StateManager.Builder<Block?, BlockState?>) {
         builder.add(facing, open)

@@ -32,7 +32,7 @@ import java.util.function.Consumer
 class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : FenceGateBlock(FabricBlockSettings.copyOf(baseGate), baseGate.woodType),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.modernFenceGates
-    override val itemGroup = ModItemGroups.structuralElements
+    override val itemGroup = ModItemGroups.building
 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(

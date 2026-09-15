@@ -74,7 +74,7 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
 
 
     override val tag: TagKey<Block> = ModBlockTags.coffeeTables
-    override val itemGroup = ModItemGroups.decorations
+    override val itemGroup = ModItemGroups.furniture
 
     private val BlockState.isTall: Boolean
         get() = getOrEmpty(type) == Optional.of(CoffeeTableTypes.TALL)
