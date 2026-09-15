@@ -17,6 +17,7 @@ This file tracks player-visible changes and anything maintainers need to know be
 - Organized creative tabs into Wooden Accents: Furniture, Storage, and Building. Each family stays together, including tall coffee table variants in vanilla wood order.
 - Renamed modern fences to picket fences, plank carpets to plank flooring, and thin bookshelves to narrow bookshelves. Existing block and item IDs are unchanged.
 - Updated advancement descriptions to match the new names.
+- Reworked plank ladder recipes to look like boards nailed to a wall: two planks of the wood between rows of stick supports, yielding four ladders. This also resolves the recipe conflicts with the simple ladders, which keep the original all-planks recipe.
 
 ### Fixed
 

@@ -3,17 +3,20 @@
   "category": "misc",
   "group": "plank_ladders",
   "key": {
-    "#": {
+    "P": {
       "item": "minecraft:jungle_planks"
+    },
+    "S": {
+      "item": "minecraft:stick"
     }
   },
   "pattern": [
-    "# #",
-    "###",
-    "# #"
+    "SSS",
+    "P P",
+    "SSS"
   ],
   "result": {
-    "count": 8,
+    "count": 4,
     "item": "wooden_accents_mod:jungle_plank_ladder"
   },
   "show_notification": true
