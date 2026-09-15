@@ -10,15 +10,17 @@ plugins {
 version = "${project.mod_version}"
 group = "${project.maven_group}"
 
+def releaseVersion = project.version.toString()
+
 def releaseChangelog = providers.fileContents(layout.projectDirectory.file("CHANGELOG.md")).asText.map { changelog ->
-	def releaseHeading = "## [${project.version}]"
+	def releaseHeading = "## [${releaseVersion}]"
 	def changelogLines = changelog.readLines()
 	def sectionStart = changelogLines.findIndexOf { line ->
 		line == releaseHeading || line.startsWith("${releaseHeading} - ")
 	}
 
 	if (sectionStart < 0) {
-		throw new GradleException("CHANGELOG.md does not contain a section for version ${project.version}")
+		throw new GradleException("CHANGELOG.md does not contain a section for version ${releaseVersion}")
 	}
 
 	def followingLines = changelogLines.subList(sectionStart + 1, changelogLines.size())
@@ -27,7 +29,7 @@ def releaseChangelog = providers.fileContents(layout.projectDirectory.file("CHAN
 	def releaseNotes = changelogLines.subList(sectionStart + 1, sectionEnd).join("\n").trim()
 
 	if (releaseNotes.isEmpty()) {
-		throw new GradleException("CHANGELOG.md section for version ${project.version} is empty")
+		throw new GradleException("CHANGELOG.md section for version ${releaseVersion} is empty")
 	}
 
 	return releaseNotes
