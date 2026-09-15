@@ -2,6 +2,15 @@
 
 This file tracks player-visible changes and anything maintainers need to know before publishing a release. Release headings must match `mod_version` in `gradle.properties` so the publishing workflow can use the section as its release notes.
 
+## [1.19.4-1.1.3.1] - 2026-09-14
+
+### Fixed
+
+- Bracket shelves now map stored items and powered hotbar loadouts from left to right when viewed from the front instead of reversing their order.
+- Empty bracket shelves now clear their displayed items immediately after a powered hotbar swap.
+
+[Full changelog](https://github.com/Mystery2099/WoodenAccentsMod/compare/v1.19.4-1.1.3.0...v1.19.4-1.1.3.1)
+
 ## [1.19.4-1.1.3.0] - 2026-09-14
 
 ### Added

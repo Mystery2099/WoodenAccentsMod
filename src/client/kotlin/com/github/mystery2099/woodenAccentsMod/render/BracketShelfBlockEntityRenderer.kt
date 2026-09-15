@@ -14,7 +14,7 @@ import net.minecraft.util.math.RotationAxis
 /**
  * Draws each stack stored in a shelf flat against its front face, like vanilla
  * wall-mounted shelves. Slot indices run left to right when viewed from the
- * shelf's front (the left slot is on the counterclockwise side of `facing`).
+ * shelf's front (the left slot is on the clockwise side of `facing`).
  */
 class BracketShelfBlockEntityRenderer(context: BlockEntityRendererFactory.Context) :
     BlockEntityRenderer<BracketShelfBlockEntity> {
@@ -31,7 +31,7 @@ class BracketShelfBlockEntityRenderer(context: BlockEntityRendererFactory.Contex
     ) {
         val world = blockEntity.world ?: return
         val facing = blockEntity.cachedState[BracketShelfBlock.facing]
-        val leftDirection = facing.rotateYCounterclockwise()
+        val leftDirection = facing.rotateYClockwise()
         val slotsCount = BracketShelfBlockEntity.SLOT_COUNT
 
         for (slot in 0 until slotsCount) {

@@ -73,7 +73,8 @@ class BracketShelfBlockEntity(pos: BlockPos, state: BlockState) :
 
     override fun writeNbt(nbt: NbtCompound?) {
         super.writeNbt(nbt)
-        Inventories.writeNbt(nbt, inventory, false)
+        // Keep an empty Items list so update packets can clear the client-side inventory.
+        Inventories.writeNbt(nbt, inventory, true)
     }
 
     override fun toUpdatePacket(): Packet<ClientPlayPacketListener> = BlockEntityUpdateS2CPacket.create(this)
