@@ -17,6 +17,7 @@ This file tracks player-visible changes and anything maintainers need to know be
 
 ### Fixed
 
+- Chairs lift riders slightly so their legs clear the seat's front edge.
 - Chairs reject additional riders and clean up their seat entity when the chair breaks or the rider leaves.
 - Kitchen cabinets preserve custom names on dropped items and mirror their facing correctly.
 - Picking a crate preserves its custom display name along with its contents.

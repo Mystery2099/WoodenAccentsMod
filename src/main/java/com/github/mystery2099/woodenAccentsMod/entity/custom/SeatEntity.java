@@ -55,6 +55,13 @@ public class SeatEntity extends Entity {
     }
 
     @Override
+    public double getMountedHeightOffset() {
+        // Clear the seat's front edge with vanilla's downward-angled thighs.
+        // Keep the rider height independent of this entity's tiny hitbox.
+        return 1.0 / 16.0;
+    }
+
+    @Override
     public void updatePassengerPosition(Entity passenger) {
         super.updatePassengerPosition(passenger);
         if (this.hasPassenger(passenger)) {
