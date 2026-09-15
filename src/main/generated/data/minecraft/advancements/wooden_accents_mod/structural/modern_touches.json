@@ -26,7 +26,7 @@
     "announce_to_chat": false,
     "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
     "description": {
-      "text": "Protect your property with a Modern Fence and a Modern Fence Gate to enter"
+      "text": "Craft a picket fence and a matching picket fence gate"
     },
     "frame": "task",
     "hidden": false,

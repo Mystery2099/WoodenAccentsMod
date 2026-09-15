@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:wooden_accents_mod/decor/root",
   "criteria": {
-    "has_plank_carpet": {
+    "has_kitchen_counter": {
       "conditions": {
         "items": [
           {
-            "tag": "wooden_accents_mod:plank_carpets"
+            "tag": "wooden_accents_mod:kitchen_counters"
           }
         ]
       },
@@ -14,23 +14,22 @@
   },
   "display": {
     "announce_to_chat": false,
-    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
     "description": {
-      "text": "Cover a floor with plank flooring"
+      "text": "Craft a kitchen counter or cabinet"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "wooden_accents_mod:oak_plank_carpet"
+      "item": "wooden_accents_mod:oak_kitchen_counter"
     },
     "show_toast": true,
     "title": {
-      "text": "Spruce Up Your Space!"
+      "text": "Room to cook"
     }
   },
   "requirements": [
     [
-      "has_plank_carpet"
+      "has_kitchen_counter"
     ]
   ]
 }

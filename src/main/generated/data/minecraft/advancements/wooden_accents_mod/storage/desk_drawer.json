@@ -1,11 +1,11 @@
 {
-  "parent": "minecraft:wooden_accents_mod/decor/root",
+  "parent": "minecraft:wooden_accents_mod/decor/desk",
   "criteria": {
-    "has_plank_carpet": {
+    "has_desk_drawer": {
       "conditions": {
         "items": [
           {
-            "tag": "wooden_accents_mod:plank_carpets"
+            "tag": "wooden_accents_mod:desk_drawers"
           }
         ]
       },
@@ -14,23 +14,22 @@
   },
   "display": {
     "announce_to_chat": false,
-    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
     "description": {
-      "text": "Cover a floor with plank flooring"
+      "text": "Craft a desk drawer for your supplies"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "wooden_accents_mod:oak_plank_carpet"
+      "item": "wooden_accents_mod:oak_desk_drawer"
     },
     "show_toast": true,
     "title": {
-      "text": "Spruce Up Your Space!"
+      "text": "Everything in its drawer"
     }
   },
   "requirements": [
     [
-      "has_plank_carpet"
+      "has_desk_drawer"
     ]
   ]
 }
