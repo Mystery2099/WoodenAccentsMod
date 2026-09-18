@@ -36,7 +36,7 @@ import net.minecraft.world.BlockView
 import java.util.function.Consumer
 
 class ThinBookshelfBlock(val baseBlock: Block) :
-    ChiseledBookshelfBlock(FabricBlockSettings.copyOf(baseBlock).requires(FeatureFlags.UPDATE_1_20)),
+    ChiseledBookshelfBlock(FabricBlockSettings.copyOf(baseBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
 
     override val tag: TagKey<Block> = ModBlockTags.thinBookshelves

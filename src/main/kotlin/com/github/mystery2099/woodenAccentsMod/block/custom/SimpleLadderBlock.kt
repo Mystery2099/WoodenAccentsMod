@@ -22,10 +22,6 @@ class SimpleLadderBlock(val baseBlock: Block) :
         hardness(Blocks.LADDER.hardness)
         resistance(Blocks.LADDER.blastResistance)
         sounds(baseBlock.getSoundGroup(baseBlock.defaultState))
-
-        if (baseBlock.requiredFeatures.contains(FeatureFlags.UPDATE_1_20)) {
-            requires(FeatureFlags.UPDATE_1_20)
-        }
     }) {
     override val tag: TagKey<Block> = ModBlockTags.simpleLadders
 

@@ -30,9 +30,6 @@ class CustomCarpetBlock(val baseBlock: Block) : CarpetBlock(
     FabricBlockSettings.of(Material.CARPET).strength(0.1f).apply {
         mapColor(baseBlock.defaultMapColor)
         sounds(baseBlock.getSoundGroup(baseBlock.defaultState))
-        if (baseBlock.requiredFeatures.contains(FeatureFlags.UPDATE_1_20)) {
-            requires(FeatureFlags.UPDATE_1_20)
-        }
     }
 ), CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
 

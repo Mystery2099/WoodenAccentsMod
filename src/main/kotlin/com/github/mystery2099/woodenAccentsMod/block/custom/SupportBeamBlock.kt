@@ -40,9 +40,6 @@ class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(ru
         hardness(baseBlock.hardness)
         resistance(baseBlock.blastResistance)
         sounds(baseBlock.getSoundGroup(baseBlock.defaultState))
-        if (baseBlock.requiredFeatures.contains(FeatureFlags.UPDATE_1_20)) {
-            requires(FeatureFlags.UPDATE_1_20)
-        }
     }
 }), CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.supportBeams

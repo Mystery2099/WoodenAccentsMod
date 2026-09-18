@@ -32,10 +32,6 @@ class PlankLadderBlock(val baseBlock: Block) :
         hardness(Blocks.LADDER.hardness)
         resistance(Blocks.LADDER.blastResistance)
         sounds(baseBlock.getSoundGroup(baseBlock.defaultState))
-
-        if (baseBlock.requiredFeatures.contains(FeatureFlags.UPDATE_1_20)) {
-            requires(FeatureFlags.UPDATE_1_20)
-        }
     }), CustomItemGroupProvider {
     override val tag: TagKey<Block> = ModBlockTags.plankLadders
 
