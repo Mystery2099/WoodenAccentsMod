@@ -10,13 +10,13 @@ The renamed blocks are Picket Fence, Plank Flooring, and Narrow Bookshelf. Suppo
 
 See the [changelog](CHANGELOG.md) for the changes and [release instructions](RELEASING.md) for the remaining checks. Larger performance changes can wait until profiling shows a need for them.
 
-## Possible Minecraft 1.20.1 port
+## Possible Minecraft 1.21.1 port
 
-I'm considering a 1.20.1 port after the polish release. It would start with the same content as 1.19.4.
+I'm considering a 1.21.1 port after the polish release. It would start with the same content as 1.19.4 before I add another big wave of features.
 
-This needs a VoxLib update and testing of existing worlds, inventories, and storage-preview integrations. Cherry, bamboo, and chiseled-bookshelf content would no longer need experimental features.
+This needs a VoxLib update and testing of existing worlds, inventories, and storage-preview integrations. Cherry, bamboo, and chiseled-bookshelf content would no longer need experimental features. The newer data component system is one reason I'm leaning toward 1.21.1 instead of 1.20.1.
 
-If 1.20.1 becomes the main version, I'd keep 1.19.4 updates to important fixes.
+If 1.21.1 becomes the main version, I'd keep 1.19.4 updates to important fixes.
 
 ## Outdoor building ideas
 

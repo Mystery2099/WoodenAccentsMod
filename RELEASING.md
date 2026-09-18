@@ -64,16 +64,15 @@ Before retrying, check GitHub Releases and repository tags for a partial result.
 
 ## Keep Modrinth (and CurseForge) in sync
 
-Use `README.md` for the project descriptions. The GitHub Actions release workflow does not update Modrinth or CurseForge descriptions.
+Use `DESCRIPTION.md` for the Modrinth and CurseForge project descriptions. `README.md` remains the GitHub landing page. The GitHub Actions release workflow does not update either project page.
 
-When you change player-facing README content:
+When you change player-facing project information:
 
 1. Open the Modrinth project settings for Wooden Accents.
-2. Paste the README body into the project description.
-3. Remove the **Gallery** section and any embedded image markdown. Modrinth already has its own gallery.
-4. Set the short summary to: `Vanilla-scale furniture and structural accents for every wood type.`
-5. Repeat on CurseForge if that page is still maintained.
+2. Paste the contents of `DESCRIPTION.md` into the project description.
+3. Set the short summary to: `Vanilla-scale furniture and structural accents for every wood type.`
+4. Repeat on CurseForge if that page is still maintained.
 
-Doc links in the README use absolute GitHub URLs so they keep working when pasted onto Modrinth or CurseForge.
+Links in `DESCRIPTION.md` use absolute URLs so they keep working when pasted onto Modrinth or CurseForge.
 
-Do this for documentation-only README edits as well, not only full releases.
+Do this for documentation-only description edits as well, not only full releases.
