@@ -14,7 +14,7 @@ The release workflow publishes to GitHub Releases only. It does not upload anyth
 
 ## Testing for 1.19.4-1.1.4.0
 
-Mathew confirmed single-player testing passed, including the corrected ladder recipes, and chose to proceed without multiplayer testing. Dedicated-server multiplayer, existing-world migration, and optional storage-preview integrations remain unverified. The local publishing dry run passed.
+Mathew confirmed single-player testing passed, including the corrected ladder recipes, and chose to proceed without multiplayer testing. A dedicated development server reached a ready state and shut down cleanly with the release version. Multiplayer behavior, existing-world migration, and optional storage-preview integrations remain unverified. The local publishing dry run passed.
 
 In-game screenshots of mixed structural builds would improve the README's schematic examples, but are optional for this release. A custom seated pose is deferred.
 

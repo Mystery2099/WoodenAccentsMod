@@ -2,7 +2,7 @@
 
 This file tracks player-visible changes and anything maintainers need to know before publishing a release. Release headings must match `mod_version` in `gradle.properties` so the publishing workflow can use the section as its release notes.
 
-## [1.19.4-1.1.4.0] - Unreleased
+## [1.19.4-1.1.4.0] - 2026-09-18
 
 ### Added
 
@@ -29,6 +29,8 @@ This file tracks player-visible changes and anything maintainers need to know be
 - Connecting ladders safely detach when their support is removed and connect immediately on placement.
 - Tables initialize their connections on placement.
 - Sneak-placing a coffee table against another coffee table places it normally instead of creating a tall coffee table.
+
+[Full changelog](https://github.com/Mystery2099/WoodenAccentsMod/compare/v1.19.4-1.1.3.1...v1.19.4-1.1.4.0)
 
 ## [1.19.4-1.1.3.1] - 2026-09-14
 
