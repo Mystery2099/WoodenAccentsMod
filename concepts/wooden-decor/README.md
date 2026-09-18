@@ -6,7 +6,7 @@ Four oak concept assets for visual review. These are Blockbench previews, not in
 
 | Concept | Intended use | Files |
 | --- | --- | --- |
-| Basketweave parquet | A patterned alternative to plank carpets; one pixel thick | [Model](parquet.bbmodel), [export](parquet.json), [preview](parquet-preview.png) |
+| Basketweave parquet | A patterned alternative to plank flooring; one pixel thick | [Model](parquet.bbmodel), [export](parquet.json), [preview](parquet-preview.png) |
 | Woven wood screen | Open partitions, window infill, or trellises | [Model](screen.bbmodel), [export](screen.json), [preview](screen-preview.png) |
 | Window planter | A shallow soil-filled box for exterior windows and balconies | [Model](planter.bbmodel), [export](planter.json), [preview](planter-preview.png) |
 | Bracket shelf | A small wall shelf with stepped wooden corbels | [Model](shelf.bbmodel), [export](shelf.json), [preview](shelf-preview.png) |
