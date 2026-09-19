@@ -1,21 +1,21 @@
 {
-  "parent": "minecraft:wooden_accents_mod/structural/root",
+  "parent": "wooden_accents_mod:root",
   "criteria": {
-    "has_modern_fence": {
+    "has_chair": {
       "conditions": {
         "items": [
           {
-            "tag": "wooden_accents_mod:modern_fences"
+            "tag": "wooden_accents_mod:chairs"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_modern_fence_gate": {
+    "has_table": {
       "conditions": {
         "items": [
           {
-            "tag": "wooden_accents_mod:modern_fence_gates"
+            "tag": "wooden_accents_mod:tables"
           }
         ]
       },
@@ -25,24 +25,25 @@
   "display": {
     "announce_to_chat": false,
     "description": {
-      "text": "Craft a picket fence and a matching picket fence gate"
+      "text": "Craft a cozy place to sit and a surface for your belongings"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "wooden_accents_mod:modern_oak_fence"
+      "item": "wooden_accents_mod:oak_plank_chair"
     },
     "show_toast": true,
     "title": {
-      "text": "Time to Modernize!"
+      "text": "Welcome Home!"
     }
   },
   "requirements": [
     [
-      "has_modern_fence"
+      "has_chair"
     ],
     [
-      "has_modern_fence_gate"
+      "has_table"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

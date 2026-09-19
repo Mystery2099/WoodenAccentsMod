@@ -36,7 +36,8 @@ import java.util.function.Consumer
 
 class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(run {
     if (baseBlock !is PillarBlock) FabricBlockSettings.copyOf(baseBlock)
-    else FabricBlockSettings.of(baseBlock.defaultState.material, baseBlock.defaultMapColor).apply {
+    else FabricBlockSettings.create().apply {
+        mapColor(baseBlock.defaultMapColor)
         hardness(baseBlock.hardness)
         resistance(baseBlock.blastResistance)
         sounds(baseBlock.getSoundGroup(baseBlock.defaultState))

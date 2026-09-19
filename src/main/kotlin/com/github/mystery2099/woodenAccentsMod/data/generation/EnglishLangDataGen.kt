@@ -1,5 +1,6 @@
 package com.github.mystery2099.woodenAccentsMod.data.generation
 
+import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.toIdentifier
 import com.github.mystery2099.woodenAccentsMod.block.ModBlocks
 import com.github.mystery2099.woodenAccentsMod.block.id
 import com.github.mystery2099.woodenAccentsMod.item.group.CustomItemGroup
@@ -12,12 +13,13 @@ class EnglishLangDataGen(dataOutput: FabricDataOutput) : FabricLanguageProvider(
             ModBlocks.blocks.forEach {
                 translationBuilder.add(it, it.id.path.toDisplayName())
             }
-            CustomItemGroup.instances.map { it.itemGroup }.forEach {
-                translationBuilder.add(it, "Wooden Accents: ${when (it.id.path) {
+            CustomItemGroup.instances.forEach {
+                val name = when (it.name) {
                     "decorations" -> "Furniture"
                     "miscellaneous" -> "Storage"
                     else -> "Building"
-                }}")
+                }
+                add(it.name.toIdentifier().toTranslationKey(), "Wooden Accents: $name")
             }
             add("container.crate.more", "and %s more...")
         }

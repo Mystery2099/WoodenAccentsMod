@@ -1,11 +1,11 @@
 {
-  "parent": "minecraft:wooden_accents_mod/decor/root",
+  "parent": "wooden_accents_mod:decor/root",
   "criteria": {
-    "has_coffee_table": {
+    "has_desk": {
       "conditions": {
         "items": [
           {
-            "tag": "wooden_accents_mod:coffee_tables"
+            "tag": "wooden_accents_mod:desks"
           }
         ]
       },
@@ -15,21 +15,22 @@
   "display": {
     "announce_to_chat": false,
     "description": {
-      "text": "Craft a coffee table"
+      "text": "Craft a desk"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "wooden_accents_mod:oak_coffee_table"
+      "item": "wooden_accents_mod:oak_desk"
     },
     "show_toast": true,
     "title": {
-      "text": "Take a break!"
+      "text": "A place to work"
     }
   },
   "requirements": [
     [
-      "has_coffee_table"
+      "has_desk"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

@@ -162,6 +162,7 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
     private fun WorldAccess.checkWestOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.WEST)
 
     @Deprecated("Deprecated in Java")
+    @Suppress("DEPRECATION")
     override fun getStateForNeighborUpdate(
         state: BlockState,
         direction: Direction?,
@@ -301,6 +302,7 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
             jsonObject
         })
     }
+    @Suppress("DEPRECATION")
     override fun getLootTableBuilder(provider: FabricBlockLootTableProvider): LootTable.Builder {
         val tallStatePredicate = StatePredicate.Builder.create().exactMatch(type, CoffeeTableTypes.TALL)
         val whenBlockIsTall = BlockStatePropertyLootCondition.builder(this).properties(tallStatePredicate)

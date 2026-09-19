@@ -1,15 +1,22 @@
 {
-  "parent": "minecraft:wooden_accents_mod/structural/root",
+  "parent": "wooden_accents_mod:structural/root",
   "criteria": {
     "column_beam": {
       "conditions": {
-        "item": {
-          "tag": "wooden_accents_mod:support_beams"
-        },
-        "state": {
-          "down": "true",
-          "up": "true"
-        }
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "state": {
+                  "down": "true",
+                  "up": "true"
+                },
+                "tag": "wooden_accents_mod:support_beams"
+              }
+            }
+          }
+        ]
       },
       "trigger": "minecraft:placed_block"
     }
@@ -33,5 +40,6 @@
     [
       "column_beam"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

@@ -13,7 +13,6 @@ import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.CarpetBlock
-import net.minecraft.block.Material
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.Models
 import net.minecraft.data.client.TextureKey
@@ -23,11 +22,10 @@ import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.item.Items
 import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.tag.TagKey
-import net.minecraft.resource.featuretoggle.FeatureFlags
 import java.util.function.Consumer
 
 class CustomCarpetBlock(val baseBlock: Block) : CarpetBlock(
-    FabricBlockSettings.of(Material.CARPET).strength(0.1f).apply {
+    FabricBlockSettings.create().strength(0.1f).apply {
         mapColor(baseBlock.defaultMapColor)
         sounds(baseBlock.getSoundGroup(baseBlock.defaultState))
     }

@@ -25,6 +25,7 @@ class ThickPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape)
     override val tag: TagKey<Block> = ModBlockTags.thickPillars
 
     @Deprecated("Deprecated in Java")
+    @Suppress("DEPRECATION")
     override fun getCollisionShape(
         state: BlockState,
         world: BlockView,

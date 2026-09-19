@@ -1,11 +1,11 @@
 {
-  "parent": "minecraft:wooden_accents_mod/decor/root",
+  "parent": "wooden_accents_mod:decor/root",
   "criteria": {
-    "has_desk": {
+    "has_plank_carpet": {
       "conditions": {
         "items": [
           {
-            "tag": "wooden_accents_mod:desks"
+            "tag": "wooden_accents_mod:plank_carpets"
           }
         ]
       },
@@ -15,21 +15,22 @@
   "display": {
     "announce_to_chat": false,
     "description": {
-      "text": "Craft a desk"
+      "text": "Cover a floor with plank flooring"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "wooden_accents_mod:oak_desk"
+      "item": "wooden_accents_mod:oak_plank_carpet"
     },
     "show_toast": true,
     "title": {
-      "text": "A place to work"
+      "text": "Spruce Up Your Space!"
     }
   },
   "requirements": [
     [
-      "has_desk"
+      "has_plank_carpet"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

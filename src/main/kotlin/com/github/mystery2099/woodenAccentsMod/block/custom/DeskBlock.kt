@@ -113,6 +113,7 @@ class DeskBlock(val baseBlock: Block, private val topBlock: Block) :
     }
 
     @Deprecated("Deprecated in Java")
+    @Suppress("DEPRECATION")
     override fun getStateForNeighborUpdate(
         state: BlockState,
         direction: Direction?,

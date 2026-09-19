@@ -1,11 +1,11 @@
 {
-  "parent": "minecraft:wooden_accents_mod/decor/root",
+  "parent": "wooden_accents_mod:decor/root",
   "criteria": {
-    "has_bracket_shelf": {
+    "has_thin_bookshelf": {
       "conditions": {
         "items": [
           {
-            "tag": "wooden_accents_mod:bracket_shelves"
+            "tag": "wooden_accents_mod:thin_bookshelves"
           }
         ]
       },
@@ -15,21 +15,22 @@
   "display": {
     "announce_to_chat": false,
     "description": {
-      "text": "Craft a Bracket Shelf to hang your display items on the wall"
+      "text": "Craft a Narrow Bookshelf to store your books"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "wooden_accents_mod:oak_bracket_shelf"
+      "item": "wooden_accents_mod:oak_plank_bookshelf"
     },
     "show_toast": true,
     "title": {
-      "text": "Shelf Improvement!"
+      "text": "Getting Organized!"
     }
   },
   "requirements": [
     [
-      "has_bracket_shelf"
+      "has_thin_bookshelf"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

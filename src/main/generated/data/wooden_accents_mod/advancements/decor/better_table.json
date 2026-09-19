@@ -1,14 +1,21 @@
 {
-  "parent": "minecraft:wooden_accents_mod/decor/coffee_break",
+  "parent": "wooden_accents_mod:decor/coffee_break",
   "criteria": {
     "made_tall_coffee_table": {
       "conditions": {
-        "item": {
-          "tag": "wooden_accents_mod:coffee_tables"
-        },
-        "state": {
-          "type": "tall"
-        }
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "state": {
+                  "type": "tall"
+                },
+                "tag": "wooden_accents_mod:coffee_tables"
+              }
+            }
+          }
+        ]
       },
       "trigger": "minecraft:placed_block"
     }
@@ -32,5 +39,6 @@
     [
       "made_tall_coffee_table"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

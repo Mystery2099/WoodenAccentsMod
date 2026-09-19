@@ -1,11 +1,11 @@
 {
-  "parent": "minecraft:wooden_accents_mod/decor/desk",
+  "parent": "wooden_accents_mod:decor/root",
   "criteria": {
-    "has_desk_drawer": {
+    "has_coffee_table": {
       "conditions": {
         "items": [
           {
-            "tag": "wooden_accents_mod:desk_drawers"
+            "tag": "wooden_accents_mod:coffee_tables"
           }
         ]
       },
@@ -15,21 +15,22 @@
   "display": {
     "announce_to_chat": false,
     "description": {
-      "text": "Craft a desk drawer for your supplies"
+      "text": "Craft a coffee table"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "wooden_accents_mod:oak_desk_drawer"
+      "item": "wooden_accents_mod:oak_coffee_table"
     },
     "show_toast": true,
     "title": {
-      "text": "Everything in its drawer"
+      "text": "Take a break!"
     }
   },
   "requirements": [
     [
-      "has_desk_drawer"
+      "has_coffee_table"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

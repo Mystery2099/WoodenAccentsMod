@@ -1,11 +1,11 @@
 {
-  "parent": "minecraft:wooden_accents_mod/structural/root",
+  "parent": "wooden_accents_mod:decor/desk",
   "criteria": {
-    "has_plank_wall": {
+    "has_desk_drawer": {
       "conditions": {
         "items": [
           {
-            "tag": "wooden_accents_mod:wooden_walls"
+            "tag": "wooden_accents_mod:desk_drawers"
           }
         ]
       },
@@ -15,21 +15,22 @@
   "display": {
     "announce_to_chat": false,
     "description": {
-      "text": "Craft a Plank Wall for boundaries that blend right into your builds"
+      "text": "Craft a desk drawer for your supplies"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "wooden_accents_mod:oak_plank_wall"
+      "item": "wooden_accents_mod:oak_desk_drawer"
     },
     "show_toast": true,
     "title": {
-      "text": "Walled In!"
+      "text": "Everything in its drawer"
     }
   },
   "requirements": [
     [
-      "has_plank_wall"
+      "has_desk_drawer"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

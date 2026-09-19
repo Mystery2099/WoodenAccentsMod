@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:wooden_accents_mod/structural/root",
+  "parent": "wooden_accents_mod:structural/root",
   "criteria": {
     "has_connecting_ladder": {
       "conditions": {
@@ -57,5 +57,6 @@
     [
       "has_simple_ladder"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

@@ -338,7 +338,7 @@
   "block.wooden_accents_mod.warped_support_beam": "Warped Support Beam",
   "block.wooden_accents_mod.warped_table": "Warped Table",
   "container.crate.more": "and %s more...",
-  "itemGroup.wooden_accents_mod.decorations": "Wooden Accents: Furniture",
-  "itemGroup.wooden_accents_mod.miscellaneous": "Wooden Accents: Storage",
-  "itemGroup.wooden_accents_mod.structural_elements": "Wooden Accents: Building"
+  "wooden_accents_mod.decorations": "Wooden Accents: Furniture",
+  "wooden_accents_mod.miscellaneous": "Wooden Accents: Storage",
+  "wooden_accents_mod.structural_elements": "Wooden Accents: Building"
 }

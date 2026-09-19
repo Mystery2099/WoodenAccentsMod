@@ -30,5 +30,6 @@
     "recipes": [
       "wooden_accents_mod:bamboo_plank_carpet"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

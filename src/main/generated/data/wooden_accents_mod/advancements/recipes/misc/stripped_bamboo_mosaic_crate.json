@@ -30,5 +30,6 @@
     "recipes": [
       "wooden_accents_mod:stripped_bamboo_mosaic_crate"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

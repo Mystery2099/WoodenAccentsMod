@@ -40,6 +40,7 @@ open class OmnidirectionalConnectingBlock(settings: Settings) : ConnectingBlock(
         "net.minecraft.block.Block"
     )
     )
+    @Suppress("DEPRECATION")
     override fun getFluidState(state: BlockState): FluidState {
         return if (state[waterlogged]) Fluids.WATER.getStill(false)
         else super.getFluidState(state)

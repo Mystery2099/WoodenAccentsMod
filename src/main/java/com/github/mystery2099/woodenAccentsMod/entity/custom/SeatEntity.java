@@ -25,7 +25,7 @@ public class SeatEntity extends Entity {
     @Override
     public void tick() {
         super.tick();
-        if (this.world.isClient) {
+        if (this.getWorld().isClient) {
             return;
         }
         var state = this.getBlockStateAtPos();
@@ -47,7 +47,7 @@ public class SeatEntity extends Entity {
         if (player.shouldCancelInteraction()) {
             return ActionResult.PASS;
         } else {
-            if (!this.world.isClient && !player.hasVehicle()) {
+            if (!this.getWorld().isClient && !player.hasVehicle()) {
                 player.startRiding(this);
             }
             return ActionResult.SUCCESS;
@@ -62,8 +62,8 @@ public class SeatEntity extends Entity {
     }
 
     @Override
-    public void updatePassengerPosition(Entity passenger) {
-        super.updatePassengerPosition(passenger);
+    protected void updatePassengerPosition(Entity passenger, Entity.PositionUpdater positionUpdater) {
+        super.updatePassengerPosition(passenger, positionUpdater);
         if (this.hasPassenger(passenger)) {
             passenger.setBodyYaw(this.getYaw());
         }
@@ -87,8 +87,8 @@ public class SeatEntity extends Entity {
                 for (int[] js : is) {
                     Vec3d vec3d;
                     mutable.set(blockPos.getX() + js[0], blockPos.getY() + i, blockPos.getZ() + js[1]);
-                    var d = this.world.getDismountHeight(Dismounting.getCollisionShape(this.world, mutable), () -> Dismounting.getCollisionShape(this.world, mutable.down()));
-                    if (!Dismounting.canDismountInBlock(d) || !Dismounting.canPlaceEntityAt(this.world, passenger, new Box(-f, 0.0, -f, f, entityDimensions.height, f).offset(vec3d = Vec3d.ofCenter(mutable, d))))
+                    var d = this.getWorld().getDismountHeight(Dismounting.getCollisionShape(this.getWorld(), mutable), () -> Dismounting.getCollisionShape(this.getWorld(), mutable.down()));
+                    if (!Dismounting.canDismountInBlock(d) || !Dismounting.canPlaceEntityAt(this.getWorld(), passenger, new Box(-f, 0.0, -f, f, entityDimensions.height, f).offset(vec3d = Vec3d.ofCenter(mutable, d))))
                         continue;
                     passenger.setPose(entityPose);
                     return vec3d;
@@ -100,7 +100,7 @@ public class SeatEntity extends Entity {
         for (EntityPose entityPose2 : immutableList) {
             double g = passenger.getDimensions(entityPose2).height;
             int j = MathHelper.ceil(e - (double) mutable.getY() + g);
-            double h = Dismounting.getCeilingHeight(mutable, j, pos -> this.world.getBlockState(pos).getCollisionShape(this.world, pos));
+            double h = Dismounting.getCeilingHeight(mutable, j, pos -> this.getWorld().getBlockState(pos).getCollisionShape(this.getWorld(), pos));
             if (!(e + g <= h)) continue;
             passenger.setPose(entityPose2);
             break;

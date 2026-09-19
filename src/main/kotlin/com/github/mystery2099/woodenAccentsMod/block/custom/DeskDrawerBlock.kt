@@ -155,6 +155,7 @@ class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
     }
 
     @Deprecated("Deprecated in Java")
+    @Suppress("DEPRECATION")
     override fun onStateReplaced(
         state: BlockState,
         world: World,
@@ -174,6 +175,7 @@ class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
     }
 
     @Deprecated("Deprecated in Java")
+    @Suppress("DEPRECATION")
     override fun getStateForNeighborUpdate(
         state: BlockState,
         direction: Direction?,

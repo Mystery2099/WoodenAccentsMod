@@ -32,7 +32,8 @@ import net.minecraft.world.WorldAccess
 import java.util.function.Consumer
 
 class ConnectingLadderBlock(val baseBlock: Block) :
-    AbstractCustomLadderBlock(FabricBlockSettings.of(baseBlock.defaultState.material, baseBlock.defaultMapColor).apply {
+    AbstractCustomLadderBlock(FabricBlockSettings.create().apply {
+        mapColor(baseBlock.defaultMapColor)
         hardness(Blocks.LADDER.hardness)
         resistance(Blocks.LADDER.blastResistance)
         sounds(baseBlock.getSoundGroup(baseBlock.defaultState))

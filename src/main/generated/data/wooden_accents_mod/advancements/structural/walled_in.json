@@ -1,14 +1,11 @@
 {
-  "parent": "minecraft:wooden_accents_mod/storage/root",
+  "parent": "wooden_accents_mod:structural/root",
   "criteria": {
-    "stacked_crates": {
+    "has_plank_wall": {
       "conditions": {
         "items": [
           {
-            "count": {
-              "min": 2
-            },
-            "tag": "wooden_accents_mod:crates"
+            "tag": "wooden_accents_mod:wooden_walls"
           }
         ]
       },
@@ -18,21 +15,22 @@
   "display": {
     "announce_to_chat": false,
     "description": {
-      "text": "Crates are stackable? Make sure they contain the same items"
+      "text": "Craft a Plank Wall for boundaries that blend right into your builds"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "wooden_accents_mod:oak_crate"
+      "item": "wooden_accents_mod:oak_plank_wall"
     },
     "show_toast": true,
     "title": {
-      "text": "Better than Shulker Box"
+      "text": "Walled In!"
     }
   },
   "requirements": [
     [
-      "stacked_crates"
+      "has_plank_wall"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

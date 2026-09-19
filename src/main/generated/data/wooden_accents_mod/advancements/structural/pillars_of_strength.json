@@ -1,21 +1,21 @@
 {
-  "parent": "minecraft:wooden_accents_mod/root",
+  "parent": "wooden_accents_mod:structural/root",
   "criteria": {
-    "has_chair": {
+    "has_thick_pillar": {
       "conditions": {
         "items": [
           {
-            "tag": "wooden_accents_mod:chairs"
+            "tag": "wooden_accents_mod:thick_pillars"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_table": {
+    "has_thin_pillar": {
       "conditions": {
         "items": [
           {
-            "tag": "wooden_accents_mod:tables"
+            "tag": "wooden_accents_mod:thin_pillars"
           }
         ]
       },
@@ -25,24 +25,25 @@
   "display": {
     "announce_to_chat": false,
     "description": {
-      "text": "Craft a cozy place to sit and a surface for your belongings"
+      "text": "Craft a Thin Pillar for a slim look and a Thick Pillar for a bolder design"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "wooden_accents_mod:oak_plank_chair"
+      "item": "wooden_accents_mod:thin_oak_plank_pillar"
     },
     "show_toast": true,
     "title": {
-      "text": "Welcome Home!"
+      "text": "Reach for the Sky!"
     }
   },
   "requirements": [
     [
-      "has_chair"
+      "has_thin_pillar"
     ],
     [
-      "has_table"
+      "has_thick_pillar"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

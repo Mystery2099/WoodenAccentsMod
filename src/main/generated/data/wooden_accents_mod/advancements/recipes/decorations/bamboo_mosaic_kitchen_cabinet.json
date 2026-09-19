@@ -28,5 +28,6 @@
     "recipes": [
       "wooden_accents_mod:bamboo_mosaic_kitchen_cabinet"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

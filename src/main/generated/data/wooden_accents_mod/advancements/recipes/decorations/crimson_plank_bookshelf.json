@@ -30,5 +30,6 @@
     "recipes": [
       "wooden_accents_mod:crimson_plank_bookshelf"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

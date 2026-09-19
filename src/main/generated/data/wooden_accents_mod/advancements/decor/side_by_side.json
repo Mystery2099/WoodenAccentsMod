@@ -1,0 +1,63 @@
+{
+  "parent": "wooden_accents_mod:decor/root",
+  "criteria": {
+    "connected_left": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "state": {
+                  "left": "true"
+                },
+                "tag": "wooden_accents_mod:bracket_shelves"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:placed_block"
+    },
+    "connected_right": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "state": {
+                  "right": "true"
+                },
+                "tag": "wooden_accents_mod:bracket_shelves"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:placed_block"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "text": "Link Bracket Shelves together into one long shelving wall"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "wooden_accents_mod:oak_bracket_shelf"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "Side by Side!"
+    }
+  },
+  "requirements": [
+    [
+      "connected_left",
+      "connected_right"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

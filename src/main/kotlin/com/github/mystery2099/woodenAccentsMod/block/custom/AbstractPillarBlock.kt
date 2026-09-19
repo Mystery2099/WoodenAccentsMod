@@ -62,6 +62,7 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val pillarShape
     }
 
     @Deprecated("Deprecated in Java")
+    @Suppress("DEPRECATION")
     override fun getStateForNeighborUpdate(
         state: BlockState,
         direction: Direction?,

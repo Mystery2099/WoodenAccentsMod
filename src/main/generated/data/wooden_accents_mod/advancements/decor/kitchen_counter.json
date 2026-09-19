@@ -1,11 +1,11 @@
 {
-  "parent": "minecraft:wooden_accents_mod/root",
+  "parent": "wooden_accents_mod:decor/root",
   "criteria": {
-    "has_crate": {
+    "has_kitchen_counter": {
       "conditions": {
         "items": [
           {
-            "tag": "wooden_accents_mod:crates"
+            "tag": "wooden_accents_mod:kitchen_counters"
           }
         ]
       },
@@ -15,21 +15,22 @@
   "display": {
     "announce_to_chat": false,
     "description": {
-      "text": "Craft a Crate for portable storage"
+      "text": "Craft a kitchen counter or cabinet"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "wooden_accents_mod:oak_crate"
+      "item": "wooden_accents_mod:oak_kitchen_counter"
     },
     "show_toast": true,
     "title": {
-      "text": "I can't believe it's not a Shulker Box!"
+      "text": "Room to cook"
     }
   },
   "requirements": [
     [
-      "has_crate"
+      "has_kitchen_counter"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

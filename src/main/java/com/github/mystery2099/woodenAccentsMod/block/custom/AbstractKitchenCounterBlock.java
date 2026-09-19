@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+@SuppressWarnings("deprecation")
 public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableBlock {
     public static final EnumProperty<StairShape> SHAPE = Properties.STAIR_SHAPE;
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
@@ -161,6 +162,7 @@ public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableB
 
     @Deprecated
     @Override
+    @SuppressWarnings("deprecation")
     public @NotNull BlockState getStateForNeighborUpdate(@NotNull BlockState state, Direction direction, BlockState neighborState, @NotNull WorldAccess world, BlockPos pos, BlockPos neighborPos) {
         var stateForNeighborUpdate = super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
         if (direction.getAxis().isHorizontal()) {

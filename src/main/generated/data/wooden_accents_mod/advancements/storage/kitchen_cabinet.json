@@ -1,11 +1,11 @@
 {
-  "parent": "minecraft:wooden_accents_mod/decor/root",
+  "parent": "wooden_accents_mod:decor/kitchen_counter",
   "criteria": {
-    "has_kitchen_counter": {
+    "has_kitchen_cabinet": {
       "conditions": {
         "items": [
           {
-            "tag": "wooden_accents_mod:kitchen_counters"
+            "tag": "wooden_accents_mod:kitchen_cabinets"
           }
         ]
       },
@@ -15,21 +15,22 @@
   "display": {
     "announce_to_chat": false,
     "description": {
-      "text": "Craft a kitchen counter or cabinet"
+      "text": "Craft a kitchen cabinet for your ingredients"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "wooden_accents_mod:oak_kitchen_counter"
+      "item": "wooden_accents_mod:oak_kitchen_cabinet"
     },
     "show_toast": true,
     "title": {
-      "text": "Room to cook"
+      "text": "Stock the kitchen"
     }
   },
   "requirements": [
     [
-      "has_kitchen_counter"
+      "has_kitchen_cabinet"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

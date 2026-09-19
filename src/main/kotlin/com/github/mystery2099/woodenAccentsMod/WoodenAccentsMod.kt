@@ -31,7 +31,7 @@ object WoodenAccentsMod : ModInitializer {
 
     /**
      * Maps vanilla wood types to their plank blocks. Unknown or modded types fall back to oak because
-     * Minecraft 1.19.4 does not expose this relationship through a registry.
+     * Minecraft does not expose this relationship through a registry.
      */
     val WoodType.planks: Block
         get() = when (this) {

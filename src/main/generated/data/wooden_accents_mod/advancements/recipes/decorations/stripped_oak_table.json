@@ -30,5 +30,6 @@
     "recipes": [
       "wooden_accents_mod:stripped_oak_table"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

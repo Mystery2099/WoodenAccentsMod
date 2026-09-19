@@ -85,6 +85,7 @@ class BracketShelfBlock(val baseBlock: Block) : AbstractWaterloggableBlock(
     }
 
     @Deprecated("Deprecated in Java")
+    @Suppress("DEPRECATION")
     override fun getStateForNeighborUpdate(
         state: BlockState,
         direction: Direction?,
@@ -301,6 +302,7 @@ class BracketShelfBlock(val baseBlock: Block) : AbstractWaterloggableBlock(
     }
 
     @Deprecated("Deprecated in Java")
+    @Suppress("DEPRECATION")
     override fun onStateReplaced(
         state: BlockState,
         world: World,
