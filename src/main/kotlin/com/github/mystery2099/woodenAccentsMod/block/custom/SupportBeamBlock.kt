@@ -41,6 +41,7 @@ class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(ru
         hardness(baseBlock.hardness)
         resistance(baseBlock.blastResistance)
         sounds(baseBlock.getSoundGroup(baseBlock.defaultState))
+        instrument(baseBlock.defaultState.instrument)
         if (baseBlock.defaultState.isBurnable) burnable()
     }
 }), CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {

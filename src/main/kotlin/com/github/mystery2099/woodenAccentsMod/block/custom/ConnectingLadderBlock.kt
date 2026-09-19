@@ -37,6 +37,7 @@ class ConnectingLadderBlock(val baseBlock: Block) :
         hardness(Blocks.LADDER.hardness)
         resistance(Blocks.LADDER.blastResistance)
         sounds(baseBlock.getSoundGroup(baseBlock.defaultState))
+        instrument(baseBlock.defaultState.instrument)
         if (baseBlock.defaultState.isBurnable) burnable()
     }) {
     override val tag: TagKey<Block> = ModBlockTags.connectingLadders
