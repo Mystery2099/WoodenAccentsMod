@@ -33,6 +33,7 @@ class PlankLadderBlock(val baseBlock: Block) :
         hardness(Blocks.LADDER.hardness)
         resistance(Blocks.LADDER.blastResistance)
         sounds(baseBlock.getSoundGroup(baseBlock.defaultState))
+        if (baseBlock.defaultState.isBurnable) burnable()
     }), CustomItemGroupProvider {
     override val tag: TagKey<Block> = ModBlockTags.plankLadders
 

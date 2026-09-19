@@ -13,6 +13,7 @@ import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.CarpetBlock
+import net.minecraft.block.piston.PistonBehavior
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.Models
 import net.minecraft.data.client.TextureKey
@@ -25,9 +26,10 @@ import net.minecraft.registry.tag.TagKey
 import java.util.function.Consumer
 
 class CustomCarpetBlock(val baseBlock: Block) : CarpetBlock(
-    FabricBlockSettings.create().strength(0.1f).apply {
+    FabricBlockSettings.create().strength(0.1f).pistonBehavior(PistonBehavior.DESTROY).apply {
         mapColor(baseBlock.defaultMapColor)
         sounds(baseBlock.getSoundGroup(baseBlock.defaultState))
+        if (baseBlock.defaultState.isBurnable) burnable()
     }
 ), CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
 
