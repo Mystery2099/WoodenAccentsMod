@@ -35,6 +35,7 @@ import net.minecraft.loot.LootPool
 import net.minecraft.loot.LootTable
 import net.minecraft.loot.context.LootContext
 import net.minecraft.loot.context.LootContextParameters
+import net.minecraft.loot.context.LootContextParameterSet
 import net.minecraft.loot.entry.DynamicEntry
 import net.minecraft.loot.entry.ItemEntry
 import net.minecraft.loot.function.CopyNameLootFunction
@@ -117,14 +118,13 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
     }
 
     @Deprecated("Deprecated in Java")
-    override fun getDroppedStacks(state: BlockState?, builder: LootContext.Builder): List<ItemStack> {
-        var newBuilder: LootContext.Builder = builder
-        val blockEntity = newBuilder.getNullable(LootContextParameters.BLOCK_ENTITY)
+    @Suppress("DEPRECATION")
+    override fun getDroppedStacks(state: BlockState, builder: LootContextParameterSet.Builder): List<ItemStack> {
+        var newBuilder: LootContextParameterSet.Builder = builder
+        val blockEntity = newBuilder.getOptional(LootContextParameters.BLOCK_ENTITY)
         if (blockEntity is CrateBlockEntity) {
-            newBuilder = newBuilder.putDrop(
-                contents
-            ) { _: LootContext?, consumer: Consumer<ItemStack?> ->
-                for (i in 0..<blockEntity.size()) {
+            newBuilder = newBuilder.addDynamicDrop(contents) { consumer: Consumer<ItemStack> ->
+                for (i in 0 until blockEntity.size()) {
                     consumer.accept(blockEntity.getStack(i))
                 }
             }
@@ -146,6 +146,7 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
     }
 
     @Deprecated("Deprecated in Java")
+    @Suppress("DEPRECATION")
     override fun onStateReplaced(
         state: BlockState,
         world: World,
@@ -175,7 +176,7 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
                 var i : Short = 0
                 var j : Short = 0
                 for (itemStack in defaultedList) {
-                    if (itemStack.isEmpty()) continue
+                    if (itemStack.isEmpty) continue
                     ++j
                     if (i > 4) continue
                     ++i

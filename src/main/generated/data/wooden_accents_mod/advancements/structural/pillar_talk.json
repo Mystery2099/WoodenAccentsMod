@@ -1,0 +1,63 @@
+{
+  "parent": "wooden_accents_mod:structural/root",
+  "criteria": {
+    "on_thick_pillar": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "state": {
+                  "down": "true"
+                },
+                "tag": "wooden_accents_mod:thick_pillars"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:placed_block"
+    },
+    "on_thin_pillar": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "state": {
+                  "down": "true"
+                },
+                "tag": "wooden_accents_mod:thin_pillars"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:placed_block"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "text": "Connect pillars of any style into one seamless column"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "wooden_accents_mod:thin_oak_plank_pillar"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "Pillar Talk!"
+    }
+  },
+  "requirements": [
+    [
+      "on_thin_pillar",
+      "on_thick_pillar"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

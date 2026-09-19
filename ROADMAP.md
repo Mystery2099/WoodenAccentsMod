@@ -1,22 +1,24 @@
 # Wooden Accents roadmap
 
-I want to finish the existing 1.19.4 content before adding more blocks. These plans may change as I work on the mod.
+I want to keep the existing content working while moving Wooden Accents through newer Minecraft versions. These plans may change as I work on the mod.
 
-## Polish release
+## Minecraft 1.20.1 beta
 
-The current release work covers block connections, placement, storage, and seating fixes, along with clearer names, creative tabs, and advancements. Existing block and item IDs stay the same so old worlds keep working.
+The current beta ports the existing mod from 1.19.4 to 1.20.1. Existing block and item IDs stay the same so old worlds can be tested without a content migration.
 
-The renamed blocks are Picket Fence, Plank Flooring, and Narrow Bookshelf. Support Beam and the thin/thick pillar names stay as they are. The creative tabs are Furniture, Storage, and Building.
+Bamboo, cherry, and narrow bookshelf content no longer requires experimental feature flags. The beta needs testing with existing worlds, inventories, multiplayer, and optional storage-preview integrations before it can be considered stable.
 
 See the [changelog](CHANGELOG.md) for the changes and [release instructions](RELEASING.md) for the remaining checks. Larger performance changes can wait until profiling shows a need for them.
 
-## Possible Minecraft 1.21.1 port
+## Minecraft 1.20.6 port
 
-I'm considering a 1.21.1 port after the polish release. It would start with the same content as 1.19.4 before I add another big wave of features.
+The next planned target after the 1.20.1 beta is Minecraft 1.20.6. It will start with the same content before I add another large set of blocks.
 
-This needs a VoxLib update and testing of existing worlds, inventories, and storage-preview integrations. Cherry, bamboo, and chiseled-bookshelf content would no longer need experimental features. The newer data component system is one reason I'm leaning toward 1.21.1 instead of 1.20.1.
+This port will need dependency updates and migration to Minecraft's data component system. It is not part of the 1.20.1 beta.
 
-If 1.21.1 becomes the main version, I'd keep 1.19.4 updates to important fixes.
+## Future loader support
+
+I plan to investigate a multiloader setup after the version ports are in a good state. That conversion is future work and is not part of the 1.20.1 beta or the initial 1.20.6 port.
 
 ## Outdoor building ideas
 

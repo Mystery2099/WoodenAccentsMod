@@ -30,5 +30,6 @@
     "recipes": [
       "wooden_accents_mod:warped_desk"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

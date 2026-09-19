@@ -12,9 +12,9 @@ The release workflow publishes to GitHub Releases only. It does not upload anyth
 - Existing GitHub releases and tags are rejected instead of overwritten.
 - The publishing token is provided by GitHub Actions; there is no personal token to configure.
 
-## Testing for 1.19.4-1.1.4.0
+## Testing for 1.20.1-1.1.4.1 beta
 
-Mathew confirmed single-player testing passed, including the corrected ladder recipes, and chose to proceed without multiplayer testing. A dedicated development server reached a ready state and shut down cleanly with the release version. Multiplayer behavior, existing-world migration, and optional storage-preview integrations remain unverified. The local publishing dry run passed.
+The Gradle build and local `BETA` publishing dry run pass. A dedicated development server loads the mod, recipes, and advancements and reaches the ready state. Client gameplay, multiplayer behavior, existing-world migration, and optional storage-preview integrations remain unverified.
 
 In-game screenshots of mixed structural builds would improve the README's schematic examples, but are optional for this release. A custom seated pose is deferred.
 
@@ -41,7 +41,7 @@ The workflow builds the same remapped release and sources JARs used by a real re
 For a local dry run, use:
 
 ```bash
-./gradlew clean publishMods -PdryRun=true -PreleaseType=STABLE
+./gradlew clean publishMods -PdryRun=true -PreleaseType=BETA
 ```
 
 ## Publish
@@ -50,7 +50,7 @@ Once the release commit and dry run are both good:
 
 1. Open **Actions → Release → Run workflow**.
 2. Select the `master` branch.
-3. Choose `STABLE`, `BETA`, or `ALPHA`.
+3. Choose `BETA` for `1.20.1-1.1.4.1`.
 4. Disable **Dry run**.
 5. Enable **Confirm release**.
 6. Run the workflow.

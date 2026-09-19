@@ -61,12 +61,7 @@ import net.minecraft.world.event.GameEvent
 import java.util.function.Consumer
 
 class BracketShelfBlock(val baseBlock: Block) : AbstractWaterloggableBlock(
-    FabricBlockSettings.copyOf(baseBlock).nonOpaque().apply {
-        if (baseBlock.requiredFeatures.contains(FeatureFlags.UPDATE_1_20)) {
-            requires(FeatureFlags.UPDATE_1_20)
-        }
-    }
-), BlockEntityProvider, CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
+    FabricBlockSettings.copyOf(baseBlock).nonOpaque()), BlockEntityProvider, CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
 
     override val itemGroup = ModItemGroups.storage
     override val tag: TagKey<Block> = ModBlockTags.bracketShelves
@@ -90,6 +85,7 @@ class BracketShelfBlock(val baseBlock: Block) : AbstractWaterloggableBlock(
     }
 
     @Deprecated("Deprecated in Java")
+    @Suppress("DEPRECATION")
     override fun getStateForNeighborUpdate(
         state: BlockState,
         direction: Direction?,
@@ -306,6 +302,7 @@ class BracketShelfBlock(val baseBlock: Block) : AbstractWaterloggableBlock(
     }
 
     @Deprecated("Deprecated in Java")
+    @Suppress("DEPRECATION")
     override fun onStateReplaced(
         state: BlockState,
         world: World,

@@ -2,6 +2,21 @@
 
 This file tracks player-visible changes and anything maintainers need to know before publishing a release. Release headings must match `mod_version` in `gradle.properties` so the publishing workflow can use the section as its release notes.
 
+## [1.20.1-1.1.4.1] - 2026-09-18
+
+### Changed
+
+- Updated Wooden Accents from Minecraft 1.19.4 to 1.20.1.
+- Updated Fabric Loader, Fabric API, Fabric Language Kotlin, VoxLib, and optional mod compatibility for their 1.20.1 releases.
+- Made bamboo, cherry, and narrow bookshelf content available without experimental feature flags.
+- Updated creative tabs, block settings, loot handling, rendering hooks, and advancement criteria for Minecraft 1.20.1 APIs.
+
+### Fixed
+
+- Moved Wooden Accents advancements out of the `minecraft` namespace and into the mod's namespace.
+
+[Full changelog](https://github.com/Mystery2099/WoodenAccentsMod/compare/v1.19.4-1.1.4.0...v1.20.1-1.1.4.1)
+
 ## [1.19.4-1.1.4.0] - 2026-09-18
 
 ### Added

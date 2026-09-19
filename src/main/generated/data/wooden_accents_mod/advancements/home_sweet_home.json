@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:wooden_accents_mod/root",
+  "parent": "wooden_accents_mod:root",
   "criteria": {
     "has_all_categories": {
       "conditions": {
@@ -46,5 +46,6 @@
     [
       "has_all_categories"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

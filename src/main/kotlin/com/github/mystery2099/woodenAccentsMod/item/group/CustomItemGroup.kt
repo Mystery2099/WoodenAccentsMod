@@ -9,15 +9,25 @@ import net.minecraft.block.Block
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.registry.Registries
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
+import net.minecraft.text.Text
 
 /** A creative tab populated from blocks that opt into this group. */
 data class CustomItemGroup(val name: String) {
     init {
         mutableInstances += this
     }
-    val itemGroup: ItemGroup = FabricItemGroup.builder(name.toIdentifier()).apply {
-        icon { getEntries()[0] }
-    }.build()
+    val key: RegistryKey<ItemGroup> = RegistryKey.of(Registries.ITEM_GROUP.key, name.toIdentifier())
+    val itemGroup: ItemGroup = Registry.register(
+        Registries.ITEM_GROUP,
+        key,
+        FabricItemGroup.builder().apply {
+            icon { getEntries()[0] }
+            displayName(Text.translatable(name.toIdentifier().toTranslationKey()))
+        }.build()
+    )
 
     internal fun getEntries(): List<ItemStack> {
         val matchingItems = getBlocksWithMatchingItemGroup()

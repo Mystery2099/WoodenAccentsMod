@@ -18,14 +18,13 @@ import net.minecraft.resource.featuretoggle.FeatureFlags
 import java.util.function.Consumer
 
 class SimpleLadderBlock(val baseBlock: Block) :
-    AbstractCustomLadderBlock(FabricBlockSettings.of(baseBlock.defaultState.material, baseBlock.defaultMapColor).apply {
+    AbstractCustomLadderBlock(FabricBlockSettings.create().apply {
+        mapColor(baseBlock.defaultMapColor)
         hardness(Blocks.LADDER.hardness)
         resistance(Blocks.LADDER.blastResistance)
         sounds(baseBlock.getSoundGroup(baseBlock.defaultState))
-
-        if (baseBlock.requiredFeatures.contains(FeatureFlags.UPDATE_1_20)) {
-            requires(FeatureFlags.UPDATE_1_20)
-        }
+        instrument(baseBlock.defaultState.instrument)
+        if (baseBlock.defaultState.isBurnable) burnable()
     }) {
     override val tag: TagKey<Block> = ModBlockTags.simpleLadders
 

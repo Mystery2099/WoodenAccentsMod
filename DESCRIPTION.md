@@ -10,7 +10,7 @@ The goal isn't really to push one specific furniture style or completely change 
 
 ## What's Included?
 
-Wooden Accents adds a mix of furniture, storage, and structural blocks, with variants for every vanilla wood type available in Minecraft 1.19.4.
+Wooden Accents adds a mix of furniture, storage, and structural blocks, with variants for every vanilla wood type available in Minecraft 1.20.1.
 
 ### Furniture
 
@@ -71,15 +71,11 @@ Pretty much every block family has variants for every vanilla wood type availabl
 * Bamboo
 * Cherry
 
-Because Wooden Accents currently runs on **Minecraft 1.19.4**, bamboo, cherry, and content based on the chiseled bookshelf require the **Update 1.20 experimental features** to be enabled when creating the world.
-
-If those blocks seem to be missing, that's probably why.
-
 ## Compatibility
 
 Wooden Accents currently supports:
 
-* **Minecraft 1.19.4**
+* **Minecraft 1.20.1**
 * **Fabric**
 * **Java 17+**
 * Client and dedicated servers
@@ -101,19 +97,17 @@ Wooden Accents doesn't require these, but they make a few parts of the mod nicer
 
 ## Version Support & What's Next
 
-**1.19.4 is the main version of Wooden Accents right now.**
+**1.20.1 is the supported version of Wooden Accents right now.**
 
-I'm focused on getting the existing content into a state where it feels properly finished before moving on. That means fixing inconsistencies, cleaning up recipes and progression, improving names where needed, and generally making sure the current blocks behave the way they should.
+The 1.20.1 release is an intermediate compatibility port. It keeps the existing content working on a newer Minecraft version before development moves to 1.20.6.
 
-After that, I'm currently considering **Minecraft 1.21.1** as the next main version. I haven't fully committed to it yet, but it's looking more appealing than 1.20.1, especially since it gives me access to newer systems like data components.
+The next planned target is **Minecraft 1.20.6**. I will port the existing content before adding another large set of blocks.
 
-If I do move to 1.21.1, the plan would be to get the existing Wooden Accents content working there first before adding another big wave of features.
-
-I also don't really want to properly maintain a bunch of active Minecraft versions at once. Once development moves forward, older versions will most likely stay available and only receive important bug fixes.
+I don't plan to maintain many active Minecraft versions at once. Once development moves forward, older versions will stay available and receive only important fixes.
 
 After the port, I do have ideas for more stuff, including things like **modular bridges and benches**, but the roadmap is intentionally more of a direction than a promise. Plans tend to change once I actually start implementing them.
 
-Basically, I'd rather have one version that feels finished than five half-maintained versions.
+I'd rather have one current version that feels finished than several half-maintained versions.
 
 You can follow the current plans here:
 

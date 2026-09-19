@@ -1,0 +1,63 @@
+{
+  "parent": "wooden_accents_mod:decor/desk",
+  "criteria": {
+    "left_corner": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "state": {
+                  "shape": "left_corner"
+                },
+                "tag": "wooden_accents_mod:desks"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:placed_block"
+    },
+    "right_corner": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "state": {
+                  "shape": "right_corner"
+                },
+                "tag": "wooden_accents_mod:desks"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:placed_block"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "text": "Connect desks around a corner for an L-shaped workspace"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "wooden_accents_mod:oak_desk"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "Corner Office!"
+    }
+  },
+  "requirements": [
+    [
+      "left_corner",
+      "right_corner"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

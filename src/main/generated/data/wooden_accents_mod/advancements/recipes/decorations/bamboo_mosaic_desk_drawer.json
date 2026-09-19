@@ -28,5 +28,6 @@
     "recipes": [
       "wooden_accents_mod:bamboo_mosaic_desk_drawer"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

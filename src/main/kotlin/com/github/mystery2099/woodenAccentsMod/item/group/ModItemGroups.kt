@@ -14,7 +14,7 @@ object ModItemGroups : WoodenAccentsModRegistry {
 
     override fun register() {
         CustomItemGroup.instances.forEach { group ->
-            ItemGroupEvents.modifyEntriesEvent(group.get()).register { group.getEntries().forEach(it::add) }
+            ItemGroupEvents.modifyEntriesEvent(group.key).register { group.getEntries().forEach(it::add) }
         }
         super.register()
     }

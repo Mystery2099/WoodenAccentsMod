@@ -10,10 +10,10 @@ import com.github.mystery2099.woodenAccentsMod.render.BracketShelfBlockEntityRen
 import com.github.mystery2099.woodenAccentsMod.render.SeatRenderer
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
-import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
 import net.minecraft.client.item.ModelPredicateProviderRegistry
 import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactories
 import net.minecraft.util.Identifier
 
 object WoodenAccentsModClient : ClientModInitializer {
@@ -31,7 +31,7 @@ object WoodenAccentsModClient : ClientModInitializer {
 			}
 		}
 		EntityRendererRegistry.register(ModEntities.seatEntity, ::SeatRenderer)
-		BlockEntityRendererRegistry.register(ModBlockEntities.bracketShelf, ::BracketShelfBlockEntityRenderer)
+		BlockEntityRendererFactories.register(ModBlockEntities.bracketShelf, ::BracketShelfBlockEntityRenderer)
 	}
 
 }

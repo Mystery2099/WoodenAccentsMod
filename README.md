@@ -6,7 +6,7 @@ Vanilla-scale furniture and structural accents for every wood type.
 
 ## About
 
-Wooden Accents adds wooden furniture, storage, and building blocks for Minecraft 1.19.4 on Fabric. I want the pieces to be simple, useful where it makes sense, and easy to work into your own builds.
+Wooden Accents adds wooden furniture, storage, and building blocks for Minecraft 1.20.1 on Fabric. I want the pieces to be simple, useful where it makes sense, and easy to work into your own builds.
 
 ![Default chairs](docs/images/chairs-default.webp)
 
@@ -50,7 +50,7 @@ Block tags define many of these connections, so data packs can change which bloc
 - Support beams that connect in all six directions
 - Thin and thick pillars that connect vertically
 
-Every block has a variant for each vanilla wood type in 1.19.4, including bamboo, cherry, crimson, and warped wood. In Minecraft 1.19.4, bamboo and cherry variants and narrow bookshelves require the Update 1.20 experimental features to be enabled in the world.
+Every block has a variant for each vanilla wood type in 1.20.1, including bamboo, cherry, crimson, and warped wood.
 
 ## Using the blocks
 
@@ -68,7 +68,7 @@ Picket fences, plank flooring, and narrow bookshelves previously had names based
 
 ![Default picket fences](docs/images/fences-default.webp)
 
-*Picket fences and fence gates without experimental features*
+*Picket fences and fence gates*
 
 ![Narrow bookshelves](docs/images/thin-bookshelves.webp)
 
@@ -76,21 +76,21 @@ Picket fences, plank flooring, and narrow bookshelves previously had names based
 
 ![Experimental chairs](docs/images/chairs-experimental.webp)
 
-*Chairs unlocked when experimental features are enabled*
+*Bamboo and cherry chairs*
 
 ![Experimental crates](docs/images/crates-experimental.webp)
 
-*Extra crates unlocked when experimental features are enabled*
+*Bamboo and cherry crates*
 
 ![Experimental picket fences](docs/images/fences-experimental.png)
 
-*Picket fences and fence gates unlocked when experimental features are enabled*
+*Bamboo and cherry picket fences and fence gates*
 
 ## Compatibility
 
 | | |
 |---|---|
-| Minecraft | 1.19.4 only |
+| Minecraft | 1.20.1 only |
 | Loader | Fabric (client and server) |
 | Java | 17 or newer |
 
@@ -98,19 +98,19 @@ Picket fences, plank flooring, and narrow bookshelves previously had names based
 
 **Required**
 
-- [Fabric Loader 0.19.3 or newer](https://fabricmc.net/use/installer/)
-- [Fabric API 0.87.2+1.19.4 or newer](https://modrinth.com/mod/fabric-api)
-- [Fabric Language Kotlin 1.13.13+kotlin.2.4.10 or newer](https://modrinth.com/mod/fabric-language-kotlin)
-- [VoxLib 1.6.1+1.19.4 or newer](https://modrinth.com/mod/voxlib)
+- [Fabric Loader 0.19.5 or newer](https://fabricmc.net/use/installer/)
+- [Fabric API 0.92.12+1.20.1 or newer](https://modrinth.com/mod/fabric-api)
+- [Fabric Language Kotlin 1.14.1+kotlin.2.4.20 or newer](https://modrinth.com/mod/fabric-language-kotlin)
+- [VoxLib 1.6.1+1.20.1 or newer](https://modrinth.com/mod/voxlib)
 
 **Optional / recommended**
 
-- [Shulker Box Tooltip 3.4.5+1.19.4 or newer](https://modrinth.com/mod/shulkerboxtooltip) or [Easy Shulker Boxes](https://modrinth.com/mod/easy-shulker-boxes) for crate inventory previews
+- [Shulker Box Tooltip 4.0.4+1.20.1 or newer](https://modrinth.com/mod/shulkerboxtooltip) or [Easy Shulker Boxes](https://modrinth.com/mod/easy-shulker-boxes) for crate inventory previews
 - [Just Enough Items](https://modrinth.com/mod/jei) or [Roughly Enough Items](https://modrinth.com/mod/rei) for recipes
 
 ## Installation
 
-1. Install Fabric Loader 0.19.3 or newer for Minecraft 1.19.4.
+1. Install Fabric Loader 0.19.5 or newer for Minecraft 1.20.1.
 2. Install the required dependencies above (Modrinth usually pulls them in for you).
 3. Download Wooden Accents from Modrinth, CurseForge, or [GitHub Releases](https://github.com/Mystery2099/WoodenAccentsMod/releases).
 4. Put the mod JARs in your Minecraft `mods` folder.
@@ -122,8 +122,6 @@ If Minecraft reports a missing or incompatible dependency, use the version named
 **Can I use this in a modpack?** Yes. Credit and a link back are appreciated.
 
 **Where are the recipes?** In JEI or REI, same as any other mod.
-
-**Why are bamboo, cherry, or narrow bookshelf variants missing?** Enable the Update 1.20 experimental features when creating the world.
 
 ## Development
 

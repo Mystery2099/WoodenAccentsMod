@@ -36,13 +36,13 @@ import java.util.function.Consumer
 
 class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(run {
     if (baseBlock !is PillarBlock) FabricBlockSettings.copyOf(baseBlock)
-    else FabricBlockSettings.of(baseBlock.defaultState.material, baseBlock.defaultMapColor).apply {
+    else FabricBlockSettings.create().apply {
+        mapColor(baseBlock.defaultMapColor)
         hardness(baseBlock.hardness)
         resistance(baseBlock.blastResistance)
         sounds(baseBlock.getSoundGroup(baseBlock.defaultState))
-        if (baseBlock.requiredFeatures.contains(FeatureFlags.UPDATE_1_20)) {
-            requires(FeatureFlags.UPDATE_1_20)
-        }
+        instrument(baseBlock.defaultState.instrument)
+        if (baseBlock.defaultState.isBurnable) burnable()
     }
 }), CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.supportBeams

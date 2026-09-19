@@ -30,5 +30,6 @@
     "recipes": [
       "wooden_accents_mod:acacia_plank_ladder"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

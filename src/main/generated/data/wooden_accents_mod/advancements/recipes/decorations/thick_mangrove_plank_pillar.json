@@ -30,5 +30,6 @@
     "recipes": [
       "wooden_accents_mod:thick_mangrove_plank_pillar"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

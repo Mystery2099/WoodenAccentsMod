@@ -30,5 +30,6 @@
     "recipes": [
       "wooden_accents_mod:mangrove_kitchen_counter"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -1,0 +1,82 @@
+{
+  "parent": "wooden_accents_mod:structural/root",
+  "criteria": {
+    "linked_center": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "state": {
+                  "shape": "center"
+                },
+                "tag": "wooden_accents_mod:connecting_ladders"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:placed_block"
+    },
+    "linked_left": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "state": {
+                  "shape": "left"
+                },
+                "tag": "wooden_accents_mod:connecting_ladders"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:placed_block"
+    },
+    "linked_right": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "state": {
+                  "shape": "right"
+                },
+                "tag": "wooden_accents_mod:connecting_ladders"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:placed_block"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "text": "Link connecting ladders together to climb across walls"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "wooden_accents_mod:stripped_oak_ladder"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "Going Sideways!"
+    }
+  },
+  "requirements": [
+    [
+      "linked_center",
+      "linked_left",
+      "linked_right"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

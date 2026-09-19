@@ -1,21 +1,21 @@
 {
-  "parent": "minecraft:wooden_accents_mod/structural/root",
+  "parent": "wooden_accents_mod:structural/root",
   "criteria": {
-    "has_thick_pillar": {
+    "has_modern_fence": {
       "conditions": {
         "items": [
           {
-            "tag": "wooden_accents_mod:thick_pillars"
+            "tag": "wooden_accents_mod:modern_fences"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_thin_pillar": {
+    "has_modern_fence_gate": {
       "conditions": {
         "items": [
           {
-            "tag": "wooden_accents_mod:thin_pillars"
+            "tag": "wooden_accents_mod:modern_fence_gates"
           }
         ]
       },
@@ -25,24 +25,25 @@
   "display": {
     "announce_to_chat": false,
     "description": {
-      "text": "Craft a Thin Pillar for a slim look and a Thick Pillar for a bolder design"
+      "text": "Craft a picket fence and a matching picket fence gate"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "wooden_accents_mod:thin_oak_plank_pillar"
+      "item": "wooden_accents_mod:modern_oak_fence"
     },
     "show_toast": true,
     "title": {
-      "text": "Reach for the Sky!"
+      "text": "Time to Modernize!"
     }
   },
   "requirements": [
     [
-      "has_thin_pillar"
+      "has_modern_fence"
     ],
     [
-      "has_thick_pillar"
+      "has_modern_fence_gate"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

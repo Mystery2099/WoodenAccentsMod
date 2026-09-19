@@ -1,11 +1,11 @@
 {
-  "parent": "minecraft:wooden_accents_mod/root",
+  "parent": "wooden_accents_mod:root",
   "criteria": {
-    "has_support_beam": {
+    "has_crate": {
       "conditions": {
         "items": [
           {
-            "tag": "wooden_accents_mod:support_beams"
+            "tag": "wooden_accents_mod:crates"
           }
         ]
       },
@@ -15,21 +15,22 @@
   "display": {
     "announce_to_chat": false,
     "description": {
-      "text": "Craft Supports to reinforce your structures and connect them in different directions for added stability"
+      "text": "Craft a Crate for portable storage"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "wooden_accents_mod:oak_support_beam"
+      "item": "wooden_accents_mod:oak_crate"
     },
     "show_toast": true,
     "title": {
-      "text": "Build it Strong!"
+      "text": "I can't believe it's not a Shulker Box!"
     }
   },
   "requirements": [
     [
-      "has_support_beam"
+      "has_crate"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

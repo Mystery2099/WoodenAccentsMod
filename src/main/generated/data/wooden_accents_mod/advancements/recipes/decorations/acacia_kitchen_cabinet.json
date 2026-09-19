@@ -28,5 +28,6 @@
     "recipes": [
       "wooden_accents_mod:acacia_kitchen_cabinet"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }
