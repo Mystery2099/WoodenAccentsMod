@@ -444,5 +444,5 @@ class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(
 
     /** Matches a block state property against the serialized name of its value. */
     private fun StatePropertiesPredicate.Builder.exactMatch(property: net.minecraft.world.level.block.state.properties.Property<*>, value: Any?) =
-        hasProperty(property, value.toString())
+        hasProperty(property, (value as? net.minecraft.util.StringRepresentable)?.getSerializedName() ?: value.toString())
 }

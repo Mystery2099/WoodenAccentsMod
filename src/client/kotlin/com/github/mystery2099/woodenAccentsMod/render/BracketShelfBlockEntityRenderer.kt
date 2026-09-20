@@ -40,7 +40,7 @@ class BracketShelfBlockEntityRenderer(context: BlockEntityRendererProvider.Conte
             if (stack.isEmpty) continue
 
             val model = itemRenderer.getModel(stack, world, null, slot)
-            val scale = if (model.usesBlockLight()) BLOCK_ITEM_SCALE else FLAT_ITEM_SCALE
+            val scale = if (model.isGui3d) BLOCK_ITEM_SCALE else FLAT_ITEM_SCALE
 
             // Distance from the block's center along the shelf's left (-) axis.
             val slotOffset = (1.0 - slot) / slotsCount

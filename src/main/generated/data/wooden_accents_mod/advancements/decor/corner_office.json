@@ -9,7 +9,7 @@
             "predicate": {
               "block": {
                 "state": {
-                  "shape": "LEFT_CORNER"
+                  "shape": "left_corner"
                 },
                 "tag": "wooden_accents_mod:desks"
               }
@@ -27,7 +27,7 @@
             "predicate": {
               "block": {
                 "state": {
-                  "shape": "RIGHT_CORNER"
+                  "shape": "right_corner"
                 },
                 "tag": "wooden_accents_mod:desks"
               }
