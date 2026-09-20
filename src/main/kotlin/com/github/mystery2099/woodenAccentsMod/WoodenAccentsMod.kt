@@ -5,10 +5,10 @@ import com.github.mystery2099.woodenAccentsMod.block.entity.ModBlockEntities
 import com.github.mystery2099.woodenAccentsMod.entity.ModEntities
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
 import net.fabricmc.api.ModInitializer
-import net.minecraft.block.Block
-import net.minecraft.block.Blocks
-import net.minecraft.block.WoodType
-import net.minecraft.util.Identifier
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.state.properties.WoodType
+import net.minecraft.resources.ResourceLocation
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -25,9 +25,9 @@ object WoodenAccentsMod : ModInitializer {
         ModItemGroups.register()
     }
 
-    fun String.toIdentifier(namespace: String = MOD_ID): Identifier = Identifier(namespace, this)
+    fun String.toIdentifier(namespace: String = MOD_ID): ResourceLocation = ResourceLocation(namespace, this)
 
-    fun Identifier.withBlockModelPath(): Identifier = this.withPrefixedPath("block/")
+    fun ResourceLocation.withBlockModelPath(): ResourceLocation = this.withPrefix("block/")
 
     /**
      * Maps vanilla wood types to their plank blocks. Unknown or modded types fall back to oak because

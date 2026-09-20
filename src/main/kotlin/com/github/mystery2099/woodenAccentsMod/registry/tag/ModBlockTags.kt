@@ -1,12 +1,12 @@
 package com.github.mystery2099.woodenAccentsMod.registry.tag
 
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.item.Item
-import net.minecraft.registry.RegistryKeys
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.util.Identifier
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.item.Item
+import net.minecraft.core.registries.Registries
+import net.minecraft.tags.TagKey
+import net.minecraft.resources.ResourceLocation
 
 
 object ModBlockTags {
@@ -59,19 +59,19 @@ object ModBlockTags {
 
     val chairs = "chairs".toBlockTag().createMatchingItemTag()
     private fun String.toBlockTag(namespace: String = WoodenAccentsMod.MOD_ID): TagKey<Block> {
-        return TagKey.of(RegistryKeys.BLOCK, Identifier(namespace, this))
+        return TagKey.create(Registries.BLOCK, ResourceLocation(namespace, this))
     }
 
     /** Records a same-ID item tag for data generation and returns this block tag unchanged. */
     private fun TagKey<Block>.createMatchingItemTag() = also {
-        _blockToItemTagMap[this] = TagKey.of(RegistryKeys.ITEM, this.id)
+        _blockToItemTagMap[this] = TagKey.create(Registries.ITEM, location())
     }
 
     /** Treats a missing state as a non-match. */
-    operator fun TagKey<Block>?.contains(blockState: BlockState?) = blockState?.isIn(this) ?: false
+    operator fun TagKey<Block>?.contains(blockState: BlockState?) = blockState?.`is`(this) ?: false
 
     /** Falls back to a same-ID item tag for block tags that were not registered above. */
     fun getItemTagFrom(blockTag: TagKey<Block>): TagKey<Item> {
-        return _blockToItemTagMap[blockTag] ?: TagKey.of(RegistryKeys.ITEM, blockTag.id)
+        return _blockToItemTagMap[blockTag] ?: TagKey.create(Registries.ITEM, blockTag.location())
     }
 }

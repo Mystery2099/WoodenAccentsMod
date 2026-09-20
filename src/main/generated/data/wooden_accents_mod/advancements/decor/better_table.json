@@ -9,7 +9,7 @@
             "predicate": {
               "block": {
                 "state": {
-                  "type": "tall"
+                  "type": "TALL"
                 },
                 "tag": "wooden_accents_mod:coffee_tables"
               }

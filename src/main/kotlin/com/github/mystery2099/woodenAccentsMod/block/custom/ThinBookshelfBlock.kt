@@ -19,63 +19,67 @@ import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.util.WhenUtil
 import com.github.mystery2099.woodenAccentsMod.util.WhenUtil.allOf
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
-import net.minecraft.block.*
-import net.minecraft.data.client.*
-import net.minecraft.data.server.recipe.RecipeJsonProvider
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
-import net.minecraft.recipe.Ingredient
-import net.minecraft.recipe.book.RecipeCategory
-import net.minecraft.registry.tag.ItemTags
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.resource.featuretoggle.FeatureFlags
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
-import net.minecraft.world.BlockView
+import net.minecraft.world.level.block.*
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.data.models.*
+import net.minecraft.data.models.blockstates.*
+import net.minecraft.data.models.model.*
+import net.minecraft.data.recipes.FinishedRecipe
+import net.minecraft.data.recipes.ShapedRecipeBuilder
+import net.minecraft.world.item.crafting.Ingredient
+import net.minecraft.data.recipes.RecipeCategory
+import net.minecraft.tags.ItemTags
+import net.minecraft.tags.TagKey
+import net.minecraft.world.flag.FeatureFlags
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.world.phys.shapes.VoxelShape
+import net.minecraft.world.phys.shapes.Shapes
+import net.minecraft.world.level.BlockGetter
 import java.util.function.Consumer
 
 class ThinBookshelfBlock(val baseBlock: Block) :
-    ChiseledBookshelfBlock(FabricBlockSettings.copyOf(baseBlock)),
+    ChiseledBookShelfBlock(FabricBlockSettings.copyOf(baseBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
 
     override val tag: TagKey<Block> = ModBlockTags.thinBookshelves
     override val itemGroup: CustomItemGroup = ModItemGroups.storage
 
     @Deprecated("Deprecated in Java")
-    override fun getOutlineShape(
+    override fun getShape(
         state: BlockState,
-        world: BlockView?,
+        world: BlockGetter?,
         pos: BlockPos?,
-        context: ShapeContext?
-    ): VoxelShape = when (state.get(HorizontalFacingBlock.FACING)) {
+        context: CollisionContext?
+    ): VoxelShape = when (state.getValue(HorizontalDirectionalBlock.FACING)) {
         Direction.NORTH -> northShape
         Direction.EAST -> eastShape
         Direction.SOUTH -> southShape
         Direction.WEST -> westShape
-        else -> VoxelShapes.fullCube()
+        else -> Shapes.block()
     }
 
-    override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 2).apply {
-            input('#', baseBlock)
-            input('_', Ingredient.fromTag(ItemTags.WOODEN_SLABS))
+    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, 2).apply {
+            define('#', baseBlock)
+            define('_', Ingredient.of(ItemTags.WOODEN_SLABS))
             pattern("##")
             pattern("__")
             pattern("##")
             group("thin_bookshelves")
             requires(baseBlock)
-            offerTo(exporter)
+            save(exporter)
         }
     }
 
-    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
-        MultipartBlockStateSupplier.create(this).apply {
-            TextureMap.all(baseBlock).let { map ->
-                ModModels.thinBookshelfItem.upload(this@ThinBookshelfBlock.itemModelId, map, generator.modelCollector)
+    override fun generateBlockStateModels(generator: BlockModelGenerators) {
+        MultiPartGenerator.multiPart(this).apply {
+            TextureMapping.cube(baseBlock).let { map ->
+                ModModels.thinBookshelfItem.create(this@ThinBookshelfBlock.itemModelId, map, generator.modelOutput)
 
                 val bookshelfModel =
-                    ModModels.thinBookshelfBlock.upload(this@ThinBookshelfBlock, map, generator.modelCollector)
+                    ModModels.thinBookshelfBlock.create(this@ThinBookshelfBlock, map, generator.modelOutput)
 
                 val slotModels = arrayOf(
                     ModModels.thinBookshelfSlot0,
@@ -94,21 +98,21 @@ class ThinBookshelfBlock(val baseBlock: Block) :
                 val variants = Array(4) { bookshelfModel.asBlockStateVariant() }
                 val slotVariants = Array(6) { i ->
                     Array(4) {
-                        slotModels[i].asBlockStateVariant().withYRotationOf(VariantSettings.Rotation.entries[it])
+                        slotModels[i].asBlockStateVariant().withYRotationOf(VariantProperties.Rotation.entries[it])
                     }
                 }
 
                 for (i in directions.indices) {
-                    with(directions[i], variants[i].withYRotationOf(VariantSettings.Rotation.entries[i]))
+                    with(directions[i], variants[i].withYRotationOf(VariantProperties.Rotation.entries[i]))
                     for (j in slotVariants.indices) {
                         with(
-                            allOf(directions[i], When.create().set(SLOT_OCCUPIED_PROPERTIES[j], true)),
+                            allOf(directions[i], Condition.condition().term(SLOT_OCCUPIED_PROPERTIES[j], true)),
                             slotVariants[j][i]
                         )
                     }
                 }
             }
-        }.also { generator.blockStateCollector.accept(it) }
+        }.also { generator.blockStateOutput.accept(it) }
     }
 
     companion object {

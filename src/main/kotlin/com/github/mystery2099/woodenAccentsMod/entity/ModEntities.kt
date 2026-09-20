@@ -4,14 +4,14 @@ import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.toIdentifier
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsModRegistry
 import com.github.mystery2099.woodenAccentsMod.entity.custom.SeatEntity
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricEntityTypeBuilder
-import net.minecraft.entity.EntityDimensions
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.SpawnGroup
-import net.minecraft.registry.Registries
-import net.minecraft.registry.Registry
+import net.minecraft.world.entity.EntityDimensions
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.MobCategory
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.Registry
 
 object ModEntities : WoodenAccentsModRegistry {
-    val seatEntity: EntityType<SeatEntity> = FabricEntityTypeBuilder.create(SpawnGroup.MISC) { type, world ->
+    val seatEntity: EntityType<SeatEntity> = FabricEntityTypeBuilder.create(MobCategory.MISC) { type, world ->
         SeatEntity(
             type,
             world
@@ -22,7 +22,7 @@ object ModEntities : WoodenAccentsModRegistry {
     .build()
 
     override fun register() {
-        Registry.register(Registries.ENTITY_TYPE, "seat".toIdentifier(), seatEntity)
+        Registry.register(BuiltInRegistries.ENTITY_TYPE, "seat".toIdentifier(), seatEntity)
         super.register()
     }
 }

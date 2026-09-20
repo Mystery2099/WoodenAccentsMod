@@ -1,24 +1,24 @@
 package com.github.mystery2099.woodenAccentsMod.screen
 
 import com.github.mystery2099.woodenAccentsMod.screen.slot.CrateSlot
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.PlayerInventory
-import net.minecraft.inventory.Inventory
-import net.minecraft.inventory.SimpleInventory
-import net.minecraft.item.ItemStack
-import net.minecraft.screen.ScreenHandler
-import net.minecraft.screen.ScreenHandlerType
-import net.minecraft.screen.slot.Slot
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.entity.player.Inventory
+import net.minecraft.world.Container
+import net.minecraft.world.SimpleContainer
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.inventory.AbstractContainerMenu
+import net.minecraft.world.inventory.MenuType
+import net.minecraft.world.inventory.Slot
 
 class CrateScreenHandler @JvmOverloads constructor(
     syncId: Int,
-    playerInventory: PlayerInventory,
-    private val inventory: Inventory = SimpleInventory(9)
-) : ScreenHandler(ScreenHandlerType.GENERIC_3X3, syncId) {
+    playerInventory: Inventory,
+    private val inventory: Container = SimpleContainer(9)
+) : AbstractContainerMenu(MenuType.GENERIC_3x3, syncId) {
 
     init {
-        checkSize(inventory, 9)
-        inventory.onOpen(playerInventory.player)
+        checkContainerSize(inventory, 9)
+        inventory.startOpen(playerInventory.player)
         for (i in 0 until 3) for (j in 0 until 3) {
             addSlot(CrateSlot(inventory, j + i * 3, 62 + j * 18, 17 + i * 18))
         }
@@ -30,28 +30,27 @@ class CrateScreenHandler @JvmOverloads constructor(
         }
     }
 
-    override fun canUse(player: PlayerEntity): Boolean = inventory.canPlayerUse(player)
-    override fun canInsertIntoSlot(stack: ItemStack, slot: Slot): Boolean = slot.canInsert(stack)
-    override fun quickMove(player: PlayerEntity, slot: Int): ItemStack {
+    override fun stillValid(player: Player): Boolean = inventory.stillValid(player)
+    override fun canTakeItemForPickAll(stack: ItemStack, slot: Slot): Boolean = slot.mayPlace(stack)
+    override fun quickMoveStack(player: Player, slot: Int): ItemStack {
         var itemStack = ItemStack.EMPTY
         val slot2 = this.slots[slot]
-        if (slot2.hasStack()) {
-            val itemStack2 = slot2.stack
+        if (slot2.hasItem()) {
+            val itemStack2 = slot2.item
             itemStack = itemStack2.copy()
             if (!when {
-                    slot < this.inventory.size() -> insertItem(itemStack2, this.inventory.size(), this.slots.size, true)
-                    else -> insertItem(itemStack2, 0, this.inventory.size(), false)
+                    slot < this.inventory.containerSize -> moveItemStackTo(itemStack2, this.inventory.containerSize, this.slots.size, true)
+                    else -> moveItemStackTo(itemStack2, 0, this.inventory.containerSize, false)
                 }
             ) return ItemStack.EMPTY
-            if (itemStack2.isEmpty) slot2.stack = ItemStack.EMPTY
-            else slot2.markDirty()
+            if (itemStack2.isEmpty) slot2.set(ItemStack.EMPTY)
+            else slot2.setChanged()
         }
         return itemStack
     }
 
-    override fun onClosed(player: PlayerEntity) {
-        super.onClosed(player)
-        inventory.onClose(player)
+    override fun removed(player: Player) {
+        super.removed(player)
+        inventory.stopOpen(player)
     }
 }
-

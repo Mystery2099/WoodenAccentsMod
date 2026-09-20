@@ -11,27 +11,27 @@ import com.github.mystery2099.woodenAccentsMod.render.SeatRenderer
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
-import net.minecraft.client.item.ModelPredicateProviderRegistry
-import net.minecraft.client.render.RenderLayer
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactories
-import net.minecraft.util.Identifier
+import net.minecraft.client.renderer.RenderType
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers
+import net.minecraft.client.renderer.item.ItemProperties
+import net.minecraft.resources.ResourceLocation
 
 object WoodenAccentsModClient : ClientModInitializer {
     override fun onInitializeClient() {
         BlockRenderLayerMap.INSTANCE.apply {
             ModBlocks.blocks.filterIsInstance<SimpleLadderBlock>().forEach {
-                putBlock(it, RenderLayer.getCutout())
+                putBlock(it, RenderType.cutout())
             }
         }
 		ModBlocks.blocks.filterIsInstance<CoffeeTableBlock>().forEach {
-			ModelPredicateProviderRegistry.register(
-				it.asItem(), Identifier("height")
+			ItemProperties.register(
+				it.asItem(), ResourceLocation("height")
 			) { itemStack, _, _, _ ->
-				if (itemStack.nbt?.getString(CoffeeTableTypes.TAG) != CoffeeTableTypes.TALL.asString()) 0.5f else 1.0f
+				if (itemStack.tag?.getString(CoffeeTableTypes.TAG) != CoffeeTableTypes.TALL.getSerializedName()) 0.5f else 1.0f
 			}
 		}
 		EntityRendererRegistry.register(ModEntities.seatEntity, ::SeatRenderer)
-		BlockEntityRendererFactories.register(ModBlockEntities.bracketShelf, ::BracketShelfBlockEntityRenderer)
+		BlockEntityRenderers.register(ModBlockEntities.bracketShelf, ::BracketShelfBlockEntityRenderer)
 	}
 
 }

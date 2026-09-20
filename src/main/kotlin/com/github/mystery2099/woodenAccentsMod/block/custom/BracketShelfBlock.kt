@@ -20,110 +20,112 @@ import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.Custom
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
-import net.minecraft.block.*
-import net.minecraft.block.entity.BlockEntity
-import net.minecraft.data.client.BlockStateModelGenerator
-import net.minecraft.data.client.MultipartBlockStateSupplier
-import net.minecraft.data.client.TextureMap
-import net.minecraft.data.client.VariantSettings
-import net.minecraft.data.client.When
-import net.minecraft.data.server.recipe.RecipeJsonProvider
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.PlayerInventory
-import net.minecraft.item.ItemPlacementContext
-import net.minecraft.item.ItemStack
-import net.minecraft.item.ItemUsage
-import net.minecraft.item.Items
-import net.minecraft.recipe.book.RecipeCategory
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.resource.featuretoggle.FeatureFlags
-import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvents
-import net.minecraft.state.StateManager
-import net.minecraft.state.property.BooleanProperty
-import net.minecraft.state.property.Properties
-import net.minecraft.server.world.ServerWorld
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.util.ItemScatterer
-import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.util.math.random.Random
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
-import net.minecraft.world.BlockView
-import net.minecraft.world.World
-import net.minecraft.world.WorldAccess
-import net.minecraft.world.WorldView
-import net.minecraft.world.event.GameEvent
+import net.minecraft.world.level.block.*
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.data.models.BlockModelGenerators
+import net.minecraft.data.models.blockstates.MultiPartGenerator
+import net.minecraft.data.models.model.TextureMapping
+import net.minecraft.data.models.blockstates.VariantProperties
+import net.minecraft.data.models.blockstates.Condition
+import net.minecraft.data.recipes.FinishedRecipe
+import net.minecraft.data.recipes.ShapedRecipeBuilder
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.entity.player.Inventory
+import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.ItemUtils
+import net.minecraft.world.item.Items
+import net.minecraft.data.recipes.RecipeCategory
+import net.minecraft.tags.TagKey
+import net.minecraft.world.flag.FeatureFlags
+import net.minecraft.sounds.SoundSource
+import net.minecraft.sounds.SoundEvents
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.BooleanProperty
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.Containers
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.util.RandomSource
+import net.minecraft.world.phys.shapes.VoxelShape
+import net.minecraft.world.phys.shapes.Shapes
+import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.LevelAccessor
+import net.minecraft.world.level.LevelReader
+import net.minecraft.world.level.gameevent.GameEvent
 import java.util.function.Consumer
 
 class BracketShelfBlock(val baseBlock: Block) : AbstractWaterloggableBlock(
-    FabricBlockSettings.copyOf(baseBlock).nonOpaque()), BlockEntityProvider, CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
+    FabricBlockSettings.copyOf(baseBlock).nonOpaque()), EntityBlock, CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
 
     override val itemGroup = ModItemGroups.storage
     override val tag: TagKey<Block> = ModBlockTags.bracketShelves
 
     init {
-        defaultState = defaultState.with {
+        registerDefaultState(defaultBlockState().with {
             facing to Direction.NORTH
             left to false
             right to false
-        }
+        })
     }
 
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        super.appendProperties(builder)
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
+        super.createBlockStateDefinition(builder)
         builder.add(facing, left, right)
     }
 
-    override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
-        val placementFacing = if (ctx.side.axis.isHorizontal) ctx.side else ctx.horizontalPlayerFacing.opposite
-        return super.getPlacementState(ctx).with(facing, placementFacing).withBracketVisibility(ctx.world, ctx.blockPos)
+    override fun getStateForPlacement(ctx: BlockPlaceContext): BlockState {
+        val placementFacing = if (ctx.clickedFace.axis.isHorizontal) ctx.clickedFace else ctx.horizontalDirection.opposite
+        return super.getStateForPlacement(ctx).setValue(facing, placementFacing).withBracketVisibility(ctx.level, ctx.clickedPos)
     }
 
     @Deprecated("Deprecated in Java")
     @Suppress("DEPRECATION")
-    override fun getStateForNeighborUpdate(
+    override fun updateShape(
         state: BlockState,
         direction: Direction?,
         neighborState: BlockState?,
-        world: WorldAccess,
+        world: LevelAccessor,
         pos: BlockPos,
         neighborPos: BlockPos?
     ): BlockState {
-        val updated = super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
-        // Pop off when the mount is removed, like vanilla ladders. Contents are
-        // scattered in onStateReplaced.
-        if (direction == updated[facing].opposite && !updated.canPlaceAt(world, pos)) {
-            return Blocks.AIR.defaultState
+        val updated = super.updateShape(state, direction, neighborState, world, pos, neighborPos)
+        // Pop off when the mount is removed, like vanilla ladders. Content are
+        // scattered in onRemove.
+        if (direction == updated.getValue(facing).opposite && !updated.canSurvive(world, pos)) {
+            return Blocks.AIR.defaultBlockState()
         }
         if (direction?.axis?.isHorizontal == true) {
-            world.scheduleBlockTick(pos, this, 1)
+            world.scheduleTick(pos, this, 1)
         }
         return updated
     }
 
-    private fun BlockState.withBracketVisibility(world: WorldAccess, pos: BlockPos): BlockState {
-        val leftDirection = this[facing].rotateYCounterclockwise()
+    private fun BlockState.withBracketVisibility(world: LevelAccessor, pos: BlockPos): BlockState {
+        val leftDirection = this.getValue(facing).getCounterClockWise()
         var distanceFromLeft = 0
-        var cursor = pos.offset(leftDirection)
+        var cursor = pos.relative(leftDirection)
         while (canConnect(world.getBlockState(cursor))) {
             distanceFromLeft++
-            cursor = cursor.offset(leftDirection)
+            cursor = cursor.relative(leftDirection)
         }
         return withBracketVisibility(world, pos, distanceFromLeft)
     }
 
     private fun BlockState.withBracketVisibility(
-        world: WorldAccess,
+        world: LevelAccessor,
         pos: BlockPos,
         distanceFromLeft: Int
     ): BlockState {
-        val rightDirection = this[facing].rotateYClockwise()
-        val hasRightNeighbor = canConnect(world.getBlockState(pos.offset(rightDirection)))
+        val rightDirection = this.getValue(facing).getClockWise()
+        val hasRightNeighbor = canConnect(world.getBlockState(pos.relative(rightDirection)))
         return this.with {
             left to (distanceFromLeft > 0)
             right to (hasRightNeighbor && (distanceFromLeft + 1) % SHELVES_PER_SECTION != 0)
@@ -131,15 +133,15 @@ class BracketShelfBlock(val baseBlock: Block) : AbstractWaterloggableBlock(
     }
 
     private fun BlockState.canConnect(other: BlockState): Boolean =
-        other.block === this.block && other[facing] == this[facing]
+        other.block === this.block && other.getValue(facing) == this.getValue(facing)
 
     @Deprecated("Deprecated in Java")
-    override fun scheduledTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
-        val leftDirection = state[facing].rotateYCounterclockwise()
-        val rightDirection = state[facing].rotateYClockwise()
+    override fun tick(state: BlockState, world: ServerLevel, pos: BlockPos, random: RandomSource) {
+        val leftDirection = state.getValue(facing).getCounterClockWise()
+        val rightDirection = state.getValue(facing).getClockWise()
         var start = pos
-        while (state.canConnect(world.getBlockState(start.offset(leftDirection)))) {
-            start = start.offset(leftDirection)
+        while (state.canConnect(world.getBlockState(start.relative(leftDirection)))) {
+            start = start.relative(leftDirection)
         }
 
         var cursor = start
@@ -148,78 +150,78 @@ class BracketShelfBlock(val baseBlock: Block) : AbstractWaterloggableBlock(
             val currentState = world.getBlockState(cursor)
             val updatedState = currentState.withBracketVisibility(world, cursor, distanceFromLeft)
             if (updatedState != currentState) {
-                world.setBlockState(cursor, updatedState, Block.NOTIFY_LISTENERS)
+                world.setBlock(cursor, updatedState, Block.UPDATE_CLIENTS)
             }
-            cursor = cursor.offset(rightDirection)
+            cursor = cursor.relative(rightDirection)
             distanceFromLeft++
         }
     }
 
-    override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity =
+    override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity =
         BracketShelfBlockEntity(pos, state)
 
     @Deprecated("Deprecated in Java")
-    override fun onUse(
+    override fun use(
         state: BlockState,
-        world: World,
+        world: Level,
         pos: BlockPos,
-        player: PlayerEntity,
-        hand: Hand,
+        player: Player,
+        hand: InteractionHand,
         hit: BlockHitResult
-    ): ActionResult {
-        if (world.isClient) return ActionResult.SUCCESS
+    ): InteractionResult {
+        if (world.isClientSide) return InteractionResult.SUCCESS
 
         // Drain water first so an empty bucket can be used in the same spot it was filled with.
-        if (state[waterlogged] && player.getStackInHand(hand).isOf(Items.BUCKET)) {
-            player.setStackInHand(
+        if (state.getValue(waterlogged) && player.getItemInHand(hand).`is`(Items.BUCKET)) {
+            player.setItemInHand(
                 hand,
-                ItemUsage.exchangeStack(player.getStackInHand(hand), player, ItemStack(Items.WATER_BUCKET))
+                ItemUtils.createFilledResult(player.getItemInHand(hand), player, ItemStack(Items.WATER_BUCKET))
             )
-            world.setBlockState(pos, state.with(waterlogged, false))
+            world.setBlockAndUpdate(pos, state.setValue(waterlogged, false))
             world.playSound(
                 null,
                 pos,
-                SoundEvents.ITEM_BUCKET_FILL,
-                SoundCategory.BLOCKS,
+                SoundEvents.BUCKET_FILL,
+                SoundSource.BLOCKS,
                 1.0f,
                 1.0f
             )
-            world.emitGameEvent(player, GameEvent.FLUID_PICKUP, pos)
-            return ActionResult.CONSUME
+            world.gameEvent(player, GameEvent.FLUID_PICKUP, pos)
+            return InteractionResult.CONSUME
         }
-        if (hand == Hand.OFF_HAND) return ActionResult.PASS
+        if (hand == InteractionHand.OFF_HAND) return InteractionResult.PASS
 
-        val blockEntity = world.getBlockEntity(pos) as? BracketShelfBlockEntity ?: return ActionResult.PASS
-        val stackInHand = player.getStackInHand(hand)
+        val blockEntity = world.getBlockEntity(pos) as? BracketShelfBlockEntity ?: return InteractionResult.PASS
+        val stackInHand = player.getItemInHand(hand)
 
-        if (world.isReceivingRedstonePower(pos)) {
-            swapWithHotbar(world, pos, state[facing], player)
+        if (world.hasNeighborSignal(pos)) {
+            swapWithHotbar(world, pos, state.getValue(facing), player)
         } else {
-            val slot = slotFromHit(hit, pos, state[facing])
-            val shelfStack = blockEntity.getStack(slot)
-            if (player.isSneaking && stackInHand.isEmpty) {
-                blockEntity.setStack(slot, ItemStack.EMPTY)
-                player.setStackInHand(hand, shelfStack)
+            val slot = slotFromHit(hit, pos, state.getValue(facing))
+            val shelfStack = blockEntity.getItem(slot)
+            if (player.isShiftKeyDown && stackInHand.isEmpty) {
+                blockEntity.setItem(slot, ItemStack.EMPTY)
+                player.setItemInHand(hand, shelfStack)
             } else {
-                blockEntity.setStack(slot, stackInHand.copy())
-                player.setStackInHand(hand, shelfStack)
+                blockEntity.setItem(slot, stackInHand.copy())
+                player.setItemInHand(hand, shelfStack)
             }
             playInteractionSound(world, pos, shelfStack, stackInHand)
         }
-        return ActionResult.CONSUME
+        return InteractionResult.CONSUME
     }
 
     /** Swaps the main-hand stack with the slot under the cursor; the shelf's
      * first slot is the leftmost one when viewed from the front. */
     private fun slotFromHit(hit: BlockHitResult, pos: BlockPos, facing: Direction): Int {
-        val leftDirection = facing.rotateYClockwise()
-        val hitPos = hit.pos
+        val leftDirection = facing.getClockWise()
+        val hitPos = hit.location
         val localX = hitPos.x - pos.x
         val localZ = hitPos.z - pos.z
         val alongLeft = if (leftDirection.axis == Direction.Axis.X) {
-            if (leftDirection.direction == Direction.AxisDirection.POSITIVE) localX else 1.0 - localX
+            if (leftDirection.axisDirection == Direction.AxisDirection.POSITIVE) localX else 1.0 - localX
         } else {
-            if (leftDirection.direction == Direction.AxisDirection.POSITIVE) localZ else 1.0 - localZ
+            if (leftDirection.axisDirection == Direction.AxisDirection.POSITIVE) localZ else 1.0 - localZ
         }
         // alongLeft is 1.0 at the viewer's left edge, where the first slot starts.
         return ((1.0 - alongLeft) * 3.0).toInt().coerceIn(0, BracketShelfBlockEntity.SLOT_COUNT - 1)
@@ -227,156 +229,156 @@ class BracketShelfBlock(val baseBlock: Block) : AbstractWaterloggableBlock(
 
     /** A powered shelf swaps its slots (and its powered neighbours', up to three
      * shelves of the same wood, all facing [facing]) with the rightmost hotbar slots. */
-    private fun swapWithHotbar(world: World, clickedPos: BlockPos, facing: Direction, player: PlayerEntity) {
-        val leftDirection = facing.rotateYClockwise()
-        val rightDirection = facing.rotateYCounterclockwise()
+    private fun swapWithHotbar(world: Level, clickedPos: BlockPos, facing: Direction, player: Player) {
+        val leftDirection = facing.getClockWise()
+        val rightDirection = facing.getCounterClockWise()
         val shelfBlock = world.getBlockState(clickedPos).block
 
-        val leftEnd = generateSequence(clickedPos, { it.offset(leftDirection) })
+        val leftEnd = generateSequence(clickedPos, { it.relative(leftDirection) })
             .takeWhile { isPoweredShelf(it, world, shelfBlock, facing) }
             .take(3)
             .last()
-        val group = generateSequence(leftEnd, { it.offset(rightDirection) })
+        val group = generateSequence(leftEnd, { it.relative(rightDirection) })
             .takeWhile { isPoweredShelf(it, world, shelfBlock, facing) }
             .take(3)
             .toList()
 
-        val firstHotbarSlot = PlayerInventory.getHotbarSize() - group.size * BracketShelfBlockEntity.SLOT_COUNT
+        val firstHotbarSlot = Inventory.getSelectionSize() - group.size * BracketShelfBlockEntity.SLOT_COUNT
         group.forEachIndexed { groupIndex, shelfPos ->
             val shelf = world.getBlockEntity(shelfPos) as? BracketShelfBlockEntity ?: return@forEachIndexed
             repeat(BracketShelfBlockEntity.SLOT_COUNT) { slot ->
                 val hotbarSlot = firstHotbarSlot + groupIndex * BracketShelfBlockEntity.SLOT_COUNT + slot
-                val shelfStack = shelf.getStack(slot)
-                shelf.setStack(slot, player.inventory.getStack(hotbarSlot))
-                player.inventory.setStack(hotbarSlot, shelfStack)
+                val shelfStack = shelf.getItem(slot)
+                shelf.setItem(slot, player.inventory.getItem(hotbarSlot))
+                player.inventory.setItem(hotbarSlot, shelfStack)
             }
         }
-        player.inventory.markDirty()
+        player.inventory.setChanged()
         world.playSound(
             null,
             clickedPos,
-            SoundEvents.BLOCK_DISPENSER_DISPENSE,
-            SoundCategory.BLOCKS,
+            SoundEvents.DISPENSER_DISPENSE,
+            SoundSource.BLOCKS,
             0.8f,
             1.0f
         )
     }
 
-    private fun isPoweredShelf(pos: BlockPos, world: World, shelfBlock: Block, shelfFacing: Direction): Boolean {
+    private fun isPoweredShelf(pos: BlockPos, world: Level, shelfBlock: Block, shelfFacing: Direction): Boolean {
         val state = world.getBlockState(pos)
         return state.block === shelfBlock &&
-            state[facing] == shelfFacing &&
-            world.isReceivingRedstonePower(pos)
+            state.getValue(facing) == shelfFacing &&
+            world.hasNeighborSignal(pos)
     }
 
-    private fun playInteractionSound(world: World, pos: BlockPos, shelfStack: ItemStack, handStack: ItemStack) {
+    private fun playInteractionSound(world: Level, pos: BlockPos, shelfStack: ItemStack, handStack: ItemStack) {
         val sound = when {
             shelfStack.isEmpty && handStack.isEmpty -> return
-            shelfStack.isEmpty -> SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM
-            handStack.isEmpty -> SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM
-            else -> SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM
+            shelfStack.isEmpty -> SoundEvents.ITEM_FRAME_ADD_ITEM
+            handStack.isEmpty -> SoundEvents.ITEM_FRAME_REMOVE_ITEM
+            else -> SoundEvents.ITEM_FRAME_ADD_ITEM
         }
-        world.playSound(null, pos, sound, SoundCategory.BLOCKS, 0.5f, 0.9f + world.random.nextFloat() * 0.2f)
+        world.playSound(null, pos, sound, SoundSource.BLOCKS, 0.5f, 0.9f + world.random.nextFloat() * 0.2f)
     }
 
     @Deprecated("Deprecated in Java")
-    override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean =
-        world.getBlockState(pos.offset(state[facing].opposite)).isSideSolidFullSquare(
+    override fun canSurvive(state: BlockState, world: LevelReader, pos: BlockPos): Boolean =
+        world.getBlockState(pos.relative(state.getValue(facing).opposite)).isFaceSturdy(
             world,
-            pos.offset(state[facing].opposite),
-            state[facing]
+            pos.relative(state.getValue(facing).opposite),
+            state.getValue(facing)
         )
 
     @Deprecated("Deprecated in Java")
-    override fun hasComparatorOutput(state: BlockState?): Boolean = true
+    override fun hasAnalogOutputSignal(state: BlockState?): Boolean = true
 
     /** Left, middle, and right slots contribute 1, 2, and 4 respectively. */
     @Deprecated("Deprecated in Java")
-    override fun getComparatorOutput(state: BlockState, world: World, pos: BlockPos): Int {
+    override fun getAnalogOutputSignal(state: BlockState, world: Level, pos: BlockPos): Int {
         val shelf = world.getBlockEntity(pos) as? BracketShelfBlockEntity ?: return 0
         var signal = 0
         repeat(BracketShelfBlockEntity.SLOT_COUNT) { slot ->
-            if (!shelf.getStack(slot).isEmpty) signal = signal or (1 shl slot)
+            if (!shelf.getItem(slot).isEmpty) signal = signal or (1 shl slot)
         }
         return signal
     }
 
     @Deprecated("Deprecated in Java")
     @Suppress("DEPRECATION")
-    override fun onStateReplaced(
+    override fun onRemove(
         state: BlockState,
-        world: World,
+        world: Level,
         pos: BlockPos,
         newState: BlockState,
         moved: Boolean
     ) {
-        if (!state.isOf(newState.block) && !world.isClient) {
+        if (!state.`is`(newState.block) && !world.isClientSide) {
             // Covers both player breaks and support-loss pop-offs.
-            world.getBlockEntity(pos)?.let { if (it is BracketShelfBlockEntity) ItemScatterer.spawn(world, pos, it) }
-            world.updateComparators(pos, state.block)
+            world.getBlockEntity(pos)?.let { if (it is BracketShelfBlockEntity) Containers.dropContents(world, pos, it) }
+            world.updateNeighbourForOutputSignal(pos, state.block)
         }
-        super.onStateReplaced(state, world, pos, newState, moved)
+        super.onRemove(state, world, pos, newState, moved)
     }
 
     @Deprecated("Deprecated in Java")
-    override fun getOutlineShape(
+    override fun getShape(
         state: BlockState,
-        world: BlockView,
+        world: BlockGetter,
         pos: BlockPos,
-        context: ShapeContext
+        context: CollisionContext
     ): VoxelShape {
-        val direction = state[facing]
+        val direction = state.getValue(facing)
         var shape = shelfShapeByFacing.getValue(direction)
-        if (!state[left]) shape = VoxelShapes.union(shape, leftBracketShapeByFacing.getValue(direction))
-        if (!state[right]) shape = VoxelShapes.union(shape, rightBracketShapeByFacing.getValue(direction))
+        if (!state.getValue(left)) shape = Shapes.or(shape, leftBracketShapeByFacing.getValue(direction))
+        if (!state.getValue(right)) shape = Shapes.or(shape, rightBracketShapeByFacing.getValue(direction))
         return shape
     }
 
-    override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 2).apply {
-            input('#', baseBlock)
-            input('|', Items.STICK)
+    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, 2).apply {
+            define('#', baseBlock)
+            define('|', Items.STICK)
             pattern("###")
             pattern("| |")
             customGroup(this@BracketShelfBlock, "bracket_shelves")
             requires(baseBlock)
-            offerTo(exporter)
+            save(exporter)
         }
     }
 
-    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
-        val textures = TextureMap.all(baseBlock)
-        val baseModel = ModModels.bracketShelfBase.upload(this, textures, generator.modelCollector)
-        val leftBracketModel = ModModels.bracketShelfLeft.upload(this, textures, generator.modelCollector)
-        val rightBracketModel = ModModels.bracketShelfRight.upload(this, textures, generator.modelCollector)
-        ModModels.bracketShelfItem.upload(itemModelId, textures, generator.modelCollector)
+    override fun generateBlockStateModels(generator: BlockModelGenerators) {
+        val textures = TextureMapping.cube(baseBlock)
+        val baseModel = ModModels.bracketShelfBase.create(this, textures, generator.modelOutput)
+        val leftBracketModel = ModModels.bracketShelfLeft.create(this, textures, generator.modelOutput)
+        val rightBracketModel = ModModels.bracketShelfRight.create(this, textures, generator.modelOutput)
+        ModModels.bracketShelfItem.create(itemModelId, textures, generator.modelOutput)
 
-        val supplier = MultipartBlockStateSupplier.create(this)
+        val supplier = MultiPartGenerator.multiPart(this)
         val rotations = mapOf(
-            Direction.NORTH to VariantSettings.Rotation.R0,
-            Direction.EAST to VariantSettings.Rotation.R90,
-            Direction.SOUTH to VariantSettings.Rotation.R180,
-            Direction.WEST to VariantSettings.Rotation.R270
+            Direction.NORTH to VariantProperties.Rotation.R0,
+            Direction.EAST to VariantProperties.Rotation.R90,
+            Direction.SOUTH to VariantProperties.Rotation.R180,
+            Direction.WEST to VariantProperties.Rotation.R270
         )
         rotations.forEach { (direction, rotation) ->
-            val facingCondition = When.create().set(facing, direction)
+            val facingCondition = Condition.condition().term(facing, direction)
             supplier.with(facingCondition, baseModel.asBlockStateVariant().withYRotationOf(rotation))
             supplier.with(
-                When.allOf(facingCondition, When.create().set(left, false)),
+                Condition.and(facingCondition, Condition.condition().term(left, false)),
                 leftBracketModel.asBlockStateVariant().withYRotationOf(rotation)
             )
             supplier.with(
-                When.allOf(facingCondition, When.create().set(right, false)),
+                Condition.and(facingCondition, Condition.condition().term(right, false)),
                 rightBracketModel.asBlockStateVariant().withYRotationOf(rotation)
             )
         }
-        generator.blockStateCollector.accept(supplier)
+        generator.blockStateOutput.accept(supplier)
     }
 
     companion object {
         private const val SHELVES_PER_SECTION = 3
 
-        val facing = Properties.HORIZONTAL_FACING
+        val facing = BlockStateProperties.HORIZONTAL_FACING
         val left: BooleanProperty = com.github.mystery2099.woodenAccentsMod.state.property.ModProperties.left
         val right: BooleanProperty = com.github.mystery2099.woodenAccentsMod.state.property.ModProperties.right
 

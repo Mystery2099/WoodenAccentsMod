@@ -5,6 +5,12 @@
       "conditions": {
         "items": [
           {
+            "enchantments": [
+              null
+            ],
+            "stored_enchantments": [
+              null
+            ],
             "tag": "wooden_accents_mod:thick_pillars"
           }
         ]
@@ -15,6 +21,12 @@
       "conditions": {
         "items": [
           {
+            "enchantments": [
+              null
+            ],
+            "stored_enchantments": [
+              null
+            ],
             "tag": "wooden_accents_mod:thin_pillars"
           }
         ]

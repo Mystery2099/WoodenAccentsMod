@@ -13,16 +13,18 @@ import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.Custom
 import com.github.mystery2099.woodenAccentsMod.item.group.CustomItemGroup
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
-import net.minecraft.block.Block
-import net.minecraft.block.enums.StairShape
-import net.minecraft.data.client.*
-import net.minecraft.data.server.recipe.RecipeJsonProvider
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
-import net.minecraft.recipe.book.RecipeCategory
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.state.property.Properties
-import net.minecraft.util.Identifier
-import net.minecraft.util.math.Direction
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.properties.StairsShape
+import net.minecraft.data.models.*
+import net.minecraft.data.models.blockstates.*
+import net.minecraft.data.models.model.*
+import net.minecraft.data.recipes.FinishedRecipe
+import net.minecraft.data.recipes.ShapedRecipeBuilder
+import net.minecraft.data.recipes.RecipeCategory
+import net.minecraft.tags.TagKey
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.core.Direction
 import java.util.function.Consumer
 
 
@@ -31,87 +33,87 @@ class KitchenCounterBlock(baseBlock: Block, topBlock: Block) : AbstractKitchenCo
     override val tag: TagKey<Block> = ModBlockTags.kitchenCounters
     override val itemGroup: CustomItemGroup = ModItemGroups.furniture
 
-    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
+    override fun generateBlockStateModels(generator: BlockModelGenerators) {
         val block = this
-        TextureMap().apply {
-            put(TextureKey.TOP, block.topBlock.textureId)
-            put(TextureKey.SIDE, block.baseBlock.textureId)
+        TextureMapping().apply {
+            put(TextureSlot.TOP, block.topBlock.textureId)
+            put(TextureSlot.SIDE, block.baseBlock.textureId)
         }.let { map ->
-            val normalModel = ModModels.kitchenCounter.upload(block, map, generator.modelCollector)
+            val normalModel = ModModels.kitchenCounter.create(block, map, generator.modelOutput)
 
-            generator.blockStateCollector.accept(
-                VariantsBlockStateSupplier.create(block)
-                    .coordinate(
+            generator.blockStateOutput.accept(
+                MultiVariantGenerator.multiVariant(block)
+                    .with(
                         variantMap(
                             blockModel = normalModel,
-                            innerLeftModel = ModModels.kitchenCounterInnerLeftCorner.upload(
+                            innerLeftModel = ModModels.kitchenCounterInnerLeftCorner.create(
                                 block,
                                 map,
-                                generator.modelCollector
+                                generator.modelOutput
                             ),
-                            outerLeftModel = ModModels.kitchenCounterOuterLeftCorner.upload(
+                            outerLeftModel = ModModels.kitchenCounterOuterLeftCorner.create(
                                 block,
                                 map,
-                                generator.modelCollector
+                                generator.modelOutput
                             )
                         )
                     )
             )
-            generator.registerParentedItemModel(block, normalModel)
+            generator.delegateItemModel(block, normalModel)
         }
     }
 
     private fun variantMap(
-        blockModel: Identifier,
-        innerLeftModel: Identifier,
-        outerLeftModel: Identifier
-    ) = BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, Properties.STAIR_SHAPE).apply {
+        blockModel: ResourceLocation,
+        innerLeftModel: ResourceLocation,
+        outerLeftModel: ResourceLocation
+    ) = PropertyDispatch.properties(BlockStateProperties.HORIZONTAL_FACING, BlockStateProperties.STAIRS_SHAPE).apply {
         val northBlock = blockModel.asBlockStateVariant()
         val northInnerLeft = innerLeftModel.asBlockStateVariant()
         val northOuterLeft = outerLeftModel.asBlockStateVariant()
 
         mapOf(
             Direction.NORTH to mapOf(
-                StairShape.STRAIGHT to northBlock,
-                StairShape.INNER_LEFT to northInnerLeft,
-                StairShape.OUTER_LEFT to northOuterLeft,
-                StairShape.INNER_RIGHT to northInnerLeft.withYRotationOf(VariantSettings.Rotation.R90),
-                StairShape.OUTER_RIGHT to northOuterLeft.withYRotationOf(VariantSettings.Rotation.R90),
+                StairsShape.STRAIGHT to northBlock,
+                StairsShape.INNER_LEFT to northInnerLeft,
+                StairsShape.OUTER_LEFT to northOuterLeft,
+                StairsShape.INNER_RIGHT to northInnerLeft.withYRotationOf(VariantProperties.Rotation.R90),
+                StairsShape.OUTER_RIGHT to northOuterLeft.withYRotationOf(VariantProperties.Rotation.R90),
             ),
             Direction.EAST to mapOf(
-                StairShape.STRAIGHT to northBlock.withYRotationOf(VariantSettings.Rotation.R90),
-                StairShape.INNER_LEFT to northInnerLeft.withYRotationOf(VariantSettings.Rotation.R90),
-                StairShape.OUTER_LEFT to northOuterLeft.withYRotationOf(VariantSettings.Rotation.R90),
-                StairShape.INNER_RIGHT to northInnerLeft.withYRotationOf(VariantSettings.Rotation.R180),
-                StairShape.OUTER_RIGHT to northOuterLeft.withYRotationOf(VariantSettings.Rotation.R180),
+                StairsShape.STRAIGHT to northBlock.withYRotationOf(VariantProperties.Rotation.R90),
+                StairsShape.INNER_LEFT to northInnerLeft.withYRotationOf(VariantProperties.Rotation.R90),
+                StairsShape.OUTER_LEFT to northOuterLeft.withYRotationOf(VariantProperties.Rotation.R90),
+                StairsShape.INNER_RIGHT to northInnerLeft.withYRotationOf(VariantProperties.Rotation.R180),
+                StairsShape.OUTER_RIGHT to northOuterLeft.withYRotationOf(VariantProperties.Rotation.R180),
             ),
             Direction.SOUTH to mapOf(
-                StairShape.STRAIGHT to northBlock.withYRotationOf(VariantSettings.Rotation.R180),
-                StairShape.INNER_LEFT to northInnerLeft.withYRotationOf(VariantSettings.Rotation.R180),
-                StairShape.OUTER_LEFT to northOuterLeft.withYRotationOf(VariantSettings.Rotation.R180),
-                StairShape.INNER_RIGHT to northInnerLeft.withYRotationOf(VariantSettings.Rotation.R270),
-                StairShape.OUTER_RIGHT to northOuterLeft.withYRotationOf(VariantSettings.Rotation.R270),
+                StairsShape.STRAIGHT to northBlock.withYRotationOf(VariantProperties.Rotation.R180),
+                StairsShape.INNER_LEFT to northInnerLeft.withYRotationOf(VariantProperties.Rotation.R180),
+                StairsShape.OUTER_LEFT to northOuterLeft.withYRotationOf(VariantProperties.Rotation.R180),
+                StairsShape.INNER_RIGHT to northInnerLeft.withYRotationOf(VariantProperties.Rotation.R270),
+                StairsShape.OUTER_RIGHT to northOuterLeft.withYRotationOf(VariantProperties.Rotation.R270),
             ),
             Direction.WEST to mapOf(
-                StairShape.STRAIGHT to northBlock.withYRotationOf(VariantSettings.Rotation.R270),
-                StairShape.INNER_LEFT to northInnerLeft.withYRotationOf(VariantSettings.Rotation.R270),
-                StairShape.OUTER_LEFT to northOuterLeft.withYRotationOf(VariantSettings.Rotation.R270),
-                StairShape.INNER_RIGHT to northInnerLeft,
-                StairShape.OUTER_RIGHT to northOuterLeft,
+                StairsShape.STRAIGHT to northBlock.withYRotationOf(VariantProperties.Rotation.R270),
+                StairsShape.INNER_LEFT to northInnerLeft.withYRotationOf(VariantProperties.Rotation.R270),
+                StairsShape.OUTER_LEFT to northOuterLeft.withYRotationOf(VariantProperties.Rotation.R270),
+                StairsShape.INNER_RIGHT to northInnerLeft,
+                StairsShape.OUTER_RIGHT to northOuterLeft,
             )
-        ).forEach { i -> i.value.forEach { j -> register(i.key, j.key, j.value) } }
+        ).forEach { i -> i.value.forEach { j -> select(i.key, j.key, j.value) } }
     }
 
-    override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 4).apply {
-            input('#', baseBlock)
-            input('_', topBlock)
+    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, 4).apply {
+            define('#', baseBlock)
+            define('_', topBlock)
             pattern("___")
             pattern("###")
             pattern("###")
             customGroup(this@KitchenCounterBlock, "kitchen_counters")
             requires(baseBlock)
-            offerTo(exporter)
+            save(exporter)
         }
     }
 

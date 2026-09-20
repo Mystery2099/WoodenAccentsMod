@@ -5,6 +5,12 @@
       "conditions": {
         "items": [
           {
+            "enchantments": [
+              null
+            ],
+            "stored_enchantments": [
+              null
+            ],
             "tag": "wooden_accents_mod:connecting_ladders"
           }
         ]
@@ -15,6 +21,12 @@
       "conditions": {
         "items": [
           {
+            "enchantments": [
+              null
+            ],
+            "stored_enchantments": [
+              null
+            ],
             "tag": "wooden_accents_mod:plank_ladders"
           }
         ]
@@ -25,6 +37,12 @@
       "conditions": {
         "items": [
           {
+            "enchantments": [
+              null
+            ],
+            "stored_enchantments": [
+              null
+            ],
             "tag": "wooden_accents_mod:simple_ladders"
           }
         ]

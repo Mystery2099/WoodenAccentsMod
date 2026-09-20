@@ -6,13 +6,13 @@ import com.github.mystery2099.woodenAccentsMod.block.itemModelId
 import com.github.mystery2099.woodenAccentsMod.block.woodType
 import com.github.mystery2099.woodenAccentsMod.data.client.ModModels
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
-import net.minecraft.block.Block
-import net.minecraft.data.client.BlockStateModelGenerator
-import net.minecraft.data.client.TextureMap
-import net.minecraft.data.server.recipe.RecipeJsonProvider
-import net.minecraft.item.Items
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.util.Identifier
+import net.minecraft.world.level.block.Block
+import net.minecraft.data.models.BlockModelGenerators
+import net.minecraft.data.models.model.TextureMapping
+import net.minecraft.data.recipes.FinishedRecipe
+import net.minecraft.world.item.Items
+import net.minecraft.tags.TagKey
+import net.minecraft.resources.ResourceLocation
 import java.util.function.Consumer
 
 
@@ -20,7 +20,7 @@ class ThinPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape) 
     override val connectableBlockTag: TagKey<Block> = ModBlockTags.thinPillarsConnectable
     override val tag: TagKey<Block> = ModBlockTags.thinPillars
 
-    override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
+    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
         this.offerRecipe(
             exporter = exporter,
             outputNum = 5,
@@ -29,19 +29,19 @@ class ThinPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape) 
         )
     }
 
-    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
-        val map = TextureMap.all(this.baseBlock)
-        generator.blockStateCollector.accept(
+    override fun generateBlockStateModels(generator: BlockModelGenerators) {
+        val map = TextureMapping.cube(this.baseBlock)
+        generator.blockStateOutput.accept(
             this.genBlockStateModelSupplier(
-                centerModel = Identifier("${this.woodType.name.lowercase()}_fence_post").withBlockModelPath(),
-                bottomModel = ModModels.thinPillarBottom.upload(this, map, generator.modelCollector)
+                centerModel = ResourceLocation("${this.woodType.name.lowercase()}_fence_post").withBlockModelPath(),
+                bottomModel = ModModels.thinPillarBottom.create(this, map, generator.modelOutput)
             )
         )
-        ModModels.thinPillarInventory.upload(this.itemModelId, map, generator.modelCollector)
+        ModModels.thinPillarInventory.create(this.itemModelId, map, generator.modelOutput)
     }
 
     companion object {
-        val shape = Shape(
+        val shape = CanyonShapeConfiguration(
             topShape = VoxelAssembly.createCuboidShape(4, 13, 4, 12, 16, 12),
             centerShape = VoxelAssembly.createCuboidShape(6, 0, 6, 10, 16, 10),
             baseShape = VoxelAssembly.createCuboidShape(4, 0, 4, 12, 3, 12)

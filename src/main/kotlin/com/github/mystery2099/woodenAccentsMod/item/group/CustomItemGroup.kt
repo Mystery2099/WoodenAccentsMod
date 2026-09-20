@@ -5,27 +5,28 @@ import com.github.mystery2099.woodenAccentsMod.block.ModBlocks
 import com.github.mystery2099.woodenAccentsMod.block.defaultItemStack
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomItemGroupProvider
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
-import net.minecraft.block.Block
-import net.minecraft.item.ItemGroup
-import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
-import net.minecraft.registry.Registries
-import net.minecraft.registry.Registry
-import net.minecraft.registry.RegistryKey
-import net.minecraft.text.Text
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.item.CreativeModeTab
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.registries.Registries
+import net.minecraft.core.Registry
+import net.minecraft.resources.ResourceKey
+import net.minecraft.network.chat.Component
 
 /** A creative tab populated from blocks that opt into this group. */
 data class CustomItemGroup(val name: String) {
     init {
         mutableInstances += this
     }
-    val key: RegistryKey<ItemGroup> = RegistryKey.of(Registries.ITEM_GROUP.key, name.toIdentifier())
-    val itemGroup: ItemGroup = Registry.register(
-        Registries.ITEM_GROUP,
+    val key: ResourceKey<CreativeModeTab> = ResourceKey.create(Registries.CREATIVE_MODE_TAB, name.toIdentifier())
+    val itemGroup: CreativeModeTab = Registry.register(
+        BuiltInRegistries.CREATIVE_MODE_TAB,
         key,
         FabricItemGroup.builder().apply {
             icon { getEntries()[0] }
-            displayName(Text.translatable(name.toIdentifier().toTranslationKey()))
+            title(Component.translatable(name.toIdentifier().toLanguageKey()))
         }.build()
     )
 
@@ -52,7 +53,7 @@ data class CustomItemGroup(val name: String) {
 
     /** The group icon reads entry zero, so empty groups need a harmless fallback. */
     private fun addDefaultStackIfEmpty(list: MutableList<ItemStack>): List<ItemStack> {
-        return list.ifEmpty { list + Items.DIRT.defaultStack }
+        return list.ifEmpty { list + Items.DIRT.defaultInstance }
     }
 
     private fun getBlocksWithMatchingItemGroup() = ModBlocks.blocks.filterIsInstance<CustomItemGroupProvider>()

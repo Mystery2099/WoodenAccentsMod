@@ -5,26 +5,26 @@ import com.github.mystery2099.woodenAccentsMod.block.ModBlocks
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomBlockLootTableProvider
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
-import net.minecraft.block.Block
-import net.minecraft.loot.LootPool
-import net.minecraft.loot.LootTable
-import net.minecraft.loot.condition.BlockStatePropertyLootCondition
-import net.minecraft.loot.condition.LootCondition
-import net.minecraft.loot.entry.ItemEntry
-import net.minecraft.loot.function.ConditionalLootFunction
-import net.minecraft.loot.function.SetCountLootFunction
-import net.minecraft.loot.provider.number.ConstantLootNumberProvider
-import net.minecraft.predicate.StatePredicate
-import net.minecraft.state.property.Property
-import net.minecraft.util.StringIdentifiable
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.storage.loot.LootPool
+import net.minecraft.world.level.storage.loot.LootTable
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition
+import net.minecraft.world.level.storage.loot.entries.LootItem
+import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue
+import net.minecraft.advancements.critereon.StatePropertiesPredicate
+import net.minecraft.world.level.block.state.properties.Property
+import net.minecraft.util.StringRepresentable
 
 
 class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTableProvider(dataOutput) {
     override fun generate() {
         ModBlocks.blocks.forEach { block ->
             when (block) {
-                is CustomBlockLootTableProvider -> block.addDrop()
-                else -> addDrop(block)
+                is CustomBlockLootTableProvider -> block.addCustomDrop()
+                else -> dropSelf(block)
             }
         }
     }
@@ -33,25 +33,25 @@ class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTable
         drop: Block,
         property: Property<T>,
         value: T
-    ) where T : Comparable<T>, T : StringIdentifiable {
-        LootTable.builder().pool(
-            LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f)).with(
+    ) where T : Comparable<T>, T : StringRepresentable {
+        LootTable.lootTable().withPool(
+            LootPool.lootPool().setRolls(ConstantValue.exactly(1.0f)).add(
                 applyExplosionDecay(
-                    drop, ItemEntry.builder(drop).apply(
-                        SetCountLootFunction.builder(ConstantLootNumberProvider.create(2.0f))
+                    drop, LootItem.lootTableItem(drop).apply(
+                        SetItemCountFunction.setCount(ConstantValue.exactly(2.0f))
                             .conditionally(
-                                BlockStatePropertyLootCondition.builder(drop)
-                                    .properties(StatePredicate.Builder.create().exactMatch(property, value))
+                                LootItemBlockStatePropertyCondition.hasBlockStateProperties(drop)
+                                    .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(property, value))
                             )
                     )
                 )
             )
-        ).also { addDrop(drop, it) }
+        ).also { add(drop, it) }
     }
 
-    private fun CustomBlockLootTableProvider.addDrop() {
+    private fun CustomBlockLootTableProvider.addCustomDrop() {
         if (this is Block) {
-            addDrop(this, this.getLootTableBuilder(this@BlockLootTableDataGen))
+            add(this, this.getLootTableBuilder(this@BlockLootTableDataGen))
         } else {
             WoodenAccentsMod.logger.info("Interface: ${CustomBlockLootTableProvider::class.simpleName} must be used on a class which extends Block!")
         }
@@ -59,7 +59,7 @@ class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTable
 }
 
 /** Adds every condition to the same loot function builder. */
-fun <t : ConditionalLootFunction.Builder<*>> t.conditionally(vararg builders: LootCondition.Builder): t {
-    builders.forEach { this.conditionally(it) }
+fun <t : LootItemConditionalFunction.Builder<*>> t.conditionally(vararg builders: LootItemCondition.Builder): t {
+    builders.forEach { this.`when`(it) }
     return this
 }

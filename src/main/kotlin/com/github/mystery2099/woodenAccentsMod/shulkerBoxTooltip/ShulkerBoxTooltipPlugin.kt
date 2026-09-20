@@ -8,7 +8,7 @@ import com.github.mystery2099.woodenAccentsMod.block.custom.ThinBookshelfBlock
 import com.misterpemodder.shulkerboxtooltip.api.ShulkerBoxTooltipApi
 import com.misterpemodder.shulkerboxtooltip.api.provider.BlockEntityPreviewProvider
 import com.misterpemodder.shulkerboxtooltip.api.provider.PreviewProviderRegistry
-import net.minecraft.block.Block
+import net.minecraft.world.level.block.Block
 
 object ShulkerBoxTooltipPlugin : ShulkerBoxTooltipApi {
 

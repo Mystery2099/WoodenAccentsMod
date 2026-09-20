@@ -5,17 +5,17 @@ import com.github.mystery2099.woodenAccentsMod.WoodenAccentsModRegistry
 import com.github.mystery2099.woodenAccentsMod.block.custom.*
 import com.github.mystery2099.woodenAccentsMod.item.CustomBlockItem
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
-import net.minecraft.block.Block
-import net.minecraft.block.Blocks
-import net.minecraft.block.FenceGateBlock
-import net.minecraft.block.WoodType
-import net.minecraft.data.client.ModelIds
-import net.minecraft.data.client.TextureMap
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.registry.Registries
-import net.minecraft.registry.Registry
-import net.minecraft.util.Identifier
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.FenceGateBlock
+import net.minecraft.world.level.block.state.properties.WoodType
+import net.minecraft.data.models.model.ModelLocationUtils
+import net.minecraft.data.models.model.TextureMapping
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.Registry
+import net.minecraft.resources.ResourceLocation
 
 @Suppress("unused")
 object ModBlocks : WoodenAccentsModRegistry {
@@ -489,7 +489,7 @@ object ModBlocks : WoodenAccentsModRegistry {
         ConnectingLadderBlock(Blocks.STRIPPED_CRIMSON_STEM).registerAs("stripped_crimson_ladder")
     val strippedWarpedLadder = ConnectingLadderBlock(Blocks.STRIPPED_WARPED_STEM).registerAs("stripped_warped_ladder")
 
-    // Simple ladders
+    // ContextlessType ladders
     val oakSimpleLadder = SimpleLadderBlock(Blocks.OAK_PLANKS).registerAs("oak_simple_ladder")
     val spruceSimpleLadder = SimpleLadderBlock(Blocks.SPRUCE_PLANKS).registerAs("spruce_simple_ladder")
     val birchSimpleLadder = SimpleLadderBlock(Blocks.BIRCH_PLANKS).registerAs("birch_simple_ladder")
@@ -668,11 +668,11 @@ object ModBlocks : WoodenAccentsModRegistry {
         return registerAs(id.toIdentifier(), maxStackSize)
     }
 
-    private fun Block.registerAs(identifier: Identifier, maxStackSize: Int = 64): Block {
-        return Registry.register(Registries.BLOCK, identifier, this).also {
+    private fun Block.registerAs(identifier: ResourceLocation, maxStackSize: Int = 64): Block {
+        return Registry.register(BuiltInRegistries.BLOCK, identifier, this).also {
             registries += it
             Registry.register(
-                Registries.ITEM,
+                BuiltInRegistries.ITEM,
                 identifier,
                 CustomBlockItem(it, FabricItemSettings().maxCount(maxStackSize))
             )
@@ -680,17 +680,17 @@ object ModBlocks : WoodenAccentsModRegistry {
     }
 }
 
-inline val Block.itemModelId: Identifier
-    get() = id.withPrefixedPath("item/")
+inline val Block.itemModelId: ResourceLocation
+    get() = id.withPrefix("item/")
 
-inline val Block.id: Identifier
-    get() = Registries.BLOCK.getId(this)
+inline val Block.id: ResourceLocation
+    get() = BuiltInRegistries.BLOCK.getKey(this)
 
-inline val Block.modelId: Identifier
-    get() = ModelIds.getBlockModelId(this)
+inline val Block.modelId: ResourceLocation
+    get() = ModelLocationUtils.getModelLocation(this)
 
-inline val Block.textureId: Identifier
-    get() = TextureMap.getId(this)
+inline val Block.textureId: ResourceLocation
+    get() = TextureMapping.getBlockTexture(this)
 
 /**
  * Infers the vanilla wood type from the block ID. Only use this for registered wood variants; IDs without a
@@ -699,10 +699,10 @@ inline val Block.textureId: Identifier
 inline val Block.woodType: WoodType
     get() {
         lateinit var type: WoodType
-        WoodType.stream().forEach {
-            if (this.id.path.contains(it.name)) {
+        WoodType.values().forEach {
+            if (this.id.path.contains(it.name())) {
                 type = it
-                if (!it.name.contains("dark") && !this.id.path.contains("dark")) {
+                if (!it.name().contains("dark") && !this.id.path.contains("dark")) {
                     return@forEach
                 }
             }
@@ -720,4 +720,4 @@ inline val Block.item: Item
     get() = this.asItem()
 
 inline val Block.defaultItemStack: ItemStack
-    get() = this.item.defaultStack
+    get() = this.item.defaultInstance

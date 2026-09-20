@@ -1,10 +1,10 @@
 package com.github.mystery2099.woodenAccentsMod.screen.slot
 
-import net.minecraft.inventory.Inventory
-import net.minecraft.item.ItemStack
-import net.minecraft.screen.slot.Slot
+import net.minecraft.world.Container
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.inventory.Slot
 
 /** Prevents nested containers according to the item's own nesting rules. */
-class CrateSlot(inventory: Inventory, index: Int, x: Int, y: Int) : Slot(inventory, index, x, y) {
-    override fun canInsert(stack: ItemStack): Boolean = stack.item.canBeNested()
+class CrateSlot(inventory: Container, index: Int, x: Int, y: Int) : Slot(inventory, index, x, y) {
+    override fun mayPlace(stack: ItemStack): Boolean = stack.item.canFitInsideContainerItems()
 }

@@ -1,8 +1,8 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom.enums
 
-import net.minecraft.util.StringIdentifiable
+import net.minecraft.util.StringRepresentable
 
-enum class DeskShape(val string: String) : StringIdentifiable {
+enum class DeskShape(val string: String) : StringRepresentable {
     SINGLE("single"),
     LEFT("left"),
     CENTER("center"),
@@ -10,5 +10,5 @@ enum class DeskShape(val string: String) : StringIdentifiable {
     LEFT_CORNER("left_corner"),
     RIGHT_CORNER("right_corner");
 
-    override fun asString(): String = string
+    override fun getSerializedName(): String = string
 }

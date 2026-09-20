@@ -19,35 +19,37 @@ import com.github.mystery2099.woodenAccentsMod.item.group.CustomItemGroup
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
-import net.minecraft.block.*
-import net.minecraft.data.client.BlockStateModelGenerator
-import net.minecraft.data.client.TextureMap
-import net.minecraft.data.client.TexturedModel
-import net.minecraft.data.server.recipe.RecipeJsonProvider
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.fluid.FluidState
-import net.minecraft.fluid.Fluids
-import net.minecraft.item.ItemPlacementContext
-import net.minecraft.item.Items
-import net.minecraft.recipe.book.RecipeCategory
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.state.StateManager
-import net.minecraft.state.property.BooleanProperty
-import net.minecraft.state.property.Properties
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.math.Box
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
-import net.minecraft.world.BlockView
-import net.minecraft.world.World
-import net.minecraft.world.WorldAccess
+import net.minecraft.world.level.block.*
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.data.models.BlockModelGenerators
+import net.minecraft.data.models.model.TextureMapping
+import net.minecraft.data.models.model.TexturedModel
+import net.minecraft.data.recipes.FinishedRecipe
+import net.minecraft.data.recipes.ShapedRecipeBuilder
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.level.material.FluidState
+import net.minecraft.world.level.material.Fluids
+import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.item.Items
+import net.minecraft.data.recipes.RecipeCategory
+import net.minecraft.tags.TagKey
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.BooleanProperty
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.world.phys.AABB
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.world.phys.shapes.VoxelShape
+import net.minecraft.world.phys.shapes.Shapes
+import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.LevelAccessor
 import java.util.function.Consumer
-class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlock(settings), Waterloggable,
+class ChairBlock(settings: Properties, val baseBlock: Block) : HorizontalDirectionalBlock(settings), SimpleWaterloggedBlock,
     CustomBlockStateProvider, CustomItemGroupProvider,
     CustomRecipeProvider, CustomTagProvider<Block> {
 
@@ -55,124 +57,124 @@ class ChairBlock(settings: Settings, val baseBlock: Block) : HorizontalFacingBlo
     override val tag: TagKey<Block> = ModBlockTags.chairs
 
     init {
-        this.defaultState = defaultState.with {
+        this.registerDefaultState(defaultBlockState().with {
             waterlogged to false
             FACING to Direction.NORTH
-        }
+        })
     }
 
     constructor(baseBlock: Block) : this(FabricBlockSettings.copyOf(baseBlock), baseBlock)
 
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        super.appendProperties(builder)
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
+        super.createBlockStateDefinition(builder)
         builder.add(FACING, waterlogged)
     }
 
-    override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
-        return defaultState.with {
-            waterlogged to ctx.world.getFluidState(ctx.blockPos).isOf(Fluids.WATER)
-            FACING to ctx.horizontalPlayerFacing.opposite
+    override fun getStateForPlacement(ctx: BlockPlaceContext): BlockState {
+        return defaultBlockState().with {
+            waterlogged to ctx.level.getFluidState(ctx.clickedPos).`is`(Fluids.WATER)
+            FACING to ctx.horizontalDirection.opposite
         }
     }
 
     @Deprecated("Deprecated in Java")
-    override fun onUse(
+    override fun use(
         state: BlockState,
-        world: World,
+        world: Level,
         pos: BlockPos,
-        player: PlayerEntity,
-        hand: Hand?,
+        player: Player,
+        hand: InteractionHand?,
         hit: BlockHitResult?
-    ): ActionResult {
-        if (player.shouldCancelInteraction() || player.hasVehicle()) return ActionResult.PASS
-        val seats = world.getEntitiesByClass(SeatEntity::class.java, Box(pos)) { !it.isRemoved }
-        if (seats.any { it.hasPassengers() }) {
-            return ActionResult.CONSUME
+    ): InteractionResult {
+        if (player.isSecondaryUseActive() || player.isPassenger()) return InteractionResult.PASS
+        val seats = world.getEntitiesOfClass(SeatEntity::class.java, AABB(pos)) { !it.isRemoved }
+        if (seats.any { it.isVehicle() }) {
+            return InteractionResult.CONSUME
         }
-        if (world.isClient) return ActionResult.SUCCESS
+        if (world.isClientSide) return InteractionResult.SUCCESS
 
         seats.forEach { it.discard() }
         val seat = SeatEntity(ModEntities.seatEntity, world)
-        seat.updatePosition(pos.x + 0.5, pos.y + 0.3, pos.z + 0.5)
-        seat.yaw = state[FACING].asRotation()
-        if (!world.spawnEntity(seat)) return ActionResult.PASS
+        seat.setPos(pos.x + 0.5, pos.y + 0.3, pos.z + 0.5)
+        seat.yRot = state.getValue(FACING).toYRot()
+        if (!world.addFreshEntity(seat)) return InteractionResult.PASS
         if (!player.startRiding(seat)) {
             seat.discard()
-            return ActionResult.PASS
+            return InteractionResult.PASS
         }
-        player.headYaw = state[FACING].asRotation()
-        return ActionResult.CONSUME
+        player.yHeadRot = state.getValue(FACING).toYRot()
+        return InteractionResult.CONSUME
     }
 
     @Deprecated("Deprecated in Java")
-    override fun getOutlineShape(
+    override fun getShape(
         state: BlockState,
-        world: BlockView?,
+        world: BlockGetter?,
         pos: BlockPos?,
-        context: ShapeContext?
-    ): VoxelShape = when (state[FACING]) {
+        context: CollisionContext?
+    ): VoxelShape = when (state.getValue(FACING)) {
         Direction.NORTH -> northShape
         Direction.EAST -> eastShape
         Direction.SOUTH -> southShape
         Direction.WEST -> westShape
-        else -> VoxelShapes.fullCube()
+        else -> Shapes.block()
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith(
-        "state.also { if (it[waterlogged]) world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world)) }",
+        "state.also { if (it.getValue(waterlogged)) world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world)) }",
         "com.mystery2099.wooden_accents_mod.block.custom.ChairBlock.Companion.waterlogged",
-        "net.minecraft.fluid.Fluids",
-        "net.minecraft.fluid.Fluids"
+        "net.minecraft.world.level.material.Fluids",
+        "net.minecraft.world.level.material.Fluids"
     )
     )
-    override fun getStateForNeighborUpdate(
+    override fun updateShape(
         state: BlockState,
         direction: Direction?,
         neighborState: BlockState?,
-        world: WorldAccess,
+        world: LevelAccessor,
         pos: BlockPos,
         neighborPos: BlockPos?
     ): BlockState = state.also {
-        if (it[waterlogged]) world.scheduleFluidTick(
+        if (it.getValue(waterlogged)) world.scheduleTick(
             pos,
             Fluids.WATER,
-            Fluids.WATER.getTickRate(world)
+            Fluids.WATER.getTickDelay(world)
         )
     }
 
 
     @Deprecated("Deprecated in Java", ReplaceWith(
-        "if (state[waterlogged]) Fluids.WATER.getStill(false) else Fluids.EMPTY.defaultState",
+        "if (state.getValue(waterlogged)) Fluids.WATER.getSource(false) else Fluids.EMPTY.defaultFluidState()",
         "com.github.mystery2099.woodenAccentsMod.block.custom.ChairBlock.Companion.waterlogged",
-        "net.minecraft.fluid.Fluids",
-        "net.minecraft.fluid.Fluids"
+        "net.minecraft.world.level.material.Fluids",
+        "net.minecraft.world.level.material.Fluids"
     )
     )
     override fun getFluidState(state: BlockState): FluidState {
-        return if (state[waterlogged]) Fluids.WATER.getStill(false)
-        else Fluids.EMPTY.defaultState
+        return if (state.getValue(waterlogged)) Fluids.WATER.getSource(false)
+        else Fluids.EMPTY.defaultFluidState()
     }
 
-    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
-        val texturedModel = TexturedModel.makeFactory({ TextureMap.all(baseBlock) }, ModModels.basicChair)
-        generator.registerNorthDefaultHorizontalRotated(this, texturedModel)
+    override fun generateBlockStateModels(generator: BlockModelGenerators) {
+        val texturedModel = TexturedModel.createDefault({ TextureMapping.cube(baseBlock) }, ModModels.basicChair)
+        generator.createHorizontallyRotatedBlock(this, texturedModel)
     }
 
-    override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 3).apply {
-            input('#', baseBlock)
-            input('|', Items.STICK)
+    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, 3).apply {
+            define('#', baseBlock)
+            define('|', Items.STICK)
             pattern("#  ")
             pattern("###")
             pattern("| |")
             customGroup(this@ChairBlock, "chairs")
             requires(baseBlock)
-            offerTo(exporter)
+            save(exporter)
         }
     }
 
     companion object {
-        val waterlogged: BooleanProperty = Properties.WATERLOGGED
+        val waterlogged: BooleanProperty = BlockStateProperties.WATERLOGGED
 
         // Shapes are authored facing north, then rotated for the other directions.
         private val northBaseShape = VoxelAssembly.createCuboidShape(2, 10, 12, 14, 20, 14)

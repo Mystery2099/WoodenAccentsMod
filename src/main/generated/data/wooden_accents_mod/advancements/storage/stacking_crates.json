@@ -8,6 +8,12 @@
             "count": {
               "min": 2
             },
+            "enchantments": [
+              null
+            ],
+            "stored_enchantments": [
+              null
+            ],
             "tag": "wooden_accents_mod:crates"
           }
         ]

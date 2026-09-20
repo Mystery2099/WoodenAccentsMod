@@ -12,21 +12,21 @@ import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.Custom
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.FenceGateBlock
-import net.minecraft.block.ShapeContext
-import net.minecraft.data.client.BlockStateModelGenerator
-import net.minecraft.data.client.TextureMap
-import net.minecraft.data.server.recipe.RecipeJsonProvider
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
-import net.minecraft.item.Items
-import net.minecraft.recipe.book.RecipeCategory
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.world.BlockView
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.FenceGateBlock
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.data.models.BlockModelGenerators
+import net.minecraft.data.models.model.TextureMapping
+import net.minecraft.data.recipes.FinishedRecipe
+import net.minecraft.data.recipes.ShapedRecipeBuilder
+import net.minecraft.world.item.Items
+import net.minecraft.data.recipes.RecipeCategory
+import net.minecraft.tags.TagKey
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.world.phys.shapes.VoxelShape
+import net.minecraft.world.level.BlockGetter
 import java.util.function.Consumer
 
 class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : FenceGateBlock(FabricBlockSettings.copyOf(baseGate), baseGate.woodType),
@@ -35,37 +35,37 @@ class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : Fen
     override val itemGroup = ModItemGroups.building
 
     @Deprecated("Deprecated in Java")
-    override fun getOutlineShape(
+    override fun getShape(
         state: BlockState,
-        world: BlockView?,
+        world: BlockGetter?,
         pos: BlockPos?,
-        context: ShapeContext?
-    ): VoxelShape = when (state[FACING]) {
-        Direction.NORTH, Direction.SOUTH -> if (state[IN_WALL]) wallShape1 else shape1
-        Direction.EAST, Direction.WEST -> if (state[IN_WALL]) wallShape2 else shape2
-        else -> super.getOutlineShape(state, world, pos, context)
+        context: CollisionContext?
+    ): VoxelShape = when (state.getValue(FACING)) {
+        Direction.NORTH, Direction.SOUTH -> if (state.getValue(IN_WALL)) wallShape1 else shape1
+        Direction.EAST, Direction.WEST -> if (state.getValue(IN_WALL)) wallShape2 else shape2
+        else -> super.getShape(state, world, pos, context)
     }
 
 
-    override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, this).apply {
-            input('#', baseBlock)
-            input('|', Items.STICK)
+    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, this).apply {
+            define('#', baseBlock)
+            define('|', Items.STICK)
             pattern("|#|")
             pattern("|#|")
             group("modern_fence_gates")
             requires(baseBlock)
-            offerTo(exporter)
+            save(exporter)
         }
     }
 
-    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
-        TextureMap.all(baseBlock).let { map ->
-            val model = ModModels.modernFenceGate.upload(this, map, generator.modelCollector)
-            val openModel = ModModels.modernFenceGateOpen.upload(this, map, generator.modelCollector)
-            val wallModel = ModModels.modernFenceGateWall.upload(this, map, generator.modelCollector)
-            val openWallModel = ModModels.modernFenceGateWallOpen.upload(this, map, generator.modelCollector)
-            generator.blockStateCollector.accept(BlockStateModelGenerator.createFenceGateBlockState(
+    override fun generateBlockStateModels(generator: BlockModelGenerators) {
+        TextureMapping.cube(baseBlock).let { map ->
+            val model = ModModels.modernFenceGate.create(this, map, generator.modelOutput)
+            val openModel = ModModels.modernFenceGateOpen.create(this, map, generator.modelOutput)
+            val wallModel = ModModels.modernFenceGateWall.create(this, map, generator.modelOutput)
+            val openWallModel = ModModels.modernFenceGateWallOpen.create(this, map, generator.modelOutput)
+            generator.blockStateOutput.accept(BlockModelGenerators.createFenceGate(
                 this,
                 openModel,
                 model,

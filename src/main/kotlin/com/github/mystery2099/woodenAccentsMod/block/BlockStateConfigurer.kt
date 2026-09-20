@@ -1,7 +1,7 @@
 package com.github.mystery2099.woodenAccentsMod.block
 
-import net.minecraft.block.BlockState
-import net.minecraft.state.property.Property
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.properties.Property
 
 /**
  * Small mutable DSL for applying several properties without repeating intermediate [BlockState] values.
@@ -32,7 +32,7 @@ open class BlockStateConfigurer(var blockState: BlockState) {
     operator fun invoke(): BlockState = blockState
 
     open fun <T : Comparable<T>> setProperty(property: Property<T>, value: T) {
-        this.blockState = blockState.with(property, value)
+        this.blockState = blockState.setValue(property, value)
     }
 
     companion object {
@@ -47,7 +47,7 @@ open class BlockStateConfigurer(var blockState: BlockState) {
     val ifExistsConfigurer by lazy {
         object : BlockStateConfigurer(blockState) {
             override fun <T : Comparable<T>> setProperty(property: Property<T>, value: T) {
-                blockState = blockState.withIfExists(property, value)
+                blockState = blockState.trySetValue(property, value)
             }
         }
     }

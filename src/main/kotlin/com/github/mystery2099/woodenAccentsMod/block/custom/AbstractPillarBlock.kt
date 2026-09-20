@@ -14,29 +14,29 @@ import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.Custom
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
 import com.github.mystery2099.woodenAccentsMod.util.WhenUtil
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.ShapeContext
-import net.minecraft.block.SideShapeType
-import net.minecraft.data.client.MultipartBlockStateSupplier
-import net.minecraft.data.client.VariantSettings
-import net.minecraft.data.server.recipe.RecipeJsonProvider
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
-import net.minecraft.item.ItemConvertible
-import net.minecraft.item.ItemPlacementContext
-import net.minecraft.recipe.book.RecipeCategory
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.state.StateManager
-import net.minecraft.state.property.BooleanProperty
-import net.minecraft.state.property.Properties
-import net.minecraft.util.Identifier
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.world.BlockView
-import net.minecraft.world.WorldAccess
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.level.block.SupportType
+import net.minecraft.data.models.blockstates.MultiPartGenerator
+import net.minecraft.data.models.blockstates.VariantProperties
+import net.minecraft.data.recipes.FinishedRecipe
+import net.minecraft.data.recipes.ShapedRecipeBuilder
+import net.minecraft.world.level.ItemLike
+import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.data.recipes.RecipeCategory
+import net.minecraft.tags.TagKey
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.BooleanProperty
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.world.phys.shapes.VoxelShape
+import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.LevelAccessor
 import java.util.function.Consumer
-abstract class AbstractPillarBlock(val baseBlock: Block, private val pillarShape: Shape) :
+abstract class AbstractPillarBlock(val baseBlock: Block, private val pillarShape: CanyonShapeConfiguration) :
     AbstractWaterloggableBlock(FabricBlockSettings.copyOf(baseBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
     override val itemGroup = ModItemGroups.building
@@ -50,27 +50,27 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val pillarShape
     }
 
     init {
-        defaultState = defaultState.with {
+        registerDefaultState(defaultBlockState().with {
             up to false
             down to false
-        }
+        })
     }
 
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        super.appendProperties(builder)
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
+        super.createBlockStateDefinition(builder)
         builder.add(up, down)
     }
 
     @Deprecated("Deprecated in Java")
     @Suppress("DEPRECATION")
-    override fun getStateForNeighborUpdate(
+    override fun updateShape(
         state: BlockState,
         direction: Direction?,
         neighborState: BlockState?,
-        world: WorldAccess,
+        world: LevelAccessor,
         pos: BlockPos,
         neighborPos: BlockPos?
-    ): BlockState = super.getStateForNeighborUpdate(
+    ): BlockState = super.updateShape(
         state = state,
         direction = direction,
         neighborState = neighborState,
@@ -83,46 +83,46 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val pillarShape
     }
 
     @Deprecated("Deprecated in Java")
-    override fun getOutlineShape(
+    override fun getShape(
         state: BlockState,
-        world: BlockView?,
+        world: BlockGetter?,
         pos: BlockPos?,
-        context: ShapeContext?
+        context: CollisionContext?
     ): VoxelShape = outlineShapes[getConnectionIndex(state)]
 
-    override fun getPlacementState(ctx: ItemPlacementContext): BlockState =
-        super.getPlacementState(ctx).with {
-            val world = ctx.world
-            val pos = ctx.blockPos
+    override fun getStateForPlacement(ctx: BlockPlaceContext): BlockState =
+        super.getStateForPlacement(ctx).with {
+            val world = ctx.level
+            val pos = ctx.clickedPos
             up to canConnect(world, pos, Direction.UP)
             down to canConnect(world, pos, Direction.DOWN)
         }
 
-    private fun canConnect(world: WorldAccess, pos: BlockPos, direction: Direction): Boolean {
-        val otherPos = pos.offset(direction)
+    private fun canConnect(world: LevelAccessor, pos: BlockPos, direction: Direction): Boolean {
+        val otherPos = pos.relative(direction)
         val otherState = world.getBlockState(otherPos)
         if (!(otherState isIn connectableBlockTag)) return false
 
         // An isolated thick pillar has full-cube collision, but remains visually connectable as a pillar.
         if (otherState.block is ThickPillarBlock) return true
 
-        return otherState.isSideSolid(
+        return otherState.isFaceSturdy(
             world,
             otherPos,
             direction.opposite,
-            SideShapeType.CENTER
-        ) && !otherState.isSideSolidFullSquare(world, otherPos, direction.opposite)
+            SupportType.CENTER
+        ) && !otherState.isFaceSturdy(world, otherPos, direction.opposite)
     }
 
     fun offerRecipe(
-        exporter: Consumer<RecipeJsonProvider>,
+        exporter: Consumer<FinishedRecipe>,
         outputNum: Int,
-        primaryInput: ItemConvertible,
-        secondaryInput: ItemConvertible
+        primaryInput: ItemLike,
+        secondaryInput: ItemLike
     ) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, outputNum).apply {
-            input('|', secondaryInput)
-            input('#', primaryInput)
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, outputNum).apply {
+            define('|', secondaryInput)
+            define('#', primaryInput)
             pattern("###")
             pattern(" | ")
             pattern("###")
@@ -134,29 +134,29 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val pillarShape
                 }
             )
             requires(primaryInput)
-            offerTo(exporter)
+            save(exporter)
         }
     }
 
     fun genBlockStateModelSupplier(
-        centerModel: Identifier,
-        bottomModel: Identifier
-    ): MultipartBlockStateSupplier = MultipartBlockStateSupplier.create(this).apply {
+        centerModel: ResourceLocation,
+        bottomModel: ResourceLocation
+    ): MultiPartGenerator = MultiPartGenerator.multiPart(this).apply {
         with(centerModel.asBlockStateVariant())
-        with(WhenUtil.notUp, bottomModel.asBlockStateVariant().withXRotationOf(VariantSettings.Rotation.R180).uvLock())
+        with(WhenUtil.notUp, bottomModel.asBlockStateVariant().withXRotationOf(VariantProperties.Rotation.R180).uvLock())
         with(WhenUtil.notDown, bottomModel.asBlockStateVariant())
     }
 
     @JvmRecord
-    data class Shape(val topShape: VoxelShape, val centerShape: VoxelShape, val baseShape: VoxelShape)
+    data class CanyonShapeConfiguration(val topShape: VoxelShape, val centerShape: VoxelShape, val baseShape: VoxelShape)
     companion object {
-        val up: BooleanProperty = Properties.UP
-        val down: BooleanProperty = Properties.DOWN
+        val up: BooleanProperty = BlockStateProperties.UP
+        val down: BooleanProperty = BlockStateProperties.DOWN
 
         private fun getConnectionIndex(state: BlockState): Int {
             var connections = 0
-            if (state[up]) connections = connections or UP_CONNECTION
-            if (state[down]) connections = connections or DOWN_CONNECTION
+            if (state.getValue(up)) connections = connections or UP_CONNECTION
+            if (state.getValue(down)) connections = connections or DOWN_CONNECTION
             return connections
         }
 
