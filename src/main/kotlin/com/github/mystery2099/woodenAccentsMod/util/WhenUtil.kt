@@ -1,38 +1,38 @@
 package com.github.mystery2099.woodenAccentsMod.util
 
-import net.minecraft.data.client.When
-import net.minecraft.state.property.Properties
-import net.minecraft.util.math.Direction
+import net.minecraft.data.models.blockstates.Condition
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.core.Direction
 
 object WhenUtil {
 
     // Connections
-    val up: When.PropertyCondition = When.create().set(Properties.UP, true)
-    val down: When.PropertyCondition = When.create().set(Properties.DOWN, true)
-    val north: When.PropertyCondition = When.create().set(Properties.NORTH, true)
-    val east: When.PropertyCondition = When.create().set(Properties.EAST, true)
-    val south: When.PropertyCondition = When.create().set(Properties.SOUTH, true)
-    val west: When.PropertyCondition = When.create().set(Properties.WEST, true)
+    val up: Condition.TerminalCondition = Condition.condition().term(BlockStateProperties.UP, true)
+    val down: Condition.TerminalCondition = Condition.condition().term(BlockStateProperties.DOWN, true)
+    val north: Condition.TerminalCondition = Condition.condition().term(BlockStateProperties.NORTH, true)
+    val east: Condition.TerminalCondition = Condition.condition().term(BlockStateProperties.EAST, true)
+    val south: Condition.TerminalCondition = Condition.condition().term(BlockStateProperties.SOUTH, true)
+    val west: Condition.TerminalCondition = Condition.condition().term(BlockStateProperties.WEST, true)
 
     // Missing connections
-    val notUp: When.PropertyCondition = When.create().set(Properties.UP, false)
-    val notDown: When.PropertyCondition = When.create().set(Properties.DOWN, false)
-    val notNorth: When.PropertyCondition = When.create().set(Properties.NORTH, false)
-    val notEast: When.PropertyCondition = When.create().set(Properties.EAST, false)
-    val notSouth: When.PropertyCondition = When.create().set(Properties.SOUTH, false)
-    val notWest: When.PropertyCondition = When.create().set(Properties.WEST, false)
+    val notUp: Condition.TerminalCondition = Condition.condition().term(BlockStateProperties.UP, false)
+    val notDown: Condition.TerminalCondition = Condition.condition().term(BlockStateProperties.DOWN, false)
+    val notNorth: Condition.TerminalCondition = Condition.condition().term(BlockStateProperties.NORTH, false)
+    val notEast: Condition.TerminalCondition = Condition.condition().term(BlockStateProperties.EAST, false)
+    val notSouth: Condition.TerminalCondition = Condition.condition().term(BlockStateProperties.SOUTH, false)
+    val notWest: Condition.TerminalCondition = Condition.condition().term(BlockStateProperties.WEST, false)
 
     // Missing diagonal connections (neither of the two directions)
-    val notNorthEast: When = allOf(notNorth, notEast)
-    val notSouthEast: When = allOf(notSouth, notEast)
-    val notNorthWest: When = allOf(notNorth, notWest)
-    val notSouthWest: When = allOf(notSouth, notWest)
+    val notNorthEast: Condition = allOf(notNorth, notEast)
+    val notSouthEast: Condition = allOf(notSouth, notEast)
+    val notNorthWest: Condition = allOf(notNorth, notWest)
+    val notSouthWest: Condition = allOf(notSouth, notWest)
 
     // Horizontal facing
-    val facingNorthHorizontal: When.PropertyCondition = When.create().set(Properties.HORIZONTAL_FACING, Direction.NORTH)
-    val facingEastHorizontal: When.PropertyCondition = When.create().set(Properties.HORIZONTAL_FACING, Direction.EAST)
-    val facingSouthHorizontal: When.PropertyCondition = When.create().set(Properties.HORIZONTAL_FACING, Direction.SOUTH)
-    val facingWestHorizontal: When.PropertyCondition = When.create().set(Properties.HORIZONTAL_FACING, Direction.WEST)
+    val facingNorthHorizontal: Condition.TerminalCondition = Condition.condition().term(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)
+    val facingEastHorizontal: Condition.TerminalCondition = Condition.condition().term(BlockStateProperties.HORIZONTAL_FACING, Direction.EAST)
+    val facingSouthHorizontal: Condition.TerminalCondition = Condition.condition().term(BlockStateProperties.HORIZONTAL_FACING, Direction.SOUTH)
+    val facingWestHorizontal: Condition.TerminalCondition = Condition.condition().term(BlockStateProperties.HORIZONTAL_FACING, Direction.WEST)
 
-    fun allOf(vararg conditions: When): When = When.allOf(*conditions)
+    fun allOf(vararg conditions: Condition): Condition = Condition.and(*conditions)
 }

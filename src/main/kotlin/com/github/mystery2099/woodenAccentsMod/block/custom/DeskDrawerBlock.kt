@@ -27,50 +27,52 @@ import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.state.property.ModProperties
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
-import net.minecraft.block.Block
-import net.minecraft.block.BlockRenderType
-import net.minecraft.block.BlockState
-import net.minecraft.block.ShapeContext
-import net.minecraft.block.entity.BlockEntity
-import net.minecraft.data.client.*
-import net.minecraft.data.server.recipe.RecipeJsonProvider
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.mob.PiglinBrain
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.inventory.Inventory
-import net.minecraft.item.ItemPlacementContext
-import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
-import net.minecraft.loot.LootPool
-import net.minecraft.loot.LootTable
-import net.minecraft.loot.entry.ItemEntry
-import net.minecraft.loot.function.CopyNameLootFunction
-import net.minecraft.loot.provider.number.ConstantLootNumberProvider
-import net.minecraft.recipe.book.RecipeCategory
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.screen.ScreenHandler
-import net.minecraft.state.StateManager
-import net.minecraft.state.property.DirectionProperty
-import net.minecraft.state.property.EnumProperty
-import net.minecraft.state.property.Properties
-import net.minecraft.util.ActionResult
-import net.minecraft.util.BlockMirror
-import net.minecraft.util.BlockRotation
-import net.minecraft.util.Hand
-import net.minecraft.util.ItemScatterer
-import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
-import net.minecraft.world.BlockView
-import net.minecraft.world.World
-import net.minecraft.world.WorldAccess
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.RenderShape
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.data.models.*
+import net.minecraft.data.models.blockstates.*
+import net.minecraft.data.models.model.*
+import net.minecraft.data.recipes.FinishedRecipe
+import net.minecraft.data.recipes.ShapedRecipeBuilder
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.monster.piglin.PiglinAi
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.Container
+import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
+import net.minecraft.world.level.storage.loot.LootPool
+import net.minecraft.world.level.storage.loot.LootTable
+import net.minecraft.world.level.storage.loot.entries.LootItem
+import net.minecraft.world.level.storage.loot.functions.CopyNameFunction
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue
+import net.minecraft.data.recipes.RecipeCategory
+import net.minecraft.tags.TagKey
+import net.minecraft.world.inventory.AbstractContainerMenu
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.DirectionProperty
+import net.minecraft.world.level.block.state.properties.EnumProperty
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.level.block.Mirror
+import net.minecraft.world.level.block.Rotation
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.Containers
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.world.phys.shapes.VoxelShape
+import net.minecraft.world.phys.shapes.Shapes
+import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.LevelAccessor
 import java.util.function.Consumer
 
 class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
-    WaterloggableBlockWithEntity(FabricBlockSettings.copyOf(baseBlock).mapColor(baseBlock.defaultMapColor)),
+    WaterloggableBlockWithEntity(FabricBlockSettings.copyOf(baseBlock).mapColor(baseBlock.defaultMapColor())),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider,
     CustomBlockLootTableProvider {
 
@@ -82,9 +84,8 @@ class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
         get() = this isIn ModBlockTags.desks
 
     init {
-        this.defaultState =
-            this.stateManager.defaultState.with { facing to Direction.NORTH }
-                .withShape(left = false, right = false)
+        this.registerDefaultState(this.stateDefinition.any().with { facing to Direction.NORTH }
+                .withShape(left = false, right = false))
     }
 
     private fun BlockState.withShape(left: Boolean, right: Boolean): BlockState = this.with {
@@ -97,25 +98,25 @@ class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
     }
 
     private fun BlockState.canConnectTo(otherState: BlockState): Boolean {
-        return ((this.isDeskDrawer || this.isDesk) && (otherState.isDeskDrawer || otherState.isDesk)) && (this[facing] == otherState[facing])
+        return ((this.isDeskDrawer || this.isDesk) && (otherState.isDeskDrawer || otherState.isDesk)) && (this.getValue(facing) == otherState.getValue(facing))
     }
 
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        super.appendProperties(builder)
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
+        super.createBlockStateDefinition(builder)
         builder.add(facing, shape)
     }
 
-    private fun getAdjacentStates(world: WorldAccess, pos: BlockPos, state: BlockState = world.getBlockState(pos)): Array<BlockState> {
+    private fun getAdjacentStates(world: LevelAccessor, pos: BlockPos, state: BlockState = world.getBlockState(pos)): Array<BlockState> {
         return arrayOf(
-            world.getBlockState(pos.offset(state[facing].rotateYClockwise())),
-            world.getBlockState(pos.offset(state[facing].rotateYCounterclockwise()))
+            world.getBlockState(pos.relative(state.getValue(facing).getClockWise())),
+            world.getBlockState(pos.relative(state.getValue(facing).getCounterClockWise()))
         )
     }
-    override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
-        val world = ctx.world
-        val pos = ctx.blockPos
+    override fun getStateForPlacement(ctx: BlockPlaceContext): BlockState {
+        val world = ctx.level
+        val pos = ctx.clickedPos
 
-        val state = super.getPlacementState(ctx).with(facing, ctx.horizontalPlayerFacing.opposite)
+        val state = super.getStateForPlacement(ctx).setValue(facing, ctx.horizontalDirection.opposite)
         val adjacentStates = getAdjacentStates(world, pos, state)
         return state.withShape(
             left = state.canConnectTo(adjacentStates[0]),
@@ -123,42 +124,42 @@ class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
         )
     }
 
-    override fun onPlaced(
-        world: World,
+    override fun setPlacedBy(
+        world: Level,
         pos: BlockPos,
         state: BlockState,
         placer: LivingEntity?,
         itemStack: ItemStack
     ) {
         val blockEntity: BlockEntity? = world.getBlockEntity(pos)
-                if (itemStack.hasCustomName() && blockEntity is DeskDrawerBlockEntity) {
-            blockEntity.customName = itemStack.name
+                if (itemStack.hasCustomHoverName() && blockEntity is DeskDrawerBlockEntity) {
+            blockEntity.customName = itemStack.hoverName
         }
     }
 
     @Deprecated("Deprecated in Java")
-    override fun onUse(
+    override fun use(
         state: BlockState,
-        world: World,
+        world: Level,
         pos: BlockPos,
-        player: PlayerEntity,
-        hand: Hand?,
+        player: Player,
+        hand: InteractionHand?,
         hit: BlockHitResult?
-    ): ActionResult {
-        if (world.isClient) return ActionResult.SUCCESS
+    ): InteractionResult {
+        if (world.isClientSide) return InteractionResult.SUCCESS
         val blockEntity = world.getBlockEntity(pos)
         if (blockEntity is DeskDrawerBlockEntity) {
-            player.openHandledScreen(blockEntity)
-            PiglinBrain.onGuardedBlockInteracted(player, true)
+            player.openMenu(blockEntity)
+            PiglinAi.angerNearbyPiglins(player, true)
         }
-        return ActionResult.CONSUME
+        return InteractionResult.CONSUME
     }
 
     @Deprecated("Deprecated in Java")
     @Suppress("DEPRECATION")
-    override fun onStateReplaced(
+    override fun onRemove(
         state: BlockState,
-        world: World,
+        world: Level,
         pos: BlockPos,
         newState: BlockState,
         moved: Boolean
@@ -166,26 +167,26 @@ class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
         if (state isOf newState.block) return
 
         val blockEntity = world.getBlockEntity(pos)
-        if (blockEntity is Inventory) {
-            ItemScatterer.spawn(world, pos, blockEntity)
-            world.updateComparators(pos, this)
+        if (blockEntity is Container) {
+            Containers.dropContents(world, pos, blockEntity)
+            world.updateNeighbourForOutputSignal(pos, this)
         }
 
-        super.onStateReplaced(state, world, pos, newState, moved)
+        super.onRemove(state, world, pos, newState, moved)
     }
 
     @Deprecated("Deprecated in Java")
     @Suppress("DEPRECATION")
-    override fun getStateForNeighborUpdate(
+    override fun updateShape(
         state: BlockState,
         direction: Direction?,
         neighborState: BlockState?,
-        world: WorldAccess,
+        world: LevelAccessor,
         pos: BlockPos,
         neighborPos: BlockPos?
     ): BlockState {
         val adjacentStates = getAdjacentStates(world, pos)
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
+        return super.updateShape(state, direction, neighborState, world, pos, neighborPos)
             .withShape(
                 left = state.canConnectTo(adjacentStates[0]),
                 right = state.canConnectTo(adjacentStates[1])
@@ -193,156 +194,156 @@ class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
     }
 
     @Deprecated("Deprecated in Java")
-    override fun getOutlineShape(
+    override fun getShape(
         state: BlockState,
-        world: BlockView?,
+        world: BlockGetter?,
         pos: BlockPos?,
-        context: ShapeContext?
-    ): VoxelShape = shapeMap[state[shape]]?.get(state[facing]) ?: VoxelShapes.fullCube()
+        context: CollisionContext?
+    ): VoxelShape = shapeMap[state.getValue(shape)]?.get(state.getValue(facing)) ?: Shapes.block()
 
     @Deprecated("Deprecated in Java")
     override fun getCollisionShape(
         state: BlockState,
-        world: BlockView,
+        world: BlockGetter,
         pos: BlockPos,
-        context: ShapeContext
-    ): VoxelShape = VoxelShapes.fullCube()
+        context: CollisionContext
+    ): VoxelShape = Shapes.block()
 
-    @Deprecated("Deprecated in Java", ReplaceWith("BlockRenderType.MODEL", "net.minecraft.block.BlockRenderType"))
-    override fun getRenderType(state: BlockState?): BlockRenderType = BlockRenderType.MODEL
+    @Deprecated("Deprecated in Java", ReplaceWith("RenderShape.MODEL", "net.minecraft.world.level.block.RenderShape"))
+    override fun getRenderShape(state: BlockState?): RenderShape = RenderShape.MODEL
 
     @Deprecated("Deprecated in Java", ReplaceWith("true"))
-    override fun hasComparatorOutput(state: BlockState) = true
+    override fun hasAnalogOutputSignal(state: BlockState) = true
 
     @Deprecated(
         "Deprecated in Java", ReplaceWith(
-            "ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos))",
-            "net.minecraft.screen.ScreenHandler"
+            "AbstractContainerMenu.getRedstoneSignalFromBlockEntity(world.getBlockEntity(pos))",
+            "net.minecraft.world.inventory.AbstractContainerMenu"
         )
     )
-    override fun getComparatorOutput(state: BlockState, world: World, pos: BlockPos): Int {
-        return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos))
+    override fun getAnalogOutputSignal(state: BlockState, world: Level, pos: BlockPos): Int {
+        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(world.getBlockEntity(pos))
     }
 
     @Deprecated(
         "Deprecated in Java", ReplaceWith(
-            "state.with(facing, rotation.rotate(state[facing]))",
+            "state.setValue(facing, rotation.rotate(state.getValue(facing)))",
             "com.mystery2099.wooden_accents_mod.block.custom.DeskDrawerBlock.Companion.facing",
             "com.mystery2099.wooden_accents_mod.block.custom.DeskDrawerBlock.Companion.facing"
         )
     )
-    override fun rotate(state: BlockState, rotation: BlockRotation): BlockState {
-        return state.with(facing, rotation.rotate(state[facing]))
+    override fun rotate(state: BlockState, rotation: Rotation): BlockState {
+        return state.setValue(facing, rotation.rotate(state.getValue(facing)))
     }
 
     @Deprecated(
         "Deprecated in Java", ReplaceWith(
-            "state.rotate(mirror.getRotation(state[facing]))",
+            "state.rotate(mirror.getRotation(state.getValue(facing)))",
             "com.mystery2099.wooden_accents_mod.block.custom.DeskDrawerBlock.Companion.facing"
         )
     )
-    override fun mirror(state: BlockState, mirror: BlockMirror): BlockState {
-        return state.rotate(mirror.getRotation(state[facing]))
+    override fun mirror(state: BlockState, mirror: Mirror): BlockState {
+        return state.rotate(mirror.getRotation(state.getValue(facing)))
     }
 
-    override fun createBlockEntity(pos: BlockPos, state: BlockState) = DeskDrawerBlockEntity(pos, state)
+    override fun newBlockEntity(pos: BlockPos, state: BlockState) = DeskDrawerBlockEntity(pos, state)
 
     override fun getLootTableBuilder(provider: FabricBlockLootTableProvider): LootTable.Builder {
-        return LootTable.builder().pool(
-            provider.addSurvivesExplosionCondition(
+        return LootTable.lootTable().withPool(
+            provider.applyExplosionCondition(
                 this,
-                LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f)).with(
-                    ItemEntry.builder(this)
-                        .apply(CopyNameLootFunction.builder(CopyNameLootFunction.Source.BLOCK_ENTITY))
+                LootPool.lootPool().setRolls(ConstantValue.exactly(1.0f)).add(
+                    LootItem.lootTableItem(this)
+                        .apply(CopyNameFunction.copyName(CopyNameFunction.NameSource.BLOCK_ENTITY))
                 )
             )
         )
     }
 
-    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
-        val textureMap = TextureMap().apply {
-            put(TextureKey.SIDE, baseBlock.textureId)
-            put(TextureKey.EDGE, edgeBlock.textureId)
+    override fun generateBlockStateModels(generator: BlockModelGenerators) {
+        val textureMap = TextureMapping().apply {
+            put(TextureSlot.SIDE, baseBlock.textureId)
+            put(TextureSlot.EDGE, edgeBlock.textureId)
         }
 
-        val singleModel = ModModels.deskDrawer.upload(this, textureMap, generator.modelCollector)
-        val leftModel = ModModels.deskDrawerLeft.upload(this, textureMap, generator.modelCollector)
-        val centerModel = ModModels.deskDrawerCenter.upload(this, textureMap, generator.modelCollector)
-        val rightModel = ModModels.deskDrawerRight.upload(this, textureMap, generator.modelCollector)
+        val singleModel = ModModels.deskDrawer.create(this, textureMap, generator.modelOutput)
+        val leftModel = ModModels.deskDrawerLeft.create(this, textureMap, generator.modelOutput)
+        val centerModel = ModModels.deskDrawerCenter.create(this, textureMap, generator.modelOutput)
+        val rightModel = ModModels.deskDrawerRight.create(this, textureMap, generator.modelOutput)
 
-        generator.blockStateCollector.accept(
-            VariantsBlockStateSupplier.create(this).coordinate(
-                BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, ModProperties.sidewaysConnectionShape).apply {
+        generator.blockStateOutput.accept(
+            MultiVariantGenerator.multiVariant(this).with(
+                PropertyDispatch.properties(BlockStateProperties.HORIZONTAL_FACING, ModProperties.sidewaysConnectionShape).apply {
                     val northSingleVariant = singleModel.asBlockStateVariant()
                     val northLeftVariant = leftModel.asBlockStateVariant()
                     val northCenterVariant = centerModel.asBlockStateVariant()
                     val northRightVariant = rightModel.asBlockStateVariant()
 
-                    register(Direction.NORTH, SidewaysConnectionShape.SINGLE, northSingleVariant)
-                    register(Direction.NORTH, SidewaysConnectionShape.LEFT, northLeftVariant)
-                    register(Direction.NORTH, SidewaysConnectionShape.CENTER, northCenterVariant)
-                    register(Direction.NORTH, SidewaysConnectionShape.RIGHT, northRightVariant)
+                    select(Direction.NORTH, SidewaysConnectionShape.SINGLE, northSingleVariant)
+                    select(Direction.NORTH, SidewaysConnectionShape.LEFT, northLeftVariant)
+                    select(Direction.NORTH, SidewaysConnectionShape.CENTER, northCenterVariant)
+                    select(Direction.NORTH, SidewaysConnectionShape.RIGHT, northRightVariant)
 
-                    register(
+                    select(
                         Direction.EAST, SidewaysConnectionShape.SINGLE, northSingleVariant.withYRotationOf(
-                            VariantSettings.Rotation.R90
+                            VariantProperties.Rotation.R90
                         )
                     )
-                    register(
+                    select(
                         Direction.EAST, SidewaysConnectionShape.LEFT, northLeftVariant.withYRotationOf(
-                            VariantSettings.Rotation.R90
+                            VariantProperties.Rotation.R90
                         )
                     )
-                    register(
+                    select(
                         Direction.EAST, SidewaysConnectionShape.CENTER, northCenterVariant.withYRotationOf(
-                            VariantSettings.Rotation.R90
+                            VariantProperties.Rotation.R90
                         )
                     )
-                    register(
+                    select(
                         Direction.EAST, SidewaysConnectionShape.RIGHT, northRightVariant.withYRotationOf(
-                            VariantSettings.Rotation.R90
+                            VariantProperties.Rotation.R90
                         )
                     )
 
-                    register(
+                    select(
                         Direction.SOUTH, SidewaysConnectionShape.SINGLE, northSingleVariant.withYRotationOf(
-                            VariantSettings.Rotation.R180
+                            VariantProperties.Rotation.R180
                         )
                     )
-                    register(
+                    select(
                         Direction.SOUTH, SidewaysConnectionShape.LEFT, northLeftVariant.withYRotationOf(
-                            VariantSettings.Rotation.R180
+                            VariantProperties.Rotation.R180
                         )
                     )
-                    register(
+                    select(
                         Direction.SOUTH, SidewaysConnectionShape.CENTER, northCenterVariant.withYRotationOf(
-                            VariantSettings.Rotation.R180
+                            VariantProperties.Rotation.R180
                         )
                     )
-                    register(
+                    select(
                         Direction.SOUTH, SidewaysConnectionShape.RIGHT, northRightVariant.withYRotationOf(
-                            VariantSettings.Rotation.R180
+                            VariantProperties.Rotation.R180
                         )
                     )
 
-                    register(
+                    select(
                         Direction.WEST, SidewaysConnectionShape.SINGLE, northSingleVariant.withYRotationOf(
-                            VariantSettings.Rotation.R270
+                            VariantProperties.Rotation.R270
                         )
                     )
-                    register(
+                    select(
                         Direction.WEST, SidewaysConnectionShape.LEFT, northLeftVariant.withYRotationOf(
-                            VariantSettings.Rotation.R270
+                            VariantProperties.Rotation.R270
                         )
                     )
-                    register(
+                    select(
                         Direction.WEST, SidewaysConnectionShape.CENTER, northCenterVariant.withYRotationOf(
-                            VariantSettings.Rotation.R270
+                            VariantProperties.Rotation.R270
                         )
                     )
-                    register(
+                    select(
                         Direction.WEST, SidewaysConnectionShape.RIGHT, northRightVariant.withYRotationOf(
-                            VariantSettings.Rotation.R270
+                            VariantProperties.Rotation.R270
                         )
                     )
 
@@ -351,22 +352,22 @@ class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
         )
     }
 
-    override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 4).apply {
-            input('|', edgeBlock)
-            input('_', baseBlock)
-            input('#', Items.CHEST)
+    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, 4).apply {
+            define('|', edgeBlock)
+            define('_', baseBlock)
+            define('#', Items.CHEST)
             pattern("___")
             pattern("|#|")
             pattern("| |")
             customGroup(this@DeskDrawerBlock, "desk_drawers")
             requires(ModBlockTags.getItemTagFrom(ModBlockTags.desks))
-            offerTo(exporter)
+            save(exporter)
         }
     }
 
     companion object {
-        val facing: DirectionProperty = Properties.HORIZONTAL_FACING
+        val facing: DirectionProperty = BlockStateProperties.HORIZONTAL_FACING
         val shape: EnumProperty<SidewaysConnectionShape> = ModProperties.sidewaysConnectionShape
         private val northShape = VoxelAssembly.createCuboidShape(1, 0, 1, 15, 15, 16)
         private val northSingleShape = VoxelAssembly.createCuboidShape(

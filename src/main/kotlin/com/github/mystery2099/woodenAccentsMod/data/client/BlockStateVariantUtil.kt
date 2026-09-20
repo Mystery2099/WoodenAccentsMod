@@ -1,31 +1,31 @@
 package com.github.mystery2099.woodenAccentsMod.data.client
 
-import net.minecraft.data.client.BlockStateVariant
-import net.minecraft.data.client.VariantSetting
-import net.minecraft.data.client.VariantSettings
-import net.minecraft.util.Identifier
+import net.minecraft.data.models.blockstates.Variant
+import net.minecraft.data.models.blockstates.VariantProperties
+import net.minecraft.data.models.blockstates.VariantProperty
+import net.minecraft.resources.ResourceLocation
 
 object BlockStateVariantUtil {
-    infix fun BlockStateVariant.and(other: BlockStateVariant): BlockStateVariant =
-        BlockStateVariant.union(this, other)
+    infix fun Variant.and(other: Variant): Variant =
+        Variant.merge(this, other)
 
-    fun BlockStateVariant.unifiedWith(vararg others: BlockStateVariant): BlockStateVariant = others.fold(this, BlockStateVariant::union)
+    fun Variant.unifiedWith(vararg others: Variant): Variant = others.fold(this, Variant::merge)
 
-    operator fun BlockStateVariant.plus(other: BlockStateVariant) = and(other)
+    operator fun Variant.plus(other: Variant) = and(other)
 
-    fun BlockStateVariant.putModel(model: Identifier): BlockStateVariant = this.put(VariantSettings.MODEL, model)
+    fun Variant.putModel(model: ResourceLocation): Variant = this.with(VariantProperties.MODEL, model)
 
-    fun Identifier.asBlockStateVariant() = BlockStateVariant().putModel(this)
+    fun ResourceLocation.asBlockStateVariant() = Variant().putModel(this)
 
-    fun BlockStateVariant.withYRotationOf(rotation: VariantSettings.Rotation) = and(
-        BlockStateVariant().put(VariantSettings.Y, rotation)
+    fun Variant.withYRotationOf(rotation: VariantProperties.Rotation) = and(
+        Variant().with(VariantProperties.Y_ROT, rotation)
     )
 
-    fun BlockStateVariant.withXRotationOf(rotation: VariantSettings.Rotation) = and(
-        BlockStateVariant().put(VariantSettings.X, rotation)
+    fun Variant.withXRotationOf(rotation: VariantProperties.Rotation) = and(
+        Variant().with(VariantProperties.X_ROT, rotation)
     )
 
-    fun BlockStateVariant.uvLock(): BlockStateVariant = put(VariantSettings.UVLOCK, true)
+    fun Variant.uvLock(): Variant = with(VariantProperties.UV_LOCK, true)
 
-    operator fun <T> BlockStateVariant.set(key: VariantSetting<T>, value: T): BlockStateVariant = put(key, value)
+    operator fun <T> Variant.set(key: VariantProperty<T>, value: T): Variant = with(key, value)
 }

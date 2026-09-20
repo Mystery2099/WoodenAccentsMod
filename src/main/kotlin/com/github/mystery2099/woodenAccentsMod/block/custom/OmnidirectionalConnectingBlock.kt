@@ -1,87 +1,87 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
 import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.with
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.ConnectingBlock
-import net.minecraft.block.Waterloggable
-import net.minecraft.fluid.FluidState
-import net.minecraft.fluid.Fluids
-import net.minecraft.item.ItemPlacementContext
-import net.minecraft.state.StateManager
-import net.minecraft.state.property.BooleanProperty
-import net.minecraft.state.property.Properties
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.world.WorldAccess
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.PipeBlock
+import net.minecraft.world.level.block.SimpleWaterloggedBlock
+import net.minecraft.world.level.material.FluidState
+import net.minecraft.world.level.material.Fluids
+import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.BooleanProperty
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.world.level.LevelAccessor
 
-open class OmnidirectionalConnectingBlock(settings: Settings) : ConnectingBlock(2.0F / 16.0F, settings), Waterloggable {
+open class OmnidirectionalConnectingBlock(settings: Properties) : PipeBlock(2.0F / 16.0F, settings), SimpleWaterloggedBlock {
 
     init {
-        defaultState = defaultState.with {
+        registerDefaultState(defaultBlockState().with {
             north to false
             east to false
             south to false
             west to false
             up to false
             down to false
-        }
+        })
     }
 
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        super.appendProperties(builder)
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
+        super.createBlockStateDefinition(builder)
         builder.add(waterlogged, north, east, south, west, up, down)
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith(
-        "if (state[waterlogged]) Fluids.WATER.getStill(false) else super.getFluidState(state)",
+        "if (state.getValue(waterlogged)) Fluids.WATER.getSource(false) else super.getFluidState(state)",
         "com.mystery2099.wooden_accents_mod.block.custom.OmnidirectionalConnectingBlock.Companion.waterlogged",
-        "net.minecraft.fluid.Fluids",
-        "net.minecraft.block.Block"
+        "net.minecraft.world.level.material.Fluids",
+        "net.minecraft.world.level.block.Block"
     )
     )
     @Suppress("DEPRECATION")
     override fun getFluidState(state: BlockState): FluidState {
-        return if (state[waterlogged]) Fluids.WATER.getStill(false)
+        return if (state.getValue(waterlogged)) Fluids.WATER.getSource(false)
         else super.getFluidState(state)
     }
 
     @Deprecated("Deprecated in Java")
-    override fun getStateForNeighborUpdate(
+    override fun updateShape(
         state: BlockState,
         direction: Direction?,
         neighborState: BlockState?,
-        world: WorldAccess,
+        world: LevelAccessor,
         pos: BlockPos,
         neighborPos: BlockPos?
     ): BlockState {
-        if (state[waterlogged]) world.scheduleFluidTick(
+        if (state.getValue(waterlogged)) world.scheduleTick(
             pos,
             Fluids.WATER,
-            Fluids.WATER.getTickRate(world)
+            Fluids.WATER.getTickDelay(world)
         )
         return state.setDirectionalProperties(pos, world)
     }
 
-    open fun canConnectNorthOf(pos: BlockPos, world: WorldAccess): Boolean = world.getBlockState(pos.north()).isOf(this)
+    open fun canConnectNorthOf(pos: BlockPos, world: LevelAccessor): Boolean = world.getBlockState(pos.north()).`is`(this)
 
-    open fun canConnectEastOf(pos: BlockPos, world: WorldAccess): Boolean = world.getBlockState(pos.east()).isOf(this)
+    open fun canConnectEastOf(pos: BlockPos, world: LevelAccessor): Boolean = world.getBlockState(pos.east()).`is`(this)
 
-    open fun canConnectSouthOf(pos: BlockPos, world: WorldAccess): Boolean = world.getBlockState(pos.south()).isOf(this)
+    open fun canConnectSouthOf(pos: BlockPos, world: LevelAccessor): Boolean = world.getBlockState(pos.south()).`is`(this)
 
-    open fun canConnectWestOf(pos: BlockPos, world: WorldAccess): Boolean = world.getBlockState(pos.west()).isOf(this)
+    open fun canConnectWestOf(pos: BlockPos, world: LevelAccessor): Boolean = world.getBlockState(pos.west()).`is`(this)
 
-    open fun canConnectAbove(pos: BlockPos, world: WorldAccess): Boolean = world.getBlockState(pos.up()).isOf(this)
+    open fun canConnectAbove(pos: BlockPos, world: LevelAccessor): Boolean = world.getBlockState(pos.above()).`is`(this)
 
-    open fun canConnectBelow(pos: BlockPos, world: WorldAccess): Boolean = world.getBlockState(pos.down()).isOf(this)
-    override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
-        return defaultState.with(
+    open fun canConnectBelow(pos: BlockPos, world: LevelAccessor): Boolean = world.getBlockState(pos.below()).`is`(this)
+    override fun getStateForPlacement(ctx: BlockPlaceContext): BlockState {
+        return defaultBlockState().setValue(
             waterlogged,
-            ctx.world.getFluidState(ctx.blockPos).fluid === Fluids.WATER
-        ).setDirectionalProperties(ctx.blockPos, ctx.world)
+            ctx.level.getFluidState(ctx.clickedPos).type === Fluids.WATER
+        ).setDirectionalProperties(ctx.clickedPos, ctx.level)
     }
 
-    private fun BlockState.setDirectionalProperties(pos: BlockPos, world: WorldAccess): BlockState {
+    private fun BlockState.setDirectionalProperties(pos: BlockPos, world: LevelAccessor): BlockState {
         return this.with {
             north to canConnectNorthOf(pos, world)
             east to canConnectEastOf(pos, world)
@@ -93,12 +93,12 @@ open class OmnidirectionalConnectingBlock(settings: Settings) : ConnectingBlock(
     }
 
     companion object {
-        val waterlogged: BooleanProperty = Properties.WATERLOGGED
-        val north: BooleanProperty = Properties.NORTH
-        val east: BooleanProperty = Properties.EAST
-        val south: BooleanProperty = Properties.SOUTH
-        val west: BooleanProperty = Properties.WEST
-        val up: BooleanProperty = Properties.UP
-        val down: BooleanProperty = Properties.DOWN
+        val waterlogged: BooleanProperty = BlockStateProperties.WATERLOGGED
+        val north: BooleanProperty = BlockStateProperties.NORTH
+        val east: BooleanProperty = BlockStateProperties.EAST
+        val south: BooleanProperty = BlockStateProperties.SOUTH
+        val west: BooleanProperty = BlockStateProperties.WEST
+        val up: BooleanProperty = BlockStateProperties.UP
+        val down: BooleanProperty = BlockStateProperties.DOWN
     }
 }

@@ -12,9 +12,9 @@ import com.github.mystery2099.woodenAccentsMod.block.entity.custom.CrateBlockEnt
 import com.github.mystery2099.woodenAccentsMod.block.entity.custom.DeskDrawerBlockEntity
 import com.github.mystery2099.woodenAccentsMod.block.entity.custom.KitchenCabinetBlockEntity
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
-import net.minecraft.block.entity.BlockEntityType
-import net.minecraft.registry.Registries
-import net.minecraft.registry.Registry
+import net.minecraft.world.level.block.entity.BlockEntityType
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.Registry
 
 object ModBlockEntities : WoodenAccentsModRegistry {
 
@@ -25,7 +25,7 @@ object ModBlockEntities : WoodenAccentsModRegistry {
 
     override fun register() {
         kitchenCabinet = Registry.register(
-            Registries.BLOCK_ENTITY_TYPE,
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
             "kitchen_cabinet".toIdentifier(),
             FabricBlockEntityTypeBuilder.create(::KitchenCabinetBlockEntity).run {
                 val kitchenCabinets = ModBlocks.blocks.filterIsInstance<KitchenCabinetBlock>().toTypedArray()
@@ -33,7 +33,7 @@ object ModBlockEntities : WoodenAccentsModRegistry {
             }.build()
         )
         crate = Registry.register(
-            Registries.BLOCK_ENTITY_TYPE,
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
             "crate".toIdentifier(),
             FabricBlockEntityTypeBuilder.create(::CrateBlockEntity).run {
                 val crateBlocks = ModBlocks.blocks.filterIsInstance<CrateBlock>().toTypedArray()
@@ -41,7 +41,7 @@ object ModBlockEntities : WoodenAccentsModRegistry {
             }.build()
         )
         deskDrawer = Registry.register(
-            Registries.BLOCK_ENTITY_TYPE,
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
             "desk_drawer".toIdentifier(),
             FabricBlockEntityTypeBuilder.create(::DeskDrawerBlockEntity).run {
                 val crateBlocks = ModBlocks.blocks.filterIsInstance<DeskDrawerBlock>().toTypedArray()
@@ -49,7 +49,7 @@ object ModBlockEntities : WoodenAccentsModRegistry {
             }.build()
         )
         bracketShelf = Registry.register(
-            Registries.BLOCK_ENTITY_TYPE,
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
             "bracket_shelf".toIdentifier(),
             FabricBlockEntityTypeBuilder.create(::BracketShelfBlockEntity).run {
                 val bracketShelfBlocks = ModBlocks.blocks.filterIsInstance<BracketShelfBlock>().toTypedArray()

@@ -10,435 +10,439 @@ import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.state.property.ModProperties
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider
-import net.minecraft.advancement.Advancement
-import net.minecraft.advancement.AdvancementFrame
-import net.minecraft.advancement.CriterionMerger
-import net.minecraft.advancement.criterion.InventoryChangedCriterion
-import net.minecraft.advancement.criterion.ItemCriterion
-import net.minecraft.advancement.criterion.TickCriterion
-import net.minecraft.block.FenceGateBlock
-import net.minecraft.block.enums.StairShape
-import net.minecraft.block.Block
-import net.minecraft.loot.condition.LocationCheckLootCondition
-import net.minecraft.predicate.BlockPredicate
-import net.minecraft.predicate.NbtPredicate
-import net.minecraft.predicate.NumberRange
-import net.minecraft.predicate.StatePredicate
-import net.minecraft.predicate.entity.LocationPredicate
-import net.minecraft.predicate.item.EnchantmentPredicate
-import net.minecraft.predicate.item.ItemPredicate
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.state.property.Properties
-import net.minecraft.text.Text
-import net.minecraft.util.Identifier
+import net.minecraft.advancements.Advancement
+import net.minecraft.advancements.FrameType
+import net.minecraft.advancements.RequirementsStrategy
+import net.minecraft.advancements.critereon.InventoryChangeTrigger
+import net.minecraft.advancements.critereon.ItemUsedOnLocationTrigger
+import net.minecraft.advancements.critereon.PlayerTrigger
+import net.minecraft.world.level.block.FenceGateBlock
+import net.minecraft.world.level.block.state.properties.StairsShape
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.storage.loot.predicates.LocationCheck
+import net.minecraft.advancements.critereon.BlockPredicate
+import net.minecraft.advancements.critereon.NbtPredicate
+import net.minecraft.advancements.critereon.MinMaxBounds
+import net.minecraft.advancements.critereon.StatePropertiesPredicate
+import net.minecraft.advancements.critereon.LocationPredicate
+import net.minecraft.advancements.critereon.EnchantmentPredicate
+import net.minecraft.advancements.critereon.ItemPredicate
+import net.minecraft.tags.TagKey
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
 import java.util.function.Consumer
 
 
 class AdvancementDataGen(output: FabricDataOutput?) : FabricAdvancementProvider(output) {
     override fun generateAdvancement(consumer: Consumer<Advancement>) {
 
-        val root = Advancement.Builder.create()
+        val root = Advancement.Builder.advancement()
             .display(
                 ModBlocks.oakPlankTable,
-                Text.literal("Wooden Accents Mod"),
-                Text.literal("Add some charm and warmth to your world with the Wooden Accents Mod"),
-                Identifier("textures/gui/advancements/backgrounds/adventure.png"),
-                AdvancementFrame.TASK,
+                Component.literal("Wooden Accents Mod"),
+                Component.literal("Add some charm and warmth to your world with the Wooden Accents Mod"),
+                ResourceLocation("textures/gui/advancements/backgrounds/adventure.png"),
+                FrameType.TASK,
                 true,
                 false,
                 false
             )
-            .criterion("start", TickCriterion.Conditions.createTick())
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":root")
+            .addCriterion("start", PlayerTrigger.TriggerInstance.tick())
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":root")
 
-        val basicComfort = Advancement.Builder.create().parent(root)
+        val basicComfort = Advancement.Builder.advancement().parent(root)
             .display(
                 ModBlocks.oakPlankChair,
-                Text.literal("Welcome Home!"),
-                Text.literal("Craft a cozy place to sit and a surface for your belongings"),
+                Component.literal("Welcome Home!"),
+                Component.literal("Craft a cozy place to sit and a surface for your belongings"),
                 null,
-                AdvancementFrame.TASK,
+                FrameType.TASK,
                 true,
                 false,
                 false
             )
-            .criterion("has_chair",
+            .addCriterion("has_chair",
                 inventoryChangedConditionsInTag(ModBlockTags.chairs))
-            .criterion("has_table",
+            .addCriterion("has_table",
                 inventoryChangedConditionsInTag(ModBlockTags.tables))
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":decor/root")
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":decor/root")
 
-        val coffeeBreak = Advancement.Builder.create().parent(basicComfort)
+        val coffeeBreak = Advancement.Builder.advancement().parent(basicComfort)
             .display(
                 ModBlocks.oakCoffeeTable,
-                Text.literal("Take a break!"),
-                Text.literal("Craft a coffee table"),
+                Component.literal("Take a break!"),
+                Component.literal("Craft a coffee table"),
                 null,
-                AdvancementFrame.TASK,
+                FrameType.TASK,
                 true,
                 false,
                 false
             )
-            .criterion("has_coffee_table",
+            .addCriterion("has_coffee_table",
                 inventoryChangedConditionsInTag(ModBlockTags.coffeeTables))
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":decor/coffee_break")
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":decor/coffee_break")
 
-        Advancement.Builder.create().parent(coffeeBreak)
+        Advancement.Builder.advancement().parent(coffeeBreak)
             .display(
                 ModBlocks.oakCoffeeTable,
-                Text.literal("A better table?"),
-                Text.literal("Stack two matching coffee tables to make a tall coffee table"),
+                Component.literal("A better table?"),
+                Component.literal("Stack two matching coffee tables to make a tall coffee table"),
                 null,
-                AdvancementFrame.TASK,
+                FrameType.TASK,
                 true,
                 false,
                 false
             )
-            .criterion("made_tall_coffee_table",
+            .addCriterion("made_tall_coffee_table",
                 placedBlockInTagConditions(ModBlockTags.coffeeTables, ModProperties.coffeeTableType, CoffeeTableTypes.TALL))
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":decor/better_table")
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":decor/better_table")
 
-        Advancement.Builder.create().parent(basicComfort)
+        Advancement.Builder.advancement().parent(basicComfort)
             .display(
                 ModBlocks.oakPlankCarpet,
-                Text.literal("Spruce Up Your Space!"),
-                Text.literal("Cover a floor with plank flooring"),
+                Component.literal("Spruce Up Your Space!"),
+                Component.literal("Cover a floor with plank flooring"),
                 null,
-                AdvancementFrame.TASK,
+                FrameType.TASK,
                 true,
                 false,
                 false
             )
-            .criterion("has_plank_carpet",
+            .addCriterion("has_plank_carpet",
                 inventoryChangedConditionsInTag(ModBlockTags.plankCarpets))
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":decor/interior_design")
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":decor/interior_design")
 
-        Advancement.Builder.create().parent(basicComfort)
+        Advancement.Builder.advancement().parent(basicComfort)
             .display(
                 ModBlocks.oakPlankBookshelf,
-                Text.literal("Getting Organized!"),
-                Text.literal("Craft a Narrow Bookshelf to store your books"),
+                Component.literal("Getting Organized!"),
+                Component.literal("Craft a Narrow Bookshelf to store your books"),
                 null,
-                AdvancementFrame.TASK,
+                FrameType.TASK,
                 true,
                 false,
                 false
             )
-            .criterion("has_thin_bookshelf",
+            .addCriterion("has_thin_bookshelf",
                 inventoryChangedConditionsInTag(ModBlockTags.thinBookshelves))
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":decor/getting_organized")
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":decor/getting_organized")
 
-        Advancement.Builder.create().parent(basicComfort)
+        Advancement.Builder.advancement().parent(basicComfort)
             .display(
                 ModBlocks.oakBracketShelf,
-                Text.literal("Shelf Improvement!"),
-                Text.literal("Craft a Bracket Shelf to hang your display items on the wall"),
+                Component.literal("Shelf Improvement!"),
+                Component.literal("Craft a Bracket Shelf to hang your display items on the wall"),
                 null,
-                AdvancementFrame.TASK,
+                FrameType.TASK,
                 true,
                 false,
                 false
             )
-            .criterion("has_bracket_shelf",
+            .addCriterion("has_bracket_shelf",
                 inventoryChangedConditionsInTag(ModBlockTags.bracketShelves))
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":decor/shelf_improvement")
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":decor/shelf_improvement")
 
-        Advancement.Builder.create().parent(basicComfort)
+        Advancement.Builder.advancement().parent(basicComfort)
             .display(
                 ModBlocks.oakBracketShelf,
-                Text.literal("Side by Side!"),
-                Text.literal("Link Bracket Shelves together into one long shelving wall"),
+                Component.literal("Side by Side!"),
+                Component.literal("Link Bracket Shelves together into one long shelving wall"),
                 null,
-                AdvancementFrame.TASK,
+                FrameType.TASK,
                 true,
                 false,
                 false
             )
-            .criterion("connected_left",
+            .addCriterion("connected_left",
                 placedBlockInTagConditions(ModBlockTags.bracketShelves, ModProperties.left, true))
-            .criterion("connected_right",
+            .addCriterion("connected_right",
                 placedBlockInTagConditions(ModBlockTags.bracketShelves, ModProperties.right, true))
-            .criteriaMerger(CriterionMerger.OR)
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":decor/side_by_side")
+            .requirements(RequirementsStrategy.OR)
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":decor/side_by_side")
 
-        val desk = Advancement.Builder.create().parent(basicComfort)
-            .display(ModBlocks.oakDesk, Text.literal("A place to work"),
-                Text.literal("Craft a desk"), null, AdvancementFrame.TASK, true, false, false)
-            .criterion("has_desk", inventoryChangedConditionsInTag(ModBlockTags.desks))
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":decor/desk")
+        val desk = Advancement.Builder.advancement().parent(basicComfort)
+            .display(ModBlocks.oakDesk, Component.literal("A place to work"),
+                Component.literal("Craft a desk"), null, FrameType.TASK, true, false, false)
+            .addCriterion("has_desk", inventoryChangedConditionsInTag(ModBlockTags.desks))
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":decor/desk")
 
-        Advancement.Builder.create().parent(desk)
-            .display(ModBlocks.oakDesk, Text.literal("Corner Office!"),
-                Text.literal("Connect desks around a corner for an L-shaped workspace"),
-                null, AdvancementFrame.TASK, true, false, false)
-            .criterion("left_corner",
+        Advancement.Builder.advancement().parent(desk)
+            .display(ModBlocks.oakDesk, Component.literal("Corner Office!"),
+                Component.literal("Connect desks around a corner for an L-shaped workspace"),
+                null, FrameType.TASK, true, false, false)
+            .addCriterion("left_corner",
                 placedBlockInTagConditions(ModBlockTags.desks, ModProperties.deskShape, DeskShape.LEFT_CORNER))
-            .criterion("right_corner",
+            .addCriterion("right_corner",
                 placedBlockInTagConditions(ModBlockTags.desks, ModProperties.deskShape, DeskShape.RIGHT_CORNER))
-            .criteriaMerger(CriterionMerger.OR)
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":decor/corner_office")
+            .requirements(RequirementsStrategy.OR)
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":decor/corner_office")
 
-        Advancement.Builder.create().parent(desk)
-            .display(ModBlocks.oakDeskDrawer, Text.literal("Everything in its drawer"),
-                Text.literal("Craft a desk drawer for your supplies"), null, AdvancementFrame.TASK, true, false, false)
-            .criterion("has_desk_drawer", inventoryChangedConditionsInTag(ModBlockTags.deskDrawers))
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":storage/desk_drawer")
+        Advancement.Builder.advancement().parent(desk)
+            .display(ModBlocks.oakDeskDrawer, Component.literal("Everything in its drawer"),
+                Component.literal("Craft a desk drawer for your supplies"), null, FrameType.TASK, true, false, false)
+            .addCriterion("has_desk_drawer", inventoryChangedConditionsInTag(ModBlockTags.deskDrawers))
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":storage/desk_drawer")
 
-        val counter = Advancement.Builder.create().parent(basicComfort)
-            .display(ModBlocks.oakKitchenCounter, Text.literal("Room to cook"),
-                Text.literal("Craft a kitchen counter or cabinet"), null, AdvancementFrame.TASK, true, false, false)
-            .criterion("has_kitchen_counter", inventoryChangedConditionsInTag(ModBlockTags.kitchenCounters))
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":decor/kitchen_counter")
+        val counter = Advancement.Builder.advancement().parent(basicComfort)
+            .display(ModBlocks.oakKitchenCounter, Component.literal("Room to cook"),
+                Component.literal("Craft a kitchen counter or cabinet"), null, FrameType.TASK, true, false, false)
+            .addCriterion("has_kitchen_counter", inventoryChangedConditionsInTag(ModBlockTags.kitchenCounters))
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":decor/kitchen_counter")
 
-        Advancement.Builder.create().parent(counter)
-            .display(ModBlocks.oakKitchenCounter, Text.literal("Corner Kitchen!"),
-                Text.literal("Connect counters around a corner for a seamless kitchen layout"),
-                null, AdvancementFrame.TASK, true, false, false)
-            .criterion("inner_left",
-                placedBlockInTagConditions(ModBlockTags.kitchenCounters, Properties.STAIR_SHAPE, StairShape.INNER_LEFT))
-            .criterion("inner_right",
-                placedBlockInTagConditions(ModBlockTags.kitchenCounters, Properties.STAIR_SHAPE, StairShape.INNER_RIGHT))
-            .criterion("outer_left",
-                placedBlockInTagConditions(ModBlockTags.kitchenCounters, Properties.STAIR_SHAPE, StairShape.OUTER_LEFT))
-            .criterion("outer_right",
-                placedBlockInTagConditions(ModBlockTags.kitchenCounters, Properties.STAIR_SHAPE, StairShape.OUTER_RIGHT))
-            .criteriaMerger(CriterionMerger.OR)
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":decor/corner_kitchen")
+        Advancement.Builder.advancement().parent(counter)
+            .display(ModBlocks.oakKitchenCounter, Component.literal("Corner Kitchen!"),
+                Component.literal("Connect counters around a corner for a seamless kitchen layout"),
+                null, FrameType.TASK, true, false, false)
+            .addCriterion("inner_left",
+                placedBlockInTagConditions(ModBlockTags.kitchenCounters, BlockStateProperties.STAIRS_SHAPE, StairsShape.INNER_LEFT))
+            .addCriterion("inner_right",
+                placedBlockInTagConditions(ModBlockTags.kitchenCounters, BlockStateProperties.STAIRS_SHAPE, StairsShape.INNER_RIGHT))
+            .addCriterion("outer_left",
+                placedBlockInTagConditions(ModBlockTags.kitchenCounters, BlockStateProperties.STAIRS_SHAPE, StairsShape.OUTER_LEFT))
+            .addCriterion("outer_right",
+                placedBlockInTagConditions(ModBlockTags.kitchenCounters, BlockStateProperties.STAIRS_SHAPE, StairsShape.OUTER_RIGHT))
+            .requirements(RequirementsStrategy.OR)
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":decor/corner_kitchen")
 
-        Advancement.Builder.create().parent(counter)
-            .display(ModBlocks.oakKitchenCabinet, Text.literal("Stock the kitchen"),
-                Text.literal("Craft a kitchen cabinet for your ingredients"), null, AdvancementFrame.TASK, true, false, false)
-            .criterion("has_kitchen_cabinet", inventoryChangedConditionsInTag(ModBlockTags.kitchenCabinets))
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":storage/kitchen_cabinet")
+        Advancement.Builder.advancement().parent(counter)
+            .display(ModBlocks.oakKitchenCabinet, Component.literal("Stock the kitchen"),
+                Component.literal("Craft a kitchen cabinet for your ingredients"), null, FrameType.TASK, true, false, false)
+            .addCriterion("has_kitchen_cabinet", inventoryChangedConditionsInTag(ModBlockTags.kitchenCabinets))
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":storage/kitchen_cabinet")
 
-        val crates = Advancement.Builder.create().parent(root)
+        val crates = Advancement.Builder.advancement().parent(root)
             .display(
                 ModBlocks.oakCrate,
-                Text.literal("I can't believe it's not a Shulker Box!"),
-                Text.literal("Craft a Crate for portable storage"),
+                Component.literal("I can't believe it's not a Shulker Box!"),
+                Component.literal("Craft a Crate for portable storage"),
                 null,
-                AdvancementFrame.TASK,
+                FrameType.TASK,
                 true,
                 false,
                 false
             )
-            .criterion("has_crate", inventoryChangedConditionsInTag(ModBlockTags.crates))
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":storage/root")
+            .addCriterion("has_crate", inventoryChangedConditionsInTag(ModBlockTags.crates))
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":storage/root")
 
-        Advancement.Builder.create().parent(crates)
+        Advancement.Builder.advancement().parent(crates)
             .display(
                 ModBlocks.oakCrate,
-                Text.literal("Better than Shulker Box"),
-                Text.literal("Crates are stackable? Make sure they contain the same items"),
+                Component.literal("Better than Shulker Box"),
+                Component.literal("Crates are stackable? Make sure they contain the same items"),
                 null,
-                AdvancementFrame.TASK,
+                FrameType.TASK,
                 true,
                 false,
                 false
             )
-            .criterion("stacked_crates", inventoryChangedConditionsInTag(ModBlockTags.crates, NumberRange.IntRange.atLeast(2)))
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":storage/stacking_crates")
+            .addCriterion("stacked_crates", inventoryChangedConditionsInTag(ModBlockTags.crates, MinMaxBounds.Ints.atLeast(2)))
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":storage/stacking_crates")
 
-        val structuralSupport = Advancement.Builder.create().parent(root)
+        val structuralSupport = Advancement.Builder.advancement().parent(root)
             .display(
                 ModBlocks.oakSupportBeam,
-                Text.literal("Build it Strong!"),
-                Text.literal("Craft Supports to reinforce your structures and connect them in different directions for added stability"),
+                Component.literal("Build it Strong!"),
+                Component.literal("Craft Supports to reinforce your structures and connect them in different directions for added stability"),
                 null,
-                AdvancementFrame.TASK,
+                FrameType.TASK,
                 true,
                 false,
                 false
             )
-            .criterion("has_support_beam", inventoryChangedConditionsInTag(ModBlockTags.supportBeams))
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":structural/root")
+            .addCriterion("has_support_beam", inventoryChangedConditionsInTag(ModBlockTags.supportBeams))
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":structural/root")
 
-        Advancement.Builder.create().parent(structuralSupport)
+        Advancement.Builder.advancement().parent(structuralSupport)
             .display(
                 ModBlocks.oakSupportBeam,
-                Text.literal("Standing Tall!"),
-                Text.literal("Stack support beams into a full vertical column"),
+                Component.literal("Standing Tall!"),
+                Component.literal("Stack support beams into a full vertical column"),
                 null,
-                AdvancementFrame.TASK,
+                FrameType.TASK,
                 true,
                 false,
                 false
             )
-            .criterion("column_beam", placedBlockInTagConditions(ModBlockTags.supportBeams) {
-                exactMatch(Properties.UP, true)
-                exactMatch(Properties.DOWN, true)
+            .addCriterion("column_beam", placedBlockInTagConditions(ModBlockTags.supportBeams) {
+                exactMatch(BlockStateProperties.UP, true)
+                exactMatch(BlockStateProperties.DOWN, true)
             })
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":structural/standing_tall")
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":structural/standing_tall")
 
-        Advancement.Builder.create().parent(structuralSupport)
+        Advancement.Builder.advancement().parent(structuralSupport)
             .display(
                 ModBlocks.modernOakFence,
-                Text.literal("Time to Modernize!"),
-                Text.literal("Craft a picket fence and a matching picket fence gate"),
+                Component.literal("Time to Modernize!"),
+                Component.literal("Craft a picket fence and a matching picket fence gate"),
                 null,
-                AdvancementFrame.TASK,
+                FrameType.TASK,
                 true,
                 false,
                 false
             )
-            .criterion("has_modern_fence", inventoryChangedConditionsInTag(ModBlockTags.modernFences))
-            .criterion("has_modern_fence_gate", inventoryChangedConditionsInTag(ModBlockTags.modernFenceGates))
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":structural/modern_touches")
+            .addCriterion("has_modern_fence", inventoryChangedConditionsInTag(ModBlockTags.modernFences))
+            .addCriterion("has_modern_fence_gate", inventoryChangedConditionsInTag(ModBlockTags.modernFenceGates))
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":structural/modern_touches")
 
-        Advancement.Builder.create().parent(structuralSupport)
+        Advancement.Builder.advancement().parent(structuralSupport)
             .display(
                 ModBlocks.modernOakFenceGate,
-                Text.literal("Gatekeeper!"),
-                Text.literal("Fit a Picket Fence Gate into a wall opening"),
+                Component.literal("Gatekeeper!"),
+                Component.literal("Fit a Picket Fence Gate into a wall opening"),
                 null,
-                AdvancementFrame.TASK,
+                FrameType.TASK,
                 true,
                 false,
                 false
             )
-            .criterion("fitted_gate", placedBlockInTagConditions(ModBlockTags.modernFenceGates) {
+            .addCriterion("fitted_gate", placedBlockInTagConditions(ModBlockTags.modernFenceGates) {
                 exactMatch(FenceGateBlock.IN_WALL, true)
             })
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":structural/gatekeeper")
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":structural/gatekeeper")
 
-        Advancement.Builder.create().parent(structuralSupport)
+        Advancement.Builder.advancement().parent(structuralSupport)
             .display(
                 ModBlocks.oakPlankLadder,
-                Text.literal("Climb High!"),
-                Text.literal("Craft all three ladder styles: Stripped Wood for a classic look, Plank for a simpler option, and Simple for a minimal touch"),
+                Component.literal("Climb High!"),
+                Component.literal("Craft all three ladder styles: Stripped Wood for a classic look, Plank for a simpler option, and Simple for a minimal touch"),
                 null,
-                AdvancementFrame.TASK,
+                FrameType.TASK,
                 true,
                 false,
                 false
             )
-            .criterion("has_plank_ladder", inventoryChangedConditionsInTag(ModBlockTags.plankLadders))
-            .criterion("has_connecting_ladder", inventoryChangedConditionsInTag(ModBlockTags.connectingLadders))
-            .criterion("has_simple_ladder", inventoryChangedConditionsInTag(ModBlockTags.simpleLadders))
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":structural/ladder_up")
+            .addCriterion("has_plank_ladder", inventoryChangedConditionsInTag(ModBlockTags.plankLadders))
+            .addCriterion("has_connecting_ladder", inventoryChangedConditionsInTag(ModBlockTags.connectingLadders))
+            .addCriterion("has_simple_ladder", inventoryChangedConditionsInTag(ModBlockTags.simpleLadders))
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":structural/ladder_up")
 
-        Advancement.Builder.create().parent(structuralSupport)
+        Advancement.Builder.advancement().parent(structuralSupport)
             .display(
                 ModBlocks.strippedOakLadder,
-                Text.literal("Going Sideways!"),
-                Text.literal("Link connecting ladders together to climb across walls"),
+                Component.literal("Going Sideways!"),
+                Component.literal("Link connecting ladders together to climb across walls"),
                 null,
-                AdvancementFrame.TASK,
+                FrameType.TASK,
                 true,
                 false,
                 false
             )
-            .criterion("linked_center",
+            .addCriterion("linked_center",
                 placedBlockInTagConditions(ModBlockTags.connectingLadders, ModProperties.sidewaysConnectionShape, SidewaysConnectionShape.CENTER))
-            .criterion("linked_left",
+            .addCriterion("linked_left",
                 placedBlockInTagConditions(ModBlockTags.connectingLadders, ModProperties.sidewaysConnectionShape, SidewaysConnectionShape.LEFT))
-            .criterion("linked_right",
+            .addCriterion("linked_right",
                 placedBlockInTagConditions(ModBlockTags.connectingLadders, ModProperties.sidewaysConnectionShape, SidewaysConnectionShape.RIGHT))
-            .criteriaMerger(CriterionMerger.OR)
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":structural/going_sideways")
+            .requirements(RequirementsStrategy.OR)
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":structural/going_sideways")
 
-        Advancement.Builder.create().parent(structuralSupport)
+        Advancement.Builder.advancement().parent(structuralSupport)
             .display(
                 ModBlocks.thinOakPillar,
-                Text.literal("Reach for the Sky!"),
-                Text.literal("Craft a Thin Pillar for a slim look and a Thick Pillar for a bolder design"),
+                Component.literal("Reach for the Sky!"),
+                Component.literal("Craft a Thin Pillar for a slim look and a Thick Pillar for a bolder design"),
                 null,
-                AdvancementFrame.TASK,
+                FrameType.TASK,
                 true,
                 false,
                 false
             )
-            .criterion("has_thin_pillar", inventoryChangedConditionsInTag(ModBlockTags.thinPillars))
-            .criterion("has_thick_pillar", inventoryChangedConditionsInTag(ModBlockTags.thickPillars))
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":structural/pillars_of_strength")
+            .addCriterion("has_thin_pillar", inventoryChangedConditionsInTag(ModBlockTags.thinPillars))
+            .addCriterion("has_thick_pillar", inventoryChangedConditionsInTag(ModBlockTags.thickPillars))
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":structural/pillars_of_strength")
 
-        Advancement.Builder.create().parent(structuralSupport)
+        Advancement.Builder.advancement().parent(structuralSupport)
             .display(
                 ModBlocks.thinOakPillar,
-                Text.literal("Pillar Talk!"),
-                Text.literal("Connect pillars of any style into one seamless column"),
+                Component.literal("Pillar Talk!"),
+                Component.literal("Connect pillars of any style into one seamless column"),
                 null,
-                AdvancementFrame.TASK,
+                FrameType.TASK,
                 true,
                 false,
                 false
             )
-            .criterion("on_thin_pillar", placedBlockInTagConditions(ModBlockTags.thinPillars) {
+            .addCriterion("on_thin_pillar", placedBlockInTagConditions(ModBlockTags.thinPillars) {
                 exactMatch(AbstractPillarBlock.down, true)
             })
-            .criterion("on_thick_pillar", placedBlockInTagConditions(ModBlockTags.thickPillars) {
+            .addCriterion("on_thick_pillar", placedBlockInTagConditions(ModBlockTags.thickPillars) {
                 exactMatch(AbstractPillarBlock.down, true)
             })
-            .criteriaMerger(CriterionMerger.OR)
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":structural/pillar_talk")
+            .requirements(RequirementsStrategy.OR)
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":structural/pillar_talk")
 
-        Advancement.Builder.create().parent(structuralSupport)
+        Advancement.Builder.advancement().parent(structuralSupport)
             .display(
                 ModBlocks.oakPlankWall,
-                Text.literal("Walled In!"),
-                Text.literal("Craft a Plank Wall for boundaries that blend right into your builds"),
+                Component.literal("Walled In!"),
+                Component.literal("Craft a Plank Wall for boundaries that blend right into your builds"),
                 null,
-                AdvancementFrame.TASK,
+                FrameType.TASK,
                 true,
                 false,
                 false
             )
-            .criterion("has_plank_wall", inventoryChangedConditionsInTag(ModBlockTags.woodenWalls))
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":structural/walled_in")
+            .addCriterion("has_plank_wall", inventoryChangedConditionsInTag(ModBlockTags.woodenWalls))
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":structural/walled_in")
 
-        Advancement.Builder.create().parent(root)
+        Advancement.Builder.advancement().parent(root)
             .display(
                 ModBlocks.oakPlankTable,
-                Text.literal("Home Sweet Home!"),
-                Text.literal("Have furniture from every Wooden Accents category in your inventory at once"),
+                Component.literal("Home Sweet Home!"),
+                Component.literal("Have furniture from every Wooden Accents category in your inventory at once"),
                 null,
-                AdvancementFrame.GOAL,
+                FrameType.GOAL,
                 true,
                 false,
                 false
             )
-            .criterion("has_all_categories", InventoryChangedCriterion.Conditions.items(
+            .addCriterion("has_all_categories", InventoryChangeTrigger.TriggerInstance.hasItems(
                 *arrayOf(ModBlockTags.chairs, ModBlockTags.tables, ModBlockTags.desks,
                     ModBlockTags.crates, ModBlockTags.supportBeams, ModBlockTags.kitchenCounters)
-                    .map { ItemPredicate.Builder.create().tag(ModBlockTags.getItemTagFrom(it)).build() }
+                    .map { ItemPredicate.Builder.item().of(ModBlockTags.getItemTagFrom(it)).build() }
                     .toTypedArray()
             ))
-            .build(consumer, WoodenAccentsMod.MOD_ID + ":home_sweet_home")
+            .save(consumer,WoodenAccentsMod.MOD_ID + ":home_sweet_home")
     }
 
-    private fun inventoryChangedConditionsInTag(tag: TagKey<Block>, itemCount: NumberRange.IntRange = NumberRange.IntRange.ANY): InventoryChangedCriterion.Conditions {
+    private fun inventoryChangedConditionsInTag(tag: TagKey<Block>, itemCount: MinMaxBounds.Ints = MinMaxBounds.Ints.ANY): InventoryChangeTrigger.TriggerInstance {
         val itemTag = ModBlockTags.getItemTagFrom(tag)
-        val pred = ItemPredicate(itemTag, null, itemCount, NumberRange.IntRange.ANY, EnchantmentPredicate.ARRAY_OF_ANY, EnchantmentPredicate.ARRAY_OF_ANY, null, NbtPredicate.ANY)
-        return InventoryChangedCriterion.Conditions.items(pred)
+        val pred = ItemPredicate(itemTag, null, itemCount, MinMaxBounds.Ints.ANY, arrayOf(EnchantmentPredicate.ANY), arrayOf(EnchantmentPredicate.ANY), null, NbtPredicate.ANY)
+        return InventoryChangeTrigger.TriggerInstance.hasItems(pred)
     }
 
     /** Matches placing a block from [tag] whose state satisfies every condition configured in [stateBuilder]. */
     private fun placedBlockInTagConditions(
         tag: TagKey<Block>,
-        stateBuilder: StatePredicate.Builder.() -> Unit = {}
-    ): ItemCriterion.Conditions {
-        val state = StatePredicate.Builder.create().apply(stateBuilder).build()
-        val blockPredicate = BlockPredicate.Builder.create().tag(tag).state(state).build()
-        val location = LocationPredicate.Builder.create().block(blockPredicate)
+        stateBuilder: StatePropertiesPredicate.Builder.() -> Unit = {}
+    ): ItemUsedOnLocationTrigger.TriggerInstance {
+        val state = StatePropertiesPredicate.Builder.properties().apply(stateBuilder).build()
+        val blockPredicate = BlockPredicate.Builder.block().of(tag).setProperties(state).build()
+        val location = LocationPredicate.Builder.location().setBlock(blockPredicate)
 
-        return ItemCriterion.Conditions.createPlacedBlock(LocationCheckLootCondition.builder(location))
+        return ItemUsedOnLocationTrigger.TriggerInstance.placedBlock(LocationCheck.checkLocation(location))
     }
 
     /** Convenience overload matching a single enum-valued block state property. */
     private fun <T> placedBlockInTagConditions(
         tag: TagKey<Block>,
-        property: net.minecraft.state.property.Property<T>,
+        property: net.minecraft.world.level.block.state.properties.Property<T>,
         value: T
-    ): ItemCriterion.Conditions where T : Comparable<T>, T : net.minecraft.util.StringIdentifiable = placedBlockInTagConditions(tag) {
+    ): ItemUsedOnLocationTrigger.TriggerInstance where T : Comparable<T>, T : net.minecraft.util.StringRepresentable = placedBlockInTagConditions(tag) {
         exactMatch(property, value)
     }
 
     /** Convenience overload matching a single boolean block state property. */
     private fun placedBlockInTagConditions(
         tag: TagKey<Block>,
-        property: net.minecraft.state.property.BooleanProperty,
+        property: net.minecraft.world.level.block.state.properties.BooleanProperty,
         value: Boolean
-    ): ItemCriterion.Conditions = placedBlockInTagConditions(tag) {
+    ): ItemUsedOnLocationTrigger.TriggerInstance = placedBlockInTagConditions(tag) {
         exactMatch(property, value)
     }
+
+    /** Matches a block state property against the serialized name of its value. */
+    private fun StatePropertiesPredicate.Builder.exactMatch(property: net.minecraft.world.level.block.state.properties.Property<*>, value: Any?) =
+        hasProperty(property, (value as? net.minecraft.util.StringRepresentable)?.getSerializedName() ?: value.toString())
 }

@@ -17,21 +17,21 @@ import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.Custom
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.FenceBlock
-import net.minecraft.block.ShapeContext
-import net.minecraft.data.client.BlockStateModelGenerator
-import net.minecraft.data.client.TextureKey
-import net.minecraft.data.client.TextureMap
-import net.minecraft.data.server.recipe.RecipeJsonProvider
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
-import net.minecraft.recipe.book.RecipeCategory
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.world.BlockView
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.FenceBlock
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.data.models.BlockModelGenerators
+import net.minecraft.data.models.model.TextureSlot
+import net.minecraft.data.models.model.TextureMapping
+import net.minecraft.data.recipes.FinishedRecipe
+import net.minecraft.data.recipes.ShapedRecipeBuilder
+import net.minecraft.data.recipes.RecipeCategory
+import net.minecraft.tags.TagKey
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.world.phys.shapes.VoxelShape
+import net.minecraft.world.level.BlockGetter
 import java.util.function.Consumer
 
 class ModernFenceBlock(settings: Block, private val sideBlock: Block, private val postBlock: Block) :
@@ -40,43 +40,43 @@ class ModernFenceBlock(settings: Block, private val sideBlock: Block, private va
     override val tag: TagKey<Block> = ModBlockTags.modernFences
     override val itemGroup = ModItemGroups.building
 
-    override fun canConnect(state: BlockState, neighborIsFullSquare: Boolean, dir: Direction): Boolean {
-        return !cannotConnect(state) && neighborIsFullSquare || state isIn ModBlockTags.modernFenceConnectable
+    override fun connectsTo(state: BlockState, neighborIsFullSquare: Boolean, dir: Direction): Boolean {
+        return !isExceptionForConnection(state) && neighborIsFullSquare || state isIn ModBlockTags.modernFenceConnectable
     }
 
     @Deprecated("Deprecated in Java")
-    override fun getOutlineShape(
+    override fun getShape(
         state: BlockState,
-        world: BlockView?,
+        world: BlockGetter?,
         pos: BlockPos?,
-        context: ShapeContext?
+        context: CollisionContext?
     ): VoxelShape = outlineShapes[getConnectionIndex(state)]
 
 
-    override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, this, 3).apply {
-            input('#', postBlock)
-            input('|', sideBlock)
+    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, this, 3).apply {
+            define('#', postBlock)
+            define('|', sideBlock)
             pattern("#|#")
             pattern("#|#")
             group("modern_fences")
             requires(postBlock)
-            offerTo(exporter)
+            save(exporter)
         }
     }
 
-    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
-        TextureMap().apply {
-            put(TextureKey.SIDE, sideBlock.textureId)
-            put(TextureKey.END, postBlock.textureId)
-            put(TextureKey.UP, TextureMap.getSubId(postBlock, "_top"))
+    override fun generateBlockStateModels(generator: BlockModelGenerators) {
+        TextureMapping().apply {
+            put(TextureSlot.SIDE, sideBlock.textureId)
+            put(TextureSlot.END, postBlock.textureId)
+            put(TextureSlot.UP, TextureMapping.getBlockTexture(postBlock, "_top"))
         }.let { map ->
-            ModModels.modernFenceInventory.upload(itemModelId, map, generator.modelCollector)
-            generator.blockStateCollector.accept(
-                BlockStateModelGenerator.createFenceBlockState(
+            ModModels.modernFenceInventory.create(itemModelId, map, generator.modelOutput)
+            generator.blockStateOutput.accept(
+                BlockModelGenerators.createFence(
                     this,
-                    ModModels.modernFencePost.upload(this, map, generator.modelCollector),
-                    ModModels.modernFenceSide.upload(this, map, generator.modelCollector)
+                    ModModels.modernFencePost.create(this, map, generator.modelOutput),
+                    ModModels.modernFenceSide.create(this, map, generator.modelOutput)
                 )
             )
         }
@@ -103,10 +103,10 @@ class ModernFenceBlock(settings: Block, private val sideBlock: Block, private va
 
         private fun getConnectionIndex(state: BlockState): Int {
             var connections = 0
-            if (state[NORTH]) connections = connections or NORTH_CONNECTION
-            if (state[EAST]) connections = connections or EAST_CONNECTION
-            if (state[SOUTH]) connections = connections or SOUTH_CONNECTION
-            if (state[WEST]) connections = connections or WEST_CONNECTION
+            if (state.getValue(NORTH)) connections = connections or NORTH_CONNECTION
+            if (state.getValue(EAST)) connections = connections or EAST_CONNECTION
+            if (state.getValue(SOUTH)) connections = connections or SOUTH_CONNECTION
+            if (state.getValue(WEST)) connections = connections or WEST_CONNECTION
             return connections
         }
 

@@ -7,30 +7,30 @@ import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.Custom
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomTagProvider
 import com.github.mystery2099.woodenAccentsMod.item.group.CustomItemGroup
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
-import net.minecraft.block.Block
-import net.minecraft.block.LadderBlock
-import net.minecraft.data.server.recipe.RecipeJsonProvider
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
-import net.minecraft.item.ItemConvertible
-import net.minecraft.recipe.book.RecipeCategory
-import net.minecraft.registry.tag.BlockTags
-import net.minecraft.registry.tag.TagKey
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.LadderBlock
+import net.minecraft.data.recipes.FinishedRecipe
+import net.minecraft.data.recipes.ShapedRecipeBuilder
+import net.minecraft.world.level.ItemLike
+import net.minecraft.data.recipes.RecipeCategory
+import net.minecraft.tags.BlockTags
+import net.minecraft.tags.TagKey
 import java.util.function.Consumer
-abstract class AbstractCustomLadderBlock(settings: Settings) : LadderBlock(settings.nonOpaque()), CustomItemGroupProvider,
+abstract class AbstractCustomLadderBlock(settings: Properties) : LadderBlock(settings.noOcclusion()), CustomItemGroupProvider,
     CustomRecipeProvider,
     CustomTagProvider<Block>, CustomBlockStateProvider {
     override val tag: TagKey<Block> = BlockTags.CLIMBABLE
     override val itemGroup: CustomItemGroup = ModItemGroups.building
 
-    fun offerRecipe(exporter: Consumer<RecipeJsonProvider>, input: ItemConvertible, outputNum: Int, group: String) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, outputNum).apply {
-            input('#', input)
+    fun offerRecipe(exporter: Consumer<FinishedRecipe>, input: ItemLike, outputNum: Int, group: String) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, outputNum).apply {
+            define('#', input)
             pattern("# #")
             pattern("###")
             pattern("# #")
             group(group)
             requires(input)
-            offerTo(exporter)
+            save(exporter)
         }
 
     }

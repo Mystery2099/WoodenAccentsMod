@@ -11,44 +11,44 @@ import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.Custom
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
-import net.minecraft.block.Block
-import net.minecraft.block.CarpetBlock
-import net.minecraft.block.piston.PistonBehavior
-import net.minecraft.data.client.BlockStateModelGenerator
-import net.minecraft.data.client.Models
-import net.minecraft.data.client.TextureKey
-import net.minecraft.data.client.TextureMap
-import net.minecraft.data.server.recipe.RecipeJsonProvider
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
-import net.minecraft.item.Items
-import net.minecraft.recipe.book.RecipeCategory
-import net.minecraft.registry.tag.TagKey
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.CarpetBlock
+import net.minecraft.world.level.material.PushReaction
+import net.minecraft.data.models.BlockModelGenerators
+import net.minecraft.data.models.model.ModelTemplates
+import net.minecraft.data.models.model.TextureSlot
+import net.minecraft.data.models.model.TextureMapping
+import net.minecraft.data.recipes.FinishedRecipe
+import net.minecraft.data.recipes.ShapedRecipeBuilder
+import net.minecraft.world.item.Items
+import net.minecraft.data.recipes.RecipeCategory
+import net.minecraft.tags.TagKey
 import java.util.function.Consumer
 
 class CustomCarpetBlock(val baseBlock: Block) : CarpetBlock(
-    FabricBlockSettings.create().strength(0.1f).pistonBehavior(PistonBehavior.DESTROY).apply {
-        mapColor(baseBlock.defaultMapColor)
-        sounds(baseBlock.getSoundGroup(baseBlock.defaultState))
-        if (baseBlock.defaultState.isBurnable) burnable()
+    FabricBlockSettings.create().strength(0.1f).pistonBehavior(PushReaction.DESTROY).apply {
+        mapColor(baseBlock.defaultMapColor())
+        sounds(baseBlock.getSoundType(baseBlock.defaultBlockState()))
+        if (baseBlock.defaultBlockState().ignitedByLava()) burnable()
     }
 ), CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
 
     override val itemGroup = ModItemGroups.building
     override val tag: TagKey<Block> = ModBlockTags.plankCarpets
-    override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 3).apply {
-            input('#', baseBlock)
-            input('_', Items.PAPER)
+    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, 3).apply {
+            define('#', baseBlock)
+            define('_', Items.PAPER)
             pattern("##")
             pattern("_ ")
             customGroup(this@CustomCarpetBlock, "carpets")
             requires(baseBlock)
-            offerTo(exporter)
+            save(exporter)
         }
     }
 
-    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
-            generator.registerSingleton(this, TextureMap().put(TextureKey.WOOL, this.baseBlock.textureId), Models.CARPET)
-            generator.registerParentedItemModel(this, this.modelId)
+    override fun generateBlockStateModels(generator: BlockModelGenerators) {
+            generator.createTrivialBlock(this, TextureMapping().put(TextureSlot.WOOL, this.baseBlock.textureId), ModelTemplates.CARPET)
+            generator.delegateItemModel(this, this.modelId)
     }
 }

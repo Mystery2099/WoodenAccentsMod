@@ -31,39 +31,41 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.Blocks
-import net.minecraft.block.ShapeContext
-import net.minecraft.client.item.TooltipContext
-import net.minecraft.data.client.*
-import net.minecraft.data.server.loottable.BlockLootTableGenerator
-import net.minecraft.data.server.recipe.RecipeJsonProvider
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
-import net.minecraft.item.ItemPlacementContext
-import net.minecraft.item.ItemStack
-import net.minecraft.loot.LootPool
-import net.minecraft.loot.LootTable
-import net.minecraft.loot.condition.BlockStatePropertyLootCondition
-import net.minecraft.loot.entry.ItemEntry
-import net.minecraft.loot.function.SetCountLootFunction
-import net.minecraft.loot.function.SetNbtLootFunction
-import net.minecraft.loot.provider.number.ConstantLootNumberProvider
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.predicate.StatePredicate
-import net.minecraft.recipe.book.RecipeCategory
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.state.StateManager
-import net.minecraft.state.property.BooleanProperty
-import net.minecraft.state.property.Properties
-import net.minecraft.text.Text
-import net.minecraft.util.Formatting
-import net.minecraft.util.Identifier
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.world.BlockView
-import net.minecraft.world.WorldAccess
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.item.TooltipFlag
+import net.minecraft.data.models.*
+import net.minecraft.data.models.blockstates.*
+import net.minecraft.data.models.model.*
+import net.minecraft.data.loot.BlockLootSubProvider
+import net.minecraft.data.recipes.FinishedRecipe
+import net.minecraft.data.recipes.ShapedRecipeBuilder
+import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.storage.loot.LootPool
+import net.minecraft.world.level.storage.loot.LootTable
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition
+import net.minecraft.world.level.storage.loot.entries.LootItem
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction
+import net.minecraft.world.level.storage.loot.functions.SetNbtFunction
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.advancements.critereon.StatePropertiesPredicate
+import net.minecraft.data.recipes.RecipeCategory
+import net.minecraft.tags.TagKey
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.BooleanProperty
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.network.chat.Component
+import net.minecraft.ChatFormatting
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.world.phys.shapes.VoxelShape
+import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.LevelAccessor
 import java.util.*
 import java.util.function.Consumer
 import java.util.function.Supplier
@@ -77,22 +79,22 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
     override val itemGroup = ModItemGroups.furniture
 
     private val BlockState.isTall: Boolean
-        get() = getOrEmpty(type) == Optional.of(CoffeeTableTypes.TALL)
+        get() = getOptionalValue(type) == Optional.of(CoffeeTableTypes.TALL)
 
     override val variantItemGroupStack: ItemStack
         get() = this.defaultItemStack.apply {
-            orCreateNbt.setType(CoffeeTableTypes.TALL)
+            orCreateTag.setType(CoffeeTableTypes.TALL)
         }
 
-    private val NbtCompound.isTall: Boolean
-        get() = this.getString(CoffeeTableTypes.TAG) == CoffeeTableTypes.TALL.asString()
+    private val CompoundTag.isTall: Boolean
+        get() = this.getString(CoffeeTableTypes.TAG) == CoffeeTableTypes.TALL.getSerializedName()
 
     init {
-        defaultState = defaultState.setShort().asSingle().with(waterlogged, false)
+        registerDefaultState(defaultBlockState().setShort().asSingle().setValue(waterlogged, false))
     }
 
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        super.appendProperties(builder)
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
+        super.createBlockStateDefinition(builder)
         builder.add(
             type,
             north,
@@ -102,18 +104,18 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         )
     }
 
-    private fun NbtCompound.setTall() = this.setType(CoffeeTableTypes.TALL)
-    private fun NbtCompound.setType(type: CoffeeTableTypes) =
-        apply { putString(CoffeeTableTypes.TAG, type.asString()) }
+    private fun CompoundTag.setTall() = this.setType(CoffeeTableTypes.TALL)
+    private fun CompoundTag.setType(type: CoffeeTableTypes) =
+        apply { putString(CoffeeTableTypes.TAG, type.getSerializedName()) }
 
     // Placing another short table on a short table upgrades it to the tall variant.
-    override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
-        val nbt = ctx.stack.nbt
-        val state = ctx.world.getBlockState(ctx.blockPos)
-        return if (state isOf this && nbt?.getString(CoffeeTableTypes.TAG) != CoffeeTableTypes.TALL.asString()) state.setTall()
-        else defaultState.setDirections(ctx.world, ctx.blockPos).run {
+    override fun getStateForPlacement(ctx: BlockPlaceContext): BlockState {
+        val nbt = ctx.itemInHand.tag
+        val state = ctx.level.getBlockState(ctx.clickedPos)
+        return if (state isOf this && nbt?.getString(CoffeeTableTypes.TAG) != CoffeeTableTypes.TALL.getSerializedName()) state.setTall()
+        else defaultBlockState().setDirections(ctx.level, ctx.clickedPos).run {
             nbt?.let {
-                if (it.isTall) with(type, CoffeeTableTypes.TALL) else this
+                if (it.isTall) setValue(type, CoffeeTableTypes.TALL) else this
             } ?: this
         }
     }
@@ -127,11 +129,11 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         }
     }
 
-    private fun BlockState.setShort(): BlockState = this.with(type, CoffeeTableTypes.SHORT)
+    private fun BlockState.setShort(): BlockState = this.setValue(type, CoffeeTableTypes.SHORT)
 
-    private fun BlockState.setTall(): BlockState = this.with(type, CoffeeTableTypes.TALL)
+    private fun BlockState.setTall(): BlockState = this.setValue(type, CoffeeTableTypes.TALL)
 
-    private fun BlockState.setDirections(world: WorldAccess, pos: BlockPos): BlockState {
+    private fun BlockState.setDirections(world: LevelAccessor, pos: BlockPos): BlockState {
         return this.with {
             north to world.checkNorthOf(pos)
             east to world.checkEastOf(pos)
@@ -141,36 +143,36 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
     }
 
     @Deprecated("Deprecated in Java")
-    override fun canReplace(state: BlockState, context: ItemPlacementContext): Boolean {
-        return !context.shouldCancelInteraction() && !state.isTall && context.stack.item == asItem()
+    override fun canBeReplaced(state: BlockState, context: BlockPlaceContext): Boolean {
+        return !context.isSecondaryUseActive() && !state.isTall && context.itemInHand.item == asItem()
     }
 
-    private fun WorldAccess.checkDirection(pos: BlockPos, direction: Direction): Boolean {
-        return getBlockState(pos.offset(direction))?.let { otherState: BlockState ->
+    private fun LevelAccessor.checkDirection(pos: BlockPos, direction: Direction): Boolean {
+        return getBlockState(pos.relative(direction))?.let { otherState: BlockState ->
             getBlockState(pos)?.let { thisState: BlockState ->
                 val states = arrayOf(thisState, otherState)
-                if (states.all { it.block is CoffeeTableBlock }) thisState.get(type) == otherState.get(type)
+                if (states.all { it.block is CoffeeTableBlock }) thisState.getValue(type) == otherState.getValue(type)
                 else if (otherState isOf  Blocks.SCAFFOLDING) thisState.isTall
                 else states.all { it isIn tag }
             } ?: false
         } ?: false
     }
 
-    private fun WorldAccess.checkNorthOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.NORTH)
-    private fun WorldAccess.checkEastOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.EAST)
-    private fun WorldAccess.checkSouthOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.SOUTH)
-    private fun WorldAccess.checkWestOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.WEST)
+    private fun LevelAccessor.checkNorthOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.NORTH)
+    private fun LevelAccessor.checkEastOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.EAST)
+    private fun LevelAccessor.checkSouthOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.SOUTH)
+    private fun LevelAccessor.checkWestOf(pos: BlockPos): Boolean = checkDirection(pos, Direction.WEST)
 
     @Deprecated("Deprecated in Java")
     @Suppress("DEPRECATION")
-    override fun getStateForNeighborUpdate(
+    override fun updateShape(
         state: BlockState,
         direction: Direction?,
         neighborState: BlockState?,
-        world: WorldAccess,
+        world: LevelAccessor,
         pos: BlockPos,
         neighborPos: BlockPos?
-    ): BlockState = super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
+    ): BlockState = super.updateShape(state, direction, neighborState, world, pos, neighborPos)
         .with {
             north to world.checkNorthOf(pos)
             east to world.checkEastOf(pos)
@@ -179,67 +181,67 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         }
 
     @Deprecated("Deprecated in Java")
-    override fun getOutlineShape(
+    override fun getShape(
         state: BlockState,
-        world: BlockView?,
+        world: BlockGetter?,
         pos: BlockPos?,
-        context: ShapeContext?
+        context: CollisionContext?
     ): VoxelShape = outlineShapes[shapeIndex(state)]
 
     private fun shapeIndex(state: BlockState): Int {
         var index = 0
-        if (state[north]) index = index or NORTH_MASK
-        if (state[east]) index = index or EAST_MASK
-        if (state[south]) index = index or SOUTH_MASK
-        if (state[west]) index = index or WEST_MASK
-        if (state[type] == CoffeeTableTypes.TALL) index = index or TALL_MASK
+        if (state.getValue(north)) index = index or NORTH_MASK
+        if (state.getValue(east)) index = index or EAST_MASK
+        if (state.getValue(south)) index = index or SOUTH_MASK
+        if (state.getValue(west)) index = index or WEST_MASK
+        if (state.getValue(type) == CoffeeTableTypes.TALL) index = index or TALL_MASK
         return index
     }
 
-    override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState): ItemStack {
-        return super.getPickStack(world, pos, state).apply {
-            orCreateNbt.setType(state[type])
+    override fun getCloneItemStack(world: BlockGetter, pos: BlockPos, state: BlockState): ItemStack {
+        return super.getCloneItemStack(world, pos, state).apply {
+            orCreateTag.setType(state.getValue(type))
         }
     }
 
-    override fun appendTooltip(
+    override fun appendHoverText(
         stack: ItemStack,
-        world: BlockView?,
-        tooltip: MutableList<Text>,
-        options: TooltipContext
+        world: BlockGetter?,
+        tooltip: MutableList<Component>,
+        options: TooltipFlag
     ) {
-        super.appendTooltip(stack, world, tooltip, options)
-        if (stack.hasNbt()) {
+        super.appendHoverText(stack, world, tooltip, options)
+        if (stack.hasTag()) {
             tooltip.add(
-                Text.literal(stack.nbt?.getString(CoffeeTableTypes.TAG))
-                    .formatted(Formatting.GRAY, Formatting.ITALIC)
+                Component.literal(stack.tag?.getString(CoffeeTableTypes.TAG))
+                    .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC)
             )
         }
     }
 
-    override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 6).apply {
-            input('_', topBlock)
-            input('|', baseBlock)
+    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, 6).apply {
+            define('_', topBlock)
+            define('|', baseBlock)
             pattern("___")
             pattern("| |")
             customGroup(this@CoffeeTableBlock, "coffee_tables")
             requires(topBlock)
-            offerTo(exporter)
+            save(exporter)
         }
     }
 
-    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
-        TextureMap().apply {
-            put(TextureKey.TOP, topBlock.textureId)
+    override fun generateBlockStateModels(generator: BlockModelGenerators) {
+        TextureMapping().apply {
+            put(TextureSlot.TOP, topBlock.textureId)
             put(ModModels.legs, baseBlock.textureId)
         }.also { map ->
-            generator.blockStateCollector.accept(
+            generator.blockStateOutput.accept(
                 blockStateModelSupplier(
-                    shortTopModel = ModModels.coffeeTableTopShort.upload(this, map, generator.modelCollector),
+                    shortTopModel = ModModels.coffeeTableTopShort.create(this, map, generator.modelOutput),
                     shortLegModel = "${this.woodType.name.lowercase()}_coffee_table_leg_short".toIdentifier()
                         .withBlockModelPath(),
-                    tallTopModel = ModModels.coffeeTableTopTall.upload(this, map, generator.modelCollector),
+                    tallTopModel = ModModels.coffeeTableTopTall.create(this, map, generator.modelOutput),
                     tallLegModel = "${this.woodType.name.lowercase()}_coffee_table_leg_tall".toIdentifier()
                         .withBlockModelPath(),
                 )
@@ -249,47 +251,47 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
     }
 
     private fun blockStateModelSupplier(
-        shortTopModel: Identifier,
-        shortLegModel: Identifier,
-        tallTopModel: Identifier,
-        tallLegModel: Identifier
-    ): MultipartBlockStateSupplier = MultipartBlockStateSupplier.create(this).apply {
+        shortTopModel: ResourceLocation,
+        shortLegModel: ResourceLocation,
+        tallTopModel: ResourceLocation,
+        tallLegModel: ResourceLocation
+    ): MultiPartGenerator = MultiPartGenerator.multiPart(this).apply {
         val shortNorthEastVariant = shortLegModel.asBlockStateVariant()
         val tallNorthEastVariant = tallLegModel.asBlockStateVariant()
 
-        val isTall = When.create().set(ModProperties.coffeeTableType, CoffeeTableTypes.TALL)
-        val isShort = When.create().set(ModProperties.coffeeTableType, CoffeeTableTypes.SHORT)
+        val isTall = Condition.condition().term(ModProperties.coffeeTableType, CoffeeTableTypes.TALL)
+        val isShort = Condition.condition().term(ModProperties.coffeeTableType, CoffeeTableTypes.SHORT)
 
         mapOf(
-            isShort to BlockStateVariant().putModel(shortTopModel),
+            isShort to Variant().putModel(shortTopModel),
             WhenUtil.notNorthEast to shortNorthEastVariant,
-            WhenUtil.notNorthWest to shortNorthEastVariant.withYRotationOf(VariantSettings.Rotation.R270),
-            WhenUtil.notSouthEast to shortNorthEastVariant.withYRotationOf(VariantSettings.Rotation.R90),
-            WhenUtil.notSouthWest to shortNorthEastVariant.withYRotationOf(VariantSettings.Rotation.R180),
+            WhenUtil.notNorthWest to shortNorthEastVariant.withYRotationOf(VariantProperties.Rotation.R270),
+            WhenUtil.notSouthEast to shortNorthEastVariant.withYRotationOf(VariantProperties.Rotation.R90),
+            WhenUtil.notSouthWest to shortNorthEastVariant.withYRotationOf(VariantProperties.Rotation.R180),
             isTall to tallTopModel.asBlockStateVariant(),
             allOf(WhenUtil.notNorthEast, isTall) to tallNorthEastVariant,
-            allOf(WhenUtil.notNorthWest, isTall) to tallNorthEastVariant.withYRotationOf(VariantSettings.Rotation.R270),
-            allOf(WhenUtil.notSouthEast, isTall) to tallNorthEastVariant.withYRotationOf(VariantSettings.Rotation.R90),
-            allOf(WhenUtil.notSouthWest, isTall) to tallNorthEastVariant.withYRotationOf(VariantSettings.Rotation.R180)
+            allOf(WhenUtil.notNorthWest, isTall) to tallNorthEastVariant.withYRotationOf(VariantProperties.Rotation.R270),
+            allOf(WhenUtil.notSouthEast, isTall) to tallNorthEastVariant.withYRotationOf(VariantProperties.Rotation.R90),
+            allOf(WhenUtil.notSouthWest, isTall) to tallNorthEastVariant.withYRotationOf(VariantProperties.Rotation.R180)
         ).forEach(::with)
     }
 
 
-    private fun generateItemModel(coffeeTableBlock: CoffeeTableBlock, generator: BlockStateModelGenerator) {
+    private fun generateItemModel(coffeeTableBlock: CoffeeTableBlock, generator: BlockModelGenerators) {
         val textureMap = mapOf(
-            TextureKey.TOP to coffeeTableBlock.topBlock.textureId,
+            TextureSlot.TOP to coffeeTableBlock.topBlock.textureId,
             ModModels.legs to coffeeTableBlock.baseBlock.textureId
         )
-        val tallModel = ModModels.coffeeTableTallInventory.upload(
-            coffeeTableBlock.itemModelId.withSuffixedPath("_tall"),
-            TextureMap().apply {
+        val tallModel = ModModels.coffeeTableTallInventory.create(
+            coffeeTableBlock.itemModelId.withSuffix("_tall"),
+            TextureMapping().apply {
                 textureMap.forEach {
                     put(it.key, it.value)
                 }
             },
-            generator.modelCollector
+            generator.modelOutput
         )
-        val jsonObject = ModModels.coffeeTableInventory.createJson(coffeeTableBlock.itemModelId, textureMap)
+        val jsonObject = ModModels.coffeeTableInventory.createBaseTemplate(coffeeTableBlock.itemModelId, textureMap)
         val jsonArray = JsonArray()
         val jsonObject2 = JsonObject()
         val jsonObject3 = JsonObject()
@@ -298,24 +300,24 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         jsonObject2.addProperty("model", tallModel.toString())
         jsonArray.add(jsonObject2)
         jsonObject.add("overrides", jsonArray)
-        generator.modelCollector.accept(coffeeTableBlock.itemModelId, Supplier {
+        generator.modelOutput.accept(coffeeTableBlock.itemModelId, Supplier {
             jsonObject
         })
     }
     @Suppress("DEPRECATION")
     override fun getLootTableBuilder(provider: FabricBlockLootTableProvider): LootTable.Builder {
-        val tallStatePredicate = StatePredicate.Builder.create().exactMatch(type, CoffeeTableTypes.TALL)
-        val whenBlockIsTall = BlockStatePropertyLootCondition.builder(this).properties(tallStatePredicate)
-        val nbt = NbtCompound().setTall()
-        return LootTable.builder().pool(
-            LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f)).with(
+        val tallStatePredicate = StatePropertiesPredicate.Builder.properties().hasProperty(type, CoffeeTableTypes.TALL)
+        val whenBlockIsTall = LootItemBlockStatePropertyCondition.hasBlockStateProperties(this).setProperties(tallStatePredicate)
+        val nbt = CompoundTag().setTall()
+        return LootTable.lootTable().withPool(
+            LootPool.lootPool().setRolls(ConstantValue.exactly(1.0f)).add(
                 provider.applyExplosionDecay(
-                    this, ItemEntry.builder(this).apply(
-                        SetCountLootFunction.builder(ConstantLootNumberProvider.create(2.0f))
-                            .conditionally(BlockLootTableGenerator.WITHOUT_SILK_TOUCH, whenBlockIsTall)
+                    this, LootItem.lootTableItem(this).apply(
+                        SetItemCountFunction.setCount(ConstantValue.exactly(2.0f))
+                            .conditionally(BlockLootSubProvider.HAS_NO_SILK_TOUCH, whenBlockIsTall)
                     ).apply(
-                        SetNbtLootFunction.builder(nbt)
-                            .conditionally(BlockLootTableGenerator.WITH_SILK_TOUCH, whenBlockIsTall)
+                        SetNbtFunction.setTag(nbt)
+                            .conditionally(BlockLootSubProvider.HAS_SILK_TOUCH, whenBlockIsTall)
                     )
                 )
             )
@@ -324,17 +326,17 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
 
     companion object {
         val type = ModProperties.coffeeTableType
-        val north: BooleanProperty = Properties.NORTH
-        val east: BooleanProperty = Properties.EAST
-        val south: BooleanProperty = Properties.SOUTH
-        val west: BooleanProperty = Properties.WEST
+        val north: BooleanProperty = BlockStateProperties.NORTH
+        val east: BooleanProperty = BlockStateProperties.EAST
+        val south: BooleanProperty = BlockStateProperties.SOUTH
+        val west: BooleanProperty = BlockStateProperties.WEST
 
         private const val SHAPE_VERTICAL_OFFSET = 7.0 / 16
 
         // Tops
         private val shortTopShape = VoxelAssembly.createCuboidShape(0, 7, 0, 16, 9, 16)
 
-        private val tallTopShape = shortTopShape.offset(0.0, SHAPE_VERTICAL_OFFSET, 0.0)
+        private val tallTopShape = shortTopShape.move(0.0, SHAPE_VERTICAL_OFFSET, 0.0)
 
         // Short legs, authored facing north
         private val shortNorthEastLeg = VoxelAssembly.createCuboidShape(13.75, 0, 0.25, 15.75, 7, 2.25)
@@ -347,7 +349,7 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         private val shortSouthWestLeg = shortNorthEastLeg.flip()
 
         // Tall legs, authored facing north
-        private val tallNorthEastLeg = shortNorthEastLeg.offset(0.0, SHAPE_VERTICAL_OFFSET, 0.0)
+        private val tallNorthEastLeg = shortNorthEastLeg.move(0.0, SHAPE_VERTICAL_OFFSET, 0.0)
 
         private val tallNorthWestLeg = tallNorthEastLeg.rotateRight()
 

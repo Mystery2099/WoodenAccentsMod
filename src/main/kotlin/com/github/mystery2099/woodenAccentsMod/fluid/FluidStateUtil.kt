@@ -1,6 +1,6 @@
 package com.github.mystery2099.woodenAccentsMod.fluid
 
-import net.minecraft.fluid.Fluid
-import net.minecraft.fluid.FluidState
+import net.minecraft.world.level.material.Fluid
+import net.minecraft.world.level.material.FluidState
 
-infix fun FluidState?.isOf(fluid: Fluid): Boolean = this?.isOf(fluid) ?: false
+infix fun FluidState?.isOf(fluid: Fluid): Boolean = this?.`is`(fluid) ?: false

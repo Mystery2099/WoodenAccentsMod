@@ -5,21 +5,21 @@ import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.Custom
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
-import net.minecraft.block.Block
-import net.minecraft.block.Blocks
-import net.minecraft.registry.RegistryWrapper
-import net.minecraft.registry.tag.BlockTags
-import net.minecraft.registry.tag.TagKey
+import net.minecraft.core.HolderLookup
+import net.minecraft.tags.BlockTags
+import net.minecraft.tags.TagKey
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.Blocks
 import java.util.concurrent.CompletableFuture
 
 
-class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>) :
+class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFuture<HolderLookup.Provider>) :
     FabricTagProvider.BlockTagProvider(output, registriesFuture) {
     private val TagKey<Block>.tagBuilder: FabricTagBuilder
         get() = getOrCreateTagBuilder(this)
 
-    override fun configure(arg: RegistryWrapper.WrapperLookup) {
-        BlockTags.AXE_MINEABLE.addTags(*ModBlockTags.blockToItemTagMap.keys.toTypedArray())
+    override fun addTags(arg: HolderLookup.Provider) {
+        BlockTags.MINEABLE_WITH_AXE.addTags(*ModBlockTags.blockToItemTagMap.keys.toTypedArray())
 
         ModBlocks.blocks.filterIsInstance<CustomTagProvider<Block>>().forEach {
             it.tag += it as Block

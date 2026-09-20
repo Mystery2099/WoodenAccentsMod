@@ -4,13 +4,14 @@ import com.github.mystery2099.woodenAccentsMod.block.custom.CrateBlock
 import com.github.mystery2099.woodenAccentsMod.block.item
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModItemTags
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModItemTags.contains
-import net.minecraft.block.Block
-import net.minecraft.entity.ItemEntity
-import net.minecraft.item.BlockItem
-import net.minecraft.item.ItemStack
-import net.minecraft.item.ItemUsage
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtElement
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.entity.item.ItemEntity
+import net.minecraft.world.item.BlockItem
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.ItemUtils
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.Tag
 
 
 /**
@@ -18,17 +19,19 @@ import net.minecraft.nbt.NbtElement
  *
  * Crates cannot contain items tagged as unnestable, and spill their stored contents when their item entity is destroyed.
  */
-class CustomBlockItem(block: Block, settings: Settings) : BlockItem(block, settings) {
-    override fun canBeNested(): Boolean = super.canBeNested() && block.item.defaultStack !in ModItemTags.unnestable
-    override fun onItemEntityDestroyed(entity: ItemEntity) {
-        super.onItemEntityDestroyed(entity)
+class CustomBlockItem(block: Block, settings: Item.Properties) : BlockItem(block, settings) {
+    override fun canFitInsideContainerItems(): Boolean =
+        super.canFitInsideContainerItems() && block.item.defaultInstance !in ModItemTags.unnestable
+
+    override fun onDestroyed(entity: ItemEntity) {
+        super.onDestroyed(entity)
         if (block is CrateBlock) {
-            getBlockEntityNbt(entity.stack)?.let { nbtCompound ->
-                if (nbtCompound.contains("Items", NbtElement.LIST_TYPE.toInt())) {
-                    val nbtList = nbtCompound.getList("Items", NbtElement.COMPOUND_TYPE.toInt())
-                    ItemUsage.spawnItemContents(entity, nbtList.stream()
-                        .map { it as NbtCompound }
-                        .map { ItemStack.fromNbt(it) })
+            getBlockEntityData(entity.item)?.let { nbtCompound ->
+                if (nbtCompound.contains("Items", Tag.TAG_LIST.toInt())) {
+                    val nbtList = nbtCompound.getList("Items", Tag.TAG_COMPOUND.toInt())
+                    ItemUtils.onContainerDestroyed(entity, nbtList.stream()
+                        .map { it as CompoundTag }
+                        .map(ItemStack::of))
                 }
             }
         }

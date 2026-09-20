@@ -5,6 +5,12 @@
       "conditions": {
         "items": [
           {
+            "enchantments": [
+              null
+            ],
+            "stored_enchantments": [
+              null
+            ],
             "tag": "wooden_accents_mod:support_beams"
           }
         ]

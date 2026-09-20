@@ -4,119 +4,119 @@ import com.github.mystery2099.woodenAccentsMod.block.entity.ModBlockEntities
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModItemTags
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModItemTags.contains
 import com.github.mystery2099.woodenAccentsMod.screen.CrateScreenHandler
-import net.minecraft.block.BlockState
-import net.minecraft.block.entity.LootableContainerBlockEntity
-import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.PlayerInventory
-import net.minecraft.inventory.Inventories
-import net.minecraft.inventory.SidedInventory
-import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtElement
-import net.minecraft.screen.ScreenHandler
-import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvent
-import net.minecraft.sound.SoundEvents
-import net.minecraft.text.Text
-import net.minecraft.util.collection.DefaultedList
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.world.event.GameEvent
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.entity.player.Inventory
+import net.minecraft.world.ContainerHelper
+import net.minecraft.world.WorldlyContainer
+import net.minecraft.world.item.ItemStack
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.Tag
+import net.minecraft.world.inventory.AbstractContainerMenu
+import net.minecraft.sounds.SoundSource
+import net.minecraft.sounds.SoundEvent
+import net.minecraft.sounds.SoundEvents
+import net.minecraft.network.chat.Component
+import net.minecraft.core.NonNullList
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.world.level.gameevent.GameEvent
 import java.util.stream.IntStream
 
 /** A nine-slot container that rejects items tagged as unnestable. */
 class CrateBlockEntity(blockPos: BlockPos, blockState: BlockState) :
-    LootableContainerBlockEntity(ModBlockEntities.crate, blockPos, blockState), SidedInventory {
-    private var inventory = DefaultedList.ofSize(9, ItemStack.EMPTY)
+    RandomizableContainerBlockEntity(ModBlockEntities.crate, blockPos, blockState), WorldlyContainer {
+    private var inventory = NonNullList.withSize(9, ItemStack.EMPTY)
     private var viewerCount = 0
-    override fun size(): Int = inventory.size
+    override fun getContainerSize(): Int = inventory.size
 
 
     private fun playSoundAtPos(soundEvent: SoundEvent) {
-        world?.let {world ->
-            world.playSound(
+        level?.let {level ->
+            level.playSound(
                 null,
-                pos,
+                blockPos,
                 soundEvent,
-                SoundCategory.BLOCKS,
+                SoundSource.BLOCKS,
                 0.5f,
-                world.random.nextFloat() * 0.1f + 0.9f
+                level.random.nextFloat() * 0.1f + 0.9f
             )
         }
     }
 
-    private fun emitGameEventAtPos(player: PlayerEntity, viewerCount: Int, gameEvent: GameEvent) {
-        world?.let { world ->
-            world.addSyncedBlockEvent(pos, cachedState.block, 1, viewerCount)
+    private fun emitGameEventAtPos(player: Player, viewerCount: Int, gameEvent: GameEvent) {
+        level?.let { level ->
+            level.blockEvent(blockPos, blockState.block, 1, viewerCount)
             if ((gameEvent == GameEvent.CONTAINER_OPEN && viewerCount == 1) ||
                 (gameEvent == GameEvent.CONTAINER_CLOSE && viewerCount == 0)) {
-                world.emitGameEvent(player as Entity, gameEvent, pos)
+                level.gameEvent(player as Entity, gameEvent, blockPos)
             }
         }
     }
 
-    override fun onOpen(player: PlayerEntity) {
-        if (!removed && !player.isSpectator) {
+    override fun startOpen(player: Player) {
+        if (!isRemoved && !player.isSpectator) {
             if (viewerCount < 0) {
                 viewerCount = 0
             }
             ++viewerCount
             emitGameEventAtPos(player, viewerCount, GameEvent.CONTAINER_OPEN)
-            playSoundAtPos(SoundEvents.BLOCK_BARREL_OPEN)
+            playSoundAtPos(SoundEvents.BARREL_OPEN)
         }
     }
 
-    override fun onClose(player: PlayerEntity) {
-        if (!removed && !player.isSpectator) {
+    override fun stopOpen(player: Player) {
+        if (!isRemoved && !player.isSpectator) {
             if (viewerCount == 0) return
             --viewerCount
             emitGameEventAtPos(player, viewerCount, GameEvent.CONTAINER_CLOSE)
-            playSoundAtPos(SoundEvents.BLOCK_BARREL_CLOSE)
+            playSoundAtPos(SoundEvents.BARREL_CLOSE)
         }
     }
 
-    override fun getAvailableSlots(side: Direction): IntArray = availableSlots
-    override fun onSyncedBlockEvent(type: Int, data: Int): Boolean {
+    override fun getSlotsForFace(side: Direction): IntArray = availableSlots
+    override fun triggerEvent(type: Int, data: Int): Boolean {
         if (type == 1) {
             viewerCount = data
             return true
         }
-        return super.onSyncedBlockEvent(type, data)
+        return super.triggerEvent(type, data)
     }
 
-    override fun getContainerName(): Text = Text.translatable(cachedState.block.translationKey)
-    override fun readNbt(nbt: NbtCompound) {
-        super.readNbt(nbt)
+    override fun getDefaultName(): Component = Component.translatable(blockState.block.descriptionId)
+    override fun load(nbt: CompoundTag) {
+        super.load(nbt)
         readInventoryNbt(nbt)
     }
 
-    override fun writeNbt(nbt: NbtCompound?) {
-        super.writeNbt(nbt)
-        if (!serializeLootTable(nbt)) {
-            Inventories.writeNbt(nbt, inventory, false)
+    override fun saveAdditional(nbt: CompoundTag?) {
+        super.saveAdditional(nbt)
+        if (!trySaveLootTable(nbt)) {
+            ContainerHelper.saveAllItems(nbt, inventory, false)
         }
     }
 
-    private fun readInventoryNbt(nbt: NbtCompound) {
-        inventory = DefaultedList.ofSize(size(), ItemStack.EMPTY)
-        if (!deserializeLootTable(nbt) && nbt.contains(ITEMS_KEY, NbtElement.LIST_TYPE.toInt())) {
-            Inventories.readNbt(nbt, inventory)
+    private fun readInventoryNbt(nbt: CompoundTag) {
+        inventory = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY)
+        if (!tryLoadLootTable(nbt) && nbt.contains(ITEMS_KEY, Tag.TAG_LIST.toInt())) {
+            ContainerHelper.loadAllItems(nbt, inventory)
         }
     }
 
-    override fun getInvStackList(): DefaultedList<ItemStack> = inventory
+    override fun getItems(): NonNullList<ItemStack> = inventory
 
-    override fun setInvStackList(list: DefaultedList<ItemStack>) {
+    override fun setItems(list: NonNullList<ItemStack>) {
         inventory = list
     }
 
 
-    override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?): Boolean = stack !in ModItemTags.unnestable
+    override fun canPlaceItemThroughFace(slot: Int, stack: ItemStack, dir: Direction?): Boolean = stack !in ModItemTags.unnestable
 
-    override fun canExtract(slot: Int, stack: ItemStack?, dir: Direction?): Boolean = true
+    override fun canTakeItemThroughFace(slot: Int, stack: ItemStack?, dir: Direction?): Boolean = true
 
-    override fun createScreenHandler(syncId: Int, playerInventory: PlayerInventory): ScreenHandler {
+    override fun createMenu(syncId: Int, playerInventory: Inventory): AbstractContainerMenu {
         return CrateScreenHandler(syncId, playerInventory, this)
     }
 

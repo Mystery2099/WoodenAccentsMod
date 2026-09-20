@@ -2,21 +2,22 @@ package com.github.mystery2099.woodenAccentsMod.render
 
 import com.github.mystery2099.woodenAccentsMod.block.custom.BracketShelfBlock
 import com.github.mystery2099.woodenAccentsMod.block.entity.custom.BracketShelfBlockEntity
-import net.minecraft.client.render.OverlayTexture
-import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.render.block.entity.BlockEntityRenderer
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
-import net.minecraft.client.render.model.json.ModelTransformationMode
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.util.math.Direction
-import net.minecraft.util.math.RotationAxis
+import net.minecraft.client.renderer.MultiBufferSource
+import net.minecraft.client.renderer.texture.OverlayTexture
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
+import net.minecraft.core.Direction
+import net.minecraft.world.item.ItemDisplayContext
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.math.Axis
+
 
 /**
  * Draws each stack stored in a shelf flat against its front face, like vanilla
  * wall-mounted shelves. Slot indices run left to right when viewed from the
  * shelf's front (the left slot is on the clockwise side of `facing`).
  */
-class BracketShelfBlockEntityRenderer(context: BlockEntityRendererFactory.Context) :
+class BracketShelfBlockEntityRenderer(context: BlockEntityRendererProvider.Context) :
     BlockEntityRenderer<BracketShelfBlockEntity> {
 
     private val itemRenderer = context.itemRenderer
@@ -24,49 +25,49 @@ class BracketShelfBlockEntityRenderer(context: BlockEntityRendererFactory.Contex
     override fun render(
         blockEntity: BracketShelfBlockEntity,
         tickDelta: Float,
-        matrices: MatrixStack,
-        vertexConsumers: VertexConsumerProvider,
+        matrices: PoseStack,
+        vertexConsumers: MultiBufferSource,
         light: Int,
         overlay: Int
     ) {
-        val world = blockEntity.world ?: return
-        val facing = blockEntity.cachedState[BracketShelfBlock.facing]
-        val leftDirection = facing.rotateYClockwise()
+        val world = blockEntity.level ?: return
+        val facing = blockEntity.blockState.getValue(BracketShelfBlock.facing)
+        val leftDirection = facing.clockWise
         val slotsCount = BracketShelfBlockEntity.SLOT_COUNT
 
         for (slot in 0 until slotsCount) {
-            val stack = blockEntity.getStack(slot)
+            val stack = blockEntity.getItem(slot)
             if (stack.isEmpty) continue
 
             val model = itemRenderer.getModel(stack, world, null, slot)
-            val scale = if (model.hasDepth()) BLOCK_ITEM_SCALE else FLAT_ITEM_SCALE
+            val scale = if (model.isGui3d) BLOCK_ITEM_SCALE else FLAT_ITEM_SCALE
 
             // Distance from the block's center along the shelf's left (-) axis.
             val slotOffset = (1.0 - slot) / slotsCount
-            matrices.push()
+            matrices.pushPose()
             matrices.translate(
-                0.5 + leftDirection.offsetX * slotOffset - facing.offsetX * DEPTH_OFFSET,
+                0.5 + leftDirection.stepX * slotOffset - facing.stepX * DEPTH_OFFSET,
                 ITEM_Y,
-                0.5 + leftDirection.offsetZ * slotOffset - facing.offsetZ * DEPTH_OFFSET
+                0.5 + leftDirection.stepZ * slotOffset - facing.stepZ * DEPTH_OFFSET
             )
-            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(itemYaw(facing)))
+            matrices.mulPose(Axis.YP.rotationDegrees(itemYaw(facing)))
             matrices.scale(scale, scale, scale)
-            itemRenderer.renderItem(
+            itemRenderer.renderStatic(
                 stack,
-                ModelTransformationMode.FIXED,
+                ItemDisplayContext.FIXED,
                 light,
-                OverlayTexture.DEFAULT_UV,
+                OverlayTexture.NO_OVERLAY,
                 matrices,
                 vertexConsumers,
                 world,
                 0
             )
-            matrices.pop()
+            matrices.popPose()
         }
     }
 
     /** Same readable-from-`facing` rotation vanilla lecterns use. */
-    private fun itemYaw(facing: Direction): Float = -facing.rotateYClockwise().asRotation()
+    private fun itemYaw(facing: Direction): Float = -facing.clockWise.toYRot()
 
     companion object {
         /** Top of the 11..13 shelf plank, where items rest. */

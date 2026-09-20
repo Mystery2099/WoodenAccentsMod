@@ -18,71 +18,73 @@ import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags.contains
 import com.github.mystery2099.woodenAccentsMod.util.WhenUtil
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
-import net.minecraft.block.Block
-import net.minecraft.block.PillarBlock
-import net.minecraft.block.SideShapeType
-import net.minecraft.data.client.*
-import net.minecraft.data.server.recipe.RecipeJsonProvider
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
-import net.minecraft.item.Items
-import net.minecraft.recipe.book.RecipeCategory
-import net.minecraft.registry.tag.BlockTags
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.resource.featuretoggle.FeatureFlags
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.world.WorldAccess
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.RotatedPillarBlock
+import net.minecraft.world.level.block.SupportType
+import net.minecraft.data.models.*
+import net.minecraft.data.models.blockstates.*
+import net.minecraft.data.models.model.*
+import net.minecraft.data.recipes.FinishedRecipe
+import net.minecraft.data.recipes.ShapedRecipeBuilder
+import net.minecraft.world.item.Items
+import net.minecraft.data.recipes.RecipeCategory
+import net.minecraft.tags.BlockTags
+import net.minecraft.tags.TagKey
+import net.minecraft.world.flag.FeatureFlags
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.world.level.LevelAccessor
 import java.util.function.Consumer
 
 class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(run {
-    if (baseBlock !is PillarBlock) FabricBlockSettings.copyOf(baseBlock)
+    if (baseBlock !is RotatedPillarBlock) FabricBlockSettings.copyOf(baseBlock)
     else FabricBlockSettings.create().apply {
-        mapColor(baseBlock.defaultMapColor)
-        hardness(baseBlock.hardness)
-        resistance(baseBlock.blastResistance)
-        sounds(baseBlock.getSoundGroup(baseBlock.defaultState))
-        instrument(baseBlock.defaultState.instrument)
-        if (baseBlock.defaultState.isBurnable) burnable()
+        mapColor(baseBlock.defaultMapColor())
+        hardness(baseBlock.defaultDestroyTime())
+        resistance(baseBlock.explosionResistance)
+        sounds(baseBlock.getSoundType(baseBlock.defaultBlockState()))
+        instrument(baseBlock.defaultBlockState().instrument())
+        if (baseBlock.defaultBlockState().ignitedByLava()) burnable()
     }
 }), CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.supportBeams
     override val itemGroup: CustomItemGroup = ModItemGroups.building
 
-    private fun canConnect(pos: BlockPos, direction: Direction, world: WorldAccess): Boolean {
-        val otherState = world.getBlockState(pos.offset(direction))
+    private fun canConnect(pos: BlockPos, direction: Direction, world: LevelAccessor): Boolean {
+        val otherState = world.getBlockState(pos.relative(direction))
         // Fence gates expose a solid center face but should not anchor support beams.
-        return (otherState.isSideSolid(
+        return (otherState.isFaceSturdy(
             world,
-            pos.offset(direction),
+            pos.relative(direction),
             direction.opposite,
-            SideShapeType.CENTER
+            SupportType.CENTER
         ) || otherState in tag) && otherState !in BlockTags.FENCE_GATES
     }
 
-    override fun canConnectNorthOf(pos: BlockPos, world: WorldAccess) = canConnect(pos, Direction.NORTH, world)
+    override fun canConnectNorthOf(pos: BlockPos, world: LevelAccessor) = canConnect(pos, Direction.NORTH, world)
 
-    override fun canConnectEastOf(pos: BlockPos, world: WorldAccess) = canConnect(pos, Direction.EAST, world)
+    override fun canConnectEastOf(pos: BlockPos, world: LevelAccessor) = canConnect(pos, Direction.EAST, world)
 
-    override fun canConnectSouthOf(pos: BlockPos, world: WorldAccess) = canConnect(pos, Direction.SOUTH, world)
+    override fun canConnectSouthOf(pos: BlockPos, world: LevelAccessor) = canConnect(pos, Direction.SOUTH, world)
 
-    override fun canConnectWestOf(pos: BlockPos, world: WorldAccess) = canConnect(pos, Direction.WEST, world)
+    override fun canConnectWestOf(pos: BlockPos, world: LevelAccessor) = canConnect(pos, Direction.WEST, world)
 
-    override fun canConnectAbove(pos: BlockPos, world: WorldAccess) = canConnect(pos, Direction.UP, world)
+    override fun canConnectAbove(pos: BlockPos, world: LevelAccessor) = canConnect(pos, Direction.UP, world)
 
-    override fun canConnectBelow(pos: BlockPos, world: WorldAccess) = canConnect(pos, Direction.DOWN, world)
+    override fun canConnectBelow(pos: BlockPos, world: LevelAccessor) = canConnect(pos, Direction.DOWN, world)
 
-    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
-        val map = TextureMap.all(baseBlock)
-        ModModels.supportBeamItem.upload(this.itemModelId, map, generator.modelCollector)
+    override fun generateBlockStateModels(generator: BlockModelGenerators) {
+        val map = TextureMapping.cube(baseBlock)
+        ModModels.supportBeamItem.create(this.itemModelId, map, generator.modelOutput)
         val centerVariant =
-            ModModels.supportBeamCenter.upload(this, map, generator.modelCollector).asBlockStateVariant()
+            ModModels.supportBeamCenter.create(this, map, generator.modelOutput).asBlockStateVariant()
         val downVariant =
-            ModModels.supportBeamDown.upload(this, map, generator.modelCollector).asBlockStateVariant().uvLock()
-        generator.blockStateCollector.accept(
-            MultipartBlockStateSupplier.create(this).apply {
-                val northVariant = downVariant.withXRotationOf(VariantSettings.Rotation.R270)
+            ModModels.supportBeamDown.create(this, map, generator.modelOutput).asBlockStateVariant().uvLock()
+        generator.blockStateOutput.accept(
+            MultiPartGenerator.multiPart(this).apply {
+                val northVariant = downVariant.withXRotationOf(VariantProperties.Rotation.R270)
                 mapOf(
-                    When.anyOf(
+                    Condition.or(
                         WhenUtil.notNorth,
                         WhenUtil.notEast,
                         WhenUtil.notSouth,
@@ -91,10 +93,10 @@ class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(ru
                         WhenUtil.notDown
                     ) to centerVariant,
                     WhenUtil.north to northVariant,
-                    WhenUtil.east to northVariant.withYRotationOf(VariantSettings.Rotation.R90),
-                    WhenUtil.south to northVariant.withYRotationOf(VariantSettings.Rotation.R180),
-                    WhenUtil.west to northVariant.withYRotationOf(VariantSettings.Rotation.R270),
-                    WhenUtil.up to downVariant.withXRotationOf(VariantSettings.Rotation.R180),
+                    WhenUtil.east to northVariant.withYRotationOf(VariantProperties.Rotation.R90),
+                    WhenUtil.south to northVariant.withYRotationOf(VariantProperties.Rotation.R180),
+                    WhenUtil.west to northVariant.withYRotationOf(VariantProperties.Rotation.R270),
+                    WhenUtil.up to downVariant.withXRotationOf(VariantProperties.Rotation.R180),
                     WhenUtil.down to downVariant
                 ).forEach{
                     with(it.key, it.value)
@@ -103,16 +105,16 @@ class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(ru
         )
     }
 
-    override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, this, 6).apply {
-            input('0', Items.STICK)
-            input('#', baseBlock)
+    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, this, 6).apply {
+            define('0', Items.STICK)
+            define('#', baseBlock)
             pattern("000")
             pattern("0#0")
             pattern("000")
             customGroup(this@SupportBeamBlock, "support_beams")
             requires(baseBlock)
-            offerTo(exporter)
+            save(exporter)
         }
     }
 }

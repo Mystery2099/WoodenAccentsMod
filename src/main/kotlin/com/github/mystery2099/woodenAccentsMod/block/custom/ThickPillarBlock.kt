@@ -7,17 +7,17 @@ import com.github.mystery2099.woodenAccentsMod.block.itemModelId
 import com.github.mystery2099.woodenAccentsMod.block.woodType
 import com.github.mystery2099.woodenAccentsMod.data.client.ModModels
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.ShapeContext
-import net.minecraft.data.client.BlockStateModelGenerator
-import net.minecraft.data.client.TextureMap
-import net.minecraft.data.server.recipe.RecipeJsonProvider
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
-import net.minecraft.world.BlockView
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.data.models.BlockModelGenerators
+import net.minecraft.data.models.model.TextureMapping
+import net.minecraft.data.recipes.FinishedRecipe
+import net.minecraft.tags.TagKey
+import net.minecraft.core.BlockPos
+import net.minecraft.world.phys.shapes.VoxelShape
+import net.minecraft.world.phys.shapes.Shapes
+import net.minecraft.world.level.BlockGetter
 import java.util.function.Consumer
 
 class ThickPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape) {
@@ -28,32 +28,32 @@ class ThickPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape)
     @Suppress("DEPRECATION")
     override fun getCollisionShape(
         state: BlockState,
-        world: BlockView,
+        world: BlockGetter,
         pos: BlockPos,
-        context: ShapeContext
-    ): VoxelShape = if (!state[AbstractPillarBlock.up] && !state[AbstractPillarBlock.down]) {
-        VoxelShapes.fullCube()
+        context: CollisionContext
+    ): VoxelShape = if (!state.getValue(AbstractPillarBlock.up) && !state.getValue(AbstractPillarBlock.down)) {
+        Shapes.block()
     } else {
-        getOutlineShape(state, world, pos, context)
+        getShape(state, world, pos, context)
     }
 
-    override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
+    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
         this.offerRecipe(exporter = exporter, outputNum = 6, primaryInput = baseBlock, secondaryInput = baseBlock)
     }
 
-    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
-        val map = TextureMap.all(this.baseBlock)
-        generator.blockStateCollector.accept(
+    override fun generateBlockStateModels(generator: BlockModelGenerators) {
+        val map = TextureMapping.cube(this.baseBlock)
+        generator.blockStateOutput.accept(
             this.genBlockStateModelSupplier(
                 centerModel = "${this.woodType.name.lowercase()}_plank_wall_post".toIdentifier().withBlockModelPath(),
-                bottomModel = ModModels.thickPillarBottom.upload(this, map, generator.modelCollector)
+                bottomModel = ModModels.thickPillarBottom.create(this, map, generator.modelOutput)
             )
         )
-        ModModels.thickPillarInventory.upload(this.itemModelId, map, generator.modelCollector)
+        ModModels.thickPillarInventory.create(this.itemModelId, map, generator.modelOutput)
     }
 
     companion object {
-        val shape = Shape(
+        val shape = CanyonShapeConfiguration(
             topShape = VoxelAssembly.createCuboidShape(1, 10, 1, 15, 16, 15),
             centerShape = VoxelAssembly.createCuboidShape(4, 0, 4, 12, 16, 12),
             baseShape = VoxelAssembly.createCuboidShape(1, 0, 1, 15, 6, 15)

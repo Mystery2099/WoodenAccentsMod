@@ -1,21 +1,21 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
 import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.with
-import net.minecraft.block.HorizontalFacingBlock
-import net.minecraft.block.Waterloggable
-import net.minecraft.state.property.BooleanProperty
-import net.minecraft.state.property.Properties
-import net.minecraft.util.math.Direction
+import net.minecraft.world.level.block.HorizontalDirectionalBlock
+import net.minecraft.world.level.block.SimpleWaterloggedBlock
+import net.minecraft.world.level.block.state.properties.BooleanProperty
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.core.Direction
 
-class BridgeBlock(settings: Settings?) : HorizontalFacingBlock(settings), Waterloggable {
+class BridgeBlock(settings: Properties?) : HorizontalDirectionalBlock(settings), SimpleWaterloggedBlock {
     init {
-        this.defaultState = this.defaultState.with {
+        this.registerDefaultState(this.defaultBlockState().with {
             waterlogged to false
             FACING to Direction.NORTH
-        }
+        })
     }
 
     companion object {
-        val waterlogged: BooleanProperty = Properties.WATERLOGGED
+        val waterlogged: BooleanProperty = BlockStateProperties.WATERLOGGED
     }
 }

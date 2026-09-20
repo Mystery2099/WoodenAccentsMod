@@ -19,7 +19,7 @@ class EnglishLangDataGen(dataOutput: FabricDataOutput) : FabricLanguageProvider(
                     "miscellaneous" -> "Storage"
                     else -> "Building"
                 }
-                add(it.name.toIdentifier().toTranslationKey(), "Wooden Accents: $name")
+                add(it.name.toIdentifier().toLanguageKey(), "Wooden Accents: $name")
             }
             add("container.crate.more", "and %s more...")
         }

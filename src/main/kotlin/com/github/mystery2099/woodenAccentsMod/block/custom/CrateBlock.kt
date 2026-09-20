@@ -14,165 +14,167 @@ import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
-import net.minecraft.block.*
-import net.minecraft.block.entity.BlockEntity
-import net.minecraft.client.item.TooltipContext
-import net.minecraft.data.client.BlockStateModelGenerator
-import net.minecraft.data.client.TextureKey
-import net.minecraft.data.client.TextureMap
-import net.minecraft.data.server.recipe.RecipeJsonProvider
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
-import net.minecraft.entity.ItemEntity
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.mob.PiglinBrain
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.inventory.Inventories
-import net.minecraft.inventory.Inventory
-import net.minecraft.item.BlockItem
-import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
-import net.minecraft.loot.LootPool
-import net.minecraft.loot.LootTable
-import net.minecraft.loot.context.LootContext
-import net.minecraft.loot.context.LootContextParameters
-import net.minecraft.loot.context.LootContextParameterSet
-import net.minecraft.loot.entry.DynamicEntry
-import net.minecraft.loot.entry.ItemEntry
-import net.minecraft.loot.function.CopyNameLootFunction
-import net.minecraft.loot.function.CopyNbtLootFunction
-import net.minecraft.loot.function.SetContentsLootFunction
-import net.minecraft.loot.provider.nbt.ContextLootNbtProvider
-import net.minecraft.loot.provider.number.ConstantLootNumberProvider
-import net.minecraft.nbt.NbtElement
-import net.minecraft.recipe.book.RecipeCategory
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.screen.ScreenHandler
-import net.minecraft.text.Text
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Formatting
-import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
-import net.minecraft.util.collection.DefaultedList
-import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.world.BlockView
-import net.minecraft.world.World
+import net.minecraft.world.level.block.*
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.item.TooltipFlag
+import net.minecraft.data.models.BlockModelGenerators
+import net.minecraft.data.models.model.TextureSlot
+import net.minecraft.data.models.model.TextureMapping
+import net.minecraft.data.recipes.FinishedRecipe
+import net.minecraft.data.recipes.ShapedRecipeBuilder
+import net.minecraft.world.entity.item.ItemEntity
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.monster.piglin.PiglinAi
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.ContainerHelper
+import net.minecraft.world.Container
+import net.minecraft.world.item.BlockItem
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
+import net.minecraft.world.level.storage.loot.LootPool
+import net.minecraft.world.level.storage.loot.LootTable
+import net.minecraft.world.level.storage.loot.LootContext
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams
+import net.minecraft.world.level.storage.loot.LootParams
+import net.minecraft.world.level.storage.loot.entries.DynamicLoot
+import net.minecraft.world.level.storage.loot.entries.LootItem
+import net.minecraft.world.level.storage.loot.functions.CopyNameFunction
+import net.minecraft.world.level.storage.loot.functions.CopyNbtFunction
+import net.minecraft.world.level.storage.loot.functions.SetContainerContents
+import net.minecraft.world.level.storage.loot.providers.nbt.ContextNbtProvider
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue
+import net.minecraft.nbt.Tag
+import net.minecraft.data.recipes.RecipeCategory
+import net.minecraft.tags.TagKey
+import net.minecraft.world.inventory.AbstractContainerMenu
+import net.minecraft.network.chat.Component
+import net.minecraft.world.InteractionResult
+import net.minecraft.ChatFormatting
+import net.minecraft.world.InteractionHand
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.core.NonNullList
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.core.BlockPos
+import net.minecraft.world.phys.shapes.VoxelShape
+import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.Level
 import java.util.function.Consumer
 class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
-    BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)),
+    BaseEntityBlock(FabricBlockSettings.copyOf(baseBlock)),
     CustomBlockStateProvider, CustomItemGroupProvider, CustomTagProvider<Block>, CustomRecipeProvider,
     CustomBlockLootTableProvider {
 
     override val itemGroup: CustomItemGroup = ModItemGroups.storage
     override val tag: TagKey<Block> = ModBlockTags.crates
 
-    override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity = CrateBlockEntity(pos, state)
+    override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity = CrateBlockEntity(pos, state)
 
-    @Deprecated("Deprecated in Java", ReplaceWith("BlockRenderType.MODEL", "net.minecraft.block.BlockRenderType"))
-    override fun getRenderType(state: BlockState?): BlockRenderType = BlockRenderType.MODEL
+    @Deprecated("Deprecated in Java", ReplaceWith("RenderShape.MODEL", "net.minecraft.world.level.block.RenderShape"))
+    override fun getRenderShape(state: BlockState?): RenderShape = RenderShape.MODEL
 
     @Deprecated("Deprecated in Java")
-    override fun onUse(
+    override fun use(
         state: BlockState,
-        world: World,
+        world: Level,
         pos: BlockPos,
-        player: PlayerEntity,
-        hand: Hand?,
+        player: Player,
+        hand: InteractionHand?,
         hit: BlockHitResult?
-    ): ActionResult {
-        if (world.isClient) return ActionResult.SUCCESS
+    ): InteractionResult {
+        if (world.isClientSide) return InteractionResult.SUCCESS
 
         val blockEntity = world.getBlockEntity(pos)
         if (blockEntity is CrateBlockEntity) {
-            player.openHandledScreen(blockEntity)
-            PiglinBrain.onGuardedBlockInteracted(player, true)
+            player.openMenu(blockEntity)
+            PiglinAi.angerNearbyPiglins(player, true)
         }
 
-        return ActionResult.CONSUME
+        return InteractionResult.CONSUME
     }
 
 
-    override fun onBreak(world: World, pos: BlockPos, state: BlockState?, player: PlayerEntity) {
+    override fun playerWillDestroy(world: Level, pos: BlockPos, state: BlockState?, player: Player) {
         val blockEntity = world.getBlockEntity(pos)
         if (blockEntity is CrateBlockEntity) {
 
             // Match shulker boxes: creative players keep the crate and its contents together.
-            if (!world.isClient && player.isCreative && !blockEntity.isEmpty()) {
+            if (!world.isClientSide && player.isCreative && !blockEntity.isEmpty()) {
 
                 val itemStack = ItemStack(this)
-                blockEntity.setStackNbt(itemStack)
+                blockEntity.saveToItem(itemStack)
                 if (blockEntity.hasCustomName()) {
-                    itemStack.setCustomName(blockEntity.customName)
+                    itemStack.setHoverName(blockEntity.customName)
                 }
 
                 val itemEntity =
                     ItemEntity(world, pos.x.toDouble() + 0.5, pos.y.toDouble() + 0.5, pos.z.toDouble() + 0.5, itemStack)
-                itemEntity.setToDefaultPickupDelay()
-                world.spawnEntity(itemEntity)
+                itemEntity.setDefaultPickUpDelay()
+                world.addFreshEntity(itemEntity)
 
-            } else blockEntity.checkLootInteraction(player)
+            } else blockEntity.unpackLootTable(player)
 
         }
-        super.onBreak(world, pos, state, player)
+        super.playerWillDestroy(world, pos, state, player)
     }
 
     @Deprecated("Deprecated in Java")
     @Suppress("DEPRECATION")
-    override fun getDroppedStacks(state: BlockState, builder: LootContextParameterSet.Builder): List<ItemStack> {
-        var newBuilder: LootContextParameterSet.Builder = builder
-        val blockEntity = newBuilder.getOptional(LootContextParameters.BLOCK_ENTITY)
+    override fun getDrops(state: BlockState, builder: LootParams.Builder): List<ItemStack> {
+        var newBuilder: LootParams.Builder = builder
+        val blockEntity = newBuilder.getOptionalParameter(LootContextParams.BLOCK_ENTITY)
         if (blockEntity is CrateBlockEntity) {
-            newBuilder = newBuilder.addDynamicDrop(contents) { consumer: Consumer<ItemStack> ->
-                for (i in 0 until blockEntity.size()) {
-                    consumer.accept(blockEntity.getStack(i))
+            newBuilder = newBuilder.withDynamicDrop(contents) { consumer: Consumer<ItemStack> ->
+                for (i in 0 until blockEntity.containerSize) {
+                    consumer.accept(blockEntity.getItem(i))
                 }
             }
         }
-        return super.getDroppedStacks(state, newBuilder)
+        return super.getDrops(state, newBuilder)
     }
 
-    override fun onPlaced(
-        world: World,
+    override fun setPlacedBy(
+        world: Level,
         pos: BlockPos?,
         state: BlockState?,
         placer: LivingEntity?,
         itemStack: ItemStack
     ) {
         val blockEntity: BlockEntity? = world.getBlockEntity(pos)
-        if (itemStack.hasCustomName() && blockEntity is CrateBlockEntity) {
-            blockEntity.customName = itemStack.getName()
+        if (itemStack.hasCustomHoverName() && blockEntity is CrateBlockEntity) {
+            blockEntity.customName = itemStack.getHoverName()
         }
     }
 
     @Deprecated("Deprecated in Java")
     @Suppress("DEPRECATION")
-    override fun onStateReplaced(
+    override fun onRemove(
         state: BlockState,
-        world: World,
+        world: Level,
         pos: BlockPos?,
         newState: BlockState,
         moved: Boolean
     ) {
         if (state isOf newState.block) return
-        if (world.getBlockEntity(pos) is CrateBlockEntity) world.updateComparators(pos, state.block)
-        super.onStateReplaced(state, world, pos, newState, moved)
+        if (world.getBlockEntity(pos) is CrateBlockEntity) world.updateNeighbourForOutputSignal(pos, state.block)
+        super.onRemove(state, world, pos, newState, moved)
     }
 
-    override fun appendTooltip(
+    override fun appendHoverText(
         stack: ItemStack,
-        world: BlockView?,
-        tooltip: MutableList<Text>,
-        options: TooltipContext
+        world: BlockGetter?,
+        tooltip: MutableList<Component>,
+        options: TooltipFlag
     ) {
-        super.appendTooltip(stack, world, tooltip, options)
-        BlockItem.getBlockEntityNbt(stack)?.let { nbtCompound ->
-            if (nbtCompound.contains("LootTable", NbtElement.STRING_TYPE.toInt())) {
-                tooltip.add(Text.literal("???????"))
+        super.appendHoverText(stack, world, tooltip, options)
+        BlockItem.getBlockEntityData(stack)?.let { nbtCompound ->
+            if (nbtCompound.contains("LootTable", Tag.TAG_STRING.toInt())) {
+                tooltip.add(Component.literal("???????"))
             }
-            if (nbtCompound.contains("Items", NbtElement.LIST_TYPE.toInt())) {
-                val defaultedList = DefaultedList.ofSize(9, ItemStack.EMPTY)
-                Inventories.readNbt(nbtCompound, defaultedList)
+            if (nbtCompound.contains("Items", Tag.TAG_LIST.toInt())) {
+                val defaultedList = NonNullList.withSize(9, ItemStack.EMPTY)
+                ContainerHelper.loadAllItems(nbtCompound, defaultedList)
                 var i : Short = 0
                 var j : Short = 0
                 for (itemStack in defaultedList) {
@@ -180,14 +182,14 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
                     ++j
                     if (i > 4) continue
                     ++i
-                    itemStack.getName().copy()
+                    itemStack.getHoverName().copy()
                         .append(" x")
                         .append(itemStack.count.toString()).also {
                             tooltip.add(it)
                         }
                 }
                 if (j - i > 0) {
-                    tooltip.add(Text.translatable("container.crate.more", j - i).formatted(Formatting.ITALIC))
+                    tooltip.add(Component.translatable("container.crate.more", j - i).withStyle(ChatFormatting.ITALIC))
                 }
             }
         }
@@ -195,73 +197,73 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
 
 
     @Deprecated("Deprecated in Java", ReplaceWith("true"))
-    override fun hasComparatorOutput(state: BlockState?): Boolean = true
+    override fun hasAnalogOutputSignal(state: BlockState?): Boolean = true
 
     @Deprecated("Deprecated in Java", ReplaceWith(
-        "ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos) as Inventory)",
-        "net.minecraft.screen.ScreenHandler",
-        "net.minecraft.inventory.Inventory"
+        "AbstractContainerMenu.getRedstoneSignalFromContainer(world.getBlockEntity(pos) as Container)",
+        "net.minecraft.world.inventory.AbstractContainerMenu",
+        "net.minecraft.world.Container"
     )
     )
-    override fun getComparatorOutput(state: BlockState, world: World, pos: BlockPos): Int {
-        return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos) as Inventory)
+    override fun getAnalogOutputSignal(state: BlockState, world: Level, pos: BlockPos): Int {
+        return AbstractContainerMenu.getRedstoneSignalFromContainer(world.getBlockEntity(pos) as Container)
     }
 
-    override fun getPickStack(world: BlockView, pos: BlockPos?, state: BlockState?): ItemStack {
-        val itemStack = super.getPickStack(world, pos, state)
+    override fun getCloneItemStack(world: BlockGetter, pos: BlockPos?, state: BlockState?): ItemStack {
+        val itemStack = super.getCloneItemStack(world, pos, state)
         world.getBlockEntity(pos, ModBlockEntities.crate).ifPresent { blockEntity: CrateBlockEntity ->
-            blockEntity.setStackNbt(itemStack)
-            if (blockEntity.hasCustomName()) itemStack.setCustomName(blockEntity.customName)
+            blockEntity.saveToItem(itemStack)
+            if (blockEntity.hasCustomName()) itemStack.setHoverName(blockEntity.customName)
         }
         return itemStack
     }
 
 
-    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
-        val map: TextureMap = TextureMap().put(TextureKey.INSIDE, baseBlock.textureId)
-            .put(TextureKey.EDGE, edgeBlock.textureId)
-            .put(TextureKey.CROSS, edgeBlock.textureId.run {
+    override fun generateBlockStateModels(generator: BlockModelGenerators) {
+        val map: TextureMapping = TextureMapping().put(TextureSlot.INSIDE, baseBlock.textureId)
+            .put(TextureSlot.EDGE, edgeBlock.textureId)
+            .put(TextureSlot.CROSS, edgeBlock.textureId.run {
                 if (this.path.contains("stripped")) this
                 else this.withPath(this.path.replace("block/", "block/stripped_"))
             })
-        ModModels.crate.upload(this, map, generator.modelCollector)
-        generator.registerSimpleState(this)
+        ModModels.crate.create(this, map, generator.modelOutput)
+        generator.createNonTemplateModelBlock(this)
     }
 
-    override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, this).apply {
-            input('n', baseBlock)
-            input('t', edgeBlock)
-            input('u', Items.CHEST)
+    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, this).apply {
+            define('n', baseBlock)
+            define('t', edgeBlock)
+            define('u', Items.CHEST)
             pattern("tnt")
             pattern("nun")
             pattern("tnt")
             customGroup(this@CrateBlock, "crates")
             requires(Items.CHEST)
-            offerTo(exporter)
+            save(exporter)
         }
     }
 
     override fun getLootTableBuilder(provider: FabricBlockLootTableProvider): LootTable.Builder {
-        return LootTable.builder().pool(
-            provider.addSurvivesExplosionCondition(
-                this, LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f)).with(
-                    ItemEntry.builder(this)
-                        .apply(CopyNameLootFunction.builder(CopyNameLootFunction.Source.BLOCK_ENTITY))
+        return LootTable.lootTable().withPool(
+            provider.applyExplosionCondition(
+                this, LootPool.lootPool().setRolls(ConstantValue.exactly(1.0f)).add(
+                    LootItem.lootTableItem(this)
+                        .apply(CopyNameFunction.copyName(CopyNameFunction.NameSource.BLOCK_ENTITY))
                 ).apply(
-                    CopyNbtLootFunction.builder(ContextLootNbtProvider.BLOCK_ENTITY)
-                        .withOperation("Lock", "BlockEntityTag.Lock")
-                        .withOperation("LootTable", "BlockEntityTag.LootTable")
-                        .withOperation("LootTableSeed", "BlockEntityTag.LootTableSeed")
+                    CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY)
+                        .copy("Lock", "BlockEntityTag.Lock")
+                        .copy("LootTable", "BlockEntityTag.LootTable")
+                        .copy("LootTableSeed", "BlockEntityTag.LootTableSeed")
                 ).apply(
-                    SetContentsLootFunction.builder(ModBlockEntities.crate)
-                        .withEntry(DynamicEntry.builder(contents))
+                    SetContainerContents.setContents(ModBlockEntities.crate)
+                        .withEntry(DynamicLoot.dynamicEntry(contents))
                 )
             )
         )
     }
 
     companion object {
-        val contents = Identifier("contents")
+        val contents = ResourceLocation("contents")
     }
 }

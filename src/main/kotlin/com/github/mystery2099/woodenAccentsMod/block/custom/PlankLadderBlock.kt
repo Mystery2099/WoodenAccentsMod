@@ -9,63 +9,63 @@ import com.github.mystery2099.woodenAccentsMod.data.client.ModModels
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomItemGroupProvider
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.Blocks
-import net.minecraft.block.ShapeContext
-import net.minecraft.data.client.BlockStateModelGenerator
-import net.minecraft.data.client.TextureMap
-import net.minecraft.data.server.recipe.RecipeJsonProvider
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
-import net.minecraft.item.Items
-import net.minecraft.recipe.book.RecipeCategory
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.resource.featuretoggle.FeatureFlags
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.world.BlockView
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.data.models.BlockModelGenerators
+import net.minecraft.data.models.model.TextureMapping
+import net.minecraft.data.recipes.FinishedRecipe
+import net.minecraft.data.recipes.ShapedRecipeBuilder
+import net.minecraft.world.item.Items
+import net.minecraft.data.recipes.RecipeCategory
+import net.minecraft.tags.TagKey
+import net.minecraft.world.flag.FeatureFlags
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.world.phys.shapes.VoxelShape
+import net.minecraft.world.level.BlockGetter
 import java.util.function.Consumer
 
 class PlankLadderBlock(val baseBlock: Block) :
     AbstractCustomLadderBlock(FabricBlockSettings.create().apply {
-        mapColor(baseBlock.defaultMapColor)
-        hardness(Blocks.LADDER.hardness)
-        resistance(Blocks.LADDER.blastResistance)
-        sounds(baseBlock.getSoundGroup(baseBlock.defaultState))
-        instrument(baseBlock.defaultState.instrument)
-        if (baseBlock.defaultState.isBurnable) burnable()
+        mapColor(baseBlock.defaultMapColor())
+        hardness(Blocks.LADDER.defaultDestroyTime())
+        resistance(Blocks.LADDER.explosionResistance)
+        sounds(baseBlock.getSoundType(baseBlock.defaultBlockState()))
+        instrument(baseBlock.defaultBlockState().instrument())
+        if (baseBlock.defaultBlockState().ignitedByLava()) burnable()
     }), CustomItemGroupProvider {
     override val tag: TagKey<Block> = ModBlockTags.plankLadders
 
     @Deprecated("Deprecated in Java")
-    override fun getOutlineShape(
-        state: BlockState, world: BlockView?, pos: BlockPos?, context: ShapeContext?
-    ): VoxelShape = when (state[FACING]) {
+    override fun getShape(
+        state: BlockState, world: BlockGetter?, pos: BlockPos?, context: CollisionContext?
+    ): VoxelShape = when (state.getValue(FACING)) {
         Direction.NORTH -> northShape
         Direction.EAST -> eastShape
         Direction.SOUTH -> southShape
         Direction.WEST -> westShape
-        else -> super.getOutlineShape(state, world, pos, context)
+        else -> super.getShape(state, world, pos, context)
     }
 
 
-    override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 4).apply {
-            input('S', Items.STICK)
-            input('P', baseBlock)
+    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, 4).apply {
+            define('S', Items.STICK)
+            define('P', baseBlock)
             pattern("SSS")
             pattern("P P")
             pattern("SSS")
             group("plank_ladders")
             requires(baseBlock)
-            offerTo(exporter)
+            save(exporter)
         }
     }
 
-    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
-        ModModels.plankLadder.upload(this, TextureMap.all(baseBlock), generator.modelCollector)
-        generator.registerNorthDefaultHorizontalRotation(this)
+    override fun generateBlockStateModels(generator: BlockModelGenerators) {
+        ModModels.plankLadder.create(this, TextureMapping.cube(baseBlock), generator.modelOutput)
+        generator.createNonTemplateHorizontalBlock(this)
     }
 
     companion object {

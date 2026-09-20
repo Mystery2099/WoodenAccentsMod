@@ -21,41 +21,49 @@ import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModItemTags
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomBlockLootTableProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
-import net.minecraft.loot.LootTable
+import net.minecraft.world.level.storage.loot.LootTable
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
-import net.minecraft.block.*
-import net.minecraft.data.client.BlockStateModelGenerator
-import net.minecraft.data.client.TextureKey
-import net.minecraft.data.client.TextureMap
-import net.minecraft.data.client.VariantsBlockStateSupplier
-import net.minecraft.data.server.recipe.RecipeJsonProvider
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.mob.PiglinBrain
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.inventory.Inventory
-import net.minecraft.item.ItemPlacementContext
-import net.minecraft.item.ItemStack
-import net.minecraft.recipe.book.RecipeCategory
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.screen.ScreenHandler
-import net.minecraft.server.world.ServerWorld
-import net.minecraft.state.StateManager
-import net.minecraft.state.property.BooleanProperty
-import net.minecraft.state.property.DirectionProperty
-import net.minecraft.state.property.Properties
-import net.minecraft.util.*
-import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.util.math.random.Random
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
-import net.minecraft.world.BlockView
-import net.minecraft.world.World
+import net.minecraft.world.level.block.*
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.data.models.BlockModelGenerators
+import net.minecraft.data.models.model.TextureSlot
+import net.minecraft.data.models.model.TextureMapping
+import net.minecraft.data.models.blockstates.MultiVariantGenerator
+import net.minecraft.data.recipes.FinishedRecipe
+import net.minecraft.data.recipes.ShapedRecipeBuilder
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.monster.piglin.PiglinAi
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.Container
+import net.minecraft.world.Containers
+import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.item.ItemStack
+import net.minecraft.data.recipes.RecipeCategory
+import net.minecraft.tags.TagKey
+import net.minecraft.world.inventory.AbstractContainerMenu
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.BooleanProperty
+import net.minecraft.world.level.block.state.properties.DirectionProperty
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.*
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.level.block.Mirror
+import net.minecraft.world.level.block.Rotation
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.util.RandomSource
+import net.minecraft.world.phys.shapes.VoxelShape
+import net.minecraft.world.phys.shapes.Shapes
+import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.Level
 import java.util.function.Consumer
 class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
-    BlockWithEntity(FabricBlockSettings.copyOf(baseBlock)),
+    BaseEntityBlock(FabricBlockSettings.copyOf(baseBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider,
     CustomBlockLootTableProvider {
 
@@ -63,47 +71,47 @@ class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
     override val itemGroup = ModItemGroups.storage
 
     init {
-        defaultState = defaultState.with {
+        registerDefaultState(defaultBlockState().with {
             facing to Direction.NORTH
             open to false
-        }
+        })
     }
 
     @Deprecated("Deprecated in Java")
-    override fun onUse(
+    override fun use(
         state: BlockState,
-        world: World,
+        world: Level,
         pos: BlockPos,
-        player: PlayerEntity,
-        hand: Hand?,
+        player: Player,
+        hand: InteractionHand?,
         hit: BlockHitResult?
-    ): ActionResult {
-        if (world.isClient) return ActionResult.SUCCESS
+    ): InteractionResult {
+        if (world.isClientSide) return InteractionResult.SUCCESS
         val blockEntity = world.getBlockEntity(pos)
         if (blockEntity is KitchenCabinetBlockEntity) {
-            player.openHandledScreen(blockEntity)
-            PiglinBrain.onGuardedBlockInteracted(player, true)
+            player.openMenu(blockEntity)
+            PiglinAi.angerNearbyPiglins(player, true)
         }
-        return ActionResult.CONSUME
+        return InteractionResult.CONSUME
     }
 
     @Deprecated("Deprecated in Java")
     @Suppress("DEPRECATION")
-    override fun onStateReplaced(
+    override fun onRemove(
         state: BlockState,
-        world: World,
+        world: Level,
         pos: BlockPos?,
         newState: BlockState,
         moved: Boolean
     ) {
         if (state isOf newState.block) return
         with(world.getBlockEntity(pos)) {
-            if (this is Inventory) {
-                ItemScatterer.spawn(world, pos, this)
-                world.updateComparators(pos, this@KitchenCabinetBlock)
+            if (this is Container) {
+                Containers.dropContents(world, pos, this)
+                world.updateNeighbourForOutputSignal(pos, this@KitchenCabinetBlock)
             }
         }
-        super.onStateReplaced(state, world, pos, newState, moved)
+        super.onRemove(state, world, pos, newState, moved)
     }
 
 
@@ -112,114 +120,114 @@ class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
         "com.github.mystery2099.woodenAccentsMod.block.entity.custom.KitchenCabinetBlockEntity"
     )
     )
-    override fun scheduledTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
+    override fun tick(state: BlockState, world: ServerLevel, pos: BlockPos, random: RandomSource) {
         (world.getBlockEntity(pos) as? KitchenCabinetBlockEntity)?.also {
             it.tick()
         }
     }
 
-    override fun createBlockEntity(pos: BlockPos, state: BlockState) = KitchenCabinetBlockEntity(pos, state)
+    override fun newBlockEntity(pos: BlockPos, state: BlockState) = KitchenCabinetBlockEntity(pos, state)
 
-    @Deprecated("Deprecated in Java", ReplaceWith("BlockRenderType.MODEL", "net.minecraft.block.BlockRenderType"))
-    override fun getRenderType(state: BlockState?): BlockRenderType = BlockRenderType.MODEL
-    override fun onPlaced(
-        world: World,
+    @Deprecated("Deprecated in Java", ReplaceWith("RenderShape.MODEL", "net.minecraft.world.level.block.RenderShape"))
+    override fun getRenderShape(state: BlockState?): RenderShape = RenderShape.MODEL
+    override fun setPlacedBy(
+        world: Level,
         pos: BlockPos?,
         state: BlockState?,
         placer: LivingEntity?,
         itemStack: ItemStack
     ) {
         world.getBlockEntity(pos)?.let {
-            if (itemStack.hasCustomName() && it is KitchenCabinetBlockEntity) {
-                it.customName = itemStack.name
+            if (itemStack.hasCustomHoverName() && it is KitchenCabinetBlockEntity) {
+                it.customName = itemStack.hoverName
             }
         }
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith("true"))
-    override fun hasComparatorOutput(state: BlockState?): Boolean = true
+    override fun hasAnalogOutputSignal(state: BlockState?): Boolean = true
 
     @Deprecated("Deprecated in Java", ReplaceWith(
-        "ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos))",
-        "net.minecraft.screen.ScreenHandler"
+        "AbstractContainerMenu.getRedstoneSignalFromBlockEntity(world.getBlockEntity(pos))",
+        "net.minecraft.world.inventory.AbstractContainerMenu"
     )
     )
-    override fun getComparatorOutput(state: BlockState?, world: World, pos: BlockPos?): Int {
-        return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos))
+    override fun getAnalogOutputSignal(state: BlockState?, world: Level, pos: BlockPos?): Int {
+        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(world.getBlockEntity(pos))
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith(
-        "state.withProperties { facing setTo rotation.rotate(state[facing]) }",
+        "state.withProperties { facing setTo rotation.rotate(state.getValue(facing)) }",
         "com.mystery2099.wooden_accents_mod.util.BlockStateUtil.withProperties",
         "com.mystery2099.wooden_accents_mod.block.custom.KitchenCabinetBlock.Companion.facing",
         "com.mystery2099.wooden_accents_mod.block.custom.KitchenCabinetBlock.Companion.facing"
     )
     )
-    override fun rotate(state: BlockState, rotation: BlockRotation): BlockState = state.with {
-        facing to rotation.rotate(state[facing])
+    override fun rotate(state: BlockState, rotation: Rotation): BlockState = state.with {
+        facing to rotation.rotate(state.getValue(facing))
     }
 
     @Deprecated("Deprecated in Java")
-    override fun mirror(state: BlockState, mirror: BlockMirror): BlockState =
-        state.rotate(mirror.getRotation(state[facing]))
+    override fun mirror(state: BlockState, mirror: Mirror): BlockState =
+        state.rotate(mirror.getRotation(state.getValue(facing)))
 
     override fun getLootTableBuilder(provider: FabricBlockLootTableProvider): LootTable.Builder =
-        provider.nameableContainerDrops(this)
+        provider.createNameableBlockEntityTable(this)
 
-    override fun appendProperties(builder: StateManager.Builder<Block?, BlockState?>) {
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block?, BlockState?>) {
         builder.add(facing, open)
     }
 
-    override fun getPlacementState(ctx: ItemPlacementContext): BlockState =
-        defaultState.with(facing, ctx.horizontalPlayerFacing.opposite)
+    override fun getStateForPlacement(ctx: BlockPlaceContext): BlockState =
+        defaultBlockState().setValue(facing, ctx.horizontalDirection.opposite)
 
     @Deprecated("Deprecated in Java")
-    override fun getOutlineShape(
+    override fun getShape(
         state: BlockState,
-        world: BlockView,
+        world: BlockGetter,
         pos: BlockPos,
-        context: ShapeContext
-    ): VoxelShape = outlineShapes[state[facing]]
-        ?: VoxelShapes.fullCube()
+        context: CollisionContext
+    ): VoxelShape = outlineShapes[state.getValue(facing)]
+        ?: Shapes.block()
 
     @Deprecated("Deprecated in Java")
     override fun getCollisionShape(
         state: BlockState,
-        world: BlockView,
+        world: BlockGetter,
         pos: BlockPos,
-        context: ShapeContext
-    ): VoxelShape = VoxelShapes.fullCube()
+        context: CollisionContext
+    ): VoxelShape = Shapes.block()
 
-    override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 4).apply {
-            input('#', baseBlock)
-            input('_', topBlock)
-            input('O', ModItemTags.chests)
+    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, 4).apply {
+            define('#', baseBlock)
+            define('_', topBlock)
+            define('O', ModItemTags.chests)
             pattern("___")
             pattern("#O#")
             pattern("###")
             customGroup(this@KitchenCabinetBlock, "kitchen_cabinets")
             requires(ModBlockTags.getItemTagFrom(ModBlockTags.kitchenCounters))
-            offerTo(exporter)
+            save(exporter)
         }
     }
 
-    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
-        val map = TextureMap().apply {
-            put(TextureKey.TOP, topBlock.textureId)
-            put(TextureKey.SIDE, baseBlock.textureId)
+    override fun generateBlockStateModels(generator: BlockModelGenerators) {
+        val map = TextureMapping().apply {
+            put(TextureSlot.TOP, topBlock.textureId)
+            put(TextureSlot.SIDE, baseBlock.textureId)
         }
-        val model = ModModels.kitchenCabinet.upload(this, map, generator.modelCollector)
-        generator.blockStateCollector.accept(
-            VariantsBlockStateSupplier.create(this, model.asBlockStateVariant())
-                .coordinate(BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates())
+        val model = ModModels.kitchenCabinet.create(this, map, generator.modelOutput)
+        generator.blockStateOutput.accept(
+            MultiVariantGenerator.multiVariant(this, model.asBlockStateVariant())
+                .with(BlockModelGenerators.createHorizontalFacingDispatch())
         )
-        generator.registerParentedItemModel(this, model)
+        generator.delegateItemModel(this, model)
     }
 
     companion object {
-        val facing: DirectionProperty = Properties.HORIZONTAL_FACING
-        val open: BooleanProperty = Properties.OPEN
+        val facing: DirectionProperty = BlockStateProperties.HORIZONTAL_FACING
+        val open: BooleanProperty = BlockStateProperties.OPEN
         val directionVoxelShapeMap = mapOf(
             Direction.NORTH to AbstractKitchenCounterBlock.NORTH_SHAPE,
             Direction.EAST to AbstractKitchenCounterBlock.NORTH_SHAPE.rotateLeft(),

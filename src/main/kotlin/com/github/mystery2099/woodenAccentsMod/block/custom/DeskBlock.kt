@@ -22,29 +22,31 @@ import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroups
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.state.property.ModProperties
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.ShapeContext
-import net.minecraft.data.client.*
-import net.minecraft.data.server.recipe.RecipeJsonProvider
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
-import net.minecraft.item.ItemPlacementContext
-import net.minecraft.recipe.book.RecipeCategory
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.state.StateManager
-import net.minecraft.state.property.DirectionProperty
-import net.minecraft.state.property.Properties
-import net.minecraft.util.Identifier
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
-import net.minecraft.world.BlockView
-import net.minecraft.world.WorldAccess
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.data.models.*
+import net.minecraft.data.models.blockstates.*
+import net.minecraft.data.models.model.*
+import net.minecraft.data.recipes.FinishedRecipe
+import net.minecraft.data.recipes.ShapedRecipeBuilder
+import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.data.recipes.RecipeCategory
+import net.minecraft.tags.TagKey
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.DirectionProperty
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.world.phys.shapes.VoxelShape
+import net.minecraft.world.phys.shapes.Shapes
+import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.LevelAccessor
 import java.util.function.Consumer
 
 class DeskBlock(val baseBlock: Block, private val topBlock: Block) :
-    AbstractWaterloggableBlock(FabricBlockSettings.copyOf(topBlock).mapColor(topBlock.defaultMapColor)),
+    AbstractWaterloggableBlock(FabricBlockSettings.copyOf(topBlock).mapColor(topBlock.defaultMapColor())),
     CustomItemGroupProvider, CustomRecipeProvider, CustomBlockStateProvider, CustomTagProvider<Block> {
 
 
@@ -56,54 +58,54 @@ class DeskBlock(val baseBlock: Block, private val topBlock: Block) :
         get() = this isIn ModBlockTags.deskDrawers
 
     init {
-        defaultState = defaultState.with {
+        registerDefaultState(defaultBlockState().with {
             facing to Direction.NORTH
             shape to DeskShape.SINGLE
-        }
+        })
     }
 
     @Deprecated("Deprecated in Java")
-    override fun getOutlineShape(
+    override fun getShape(
         state: BlockState,
-        world: BlockView?,
+        world: BlockGetter?,
         pos: BlockPos?,
-        context: ShapeContext?
+        context: CollisionContext?
     ): VoxelShape =
-        shapeMap[state[shape]]?.get(state[facing]) ?: VoxelShapes.fullCube()
+        shapeMap[state.getValue(shape)]?.get(state.getValue(facing)) ?: Shapes.block()
 
     @Deprecated("Deprecated in Java")
     override fun getCollisionShape(
         state: BlockState,
-        world: BlockView,
+        world: BlockGetter,
         pos: BlockPos,
-        context: ShapeContext
-    ): VoxelShape = VoxelShapes.fullCube()
+        context: CollisionContext
+    ): VoxelShape = Shapes.block()
 
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        super.appendProperties(builder)
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
+        super.createBlockStateDefinition(builder)
         builder.add(facing, shape)
     }
 
     private fun BlockState.canConnectTo(otherState: BlockState): Boolean {
         return (this.isDesk || this.isDeskDrawer) && (otherState.isDesk || otherState.isDeskDrawer)
     }
-    private fun checkNeighbors(world: WorldAccess, pos: BlockPos, state: BlockState = world.getBlockState(pos)): Array<Boolean> {
-        val leftState = world.getBlockState(pos.offset(state[facing].rotateYClockwise()))
-        val rightState = world.getBlockState(pos.offset(state[facing].rotateYCounterclockwise()))
+    private fun checkNeighbors(world: LevelAccessor, pos: BlockPos, state: BlockState = world.getBlockState(pos)): Array<Boolean> {
+        val leftState = world.getBlockState(pos.relative(state.getValue(facing).getClockWise()))
+        val rightState = world.getBlockState(pos.relative(state.getValue(facing).getCounterClockWise()))
         val left = state.canConnectTo(leftState)
         val right = state.canConnectTo(rightState)
-        val forward = world.getBlockState(pos.offset(state[facing])).let {
+        val forward = world.getBlockState(pos.relative(state.getValue(facing))).let {
             (state.canConnectTo(it)) &&
-                    if (left) it[facing] == state[facing].rotateYClockwise()
-                    else if (right) it[facing] == state[facing].rotateYCounterclockwise()
+                    if (left) it.getValue(facing) == state.getValue(facing).getClockWise()
+                    else if (right) it.getValue(facing) == state.getValue(facing).getCounterClockWise()
                     else true
         }
         return arrayOf(left, right, forward)
     }
 
-    override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
-        return super.getPlacementState(ctx).with(facing, ctx.horizontalPlayerFacing.opposite).let {
-            val checkedNeighbors = checkNeighbors(ctx.world, ctx.blockPos, it)
+    override fun getStateForPlacement(ctx: BlockPlaceContext): BlockState {
+        return super.getStateForPlacement(ctx).setValue(facing, ctx.horizontalDirection.opposite).let {
+            val checkedNeighbors = checkNeighbors(ctx.level, ctx.clickedPos, it)
             it.withShape(
                 left = checkedNeighbors[0],
                 right = checkedNeighbors[1],
@@ -114,16 +116,16 @@ class DeskBlock(val baseBlock: Block, private val topBlock: Block) :
 
     @Deprecated("Deprecated in Java")
     @Suppress("DEPRECATION")
-    override fun getStateForNeighborUpdate(
+    override fun updateShape(
         state: BlockState,
         direction: Direction?,
         neighborState: BlockState?,
-        world: WorldAccess,
+        world: LevelAccessor,
         pos: BlockPos,
         neighborPos: BlockPos?
     ): BlockState {
         val checkedNeighbors = checkNeighbors(world, pos)
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
+        return super.updateShape(state, direction, neighborState, world, pos, neighborPos)
             .withShape(
                 left = checkedNeighbors[0],
                 right = checkedNeighbors[1],
@@ -144,21 +146,21 @@ class DeskBlock(val baseBlock: Block, private val topBlock: Block) :
         }
     }
 
-    override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
+    override fun generateBlockStateModels(generator: BlockModelGenerators) {
         val block = this
-        TextureMap().apply {
-            put(TextureKey.TOP, block.topBlock.textureId)
-            put(TextureKey.SIDE, block.baseBlock.textureId)
+        TextureMapping().apply {
+            put(TextureSlot.TOP, block.topBlock.textureId)
+            put(TextureSlot.SIDE, block.baseBlock.textureId)
         }.let { map ->
-            generator.blockStateCollector.accept(
-                VariantsBlockStateSupplier.create(block)
-                    .coordinate(
+            generator.blockStateOutput.accept(
+                MultiVariantGenerator.multiVariant(block)
+                    .with(
                         variantMap(
-                            singleModel = ModModels.desk.upload(block, map, generator.modelCollector),
-                            leftModel = ModModels.deskLeft.upload(block, map, generator.modelCollector),
-                            centerModel = ModModels.deskCenter.upload(block, map, generator.modelCollector),
-                            rightModel = ModModels.deskRight.upload(block, map, generator.modelCollector),
-                            leftCornerModel = ModModels.deskLeftCorner.upload(block, map, generator.modelCollector)
+                            singleModel = ModModels.desk.create(block, map, generator.modelOutput),
+                            leftModel = ModModels.deskLeft.create(block, map, generator.modelOutput),
+                            centerModel = ModModels.deskCenter.create(block, map, generator.modelOutput),
+                            rightModel = ModModels.deskRight.create(block, map, generator.modelOutput),
+                            leftCornerModel = ModModels.deskLeftCorner.create(block, map, generator.modelOutput)
                         )
                     )
             )
@@ -166,12 +168,12 @@ class DeskBlock(val baseBlock: Block, private val topBlock: Block) :
     }
 
     private fun variantMap(
-        singleModel: Identifier,
-        leftModel: Identifier,
-        centerModel: Identifier,
-        rightModel: Identifier,
-        leftCornerModel: Identifier
-    ) = BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, ModProperties.deskShape).apply {
+        singleModel: ResourceLocation,
+        leftModel: ResourceLocation,
+        centerModel: ResourceLocation,
+        rightModel: ResourceLocation,
+        leftCornerModel: ResourceLocation
+    ) = PropertyDispatch.properties(BlockStateProperties.HORIZONTAL_FACING, ModProperties.deskShape).apply {
         val northSingle = singleModel.asBlockStateVariant()
         val northLeft = leftModel.asBlockStateVariant()
         val northCenter = centerModel.asBlockStateVariant()
@@ -185,51 +187,51 @@ class DeskBlock(val baseBlock: Block, private val topBlock: Block) :
                 DeskShape.CENTER to northCenter,
                 DeskShape.RIGHT to northRight,
                 DeskShape.LEFT_CORNER to northLeftCorner,
-                DeskShape.RIGHT_CORNER to northLeftCorner.withYRotationOf(VariantSettings.Rotation.R90)
+                DeskShape.RIGHT_CORNER to northLeftCorner.withYRotationOf(VariantProperties.Rotation.R90)
             ),
             Direction.EAST to mapOf(
-                DeskShape.SINGLE to northSingle.withYRotationOf(VariantSettings.Rotation.R90),
-                DeskShape.LEFT to northLeft.withYRotationOf(VariantSettings.Rotation.R90),
-                DeskShape.CENTER to northCenter.withYRotationOf(VariantSettings.Rotation.R90),
-                DeskShape.RIGHT to northRight.withYRotationOf(VariantSettings.Rotation.R90),
-                DeskShape.LEFT_CORNER to northLeftCorner.withYRotationOf(VariantSettings.Rotation.R90),
-                DeskShape.RIGHT_CORNER to northLeftCorner.withYRotationOf(VariantSettings.Rotation.R180)
+                DeskShape.SINGLE to northSingle.withYRotationOf(VariantProperties.Rotation.R90),
+                DeskShape.LEFT to northLeft.withYRotationOf(VariantProperties.Rotation.R90),
+                DeskShape.CENTER to northCenter.withYRotationOf(VariantProperties.Rotation.R90),
+                DeskShape.RIGHT to northRight.withYRotationOf(VariantProperties.Rotation.R90),
+                DeskShape.LEFT_CORNER to northLeftCorner.withYRotationOf(VariantProperties.Rotation.R90),
+                DeskShape.RIGHT_CORNER to northLeftCorner.withYRotationOf(VariantProperties.Rotation.R180)
             ),
             Direction.SOUTH to mapOf(
-                DeskShape.SINGLE to northSingle.withYRotationOf(VariantSettings.Rotation.R180),
-                DeskShape.LEFT to northLeft.withYRotationOf(VariantSettings.Rotation.R180),
-                DeskShape.CENTER to northCenter.withYRotationOf(VariantSettings.Rotation.R180),
-                DeskShape.RIGHT to northRight.withYRotationOf(VariantSettings.Rotation.R180),
-                DeskShape.LEFT_CORNER to northLeftCorner.withYRotationOf(VariantSettings.Rotation.R180),
-                DeskShape.RIGHT_CORNER to northLeftCorner.withYRotationOf(VariantSettings.Rotation.R270)
+                DeskShape.SINGLE to northSingle.withYRotationOf(VariantProperties.Rotation.R180),
+                DeskShape.LEFT to northLeft.withYRotationOf(VariantProperties.Rotation.R180),
+                DeskShape.CENTER to northCenter.withYRotationOf(VariantProperties.Rotation.R180),
+                DeskShape.RIGHT to northRight.withYRotationOf(VariantProperties.Rotation.R180),
+                DeskShape.LEFT_CORNER to northLeftCorner.withYRotationOf(VariantProperties.Rotation.R180),
+                DeskShape.RIGHT_CORNER to northLeftCorner.withYRotationOf(VariantProperties.Rotation.R270)
             ),
             Direction.WEST to mapOf(
-                DeskShape.SINGLE to northSingle.withYRotationOf(VariantSettings.Rotation.R270),
-                DeskShape.LEFT to northLeft.withYRotationOf(VariantSettings.Rotation.R270),
-                DeskShape.CENTER to northCenter.withYRotationOf(VariantSettings.Rotation.R270),
-                DeskShape.RIGHT to northRight.withYRotationOf(VariantSettings.Rotation.R270),
-                DeskShape.LEFT_CORNER to northLeftCorner.withYRotationOf(VariantSettings.Rotation.R270),
+                DeskShape.SINGLE to northSingle.withYRotationOf(VariantProperties.Rotation.R270),
+                DeskShape.LEFT to northLeft.withYRotationOf(VariantProperties.Rotation.R270),
+                DeskShape.CENTER to northCenter.withYRotationOf(VariantProperties.Rotation.R270),
+                DeskShape.RIGHT to northRight.withYRotationOf(VariantProperties.Rotation.R270),
+                DeskShape.LEFT_CORNER to northLeftCorner.withYRotationOf(VariantProperties.Rotation.R270),
                 DeskShape.RIGHT_CORNER to northLeftCorner
             )
-        ).forEach { i -> i.value.forEach { j -> register(i.key, j.key, j.value) } }
+        ).forEach { i -> i.value.forEach { j -> select(i.key, j.key, j.value) } }
     }
 
-    override fun offerRecipeTo(exporter: Consumer<RecipeJsonProvider>) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, this, 4).apply {
-            input('|', baseBlock)
-            input('_', topBlock)
+    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, 4).apply {
+            define('|', baseBlock)
+            define('_', topBlock)
             pattern("___")
             pattern("| |")
             pattern("| |")
             customGroup(this@DeskBlock, "desks")
             requires(baseBlock)
-            offerTo(exporter)
+            save(exporter)
         }
     }
 
     companion object {
         val shape = ModProperties.deskShape
-        val facing: DirectionProperty = Properties.HORIZONTAL_FACING
+        val facing: DirectionProperty = BlockStateProperties.HORIZONTAL_FACING
 
         // Shapes are authored facing north, then rotated for the other directions.
         private val northSingleShape = VoxelAssembly.union(

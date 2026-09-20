@@ -1,90 +1,90 @@
 package com.github.mystery2099.woodenAccentsMod.block.entity.custom
 
 import com.github.mystery2099.woodenAccentsMod.block.entity.ModBlockEntities
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.entity.BlockEntity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.inventory.Inventories
-import net.minecraft.inventory.SidedInventory
-import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.network.listener.ClientPlayPacketListener
-import net.minecraft.network.packet.Packet
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
-import net.minecraft.util.collection.DefaultedList
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.ContainerHelper
+import net.minecraft.world.WorldlyContainer
+import net.minecraft.world.item.ItemStack
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.protocol.game.ClientGamePacketListener
+import net.minecraft.network.protocol.Packet
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket
+import net.minecraft.core.NonNullList
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
 
 /**
  * Stores the three displayed stacks of a bracket shelf. There is no screen
  * handler: items are swapped directly against the player's main hand.
  */
-class BracketShelfBlockEntity(pos: BlockPos, state: BlockState) :
-    BlockEntity(ModBlockEntities.bracketShelf, pos, state), SidedInventory {
+class BracketShelfBlockEntity(blockPos: BlockPos, state: BlockState) :
+    BlockEntity(ModBlockEntities.bracketShelf, blockPos, state), WorldlyContainer {
 
-    private var inventory: DefaultedList<ItemStack> = DefaultedList.ofSize(SLOT_COUNT, ItemStack.EMPTY)
+    private var inventory: NonNullList<ItemStack> = NonNullList.withSize(SLOT_COUNT, ItemStack.EMPTY)
 
-    override fun size(): Int = inventory.size
+    override fun getContainerSize(): Int = inventory.size
 
     override fun isEmpty(): Boolean = inventory.all { it.isEmpty }
 
-    override fun getStack(slot: Int): ItemStack = inventory[slot]
+    override fun getItem(slot: Int): ItemStack = inventory[slot]
 
-    override fun removeStack(slot: Int): ItemStack = Inventories.removeStack(inventory, slot).also {
-        if (!it.isEmpty) markDirty()
+    override fun removeItemNoUpdate(slot: Int): ItemStack = ContainerHelper.takeItem(inventory, slot).also {
+        if (!it.isEmpty) setChanged()
     }
 
-    override fun removeStack(slot: Int, count: Int): ItemStack = Inventories.splitStack(inventory, slot, count).also {
-        if (!it.isEmpty) markDirty()
+    override fun removeItem(slot: Int, count: Int): ItemStack = ContainerHelper.removeItem(inventory, slot, count).also {
+        if (!it.isEmpty) setChanged()
     }
 
-    override fun setStack(slot: Int, stack: ItemStack) {
+    override fun setItem(slot: Int, stack: ItemStack) {
         inventory[slot] = stack
-        markDirty()
+        setChanged()
     }
 
-    override fun clear() {
+    override fun clearContent() {
         inventory.clear()
-        markDirty()
+        setChanged()
     }
 
-    override fun canPlayerUse(player: PlayerEntity): Boolean =
-        world?.getBlockEntity(pos) === this && player.squaredDistanceTo(
-            pos.x + 0.5,
-            pos.y + 0.5,
-            pos.z + 0.5
+    override fun stillValid(player: Player): Boolean =
+        level?.getBlockEntity(blockPos) === this && player.distanceToSqr(
+            blockPos.x + 0.5,
+            blockPos.y + 0.5,
+            blockPos.z + 0.5
         ) <= 64.0
 
-    override fun getAvailableSlots(side: Direction): IntArray = when (side) {
+    override fun getSlotsForFace(side: Direction): IntArray = when (side) {
         Direction.UP, Direction.DOWN -> availableSlots
         else -> noSlots
     }
 
-    override fun canInsert(slot: Int, stack: ItemStack, direction: Direction?): Boolean = direction == Direction.UP
+    override fun canPlaceItemThroughFace(slot: Int, stack: ItemStack, direction: Direction?): Boolean = direction == Direction.UP
 
-    override fun canExtract(slot: Int, stack: ItemStack, direction: Direction?): Boolean = direction == Direction.DOWN
+    override fun canTakeItemThroughFace(slot: Int, stack: ItemStack, direction: Direction?): Boolean = direction == Direction.DOWN
 
-    override fun readNbt(nbt: NbtCompound) {
-        super.readNbt(nbt)
-        inventory = DefaultedList.ofSize(SLOT_COUNT, ItemStack.EMPTY)
-        Inventories.readNbt(nbt, inventory)
+    override fun load(nbt: CompoundTag) {
+        super.load(nbt)
+        inventory = NonNullList.withSize(SLOT_COUNT, ItemStack.EMPTY)
+        ContainerHelper.loadAllItems(nbt, inventory)
     }
 
-    override fun writeNbt(nbt: NbtCompound?) {
-        super.writeNbt(nbt)
+    override fun saveAdditional(nbt: CompoundTag?) {
+        super.saveAdditional(nbt)
         // Keep an empty Items list so update packets can clear the client-side inventory.
-        Inventories.writeNbt(nbt, inventory, true)
+        ContainerHelper.saveAllItems(nbt, inventory, true)
     }
 
-    override fun toUpdatePacket(): Packet<ClientPlayPacketListener> = BlockEntityUpdateS2CPacket.create(this)
+    override fun getUpdatePacket(): Packet<ClientGamePacketListener> = ClientboundBlockEntityDataPacket.create(this)
 
-    override fun toInitialChunkDataNbt(): NbtCompound = createNbt()
+    override fun getUpdateTag(): CompoundTag = saveWithoutMetadata()
 
-    override fun markDirty() {
-        super.markDirty()
-        world?.updateListeners(pos, cachedState, cachedState, Block.NOTIFY_LISTENERS)
-        world?.updateComparators(pos, cachedState.block)
+    override fun setChanged() {
+        super.setChanged()
+        level?.sendBlockUpdated(blockPos, blockState, blockState, Block.UPDATE_CLIENTS)
+        level?.updateNeighbourForOutputSignal(blockPos, blockState.block)
     }
 
     companion object {
