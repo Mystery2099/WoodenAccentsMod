@@ -118,7 +118,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: release-dry-run-${{ steps.release.outputs.version }}
-          path: build/publishMods/
+          path: fabric/build/publishMods/
           retention-days: 7
 
       - name: publish to github

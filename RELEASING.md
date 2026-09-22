@@ -4,6 +4,41 @@ Run the Release workflow manually to publish. Merging a pull request, pushing a 
 
 The release workflow publishes to GitHub Releases only. It does not upload anything to Modrinth, CurseForge, or a Maven repository.
 
+## Version scheme
+
+Versions follow `<minecraft_version>-<content_version>` (for example `1.20.1-1.1.4.1`). The Minecraft version technically supports, not targets; the content version follows the feature number.
+
+- Patch content number when porting the same content to a new Minecraft version or fixing a release on that Minecraft line.
+- Bump to the next minor content version (for example `1.2.0.0`) for the first fully tested, feature-complete release on the target Minecraft version.
+- Increment the last component for each distinct published build; do not republish the same version.
+- Do not encode loader names (Fabric, NeoForge) in the version. Different loader builds of the same release share one version and differ by artifact name and loader metadata.
+- Optional suffixes such as `-beta.1` are unnecessary: the workflow's release type already marks the build as a prerelease.
+
+## Release types
+
+Every artifact gets a unique version regardless of stability. Prereleases are still real releases; do not treat them as disposable snapshots.
+
+| Type | Use for |
+|---|---|
+| `STABLE` | Fully validated feature releases. Reserve for the first proper `1.21.1` release. |
+| `BETA` | Intended functionality exists, but migration, compatibility, or world testing is incomplete. |
+| `ALPHA` | First multiloader builds or ports where loader parity may still be incomplete. |
+
+Promote stability by publishing the same content version with the newer release type when testing confirms it.
+
+## Working versions and branches
+
+The current migration sequence. Each listed build publishes under the shown version with the shown release type:
+
+| Target | Work | Version | Release type |
+|---|---|---:|---|
+| 1.20.1 | Compatibility port | `1.20.1-1.1.4.1` | Beta (released) |
+| 1.20.1 | Split into common and Fabric modules | `1.20.1-1.1.4.2` | Alpha |
+| 1.20.6 | Add NeoForge loader and port the common module | `1.20.6-1.1.4.3` | Alpha or Beta |
+| 1.21.1 | Fully tested target release | `1.21.1-1.2.0.0` | Stable |
+
+Once the `1.21.1` line exists, create permanent `1.20.1` and `1.20.6` branches from the final commit of each Minecraft line for future maintenance fixes. Apply fixes on the relevant branch and forward-port them while they still apply.
+
 ## Workflow requirements
 
 - Dry-run mode is enabled by default.
@@ -12,9 +47,9 @@ The release workflow publishes to GitHub Releases only. It does not upload anyth
 - Existing GitHub releases and tags are rejected instead of overwritten.
 - The publishing token is provided by GitHub Actions; there is no personal token to configure.
 
-## Testing for 1.20.1-1.1.4.1 beta
+## Testing for 1.20.1-1.1.4.2 alpha
 
-The Gradle build and local `BETA` publishing dry run pass. A dedicated development server loads the mod, recipes, and advancements and reaches the ready state. Client gameplay, multiplayer behavior, existing-world migration, and optional storage-preview integrations remain unverified.
+The Fabric build and local `ALPHA` publishing dry run must pass. The common/Fabric split is the scope of this release; the second loader is deferred to NeoForge 1.20.6. Client gameplay, multiplayer behavior, existing-world migration, and optional storage-preview integrations remain unverified.
 
 In-game screenshots of mixed structural builds would improve the README's schematic examples, but are optional for this release. A custom seated pose is deferred.
 
@@ -50,7 +85,7 @@ Once the release commit and dry run are both good:
 
 1. Open **Actions → Release → Run workflow**.
 2. Select the `master` branch.
-3. Choose `BETA` for `1.20.1-1.1.4.1`.
+3. Choose `ALPHA` for `1.20.1-1.1.4.2`.
 4. Disable **Dry run**.
 5. Enable **Confirm release**.
 6. Run the workflow.
