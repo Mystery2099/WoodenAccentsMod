@@ -29,6 +29,9 @@ import net.minecraft.tags.BlockTags
 import net.minecraft.tags.TagKey
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.core.registries.BuiltInRegistries
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.block.state.BlockBehaviour
@@ -113,5 +116,11 @@ class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(ru
             requires(baseBlock)
             save(recipeExporter)
         }
+    }
+
+    override fun codec(): MapCodec<out SupportBeamBlock> = RecordCodecBuilder.mapCodec { instance ->
+        instance.group(
+            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("base").forGetter { it.baseBlock }
+        ).apply(instance, ::SupportBeamBlock)
     }
 }

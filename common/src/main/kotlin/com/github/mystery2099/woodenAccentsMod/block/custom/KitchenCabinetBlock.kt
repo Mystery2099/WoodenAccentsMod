@@ -63,6 +63,9 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue
 import com.github.mystery2099.woodenAccentsMod.util.LootTableUtil
 import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.world.level.storage.loot.entries.LootItem
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.registries.BuiltInRegistries
 class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
     BaseEntityBlock(BlockBehaviour.Properties.ofFullCopy(baseBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider,
@@ -127,21 +130,11 @@ class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
 
     override fun newBlockEntity(pos: BlockPos, state: BlockState) = KitchenCabinetBlockEntity(pos, state)
 
+    override fun codec(): MapCodec<KitchenCabinetBlock> = CODEC
+
     @Deprecated("Deprecated in Java", ReplaceWith("RenderShape.MODEL", "net.minecraft.world.level.block.RenderShape"))
     override fun getRenderShape(state: BlockState): RenderShape = RenderShape.MODEL
-    override fun setPlacedBy(
-        world: Level,
-        pos: BlockPos?,
-        state: BlockState?,
-        placer: LivingEntity?,
-        itemStack: ItemStack
-    ) {
-        world.getBlockEntity(pos)?.let {
-            if (itemStack.hasCustomHoverName() && it is KitchenCabinetBlockEntity) {
-                it.customName = itemStack.hoverName
-            }
-        }
-    }
+    // Custom names transfer automatically; vanilla applies the item's components when placing.
 
     @Deprecated("Deprecated in Java", ReplaceWith("true"))
     override fun hasAnalogOutputSignal(state: BlockState): Boolean = true
@@ -236,6 +229,13 @@ class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
     companion object {
         val facing: DirectionProperty = BlockStateProperties.HORIZONTAL_FACING
         val open: BooleanProperty = BlockStateProperties.OPEN
+
+        val CODEC: MapCodec<KitchenCabinetBlock> = RecordCodecBuilder.mapCodec { instance ->
+            instance.group(
+                BuiltInRegistries.BLOCK.byNameCodec().fieldOf("base_block").forGetter { it.baseBlock },
+                BuiltInRegistries.BLOCK.byNameCodec().fieldOf("top_block").forGetter { it.topBlock }
+            ).apply(instance, ::KitchenCabinetBlock)
+        }
         val directionVoxelShapeMap = mapOf(
             Direction.NORTH to AbstractKitchenCounterBlock.NORTH_SHAPE,
             Direction.EAST to AbstractKitchenCounterBlock.NORTH_SHAPE.rotateLeft(),

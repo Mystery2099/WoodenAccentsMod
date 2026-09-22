@@ -13,6 +13,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.inventory.ChestMenu
 import net.minecraft.world.inventory.AbstractContainerMenu
+import net.minecraft.core.HolderLookup
 import net.minecraft.sounds.SoundSource
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
@@ -57,18 +58,18 @@ class KitchenCabinetBlockEntity(blockPos: BlockPos, state: BlockState) :
         }
     }
 
-    override fun saveAdditional(nbt: CompoundTag) {
-        super.saveAdditional(nbt)
+    override fun saveAdditional(nbt: CompoundTag, registries: HolderLookup.Provider) {
+        super.saveAdditional(nbt, registries)
         if (!this.trySaveLootTable(nbt)) {
-            ContainerHelper.saveAllItems(nbt, inventory)
+            ContainerHelper.saveAllItems(nbt, inventory, registries)
         }
     }
 
-    override fun load(nbt: CompoundTag) {
-        super.load(nbt)
+    override fun loadAdditional(nbt: CompoundTag, registries: HolderLookup.Provider) {
+        super.loadAdditional(nbt, registries)
         inventory = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY)
         if (!this.tryLoadLootTable(nbt)) {
-            ContainerHelper.loadAllItems(nbt, inventory)
+            ContainerHelper.loadAllItems(nbt, inventory, registries)
         }
     }
 

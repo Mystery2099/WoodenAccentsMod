@@ -18,6 +18,7 @@ import net.minecraft.network.chat.Component
 import net.minecraft.core.NonNullList
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Holder
+import net.minecraft.core.HolderLookup
 import net.minecraft.world.level.gameevent.GameEvent
 
 /** A 27-slot desk inventory stored with vanilla container NBT. */
@@ -47,18 +48,18 @@ class DeskDrawerBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         return super.triggerEvent(type, data)
     }
 
-    override fun saveAdditional(nbt: CompoundTag) {
-        super.saveAdditional(nbt)
+    override fun saveAdditional(nbt: CompoundTag, registries: HolderLookup.Provider) {
+        super.saveAdditional(nbt, registries)
         if (!this.trySaveLootTable(nbt)) {
-            ContainerHelper.saveAllItems(nbt, inventory)
+            ContainerHelper.saveAllItems(nbt, inventory, registries)
         }
     }
 
-    override fun load(nbt: CompoundTag) {
-        super.load(nbt)
+    override fun loadAdditional(nbt: CompoundTag, registries: HolderLookup.Provider) {
+        super.loadAdditional(nbt, registries)
         inventory = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY)
         if (!this.tryLoadLootTable(nbt)) {
-            ContainerHelper.loadAllItems(nbt, inventory)
+            ContainerHelper.loadAllItems(nbt, inventory, registries)
         }
     }
 

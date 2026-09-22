@@ -4,14 +4,14 @@ import com.github.mystery2099.woodenAccentsMod.block.custom.CrateBlock
 import com.github.mystery2099.woodenAccentsMod.block.item
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModItemTags
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModItemTags.contains
+import net.minecraft.core.component.DataComponents
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.Item
-import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.ItemUtils
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.Tag
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.component.ItemContainerContents
 
 
 /**
@@ -26,14 +26,10 @@ class CustomBlockItem(block: Block, settings: Item.Properties) : BlockItem(block
     override fun onDestroyed(entity: ItemEntity) {
         super.onDestroyed(entity)
         if (block is CrateBlock) {
-            getBlockEntityData(entity.item)?.let { nbtCompound ->
-                if (nbtCompound.contains("Items", Tag.TAG_LIST.toInt())) {
-                    val nbtList = nbtCompound.getList("Items", Tag.TAG_COMPOUND.toInt())
-                    ItemUtils.onContainerDestroyed(entity, nbtList.stream()
-                        .map { it as CompoundTag }
-                        .map(ItemStack::of))
-                }
-            }
-        }
+            // Contents travel in DataComponents.CONTAINER (same as the vanilla shulker).
+            ItemUtils.onContainerDestroyed(
+                entity,
+                entity.item.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).nonEmptyItems()
+            )        }
     }
 }

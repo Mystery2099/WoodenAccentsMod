@@ -15,6 +15,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket
 import net.minecraft.core.NonNullList
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.core.HolderLookup
 
 /**
  * Stores the three displayed stacks of a bracket shelf. There is no screen
@@ -65,21 +66,21 @@ class BracketShelfBlockEntity(blockPos: BlockPos, state: BlockState) :
 
     override fun canTakeItemThroughFace(slot: Int, stack: ItemStack, direction: Direction): Boolean = direction == Direction.DOWN
 
-    override fun load(nbt: CompoundTag) {
-        super.load(nbt)
+    override fun loadAdditional(nbt: CompoundTag, registries: HolderLookup.Provider) {
+        super.loadAdditional(nbt, registries)
         inventory = NonNullList.withSize(SLOT_COUNT, ItemStack.EMPTY)
-        ContainerHelper.loadAllItems(nbt, inventory)
+        ContainerHelper.loadAllItems(nbt, inventory, registries)
     }
 
-    override fun saveAdditional(nbt: CompoundTag) {
-        super.saveAdditional(nbt)
+    override fun saveAdditional(nbt: CompoundTag, registries: HolderLookup.Provider) {
+        super.saveAdditional(nbt, registries)
         // Keep an empty Items list so update packets can clear the client-side inventory.
-        ContainerHelper.saveAllItems(nbt, inventory, true)
+        ContainerHelper.saveAllItems(nbt, inventory, true, registries)
     }
 
     override fun getUpdatePacket(): Packet<ClientGamePacketListener> = ClientboundBlockEntityDataPacket.create(this)
 
-    override fun getUpdateTag(): CompoundTag = saveWithoutMetadata()
+    override fun getUpdateTag(registries: HolderLookup.Provider): CompoundTag = saveWithoutMetadata(registries)
 
     override fun setChanged() {
         super.setChanged()

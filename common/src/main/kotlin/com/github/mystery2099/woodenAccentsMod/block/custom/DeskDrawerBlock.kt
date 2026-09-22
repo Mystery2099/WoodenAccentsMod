@@ -67,6 +67,9 @@ import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.block.state.BlockBehaviour
 import com.github.mystery2099.woodenAccentsMod.util.LootTableUtil
 import net.minecraft.data.recipes.RecipeOutput
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.registries.BuiltInRegistries
 
 class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
     WaterloggableBlockWithEntity(BlockBehaviour.Properties.ofFullCopy(baseBlock).mapColor(baseBlock.defaultMapColor())),
@@ -119,19 +122,6 @@ class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
             left = state.canConnectTo(adjacentStates[0]),
             right = state.canConnectTo(adjacentStates[1])
         )
-    }
-
-    override fun setPlacedBy(
-        world: Level,
-        pos: BlockPos,
-        state: BlockState,
-        placer: LivingEntity?,
-        itemStack: ItemStack
-    ) {
-        val blockEntity: BlockEntity? = world.getBlockEntity(pos)
-                if (itemStack.hasCustomHoverName() && blockEntity is DeskDrawerBlockEntity) {
-            blockEntity.customName = itemStack.hoverName
-        }
     }
 
     override fun useWithoutItem(
@@ -242,6 +232,8 @@ class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
     }
 
     override fun newBlockEntity(pos: BlockPos, state: BlockState) = DeskDrawerBlockEntity(pos, state)
+
+    override fun codec(): MapCodec<DeskDrawerBlock> = CODEC
 
     override fun getLootTableBuilder(): LootTable.Builder {
         return LootTable.lootTable().withPool(
@@ -364,6 +356,13 @@ class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
     companion object {
         val facing: DirectionProperty = BlockStateProperties.HORIZONTAL_FACING
         val shape: EnumProperty<SidewaysConnectionShape> = ModProperties.sidewaysConnectionShape
+
+        val CODEC: MapCodec<DeskDrawerBlock> = RecordCodecBuilder.mapCodec { instance ->
+            instance.group(
+                BuiltInRegistries.BLOCK.byNameCodec().fieldOf("edge_block").forGetter { it.edgeBlock },
+                BuiltInRegistries.BLOCK.byNameCodec().fieldOf("base_block").forGetter { it.baseBlock }
+            ).apply(instance, ::DeskDrawerBlock)
+        }
         private val northShape = VoxelAssembly.createCuboidShape(1, 0, 1, 15, 15, 16)
         private val northSingleShape = VoxelAssembly.createCuboidShape(
             1, 0, 1, 15, 15, 15

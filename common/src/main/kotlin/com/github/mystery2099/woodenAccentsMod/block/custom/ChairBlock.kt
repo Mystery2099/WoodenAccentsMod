@@ -18,6 +18,8 @@ import com.github.mystery2099.woodenAccentsMod.entity.custom.SeatEntity
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroup
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.level.block.*
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.shapes.CollisionContext
@@ -169,8 +171,11 @@ class ChairBlock(settings: Properties, val baseBlock: Block) : HorizontalDirecti
         }
     }
 
-    override fun codec(): MapCodec<out HorizontalDirectionalBlock?>? {
-        TODO("Not yet implemented")
+    override fun codec(): MapCodec<ChairBlock> = RecordCodecBuilder.mapCodec { instance ->
+        instance.group(
+            propertiesCodec(),
+            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("base").forGetter { it.baseBlock }
+        ).apply(instance, ::ChairBlock)
     }
 
     companion object {

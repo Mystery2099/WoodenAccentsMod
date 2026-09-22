@@ -8,8 +8,4 @@ enum class CoffeeTableTypes(private val string: String) : StringRepresentable {
 
 
     override fun getSerializedName() = string
-    companion object {
-        // Stable serialized key used by block-item NBT.
-        const val TAG = "coffee_table_type"
-    }
 }

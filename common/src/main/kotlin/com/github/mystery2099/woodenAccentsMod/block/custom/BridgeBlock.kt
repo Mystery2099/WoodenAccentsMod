@@ -9,9 +9,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.core.Direction
 
 class BridgeBlock(settings: Properties?) : HorizontalDirectionalBlock(settings), SimpleWaterloggedBlock {
-    override fun codec(): MapCodec<out HorizontalDirectionalBlock?>? {
-        TODO("Not yet implemented")
-    }
+    override fun codec(): MapCodec<BridgeBlock> = commonCodec
 
     init {
         this.registerDefaultState(this.defaultBlockState().with {
@@ -22,5 +20,6 @@ class BridgeBlock(settings: Properties?) : HorizontalDirectionalBlock(settings),
 
     companion object {
         val waterlogged: BooleanProperty = BlockStateProperties.WATERLOGGED
+        val commonCodec: MapCodec<BridgeBlock> = simpleCodec(::BridgeBlock)
     }
 }

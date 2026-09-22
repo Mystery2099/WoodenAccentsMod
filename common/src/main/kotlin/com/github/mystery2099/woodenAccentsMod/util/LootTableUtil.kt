@@ -1,7 +1,9 @@
 package com.github.mystery2099.woodenAccentsMod.util
 
 import net.minecraft.advancements.critereon.EnchantmentPredicate
+import net.minecraft.advancements.critereon.ItemEnchantmentsPredicate
 import net.minecraft.advancements.critereon.ItemPredicate
+import net.minecraft.advancements.critereon.ItemSubPredicates
 import net.minecraft.world.level.storage.loot.predicates.MatchTool
 import net.minecraft.advancements.critereon.MinMaxBounds
 import net.minecraft.world.item.enchantment.Enchantments
@@ -18,9 +20,15 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition
  * convenience methods, kept here so block classes need no loader-specific provider base class.
  */
 object LootTableUtil {
+    // Enchantment matching now goes through an item sub-predicate on DataComponents.ENCHANTMENTS.
     val hasSilkTouch: LootItemCondition.Builder = MatchTool.toolMatches(
         ItemPredicate.Builder.item()
-            .hasEnchantment(EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1)))
+            .withSubPredicate(
+                ItemSubPredicates.ENCHANTMENTS,
+                ItemEnchantmentsPredicate.enchantments(
+                    listOf(EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1)))
+                )
+            )
     )
 
     val hasNoSilkTouch: LootItemCondition.Builder = hasSilkTouch.invert()

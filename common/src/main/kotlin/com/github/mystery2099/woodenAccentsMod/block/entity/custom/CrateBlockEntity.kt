@@ -23,6 +23,7 @@ import net.minecraft.core.NonNullList
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.Holder
+import net.minecraft.core.HolderLookup
 import net.minecraft.world.level.gameevent.GameEvent
 import java.util.stream.IntStream
 
@@ -87,22 +88,22 @@ class CrateBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     override fun getDefaultName(): Component = Component.translatable(blockState.block.descriptionId)
-    override fun load(nbt: CompoundTag) {
-        super.load(nbt)
-        readInventoryNbt(nbt)
+    override fun loadAdditional(nbt: CompoundTag, registries: HolderLookup.Provider) {
+        super.loadAdditional(nbt, registries)
+        readInventoryNbt(nbt, registries)
     }
 
-    override fun saveAdditional(nbt: CompoundTag) {
-        super.saveAdditional(nbt)
+    override fun saveAdditional(nbt: CompoundTag, registries: HolderLookup.Provider) {
+        super.saveAdditional(nbt, registries)
         if (!trySaveLootTable(nbt)) {
-            ContainerHelper.saveAllItems(nbt, inventory, false)
+            ContainerHelper.saveAllItems(nbt, inventory, false, registries)
         }
     }
 
-    private fun readInventoryNbt(nbt: CompoundTag) {
+    private fun readInventoryNbt(nbt: CompoundTag, registries: HolderLookup.Provider) {
         inventory = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY)
         if (!tryLoadLootTable(nbt) && nbt.contains(ITEMS_KEY, Tag.TAG_LIST.toInt())) {
-            ContainerHelper.loadAllItems(nbt, inventory)
+            ContainerHelper.loadAllItems(nbt, inventory, registries)
         }
     }
 
