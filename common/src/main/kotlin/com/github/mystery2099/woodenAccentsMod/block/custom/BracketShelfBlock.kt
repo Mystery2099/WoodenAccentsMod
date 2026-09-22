@@ -7,7 +7,6 @@ import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateRight
 import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer.Companion.with
 import com.github.mystery2099.woodenAccentsMod.block.entity.custom.BracketShelfBlockEntity
 import com.github.mystery2099.woodenAccentsMod.block.itemModelId
-import com.github.mystery2099.woodenAccentsMod.block.textureId
 import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.asBlockStateVariant
 import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.withYRotationOf
 import com.github.mystery2099.woodenAccentsMod.data.client.ModModels
@@ -28,7 +27,6 @@ import net.minecraft.data.models.blockstates.MultiPartGenerator
 import net.minecraft.data.models.model.TextureMapping
 import net.minecraft.data.models.blockstates.VariantProperties
 import net.minecraft.data.models.blockstates.Condition
-import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.data.recipes.ShapedRecipeBuilder
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.entity.player.Inventory
@@ -38,7 +36,6 @@ import net.minecraft.world.item.ItemUtils
 import net.minecraft.world.item.Items
 import net.minecraft.data.recipes.RecipeCategory
 import net.minecraft.tags.TagKey
-import net.minecraft.world.flag.FeatureFlags
 import net.minecraft.sounds.SoundSource
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.level.block.state.StateDefinition
@@ -46,11 +43,13 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.InteractionResult
+import net.minecraft.world.ItemInteractionResult
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.Containers
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.util.RandomSource
 import net.minecraft.world.phys.shapes.VoxelShape
 import net.minecraft.world.phys.shapes.Shapes
@@ -59,11 +58,10 @@ import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.gameevent.GameEvent
-import java.util.function.Consumer
 import net.minecraft.world.level.block.state.BlockBehaviour
 
 class BracketShelfBlock(val baseBlock: Block) : AbstractWaterloggableBlock(
-    BlockBehaviour.Properties.copy(baseBlock).noOcclusion()), EntityBlock, CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
+    Properties.ofFullCopy(baseBlock).noOcclusion()), EntityBlock, CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
 
     override val itemGroup = ModItemGroup.STORAGE
     override val tag: TagKey<Block> = ModBlockTags.bracketShelves
@@ -160,22 +158,24 @@ class BracketShelfBlock(val baseBlock: Block) : AbstractWaterloggableBlock(
     override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity =
         BracketShelfBlockEntity(pos, state)
 
-    @Deprecated("Deprecated in Java")
-    override fun use(
+    /** Right-click with an item: drains standing water with a bucket, otherwise
+     * swaps the slot under the cursor for a copy of the held stack. */
+    override fun useItemOn(
+        stack: ItemStack,
         state: BlockState,
         world: Level,
         pos: BlockPos,
         player: Player,
         hand: InteractionHand,
         hit: BlockHitResult
-    ): InteractionResult {
-        if (world.isClientSide) return InteractionResult.SUCCESS
+    ): ItemInteractionResult {
+        if (world.isClientSide) return ItemInteractionResult.SUCCESS
 
         // Drain water first so an empty bucket can be used in the same spot it was filled with.
-        if (state.getValue(waterlogged) && player.getItemInHand(hand).`is`(Items.BUCKET)) {
+        if (state.getValue(waterlogged) && stack.`is`(Items.BUCKET)) {
             player.setItemInHand(
                 hand,
-                ItemUtils.createFilledResult(player.getItemInHand(hand), player, ItemStack(Items.WATER_BUCKET))
+                ItemUtils.createFilledResult(stack, player, ItemStack(Items.WATER_BUCKET))
             )
             world.setBlockAndUpdate(pos, state.setValue(waterlogged, false))
             world.playSound(
@@ -187,26 +187,47 @@ class BracketShelfBlock(val baseBlock: Block) : AbstractWaterloggableBlock(
                 1.0f
             )
             world.gameEvent(player, GameEvent.FLUID_PICKUP, pos)
-            return InteractionResult.CONSUME
+            return ItemInteractionResult.CONSUME
         }
-        if (hand == InteractionHand.OFF_HAND) return InteractionResult.PASS
 
-        val blockEntity = world.getBlockEntity(pos) as? BracketShelfBlockEntity ?: return InteractionResult.PASS
-        val stackInHand = player.getItemInHand(hand)
+        val blockEntity = world.getBlockEntity(pos) as? BracketShelfBlockEntity
+            ?: return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
+
+        if (world.hasNeighborSignal(pos)) {
+            swapWithHotbar(world, pos, state.getValue(facing), player)
+        } else {
+            // Placing a held item replaces the shelf stack; the shelf stack moves to the hand.
+            val slot = slotFromHit(hit, pos, state.getValue(facing))
+            val shelfStack = blockEntity.getItem(slot)
+            blockEntity.setItem(slot, stack.copy())
+            player.setItemInHand(hand, shelfStack)
+            playInteractionSound(world, pos, shelfStack, stack)
+        }
+        return ItemInteractionResult.CONSUME
+    }
+
+    /** Right-click with an empty hand: takes the item in the slot under the cursor,
+     * or triggers the powered hotbar swap. */
+    override fun useWithoutItem(
+        state: BlockState,
+        world: Level,
+        pos: BlockPos,
+        player: Player,
+        hit: BlockHitResult
+    ): InteractionResult {
+        if (world.isClientSide) return InteractionResult.SUCCESS
+
+        val blockEntity = world.getBlockEntity(pos) as? BracketShelfBlockEntity
+            ?: return InteractionResult.PASS
 
         if (world.hasNeighborSignal(pos)) {
             swapWithHotbar(world, pos, state.getValue(facing), player)
         } else {
             val slot = slotFromHit(hit, pos, state.getValue(facing))
             val shelfStack = blockEntity.getItem(slot)
-            if (player.isShiftKeyDown && stackInHand.isEmpty) {
-                blockEntity.setItem(slot, ItemStack.EMPTY)
-                player.setItemInHand(hand, shelfStack)
-            } else {
-                blockEntity.setItem(slot, stackInHand.copy())
-                player.setItemInHand(hand, shelfStack)
-            }
-            playInteractionSound(world, pos, shelfStack, stackInHand)
+            blockEntity.setItem(slot, ItemStack.EMPTY)
+            player.setItemInHand(InteractionHand.MAIN_HAND, shelfStack)
+            playInteractionSound(world, pos, shelfStack, ItemStack.EMPTY)
         }
         return InteractionResult.CONSUME
     }
@@ -334,7 +355,7 @@ class BracketShelfBlock(val baseBlock: Block) : AbstractWaterloggableBlock(
         return shape
     }
 
-    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+    override fun offerRecipeTo(recipeExporter: RecipeOutput) {
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, 2).apply {
             define('#', baseBlock)
             define('|', Items.STICK)
@@ -342,7 +363,7 @@ class BracketShelfBlock(val baseBlock: Block) : AbstractWaterloggableBlock(
             pattern("| |")
             customGroup(this@BracketShelfBlock, "bracket_shelves")
             requires(baseBlock)
-            save(exporter)
+            save(recipeExporter)
         }
     }
 

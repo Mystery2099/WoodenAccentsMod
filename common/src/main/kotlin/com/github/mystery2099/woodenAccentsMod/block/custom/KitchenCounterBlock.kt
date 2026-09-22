@@ -17,14 +17,13 @@ import net.minecraft.world.level.block.state.properties.StairsShape
 import net.minecraft.data.models.*
 import net.minecraft.data.models.blockstates.*
 import net.minecraft.data.models.model.*
-import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.data.recipes.ShapedRecipeBuilder
 import net.minecraft.data.recipes.RecipeCategory
 import net.minecraft.tags.TagKey
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.core.Direction
-import java.util.function.Consumer
+import net.minecraft.data.recipes.RecipeOutput
 
 
 class KitchenCounterBlock(baseBlock: Block, topBlock: Block) : AbstractKitchenCounterBlock(baseBlock, topBlock),
@@ -103,7 +102,7 @@ class KitchenCounterBlock(baseBlock: Block, topBlock: Block) : AbstractKitchenCo
         ).forEach { i -> i.value.forEach { j -> select(i.key, j.key, j.value) } }
     }
 
-    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+    override fun offerRecipeTo(recipeExporter: RecipeOutput) {
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, 4).apply {
             define('#', baseBlock)
             define('_', topBlock)
@@ -112,7 +111,7 @@ class KitchenCounterBlock(baseBlock: Block, topBlock: Block) : AbstractKitchenCo
             pattern("###")
             customGroup(this@KitchenCounterBlock, "kitchen_counters")
             requires(baseBlock)
-            save(exporter)
+            save(recipeExporter)
         }
     }
 

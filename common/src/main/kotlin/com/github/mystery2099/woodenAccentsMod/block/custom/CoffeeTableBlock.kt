@@ -36,7 +36,6 @@ import net.minecraft.world.item.TooltipFlag
 import net.minecraft.data.models.*
 import net.minecraft.data.models.blockstates.*
 import net.minecraft.data.models.model.*
-import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.data.recipes.ShapedRecipeBuilder
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.storage.loot.LootPool
@@ -62,13 +61,13 @@ import net.minecraft.world.phys.shapes.VoxelShape
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.LevelAccessor
 import java.util.*
-import java.util.function.Consumer
 import java.util.function.Supplier
 import net.minecraft.world.level.block.state.BlockBehaviour
 import com.github.mystery2099.woodenAccentsMod.util.LootTableUtil
+import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.world.item.ItemStack
 class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
-    AbstractWaterloggableBlock(BlockBehaviour.Properties.copy(baseBlock)),
+    AbstractWaterloggableBlock(BlockBehaviour.Properties.ofFullCopy(baseBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider,
     CustomBlockLootTableProvider {
 
@@ -217,7 +216,7 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         }
     }
 
-    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+    override fun offerRecipeTo(recipeExporter: RecipeOutput) {
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, 6).apply {
             define('_', topBlock)
             define('|', baseBlock)
@@ -225,7 +224,7 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
             pattern("| |")
             customGroup(this@CoffeeTableBlock, "coffee_tables")
             requires(topBlock)
-            save(exporter)
+            save(recipeExporter)
         }
     }
 

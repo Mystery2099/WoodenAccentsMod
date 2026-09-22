@@ -8,10 +8,10 @@ import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.Custom
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroup
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.LadderBlock
-import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.data.recipes.ShapedRecipeBuilder
 import net.minecraft.world.level.ItemLike
 import net.minecraft.data.recipes.RecipeCategory
+import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.tags.BlockTags
 import net.minecraft.tags.TagKey
 import java.util.function.Consumer
@@ -21,7 +21,7 @@ abstract class AbstractCustomLadderBlock(settings: Properties) : LadderBlock(set
     override val tag: TagKey<Block> = BlockTags.CLIMBABLE
     override val itemGroup: ModItemGroup = ModItemGroup.BUILDING
 
-    fun offerRecipe(exporter: Consumer<FinishedRecipe>, input: ItemLike, outputNum: Int, group: String) {
+    fun offerRecipe(recipeExporter: RecipeOutput, input: ItemLike, outputNum: Int, group: String) {
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, outputNum).apply {
             define('#', input)
             pattern("# #")
@@ -29,7 +29,7 @@ abstract class AbstractCustomLadderBlock(settings: Properties) : LadderBlock(set
             pattern("# #")
             group(group)
             requires(input)
-            save(exporter)
+            save(recipeExporter)
         }
 
     }

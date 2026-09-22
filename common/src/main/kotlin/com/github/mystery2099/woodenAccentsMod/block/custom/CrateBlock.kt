@@ -1,6 +1,5 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
-import com.github.mystery2099.voxlib.combination.VoxelAssembly
 import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil.isOf
 import com.github.mystery2099.woodenAccentsMod.block.entity.ModBlockEntities
 import com.github.mystery2099.woodenAccentsMod.block.entity.custom.CrateBlockEntity
@@ -13,13 +12,11 @@ import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroup
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import net.minecraft.world.level.block.*
 import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.item.TooltipFlag
 import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.data.models.model.TextureSlot
 import net.minecraft.data.models.model.TextureMapping
-import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.data.recipes.ShapedRecipeBuilder
 import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.LivingEntity
@@ -32,7 +29,6 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.LootTable
-import net.minecraft.world.level.storage.loot.LootContext
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams
 import net.minecraft.world.level.storage.loot.LootParams
 import net.minecraft.world.level.storage.loot.entries.DynamicLoot
@@ -49,19 +45,19 @@ import net.minecraft.world.inventory.AbstractContainerMenu
 import net.minecraft.network.chat.Component
 import net.minecraft.world.InteractionResult
 import net.minecraft.ChatFormatting
-import net.minecraft.world.InteractionHand
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.core.NonNullList
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.core.BlockPos
-import net.minecraft.world.phys.shapes.VoxelShape
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import java.util.function.Consumer
 import net.minecraft.world.level.block.state.BlockBehaviour
 import com.github.mystery2099.woodenAccentsMod.util.LootTableUtil
+import net.minecraft.data.recipes.RecipeOutput
+
 class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
-    BaseEntityBlock(BlockBehaviour.Properties.copy(baseBlock)),
+    BaseEntityBlock(BlockBehaviour.Properties.ofFullCopy(baseBlock)),
     CustomBlockStateProvider, CustomItemGroupProvider, CustomTagProvider<Block>, CustomRecipeProvider,
     CustomBlockLootTableProvider {
 
@@ -73,14 +69,12 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
     @Deprecated("Deprecated in Java", ReplaceWith("RenderShape.MODEL", "net.minecraft.world.level.block.RenderShape"))
     override fun getRenderShape(state: BlockState): RenderShape = RenderShape.MODEL
 
-    @Deprecated("Deprecated in Java")
-    override fun use(
+    override fun useWithoutItem(
         state: BlockState,
         world: Level,
         pos: BlockPos,
         player: Player,
-        hand: InteractionHand?,
-        hit: BlockHitResult?
+        hit: BlockHitResult
     ): InteractionResult {
         if (world.isClientSide) return InteractionResult.SUCCESS
 
@@ -229,7 +223,7 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
         generator.createNonTemplateModelBlock(this)
     }
 
-    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+    override fun offerRecipeTo(recipeExporter: RecipeOutput) {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, this).apply {
             define('n', baseBlock)
             define('t', edgeBlock)
@@ -239,7 +233,7 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
             pattern("tnt")
             customGroup(this@CrateBlock, "crates")
             requires(Items.CHEST)
-            save(exporter)
+            save(recipeExporter)
         }
     }
 

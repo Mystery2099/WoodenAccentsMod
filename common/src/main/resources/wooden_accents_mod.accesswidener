@@ -11,8 +11,8 @@ accessible method net/minecraft/data/models/BlockModelGenerators createHorizonta
 accessible method net/minecraft/data/models/BlockModelGenerators createWall (Lnet/minecraft/world/level/block/Block;Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/resources/ResourceLocation;)Lnet/minecraft/data/models/blockstates/BlockStateGenerator;
 accessible method net/minecraft/data/models/BlockModelGenerators createFence (Lnet/minecraft/world/level/block/Block;Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/resources/ResourceLocation;)Lnet/minecraft/data/models/blockstates/BlockStateGenerator;
 accessible method net/minecraft/data/models/BlockModelGenerators createFenceGate (Lnet/minecraft/world/level/block/Block;Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/resources/ResourceLocation;Z)Lnet/minecraft/data/models/blockstates/BlockStateGenerator;
-accessible method net/minecraft/data/recipes/RecipeProvider wall (Ljava/util/function/Consumer;Lnet/minecraft/data/recipes/RecipeCategory;Lnet/minecraft/world/level/ItemLike;Lnet/minecraft/world/level/ItemLike;)V
-accessible method net/minecraft/data/recipes/RecipeProvider has (Lnet/minecraft/world/level/ItemLike;)Lnet/minecraft/advancements/critereon/InventoryChangeTrigger$TriggerInstance;
-accessible method net/minecraft/data/recipes/RecipeProvider has (Lnet/minecraft/tags/TagKey;)Lnet/minecraft/advancements/critereon/InventoryChangeTrigger$TriggerInstance;
+accessible method net/minecraft/data/recipes/RecipeProvider wall (Lnet/minecraft/data/recipes/RecipeOutput;Lnet/minecraft/data/recipes/RecipeCategory;Lnet/minecraft/world/level/ItemLike;Lnet/minecraft/world/level/ItemLike;)V
+accessible method net/minecraft/data/recipes/RecipeProvider has (Lnet/minecraft/world/level/ItemLike;)Lnet/minecraft/advancements/Criterion;
+accessible method net/minecraft/data/recipes/RecipeProvider has (Lnet/minecraft/tags/TagKey;)Lnet/minecraft/advancements/Criterion;
 accessible method net/minecraft/data/recipes/RecipeProvider getHasName (Lnet/minecraft/world/level/ItemLike;)Ljava/lang/String;
 accessible method net/minecraft/data/models/model/TextureSlot create (Ljava/lang/String;)Lnet/minecraft/data/models/model/TextureSlot;

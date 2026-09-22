@@ -14,17 +14,15 @@ import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.data.models.model.TextureMapping
-import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.data.recipes.ShapedRecipeBuilder
 import net.minecraft.world.item.Items
 import net.minecraft.data.recipes.RecipeCategory
 import net.minecraft.tags.TagKey
-import net.minecraft.world.flag.FeatureFlags
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.world.phys.shapes.VoxelShape
 import net.minecraft.world.level.BlockGetter
-import java.util.function.Consumer
 import net.minecraft.world.level.block.state.BlockBehaviour
 
 class PlankLadderBlock(val baseBlock: Block) :
@@ -50,7 +48,7 @@ class PlankLadderBlock(val baseBlock: Block) :
     }
 
 
-    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+    override fun offerRecipeTo(recipeExporter: RecipeOutput) {
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, 4).apply {
             define('S', Items.STICK)
             define('P', baseBlock)
@@ -59,7 +57,7 @@ class PlankLadderBlock(val baseBlock: Block) :
             pattern("SSS")
             group("plank_ladders")
             requires(baseBlock)
-            save(exporter)
+            save(recipeExporter)
         }
     }
 

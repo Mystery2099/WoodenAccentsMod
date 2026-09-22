@@ -30,7 +30,6 @@ import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.data.models.*
 import net.minecraft.data.models.blockstates.*
 import net.minecraft.data.models.model.*
-import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.data.recipes.ShapedRecipeBuilder
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.data.recipes.RecipeCategory
@@ -41,14 +40,14 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.LevelAccessor
-import java.util.function.Consumer
 import net.minecraft.world.level.block.state.BlockBehaviour
 
 
 class TableBlock(val baseBlock: Block, private val topBlock: Block) :
-    AbstractWaterloggableBlock(BlockBehaviour.Properties.copy(baseBlock)), CustomItemGroupProvider, CustomRecipeProvider,
+    AbstractWaterloggableBlock(BlockBehaviour.Properties.ofFullCopy(baseBlock)), CustomItemGroupProvider, CustomRecipeProvider,
     CustomTagProvider<Block>, CustomBlockStateProvider {
     override val itemGroup = ModItemGroup.FURNITURE
 
@@ -127,7 +126,7 @@ class TableBlock(val baseBlock: Block, private val topBlock: Block) :
         return mask
     }
 
-    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+    override fun offerRecipeTo(recipeExporter: RecipeOutput) {
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, 4).apply {
             define('#', topBlock)
             define('|', baseBlock)
@@ -136,7 +135,7 @@ class TableBlock(val baseBlock: Block, private val topBlock: Block) :
             pattern(" | ")
             customGroup(this@TableBlock, "tables")
             requires(topBlock)
-            save(exporter)
+            save(recipeExporter)
         }
     }
 

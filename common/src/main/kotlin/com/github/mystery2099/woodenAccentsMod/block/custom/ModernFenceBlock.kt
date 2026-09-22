@@ -23,19 +23,18 @@ import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.data.models.model.TextureSlot
 import net.minecraft.data.models.model.TextureMapping
-import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.data.recipes.ShapedRecipeBuilder
 import net.minecraft.data.recipes.RecipeCategory
 import net.minecraft.tags.TagKey
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.world.phys.shapes.VoxelShape
 import net.minecraft.world.level.BlockGetter
-import java.util.function.Consumer
 import net.minecraft.world.level.block.state.BlockBehaviour
 
 class ModernFenceBlock(settings: Block, private val sideBlock: Block, private val postBlock: Block) :
-    FenceBlock(BlockBehaviour.Properties.copy(settings)),
+    FenceBlock(Properties.ofFullCopy(settings)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.modernFences
     override val itemGroup = ModItemGroup.BUILDING
@@ -53,7 +52,7 @@ class ModernFenceBlock(settings: Block, private val sideBlock: Block, private va
     ): VoxelShape = outlineShapes[getConnectionIndex(state)]
 
 
-    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+    override fun offerRecipeTo(recipeExporter: RecipeOutput) {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, this, 3).apply {
             define('#', postBlock)
             define('|', sideBlock)
@@ -61,7 +60,7 @@ class ModernFenceBlock(settings: Block, private val sideBlock: Block, private va
             pattern("#|#")
             group("modern_fences")
             requires(postBlock)
-            save(exporter)
+            save(recipeExporter)
         }
     }
 

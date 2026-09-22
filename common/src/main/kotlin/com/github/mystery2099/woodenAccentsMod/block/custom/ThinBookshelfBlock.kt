@@ -23,19 +23,17 @@ import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.data.models.*
 import net.minecraft.data.models.blockstates.*
 import net.minecraft.data.models.model.*
-import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.data.recipes.ShapedRecipeBuilder
 import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.data.recipes.RecipeCategory
 import net.minecraft.tags.ItemTags
 import net.minecraft.tags.TagKey
-import net.minecraft.world.flag.FeatureFlags
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.world.phys.shapes.VoxelShape
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.level.BlockGetter
-import java.util.function.Consumer
 import net.minecraft.world.level.block.state.BlockBehaviour
 
 class ThinBookshelfBlock(val baseBlock: Block) :
@@ -59,7 +57,7 @@ class ThinBookshelfBlock(val baseBlock: Block) :
         else -> Shapes.block()
     }
 
-    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+    override fun offerRecipeTo(recipeExporter: RecipeOutput) {
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, 2).apply {
             define('#', baseBlock)
             define('_', Ingredient.of(ItemTags.WOODEN_SLABS))
@@ -68,7 +66,7 @@ class ThinBookshelfBlock(val baseBlock: Block) :
             pattern("##")
             group("thin_bookshelves")
             requires(baseBlock)
-            save(exporter)
+            save(recipeExporter)
         }
     }
 

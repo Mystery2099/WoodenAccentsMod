@@ -6,18 +6,22 @@ import com.github.mystery2099.woodenAccentsMod.block.isStripped
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomRecipeProvider
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
-import net.minecraft.world.level.block.Block
-import net.minecraft.data.recipes.FinishedRecipe
+import net.minecraft.core.HolderLookup
+import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.data.recipes.ShapedRecipeBuilder
+import net.minecraft.tags.TagKey
 import net.minecraft.world.item.Item
 import net.minecraft.world.level.ItemLike
-import net.minecraft.tags.TagKey
-import java.util.function.Consumer
+import net.minecraft.world.level.block.Block
+import java.util.concurrent.CompletableFuture
 
-class RecipeDataGen(output: FabricDataOutput) : FabricRecipeProvider(output) {
-    override fun buildRecipes(exporter: Consumer<FinishedRecipe>) {
+class RecipeDataGen(output: FabricDataOutput,
+                    registriesFuture: CompletableFuture<HolderLookup.Provider>
+) : FabricRecipeProvider(output, registriesFuture) {
+
+    override fun buildRecipes(recipeExporter: RecipeOutput) {
         ModBlocks.blocks.filterIsInstance<CustomRecipeProvider>().forEach {
-            it.offerRecipeTo(exporter)
+            it.offerRecipeTo(recipeExporter)
         }
     }
 
