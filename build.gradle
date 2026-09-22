@@ -1,5 +1,9 @@
-// Root project: coordination only. Mod builds happen in the loader subprojects.
-//
+// Kotlin plugin lives here so subprojects load it only once (Gradle warns otherwise).
+plugins {
+	id "org.jetbrains.kotlin.jvm" version "$kotlin_version" apply false
+}
+
+// Root project: coordination only. Mod builds happen in the loader subprojects.//
 // Multiloader layout: `common` holds loader-agnostic code (blocks, entities, datagen interfaces).
 // Loader-specific projects (`fabric`, and later NeoForge) compile it against their own mappings and
 // package it with loader glue, so each loader project owns its entrypoints, registration helpers

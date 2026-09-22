@@ -6,7 +6,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	id 'net.fabricmc.fabric-loom-remap' version "$loom_version"
 	id "me.modmuss50.mod-publish-plugin" version "$mod_publish_version"
-	id "org.jetbrains.kotlin.jvm" version "$kotlin_version"
+	id "org.jetbrains.kotlin.jvm"
 }
 
 version = "${project.mod_version}"
