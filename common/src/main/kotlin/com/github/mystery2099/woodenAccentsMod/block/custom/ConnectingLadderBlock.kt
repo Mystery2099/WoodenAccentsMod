@@ -36,7 +36,7 @@ class ConnectingLadderBlock(val baseBlock: Block) :
         mapColor(baseBlock.defaultMapColor())
         destroyTime(Blocks.LADDER.defaultDestroyTime())
         explosionResistance(Blocks.LADDER.explosionResistance)
-        sound(baseBlock.getSoundType(baseBlock.defaultBlockState()))
+        sound(baseBlock.defaultBlockState().soundType)
         instrument(baseBlock.defaultBlockState().instrument())
         if (baseBlock.defaultBlockState().ignitedByLava()) ignitedByLava()
     }) {

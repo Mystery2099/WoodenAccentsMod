@@ -37,7 +37,7 @@ import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.block.state.BlockBehaviour
 
 class ThinBookshelfBlock(val baseBlock: Block) :
-    ChiseledBookShelfBlock(BlockBehaviour.Properties.copy(baseBlock)),
+    ChiseledBookShelfBlock(Properties.ofFullCopy(baseBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
 
     override val tag: TagKey<Block> = ModBlockTags.thinBookshelves

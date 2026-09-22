@@ -27,7 +27,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour
 class CustomCarpetBlock(val baseBlock: Block) : CarpetBlock(
     BlockBehaviour.Properties.of().strength(0.1f).pushReaction(PushReaction.DESTROY).apply {
         mapColor(baseBlock.defaultMapColor())
-        sound(baseBlock.getSoundType(baseBlock.defaultBlockState()))
+        sound(baseBlock.defaultBlockState().soundType)
         if (baseBlock.defaultBlockState().ignitedByLava()) ignitedByLava()
     }
 ), CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {

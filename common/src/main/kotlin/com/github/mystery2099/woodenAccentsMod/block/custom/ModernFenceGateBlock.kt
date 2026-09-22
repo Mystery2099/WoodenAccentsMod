@@ -26,9 +26,9 @@ import net.minecraft.core.Direction
 import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.world.phys.shapes.VoxelShape
 import net.minecraft.world.level.BlockGetter
-import net.minecraft.world.level.block.state.BlockBehaviour
 
-class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : FenceGateBlock(BlockBehaviour.Properties.ofFullCopy(baseGate), baseGate.woodType),
+class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block
+) : FenceGateBlock(baseGate.woodType, Properties.ofFullCopy(baseGate)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.modernFenceGates
     override val itemGroup = ModItemGroup.BUILDING

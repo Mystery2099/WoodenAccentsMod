@@ -17,6 +17,7 @@ import net.minecraft.sounds.SoundEvents
 import net.minecraft.network.chat.Component
 import net.minecraft.core.NonNullList
 import net.minecraft.core.BlockPos
+import net.minecraft.core.Holder
 import net.minecraft.world.level.gameevent.GameEvent
 
 /** A 27-slot desk inventory stored with vanilla container NBT. */
@@ -74,7 +75,7 @@ class DeskDrawerBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
     }
 
-    private fun emitGameEventAtPos(player: Player, viewerCount: Int, gameEvent: GameEvent) {
+    private fun emitGameEventAtPos(player: Player, viewerCount: Int, gameEvent: Holder<GameEvent>) {
         level?.let { level ->
             level.blockEvent(blockPos, blockState.block, 1, viewerCount)
             if ((gameEvent == GameEvent.CONTAINER_OPEN && viewerCount == 1) ||

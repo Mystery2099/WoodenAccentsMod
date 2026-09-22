@@ -39,7 +39,7 @@ class SupportBeamBlock(val baseBlock: Block) : OmnidirectionalConnectingBlock(ru
         mapColor(baseBlock.defaultMapColor())
         destroyTime(baseBlock.defaultDestroyTime())
         explosionResistance(baseBlock.explosionResistance)
-        sound(baseBlock.getSoundType(baseBlock.defaultBlockState()))
+        sound(baseBlock.defaultBlockState().soundType)
         instrument(baseBlock.defaultBlockState().instrument())
         if (baseBlock.defaultBlockState().ignitedByLava()) ignitedByLava()
     }
