@@ -32,6 +32,8 @@ bin/
 
 run/
 /src/main/generated/.cache/
+fabric/src/main/generated/.cache/
+common/src/main/generated/.cache/
 
 # java
 
@@ -54,3 +56,4 @@ replay_*.log
 # opencode
 /opencode.json
 /skills-lock.json
+forge/libs/

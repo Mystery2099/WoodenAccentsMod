@@ -1,0 +1,64 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+plugins {
+	id 'fabric-loom' version "$loom_version"
+	id "org.jetbrains.kotlin.jvm" version "$kotlin_version"
+}
+
+version = "${project.mod_version}"
+group = "${project.maven_group}"
+
+base {
+	archivesName = "${project.archives_base_name}-common"
+}
+
+repositories {
+	mavenCentral()
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "Modrinth"
+				url = uri("https://api.modrinth.com/maven")
+			}
+		}
+		filter {
+			includeGroup "maven.modrinth"
+		}
+	}
+}
+
+dependencies {
+	// Loader-agnostic: no Fabric API here by design. Vanilla APIs plus Kotlin only.
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings loom.officialMojangMappings()
+	// Shape welded-helpers for runtime visuals; loader-neutral jar, compile only.
+	modCompileOnly "maven.modrinth:voxlib:${project.voxlib_version}"
+}
+
+loom {
+	accessWidenerPath = file("src/main/resources/wooden_accents_mod.accesswidener")
+
+	// `client` sourceset carries loader-agnostic client code (renderers).
+	splitEnvironmentSourceSets()
+}
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release.set(17)
+}
+
+kotlin {
+	compilerOptions {
+		jvmTarget = JvmTarget.JVM_17
+	}
+}
+
+// The common project exists for IDE navigation and standalone compilation of shared code.
+// Loader projects compile these sources directly against their own mappings, so no jar/remap needed.
+tasks.matching { it.name in ["jar", "remapJar", "remapSourcesJar"] }.configureEach {
+	enabled = false
+}

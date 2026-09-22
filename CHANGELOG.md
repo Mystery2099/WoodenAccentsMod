@@ -2,6 +2,16 @@
 
 This file tracks player-visible changes and anything maintainers need to know before publishing a release. Release headings must match `mod_version` in `gradle.properties` so the publishing workflow can use the section as its release notes.
 
+## [1.20.1-1.1.4.2] - 2026-09-22
+
+### Changed
+
+- Split loader-agnostic content into a common module and a Fabric loader module.
+- Standardized shared sources on official Mojang mappings.
+- Deferred the second loader port to the planned NeoForge 1.20.6 update; this alpha release ships Fabric only.
+
+[Full changelog](https://github.com/Mystery2099/WoodenAccentsMod/compare/v1.20.1-1.1.4.1...v1.20.1-1.1.4.2)
+
 ## [1.20.1-1.1.4.1] - 2026-09-18
 
 ### Changed
