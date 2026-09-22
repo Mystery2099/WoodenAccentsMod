@@ -38,7 +38,7 @@ public class SeatEntity extends Entity {
             return;
         }
         var state = this.getFeetBlockState();
-        if (!(state.getBlock() instanceof ChairBlock) || !this.getPassengers().isEmpty()) {
+        if (!(state.getBlock() instanceof ChairBlock) || this.getPassengers().isEmpty()) {
             this.ejectPassengers();
             this.discard();
             return;

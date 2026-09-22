@@ -25,10 +25,9 @@ def releaseChangelog = providers.fileContents(layout.projectDirectory.file("../C
 		throw new GradleException("CHANGELOG.md does not contain a section for version ${releaseVersion}")
 	}
 
-	def followingLines = changelogLines.subList(sectionStart + 1, changelogLines.size())
-	def relativeSectionEnd = followingLines.findIndexOf { line -> line.startsWith("## [") }
+	def relativeSectionEnd = changelogLines.subList(sectionStart + 1, changelogLines.size()).findIndexOf { line -> line.startsWith("## [") }
 	def sectionEnd = relativeSectionEnd < 0 ? changelogLines.size() : sectionStart + 1 + relativeSectionEnd
-	def releaseNotes = followingLines.subList(sectionStart + 1, sectionEnd).join("\n").trim()
+	def releaseNotes = changelogLines.subList(sectionStart + 1, sectionEnd).join("\n").trim()
 
 	if (releaseNotes.isEmpty()) {
 		throw new GradleException("CHANGELOG.md section for version ${releaseVersion} is empty")
