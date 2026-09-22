@@ -5,13 +5,7 @@
       "conditions": {
         "items": [
           {
-            "enchantments": [
-              null
-            ],
-            "stored_enchantments": [
-              null
-            ],
-            "tag": "wooden_accents_mod:connecting_ladders"
+            "items": "#wooden_accents_mod:connecting_ladders"
           }
         ]
       },
@@ -21,13 +15,7 @@
       "conditions": {
         "items": [
           {
-            "enchantments": [
-              null
-            ],
-            "stored_enchantments": [
-              null
-            ],
-            "tag": "wooden_accents_mod:plank_ladders"
+            "items": "#wooden_accents_mod:plank_ladders"
           }
         ]
       },
@@ -37,13 +25,7 @@
       "conditions": {
         "items": [
           {
-            "enchantments": [
-              null
-            ],
-            "stored_enchantments": [
-              null
-            ],
-            "tag": "wooden_accents_mod:simple_ladders"
+            "items": "#wooden_accents_mod:simple_ladders"
           }
         ]
       },
@@ -52,18 +34,12 @@
   },
   "display": {
     "announce_to_chat": false,
-    "description": {
-      "text": "Craft all three ladder styles: Stripped Wood for a classic look, Plank for a simpler option, and Simple for a minimal touch"
-    },
-    "frame": "task",
-    "hidden": false,
+    "description": "Craft all three ladder styles: Stripped Wood for a classic look, Plank for a simpler option, and Simple for a minimal touch",
     "icon": {
-      "item": "wooden_accents_mod:oak_plank_ladder"
+      "count": 1,
+      "id": "wooden_accents_mod:oak_plank_ladder"
     },
-    "show_toast": true,
-    "title": {
-      "text": "Climb High!"
-    }
+    "title": "Climb High!"
   },
   "requirements": [
     [

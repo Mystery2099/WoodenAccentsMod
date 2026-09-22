@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:stripped_crimson_stem"
-            ]
+            "items": "minecraft:stripped_crimson_stem"
           }
         ]
       },
@@ -22,14 +20,13 @@
   },
   "requirements": [
     [
-      "has_stripped_crimson_stem",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_stripped_crimson_stem"
     ]
   ],
   "rewards": {
     "recipes": [
       "wooden_accents_mod:modern_crimson_fence_gate"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

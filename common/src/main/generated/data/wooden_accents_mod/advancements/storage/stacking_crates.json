@@ -8,13 +8,7 @@
             "count": {
               "min": 2
             },
-            "enchantments": [
-              null
-            ],
-            "stored_enchantments": [
-              null
-            ],
-            "tag": "wooden_accents_mod:crates"
+            "items": "#wooden_accents_mod:crates"
           }
         ]
       },
@@ -23,18 +17,12 @@
   },
   "display": {
     "announce_to_chat": false,
-    "description": {
-      "text": "Crates are stackable? Make sure they contain the same items"
-    },
-    "frame": "task",
-    "hidden": false,
+    "description": "Crates are stackable? Make sure they contain the same items",
     "icon": {
-      "item": "wooden_accents_mod:oak_crate"
+      "count": 1,
+      "id": "wooden_accents_mod:oak_crate"
     },
-    "show_toast": true,
-    "title": {
-      "text": "Better than Shulker Box"
-    }
+    "title": "Better than Shulker Box"
   },
   "requirements": [
     [

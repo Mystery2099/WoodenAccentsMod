@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:bamboo_mosaic"
-            ]
+            "items": "minecraft:bamboo_mosaic"
           }
         ]
       },
@@ -22,14 +20,13 @@
   },
   "requirements": [
     [
-      "has_bamboo_mosaic",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_bamboo_mosaic"
     ]
   ],
   "rewards": {
     "recipes": [
       "wooden_accents_mod:bamboo_mosaic_table"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

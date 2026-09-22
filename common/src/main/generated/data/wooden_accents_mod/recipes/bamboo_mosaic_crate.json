@@ -19,7 +19,7 @@
     "tnt"
   ],
   "result": {
-    "item": "wooden_accents_mod:bamboo_mosaic_crate"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "wooden_accents_mod:bamboo_mosaic_crate"
+  }
 }

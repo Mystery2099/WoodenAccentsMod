@@ -5,22 +5,22 @@
       "conditions": {
         "items": [
           {
-            "tag": "wooden_accents_mod:chairs"
+            "items": "#wooden_accents_mod:chairs"
           },
           {
-            "tag": "wooden_accents_mod:tables"
+            "items": "#wooden_accents_mod:tables"
           },
           {
-            "tag": "wooden_accents_mod:desks"
+            "items": "#wooden_accents_mod:desks"
           },
           {
-            "tag": "wooden_accents_mod:crates"
+            "items": "#wooden_accents_mod:crates"
           },
           {
-            "tag": "wooden_accents_mod:support_beams"
+            "items": "#wooden_accents_mod:support_beams"
           },
           {
-            "tag": "wooden_accents_mod:kitchen_counters"
+            "items": "#wooden_accents_mod:kitchen_counters"
           }
         ]
       },
@@ -29,18 +29,13 @@
   },
   "display": {
     "announce_to_chat": false,
-    "description": {
-      "text": "Have furniture from every Wooden Accents category in your inventory at once"
-    },
+    "description": "Have furniture from every Wooden Accents category in your inventory at once",
     "frame": "goal",
-    "hidden": false,
     "icon": {
-      "item": "wooden_accents_mod:oak_plank_table"
+      "count": 1,
+      "id": "wooden_accents_mod:oak_plank_table"
     },
-    "show_toast": true,
-    "title": {
-      "text": "Home Sweet Home!"
-    }
+    "title": "Home Sweet Home!"
   },
   "requirements": [
     [

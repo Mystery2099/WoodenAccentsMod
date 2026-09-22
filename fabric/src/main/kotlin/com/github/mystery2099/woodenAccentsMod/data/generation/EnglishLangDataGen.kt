@@ -6,9 +6,12 @@ import com.github.mystery2099.woodenAccentsMod.block.id
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroup
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
+import net.minecraft.core.HolderLookup
+import java.util.concurrent.CompletableFuture
 
-class EnglishLangDataGen(dataOutput: FabricDataOutput) : FabricLanguageProvider(dataOutput) {
-    override fun generateTranslations(translationBuilder: TranslationBuilder) {
+class EnglishLangDataGen(dataOutput: FabricDataOutput, registryLookup: CompletableFuture<HolderLookup.Provider>) :
+    FabricLanguageProvider(dataOutput, registryLookup) {
+    override fun generateTranslations(registryLookup: HolderLookup.Provider, translationBuilder: TranslationBuilder) {
         translationBuilder.run {
             ModBlocks.blocks.forEach {
                 translationBuilder.add(it, it.id.path.toDisplayName())

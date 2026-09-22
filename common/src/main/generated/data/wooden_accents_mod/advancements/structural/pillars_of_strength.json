@@ -5,13 +5,7 @@
       "conditions": {
         "items": [
           {
-            "enchantments": [
-              null
-            ],
-            "stored_enchantments": [
-              null
-            ],
-            "tag": "wooden_accents_mod:thick_pillars"
+            "items": "#wooden_accents_mod:thick_pillars"
           }
         ]
       },
@@ -21,13 +15,7 @@
       "conditions": {
         "items": [
           {
-            "enchantments": [
-              null
-            ],
-            "stored_enchantments": [
-              null
-            ],
-            "tag": "wooden_accents_mod:thin_pillars"
+            "items": "#wooden_accents_mod:thin_pillars"
           }
         ]
       },
@@ -36,18 +24,12 @@
   },
   "display": {
     "announce_to_chat": false,
-    "description": {
-      "text": "Craft a Thin Pillar for a slim look and a Thick Pillar for a bolder design"
-    },
-    "frame": "task",
-    "hidden": false,
+    "description": "Craft a Thin Pillar for a slim look and a Thick Pillar for a bolder design",
     "icon": {
-      "item": "wooden_accents_mod:thin_oak_plank_pillar"
+      "count": 1,
+      "id": "wooden_accents_mod:thin_oak_plank_pillar"
     },
-    "show_toast": true,
-    "title": {
-      "text": "Reach for the Sky!"
-    }
+    "title": "Reach for the Sky!"
   },
   "requirements": [
     [

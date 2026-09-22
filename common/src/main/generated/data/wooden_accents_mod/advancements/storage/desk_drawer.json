@@ -5,13 +5,7 @@
       "conditions": {
         "items": [
           {
-            "enchantments": [
-              null
-            ],
-            "stored_enchantments": [
-              null
-            ],
-            "tag": "wooden_accents_mod:desk_drawers"
+            "items": "#wooden_accents_mod:desk_drawers"
           }
         ]
       },
@@ -20,18 +14,12 @@
   },
   "display": {
     "announce_to_chat": false,
-    "description": {
-      "text": "Craft a desk drawer for your supplies"
-    },
-    "frame": "task",
-    "hidden": false,
+    "description": "Craft a desk drawer for your supplies",
     "icon": {
-      "item": "wooden_accents_mod:oak_desk_drawer"
+      "count": 1,
+      "id": "wooden_accents_mod:oak_desk_drawer"
     },
-    "show_toast": true,
-    "title": {
-      "text": "Everything in its drawer"
-    }
+    "title": "Everything in its drawer"
   },
   "requirements": [
     [

@@ -16,7 +16,6 @@
   ],
   "result": {
     "count": 6,
-    "item": "wooden_accents_mod:cherry_plank_coffee_table"
-  },
-  "show_notification": true
+    "id": "wooden_accents_mod:cherry_plank_coffee_table"
+  }
 }

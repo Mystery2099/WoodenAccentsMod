@@ -5,13 +5,7 @@
       "conditions": {
         "items": [
           {
-            "enchantments": [
-              null
-            ],
-            "stored_enchantments": [
-              null
-            ],
-            "tag": "wooden_accents_mod:crates"
+            "items": "#wooden_accents_mod:crates"
           }
         ]
       },
@@ -20,18 +14,12 @@
   },
   "display": {
     "announce_to_chat": false,
-    "description": {
-      "text": "Craft a Crate for portable storage"
-    },
-    "frame": "task",
-    "hidden": false,
+    "description": "Craft a Crate for portable storage",
     "icon": {
-      "item": "wooden_accents_mod:oak_crate"
+      "count": 1,
+      "id": "wooden_accents_mod:oak_crate"
     },
-    "show_toast": true,
-    "title": {
-      "text": "I can't believe it's not a Shulker Box!"
-    }
+    "title": "I can't believe it's not a Shulker Box!"
   },
   "requirements": [
     [

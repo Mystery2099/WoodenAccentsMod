@@ -5,13 +5,7 @@
       "conditions": {
         "items": [
           {
-            "enchantments": [
-              null
-            ],
-            "stored_enchantments": [
-              null
-            ],
-            "tag": "wooden_accents_mod:modern_fences"
+            "items": "#wooden_accents_mod:modern_fences"
           }
         ]
       },
@@ -21,13 +15,7 @@
       "conditions": {
         "items": [
           {
-            "enchantments": [
-              null
-            ],
-            "stored_enchantments": [
-              null
-            ],
-            "tag": "wooden_accents_mod:modern_fence_gates"
+            "items": "#wooden_accents_mod:modern_fence_gates"
           }
         ]
       },
@@ -36,18 +24,12 @@
   },
   "display": {
     "announce_to_chat": false,
-    "description": {
-      "text": "Craft a picket fence and a matching picket fence gate"
-    },
-    "frame": "task",
-    "hidden": false,
+    "description": "Craft a picket fence and a matching picket fence gate",
     "icon": {
-      "item": "wooden_accents_mod:modern_oak_fence"
+      "count": 1,
+      "id": "wooden_accents_mod:modern_oak_fence"
     },
-    "show_toast": true,
-    "title": {
-      "text": "Time to Modernize!"
-    }
+    "title": "Time to Modernize!"
   },
   "requirements": [
     [

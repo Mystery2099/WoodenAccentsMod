@@ -6,6 +6,7 @@ import com.github.mystery2099.woodenAccentsMod.block.custom.SimpleLadderBlock
 import com.github.mystery2099.woodenAccentsMod.block.custom.enums.CoffeeTableTypes
 import com.github.mystery2099.woodenAccentsMod.block.entity.ModBlockEntities
 import com.github.mystery2099.woodenAccentsMod.entity.ModEntities
+import com.github.mystery2099.woodenAccentsMod.registry.component.ModDataComponents
 import com.github.mystery2099.woodenAccentsMod.render.BracketShelfBlockEntityRenderer
 import com.github.mystery2099.woodenAccentsMod.render.SeatRenderer
 import net.fabricmc.api.ClientModInitializer
@@ -27,7 +28,7 @@ object WoodenAccentsModClient : ClientModInitializer {
 			ItemProperties.register(
 				it.asItem(), ResourceLocation("height")
 			) { itemStack, _, _, _ ->
-				if (itemStack.tag?.getString(CoffeeTableTypes.TAG) != CoffeeTableTypes.TALL.getSerializedName()) 0.5f else 1.0f
+				if (itemStack.get(ModDataComponents.coffeeTableType) != CoffeeTableTypes.TALL) 0.5f else 1.0f
 			}
 		}
 		EntityRendererRegistry.register(ModEntities.seatEntity, ::SeatRenderer)

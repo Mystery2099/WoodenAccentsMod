@@ -5,13 +5,7 @@
       "conditions": {
         "items": [
           {
-            "enchantments": [
-              null
-            ],
-            "stored_enchantments": [
-              null
-            ],
-            "tag": "wooden_accents_mod:plank_carpets"
+            "items": "#wooden_accents_mod:plank_carpets"
           }
         ]
       },
@@ -20,18 +14,12 @@
   },
   "display": {
     "announce_to_chat": false,
-    "description": {
-      "text": "Cover a floor with plank flooring"
-    },
-    "frame": "task",
-    "hidden": false,
+    "description": "Cover a floor with plank flooring",
     "icon": {
-      "item": "wooden_accents_mod:oak_plank_carpet"
+      "count": 1,
+      "id": "wooden_accents_mod:oak_plank_carpet"
     },
-    "show_toast": true,
-    "title": {
-      "text": "Spruce Up Your Space!"
-    }
+    "title": "Spruce Up Your Space!"
   },
   "requirements": [
     [

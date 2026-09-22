@@ -11,9 +11,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:warped_planks"
-            ]
+            "items": "minecraft:warped_planks"
           }
         ]
       },
@@ -22,14 +20,13 @@
   },
   "requirements": [
     [
-      "has_warped_planks",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_warped_planks"
     ]
   ],
   "rewards": {
     "recipes": [
       "wooden_accents_mod:thin_warped_plank_pillar"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }
