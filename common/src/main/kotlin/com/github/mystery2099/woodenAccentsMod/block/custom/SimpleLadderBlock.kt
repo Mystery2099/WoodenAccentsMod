@@ -11,10 +11,8 @@ import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.data.models.model.ModelTemplates
 import net.minecraft.data.models.model.TextureSlot
 import net.minecraft.data.models.model.TextureMapping
-import net.minecraft.data.recipes.FinishedRecipe
+import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.tags.TagKey
-import net.minecraft.world.flag.FeatureFlags
-import java.util.function.Consumer
 import net.minecraft.world.level.block.state.BlockBehaviour
 
 class SimpleLadderBlock(val baseBlock: Block) :
@@ -22,14 +20,14 @@ class SimpleLadderBlock(val baseBlock: Block) :
         mapColor(baseBlock.defaultMapColor())
         destroyTime(Blocks.LADDER.defaultDestroyTime())
         explosionResistance(Blocks.LADDER.explosionResistance)
-        sound(baseBlock.getSoundType(baseBlock.defaultBlockState()))
+        sound(baseBlock.defaultBlockState().soundType)
         instrument(baseBlock.defaultBlockState().instrument())
         if (baseBlock.defaultBlockState().ignitedByLava()) ignitedByLava()
     }) {
     override val tag: TagKey<Block> = ModBlockTags.simpleLadders
 
-    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
-        offerRecipe(exporter, baseBlock, 8, "simple_ladders")
+    override fun offerRecipeTo(recipeExporter: RecipeOutput) {
+        offerRecipe(recipeExporter, baseBlock, 8, "simple_ladders")
     }
 
     override fun generateBlockStateModels(generator: BlockModelGenerators) {

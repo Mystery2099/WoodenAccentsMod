@@ -8,10 +8,10 @@
             "condition": "minecraft:location_check",
             "predicate": {
               "block": {
+                "blocks": "#wooden_accents_mod:kitchen_counters",
                 "state": {
                   "shape": "inner_left"
-                },
-                "tag": "wooden_accents_mod:kitchen_counters"
+                }
               }
             }
           }
@@ -26,10 +26,10 @@
             "condition": "minecraft:location_check",
             "predicate": {
               "block": {
+                "blocks": "#wooden_accents_mod:kitchen_counters",
                 "state": {
                   "shape": "inner_right"
-                },
-                "tag": "wooden_accents_mod:kitchen_counters"
+                }
               }
             }
           }
@@ -44,10 +44,10 @@
             "condition": "minecraft:location_check",
             "predicate": {
               "block": {
+                "blocks": "#wooden_accents_mod:kitchen_counters",
                 "state": {
                   "shape": "outer_left"
-                },
-                "tag": "wooden_accents_mod:kitchen_counters"
+                }
               }
             }
           }
@@ -62,10 +62,10 @@
             "condition": "minecraft:location_check",
             "predicate": {
               "block": {
+                "blocks": "#wooden_accents_mod:kitchen_counters",
                 "state": {
                   "shape": "outer_right"
-                },
-                "tag": "wooden_accents_mod:kitchen_counters"
+                }
               }
             }
           }
@@ -76,18 +76,12 @@
   },
   "display": {
     "announce_to_chat": false,
-    "description": {
-      "text": "Connect counters around a corner for a seamless kitchen layout"
-    },
-    "frame": "task",
-    "hidden": false,
+    "description": "Connect counters around a corner for a seamless kitchen layout",
     "icon": {
-      "item": "wooden_accents_mod:oak_kitchen_counter"
+      "count": 1,
+      "id": "wooden_accents_mod:oak_kitchen_counter"
     },
-    "show_toast": true,
-    "title": {
-      "text": "Corner Kitchen!"
-    }
+    "title": "Corner Kitchen!"
   },
   "requirements": [
     [

@@ -5,13 +5,7 @@
       "conditions": {
         "items": [
           {
-            "enchantments": [
-              null
-            ],
-            "stored_enchantments": [
-              null
-            ],
-            "tag": "wooden_accents_mod:bracket_shelves"
+            "items": "#wooden_accents_mod:bracket_shelves"
           }
         ]
       },
@@ -20,18 +14,12 @@
   },
   "display": {
     "announce_to_chat": false,
-    "description": {
-      "text": "Craft a Bracket Shelf to hang your display items on the wall"
-    },
-    "frame": "task",
-    "hidden": false,
+    "description": "Craft a Bracket Shelf to hang your display items on the wall",
     "icon": {
-      "item": "wooden_accents_mod:oak_bracket_shelf"
+      "count": 1,
+      "id": "wooden_accents_mod:oak_bracket_shelf"
     },
-    "show_toast": true,
-    "title": {
-      "text": "Shelf Improvement!"
-    }
+    "title": "Shelf Improvement!"
   },
   "requirements": [
     [

@@ -5,13 +5,7 @@
       "conditions": {
         "items": [
           {
-            "enchantments": [
-              null
-            ],
-            "stored_enchantments": [
-              null
-            ],
-            "tag": "wooden_accents_mod:chairs"
+            "items": "#wooden_accents_mod:chairs"
           }
         ]
       },
@@ -21,13 +15,7 @@
       "conditions": {
         "items": [
           {
-            "enchantments": [
-              null
-            ],
-            "stored_enchantments": [
-              null
-            ],
-            "tag": "wooden_accents_mod:tables"
+            "items": "#wooden_accents_mod:tables"
           }
         ]
       },
@@ -36,18 +24,12 @@
   },
   "display": {
     "announce_to_chat": false,
-    "description": {
-      "text": "Craft a cozy place to sit and a surface for your belongings"
-    },
-    "frame": "task",
-    "hidden": false,
+    "description": "Craft a cozy place to sit and a surface for your belongings",
     "icon": {
-      "item": "wooden_accents_mod:oak_plank_chair"
+      "count": 1,
+      "id": "wooden_accents_mod:oak_plank_chair"
     },
-    "show_toast": true,
-    "title": {
-      "text": "Welcome Home!"
-    }
+    "title": "Welcome Home!"
   },
   "requirements": [
     [

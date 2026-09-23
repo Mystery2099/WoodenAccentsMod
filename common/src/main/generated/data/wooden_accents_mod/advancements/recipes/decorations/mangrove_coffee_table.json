@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:mangrove_log"
-            ]
+            "items": "minecraft:mangrove_log"
           }
         ]
       },
@@ -22,14 +20,13 @@
   },
   "requirements": [
     [
-      "has_mangrove_log",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_mangrove_log"
     ]
   ],
   "rewards": {
     "recipes": [
       "wooden_accents_mod:mangrove_coffee_table"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

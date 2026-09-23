@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -37,7 +38,7 @@ public class SeatEntity extends Entity {
         if (this.level().isClientSide) {
             return;
         }
-        var state = this.getFeetBlockState();
+        var state = this.level().getBlockState(this.blockPosition());
         if (!(state.getBlock() instanceof ChairBlock) || this.getPassengers().isEmpty()) {
             this.ejectPassengers();
             this.discard();
@@ -64,10 +65,14 @@ public class SeatEntity extends Entity {
     }
 
     @Override
-    public double getPassengersRidingOffset() {
-        // Clear the seat's front edge with vanilla's downward-angled thighs.
-        // Keep the rider height independent of this entity's tiny hitbox.
-        return 1.0 / 16.0;
+    protected Vec3 getPassengerAttachmentPoint(Entity passenger, EntityDimensions dimensions, float partialTick) {
+        // NOTE: `dimensions` here is the vehicle's own EntityDimensions (a 0.01 cube for
+        // the seat), not the rider's. The engine mounts the rider at
+        // (this.position() + this attachment) minus the rider's own vehicle attachment
+        // (0.6 for players, AT_FEET for others), and the sitting pose anchors the rider's
+        // butt back at mount + that same attachment, leaving a rider-size-agnostic butt
+        // at seat.y + 0.325 — right on the chair's seat plank.
+        return new Vec3(0.0, 0.325, 0.0);
     }
 
     @Override
@@ -91,13 +96,13 @@ public class SeatEntity extends Entity {
         ImmutableList<Pose> immutableList = passenger.getDismountPoses();
         for (Pose entityPose : immutableList) {
             EntityDimensions entityDimensions = passenger.getDimensions(entityPose);
-            var f = Math.min(entityDimensions.width, 1.0f) / 2.0f;
+            var f = Math.min(entityDimensions.width(), 1.0f) / 2.0f;
             for (var i : Objects.requireNonNull(DISMOUNT_FREE_Y_SPACES_NEEDED.get(entityPose))) {
                 for (int[] js : is) {
                     Vec3 vec3d;
                     mutable.set(blockPos.getX() + js[0], blockPos.getY() + i, blockPos.getZ() + js[1]);
                     var d = this.level().getBlockFloorHeight(DismountHelper.nonClimbableShape(this.level(), mutable), () -> DismountHelper.nonClimbableShape(this.level(), mutable.below()));
-                    if (!DismountHelper.isBlockFloorValid(d) || !DismountHelper.canDismountTo(this.level(), passenger, new AABB(-f, 0.0, -f, f, entityDimensions.height, f).move(vec3d = Vec3.upFromBottomCenterOf(mutable, d))))
+                    if (!DismountHelper.isBlockFloorValid(d) || !DismountHelper.canDismountTo(this.level(), passenger, new AABB(-f, 0.0, -f, f, entityDimensions.height(), f).move(vec3d = Vec3.upFromBottomCenterOf(mutable, d))))
                         continue;
                     passenger.setPose(entityPose);
                     return vec3d;
@@ -107,7 +112,7 @@ public class SeatEntity extends Entity {
         var e = this.getBoundingBox().maxY;
         mutable.set(blockPos.getX(), e, blockPos.getZ());
         for (Pose entityPose2 : immutableList) {
-            double g = passenger.getDimensions(entityPose2).height;
+            double g = passenger.getDimensions(entityPose2).height();
             int j = Mth.ceil(e - (double) mutable.getY() + g);
             double h = DismountHelper.findCeilingFrom(mutable, j, pos -> this.level().getBlockState(pos).getCollisionShape(this.level(), pos));
             if (!(e + g <= h)) continue;
@@ -118,7 +123,7 @@ public class SeatEntity extends Entity {
     }
 
     @Override
-    protected void defineSynchedData() {
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
 
     }
 

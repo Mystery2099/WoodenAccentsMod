@@ -16,7 +16,6 @@
   ],
   "result": {
     "count": 2,
-    "item": "wooden_accents_mod:mangrove_bracket_shelf"
-  },
-  "show_notification": true
+    "id": "wooden_accents_mod:mangrove_bracket_shelf"
+  }
 }

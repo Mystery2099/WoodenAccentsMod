@@ -1,9 +1,8 @@
 package com.github.mystery2099.woodenAccentsMod.data.generation.interfaces
 
-import net.minecraft.data.recipes.FinishedRecipe
-import java.util.function.Consumer
+import net.minecraft.data.recipes.RecipeOutput
 
 /** Lets a registered block keep its recipe definition with the block itself. */
 interface CustomRecipeProvider {
-    infix fun offerRecipeTo(exporter: Consumer<FinishedRecipe>)
+    infix fun offerRecipeTo(recipeExporter: RecipeOutput)
 }

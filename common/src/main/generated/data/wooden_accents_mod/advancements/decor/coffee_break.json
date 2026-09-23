@@ -5,13 +5,7 @@
       "conditions": {
         "items": [
           {
-            "enchantments": [
-              null
-            ],
-            "stored_enchantments": [
-              null
-            ],
-            "tag": "wooden_accents_mod:coffee_tables"
+            "items": "#wooden_accents_mod:coffee_tables"
           }
         ]
       },
@@ -20,18 +14,12 @@
   },
   "display": {
     "announce_to_chat": false,
-    "description": {
-      "text": "Craft a coffee table"
-    },
-    "frame": "task",
-    "hidden": false,
+    "description": "Craft a coffee table",
     "icon": {
-      "item": "wooden_accents_mod:oak_coffee_table"
+      "count": 1,
+      "id": "wooden_accents_mod:oak_coffee_table"
     },
-    "show_toast": true,
-    "title": {
-      "text": "Take a break!"
-    }
+    "title": "Take a break!"
   },
   "requirements": [
     [

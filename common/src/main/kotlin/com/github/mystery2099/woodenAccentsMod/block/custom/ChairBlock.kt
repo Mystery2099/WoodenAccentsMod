@@ -17,13 +17,15 @@ import com.github.mystery2099.woodenAccentsMod.entity.ModEntities
 import com.github.mystery2099.woodenAccentsMod.entity.custom.SeatEntity
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroup
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.level.block.*
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.data.models.model.TextureMapping
 import net.minecraft.data.models.model.TexturedModel
-import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.data.recipes.ShapedRecipeBuilder
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.material.FluidState
@@ -36,17 +38,16 @@ import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BooleanProperty
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.InteractionResult
-import net.minecraft.world.InteractionHand
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.AABB
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.world.phys.shapes.VoxelShape
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelAccessor
-import java.util.function.Consumer
 import net.minecraft.world.level.block.state.BlockBehaviour
 class ChairBlock(settings: Properties, val baseBlock: Block) : HorizontalDirectionalBlock(settings), SimpleWaterloggedBlock,
     CustomBlockStateProvider, CustomItemGroupProvider,
@@ -62,7 +63,7 @@ class ChairBlock(settings: Properties, val baseBlock: Block) : HorizontalDirecti
         })
     }
 
-    constructor(baseBlock: Block) : this(BlockBehaviour.Properties.copy(baseBlock), baseBlock)
+    constructor(baseBlock: Block) : this(BlockBehaviour.Properties.ofFullCopy(baseBlock), baseBlock)
 
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
         super.createBlockStateDefinition(builder)
@@ -76,14 +77,12 @@ class ChairBlock(settings: Properties, val baseBlock: Block) : HorizontalDirecti
         }
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun use(
+    override fun useWithoutItem(
         state: BlockState,
         world: Level,
         pos: BlockPos,
         player: Player,
-        hand: InteractionHand?,
-        hit: BlockHitResult?
+        hit: BlockHitResult
     ): InteractionResult {
         if (player.isSecondaryUseActive() || player.isPassenger()) return InteractionResult.PASS
         val seats = world.getEntitiesOfClass(SeatEntity::class.java, AABB(pos)) { !it.isRemoved }
@@ -159,7 +158,7 @@ class ChairBlock(settings: Properties, val baseBlock: Block) : HorizontalDirecti
         generator.createHorizontallyRotatedBlock(this, texturedModel)
     }
 
-    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+    override fun offerRecipeTo(recipeExporter: RecipeOutput) {
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, 3).apply {
             define('#', baseBlock)
             define('|', Items.STICK)
@@ -168,8 +167,15 @@ class ChairBlock(settings: Properties, val baseBlock: Block) : HorizontalDirecti
             pattern("| |")
             customGroup(this@ChairBlock, "chairs")
             requires(baseBlock)
-            save(exporter)
+            save(recipeExporter)
         }
+    }
+
+    override fun codec(): MapCodec<ChairBlock> = RecordCodecBuilder.mapCodec { instance ->
+        instance.group(
+            propertiesCodec(),
+            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("base").forGetter { it.baseBlock }
+        ).apply(instance, ::ChairBlock)
     }
 
     companion object {

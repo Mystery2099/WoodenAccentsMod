@@ -5,13 +5,7 @@
       "conditions": {
         "items": [
           {
-            "enchantments": [
-              null
-            ],
-            "stored_enchantments": [
-              null
-            ],
-            "tag": "wooden_accents_mod:desks"
+            "items": "#wooden_accents_mod:desks"
           }
         ]
       },
@@ -20,18 +14,12 @@
   },
   "display": {
     "announce_to_chat": false,
-    "description": {
-      "text": "Craft a desk"
-    },
-    "frame": "task",
-    "hidden": false,
+    "description": "Craft a desk",
     "icon": {
-      "item": "wooden_accents_mod:oak_desk"
+      "count": 1,
+      "id": "wooden_accents_mod:oak_desk"
     },
-    "show_toast": true,
-    "title": {
-      "text": "A place to work"
-    }
+    "title": "A place to work"
   },
   "requirements": [
     [

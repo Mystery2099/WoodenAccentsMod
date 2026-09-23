@@ -17,7 +17,6 @@
   ],
   "result": {
     "count": 6,
-    "item": "wooden_accents_mod:thick_dark_oak_plank_pillar"
-  },
-  "show_notification": true
+    "id": "wooden_accents_mod:thick_dark_oak_plank_pillar"
+  }
 }

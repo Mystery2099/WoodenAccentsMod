@@ -8,10 +8,10 @@
             "condition": "minecraft:location_check",
             "predicate": {
               "block": {
+                "blocks": "#wooden_accents_mod:thick_pillars",
                 "state": {
                   "down": "true"
-                },
-                "tag": "wooden_accents_mod:thick_pillars"
+                }
               }
             }
           }
@@ -26,10 +26,10 @@
             "condition": "minecraft:location_check",
             "predicate": {
               "block": {
+                "blocks": "#wooden_accents_mod:thin_pillars",
                 "state": {
                   "down": "true"
-                },
-                "tag": "wooden_accents_mod:thin_pillars"
+                }
               }
             }
           }
@@ -40,18 +40,12 @@
   },
   "display": {
     "announce_to_chat": false,
-    "description": {
-      "text": "Connect pillars of any style into one seamless column"
-    },
-    "frame": "task",
-    "hidden": false,
+    "description": "Connect pillars of any style into one seamless column",
     "icon": {
-      "item": "wooden_accents_mod:thin_oak_plank_pillar"
+      "count": 1,
+      "id": "wooden_accents_mod:thin_oak_plank_pillar"
     },
-    "show_toast": true,
-    "title": {
-      "text": "Pillar Talk!"
-    }
+    "title": "Pillar Talk!"
   },
   "requirements": [
     [

@@ -19,18 +19,16 @@ import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.data.models.*
 import net.minecraft.data.models.blockstates.*
 import net.minecraft.data.models.model.*
-import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.tags.TagKey
-import net.minecraft.world.flag.FeatureFlags
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.world.phys.shapes.VoxelShape
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.LevelAccessor
-import java.util.function.Consumer
 import net.minecraft.world.level.block.state.BlockBehaviour
 
 class ConnectingLadderBlock(val baseBlock: Block) :
@@ -38,7 +36,7 @@ class ConnectingLadderBlock(val baseBlock: Block) :
         mapColor(baseBlock.defaultMapColor())
         destroyTime(Blocks.LADDER.defaultDestroyTime())
         explosionResistance(Blocks.LADDER.explosionResistance)
-        sound(baseBlock.getSoundType(baseBlock.defaultBlockState()))
+        sound(baseBlock.defaultBlockState().soundType)
         instrument(baseBlock.defaultBlockState().instrument())
         if (baseBlock.defaultBlockState().ignitedByLava()) ignitedByLava()
     }) {
@@ -104,8 +102,8 @@ class ConnectingLadderBlock(val baseBlock: Block) :
     ): VoxelShape =
         shapeMap[state.getValue(shape)]?.get(state.getValue(FACING)) ?: super.getShape(state, world, pos, context)
 
-    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
-        super.offerRecipe(exporter, baseBlock, 8, "connecting_ladder")
+    override fun offerRecipeTo(recipeExporter: RecipeOutput) {
+        super.offerRecipe(recipeExporter, baseBlock, 8, "connecting_ladder")
     }
 
     override fun generateBlockStateModels(generator: BlockModelGenerators) {

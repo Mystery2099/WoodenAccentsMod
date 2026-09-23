@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:oak_planks"
-            ]
+            "items": "minecraft:oak_planks"
           }
         ]
       },
@@ -22,14 +20,13 @@
   },
   "requirements": [
     [
-      "has_oak_planks",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_oak_planks"
     ]
   ],
   "rewards": {
     "recipes": [
       "wooden_accents_mod:oak_kitchen_counter"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

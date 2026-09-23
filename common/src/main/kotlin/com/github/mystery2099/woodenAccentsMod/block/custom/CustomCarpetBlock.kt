@@ -17,25 +17,24 @@ import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.data.models.model.ModelTemplates
 import net.minecraft.data.models.model.TextureSlot
 import net.minecraft.data.models.model.TextureMapping
-import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.data.recipes.ShapedRecipeBuilder
 import net.minecraft.world.item.Items
 import net.minecraft.data.recipes.RecipeCategory
+import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.tags.TagKey
-import java.util.function.Consumer
 import net.minecraft.world.level.block.state.BlockBehaviour
 
 class CustomCarpetBlock(val baseBlock: Block) : CarpetBlock(
     BlockBehaviour.Properties.of().strength(0.1f).pushReaction(PushReaction.DESTROY).apply {
         mapColor(baseBlock.defaultMapColor())
-        sound(baseBlock.getSoundType(baseBlock.defaultBlockState()))
+        sound(baseBlock.defaultBlockState().soundType)
         if (baseBlock.defaultBlockState().ignitedByLava()) ignitedByLava()
     }
 ), CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
 
     override val itemGroup = ModItemGroup.BUILDING
     override val tag: TagKey<Block> = ModBlockTags.plankCarpets
-    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+    override fun offerRecipeTo(recipeExporter: RecipeOutput) {
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, 3).apply {
             define('#', baseBlock)
             define('_', Items.PAPER)
@@ -43,7 +42,7 @@ class CustomCarpetBlock(val baseBlock: Block) : CarpetBlock(
             pattern("_ ")
             customGroup(this@CustomCarpetBlock, "carpets")
             requires(baseBlock)
-            save(exporter)
+            save(recipeExporter)
         }
     }
 

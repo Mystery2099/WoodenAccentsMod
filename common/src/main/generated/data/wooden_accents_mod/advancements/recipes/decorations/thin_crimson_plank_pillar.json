@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:crimson_planks"
-            ]
+            "items": "minecraft:crimson_planks"
           }
         ]
       },
@@ -22,14 +20,13 @@
   },
   "requirements": [
     [
-      "has_crimson_planks",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_crimson_planks"
     ]
   ],
   "rewards": {
     "recipes": [
       "wooden_accents_mod:thin_crimson_plank_pillar"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

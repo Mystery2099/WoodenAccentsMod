@@ -17,7 +17,6 @@
   ],
   "result": {
     "count": 4,
-    "item": "wooden_accents_mod:birch_desk"
-  },
-  "show_notification": true
+    "id": "wooden_accents_mod:birch_desk"
+  }
 }

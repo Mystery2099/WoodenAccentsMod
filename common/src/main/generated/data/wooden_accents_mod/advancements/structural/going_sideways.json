@@ -8,10 +8,10 @@
             "condition": "minecraft:location_check",
             "predicate": {
               "block": {
+                "blocks": "#wooden_accents_mod:connecting_ladders",
                 "state": {
                   "shape": "center"
-                },
-                "tag": "wooden_accents_mod:connecting_ladders"
+                }
               }
             }
           }
@@ -26,10 +26,10 @@
             "condition": "minecraft:location_check",
             "predicate": {
               "block": {
+                "blocks": "#wooden_accents_mod:connecting_ladders",
                 "state": {
                   "shape": "left"
-                },
-                "tag": "wooden_accents_mod:connecting_ladders"
+                }
               }
             }
           }
@@ -44,10 +44,10 @@
             "condition": "minecraft:location_check",
             "predicate": {
               "block": {
+                "blocks": "#wooden_accents_mod:connecting_ladders",
                 "state": {
                   "shape": "right"
-                },
-                "tag": "wooden_accents_mod:connecting_ladders"
+                }
               }
             }
           }
@@ -58,18 +58,12 @@
   },
   "display": {
     "announce_to_chat": false,
-    "description": {
-      "text": "Link connecting ladders together to climb across walls"
-    },
-    "frame": "task",
-    "hidden": false,
+    "description": "Link connecting ladders together to climb across walls",
     "icon": {
-      "item": "wooden_accents_mod:stripped_oak_ladder"
+      "count": 1,
+      "id": "wooden_accents_mod:stripped_oak_ladder"
     },
-    "show_toast": true,
-    "title": {
-      "text": "Going Sideways!"
-    }
+    "title": "Going Sideways!"
   },
   "requirements": [
     [

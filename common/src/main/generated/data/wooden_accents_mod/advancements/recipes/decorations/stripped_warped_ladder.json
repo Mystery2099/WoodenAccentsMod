@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:stripped_warped_stem"
-            ]
+            "items": "minecraft:stripped_warped_stem"
           }
         ]
       },
@@ -22,14 +20,13 @@
   },
   "requirements": [
     [
-      "has_stripped_warped_stem",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_stripped_warped_stem"
     ]
   ],
   "rewards": {
     "recipes": [
       "wooden_accents_mod:stripped_warped_ladder"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

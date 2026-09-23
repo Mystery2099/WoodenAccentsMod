@@ -5,13 +5,7 @@
       "conditions": {
         "items": [
           {
-            "enchantments": [
-              null
-            ],
-            "stored_enchantments": [
-              null
-            ],
-            "tag": "wooden_accents_mod:support_beams"
+            "items": "#wooden_accents_mod:support_beams"
           }
         ]
       },
@@ -20,18 +14,12 @@
   },
   "display": {
     "announce_to_chat": false,
-    "description": {
-      "text": "Craft Supports to reinforce your structures and connect them in different directions for added stability"
-    },
-    "frame": "task",
-    "hidden": false,
+    "description": "Craft Supports to reinforce your structures and connect them in different directions for added stability",
     "icon": {
-      "item": "wooden_accents_mod:oak_support_beam"
+      "count": 1,
+      "id": "wooden_accents_mod:oak_support_beam"
     },
-    "show_toast": true,
-    "title": {
-      "text": "Build it Strong!"
-    }
+    "title": "Build it Strong!"
   },
   "requirements": [
     [

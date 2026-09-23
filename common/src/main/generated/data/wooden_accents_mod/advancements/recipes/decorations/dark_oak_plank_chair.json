@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:dark_oak_planks"
-            ]
+            "items": "minecraft:dark_oak_planks"
           }
         ]
       },
@@ -22,14 +20,13 @@
   },
   "requirements": [
     [
-      "has_dark_oak_planks",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_dark_oak_planks"
     ]
   ],
   "rewards": {
     "recipes": [
       "wooden_accents_mod:dark_oak_plank_chair"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

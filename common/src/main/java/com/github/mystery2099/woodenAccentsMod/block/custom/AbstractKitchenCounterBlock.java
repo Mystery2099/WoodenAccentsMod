@@ -3,6 +3,7 @@ package com.github.mystery2099.woodenAccentsMod.block.custom;
 import com.github.mystery2099.woodenAccentsMod.block.BlockStateConfigurer;
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags;
 import org.apache.commons.lang3.tuple.Pair;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -57,7 +58,7 @@ public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableB
 
     private final Block topBlock, baseBlock;
     public AbstractKitchenCounterBlock(Block baseBlock, Block topBlock) {
-        super(BlockBehaviour.Properties.copy(baseBlock));
+        super(BlockBehaviour.Properties.ofFullCopy(baseBlock));
         this.baseBlock = baseBlock;
         this.topBlock = topBlock;
         this.registerDefaultState(BlockStateConfigurer.with(defaultBlockState(), c -> {
@@ -231,7 +232,11 @@ public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableB
     public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean notify) {
         if (state.is(state.getBlock())) return;
         world.neighborChanged(this.baseBlock.defaultBlockState(), pos, Blocks.AIR, pos, false);
-        this.baseBlock.onPlace(this.baseBlock.defaultBlockState(), world, pos, oldState, false);
+        // BlockBehaviour.onPlace is protected on other instances in modern versions, so instead
+        // replicate the base block's observable place sound; behavior like neighbor updates is
+        // covered by the call above.
+        SoundType baseSound = this.baseBlock.defaultBlockState().getSoundType();
+        world.playSound(null, pos, baseSound.getPlaceSound(), SoundSource.BLOCKS, baseSound.getVolume(), baseSound.getPitch());
     }
 
     @Override

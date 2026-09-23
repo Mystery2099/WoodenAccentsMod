@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:stripped_bamboo_block"
-            ]
+            "items": "minecraft:stripped_bamboo_block"
           }
         ]
       },
@@ -22,14 +20,13 @@
   },
   "requirements": [
     [
-      "has_stripped_bamboo_block",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_stripped_bamboo_block"
     ]
   ],
   "rewards": {
     "recipes": [
       "wooden_accents_mod:stripped_bamboo_table"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

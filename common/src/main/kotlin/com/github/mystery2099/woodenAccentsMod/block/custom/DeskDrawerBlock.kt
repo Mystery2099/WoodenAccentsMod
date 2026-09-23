@@ -32,7 +32,6 @@ import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.data.models.*
 import net.minecraft.data.models.blockstates.*
 import net.minecraft.data.models.model.*
-import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.data.recipes.ShapedRecipeBuilder
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.monster.piglin.PiglinAi
@@ -56,7 +55,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.level.block.Mirror
 import net.minecraft.world.level.block.Rotation
-import net.minecraft.world.InteractionHand
 import net.minecraft.world.Containers
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.core.BlockPos
@@ -66,12 +64,15 @@ import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelAccessor
-import java.util.function.Consumer
 import net.minecraft.world.level.block.state.BlockBehaviour
 import com.github.mystery2099.woodenAccentsMod.util.LootTableUtil
+import net.minecraft.data.recipes.RecipeOutput
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.registries.BuiltInRegistries
 
 class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
-    WaterloggableBlockWithEntity(BlockBehaviour.Properties.copy(baseBlock).mapColor(baseBlock.defaultMapColor())),
+    WaterloggableBlockWithEntity(BlockBehaviour.Properties.ofFullCopy(baseBlock).mapColor(baseBlock.defaultMapColor())),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider,
     CustomBlockLootTableProvider {
 
@@ -123,27 +124,12 @@ class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
         )
     }
 
-    override fun setPlacedBy(
-        world: Level,
-        pos: BlockPos,
-        state: BlockState,
-        placer: LivingEntity?,
-        itemStack: ItemStack
-    ) {
-        val blockEntity: BlockEntity? = world.getBlockEntity(pos)
-                if (itemStack.hasCustomHoverName() && blockEntity is DeskDrawerBlockEntity) {
-            blockEntity.customName = itemStack.hoverName
-        }
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun use(
+    override fun useWithoutItem(
         state: BlockState,
         world: Level,
         pos: BlockPos,
         player: Player,
-        hand: InteractionHand?,
-        hit: BlockHitResult?
+        hit: BlockHitResult
     ): InteractionResult {
         if (world.isClientSide) return InteractionResult.SUCCESS
         val blockEntity = world.getBlockEntity(pos)
@@ -246,6 +232,8 @@ class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
     }
 
     override fun newBlockEntity(pos: BlockPos, state: BlockState) = DeskDrawerBlockEntity(pos, state)
+
+    override fun codec(): MapCodec<DeskDrawerBlock> = CODEC
 
     override fun getLootTableBuilder(): LootTable.Builder {
         return LootTable.lootTable().withPool(
@@ -351,7 +339,7 @@ class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
         )
     }
 
-    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+    override fun offerRecipeTo(recipeExporter: RecipeOutput) {
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, 4).apply {
             define('|', edgeBlock)
             define('_', baseBlock)
@@ -361,13 +349,20 @@ class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
             pattern("| |")
             customGroup(this@DeskDrawerBlock, "desk_drawers")
             requires(ModBlockTags.getItemTagFrom(ModBlockTags.desks))
-            save(exporter)
+            save(recipeExporter)
         }
     }
 
     companion object {
         val facing: DirectionProperty = BlockStateProperties.HORIZONTAL_FACING
         val shape: EnumProperty<SidewaysConnectionShape> = ModProperties.sidewaysConnectionShape
+
+        val CODEC: MapCodec<DeskDrawerBlock> = RecordCodecBuilder.mapCodec { instance ->
+            instance.group(
+                BuiltInRegistries.BLOCK.byNameCodec().fieldOf("edge_block").forGetter { it.edgeBlock },
+                BuiltInRegistries.BLOCK.byNameCodec().fieldOf("base_block").forGetter { it.baseBlock }
+            ).apply(instance, ::DeskDrawerBlock)
+        }
         private val northShape = VoxelAssembly.createCuboidShape(1, 0, 1, 15, 15, 16)
         private val northSingleShape = VoxelAssembly.createCuboidShape(
             1, 0, 1, 15, 15, 15

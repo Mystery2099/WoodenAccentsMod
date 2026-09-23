@@ -8,10 +8,10 @@
             "condition": "minecraft:location_check",
             "predicate": {
               "block": {
+                "blocks": "#wooden_accents_mod:coffee_tables",
                 "state": {
                   "type": "tall"
-                },
-                "tag": "wooden_accents_mod:coffee_tables"
+                }
               }
             }
           }
@@ -22,18 +22,12 @@
   },
   "display": {
     "announce_to_chat": false,
-    "description": {
-      "text": "Stack two matching coffee tables to make a tall coffee table"
-    },
-    "frame": "task",
-    "hidden": false,
+    "description": "Stack two matching coffee tables to make a tall coffee table",
     "icon": {
-      "item": "wooden_accents_mod:oak_coffee_table"
+      "count": 1,
+      "id": "wooden_accents_mod:oak_coffee_table"
     },
-    "show_toast": true,
-    "title": {
-      "text": "A better table?"
-    }
+    "title": "A better table?"
   },
   "requirements": [
     [

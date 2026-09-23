@@ -8,10 +8,10 @@
             "condition": "minecraft:location_check",
             "predicate": {
               "block": {
+                "blocks": "#wooden_accents_mod:bracket_shelves",
                 "state": {
                   "left": "true"
-                },
-                "tag": "wooden_accents_mod:bracket_shelves"
+                }
               }
             }
           }
@@ -26,10 +26,10 @@
             "condition": "minecraft:location_check",
             "predicate": {
               "block": {
+                "blocks": "#wooden_accents_mod:bracket_shelves",
                 "state": {
                   "right": "true"
-                },
-                "tag": "wooden_accents_mod:bracket_shelves"
+                }
               }
             }
           }
@@ -40,18 +40,12 @@
   },
   "display": {
     "announce_to_chat": false,
-    "description": {
-      "text": "Link Bracket Shelves together into one long shelving wall"
-    },
-    "frame": "task",
-    "hidden": false,
+    "description": "Link Bracket Shelves together into one long shelving wall",
     "icon": {
-      "item": "wooden_accents_mod:oak_bracket_shelf"
+      "count": 1,
+      "id": "wooden_accents_mod:oak_bracket_shelf"
     },
-    "show_toast": true,
-    "title": {
-      "text": "Side by Side!"
-    }
+    "title": "Side by Side!"
   },
   "requirements": [
     [

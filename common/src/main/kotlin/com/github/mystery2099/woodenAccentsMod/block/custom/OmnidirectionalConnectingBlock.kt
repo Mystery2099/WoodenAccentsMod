@@ -11,11 +11,13 @@ import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BooleanProperty
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import com.mojang.serialization.MapCodec
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.level.LevelAccessor
 
 open class OmnidirectionalConnectingBlock(settings: Properties) : PipeBlock(2.0F / 16.0F, settings), SimpleWaterloggedBlock {
+    override fun codec(): MapCodec<out OmnidirectionalConnectingBlock> = commonCodec
 
     init {
         registerDefaultState(defaultBlockState().with {
@@ -93,6 +95,7 @@ open class OmnidirectionalConnectingBlock(settings: Properties) : PipeBlock(2.0F
     }
 
     companion object {
+        val commonCodec: MapCodec<OmnidirectionalConnectingBlock> = simpleCodec(::OmnidirectionalConnectingBlock)
         val waterlogged: BooleanProperty = BlockStateProperties.WATERLOGGED
         val north: BooleanProperty = BlockStateProperties.NORTH
         val east: BooleanProperty = BlockStateProperties.EAST

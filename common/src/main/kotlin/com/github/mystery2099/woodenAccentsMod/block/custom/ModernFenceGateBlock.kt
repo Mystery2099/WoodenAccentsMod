@@ -17,19 +17,18 @@ import net.minecraft.world.level.block.FenceGateBlock
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.data.models.model.TextureMapping
-import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.data.recipes.ShapedRecipeBuilder
 import net.minecraft.world.item.Items
 import net.minecraft.data.recipes.RecipeCategory
 import net.minecraft.tags.TagKey
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.world.phys.shapes.VoxelShape
 import net.minecraft.world.level.BlockGetter
-import java.util.function.Consumer
-import net.minecraft.world.level.block.state.BlockBehaviour
 
-class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : FenceGateBlock(BlockBehaviour.Properties.copy(baseGate), baseGate.woodType),
+class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block
+) : FenceGateBlock(baseGate.woodType, Properties.ofFullCopy(baseGate)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.modernFenceGates
     override val itemGroup = ModItemGroup.BUILDING
@@ -47,7 +46,7 @@ class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : Fen
     }
 
 
-    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+    override fun offerRecipeTo(recipeExporter: RecipeOutput) {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, this).apply {
             define('#', baseBlock)
             define('|', Items.STICK)
@@ -55,7 +54,7 @@ class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block) : Fen
             pattern("|#|")
             group("modern_fence_gates")
             requires(baseBlock)
-            save(exporter)
+            save(recipeExporter)
         }
     }
 

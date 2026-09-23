@@ -5,6 +5,8 @@ import com.github.mystery2099.woodenAccentsMod.block.ModBlocks
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomBlockLootTableProvider
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
+import net.minecraft.core.HolderLookup
+import java.util.concurrent.CompletableFuture
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.LootTable
@@ -19,7 +21,8 @@ import net.minecraft.world.level.block.state.properties.Property
 import net.minecraft.util.StringRepresentable
 
 
-class BlockLootTableDataGen(dataOutput: FabricDataOutput) : FabricBlockLootTableProvider(dataOutput) {
+class BlockLootTableDataGen(dataOutput: FabricDataOutput, registryLookup: CompletableFuture<HolderLookup.Provider>) :
+    FabricBlockLootTableProvider(dataOutput, registryLookup) {
     override fun generate() {
         ModBlocks.blocks.forEach { block ->
             when (block) {

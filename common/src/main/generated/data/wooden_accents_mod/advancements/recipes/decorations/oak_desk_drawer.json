@@ -11,7 +11,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "wooden_accents_mod:desks"
+            "items": "#wooden_accents_mod:desks"
           }
         ]
       },
@@ -20,14 +20,13 @@
   },
   "requirements": [
     [
-      "has_wooden_accents_mod:desks",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_wooden_accents_mod:desks"
     ]
   ],
   "rewards": {
     "recipes": [
       "wooden_accents_mod:oak_desk_drawer"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

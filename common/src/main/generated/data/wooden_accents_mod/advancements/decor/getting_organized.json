@@ -5,13 +5,7 @@
       "conditions": {
         "items": [
           {
-            "enchantments": [
-              null
-            ],
-            "stored_enchantments": [
-              null
-            ],
-            "tag": "wooden_accents_mod:thin_bookshelves"
+            "items": "#wooden_accents_mod:thin_bookshelves"
           }
         ]
       },
@@ -20,18 +14,12 @@
   },
   "display": {
     "announce_to_chat": false,
-    "description": {
-      "text": "Craft a Narrow Bookshelf to store your books"
-    },
-    "frame": "task",
-    "hidden": false,
+    "description": "Craft a Narrow Bookshelf to store your books",
     "icon": {
-      "item": "wooden_accents_mod:oak_plank_bookshelf"
+      "count": 1,
+      "id": "wooden_accents_mod:oak_plank_bookshelf"
     },
-    "show_toast": true,
-    "title": {
-      "text": "Getting Organized!"
-    }
+    "title": "Getting Organized!"
   },
   "requirements": [
     [

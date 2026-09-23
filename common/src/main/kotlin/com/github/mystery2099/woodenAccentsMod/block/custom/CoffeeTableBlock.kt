@@ -22,6 +22,7 @@ import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeUtil.custom
 import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeUtil.requires
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.*
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroup
+import com.github.mystery2099.woodenAccentsMod.registry.component.ModDataComponents
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.state.property.ModProperties
 import com.github.mystery2099.woodenAccentsMod.util.WhenUtil
@@ -32,11 +33,11 @@ import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.item.Item
 import net.minecraft.world.item.TooltipFlag
 import net.minecraft.data.models.*
 import net.minecraft.data.models.blockstates.*
 import net.minecraft.data.models.model.*
-import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.data.recipes.ShapedRecipeBuilder
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.storage.loot.LootPool
@@ -44,9 +45,8 @@ import net.minecraft.world.level.storage.loot.LootTable
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition
 import net.minecraft.world.level.storage.loot.entries.LootItem
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction
-import net.minecraft.world.level.storage.loot.functions.SetNbtFunction
+import net.minecraft.world.level.storage.loot.functions.SetComponentsFunction
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue
-import net.minecraft.nbt.CompoundTag
 import net.minecraft.advancements.critereon.StatePropertiesPredicate
 import net.minecraft.data.recipes.RecipeCategory
 import net.minecraft.tags.TagKey
@@ -60,15 +60,16 @@ import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.phys.shapes.VoxelShape
 import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.LevelAccessor
 import java.util.*
-import java.util.function.Consumer
 import java.util.function.Supplier
 import net.minecraft.world.level.block.state.BlockBehaviour
 import com.github.mystery2099.woodenAccentsMod.util.LootTableUtil
+import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.world.item.ItemStack
 class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
-    AbstractWaterloggableBlock(BlockBehaviour.Properties.copy(baseBlock)),
+    AbstractWaterloggableBlock(BlockBehaviour.Properties.ofFullCopy(baseBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider,
     CustomBlockLootTableProvider {
 
@@ -81,11 +82,8 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
 
     override val variantItemGroupStack: ItemStack
         get() = this.defaultItemStack.apply {
-            orCreateTag.setType(CoffeeTableTypes.TALL)
+            set(ModDataComponents.coffeeTableType, CoffeeTableTypes.TALL)
         }
-
-    private val CompoundTag.isTall: Boolean
-        get() = this.getString(CoffeeTableTypes.TAG) == CoffeeTableTypes.TALL.getSerializedName()
 
     init {
         registerDefaultState(defaultBlockState().setShort().asSingle().setValue(waterlogged, false))
@@ -102,18 +100,14 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         )
     }
 
-    private fun CompoundTag.setTall() = this.setType(CoffeeTableTypes.TALL)
-    private fun CompoundTag.setType(type: CoffeeTableTypes) =
-        apply { putString(CoffeeTableTypes.TAG, type.getSerializedName()) }
-
     // Placing another short table on a short table upgrades it to the tall variant.
     override fun getStateForPlacement(ctx: BlockPlaceContext): BlockState {
-        val nbt = ctx.itemInHand.tag
+        val heldType = ctx.itemInHand.get(ModDataComponents.coffeeTableType)
         val state = ctx.level.getBlockState(ctx.clickedPos)
-        return if (state isOf this && nbt?.getString(CoffeeTableTypes.TAG) != CoffeeTableTypes.TALL.getSerializedName()) state.setTall()
+        return if (state isOf this && heldType != CoffeeTableTypes.TALL) state.setTall()
         else defaultBlockState().setDirections(ctx.level, ctx.clickedPos).run {
-            nbt?.let {
-                if (it.isTall) setValue(type, CoffeeTableTypes.TALL) else this
+            heldType?.let {
+                if (it == CoffeeTableTypes.TALL) setValue(type, CoffeeTableTypes.TALL) else this
             } ?: this
         }
     }
@@ -196,28 +190,28 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         return index
     }
 
-    override fun getCloneItemStack(world: BlockGetter, pos: BlockPos, state: BlockState): ItemStack {
+    override fun getCloneItemStack(world: LevelReader, pos: BlockPos, state: BlockState): ItemStack {
         return super.getCloneItemStack(world, pos, state).apply {
-            orCreateTag.setType(state.getValue(type))
+            set(ModDataComponents.coffeeTableType, state.getValue(type))
         }
     }
 
     override fun appendHoverText(
         stack: ItemStack,
-        world: BlockGetter?,
+        world: Item.TooltipContext?,
         tooltip: MutableList<Component>,
         options: TooltipFlag
     ) {
         super.appendHoverText(stack, world, tooltip, options)
-        if (stack.hasTag()) {
+        if (stack.has(ModDataComponents.coffeeTableType)) {
             tooltip.add(
-                Component.literal(stack.tag?.getString(CoffeeTableTypes.TAG))
+                Component.literal(stack.get(ModDataComponents.coffeeTableType)?.getSerializedName())
                     .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC)
             )
         }
     }
 
-    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+    override fun offerRecipeTo(recipeExporter: RecipeOutput) {
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, 6).apply {
             define('_', topBlock)
             define('|', baseBlock)
@@ -225,7 +219,7 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
             pattern("| |")
             customGroup(this@CoffeeTableBlock, "coffee_tables")
             requires(topBlock)
-            save(exporter)
+            save(recipeExporter)
         }
     }
 
@@ -306,7 +300,6 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
     override fun getLootTableBuilder(): LootTable.Builder {
         val tallStatePredicate = StatePropertiesPredicate.Builder.properties().hasProperty(type, CoffeeTableTypes.TALL)
         val whenBlockIsTall = LootItemBlockStatePropertyCondition.hasBlockStateProperties(this).setProperties(tallStatePredicate)
-        val nbt = CompoundTag().setTall()
         return LootTable.lootTable().withPool(
             LootPool.lootPool().setRolls(ConstantValue.exactly(1.0f)).add(
                 LootTableUtil.applyExplosionDecay(
@@ -314,7 +307,7 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
                         SetItemCountFunction.setCount(ConstantValue.exactly(2.0f))
                             .let { LootTableUtil.conditionally(it, LootTableUtil.hasNoSilkTouch, whenBlockIsTall) }
                     ).apply(
-                        SetNbtFunction.setTag(nbt)
+                        SetComponentsFunction.setComponent(ModDataComponents.coffeeTableType, CoffeeTableTypes.TALL)
                             .let { LootTableUtil.conditionally(it, LootTableUtil.hasSilkTouch, whenBlockIsTall) }
                     )
                 )

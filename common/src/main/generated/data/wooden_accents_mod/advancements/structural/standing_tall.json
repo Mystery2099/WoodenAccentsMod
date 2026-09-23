@@ -8,11 +8,11 @@
             "condition": "minecraft:location_check",
             "predicate": {
               "block": {
+                "blocks": "#wooden_accents_mod:support_beams",
                 "state": {
                   "down": "true",
                   "up": "true"
-                },
-                "tag": "wooden_accents_mod:support_beams"
+                }
               }
             }
           }
@@ -23,18 +23,12 @@
   },
   "display": {
     "announce_to_chat": false,
-    "description": {
-      "text": "Stack support beams into a full vertical column"
-    },
-    "frame": "task",
-    "hidden": false,
+    "description": "Stack support beams into a full vertical column",
     "icon": {
-      "item": "wooden_accents_mod:oak_support_beam"
+      "count": 1,
+      "id": "wooden_accents_mod:oak_support_beam"
     },
-    "show_toast": true,
-    "title": {
-      "text": "Standing Tall!"
-    }
+    "title": "Standing Tall!"
   },
   "requirements": [
     [

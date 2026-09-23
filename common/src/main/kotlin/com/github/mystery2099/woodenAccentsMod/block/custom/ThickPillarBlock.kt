@@ -12,13 +12,12 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.data.models.model.TextureMapping
-import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.tags.TagKey
 import net.minecraft.core.BlockPos
+import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.world.phys.shapes.VoxelShape
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.level.BlockGetter
-import java.util.function.Consumer
 
 class ThickPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape) {
     override val connectableBlockTag: TagKey<Block> = ModBlockTags.thickPillarsConnectable
@@ -37,8 +36,8 @@ class ThickPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape)
         getShape(state, world, pos, context)
     }
 
-    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
-        this.offerRecipe(exporter = exporter, outputNum = 6, primaryInput = baseBlock, secondaryInput = baseBlock)
+    override fun offerRecipeTo(recipeExporter: RecipeOutput) {
+        this.offerRecipe(exporter = recipeExporter, outputNum = 6, primaryInput = baseBlock, secondaryInput = baseBlock)
     }
 
     override fun generateBlockStateModels(generator: BlockModelGenerators) {

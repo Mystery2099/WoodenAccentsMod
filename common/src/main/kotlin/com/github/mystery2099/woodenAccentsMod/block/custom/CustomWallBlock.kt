@@ -14,18 +14,17 @@ import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.data.models.model.ModelTemplates
 import net.minecraft.data.models.model.TextureSlot
 import net.minecraft.data.models.model.TextureMapping
-import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.data.recipes.RecipeCategory
+import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.tags.TagKey
-import java.util.function.Consumer
 import net.minecraft.world.level.block.state.BlockBehaviour
 
-class CustomWallBlock(val baseBlock: Block) : WallBlock(BlockBehaviour.Properties.copy(baseBlock)), CustomItemGroupProvider,
+class CustomWallBlock(val baseBlock: Block) : WallBlock(BlockBehaviour.Properties.ofFullCopy(baseBlock)), CustomItemGroupProvider,
     CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.woodenWalls
     override val itemGroup = ModItemGroup.BUILDING
-    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
-        RecipeProvider.wall(exporter, RecipeCategory.DECORATIONS, this, baseBlock)
+    override fun offerRecipeTo(recipeExporter: RecipeOutput) {
+        RecipeProvider.wall(recipeExporter, RecipeCategory.DECORATIONS, this, baseBlock)
     }
 
     override fun generateBlockStateModels(generator: BlockModelGenerators) {

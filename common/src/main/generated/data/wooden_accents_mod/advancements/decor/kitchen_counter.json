@@ -5,13 +5,7 @@
       "conditions": {
         "items": [
           {
-            "enchantments": [
-              null
-            ],
-            "stored_enchantments": [
-              null
-            ],
-            "tag": "wooden_accents_mod:kitchen_counters"
+            "items": "#wooden_accents_mod:kitchen_counters"
           }
         ]
       },
@@ -20,18 +14,12 @@
   },
   "display": {
     "announce_to_chat": false,
-    "description": {
-      "text": "Craft a kitchen counter or cabinet"
-    },
-    "frame": "task",
-    "hidden": false,
+    "description": "Craft a kitchen counter or cabinet",
     "icon": {
-      "item": "wooden_accents_mod:oak_kitchen_counter"
+      "count": 1,
+      "id": "wooden_accents_mod:oak_kitchen_counter"
     },
-    "show_toast": true,
-    "title": {
-      "text": "Room to cook"
-    }
+    "title": "Room to cook"
   },
   "requirements": [
     [

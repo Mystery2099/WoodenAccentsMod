@@ -9,20 +9,19 @@ import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import net.minecraft.world.level.block.Block
 import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.data.models.model.TextureMapping
-import net.minecraft.data.recipes.FinishedRecipe
+import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.world.item.Items
 import net.minecraft.tags.TagKey
 import net.minecraft.resources.ResourceLocation
-import java.util.function.Consumer
 
 
 class ThinPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape) {
     override val connectableBlockTag: TagKey<Block> = ModBlockTags.thinPillarsConnectable
     override val tag: TagKey<Block> = ModBlockTags.thinPillars
 
-    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+    override fun offerRecipeTo(recipeExporter: RecipeOutput) {
         this.offerRecipe(
-            exporter = exporter,
+            exporter = recipeExporter,
             outputNum = 5,
             primaryInput = this.baseBlock,
             secondaryInput = Items.STICK

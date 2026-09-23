@@ -26,7 +26,6 @@ import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.data.models.*
 import net.minecraft.data.models.blockstates.*
 import net.minecraft.data.models.model.*
-import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.data.recipes.ShapedRecipeBuilder
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.data.recipes.RecipeCategory
@@ -37,15 +36,15 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.world.phys.shapes.VoxelShape
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.LevelAccessor
-import java.util.function.Consumer
 import net.minecraft.world.level.block.state.BlockBehaviour
 
 class DeskBlock(val baseBlock: Block, private val topBlock: Block) :
-    AbstractWaterloggableBlock(BlockBehaviour.Properties.copy(topBlock).mapColor(topBlock.defaultMapColor())),
+    AbstractWaterloggableBlock(BlockBehaviour.Properties.ofFullCopy(topBlock).mapColor(topBlock.defaultMapColor())),
     CustomItemGroupProvider, CustomRecipeProvider, CustomBlockStateProvider, CustomTagProvider<Block> {
 
 
@@ -215,7 +214,7 @@ class DeskBlock(val baseBlock: Block, private val topBlock: Block) :
         ).forEach { i -> i.value.forEach { j -> select(i.key, j.key, j.value) } }
     }
 
-    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+    override fun offerRecipeTo(recipeExporter: RecipeOutput) {
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, 4).apply {
             define('|', baseBlock)
             define('_', topBlock)
@@ -224,7 +223,7 @@ class DeskBlock(val baseBlock: Block, private val topBlock: Block) :
             pattern("| |")
             customGroup(this@DeskBlock, "desks")
             requires(baseBlock)
-            save(exporter)
+            save(recipeExporter)
         }
     }
 

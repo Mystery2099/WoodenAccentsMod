@@ -28,7 +28,6 @@ import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.data.models.model.TextureSlot
 import net.minecraft.data.models.model.TextureMapping
 import net.minecraft.data.models.blockstates.MultiVariantGenerator
-import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.data.recipes.ShapedRecipeBuilder
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.monster.piglin.PiglinAi
@@ -46,8 +45,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty
 import net.minecraft.world.level.block.state.properties.DirectionProperty
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 
-import net.minecraft.resources.ResourceLocation
-import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.level.block.Mirror
 import net.minecraft.world.level.block.Rotation
@@ -59,15 +56,18 @@ import net.minecraft.world.phys.shapes.VoxelShape
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
-import java.util.function.Consumer
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.functions.CopyNameFunction
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue
 import com.github.mystery2099.woodenAccentsMod.util.LootTableUtil
+import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.world.level.storage.loot.entries.LootItem
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.registries.BuiltInRegistries
 class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
-    BaseEntityBlock(BlockBehaviour.Properties.copy(baseBlock)),
+    BaseEntityBlock(BlockBehaviour.Properties.ofFullCopy(baseBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider,
     CustomBlockLootTableProvider {
 
@@ -81,14 +81,12 @@ class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
         })
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun use(
+    override fun useWithoutItem(
         state: BlockState,
         world: Level,
         pos: BlockPos,
         player: Player,
-        hand: InteractionHand?,
-        hit: BlockHitResult?
+        hit: BlockHitResult
     ): InteractionResult {
         if (world.isClientSide) return InteractionResult.SUCCESS
         val blockEntity = world.getBlockEntity(pos)
@@ -132,21 +130,11 @@ class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
 
     override fun newBlockEntity(pos: BlockPos, state: BlockState) = KitchenCabinetBlockEntity(pos, state)
 
+    override fun codec(): MapCodec<KitchenCabinetBlock> = CODEC
+
     @Deprecated("Deprecated in Java", ReplaceWith("RenderShape.MODEL", "net.minecraft.world.level.block.RenderShape"))
     override fun getRenderShape(state: BlockState): RenderShape = RenderShape.MODEL
-    override fun setPlacedBy(
-        world: Level,
-        pos: BlockPos?,
-        state: BlockState?,
-        placer: LivingEntity?,
-        itemStack: ItemStack
-    ) {
-        world.getBlockEntity(pos)?.let {
-            if (itemStack.hasCustomHoverName() && it is KitchenCabinetBlockEntity) {
-                it.customName = itemStack.hoverName
-            }
-        }
-    }
+    // Custom names transfer automatically; vanilla applies the item's components when placing.
 
     @Deprecated("Deprecated in Java", ReplaceWith("true"))
     override fun hasAnalogOutputSignal(state: BlockState): Boolean = true
@@ -211,7 +199,7 @@ class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
         context: CollisionContext
     ): VoxelShape = Shapes.block()
 
-    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+    override fun offerRecipeTo(recipeExporter: RecipeOutput) {
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, 4).apply {
             define('#', baseBlock)
             define('_', topBlock)
@@ -221,7 +209,7 @@ class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
             pattern("###")
             customGroup(this@KitchenCabinetBlock, "kitchen_cabinets")
             requires(ModBlockTags.getItemTagFrom(ModBlockTags.kitchenCounters))
-            save(exporter)
+            save(recipeExporter)
         }
     }
 
@@ -241,6 +229,13 @@ class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
     companion object {
         val facing: DirectionProperty = BlockStateProperties.HORIZONTAL_FACING
         val open: BooleanProperty = BlockStateProperties.OPEN
+
+        val CODEC: MapCodec<KitchenCabinetBlock> = RecordCodecBuilder.mapCodec { instance ->
+            instance.group(
+                BuiltInRegistries.BLOCK.byNameCodec().fieldOf("base_block").forGetter { it.baseBlock },
+                BuiltInRegistries.BLOCK.byNameCodec().fieldOf("top_block").forGetter { it.topBlock }
+            ).apply(instance, ::KitchenCabinetBlock)
+        }
         val directionVoxelShapeMap = mapOf(
             Direction.NORTH to AbstractKitchenCounterBlock.NORTH_SHAPE,
             Direction.EAST to AbstractKitchenCounterBlock.NORTH_SHAPE.rotateLeft(),

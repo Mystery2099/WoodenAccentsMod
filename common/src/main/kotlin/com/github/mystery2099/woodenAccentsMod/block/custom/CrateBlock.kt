@@ -1,6 +1,6 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
-import com.github.mystery2099.voxlib.combination.VoxelAssembly
+import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.toIdentifier
 import com.github.mystery2099.woodenAccentsMod.block.BlockStateUtil.isOf
 import com.github.mystery2099.woodenAccentsMod.block.entity.ModBlockEntities
 import com.github.mystery2099.woodenAccentsMod.block.entity.custom.CrateBlockEntity
@@ -11,15 +11,16 @@ import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeUtil.requir
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.*
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroup
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.level.block.*
 import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.item.TooltipFlag
 import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.data.models.model.TextureSlot
 import net.minecraft.data.models.model.TextureMapping
-import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.data.recipes.ShapedRecipeBuilder
 import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.LivingEntity
@@ -28,40 +29,38 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.ContainerHelper
 import net.minecraft.world.Container
 import net.minecraft.world.item.BlockItem
+import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.LootTable
-import net.minecraft.world.level.storage.loot.LootContext
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams
 import net.minecraft.world.level.storage.loot.LootParams
-import net.minecraft.world.level.storage.loot.entries.DynamicLoot
 import net.minecraft.world.level.storage.loot.entries.LootItem
-import net.minecraft.world.level.storage.loot.functions.CopyNameFunction
-import net.minecraft.world.level.storage.loot.functions.CopyNbtFunction
-import net.minecraft.world.level.storage.loot.functions.SetContainerContents
-import net.minecraft.world.level.storage.loot.providers.nbt.ContextNbtProvider
+import net.minecraft.world.level.storage.loot.functions.CopyComponentsFunction
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue
-import net.minecraft.nbt.Tag
+import net.minecraft.core.component.DataComponents
+import net.minecraft.world.item.component.ItemContainerContents
 import net.minecraft.data.recipes.RecipeCategory
 import net.minecraft.tags.TagKey
 import net.minecraft.world.inventory.AbstractContainerMenu
 import net.minecraft.network.chat.Component
 import net.minecraft.world.InteractionResult
 import net.minecraft.ChatFormatting
-import net.minecraft.world.InteractionHand
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.core.NonNullList
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.core.BlockPos
-import net.minecraft.world.phys.shapes.VoxelShape
+import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import java.util.function.Consumer
 import net.minecraft.world.level.block.state.BlockBehaviour
 import com.github.mystery2099.woodenAccentsMod.util.LootTableUtil
+import net.minecraft.data.recipes.RecipeOutput
+
 class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
-    BaseEntityBlock(BlockBehaviour.Properties.copy(baseBlock)),
+    BaseEntityBlock(BlockBehaviour.Properties.ofFullCopy(baseBlock)),
     CustomBlockStateProvider, CustomItemGroupProvider, CustomTagProvider<Block>, CustomRecipeProvider,
     CustomBlockLootTableProvider {
 
@@ -73,14 +72,12 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
     @Deprecated("Deprecated in Java", ReplaceWith("RenderShape.MODEL", "net.minecraft.world.level.block.RenderShape"))
     override fun getRenderShape(state: BlockState): RenderShape = RenderShape.MODEL
 
-    @Deprecated("Deprecated in Java")
-    override fun use(
+    override fun useWithoutItem(
         state: BlockState,
         world: Level,
         pos: BlockPos,
         player: Player,
-        hand: InteractionHand?,
-        hit: BlockHitResult?
+        hit: BlockHitResult
     ): InteractionResult {
         if (world.isClientSide) return InteractionResult.SUCCESS
 
@@ -94,18 +91,18 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
     }
 
 
-    override fun playerWillDestroy(world: Level, pos: BlockPos, state: BlockState, player: Player) {
+    override fun codec(): MapCodec<CrateBlock> = CODEC
+
+    override fun playerWillDestroy(world: Level, pos: BlockPos, state: BlockState, player: Player): BlockState {
         val blockEntity = world.getBlockEntity(pos)
         if (blockEntity is CrateBlockEntity) {
 
             // Match shulker boxes: creative players keep the crate and its contents together.
             if (!world.isClientSide && player.isCreative && !blockEntity.isEmpty()) {
 
+                // saveToItem carries the contents, custom name, lock, and loot table via components.
                 val itemStack = ItemStack(this)
-                blockEntity.saveToItem(itemStack)
-                if (blockEntity.hasCustomName()) {
-                    itemStack.setHoverName(blockEntity.customName)
-                }
+                blockEntity.saveToItem(itemStack, world.registryAccess())
 
                 val itemEntity =
                     ItemEntity(world, pos.x.toDouble() + 0.5, pos.y.toDouble() + 0.5, pos.z.toDouble() + 0.5, itemStack)
@@ -115,7 +112,7 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
             } else blockEntity.unpackLootTable(player)
 
         }
-        super.playerWillDestroy(world, pos, state, player)
+        return super.playerWillDestroy(world, pos, state, player)
     }
 
     @Deprecated("Deprecated in Java")
@@ -124,7 +121,7 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
         var newBuilder: LootParams.Builder = builder
         val blockEntity = newBuilder.getOptionalParameter(LootContextParams.BLOCK_ENTITY)
         if (blockEntity is CrateBlockEntity) {
-            newBuilder = newBuilder.withDynamicDrop(contents) { consumer: Consumer<ItemStack> ->
+            newBuilder = newBuilder.withDynamicDrop("crate_contents".toIdentifier()) { consumer: Consumer<ItemStack> ->
                 for (i in 0 until blockEntity.containerSize) {
                     consumer.accept(blockEntity.getItem(i))
                 }
@@ -133,18 +130,7 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
         return super.getDrops(state, newBuilder)
     }
 
-    override fun setPlacedBy(
-        world: Level,
-        pos: BlockPos?,
-        state: BlockState?,
-        placer: LivingEntity?,
-        itemStack: ItemStack
-    ) {
-        val blockEntity: BlockEntity? = world.getBlockEntity(pos)
-        if (itemStack.hasCustomHoverName() && blockEntity is CrateBlockEntity) {
-            blockEntity.customName = itemStack.getHoverName()
-        }
-    }
+    // Custom names transfer automatically; vanilla applies the item's components when placing.
 
     @Deprecated("Deprecated in Java")
     @Suppress("DEPRECATION")
@@ -162,35 +148,26 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
 
     override fun appendHoverText(
         stack: ItemStack,
-        world: BlockGetter?,
+        world: Item.TooltipContext?,
         tooltip: MutableList<Component>,
         options: TooltipFlag
     ) {
         super.appendHoverText(stack, world, tooltip, options)
-        BlockItem.getBlockEntityData(stack)?.let { nbtCompound ->
-            if (nbtCompound.contains("LootTable", Tag.TAG_STRING.toInt())) {
-                tooltip.add(Component.literal("???????"))
-            }
-            if (nbtCompound.contains("Items", Tag.TAG_LIST.toInt())) {
-                val defaultedList = NonNullList.withSize(9, ItemStack.EMPTY)
-                ContainerHelper.loadAllItems(nbtCompound, defaultedList)
-                var i : Short = 0
-                var j : Short = 0
-                for (itemStack in defaultedList) {
-                    if (itemStack.isEmpty) continue
-                    ++j
-                    if (i > 4) continue
-                    ++i
-                    itemStack.getHoverName().copy()
-                        .append(" x")
-                        .append(itemStack.count.toString()).also {
-                            tooltip.add(it)
-                        }
-                }
-                if (j - i > 0) {
-                    tooltip.add(Component.translatable("container.crate.more", j - i).withStyle(ChatFormatting.ITALIC))
-                }
-            }
+        // Contents travel in DataComponents.CONTAINER; loot-table and lock state in their own components.
+        if (stack.has(DataComponents.CONTAINER_LOOT)) {
+            tooltip.add(Component.literal("???????"))
+        }
+        val contents = stack.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY)
+        var shown: Short = 0
+        var total: Short = 0
+        contents.nonEmptyItems().forEach { itemStack ->
+            ++total
+            if (shown > 4) return@forEach
+            ++shown
+            tooltip.add(itemStack.hoverName.copy().append(" x").append(itemStack.count.toString()))
+        }
+        if (total - shown > 0) {
+            tooltip.add(Component.translatable("container.crate.more", total - shown).withStyle(ChatFormatting.ITALIC))
         }
     }
 
@@ -208,11 +185,10 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
         return AbstractContainerMenu.getRedstoneSignalFromContainer(world.getBlockEntity(pos) as Container)
     }
 
-    override fun getCloneItemStack(world: BlockGetter, pos: BlockPos, state: BlockState): ItemStack {
+    override fun getCloneItemStack(world: LevelReader, pos: BlockPos, state: BlockState): ItemStack {
         val itemStack = super.getCloneItemStack(world, pos, state)
         world.getBlockEntity(pos, ModBlockEntities.crate).ifPresent { blockEntity: CrateBlockEntity ->
-            blockEntity.saveToItem(itemStack)
-            if (blockEntity.hasCustomName()) itemStack.setHoverName(blockEntity.customName)
+            blockEntity.saveToItem(itemStack, world.registryAccess())
         }
         return itemStack
     }
@@ -229,7 +205,7 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
         generator.createNonTemplateModelBlock(this)
     }
 
-    override fun offerRecipeTo(exporter: Consumer<FinishedRecipe>) {
+    override fun offerRecipeTo(recipeExporter: RecipeOutput) {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, this).apply {
             define('n', baseBlock)
             define('t', edgeBlock)
@@ -239,30 +215,33 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
             pattern("tnt")
             customGroup(this@CrateBlock, "crates")
             requires(Items.CHEST)
-            save(exporter)
+            save(recipeExporter)
         }
     }
 
     override fun getLootTableBuilder(): LootTable.Builder {
+        // Mirrors vanilla shulker box drops: name, contents, lock, and loot table ride the item as components.
         return LootTable.lootTable().withPool(
             LootTableUtil.applyExplosionCondition(
                 this, LootPool.lootPool().setRolls(ConstantValue.exactly(1.0f)).add(
-                    LootItem.lootTableItem(this)
-                        .apply(CopyNameFunction.copyName(CopyNameFunction.NameSource.BLOCK_ENTITY))
-                ).apply(
-                    CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY)
-                        .copy("Lock", "BlockEntityTag.Lock")
-                        .copy("LootTable", "BlockEntityTag.LootTable")
-                        .copy("LootTableSeed", "BlockEntityTag.LootTableSeed")
-                ).apply(
-                    SetContainerContents.setContents(ModBlockEntities.crate)
-                        .withEntry(DynamicLoot.dynamicEntry(contents))
+                    LootItem.lootTableItem(this).apply(
+                        CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+                            .include(DataComponents.CUSTOM_NAME)
+                            .include(DataComponents.CONTAINER)
+                            .include(DataComponents.LOCK)
+                            .include(DataComponents.CONTAINER_LOOT)
+                    )
                 )
             )
         )
     }
 
     companion object {
-        val contents = ResourceLocation("contents")
+        val CODEC: MapCodec<CrateBlock> = RecordCodecBuilder.mapCodec { instance ->
+            instance.group(
+                BuiltInRegistries.BLOCK.byNameCodec().fieldOf("base_block").forGetter { it.baseBlock },
+                BuiltInRegistries.BLOCK.byNameCodec().fieldOf("edge_block").forGetter { it.edgeBlock }
+            ).apply(instance, ::CrateBlock)
+        }
     }
 }

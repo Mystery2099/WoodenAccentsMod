@@ -5,13 +5,7 @@
       "conditions": {
         "items": [
           {
-            "enchantments": [
-              null
-            ],
-            "stored_enchantments": [
-              null
-            ],
-            "tag": "wooden_accents_mod:kitchen_cabinets"
+            "items": "#wooden_accents_mod:kitchen_cabinets"
           }
         ]
       },
@@ -20,18 +14,12 @@
   },
   "display": {
     "announce_to_chat": false,
-    "description": {
-      "text": "Craft a kitchen cabinet for your ingredients"
-    },
-    "frame": "task",
-    "hidden": false,
+    "description": "Craft a kitchen cabinet for your ingredients",
     "icon": {
-      "item": "wooden_accents_mod:oak_kitchen_cabinet"
+      "count": 1,
+      "id": "wooden_accents_mod:oak_kitchen_cabinet"
     },
-    "show_toast": true,
-    "title": {
-      "text": "Stock the kitchen"
-    }
+    "title": "Stock the kitchen"
   },
   "requirements": [
     [

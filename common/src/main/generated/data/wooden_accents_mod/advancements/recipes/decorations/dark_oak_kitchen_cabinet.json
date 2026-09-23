@@ -11,7 +11,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "wooden_accents_mod:kitchen_counters"
+            "items": "#wooden_accents_mod:kitchen_counters"
           }
         ]
       },
@@ -20,14 +20,13 @@
   },
   "requirements": [
     [
-      "has_wooden_accents_mod:kitchen_counters",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_wooden_accents_mod:kitchen_counters"
     ]
   ],
   "rewards": {
     "recipes": [
       "wooden_accents_mod:dark_oak_kitchen_cabinet"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

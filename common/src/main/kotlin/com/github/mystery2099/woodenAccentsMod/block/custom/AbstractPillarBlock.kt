@@ -13,31 +13,31 @@ import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.Custom
 import com.github.mystery2099.woodenAccentsMod.data.generation.interfaces.CustomTagProvider
 import com.github.mystery2099.woodenAccentsMod.item.group.ModItemGroup
 import com.github.mystery2099.woodenAccentsMod.util.WhenUtil
-import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.world.phys.shapes.CollisionContext
-import net.minecraft.world.level.block.SupportType
-import net.minecraft.data.models.blockstates.MultiPartGenerator
-import net.minecraft.data.models.blockstates.VariantProperties
-import net.minecraft.data.recipes.FinishedRecipe
-import net.minecraft.data.recipes.ShapedRecipeBuilder
-import net.minecraft.world.level.ItemLike
-import net.minecraft.world.item.context.BlockPlaceContext
-import net.minecraft.data.recipes.RecipeCategory
-import net.minecraft.tags.TagKey
-import net.minecraft.world.level.block.state.StateDefinition
-import net.minecraft.world.level.block.state.properties.BooleanProperty
-import net.minecraft.world.level.block.state.properties.BlockStateProperties
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
-import net.minecraft.world.phys.shapes.VoxelShape
+import net.minecraft.data.models.blockstates.MultiPartGenerator
+import net.minecraft.data.models.blockstates.VariantProperties
+import net.minecraft.data.recipes.RecipeCategory
+import net.minecraft.data.recipes.RecipeOutput
+import net.minecraft.data.recipes.ShapedRecipeBuilder
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.tags.TagKey
+import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.LevelAccessor
-import java.util.function.Consumer
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.SupportType
 import net.minecraft.world.level.block.state.BlockBehaviour
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.level.block.state.properties.BooleanProperty
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.phys.shapes.VoxelShape
+
 abstract class AbstractPillarBlock(val baseBlock: Block, private val pillarShape: CanyonShapeConfiguration) :
-    AbstractWaterloggableBlock(BlockBehaviour.Properties.copy(baseBlock)),
+    AbstractWaterloggableBlock(BlockBehaviour.Properties.ofFullCopy(baseBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
     override val itemGroup = ModItemGroup.BUILDING
     abstract val connectableBlockTag: TagKey<Block>
@@ -115,7 +115,7 @@ abstract class AbstractPillarBlock(val baseBlock: Block, private val pillarShape
     }
 
     fun offerRecipe(
-        exporter: Consumer<FinishedRecipe>,
+        exporter: RecipeOutput,
         outputNum: Int,
         primaryInput: ItemLike,
         secondaryInput: ItemLike

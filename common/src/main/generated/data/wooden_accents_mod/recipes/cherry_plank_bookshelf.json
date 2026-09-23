@@ -17,7 +17,6 @@
   ],
   "result": {
     "count": 2,
-    "item": "wooden_accents_mod:cherry_plank_bookshelf"
-  },
-  "show_notification": true
+    "id": "wooden_accents_mod:cherry_plank_bookshelf"
+  }
 }
