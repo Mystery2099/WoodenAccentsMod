@@ -66,15 +66,13 @@ public class SeatEntity extends Entity {
 
     @Override
     protected Vec3 getPassengerAttachmentPoint(Entity passenger, EntityDimensions dimensions, float partialTick) {
-        // Clear the seat's front edge with vanilla's downward-angled thighs.
-        // Keep the rider height independent of this entity's tiny hitbox.
-        return new Vec3(0.0, 1.0 / 16.0, 0.0);
-    }
-
-    @Override
-    public Vec3 getVehicleAttachmentPoint(Entity vehicle) {
-        // Ride directly on top of this entity's position instead of its default attachment.
-        return Vec3.ZERO;
+        // NOTE: `dimensions` here is the vehicle's own EntityDimensions (a 0.01 cube for
+        // the seat), not the rider's. The engine mounts the rider at
+        // (this.position() + this attachment) minus the rider's own vehicle attachment
+        // (0.6 for players, AT_FEET for others), and the sitting pose anchors the rider's
+        // butt back at mount + that same attachment, leaving a rider-size-agnostic butt
+        // at seat.y + 0.325 — right on the chair's seat plank.
+        return new Vec3(0.0, 0.325, 0.0);
     }
 
     @Override
