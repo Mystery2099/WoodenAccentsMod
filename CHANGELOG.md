@@ -2,6 +2,23 @@
 
 This file tracks player-visible changes and anything maintainers need to know before publishing a release. Release headings must match `mod_version` in `gradle.properties` so the publishing workflow can use the section as its release notes.
 
+## [1.20.6-1.1.4.3] - 2026-09-22
+
+### Changed
+
+- Ported Wooden Accents to Minecraft 1.20.6 with Fabric API 0.100.8+1.20.6 on Java 21.
+- Moved item NBT usage to the data component system; coffee table variants now persist as a registered data component.
+- Reworked crate item contents to vanilla shulker-box-style container components.
+- Replaced raw NBT loot manipulation with component copy functions and item sub-predicate enchantment conditions.
+- Updated block codecs, entity save data threading, seat attachment points, advancement criteria, and datagen providers for the 1.20.6 APIs.
+- Regenerated data for the 1.20.6 formats and removed leftover unreferenced datapack files.
+
+### Fixed
+
+- Kept seat riders placed on chair seats by relocating the mount height to the 1.20.6 entity attachment system.
+
+[Full changelog](https://github.com/Mystery2099/WoodenAccentsMod/compare/v1.20.1-1.1.4.2...v1.20.6-1.1.4.3)
+
 ## [1.20.1-1.1.4.2] - 2026-09-22
 
 ### Changed
