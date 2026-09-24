@@ -1,5 +1,8 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.registries.BuiltInRegistries
 import com.github.mystery2099.voxlib.combination.VoxelAssembly
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
@@ -13,6 +16,7 @@ import com.github.mystery2099.woodenAccentsMod.data.client.ModModels
 import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.github.mystery2099.woodenAccentsMod.state.property.ModProperties
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.LadderBlock
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.phys.shapes.CollisionContext
@@ -41,6 +45,14 @@ class ConnectingLadderBlock(val baseBlock: Block) :
         if (baseBlock.defaultBlockState().ignitedByLava()) ignitedByLava()
     }) {
     override val tag: TagKey<Block> = ModBlockTags.connectingLadders
+
+    // vanilla LadderBlock declares its codec() as an invariant MapCodec<LadderBlock>, so the codec is typed against
+    // LadderBlock while decoding into ConnectingLadderBlock via its constructor reference.
+    override fun codec(): MapCodec<LadderBlock> = RecordCodecBuilder.mapCodec { instance ->
+        instance.group(
+            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("base_block").forGetter { (it as ConnectingLadderBlock).baseBlock }
+        ).apply(instance, ::ConnectingLadderBlock)
+    }
 
     init {
         registerDefaultState(defaultBlockState().withShape(left = false, right = false))

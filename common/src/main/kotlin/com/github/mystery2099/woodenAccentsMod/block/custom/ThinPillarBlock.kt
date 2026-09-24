@@ -1,5 +1,8 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.registries.BuiltInRegistries
 import com.github.mystery2099.voxlib.combination.VoxelAssembly
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.withBlockModelPath
 import com.github.mystery2099.woodenAccentsMod.block.itemModelId
@@ -18,6 +21,12 @@ import net.minecraft.resources.ResourceLocation
 class ThinPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape) {
     override val connectableBlockTag: TagKey<Block> = ModBlockTags.thinPillarsConnectable
     override val tag: TagKey<Block> = ModBlockTags.thinPillars
+
+    override fun codec(): MapCodec<out ThinPillarBlock> = RecordCodecBuilder.mapCodec { instance ->
+        instance.group(
+            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("base_block").forGetter { it.baseBlock }
+        ).apply(instance, ::ThinPillarBlock)
+    }
 
     override fun offerRecipeTo(recipeExporter: RecipeOutput) {
         this.offerRecipe(

@@ -1,5 +1,8 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.registries.BuiltInRegistries
 import com.github.mystery2099.voxlib.combination.VoxelAssembly
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
@@ -50,6 +53,13 @@ class DeskBlock(val baseBlock: Block, private val topBlock: Block) :
 
     override val itemGroup: ModItemGroup = ModItemGroup.FURNITURE
     override val tag: TagKey<Block> = ModBlockTags.desks
+
+    override fun codec(): MapCodec<out DeskBlock> = RecordCodecBuilder.mapCodec { instance ->
+        instance.group(
+            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("base_block").forGetter { it.baseBlock },
+            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("top_block").forGetter { it.topBlock }
+        ).apply(instance, ::DeskBlock)
+    }
     private val BlockState.isDesk: Boolean
         get() = this isIn tag
     private val BlockState.isDeskDrawer: Boolean
