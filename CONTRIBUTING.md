@@ -2,11 +2,11 @@
 
 Bug reports and focused pull requests are welcome. You do not need to ask before fixing a clear problem, but an issue is useful when a change affects gameplay or could reasonably be implemented more than one way.
 
-This project targets Minecraft 1.20.1 on Fabric. Please do not bundle unrelated version upgrades, large refactors, or formatting changes into a feature or bug fix. They make review harder and usually create more work than they save.
+This project targets Minecraft 1.20.6 on Fabric and NeoForge. Please do not bundle unrelated version upgrades, large refactors, or formatting changes into a feature or bug fix. They make review harder and usually create more work than they save.
 
 ## Development setup
 
-Use Java 21 if possible so your environment matches GitHub Actions. The mod itself targets Java 17.
+Use Java 25 for the Gradle daemon, as configured in `gradle/gradle-daemon-jvm.properties`. The mod itself targets Java 21.
 
 Clone the repository and run:
 
@@ -18,17 +18,17 @@ Windows users can replace `./gradlew` with `gradlew.bat` in every command.
 
 Useful tasks:
 
-- `./gradlew runClient` starts a development client.
-- `./gradlew runServer` starts a development server.
-- `./gradlew runDatagen` regenerates models, block states, recipes, loot tables, tags, language entries, and advancements.
-- `./gradlew build` compiles everything and creates the distributable JARs in `build/libs/`.
+- `./gradlew :fabric:runClient` or `:neoforge:runClient` starts a development client.
+- `./gradlew :fabric:runServer` or `:neoforge:runServer` starts a development server.
+- `./gradlew :fabric:runDatagen` regenerates the shared models, block states, recipes, loot tables, tags, language entries, and advancements.
+- `./gradlew build` compiles both loaders and creates distributable JARs in their respective `build/libs/` directories.
 
 ## Generated data
 
-Generated resources in `src/main/generated/` are committed on purpose. When changing a block, recipe, tag, model, loot table, language entry, or advancement:
+Generated resources in `common/src/main/generated/` are committed on purpose. When changing a block, recipe, tag, model, loot table, language entry, or advancement:
 
 1. Change the relevant data provider or source definition.
-2. Run `./gradlew runDatagen`.
+2. Run `./gradlew :fabric:runDatagen`.
 3. Review the generated diff before committing it.
 
 CI regenerates these resources and rejects stale or missing output. The data generator's `.cache/` directory is ignored and excluded from mod jars.

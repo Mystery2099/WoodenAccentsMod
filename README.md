@@ -6,7 +6,7 @@ Vanilla-scale furniture and structural accents for every wood type.
 
 ## About
 
-Wooden Accents adds wooden furniture, storage, and building blocks for Minecraft 1.20.1 on Fabric. I want the pieces to be simple, useful where it makes sense, and easy to work into your own builds.
+Wooden Accents adds wooden furniture, storage, and building blocks for Minecraft 1.20.6 on Fabric and NeoForge. I want the pieces to be simple, useful where it makes sense, and easy to work into your own builds.
 
 ![Default chairs](docs/images/chairs-default.webp)
 
@@ -50,7 +50,7 @@ Block tags define many of these connections, so data packs can change which bloc
 - Support beams that connect in all six directions
 - Thin and thick pillars that connect vertically
 
-Every block has a variant for each vanilla wood type in 1.20.1, including bamboo, cherry, crimson, and warped wood.
+Every block has a variant for each vanilla wood type in 1.20.6, including bamboo, cherry, crimson, and warped wood.
 
 ## Using the blocks
 
@@ -90,27 +90,26 @@ Picket fences, plank flooring, and narrow bookshelves previously had names based
 
 | | |
 |---|---|
-| Minecraft | 1.20.1 only |
-| Loader | Fabric (client and server) |
-| Java | 17 or newer |
+| Minecraft | 1.20.6 |
+| Loader | Fabric or NeoForge (client and server) |
+| Java | 21 or newer |
 
 ## Dependencies
 
 **Required**
 
-- [Fabric Loader 0.19.5 or newer](https://fabricmc.net/use/installer/)
-- [Fabric API 0.92.12+1.20.1 or newer](https://modrinth.com/mod/fabric-api)
-- [Fabric Language Kotlin 1.14.1+kotlin.2.4.20 or newer](https://modrinth.com/mod/fabric-language-kotlin)
-- [VoxLib 1.6.1+1.20.1 or newer](https://modrinth.com/mod/voxlib)
+- [VoxLib 1.7.0+1.20.6](https://modrinth.com/mod/voxlib) for your loader
+- Fabric: [Fabric Loader 0.19.5 or newer](https://fabricmc.net/use/installer/), [Fabric API 0.100.8+1.20.6 or newer](https://modrinth.com/mod/fabric-api), and [Fabric Language Kotlin 1.14.1+kotlin.2.4.20 or newer](https://modrinth.com/mod/fabric-language-kotlin)
+- NeoForge: [NeoForge 20.6.141 or newer](https://neoforged.net/) and [Kotlin for Forge 5.12.0 or newer](https://modrinth.com/mod/kotlin-for-forge)
 
 **Optional / recommended**
 
-- [Shulker Box Tooltip 4.0.4+1.20.1 or newer](https://modrinth.com/mod/shulkerboxtooltip) or [Easy Shulker Boxes](https://modrinth.com/mod/easy-shulker-boxes) for crate inventory previews
+- [Shulker Box Tooltip 4.2.2+1.20.6 or newer](https://modrinth.com/mod/shulkerboxtooltip) or [Easy Shulker Boxes](https://modrinth.com/mod/easy-shulker-boxes) for crate inventory previews
 - [Just Enough Items](https://modrinth.com/mod/jei) or [Roughly Enough Items](https://modrinth.com/mod/rei) for recipes
 
 ## Installation
 
-1. Install Fabric Loader 0.19.5 or newer for Minecraft 1.20.1.
+1. Install Fabric Loader or NeoForge for Minecraft 1.20.6.
 2. Install the required dependencies above (Modrinth usually pulls them in for you).
 3. Download Wooden Accents from Modrinth, CurseForge, or [GitHub Releases](https://github.com/Mystery2099/WoodenAccentsMod/releases).
 4. Put the mod JARs in your Minecraft `mods` folder.

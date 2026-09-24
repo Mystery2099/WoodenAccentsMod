@@ -12,6 +12,7 @@ object WoodenAccentsFabric : ModInitializer {
         WoodenAccentsMod.logger.info("Initializing ${WoodenAccentsMod.MOD_ID}")
         ModDataComponents.register()
         ModBlocks.register()
+        ModBlocks.registerItems()
         ModBlockEntities.register()
         ModEntities.register()
         ModCreativeTabs.register()

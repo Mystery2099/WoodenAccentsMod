@@ -5,12 +5,12 @@ plugins {
 
 // Root project: coordination only. Mod builds happen in the loader subprojects.//
 // Multiloader layout: `common` holds loader-agnostic code (blocks, entities, datagen interfaces).
-// Loader-specific projects (`fabric`, and later NeoForge) compile it against their own mappings and
+// Loader-specific projects (`fabric`, `neoforge`) compile it against their own mappings and
 // package it with loader glue, so each loader project owns its entrypoints, registration helpers
 // and loader-API integration.
 
 tasks.register("buildAll") {
 	group = "build"
 	description = "Builds every active loader."
-	dependsOn(":fabric:build")
+	dependsOn(":fabric:build", ":neoforge:build")
 }

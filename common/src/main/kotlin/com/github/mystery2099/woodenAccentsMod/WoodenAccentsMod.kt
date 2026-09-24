@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory
 
 /** Loader-agnostic core shared by every mod loader. */
 object WoodenAccentsMod {
-    internal const val MOD_ID = "wooden_accents_mod"
+    const val MOD_ID = "wooden_accents_mod"
 
     internal val logger: Logger = LoggerFactory.getLogger(MOD_ID)
 

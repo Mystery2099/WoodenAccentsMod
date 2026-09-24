@@ -219,5 +219,11 @@ publishMods {
 		commitish = providers.environmentVariable("GITHUB_SHA").orElse("master")
 		tagName = "v${project.version}"
 		additionalFiles.from(remapSourcesJar.archiveFile)
+		additionalFiles.from(project(':neoforge').layout.buildDirectory.file("libs/${project.archives_base_name}-neoforge-${project.mod_version}.jar"))
+		additionalFiles.from(project(':neoforge').layout.buildDirectory.file("libs/${project.archives_base_name}-neoforge-${project.mod_version}-sources.jar"))
 	}
+}
+
+tasks.named('publishGithub') {
+	dependsOn ':neoforge:jar', ':neoforge:sourcesJar'
 }

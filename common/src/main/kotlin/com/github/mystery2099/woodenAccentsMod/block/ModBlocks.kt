@@ -18,8 +18,21 @@ import net.minecraft.resources.ResourceLocation
 
 @Suppress("unused")
 object ModBlocks : WoodenAccentsModRegistry {
+    private data class BlockItemRegistration(val block: Block, val maxStackSize: Int)
+
     private val registries = mutableSetOf<Block>()
+    private val blockItems = linkedMapOf<ResourceLocation, BlockItemRegistration>()
     val blocks: Set<Block> = registries
+
+    fun registerItems() {
+        blockItems.forEach { (identifier, registration) ->
+            Registry.register(
+                BuiltInRegistries.ITEM,
+                identifier,
+                CustomBlockItem(registration.block, Item.Properties().stacksTo(registration.maxStackSize))
+            )
+        }
+    }
 
     // Seating
     val oakPlankChair = ChairBlock(Blocks.OAK_PLANKS).registerAs("oak_plank_chair")
@@ -670,11 +683,7 @@ object ModBlocks : WoodenAccentsModRegistry {
     private fun Block.registerAs(identifier: ResourceLocation, maxStackSize: Int = 64): Block {
         return Registry.register(BuiltInRegistries.BLOCK, identifier, this).also {
             registries += it
-            Registry.register(
-                BuiltInRegistries.ITEM,
-                identifier,
-                CustomBlockItem(it, Item.Properties().stacksTo(maxStackSize))
-            )
+            blockItems[identifier] = BlockItemRegistration(it, maxStackSize)
         }
     }
 }
