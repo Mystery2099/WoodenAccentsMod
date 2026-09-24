@@ -150,3 +150,7 @@ jar {
 		rename { "${it}_${baseName}" }
 	}
 }
+
+sourcesJar {
+	from(sourceSets.client.allSource)
+}
