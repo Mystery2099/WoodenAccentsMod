@@ -2,15 +2,23 @@
 
 This file tracks player-visible changes and anything maintainers need to know before publishing a release. Release headings must match `mod_version` in `gradle.properties` so the publishing workflow can use the section as its release notes.
 
-## [1.20.6-1.1.4.4] - Unreleased
+## [1.20.6-1.1.4.4] - 2026-09-24
+
+This is the first published 1.20.6 build for Fabric and NeoForge.
 
 ### Added
 
 - Added a NeoForge build for Minecraft 1.20.6 with the same blocks, items, creative tabs, renderers, and optional storage previews as Fabric.
 
+### Changed
+
+- Ported the Fabric build to Minecraft 1.20.6 and Java 21, including data component storage, block codecs, entity save data, advancement criteria, and generated resources.
+
 ### Fixed
 
 - Kept crates from accepting vanilla shulker boxes on either loader, even when the Fabric convention tag is absent.
+
+[Full changelog](https://github.com/Mystery2099/WoodenAccentsMod/compare/v1.20.1-1.1.4.2...v1.20.6-1.1.4.4)
 
 ## [1.20.6-1.1.4.3] - 2026-09-22
 
