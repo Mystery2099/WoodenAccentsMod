@@ -4,8 +4,9 @@ import net.minecraft.advancements.critereon.EnchantmentPredicate
 import net.minecraft.advancements.critereon.ItemEnchantmentsPredicate
 import net.minecraft.advancements.critereon.ItemPredicate
 import net.minecraft.advancements.critereon.ItemSubPredicates
-import net.minecraft.world.level.storage.loot.predicates.MatchTool
 import net.minecraft.advancements.critereon.MinMaxBounds
+import net.minecraft.core.HolderLookup
+import net.minecraft.core.registries.Registries
 import net.minecraft.world.item.enchantment.Enchantments
 import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.storage.loot.functions.ApplyExplosionDecay
@@ -14,6 +15,7 @@ import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunct
 import net.minecraft.world.level.storage.loot.predicates.ConditionUserBuilder
 import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition
+import net.minecraft.world.level.storage.loot.predicates.MatchTool
 
 /**
  * Loot-table helpers mirroring vanilla [net.minecraft.data.loot.BlockLootSubProvider]'s protected
@@ -21,17 +23,26 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition
  */
 object LootTableUtil {
     // Enchantment matching now goes through an item sub-predicate on DataComponents.ENCHANTMENTS.
-    val hasSilkTouch: LootItemCondition.Builder = MatchTool.toolMatches(
-        ItemPredicate.Builder.item()
-            .withSubPredicate(
-                ItemSubPredicates.ENCHANTMENTS,
-                ItemEnchantmentsPredicate.enchantments(
-                    listOf(EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1)))
+    fun hasSilkTouch(registries: HolderLookup.Provider): LootItemCondition.Builder {
+        val enchantments = registries.lookupOrThrow(Registries.ENCHANTMENT)
+        return MatchTool.toolMatches(
+            ItemPredicate.Builder.item()
+                .withSubPredicate(
+                    ItemSubPredicates.ENCHANTMENTS,
+                    ItemEnchantmentsPredicate.enchantments(
+                        listOf(
+                            EnchantmentPredicate(
+                                enchantments.getOrThrow(Enchantments.SILK_TOUCH),
+                                MinMaxBounds.Ints.atLeast(1)
+                            )
+                        )
+                    )
                 )
-            )
-    )
+        )
+    }
 
-    val hasNoSilkTouch: LootItemCondition.Builder = hasSilkTouch.invert()
+    fun hasNoSilkTouch(registries: HolderLookup.Provider): LootItemCondition.Builder =
+        hasSilkTouch(registries).invert()
 
     /** Drops only survive if the entity wasn't caught in an explosion that destroyed the block. */
     fun <T : ConditionUserBuilder<T>> applyExplosionCondition(item: ItemLike, builder: T): T {

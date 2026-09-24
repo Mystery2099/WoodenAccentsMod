@@ -59,7 +59,7 @@ object ModBlockTags {
 
     val chairs = "chairs".toBlockTag().createMatchingItemTag()
     private fun String.toBlockTag(namespace: String = WoodenAccentsMod.MOD_ID): TagKey<Block> {
-        return TagKey.create(Registries.BLOCK, ResourceLocation(namespace, this))
+        return TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(namespace, this))
     }
 
     /** Records a same-ID item tag for data generation and returns this block tag unchanged. */

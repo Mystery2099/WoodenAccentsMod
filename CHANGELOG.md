@@ -2,6 +2,13 @@
 
 This file tracks player-visible changes and anything maintainers need to know before publishing a release. Release headings must match `mod_version` in `gradle.properties` so the publishing workflow can use the section as its release notes.
 
+## [1.21.1-1.1.4.5] - Unreleased
+
+### Changed
+
+- Ported Fabric and NeoForge builds to Minecraft 1.21.1.
+- Updated Fabric API to 0.116.17+1.21.1, NeoForge to 21.1.251, VoxLib to 1.8.0+1.21.1, and Shulker Box Tooltip to 5.1.9+1.21.1.
+
 ## [1.20.6-1.1.4.4] - 2026-09-24
 
 This is the first published 1.20.6 build for Fabric and NeoForge.

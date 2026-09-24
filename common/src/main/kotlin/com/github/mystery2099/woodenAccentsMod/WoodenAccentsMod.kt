@@ -13,7 +13,8 @@ object WoodenAccentsMod {
 
     internal val logger: Logger = LoggerFactory.getLogger(MOD_ID)
 
-    fun String.toIdentifier(namespace: String = MOD_ID): ResourceLocation = ResourceLocation(namespace, this)
+    fun String.toIdentifier(namespace: String = MOD_ID): ResourceLocation =
+        ResourceLocation.fromNamespaceAndPath(namespace, this)
 
     fun ResourceLocation.withBlockModelPath(): ResourceLocation = this.withPrefix("block/")
 

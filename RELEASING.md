@@ -36,6 +36,7 @@ The current migration sequence. Each listed build publishes under the shown vers
 | 1.20.1 | Split into common and Fabric modules | `1.20.1-1.1.4.2` | Alpha |
 | 1.20.6 | Port the common module and Fabric build | `1.20.6-1.1.4.3` | Merged, not published |
 | 1.20.6 | Add NeoForge loader with Fabric feature parity | `1.20.6-1.1.4.4` | Alpha |
+| 1.21.1 | Port Fabric and NeoForge to Minecraft 1.21.1 | `1.21.1-1.1.4.5` | Alpha |
 | 1.21.1 | Fully tested target release | `1.21.1-1.2.0.0` | Stable |
 
 Once the `1.21.1` line exists, create permanent `1.20.1` and `1.20.6` branches from the final commit of each Minecraft line for future maintenance fixes. Apply fixes on the relevant branch and forward-port them while they still apply.

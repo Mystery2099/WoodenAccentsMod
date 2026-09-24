@@ -14,6 +14,7 @@ import com.github.mystery2099.woodenAccentsMod.registry.tag.ModBlockTags
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.HolderLookup
 import net.minecraft.world.level.block.*
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.entity.BlockEntity
@@ -219,7 +220,7 @@ class CrateBlock(val baseBlock: Block, private val edgeBlock: Block) :
         }
     }
 
-    override fun getLootTableBuilder(): LootTable.Builder {
+    override fun getLootTableBuilder(registries: HolderLookup.Provider): LootTable.Builder {
         // Mirrors vanilla shulker box drops: name, contents, lock, and loot table ride the item as components.
         return LootTable.lootTable().withPool(
             LootTableUtil.applyExplosionCondition(

@@ -44,7 +44,7 @@ class AdvancementDataGen(output: FabricDataOutput, registries: CompletableFuture
                 ModBlocks.oakPlankTable,
                 Component.literal("Wooden Accents Mod"),
                 Component.literal("Add some charm and warmth to your world with the Wooden Accents Mod"),
-                ResourceLocation("textures/gui/advancements/backgrounds/adventure.png"),
+                ResourceLocation.withDefaultNamespace("textures/gui/advancements/backgrounds/adventure.png"),
                 AdvancementType.TASK,
                 true,
                 false,

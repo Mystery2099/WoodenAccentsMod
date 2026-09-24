@@ -66,6 +66,7 @@ import net.minecraft.world.level.storage.loot.entries.LootItem
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.HolderLookup
 class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
     BaseEntityBlock(BlockBehaviour.Properties.ofFullCopy(baseBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider,
@@ -163,7 +164,7 @@ class KitchenCabinetBlock(val baseBlock: Block, private val topBlock: Block) :
     override fun mirror(state: BlockState, mirror: Mirror): BlockState =
         state.rotate(mirror.getRotation(state.getValue(facing)))
 
-    override fun getLootTableBuilder(): LootTable.Builder =
+    override fun getLootTableBuilder(registries: HolderLookup.Provider): LootTable.Builder =
         LootTable.lootTable().withPool(
             LootTableUtil.applyExplosionCondition(
                 this,

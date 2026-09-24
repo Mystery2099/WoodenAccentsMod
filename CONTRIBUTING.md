@@ -2,7 +2,7 @@
 
 Bug reports and focused pull requests are welcome. You do not need to ask before fixing a clear problem, but an issue is useful when a change affects gameplay or could reasonably be implemented more than one way.
 
-This project targets Minecraft 1.20.6 on Fabric and NeoForge. Please do not bundle unrelated version upgrades, large refactors, or formatting changes into a feature or bug fix. They make review harder and usually create more work than they save.
+This project targets Minecraft 1.21.1 on Fabric and NeoForge. Please do not bundle unrelated version upgrades, large refactors, or formatting changes into a feature or bug fix. They make review harder and usually create more work than they save.
 
 ## Development setup
 
