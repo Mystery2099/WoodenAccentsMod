@@ -4,11 +4,15 @@ This file tracks player-visible changes and anything maintainers need to know be
 
 ## [1.20.6-1.1.4.4] - 2026-09-24
 
-This is the first published 1.20.6 build. It includes the Fabric port recorded under 1.20.6-1.1.4.3 below.
+This is the first published 1.20.6 build for Fabric and NeoForge.
 
 ### Added
 
 - Added a NeoForge build for Minecraft 1.20.6 with the same blocks, items, creative tabs, renderers, and optional storage previews as Fabric.
+
+### Changed
+
+- Ported the Fabric build to Minecraft 1.20.6 and Java 21, including data component storage, block codecs, entity save data, advancement criteria, and generated resources.
 
 ### Fixed
 
