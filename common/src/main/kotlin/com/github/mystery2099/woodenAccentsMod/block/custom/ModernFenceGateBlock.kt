@@ -1,5 +1,9 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
+import com.mojang.serialization.DataResult
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.registries.BuiltInRegistries
 import com.github.mystery2099.voxlib.combination.VoxelAssembly
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
 import com.github.mystery2099.woodenAccentsMod.block.woodType
@@ -27,11 +31,22 @@ import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.world.phys.shapes.VoxelShape
 import net.minecraft.world.level.BlockGetter
 
-class ModernFenceGateBlock(baseGate: FenceGateBlock, val baseBlock: Block
+class ModernFenceGateBlock(val baseGate: FenceGateBlock, val baseBlock: Block
 ) : FenceGateBlock(baseGate.woodType, Properties.ofFullCopy(baseGate)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.modernFenceGates
     override val itemGroup = ModItemGroup.BUILDING
+
+    // FenceGateBlock fixes the codec type to FenceGateBlock, so getters receive that parent type.
+    override fun codec(): MapCodec<FenceGateBlock> = RecordCodecBuilder.mapCodec { instance ->
+        instance.group(
+            BuiltInRegistries.BLOCK.byNameCodec().comapFlatMap(
+                { if (it is FenceGateBlock) DataResult.success(it) else DataResult.error { "Expected a fence gate block" } },
+                { it }
+            ).fieldOf("base_gate").forGetter { (it as ModernFenceGateBlock).baseGate },
+            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("base_block").forGetter { (it as ModernFenceGateBlock).baseBlock }
+        ).apply(instance, ::ModernFenceGateBlock)
+    }
 
     @Deprecated("Deprecated in Java")
     override fun getShape(

@@ -1,5 +1,8 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.registries.BuiltInRegistries
 import com.github.mystery2099.voxlib.combination.VoxelAssembly
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
@@ -77,6 +80,12 @@ class BracketShelfBlock(val baseBlock: Block) : AbstractWaterloggableBlock(
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
         super.createBlockStateDefinition(builder)
         builder.add(facing, left, right)
+    }
+
+    override fun codec(): MapCodec<out BracketShelfBlock> = RecordCodecBuilder.mapCodec { instance ->
+        instance.group(
+            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("base_block").forGetter { it.baseBlock }
+        ).apply(instance, ::BracketShelfBlock)
     }
 
     override fun getStateForPlacement(ctx: BlockPlaceContext): BlockState {

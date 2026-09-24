@@ -173,7 +173,6 @@ class ChairBlock(settings: Properties, val baseBlock: Block) : HorizontalDirecti
 
     override fun codec(): MapCodec<ChairBlock> = RecordCodecBuilder.mapCodec { instance ->
         instance.group(
-            propertiesCodec(),
             BuiltInRegistries.BLOCK.byNameCodec().fieldOf("base").forGetter { it.baseBlock }
         ).apply(instance, ::ChairBlock)
     }

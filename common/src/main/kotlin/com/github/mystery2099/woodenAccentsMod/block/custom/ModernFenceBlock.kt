@@ -1,5 +1,8 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.registries.BuiltInRegistries
 import com.github.mystery2099.voxlib.combination.VoxelAssembly
 import com.github.mystery2099.voxlib.combination.VoxelAssembly.plus
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
@@ -33,11 +36,20 @@ import net.minecraft.world.phys.shapes.VoxelShape
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.block.state.BlockBehaviour
 
-class ModernFenceBlock(settings: Block, private val sideBlock: Block, private val postBlock: Block) :
-    FenceBlock(Properties.ofFullCopy(settings)),
+class ModernFenceBlock(val settingsBlock: Block, private val sideBlock: Block, private val postBlock: Block) :
+    FenceBlock(Properties.ofFullCopy(settingsBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.modernFences
     override val itemGroup = ModItemGroup.BUILDING
+
+    // FenceBlock fixes the codec type to FenceBlock, so getters receive that parent type.
+    override fun codec(): MapCodec<FenceBlock> = RecordCodecBuilder.mapCodec { instance ->
+        instance.group(
+            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("settings_block").forGetter { (it as ModernFenceBlock).settingsBlock },
+            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("side_block").forGetter { (it as ModernFenceBlock).sideBlock },
+            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("post_block").forGetter { (it as ModernFenceBlock).postBlock }
+        ).apply(instance, ::ModernFenceBlock)
+    }
 
     override fun connectsTo(state: BlockState, neighborIsFullSquare: Boolean, dir: Direction): Boolean {
         return !isExceptionForConnection(state) && neighborIsFullSquare || state isIn ModBlockTags.modernFenceConnectable

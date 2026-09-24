@@ -1,5 +1,8 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.registries.BuiltInRegistries
 import com.github.mystery2099.woodenAccentsMod.block.textureId
 import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.asBlockStateVariant
 import com.github.mystery2099.woodenAccentsMod.data.client.BlockStateVariantUtil.withYRotationOf
@@ -30,6 +33,13 @@ class KitchenCounterBlock(baseBlock: Block, topBlock: Block) : AbstractKitchenCo
     CustomItemGroupProvider, CustomTagProvider<Block>, CustomRecipeProvider, CustomBlockStateProvider {
     override val tag: TagKey<Block> = ModBlockTags.kitchenCounters
     override val itemGroup: ModItemGroup = ModItemGroup.FURNITURE
+
+    override fun codec(): MapCodec<out KitchenCounterBlock> = RecordCodecBuilder.mapCodec { instance ->
+        instance.group(
+            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("base_block").forGetter { it.baseBlock },
+            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("top_block").forGetter { it.topBlock }
+        ).apply(instance, ::KitchenCounterBlock)
+    }
 
     override fun generateBlockStateModels(generator: BlockModelGenerators) {
         val block = this

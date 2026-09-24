@@ -1,5 +1,8 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.registries.BuiltInRegistries
 import com.github.mystery2099.voxlib.combination.VoxelAssembly
 import com.github.mystery2099.voxlib.combination.VoxelAssembly.appendShapes
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
@@ -76,6 +79,13 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
 
     override val tag: TagKey<Block> = ModBlockTags.coffeeTables
     override val itemGroup = ModItemGroup.FURNITURE
+
+    override fun codec(): MapCodec<out CoffeeTableBlock> = RecordCodecBuilder.mapCodec { instance ->
+        instance.group(
+            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("base_block").forGetter { it.baseBlock },
+            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("top_block").forGetter { it.topBlock }
+        ).apply(instance, ::CoffeeTableBlock)
+    }
 
     private val BlockState.isTall: Boolean
         get() = getOptionalValue(type) == Optional.of(CoffeeTableTypes.TALL)

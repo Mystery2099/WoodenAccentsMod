@@ -1,5 +1,8 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.registries.BuiltInRegistries
 import com.github.mystery2099.woodenAccentsMod.block.modelId
 import com.github.mystery2099.woodenAccentsMod.block.textureId
 import com.github.mystery2099.woodenAccentsMod.data.generation.RecipeUtil.customGroup
@@ -34,6 +37,12 @@ class CustomCarpetBlock(val baseBlock: Block) : CarpetBlock(
 
     override val itemGroup = ModItemGroup.BUILDING
     override val tag: TagKey<Block> = ModBlockTags.plankCarpets
+
+    override fun codec(): MapCodec<out CustomCarpetBlock> = RecordCodecBuilder.mapCodec { instance ->
+        instance.group(
+            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("base_block").forGetter { it.baseBlock }
+        ).apply(instance, ::CustomCarpetBlock)
+    }
     override fun offerRecipeTo(recipeExporter: RecipeOutput) {
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, 3).apply {
             define('#', baseBlock)

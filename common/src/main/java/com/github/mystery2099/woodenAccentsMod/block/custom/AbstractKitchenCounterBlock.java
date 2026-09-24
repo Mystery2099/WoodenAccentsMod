@@ -56,7 +56,7 @@ public abstract class AbstractKitchenCounterBlock extends AbstractWaterloggableB
     private static final Map<Pair<Direction, StairsShape>, VoxelShape> SHAPE_MAP = createShapeMap();
     private static final Map<Pair<Direction, StairsShape>, VoxelShape> OUTLINE_SHAPE_MAP = createOutlineShapeMap();
 
-    private final Block topBlock, baseBlock;
+    protected final Block topBlock, baseBlock;
     public AbstractKitchenCounterBlock(Block baseBlock, Block topBlock) {
         super(BlockBehaviour.Properties.ofFullCopy(baseBlock));
         this.baseBlock = baseBlock;

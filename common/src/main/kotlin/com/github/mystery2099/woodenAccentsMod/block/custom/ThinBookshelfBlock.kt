@@ -1,5 +1,9 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
+import net.minecraft.world.level.block.ChiseledBookShelfBlock
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.registries.BuiltInRegistries
 import com.github.mystery2099.voxlib.combination.VoxelAssembly
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.rotateLeft
@@ -41,6 +45,14 @@ class ThinBookshelfBlock(val baseBlock: Block) :
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {
 
     override val tag: TagKey<Block> = ModBlockTags.thinBookshelves
+
+    // vanilla ChiseledBookShelfBlock declares its codec() as an invariant MapCodec<ChiseledBookShelfBlock>, so the
+    // codec is typed against ChiseledBookShelfBlock while decoding into ThinBookshelfBlock.
+    override fun codec(): MapCodec<ChiseledBookShelfBlock> = RecordCodecBuilder.mapCodec { instance ->
+        instance.group(
+            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("base_block").forGetter { (it as ThinBookshelfBlock).baseBlock }
+        ).apply(instance, ::ThinBookshelfBlock)
+    }
     override val itemGroup: ModItemGroup = ModItemGroup.STORAGE
 
     @Deprecated("Deprecated in Java")

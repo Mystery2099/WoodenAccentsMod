@@ -1,5 +1,8 @@
 package com.github.mystery2099.woodenAccentsMod.block.custom
 
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.registries.BuiltInRegistries
 import com.github.mystery2099.voxlib.combination.VoxelAssembly
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.toIdentifier
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.withBlockModelPath
@@ -22,6 +25,12 @@ import net.minecraft.world.level.BlockGetter
 class ThickPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape) {
     override val connectableBlockTag: TagKey<Block> = ModBlockTags.thickPillarsConnectable
     override val tag: TagKey<Block> = ModBlockTags.thickPillars
+
+    override fun codec(): MapCodec<out ThickPillarBlock> = RecordCodecBuilder.mapCodec { instance ->
+        instance.group(
+            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("base_block").forGetter { it.baseBlock }
+        ).apply(instance, ::ThickPillarBlock)
+    }
 
     @Deprecated("Deprecated in Java")
     @Suppress("DEPRECATION")
