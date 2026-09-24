@@ -2,6 +2,16 @@
 
 This file tracks player-visible changes and anything maintainers need to know before publishing a release. Release headings must match `mod_version` in `gradle.properties` so the publishing workflow can use the section as its release notes.
 
+## [1.20.6-1.1.4.4] - Unreleased
+
+### Added
+
+- Added a NeoForge build for Minecraft 1.20.6 with the same blocks, items, creative tabs, renderers, and optional storage previews as Fabric.
+
+### Fixed
+
+- Kept crates from accepting vanilla shulker boxes on either loader, even when the Fabric convention tag is absent.
+
 ## [1.20.6-1.1.4.3] - 2026-09-22
 
 ### Changed

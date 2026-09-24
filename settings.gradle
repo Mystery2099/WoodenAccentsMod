@@ -16,3 +16,4 @@ pluginManagement {
 rootProject.name = 'WoodenAccentsMod'
 include('common')
 include('fabric')
+include('neoforge')

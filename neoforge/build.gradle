@@ -1,0 +1,165 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+plugins {
+	id 'net.neoforged.moddev' version "$moddev_version"
+	id "org.jetbrains.kotlin.jvm"
+}
+
+version = "${project.mod_version}"
+group = "${project.maven_group}"
+
+base {
+	// Loader builds share one version and differ by artifact name (see RELEASING.md).
+	archivesName = "${project.archives_base_name}-neoforge"
+}
+
+repositories {
+	maven { url = uri("https://thedarkcolour.github.io/KotlinForForge/") }
+	maven { url = uri("https://maven.misterpemodder.com/libs-release/") }
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "Modrinth"
+				url = uri("https://api.modrinth.com/maven")
+			}
+		}
+		filter {
+			includeGroup "maven.modrinth"
+		}
+	}
+}
+
+def commonCodeDir = project(':common').file('src/main/kotlin')
+def commonResourcesDir = project(':common').file('src/main/resources')
+def commonGeneratedDir = project(':common').file('src/main/generated')
+def commonClientCodeDir = project(':common').file('src/client/kotlin')
+
+sourceSets {
+	main {
+		resources {
+			srcDirs += commonGeneratedDir
+			exclude '.cache/**'
+		}
+	}
+	// Client-only glue lives in its own source set; NeoForge has no runtime split,
+	// so its classes are packaged into the mod jar below.
+	client {
+		compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+		runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+	}
+}
+
+// Setting the version enables mod development and wires the Minecraft/NeoForge
+// artifacts into the main source set; the client source set needs them explicitly.
+neoForge {
+	version = "${project.neoforge_version}"
+	addModdingDependenciesTo sourceSets.client
+
+	// Validate accesstransformer.cfg targets against the remapped Minecraft jar.
+	validateAccessTransformers = true
+
+	runs {
+		client {
+			client()
+			ideName = "NeoForge Client"
+			sourceSet = sourceSets.client
+		}
+		server {
+			server()
+			ideName = "NeoForge Server"
+		}
+		// Adds a gradle task "runDatagen". Output goes to build/datagen-compare instead of the
+		// Fabric-generated common/src/main/generated so both loaders' output can be compared.
+		datagen {
+			data()
+			ideName = "NeoForge Data Generation"
+			gameDirectory = layout.buildDirectory.dir("datagen")
+			programArguments = [
+				"--mod", "${archives_base_name}",
+				"--all",
+				"--output", layout.buildDirectory.dir("datagen-compare").get().asFile.absolutePath,
+				"--existing", commonResourcesDir.absolutePath
+			]
+		}
+	}
+
+	mods {
+		wooden_accents_mod {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
+}
+
+// Recompile the loader-agnostic common sources against NeoForge's Mojang-mapped Minecraft.
+kotlin {
+	sourceSets {
+		main {
+			kotlin {
+				srcDir commonCodeDir
+			}
+		}
+		client {
+			kotlin {
+				srcDir commonClientCodeDir
+			}
+		}
+	}
+}
+
+sourceSets.main.java {
+	srcDir project(':common').file('src/main/java')
+}
+
+java {
+	withSourcesJar()
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
+}
+
+dependencies {
+	// To change the versions see the gradle.properties file
+	implementation "thedarkcolour:kotlinforforge-neoforge:${project.kotlinforforge_version}"
+
+	implementation("com.misterpemodder:shulkerboxtooltip-neoforge:${project.shulker_box_tooltip_version}") { transitive = false }
+	implementation "maven.modrinth:voxlib:${project.voxlib_neoforge_version}"
+}
+
+processResources {
+	def projectVersion = version
+	inputs.property "version", projectVersion
+
+	// Hand-made common resources; duplicates resolve in favor of hand-made content.
+	duplicatesStrategy = DuplicatesStrategy.INCLUDE
+	from(commonResourcesDir)
+
+	filesMatching("META-INF/neoforge.mods.toml") {
+		expand "version": projectVersion
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release.set(21)
+}
+
+kotlin {
+	compilerOptions {
+		jvmTarget = JvmTarget.JVM_21
+	}
+}
+
+tasks.withType(Jar).configureEach {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+jar {
+	// NeoForge has no client/server environment split, so client-source classes ship in the mod jar.
+	from(sourceSets.client.output)
+
+	// Capture indices_base property up front so the rename closure stays
+	// compatible with the Gradle configuration cache.
+	def baseName = archives_base_name
+	from("../LICENSE") {
+		rename { "${it}_${baseName}" }
+	}
+}
