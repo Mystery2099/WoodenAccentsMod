@@ -68,19 +68,6 @@ neoForge {
 			server()
 			ideName = "NeoForge Server"
 		}
-		// Adds a gradle task "runDatagen". Output goes to build/datagen-compare instead of the
-		// Fabric-generated common/src/main/generated so both loaders' output can be compared.
-		datagen {
-			data()
-			ideName = "NeoForge Data Generation"
-			gameDirectory = layout.buildDirectory.dir("datagen")
-			programArguments = [
-				"--mod", "${archives_base_name}",
-				"--all",
-				"--output", layout.buildDirectory.dir("datagen-compare").get().asFile.absolutePath,
-				"--existing", commonResourcesDir.absolutePath
-			]
-		}
 	}
 
 	mods {
