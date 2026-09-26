@@ -70,6 +70,7 @@ import net.minecraft.data.recipes.RecipeOutput
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.HolderLookup
 
 class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
     WaterloggableBlockWithEntity(BlockBehaviour.Properties.ofFullCopy(baseBlock).mapColor(baseBlock.defaultMapColor())),
@@ -235,7 +236,7 @@ class DeskDrawerBlock(private val edgeBlock: Block, val baseBlock: Block) :
 
     override fun codec(): MapCodec<DeskDrawerBlock> = CODEC
 
-    override fun getLootTableBuilder(): LootTable.Builder {
+    override fun getLootTableBuilder(registries: HolderLookup.Provider): LootTable.Builder {
         return LootTable.lootTable().withPool(
             LootTableUtil.applyExplosionCondition(
                 this,

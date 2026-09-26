@@ -26,7 +26,7 @@ object WoodenAccentsModClient : ClientModInitializer {
         }
 		ModBlocks.blocks.filterIsInstance<CoffeeTableBlock>().forEach {
 			ItemProperties.register(
-				it.asItem(), ResourceLocation("height")
+				it.asItem(), ResourceLocation.withDefaultNamespace("height")
 			) { itemStack, _, _, _ ->
 				if (itemStack.get(ModDataComponents.coffeeTableType) != CoffeeTableTypes.TALL) 0.5f else 1.0f
 			}

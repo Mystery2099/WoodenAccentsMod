@@ -3,6 +3,7 @@ package com.github.mystery2099.woodenAccentsMod.block.custom
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.HolderLookup
 import com.github.mystery2099.voxlib.combination.VoxelAssembly
 import com.github.mystery2099.voxlib.combination.VoxelAssembly.appendShapes
 import com.github.mystery2099.voxlib.rotation.VoxelRotation.flip
@@ -307,7 +308,7 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
         })
     }
     @Suppress("DEPRECATION")
-    override fun getLootTableBuilder(): LootTable.Builder {
+    override fun getLootTableBuilder(registries: HolderLookup.Provider): LootTable.Builder {
         val tallStatePredicate = StatePropertiesPredicate.Builder.properties().hasProperty(type, CoffeeTableTypes.TALL)
         val whenBlockIsTall = LootItemBlockStatePropertyCondition.hasBlockStateProperties(this).setProperties(tallStatePredicate)
         return LootTable.lootTable().withPool(
@@ -315,10 +316,10 @@ class CoffeeTableBlock(val baseBlock: Block, private val topBlock: Block) :
                 LootTableUtil.applyExplosionDecay(
                     this, LootItem.lootTableItem(this).apply(
                         SetItemCountFunction.setCount(ConstantValue.exactly(2.0f))
-                            .let { LootTableUtil.conditionally(it, LootTableUtil.hasNoSilkTouch, whenBlockIsTall) }
+                            .let { LootTableUtil.conditionally(it, LootTableUtil.hasNoSilkTouch(registries), whenBlockIsTall) }
                     ).apply(
                         SetComponentsFunction.setComponent(ModDataComponents.coffeeTableType, CoffeeTableTypes.TALL)
-                            .let { LootTableUtil.conditionally(it, LootTableUtil.hasSilkTouch, whenBlockIsTall) }
+                            .let { LootTableUtil.conditionally(it, LootTableUtil.hasSilkTouch(registries), whenBlockIsTall) }
                     )
                 )
             )

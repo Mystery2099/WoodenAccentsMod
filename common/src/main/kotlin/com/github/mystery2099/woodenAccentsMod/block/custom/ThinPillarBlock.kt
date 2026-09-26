@@ -41,7 +41,8 @@ class ThinPillarBlock(baseBlock: Block) : AbstractPillarBlock(baseBlock, shape) 
         val map = TextureMapping.cube(this.baseBlock)
         generator.blockStateOutput.accept(
             this.genBlockStateModelSupplier(
-                centerModel = ResourceLocation("${this.woodType.name.lowercase()}_fence_post").withBlockModelPath(),
+                centerModel = ResourceLocation.withDefaultNamespace("${this.woodType.name.lowercase()}_fence_post")
+                    .withBlockModelPath(),
                 bottomModel = ModModels.thinPillarBottom.create(this, map, generator.modelOutput)
             )
         )

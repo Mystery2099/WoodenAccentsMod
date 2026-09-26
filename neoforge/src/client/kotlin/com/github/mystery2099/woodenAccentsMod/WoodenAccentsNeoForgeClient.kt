@@ -46,7 +46,7 @@ class WoodenAccentsNeoForgeClient(modBus: IEventBus) {
                 ItemBlockRenderTypes.setRenderLayer(it, RenderType.cutout())
             }
             ModBlocks.blocks.filterIsInstance<CoffeeTableBlock>().forEach {
-                ItemProperties.register(it.asItem(), ResourceLocation("height")) { stack, _, _, _ ->
+                ItemProperties.register(it.asItem(), ResourceLocation.withDefaultNamespace("height")) { stack, _, _, _ ->
                     if (stack.get(ModDataComponents.coffeeTableType) != CoffeeTableTypes.TALL) 0.5f else 1.0f
                 }
             }

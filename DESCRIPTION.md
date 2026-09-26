@@ -10,7 +10,7 @@ The goal isn't really to push one specific furniture style or completely change 
 
 ## What's Included?
 
-Wooden Accents adds a mix of furniture, storage, and structural blocks, with variants for every vanilla wood type available in Minecraft 1.20.6.
+Wooden Accents adds a mix of furniture, storage, and structural blocks, with variants for every vanilla wood type available in Minecraft 1.21.1.
 
 ### Furniture
 
@@ -75,16 +75,16 @@ Pretty much every block family has variants for every vanilla wood type availabl
 
 Wooden Accents currently supports:
 
-* **Minecraft 1.20.6**
+* **Minecraft 1.21.1**
 * **Fabric or NeoForge**
 * **Java 21+**
 * Client and dedicated servers
 
 ### Required Dependencies
 
-* [VoxLib 1.7.0+1.20.6](https://modrinth.com/mod/voxlib) for your loader
-* Fabric: [Fabric API 0.100.8+1.20.6](https://modrinth.com/mod/fabric-api) and [Fabric Language Kotlin 1.14.1+kotlin.2.4.20](https://modrinth.com/mod/fabric-language-kotlin)
-* NeoForge: [NeoForge 20.6.141](https://neoforged.net/) and [Kotlin for Forge 5.12.0](https://modrinth.com/mod/kotlin-for-forge)
+* [VoxLib 1.8.0+1.21.1](https://modrinth.com/mod/voxlib) for your loader
+* Fabric: [Fabric API 0.116.17+1.21.1](https://modrinth.com/mod/fabric-api) and [Fabric Language Kotlin 1.14.1+kotlin.2.4.20](https://modrinth.com/mod/fabric-language-kotlin)
+* NeoForge: [NeoForge 21.1.251](https://neoforged.net/) and [Kotlin for Forge 5.12.0](https://modrinth.com/mod/kotlin-for-forge)
 
 If you're installing through the Modrinth App, it should handle these dependencies for you anyway.
 
@@ -97,9 +97,9 @@ Wooden Accents doesn't require these, but they make a few parts of the mod nicer
 
 ## Version Support & What's Next
 
-**Minecraft 1.20.6 is the current supported version of Wooden Accents.** It has Fabric and NeoForge builds. The 1.20.1 Fabric release remains available for older worlds.
+**Minecraft 1.21.1 is the current supported version of Wooden Accents.** It has Fabric and NeoForge builds. Older 1.20.1 and 1.20.6 builds remain available for older worlds.
 
-The next planned target is **Minecraft 1.21.1**. I will keep the existing content working before adding another large set of blocks.
+`1.21.1-1.2.0.0` is the current stable release on this line. The next focus is new content such as modular bridges and benches, plus keeping older Minecraft lines on maintenance branches.
 
 I don't plan to maintain many active Minecraft versions at once. Once development moves forward, older versions will stay available and receive only important fixes.
 

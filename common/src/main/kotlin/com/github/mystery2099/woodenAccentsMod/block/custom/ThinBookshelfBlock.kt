@@ -40,6 +40,11 @@ import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.block.state.BlockBehaviour
 
+/**
+ * Narrow chiseled bookshelf that reuses vanilla's chiseled-bookshelf block entity and interaction logic.
+ * Fabric and NeoForge each add these blocks to [net.minecraft.world.level.block.entity.BlockEntityType.CHISELED_BOOKSHELF]
+ * so [net.minecraft.world.level.block.entity.ChiseledBookShelfBlockEntity] accepts them.
+ */
 class ThinBookshelfBlock(val baseBlock: Block) :
     ChiseledBookShelfBlock(Properties.ofFullCopy(baseBlock)),
     CustomItemGroupProvider, CustomRecipeProvider, CustomTagProvider<Block>, CustomBlockStateProvider {

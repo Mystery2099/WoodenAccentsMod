@@ -54,7 +54,7 @@ class BlockLootTableDataGen(dataOutput: FabricDataOutput, registryLookup: Comple
 
     private fun CustomBlockLootTableProvider.addCustomDrop() {
         if (this is Block) {
-            add(this, this.getLootTableBuilder())
+            add(this, this.getLootTableBuilder(registries))
         } else {
             WoodenAccentsMod.logger.info("Interface: ${CustomBlockLootTableProvider::class.simpleName} must be used on a class which extends Block!")
         }
