@@ -40,7 +40,12 @@ class BlockTagDataGen(output: FabricDataOutput, registriesFuture: CompletableFut
             ModBlockTags.thinPillars,
             BlockTags.WALLS
         )
-        ModBlockTags.modernFenceConnectable.addTags(ModBlockTags.modernFenceGates, ModBlockTags.modernFences)
+        ModBlockTags.modernFenceConnectable.addTags(
+            ModBlockTags.modernFenceGates,
+            ModBlockTags.modernFences,
+            ModBlockTags.thickPillars,
+            ModBlockTags.thinPillars,
+        )
         ModBlockTags.kitchenCounters += ModBlockTags.kitchenCabinets
 
         BlockTags.WALLS += ModBlockTags.woodenWalls

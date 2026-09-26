@@ -99,7 +99,7 @@ Wooden Accents doesn't require these, but they make a few parts of the mod nicer
 
 **Minecraft 1.21.1 is the current supported version of Wooden Accents.** It has Fabric and NeoForge builds. Older 1.20.1 and 1.20.6 builds remain available for older worlds.
 
-The next focus is finishing and validating this line toward a proper `1.21.1-1.2.0.0` stable release, then adding more blocks.
+`1.21.1-1.2.0.0` is the current stable release on this line. The next focus is new content such as modular bridges and benches, plus keeping older Minecraft lines on maintenance branches.
 
 I don't plan to maintain many active Minecraft versions at once. Once development moves forward, older versions will stay available and receive only important fixes.
 

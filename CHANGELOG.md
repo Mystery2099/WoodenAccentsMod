@@ -2,12 +2,20 @@
 
 This file tracks player-visible changes and anything maintainers need to know before publishing a release. Release headings must match `mod_version` in `gradle.properties` so the publishing workflow can use the section as its release notes.
 
-## [1.21.1-1.1.4.5] - Unreleased
+## [1.21.1-1.2.0.0] - 2026-09-25
+
+This is the first stable Wooden Accents release for Minecraft 1.21.1 on Fabric and NeoForge.
 
 ### Changed
 
 - Ported Fabric and NeoForge builds to Minecraft 1.21.1.
 - Updated Fabric API to 0.116.17+1.21.1, NeoForge to 21.1.251, VoxLib to 1.8.0+1.21.1, and Shulker Box Tooltip to 5.1.9+1.21.1.
+
+### Fixed
+
+- Moved generated datapack folders to the singular 1.21 paths so block tags, recipes, loot tables, and advancements load again. This restores ladder climbing and picket fence connections.
+- Made picket fences connect to thick and thin pillars.
+- Allowed thin bookshelves to use the vanilla chiseled bookshelf block entity so inserting and removing books no longer crashes.
 
 ## [1.20.6-1.1.4.4] - 2026-09-24
 

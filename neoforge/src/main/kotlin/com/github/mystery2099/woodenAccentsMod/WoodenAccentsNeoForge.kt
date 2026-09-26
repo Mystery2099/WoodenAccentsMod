@@ -2,6 +2,7 @@ package com.github.mystery2099.woodenAccentsMod
 
 import com.github.mystery2099.woodenAccentsMod.WoodenAccentsMod.toIdentifier
 import com.github.mystery2099.woodenAccentsMod.block.ModBlocks
+import com.github.mystery2099.woodenAccentsMod.block.custom.ThinBookshelfBlock
 import com.github.mystery2099.woodenAccentsMod.block.entity.ModBlockEntities
 import com.github.mystery2099.woodenAccentsMod.entity.ModEntities
 import com.github.mystery2099.woodenAccentsMod.item.group.ItemGroupContent
@@ -13,8 +14,10 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.item.CreativeModeTab
+import net.minecraft.world.level.block.entity.BlockEntityType
 import net.neoforged.bus.api.IEventBus
 import net.neoforged.fml.common.Mod
+import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
 import net.neoforged.neoforge.registries.RegisterEvent
 
@@ -24,6 +27,18 @@ class WoodenAccentsNeoForge(modBus: IEventBus) {
         WoodenAccentsMod.logger.info("Initializing ${WoodenAccentsMod.MOD_ID}")
         modBus.addListener(::register)
         modBus.addListener(::buildCreativeTabContents)
+        modBus.addListener(::allowThinBookshelvesOnChiseledBookshelfEntity)
+    }
+
+    /**
+     * Thin bookshelves extend [net.minecraft.world.level.block.ChiseledBookShelfBlock] and reuse its
+     * block entity. Vanilla only lists the chiseled bookshelf as valid, so add ours through NeoForge.
+     */
+    private fun allowThinBookshelvesOnChiseledBookshelfEntity(event: BlockEntityTypeAddBlocksEvent) {
+        event.modify(
+            BlockEntityType.CHISELED_BOOKSHELF,
+            *ModBlocks.blocks.filterIsInstance<ThinBookshelfBlock>().toTypedArray()
+        )
     }
 
     private fun register(event: RegisterEvent) {
